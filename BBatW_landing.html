@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Breaking Barriers at Work · She Breaks Limits</title>
+<meta name="description" content="La intervención estratégica para Directoras y Managers que están cansadas de ser espectadoras en sus propias reuniones. 5 meses. Método real. Resultados medibles.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --brown: #82552E;
+    --terracota: #C68C6C;
+    --terracota-light: #E8C4AD;
+    --cream: #FFF8E7;
+    --cream-dark: #F5EDD6;
+    --olive: #6B6F4C;
+    --olive-light: #A8AC8A;
+    --text-dark: #2C1F0E;
+    --text-mid: #5C3D1E;
+    --text-soft: #8B6B4A;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Open Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text-dark);
+    font-size: 16px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: 'Crimson Pro', Georgia, serif;
+    line-height: 1.2;
+  }
+
+  /* ─── UTILITIES ─── */
+  .overline {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--terracota);
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  .divider {
+    width: 48px;
+    height: 2px;
+    background: var(--terracota);
+    margin: 20px 0 32px;
+  }
+
+  .divider-light {
+    background: rgba(255,248,231,0.3);
+  }
+
+  .wrap {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 28px;
+  }
+
+  section { padding: 88px 0; }
+
+  .btn {
+    display: inline-block;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 18px 40px;
+    cursor: pointer;
+    border: none;
+    transition: background 0.2s, color 0.2s, transform 0.15s;
+  }
+
+  .btn:active { transform: scale(0.98); }
+
+  .btn-dark {
+    background: var(--text-dark);
+    color: var(--cream);
+  }
+
+  .btn-dark:hover { background: var(--brown); }
+
+  .btn-cream {
+    background: var(--cream);
+    color: var(--text-dark);
+  }
+
+  .btn-cream:hover { background: var(--terracota-light); }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--brown);
+    border: 1.5px solid var(--brown);
+    padding: 16px 36px;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--text-dark);
+    padding: 16px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-logo {
+    font-family: 'Crimson Pro', serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--cream);
+    letter-spacing: 0.05em;
+    text-decoration: none;
+  }
+
+  .nav-logo span { color: var(--terracota); }
+
+  .nav-cta {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--terracota);
+    text-decoration: none;
+    padding: 10px 20px;
+    border: 1px solid var(--terracota);
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .nav-cta:hover {
+    background: var(--terracota);
+    color: var(--text-dark);
+  }
+
+  /* ─── HERO ─── */
+  #hero {
+    background: var(--text-dark);
+    padding: 100px 28px 88px;
+    text-align: center;
+  }
+
+  .hero-eyebrow {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--terracota);
+    margin-bottom: 28px;
+    display: block;
+  }
+
+  #hero h1 {
+    font-size: clamp(36px, 6vw, 58px);
+    font-weight: 700;
+    color: var(--cream);
+    max-width: 700px;
+    margin: 0 auto 22px;
+    line-height: 1.18;
+  }
+
+  #hero h1 em {
+    font-style: italic;
+    color: var(--terracota-light);
+  }
+
+  .hero-sub {
+    font-size: 18px;
+    color: rgba(255,248,231,0.65);
+    max-width: 520px;
+    margin: 0 auto 44px;
+    font-weight: 400;
+    line-height: 1.7;
+  }
+
+  .hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    margin-top: 60px;
+    border-top: 1px solid rgba(255,248,231,0.1);
+    padding-top: 48px;
+    flex-wrap: wrap;
+  }
+
+  .hero-stat {
+    padding: 0 40px;
+    border-right: 1px solid rgba(255,248,231,0.1);
+    text-align: center;
+  }
+
+  .hero-stat:last-child { border-right: none; }
+
+  .hero-stat-num {
+    font-family: 'Crimson Pro', serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--terracota-light);
+    display: block;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .hero-stat-label {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,248,231,0.4);
+  }
+
+  /* ─── DOLOR ─── */
+  #dolor {
+    background: var(--cream-dark);
+  }
+
+  .dolor-intro {
+    font-family: 'Crimson Pro', serif;
+    font-size: 24px;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--text-mid);
+    line-height: 1.55;
+    margin-bottom: 44px;
+    border-left: 3px solid var(--terracota);
+    padding-left: 28px;
+  }
+
+  .dolor-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    margin-bottom: 48px;
+  }
+
+  .dolor-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+    font-size: 17px;
+    color: var(--text-dark);
+    line-height: 1.65;
+  }
+
+  .dolor-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--terracota);
+    flex-shrink: 0;
+    margin-top: 11px;
+  }
+
+  .visibility-box {
+    background: var(--text-dark);
+    padding: 36px;
+    margin-top: 8px;
+  }
+
+  .visibility-box .overline { color: var(--terracota); }
+
+  .visibility-box p {
+    font-family: 'Crimson Pro', serif;
+    font-size: 22px;
+    font-style: italic;
+    color: rgba(255,248,231,0.88);
+    line-height: 1.55;
+  }
+
+  /* ─── QUIÉNES ─── */
+  #alumnas { background: var(--cream); }
+
+  .alumnas-intro {
+    font-size: 17px;
+    color: var(--text-soft);
+    margin-bottom: 40px;
+  }
+
+  .alumnas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+  }
+
+  .alumna-card {
+    background: var(--cream-dark);
+    border: 1px solid var(--terracota-light);
+    padding: 28px 24px;
+  }
+
+  .alumna-role {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--terracota);
+    margin-bottom: 14px;
+    display: block;
+  }
+
+  .alumna-card blockquote {
+    font-family: 'Crimson Pro', serif;
+    font-size: 17px;
+    font-style: italic;
+    color: var(--text-mid);
+    line-height: 1.6;
+  }
+
+  /* ─── MÉTODO ─── */
+  #metodo {
+    background: var(--text-dark);
+    color: var(--cream);
+  }
+
+  .metodo-intro {
+    font-size: 18px;
+    color: rgba(255,248,231,0.65);
+    max-width: 560px;
+    margin-bottom: 56px;
+    line-height: 1.7;
+  }
+
+  .pilares { display: flex; flex-direction: column; }
+
+  .pilar {
+    display: grid;
+    grid-template-columns: 52px 1fr;
+    gap: 28px;
+    padding: 36px 0;
+    border-bottom: 1px solid rgba(255,248,231,0.08);
+    align-items: start;
+  }
+
+  .pilar:last-child { border-bottom: none; }
+
+  .pilar-num {
+    font-family: 'Crimson Pro', serif;
+    font-size: 52px;
+    font-weight: 700;
+    color: var(--terracota);
+    opacity: 0.45;
+    line-height: 1;
+  }
+
+  .pilar h3 {
+    font-size: 21px;
+    font-weight: 600;
+    color: var(--cream);
+    margin-bottom: 12px;
+  }
+
+  .pilar p {
+    font-size: 15px;
+    color: rgba(255,248,231,0.6);
+    line-height: 1.75;
+  }
+
+  /* ─── CÓMO FUNCIONA ─── */
+  #como {
+    background: var(--olive);
+    color: var(--cream);
+  }
+
+  .como-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2px;
+    margin: 44px 0 32px;
+  }
+
+  .como-item {
+    background: rgba(255,248,231,0.06);
+    padding: 32px 26px;
+  }
+
+  .como-item h4 {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--terracota-light);
+    margin-bottom: 14px;
+  }
+
+  .como-item p {
+    font-size: 14px;
+    color: rgba(255,248,231,0.68);
+    line-height: 1.7;
+  }
+
+  .cadencia-box {
+    background: rgba(255,248,231,0.07);
+    border: 1px solid rgba(255,248,231,0.15);
+    padding: 28px 32px;
+  }
+
+  .cadencia-box p {
+    font-size: 15px;
+    color: rgba(255,248,231,0.72);
+    line-height: 1.75;
+  }
+
+  .cadencia-box strong { color: var(--cream); }
+
+  /* ─── 5 MESES ─── */
+  #meses { background: var(--cream-dark); }
+
+  .meses-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 2px;
+    margin: 44px 0 48px;
+  }
+
+  .mes {
+    background: var(--cream);
+    padding: 24px 14px;
+    text-align: center;
+    border-top: 3px solid var(--terracota-light);
+  }
+
+  .mes.activo {
+    background: var(--brown);
+    border-top-color: var(--terracota);
+  }
+
+  .mes-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--terracota);
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  .mes.activo .mes-label { color: var(--terracota-light); }
+
+  .mes-desc {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-dark);
+    line-height: 1.4;
+  }
+
+  .mes.activo .mes-desc { color: var(--cream); }
+
+  .promesa-intro {
+    font-family: 'Crimson Pro', serif;
+    font-size: 22px;
+    font-style: italic;
+    color: var(--text-mid);
+    margin-bottom: 36px;
+    line-height: 1.55;
+  }
+
+  .promesas { display: flex; flex-direction: column; gap: 16px; }
+
+  .promesa {
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+    padding: 22px 24px;
+    background: var(--cream);
+    border-left: 3px solid var(--terracota);
+  }
+
+  .check {
+    width: 22px;
+    height: 22px;
+    background: var(--terracota);
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .check svg { width: 11px; height: 11px; }
+
+  .promesa p {
+    font-size: 16px;
+    color: var(--text-dark);
+    line-height: 1.65;
+  }
+
+  /* ─── TESTIMONIOS ─── */
+  #testimonios {
+    background: var(--text-dark);
+    color: var(--cream);
+  }
+
+  .testimonios-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    margin-top: 52px;
+  }
+
+  .testimonio {
+    padding: 36px;
+    border: 1px solid rgba(255,248,231,0.1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .big-quote {
+    font-family: 'Crimson Pro', serif;
+    font-size: 120px;
+    font-weight: 700;
+    color: var(--terracota);
+    opacity: 0.15;
+    position: absolute;
+    top: -20px;
+    left: 20px;
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .testimonio blockquote {
+    font-family: 'Crimson Pro', serif;
+    font-size: 20px;
+    font-style: italic;
+    color: rgba(255,248,231,0.88);
+    line-height: 1.65;
+    margin-bottom: 22px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .testimonio-autor {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--terracota);
+  }
+
+  /* ─── BONOS ─── */
+  #bonos { background: var(--cream-dark); }
+
+  .bonos-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 44px;
+  }
+
+  .bono {
+    background: var(--cream);
+    border: 1px solid var(--terracota-light);
+    padding: 30px 28px;
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    gap: 24px;
+    align-items: start;
+  }
+
+  .bono-num-wrap {
+    text-align: center;
+    padding-top: 4px;
+  }
+
+  .bono-num {
+    font-family: 'Crimson Pro', serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--brown);
+    display: block;
+    line-height: 1;
+  }
+
+  .bono-tag {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--terracota);
+  }
+
+  .bono h4 {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 10px;
+    line-height: 1.5;
+  }
+
+  .bono p {
+    font-size: 14px;
+    color: var(--text-soft);
+    line-height: 1.7;
+  }
+
+  /* ─── FILTRO ─── */
+  #filtro { background: var(--cream); }
+
+  .filtro-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    margin-top: 44px;
+  }
+
+  .filtro-col { padding: 40px 32px; }
+  .filtro-si { background: var(--brown); }
+  .filtro-no { background: var(--cream-dark); }
+
+  .filtro-col h3 {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+
+  .filtro-si h3 { color: var(--terracota-light); }
+  .filtro-no h3 { color: var(--text-soft); }
+
+  .filtro-items { display: flex; flex-direction: column; gap: 18px; }
+
+  .filtro-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    font-size: 14px;
+    line-height: 1.65;
+  }
+
+  .filtro-si .filtro-item { color: rgba(255,248,231,0.82); }
+  .filtro-no .filtro-item { color: var(--text-soft); }
+
+  .fi-mark { flex-shrink: 0; margin-top: 3px; font-size: 15px; font-weight: 700; }
+
+  /* ─── CTA FINAL ─── */
+  #cta-final {
+    background: var(--terracota);
+    text-align: center;
+    padding: 110px 28px;
+  }
+
+  #cta-final h2 {
+    font-size: clamp(32px, 5.5vw, 54px);
+    font-weight: 700;
+    color: var(--text-dark);
+    max-width: 620px;
+    margin: 0 auto 20px;
+  }
+
+  #cta-final p {
+    font-size: 18px;
+    color: var(--text-dark);
+    opacity: 0.72;
+    max-width: 480px;
+    margin: 0 auto 44px;
+    line-height: 1.7;
+  }
+
+  .cta-tagline {
+    margin-top: 36px;
+    font-family: 'Crimson Pro', serif;
+    font-size: 17px;
+    font-style: italic;
+    color: var(--text-dark);
+    opacity: 0.55;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--text-dark);
+    padding: 40px 28px;
+    text-align: center;
+  }
+
+  footer p {
+    font-size: 13px;
+    color: rgba(255,248,231,0.35);
+    line-height: 1.8;
+  }
+
+  footer a { color: var(--terracota); text-decoration: none; }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 620px) {
+    section { padding: 64px 0; }
+
+    .hero-stats { flex-direction: column; gap: 28px; }
+    .hero-stat { border-right: none; border-bottom: 1px solid rgba(255,248,231,0.1); padding: 0 0 28px; }
+    .hero-stat:last-child { border-bottom: none; }
+
+    .meses-grid { grid-template-columns: repeat(3, 1fr); }
+
+    .filtro-grid { grid-template-columns: 1fr; }
+
+    .bono { grid-template-columns: 1fr; }
+
+    .pilar { grid-template-columns: 40px 1fr; gap: 18px; }
+
+    .alumnas-grid { grid-template-columns: 1fr; }
+
+    .como-grid { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 420px) {
+    #hero h1 { font-size: 30px; }
+    .meses-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  /* ─── ANIMACIONES ─── */
+  @media (prefers-reduced-motion: no-preference) {
+    .fade-in {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
+</head>
+
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">She Breaks <span>Limits</span></a>
+  <a class="nav-cta" href="#cta-final">Quiero mi lugar →</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <span class="hero-eyebrow">Breaking Barriers at Work · Mentoría grupal · 5 meses</span>
+  <h1>Sabes exactamente quién eres en español.<br><em>Ya es hora de que la sala lo sepa.</em></h1>
+  <p class="hero-sub">La intervención estratégica para Directoras y Managers que están cansadas de ser espectadoras en sus propias reuniones.</p>
+  <a class="btn btn-cream" href="#cta-final">Quiero recuperar mi voz en la sala</a>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-num">5</span>
+      <span class="hero-stat-label">meses de intervención</span>
+    </div>
+    <div class="hero-stat">
+      <span class="hero-stat-num">4</span>
+      <span class="hero-stat-label">pilares del método</span>
+    </div>
+    <div class="hero-stat">
+      <span class="hero-stat-num">3</span>
+      <span class="hero-stat-label">herramientas de práctica</span>
+    </div>
+    <div class="hero-stat">
+      <span class="hero-stat-num">grupal</span>
+      <span class="hero-stat-label">con mirada personalizada</span>
+    </div>
+  </div>
+</section>
+
+<!-- DOLOR -->
+<section id="dolor">
+  <div class="wrap">
+    <span class="overline">El problema real</span>
+    <h2 style="font-size:clamp(28px,4.5vw,42px); margin-bottom:8px;">No es falta de inglés.<br>Es el Visibility Gap.</h2>
+    <div class="divider"></div>
+    <p class="dolor-intro fade-in">
+      "Yo ya sé inglés. Lo estudié años. Pero cuando la reunión empieza en inglés… me bloqueo. Dejo que otros hablen. Y salgo pensando: si esto hubiera sido en español, los hubiera dejado boquiabiertos."
+    </p>
+    <ul class="dolor-list">
+      <li class="fade-in"><span class="dolor-dot"></span><span>Tu cerebro va a mil, pero tu boca no lo alcanza. <strong>Buscás una preposición y perdés la sala.</strong></span></li>
+      <li class="fade-in"><span class="dolor-dot"></span><span>Pedís permiso para opinar — o dejás que otros hablen por vos para evitar el error en vivo.</span></li>
+      <li class="fade-in"><span class="dolor-dot"></span><span>Tu autoridad se diluye exactamente cuando más la necesitás: frente a tu jefe, frente al board, frente al equipo global.</span></li>
+      <li class="fade-in"><span class="dolor-dot"></span><span><strong>Sabés inglés. No podés proyectarlo bajo presión.</strong> Eso es el Visibility Gap.</span></li>
+    </ul>
+    <div class="visibility-box fade-in">
+      <span class="overline">Visibility Gap</span>
+      <p>La brecha entre tu genialidad profesional y lo que lográs proyectar cuando la presión sube. Sonar como principiante en una mesa que vos misma ayudaste a construir.</p>
+    </div>
+  </div>
+</section>
+
+<!-- QUIÉNES -->
+<section id="alumnas">
+  <div class="wrap">
+    <span class="overline">Las que ya están adentro</span>
+    <h2 style="font-size:clamp(26px,4vw,40px); margin-bottom:8px;">¿Te reconocés acá?</h2>
+    <div class="divider"></div>
+    <p class="alumnas-intro">Alumnas reales. Situaciones reales. Palabras textuales.</p>
+    <div class="alumnas-grid">
+      <div class="alumna-card fade-in">
+        <span class="alumna-role">Contadora · Finanzas corporativas</span>
+        <blockquote>"Tengo reuniones de status con mi director y tres colegas. El problema es que me cuesta defenderme en inglés cuando el proyecto se atrasa. Me paralizo justo ahí."</blockquote>
+      </div>
+      <div class="alumna-card fade-in">
+        <span class="alumna-role">Ing. Aeronáutica · Aeropuerto internacional</span>
+        <blockquote>"En mi industria toda la documentación está en inglés. Sé leerla, sé procesarla. Pero cuando tengo que hablar, no transmito la seguridad que tengo en español."</blockquote>
+      </div>
+      <div class="alumna-card fade-in">
+        <span class="alumna-role">HR Manager · Empresa multinacional · México</span>
+        <blockquote>"Me freezé en una reunión explicando cambios en la ley. Mi jefe me miró. Sentí pánico. Sabía todo lo que tenía que decir, pero no me salió."</blockquote>
+      </div>
+      <div class="alumna-card fade-in">
+        <span class="alumna-role">Neuróloga · Aplicando a CRO internacional</span>
+        <blockquote>"Veinte años de experiencia y no puedo contarlos como se merecen en una entrevista en inglés. Mi respuesta suena a principiante cuando el trabajo no lo es."</blockquote>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MÉTODO -->
+<section id="metodo">
+  <div class="wrap">
+    <span class="overline" style="color:var(--terracota);">The Breaking Barriers Method</span>
+    <h2 style="font-size:clamp(28px,4.5vw,44px); color:var(--cream); margin-bottom:8px;">Aquí no estudiamos inglés.<br>Intervenimos tu comunicación.</h2>
+    <div class="divider divider-light"></div>
+    <p class="metodo-intro">No es un curso. Es un simulador de vuelo para tu carrera global. Cuatro pilares que trabajan juntos — porque sin la filosofía las herramientas son pasos mecánicos, y sin las herramientas la filosofía son buenas intenciones.</p>
+    <div class="pilares">
+      <div class="pilar fade-in">
+        <div class="pilar-num">01</div>
+        <div>
+          <h3>Narrative Flow™</h3>
+          <p>No abrimos un libro. Abrimos el transcript real de tu reunión del martes a las 9am. Identificamos dónde se fugó tu autoridad — errores fosilizados vs. errores de base — y reestructuramos tu mensaje para que llegue limpio, sin el ruido de la traducción.</p>
+        </div>
+      </div>
+      <div class="pilar fade-in">
+        <div class="pilar-num">02</div>
+        <div>
+          <h3>Color Method</h3>
+          <p>Activamos el vocabulario profesional que ya tenés pero no podés usar bajo presión. Phrasal verbs, verbos de impacto, expresiones de negocio. Movemos palabras de pasivo a activo para que "prioritize", "escalate" y "flag" sean automáticos cuando importa.</p>
+        </div>
+      </div>
+      <div class="pilar fade-in">
+        <div class="pilar-num">03</div>
+        <div>
+          <h3>Liderarte para Liderar</h3>
+          <p>Si no liderás tu perfeccionismo y tu miedo a la exposición, no podés liderar la sala. El estado emocional precede al desempeño lingüístico. Trabajamos la regulación interna que te permite ejecutar — no solo saber — en otro idioma.</p>
+        </div>
+      </div>
+      <div class="pilar fade-in">
+        <div class="pilar-num">04</div>
+        <div>
+          <h3>Role Play de Alta Presión</h3>
+          <p>Ensayamos contigo hasta que tu respuesta sea automática. Simulamos tus reuniones reales, las interrupciones de tu entorno, las preguntas de tu jefe. No vas a la reunión a "probar". Vas a ejecutar algo que ya practicaste.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CÓMO FUNCIONA -->
+<section id="como">
+  <div class="wrap">
+    <span class="overline" style="color:var(--terracota-light);">Cómo funciona en la práctica</span>
+    <h2 style="font-size:clamp(26px,4vw,40px); color:var(--cream); margin-bottom:8px;">Tu semana tipo en BBatW</h2>
+    <div class="divider divider-light"></div>
+    <div class="como-grid">
+      <div class="como-item fade-in">
+        <h4>Clases en vivo</h4>
+        <p>Sesiones grupales semanales. Trabajás con tu producción real: tus emails, tus transcripts, tus situaciones. Feedback en tiempo real sobre lo tuyo, no sobre un ejercicio genérico.</p>
+      </div>
+      <div class="como-item fade-in">
+        <h4>Bots de práctica</h4>
+        <p>Tres bots configurados con el método: Narrative Flow, Color Method y Role Play. Practicás 2–3 veces por semana de forma guiada, con la misma metodología que en clase.</p>
+      </div>
+      <div class="como-item fade-in">
+        <h4>Plataforma (Skool)</h4>
+        <p>Contenido grabado, teoría fonética y recursos de referencia. Te guío exactamente qué ver según lo que cada una necesita. Sin scroll infinito ni contenido que no aplica.</p>
+      </div>
+    </div>
+    <div class="cadencia-box fade-in">
+      <p><strong>Cadencia recomendada:</strong> 2 clases en vivo por semana + 2–3 sesiones de práctica con bots. Las tres piezas trabajan juntas — el bot sin la metodología no alcanza, las clases sin la práctica entre sesiones no alcanzan. <strong>Es el conjunto lo que funciona.</strong></p>
+    </div>
+  </div>
+</section>
+
+<!-- 5 MESES -->
+<section id="meses">
+  <div class="wrap">
+    <span class="overline">Tu arco de transformación</span>
+    <h2 style="font-size:clamp(26px,4vw,40px); margin-bottom:8px;">En 5 meses, tu boca<br>va a alcanzar a tu cerebro.</h2>
+    <div class="divider"></div>
+    <div class="meses-grid">
+      <div class="mes"><span class="mes-label">Mes 1</span><span class="mes-desc">Diagnóstico y base</span></div>
+      <div class="mes"><span class="mes-label">Mes 2</span><span class="mes-desc">Vocabulario de poder</span></div>
+      <div class="mes activo"><span class="mes-label">Mes 3</span><span class="mes-desc">Reuniones en vivo</span></div>
+      <div class="mes"><span class="mes-label">Mes 4</span><span class="mes-desc">Presencia ejecutiva</span></div>
+      <div class="mes"><span class="mes-label">Mes 5</span><span class="mes-desc">Automatismo bajo presión</span></div>
+    </div>
+    <p class="promesa-intro fade-in">No te prometo que no cometerás errores. Te prometo que producirás consistentemente como la líder que ya eres.</p>
+    <div class="promesas">
+      <div class="promesa fade-in">
+        <div class="check"><svg viewBox="0 0 11 9" fill="none"><path d="M1 4.5L4.2 7.5L10 1" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <p>Escribirás emails estratégicos sin reescribirlos seis veces ni pedirle al ChatGPT que lo haga por vos.</p>
+      </div>
+      <div class="promesa fade-in">
+        <div class="check"><svg viewBox="0 0 11 9" fill="none"><path d="M1 4.5L4.2 7.5L10 1" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <p>Participarás en reuniones sin tener el guion memorizado punto por punto antes de abrir la boca.</p>
+      </div>
+      <div class="promesa fade-in">
+        <div class="check"><svg viewBox="0 0 11 9" fill="none"><path d="M1 4.5L4.2 7.5L10 1" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <p>Defenderás tu trabajo en inglés — incluso cuando te interrumpan, incluso cuando te pregunten algo que no esperabas.</p>
+      </div>
+      <div class="promesa fade-in">
+        <div class="check"><svg viewBox="0 0 11 9" fill="none"><path d="M1 4.5L4.2 7.5L10 1" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <p>Dejarás de esconderte. El inglés dejará de ser tu techo de cristal profesional.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIOS -->
+<section id="testimonios">
+  <div class="wrap">
+    <span class="overline" style="color:var(--terracota);">Lo que dicen las que ya estuvieron</span>
+    <h2 style="font-size:clamp(26px,4vw,40px); color:var(--cream); margin-bottom:8px;">Antes de entrar,<br>todas dijeron lo mismo que vos.</h2>
+    <div class="divider divider-light"></div>
+    <div class="testimonios-grid">
+      <div class="testimonio fade-in">
+        <div class="big-quote">"</div>
+        <blockquote>"Ustedes nunca me conocerán de verdad, porque nunca me conocerán en español." Eso le dije a Flor el primer día. Hoy lidero el equipo regional y mi valor ya no depende de una preposición. Depende de mi visión.</blockquote>
+        <p class="testimonio-autor">Senior Manager · Industria Tech</p>
+      </div>
+      <div class="testimonio fade-in">
+        <div class="big-quote">"</div>
+        <blockquote>Creía que el problema era mi nivel de inglés. En la primera clase entendí que el problema era otro: sabía el idioma, pero no podía usarlo cuando más lo necesitaba. Ahí empezó todo.</blockquote>
+        <p class="testimonio-autor">Project Manager · Empresa farmacéutica multinacional</p>
+      </div>
+      <div class="testimonio fade-in">
+        <div class="big-quote">"</div>
+        <blockquote>Lo que más me impactó fue la primera vez que participé en una reunión global y no me quedé callada esperando que terminara. Dije lo que pensaba. Completo. Sin disculparme.</blockquote>
+        <p class="testimonio-autor">Alumni · She Breaks Limits</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BONOS -->
+<section id="bonos">
+  <div class="wrap">
+    <span class="overline">Recursos incluidos</span>
+    <h2 style="font-size:clamp(26px,4vw,40px); margin-bottom:8px;">Tres herramientas para cuando<br>la presión no espera.</h2>
+    <div class="divider"></div>
+    <div class="bonos-list">
+      <div class="bono fade-in">
+        <div class="bono-num-wrap">
+          <span class="bono-num">01</span>
+          <span class="bono-tag">Bono</span>
+        </div>
+        <div>
+          <h4>S.O.S. Rescue Phrases — El manual para cuando tu mente se queda en blanco</h4>
+          <p>Las estructuras exactas para retomar el control cuando te interrumpen o te bloqueás en vivo. Frases que proyectan autoridad mientras ganás tiempo para pensar. Nada de "ehh...".</p>
+        </div>
+      </div>
+      <div class="bono fade-in">
+        <div class="bono-num-wrap">
+          <span class="bono-num">02</span>
+          <span class="bono-tag">Bono</span>
+        </div>
+        <div>
+          <h4>Framework de Authority Storytelling — Transformá tus tareas en hitos de impacto</h4>
+          <p>Cómo estructurar tus logros para que tu jefe y el board perciban tu valor estratégico, no solo tu ejecución técnica. Tu trabajo importa — aprendé a contarlo.</p>
+        </div>
+      </div>
+      <div class="bono fade-in">
+        <div class="bono-num-wrap">
+          <span class="bono-num">03</span>
+          <span class="bono-tag">Bono</span>
+        </div>
+        <div>
+          <h4>Guía de Small Talk para Líderes — Los 5 minutos antes de que empiece la reunión</h4>
+          <p>Dominá esa charla informal que genera conexión y confianza con tu equipo global. Dejá de sentirte excluida de las conversaciones que pasan antes y después del trabajo formal.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FILTRO -->
+<section id="filtro">
+  <div class="wrap">
+    <span class="overline">Antes de invertir, leé esto</span>
+    <h2 style="font-size:clamp(26px,4vw,40px); margin-bottom:8px;">Esto es y no es para vos</h2>
+    <div class="divider"></div>
+    <div class="filtro-grid">
+      <div class="filtro-col filtro-si">
+        <h3>Es para vos si...</h3>
+        <div class="filtro-items">
+          <div class="filtro-item"><span class="fi-mark">→</span><span>El idioma se siente como tu techo de cristal profesional y ya estás cansada de eso.</span></div>
+          <div class="filtro-item"><span class="fi-mark">→</span><span>Estás lista para práctica sistemática, no para estudiar teoría que ya sabés.</span></div>
+          <div class="filtro-item"><span class="fi-mark">→</span><span>Podés incomodarte. Mirarte en el proceso. Trabajar con tus errores reales.</span></div>
+          <div class="filtro-item"><span class="fi-mark">→</span><span>"Mejor hecho que perfecto" va a ser tu nuevo lema durante 5 meses.</span></div>
+        </div>
+      </div>
+      <div class="filtro-col filtro-no">
+        <h3>No es para vos si...</h3>
+        <div class="filtro-items">
+          <div class="filtro-item"><span class="fi-mark" style="color:var(--terracota);">×</span><span>Buscás clases de gramática relajadas o listas de vocabulario para repasar.</span></div>
+          <div class="filtro-item"><span class="fi-mark" style="color:var(--terracota);">×</span><span>Querés resultados sin práctica autónoma. El método requiere 2–3 sesiones semanales entre clases.</span></div>
+          <div class="filtro-item"><span class="fi-mark" style="color:var(--terracota);">×</span><span>Esperás fluidez nativa en 5 meses. La meta es proyectar tu liderazgo con el inglés que ya tenés.</span></div>
+          <div class="filtro-item"><span class="fi-mark" style="color:var(--terracota);">×</span><span>No estás dispuesta a mirarte en el proceso y trabajar tus miedos de frente.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section id="cta-final">
+  <h2>El mundo es pequeño<br>cuando tu voz es grande.</h2>
+  <p>Tu próxima reunión puede ser diferente.<br>No en cinco meses — desde la primera semana.</p>
+  <a class="btn btn-dark" href="REEMPLAZAR_CON_TU_LINK_DE_STRIPE">Quiero mi lugar en Breaking Barriers at Work</a>
+  <p class="cta-tagline">clara · confiable · profesional</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>
+    © 2026 She Breaks Limits · Breaking Barriers at Work<br>
+    <a href="mailto:florenciapersico@breakingbarriers.site">florenciapersico@breakingbarriers.site</a>
+  </p>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
