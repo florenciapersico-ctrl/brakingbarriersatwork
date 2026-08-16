@@ -241,7 +241,7 @@
   .axis { display: flex; justify-content: space-between; font-size: 9.5px; color: var(--text-soft); margin-top: 6px; }
   .kpis { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
   .kpi { border: 1px solid var(--line); border-radius: 3px; padding: 14px; background: var(--card); }
-  .kpi .n { font-family: 'Crimson Pro', Georgia, serif; font-size: 30px; line-height: 1; }
+  .kpi .n { font-family: 'Crimson Pro', Georgia, serif; font-size: 26px; line-height: 1.1; word-break: break-word; }
   .kpi .l { font-size: 9.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-soft); margin-top: 6px; font-weight: 600; }
   .meter { height: 6px; background: rgba(140,107,74,.16); border-radius: 4px; overflow: hidden; margin-top: 10px; }
   .meter i { display: block; height: 100%; background: var(--olive); }
@@ -770,7 +770,9 @@
         <button class="chip" id="sModGr">Grupal</button>
       </div>
     </div>
+    <div class="field"><label class="f">Estado</label><div class="chips" id="sEstadoChips"></div></div>
     <div class="field"><label class="f">Cohorte</label><input type="text" id="sCohort" placeholder="Ej: Cohorte Marzo"></div>
+    <div class="field"><label class="f">Notas</label><textarea id="sNote" placeholder="Nivel, contexto, lo que no querés olvidarte"></textarea></div>
     <div class="sep"></div>
     <span class="overline">Fechas del programa</span>
     <div class="grid2">
@@ -781,8 +783,14 @@
     <div class="sep"></div>
     <span class="overline">Cobro</span>
     <div class="grid2">
-      <div class="field"><label class="f">Cuánto paga</label><input type="number" id="sFee" min="0" placeholder="0"></div>
+      <div class="field"><label class="f">Cuánto paga</label><input type="number" id="sFee" min="0" placeholder="Vacío si pagó completo"></div>
       <div class="field"><label class="f">Día de cobro</label><input type="number" id="sBillDay" min="1" max="31" placeholder="10"></div>
+    </div>
+    <div class="field"><label class="f">Moneda</label>
+      <div class="chips">
+        <button class="chip" id="sCurUsd">USD</button>
+        <button class="chip" id="sCurArs">ARS</button>
+      </div>
     </div>
     <div class="field"><label class="f">Link de pago</label><input type="text" id="sPayLink" placeholder="Se copia de un toque cuando toca cobrar"></div>
     <button class="btn btn-dark full" id="btnSaveStudent" style="margin-top:20px">Guardar</button>
@@ -839,6 +847,7 @@
     <div class="stack">
       <button class="btn btn-outline full" id="btnExport">↓ Descargar respaldo</button>
       <button class="btn btn-outline full" id="btnImport">↑ Restaurar respaldo</button>
+      <button class="btn btn-outline full" id="btnImportRoster">↻ Recargar el roster de alumnas</button>
       <input type="file" id="fileImport" accept="application/json" style="display:none">
       <button class="btn-ghost full" id="btnReset" style="color:var(--danger)">Borrar todo y empezar de cero</button>
     </div>
@@ -1070,6 +1079,104 @@
       ]
     }
   ];
+
+  // ═══════════════════ ROSTER ═══════════════════
+  // Transcripto del "Roster Maestro — Alumnas y Facturación" del Drive (14/8).
+  // Lo que ahí figura como NO VERIFICADO queda vacío a propósito: la app no
+  // inventa datos que el roster no confirma. Las bajas (Matías, Andre,
+  // Stephanie, Maribel) no se cargan.
+  var ROSTER = [
+    { name: 'Luz Cañas', modalidad: '1:1', estado: 'activa', role: 'Senior Leader Technical Service · industria química',
+      startDate: '2026-07-20', endDate: '2026-12-20', fee: 250, cur: 'USD', billDay: 20, temp: 'encendida',
+      note: 'C1 · una sesión por semana. Coincide con Stripe. Role play de alta exposición, no gramática de base.' },
+    { name: 'Alejandra Santos', modalidad: '1:1', estado: 'activa', role: 'Senior Manager Comunicaciones Internas · Colombia',
+      startDate: '2026-07-17', endDate: '2026-12-17', fee: 250, cur: 'USD', billDay: 17, temp: 'encendida',
+      note: 'B1-B2 · cliente ideal del método, sin ajustes.' },
+    { name: 'Gabriela Parellada', modalidad: '1:1', estado: 'pausada', role: 'Senior Manager IT · Marriott International',
+      startDate: '2026-07-15', endDate: '2026-12-15', fee: 250, cur: 'USD', billDay: 15, temp: 'tibia',
+      note: 'C1-ish · PAUSADA por viaje de trabajo (14/08). No es baja.' },
+    { name: 'Brenda Mariscal', modalidad: '1:1', estado: 'activa', role: 'Operaciones / warehouse · México',
+      startDate: '2026-06-19', endDate: '2026-12-03', fee: 250, cur: 'USD', billDay: 19, temp: 'encendida',
+      note: 'B1 · última cuota el 19-oct, cierre pedagógico el 3-dic. Tuvo un ataque de pánico real en una reunión: regulación antes que fluidez.' },
+    { name: 'Soledad de la Rosa (Sol)', modalidad: '1:1', estado: 'activa', role: 'Gerenta de logística · PSA México',
+      startDate: '2026-07-12', endDate: '2026-12-12', fee: 250, cur: 'USD', billDay: 12, temp: 'encendida',
+      note: 'B1 · carpeta de weekly reports todavía sin estandarizar.' },
+    { name: 'Belem Martínez', modalidad: '1:1', estado: 'activa', role: 'Senior PM Data & AI · Santander México',
+      startDate: null, endDate: '2026-10-08', fee: 444, cur: 'USD', billDay: 8, temp: 'encendida',
+      note: 'B1-B2 · dos sesiones por semana. Falta confirmar la fecha de inicio (el doc viejo dice 8-may-2026).' },
+    { name: 'Fátima Romero (Fatti)', modalidad: '1:1', estado: 'activa', role: 'Médica',
+      startDate: '2026-05-26', endDate: '2026-10-26', fee: null, cur: 'USD', billDay: null, temp: 'encendida',
+      note: 'Pago único completo, no hay factura mensual. Ofrecer renovación ~26-sep.' },
+    { name: 'Laura González', modalidad: '1:1', estado: 'activa', role: 'Ex-analista financiera senior · 19 años oil & gas',
+      startDate: '2026-07-01', endDate: '2026-10-01', fee: 200, cur: 'USD', billDay: 1, temp: 'encendida',
+      note: 'B2 sólido · referida por Maggi. Próxima a finalizar: ofrecer renovación o cierre ya.' },
+    { name: 'Emely Rangel Arroyo', modalidad: '1:1', estado: 'activa', role: 'Trade Compliance · ABB México',
+      startDate: '2026-06-15', endDate: null, fee: 444, cur: 'USD', billDay: 15, temp: 'encendida',
+      note: 'Suscripción "emely vip". Falta reconstruir modalidad y fecha de fin.' },
+    { name: 'Lula Lotorto', modalidad: '1:1', estado: 'activa', role: 'Interview Me · 5 encuentros',
+      startDate: '2026-07-27', endDate: '2026-08-31', fee: null, cur: 'USD', billDay: null, temp: 'encendida',
+      note: 'USD 250 por las 5 semanas, ya pagado. Fecha de cierre estimada, sin confirmar.' },
+    { name: 'Lina Aguilar', modalidad: 'grupal', estado: 'activa', role: 'Ingeniera aeronáutica · OPAIN Colombia',
+      startDate: null, endDate: '2026-09-07', fee: null, cur: 'USD', billDay: null, temp: 'encendida',
+      note: 'Grupal martes y jueves 21hs. Pagado completo.' },
+    { name: 'Isis', modalidad: 'grupal', estado: 'activa', role: 'Contadora · Costa Rica',
+      startDate: null, endDate: '2026-09-07', fee: null, cur: 'USD', billDay: null, temp: 'silencio',
+      note: 'Pagado completo. Sin contacto desde el 3-jul: verificar asistencia.' },
+    { name: 'Mónica (Moni)', modalidad: 'grupal', estado: 'activa', role: 'HR · México',
+      startDate: null, endDate: '2026-09-07', fee: null, cur: 'USD', billDay: null, temp: 'silencio',
+      note: 'Pagado completo. Sin contacto desde el 18-jun: verificar asistencia.' },
+    { name: 'Graciela Alfonso (Gra)', modalidad: '1:1', estado: 'porConfirmar', role: '',
+      startDate: null, endDate: null, fee: 200, cur: 'USD', billDay: null, temp: 'tibia',
+      note: 'Monto histórico. Asistencia sin registrar desde el 10-nov-2025: confirmar si sigue activa.' },
+    { name: 'Alejandra Rossi (diseñadora)', modalidad: '1:1', estado: 'porConfirmar', role: 'Diseñadora de interiores',
+      startDate: null, endDate: null, fee: 350000, cur: 'ARS', billDay: null, temp: 'tibia',
+      note: 'Confirmar si sigue activa.' },
+    { name: 'Adriana Ellenberg', modalidad: '1:1', estado: 'porConfirmar', role: 'Neuróloga',
+      startDate: null, endDate: null, fee: null, cur: 'USD', billDay: null, temp: 'tibia',
+      note: 'Quedan 2 clases pendientes. Definir si se agendan o se cierra: está pasando a ex-alumnas.' },
+    { name: 'Corina Moreyra', modalidad: 'grupal', estado: 'porConfirmar', role: 'Supply chain · Perú',
+      startDate: null, endDate: null, fee: null, cur: 'USD', billDay: null, temp: 'tibia',
+      note: 'corinamoreyras27@gmail.com · viene de SBL, que está en cierre. Preguntarle si sigue.' },
+    { name: 'Ester Rubio Gómez', modalidad: 'grupal', estado: 'porConfirmar', role: '',
+      startDate: null, endDate: null, fee: null, cur: 'USD', billDay: null, temp: 'tibia',
+      note: 'es_rubio@hotmail.com · viene de SBL, que está en cierre. Preguntarle si sigue.' },
+    { name: 'Eli / Ely', modalidad: '1:1', estado: 'porConfirmar', role: 'Sales Administration Manager',
+      startDate: null, endDate: null, fee: null, cur: 'USD', billDay: null, temp: 'tibia',
+      note: 'Sin precio ni fechas en ningún documento. Falta definirlo.' },
+    { name: 'Angie', modalidad: '1:1', estado: 'esperando', role: '',
+      startDate: null, endDate: null, fee: null, cur: 'USD', billDay: null, temp: 'tibia',
+      note: 'Matrícula USD 100 pagada · Angie-1695@hotmail.com. Empieza en septiembre: contactarla los últimos días de agosto. Ocupa el cupo que dejó Matías.' },
+    { name: 'Lourdes', modalidad: '1:1', estado: 'esperando', role: '',
+      startDate: null, endDate: null, fee: null, cur: 'USD', billDay: null, temp: 'tibia',
+      note: 'Seña USD 100 pagada. Prevista para octubre: confirmar modalidad y fecha exacta.' }
+  ];
+
+  var ESTADOS = [
+    { id: 'activa', label: 'Activa' },
+    { id: 'pausada', label: 'Pausada' },
+    { id: 'porConfirmar', label: 'Por confirmar' },
+    { id: 'esperando', label: 'Lista de espera' }
+  ];
+  function estadoLabel(id) {
+    for (var i = 0; i < ESTADOS.length; i++) if (ESTADOS[i].id === id) return ESTADOS[i].label;
+    return 'Activa';
+  }
+
+  // Suma sólo las que falten, comparando por nombre: nunca pisa lo que ya editaste.
+  function importRoster() {
+    var have = {};
+    DB.students.forEach(function (s) { have[s.name.toLowerCase()] = true; });
+    var added = 0;
+    ROSTER.forEach(function (r) {
+      if (have[r.name.toLowerCase()]) return;
+      var s = { id: uid(), lastTouch: today() };
+      Object.keys(r).forEach(function (k) { s[k] = r[k]; });
+      DB.students.push(s);
+      added++;
+    });
+    if (added) save();
+    return added;
+  }
 
   // ═══════════════════ ESTADO ═══════════════════
   var DB = {
@@ -1698,8 +1805,8 @@
     var todayD = fromIso(today());
 
     DB.students.forEach(function (s) {
-      var due = billingDue(s);
-      if (due && s.lastPaid !== monthKey()) {
+      var due = isActive(s) ? billingDue(s) : null;
+      if (due && s.fee && s.lastPaid !== monthKey()) {
         var days = Math.round((due - todayD) / 864e5);
         if (days <= 5) {
           out.push({
@@ -1707,7 +1814,7 @@
             title: 'Cobrar a ' + s.name,
             sub: days < 0 ? 'Venció hace ' + Math.abs(days) + ' día' + (Math.abs(days) === 1 ? '' : 's')
               : (days === 0 ? 'Vence hoy' : 'Vence en ' + days + ' día' + (days === 1 ? '' : 's'))
-              + (s.fee ? ' · ' + fmtMoney(s.fee) : '')
+              + (s.fee ? ' · ' + fmtMoney(s.fee, s.cur) : '')
           });
         }
       }
@@ -1725,7 +1832,7 @@
         }
       }
 
-      if (s.modalidad === '1:1') {
+      if (s.modalidad === '1:1' && isActive(s)) {
         var d3 = daysSince(s.lastReport);
         if (d3 == null || d3 >= 7) {
           out.push({
@@ -1741,30 +1848,41 @@
     return out;
   }
 
-  function fmtMoney(n) {
+  function fmtMoney(n, cur) {
     var v = parseInt(n, 10) || 0;
-    return '$' + v.toLocaleString('es-AR');
+    return (cur || 'USD') + ' ' + v.toLocaleString('es-AR');
+  }
+  function isActive(s) {
+    if (s.estado && s.estado !== 'activa') return false;
+    return !(s.endDate && fromIso(s.endDate) < fromIso(today()));
   }
 
   function renderMoney() {
     var box = $('#moneySummary');
     box.innerHTML = '';
     var mk = monthKey();
-    var due = 0, paid = 0, pending = 0, active = 0;
+    var due = {}, paid = {}, pending = 0, active = 0;
     DB.students.forEach(function (s) {
-      var ended = s.endDate && fromIso(s.endDate) < fromIso(today());
-      if (!ended) active++;
-      if (!s.fee || ended) return;
-      due += parseInt(s.fee, 10) || 0;
-      if (s.lastPaid === mk) paid += parseInt(s.fee, 10) || 0; else pending++;
+      if (!isActive(s)) return;
+      active++;
+      if (!s.fee) return;                       // pago único o sin monto cargado
+      var c = s.cur || 'USD', v = parseInt(s.fee, 10) || 0;
+      due[c] = (due[c] || 0) + v;
+      if (s.lastPaid === mk) paid[c] = (paid[c] || 0) + v; else pending++;
     });
+    function sumTxt(m) {
+      var ks = Object.keys(m);
+      if (!ks.length) return '—';
+      return ks.map(function (c) { return fmtMoney(m[c], c); }).join(' + ');
+    }
+    var hasDue = Object.keys(due).length;
 
     var kpis = el('div', 'kpis');
     [
       { n: String(active), l: 'Alumnas activas' },
-      { n: due ? fmtMoney(due) : '—', l: 'A cobrar este mes' },
-      { n: due ? fmtMoney(paid) : '—', l: 'Ya cobrado' },
-      { n: due ? String(pending) : '—', l: 'Faltan cobrar' }
+      { n: sumTxt(due), l: 'A cobrar este mes' },
+      { n: hasDue ? sumTxt(paid) : '—', l: 'Ya cobrado' },
+      { n: hasDue ? String(pending) : '—', l: 'Faltan cobrar' }
     ].forEach(function (k) {
       var c = el('div', 'kpi');
       c.appendChild(el('div', 'n', k.n));
@@ -1773,15 +1891,16 @@
     });
     box.appendChild(kpis);
 
-    if (due) {
+    if (due.USD) {
       var m = el('div', 'meter');
       var i = el('i');
-      i.style.width = Math.round(paid / due * 100) + '%';
+      i.style.width = Math.round((paid.USD || 0) / due.USD * 100) + '%';
       m.appendChild(i);
       box.appendChild(m);
     }
   }
 
+  var alertsExpanded = false;
   function renderAlerts() {
     var box = $('#alertList');
     box.innerHTML = '';
@@ -1796,7 +1915,12 @@
       return;
     }
 
-    alerts.forEach(function (a) {
+    // Veinte avisos juntos no se leen. Se muestran los más urgentes y el resto
+    // queda a un toque.
+    var CAP = 8;
+    var shown = alertsExpanded ? alerts : alerts.slice(0, CAP);
+
+    shown.forEach(function (a) {
       var row = el('div', 'stu');
       row.appendChild(el('div', 'dot ' + (a.urgent ? 'd-silencio' : 'd-tibia')));
 
@@ -1838,6 +1962,19 @@
       row.appendChild(acts);
       box.appendChild(row);
     });
+
+    if (alerts.length > CAP) {
+      var more = el('button', 'btn-ghost full');
+      more.style.marginTop = '10px';
+      more.textContent = alertsExpanded
+        ? '↑ Mostrar solo lo urgente'
+        : '↓ Ver las otras ' + (alerts.length - CAP);
+      more.addEventListener('click', function () {
+        alertsExpanded = !alertsExpanded;
+        renderAlerts();
+      });
+      box.appendChild(more);
+    }
   }
 
   function copyText(txt) {
@@ -2012,6 +2149,15 @@
   function paintStudentChips() {
     $('#sMod11').classList.toggle('on', sDraft.modalidad === '1:1');
     $('#sModGr').classList.toggle('on', sDraft.modalidad === 'grupal');
+    $('#sCurUsd').classList.toggle('on', sDraft.cur !== 'ARS');
+    $('#sCurArs').classList.toggle('on', sDraft.cur === 'ARS');
+    var box = $('#sEstadoChips');
+    box.innerHTML = '';
+    ESTADOS.forEach(function (e) {
+      var b = el('button', 'chip' + (sDraft.estado === e.id ? ' on' : ''), e.label);
+      b.addEventListener('click', function () { sDraft.estado = e.id; paintStudentChips(); });
+      box.appendChild(b);
+    });
   }
   function paintMonthCalc() {
     var st = $('#sStart').value, en = $('#sEnd').value;
@@ -2025,10 +2171,16 @@
 
   function openStudent(id) {
     var s = id ? findStudent(id) : null;
-    sDraft = { id: s ? s.id : null, modalidad: (s && s.modalidad) || 'grupal' };
+    sDraft = {
+      id: s ? s.id : null,
+      modalidad: (s && s.modalidad) || '1:1',
+      estado: (s && s.estado) || 'activa',
+      cur: (s && s.cur) || 'USD'
+    };
     $('#sName').value = s ? s.name : '';
     $('#sRole').value = s ? (s.role || '') : '';
     $('#sCohort').value = s ? (s.cohort || '') : '';
+    $('#sNote').value = s ? (s.note || '') : '';
     $('#sStart').value = s && s.startDate ? s.startDate : '';
     $('#sFee').value = s && s.fee != null ? s.fee : '';
     $('#sBillDay').value = s && s.billDay != null ? s.billDay : '';
@@ -2127,12 +2279,19 @@
       body.addEventListener('click', function () { openStudent(s.id); });
       body.appendChild(el('div', 'stu-name', s.name));
       var meta = el('div', 't-meta');
-      if (s.modalidad === '1:1') meta.appendChild(el('span', 'pill needle', '1:1'));
+      meta.appendChild(el('span', 'pill needle', s.modalidad === '1:1' ? '1:1' : 'Grupal'));
+      if (s.estado && s.estado !== 'activa') meta.appendChild(el('span', 'pill w-pesado', estadoLabel(s.estado)));
       if (s.role) meta.appendChild(el('span', 'pill', s.role));
-      meta.appendChild(el('span', 'pill', programLabel(s)));
+      if (s.startDate) meta.appendChild(el('span', 'pill', programLabel(s)));
+      if (s.fee) meta.appendChild(el('span', 'pill w-medio', fmtMoney(s.fee, s.cur)));
       if (s.cohort) meta.appendChild(el('span', 'pill', s.cohort));
-      if (!s.billDay && !s.endDate) meta.appendChild(el('span', 'pill w-pesado', 'Sin fechas'));
+      if (!s.startDate && !s.endDate) meta.appendChild(el('span', 'pill w-pesado', 'Faltan fechas'));
       body.appendChild(meta);
+      if (s.note) {
+        var nt = el('div', 'care-sub', s.note);
+        nt.style.marginTop = '6px';
+        body.appendChild(nt);
+      }
       row.appendChild(body);
 
       var acts = el('div', 't-actions');
@@ -2830,6 +2989,13 @@
     $('#sEnd').addEventListener('change', paintMonthCalc);
     $('#sMod11').addEventListener('click', function () { sDraft.modalidad = '1:1'; paintStudentChips(); });
     $('#sModGr').addEventListener('click', function () { sDraft.modalidad = 'grupal'; paintStudentChips(); });
+    $('#sCurUsd').addEventListener('click', function () { sDraft.cur = 'USD'; paintStudentChips(); });
+    $('#sCurArs').addEventListener('click', function () { sDraft.cur = 'ARS'; paintStudentChips(); });
+    $('#btnImportRoster').addEventListener('click', function () {
+      var n = importRoster();
+      renderAll(); renderTabBadge();
+      toast(n ? 'Sumé ' + n + ' alumna' + (n === 1 ? '' : 's') + ' del roster.' : 'Ya estaban todas cargadas.');
+    });
     $('#btnSaveStudent').addEventListener('click', function () {
       var n = $('#sName').value.trim();
       if (!n) { toast('Falta el nombre.'); return; }
@@ -2842,8 +3008,11 @@
       s.name = n;
       s.role = $('#sRole').value.trim();
       s.cohort = $('#sCohort').value.trim();
+      s.note = $('#sNote').value.trim();
       s.startDate = $('#sStart').value || null;
       s.modalidad = sDraft.modalidad;
+      s.estado = sDraft.estado;
+      s.cur = sDraft.cur;
       s.fee = num('#sFee');
       s.billDay = num('#sBillDay');
       s.endDate = $('#sEnd').value || null;
@@ -2963,6 +3132,7 @@
 
   // ═══════════════════ INIT ═══════════════════
   load();
+  if (!DB.students.length) importRoster();   // primera vez: entra el roster del Drive
   bind();
   resetTimer();
   renderAll();
