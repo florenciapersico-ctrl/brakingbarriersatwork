@@ -75,6 +75,13 @@
   .tab { padding: 10px 4px 12px; text-align: center; color: rgba(255,248,231,.45); font-size: 9.5px; letter-spacing: .09em; text-transform: uppercase; font-weight: 600; transition: color .18s; }
   .tab .tico { display: block; font-size: 16px; margin-bottom: 3px; line-height: 1; }
   .tab.on { color: var(--terracota); }
+  .tab { position: relative; }
+  .tab-badge {
+    position: absolute; top: 6px; left: 50%; margin-left: 6px;
+    min-width: 16px; height: 16px; padding: 0 4px; border-radius: 100px;
+    background: var(--danger); color: var(--cream);
+    font-size: 9.5px; font-weight: 700; line-height: 16px; text-align: center;
+  }
 
   .view { display: none; padding-top: 20px; }
   .view.on { display: block; animation: fade .22s ease; }
@@ -480,35 +487,78 @@
 
   <!-- ═══════════ TRABAJO ═══════════ -->
   <section class="view" id="v-trabajo">
+
+    <!-- Rutina diaria -->
+    <div class="card dark">
+      <div class="between" style="margin-bottom:4px">
+        <div><span class="overline">Se reinicia cada día</span><h2>Tu rutina de hoy</h2></div>
+        <div style="font-family:'Crimson Pro',Georgia,serif;font-size:28px;line-height:1" id="dailyScore">0/3</div>
+      </div>
+      <div class="sep"></div>
+      <div id="dailyList"></div>
+    </div>
+
+    <!-- Rutina semanal -->
+    <div class="card">
+      <div class="between" style="margin-bottom:4px">
+        <div><span class="overline" id="weekLabel">Semana</span><h3>Lo que sostiene el negocio</h3></div>
+        <div style="font-family:'Crimson Pro',Georgia,serif;font-size:26px;line-height:1" id="weeklyScore">0/5</div>
+      </div>
+      <p class="muted" style="margin-bottom:8px;font-size:12.5px">Se reinicia los lunes. Nada de esto es urgente — por eso se cae si no está escrito.</p>
+      <div id="weeklyList"></div>
+    </div>
+
+    <!-- Cobros y continuidad -->
+    <div class="card">
+      <span class="overline">Plata y continuidad</span>
+      <h3 style="margin-bottom:4px">Qué te toca esta semana</h3>
+      <p class="muted" style="margin-bottom:14px;font-size:12.5px">Sale de las fechas de tus alumnas. Si no ves nada acá, cargá sus datos en Gente.</p>
+      <div id="moneySummary"></div>
+      <div id="alertList" style="margin-top:6px"></div>
+    </div>
+
+    <!-- Programa grabado -->
+    <div class="card dark">
+      <span class="overline">El activo que estás construyendo</span>
+      <h3 style="margin-bottom:4px">Programa grabado</h3>
+      <p class="muted" style="margin-bottom:14px;font-size:12.5px">Cada clase que grabás deja de depender de tu tiempo. Dos por semana y esto se termina solo.</p>
+      <div class="between" style="align-items:flex-end">
+        <div><span style="font-family:'Crimson Pro',Georgia,serif;font-size:44px;line-height:1" id="progRec">0</span>
+          <span class="muted" id="progGoalTxt"> de 40 clases</span></div>
+        <button class="btn-ghost" id="btnProgGoal" style="color:var(--terracota)">Cambiar meta</button>
+      </div>
+      <div class="meter" style="margin-top:14px;background:rgba(232,196,173,.2)"><i id="progMeter" style="background:var(--terracota)"></i></div>
+      <p class="muted" style="margin-top:12px;font-size:12.5px" id="progProjection">—</p>
+    </div>
+
+    <!-- Motor de ventas -->
+    <div class="card">
+      <span class="overline">Motor de ventas</span>
+      <h3 style="margin-bottom:4px">Ads, leads y conversaciones</h3>
+      <p class="muted" style="margin-bottom:14px;font-size:12.5px">Sin publicidad y sin conversaciones no entra nadie nuevo. Anotá los números de esta semana.</p>
+      <div class="grid2">
+        <div class="field"><label class="f">Leads nuevos</label><input type="number" id="wLeads" min="0" placeholder="0"></div>
+        <div class="field"><label class="f">Conversaciones de venta</label><input type="number" id="wConvos" min="0" placeholder="0"></div>
+        <div class="field"><label class="f">Cierres</label><input type="number" id="wCierres" min="0" placeholder="0"></div>
+        <div class="field"><label class="f">Gasto en ads</label><input type="number" id="wAds" min="0" placeholder="0"></div>
+      </div>
+      <button class="btn btn-dark full" id="btnSaveWeek" style="margin-top:14px">Guardar la semana</button>
+      <div class="sep"></div>
+      <h4 style="font-size:15px;margin-bottom:6px">Últimas 8 semanas</h4>
+      <div class="bars" id="barsLeads"></div>
+      <div class="axis" id="axisLeads"></div>
+      <p class="muted" style="margin-top:12px;font-size:12.5px" id="salesInsight">—</p>
+    </div>
+
+    <!-- Backlog -->
     <div class="card">
       <div class="between" style="margin-bottom:14px">
-        <div><span class="overline">Backlog</span><h2 style="font-size:26px">Todo lo que hay</h2></div>
+        <div><span class="overline">Backlog</span><h3>Todo lo demás</h3></div>
         <button class="btn btn-dark btn-sm" id="btnAddTask">+ Tarea</button>
       </div>
       <div class="chips" id="areaFilter"></div>
       <div class="sep"></div>
       <div id="backlogList"></div>
-    </div>
-
-    <div class="card">
-      <span class="overline" id="bizMonthLabel">Mes</span>
-      <h3 style="margin-bottom:14px">Tablero del negocio</h3>
-      <div class="grid2">
-        <div class="field"><label class="f">Alumnas activas</label><input type="number" id="bAlumnas" min="0" placeholder="0"></div>
-        <div class="field"><label class="f">Leads en conversación</label><input type="number" id="bLeads" min="0" placeholder="0"></div>
-        <div class="field"><label class="f">Cierres del mes</label><input type="number" id="bCierres" min="0" placeholder="0"></div>
-        <div class="field"><label class="f">Meta de cierres</label><input type="number" id="bMeta" min="0" placeholder="0"></div>
-      </div>
-      <div class="meter" style="margin-top:16px"><i id="bMeter"></i></div>
-      <p class="muted" style="margin-top:8px;font-size:12px" id="bMeterText">—</p>
-      <button class="btn btn-dark full" id="btnSaveBiz" style="margin-top:16px">Guardar el mes</button>
-    </div>
-
-    <div class="card">
-      <span class="overline">Ritmo</span>
-      <h3 style="margin-bottom:12px">Dónde se te fue el mes</h3>
-      <div id="areaBreakdown"></div>
-      <p class="muted" style="margin-top:14px;font-size:12.5px" id="areaInsight">—</p>
     </div>
 
     <div class="card">
@@ -706,10 +756,16 @@
   <div class="sheet">
     <button class="sheet-close" data-close>×</button>
     <span class="overline">Radar de alumnas</span>
-    <h2>Sumar una alumna</h2>
+    <h2 id="studentModalTitle">Sumar una alumna</h2>
     <div class="sep"></div>
     <div class="field"><label class="f">Nombre</label><input type="text" id="sName" placeholder="Ej: Marina"></div>
     <div class="field"><label class="f">Rol / contexto</label><input type="text" id="sRole" placeholder="Ej: HR Manager · multinacional · México"></div>
+    <div class="field"><label class="f">Modalidad</label>
+      <div class="chips">
+        <button class="chip" id="sMod11">1:1</button>
+        <button class="chip" id="sModGr">Grupal</button>
+      </div>
+    </div>
     <div class="field"><label class="f">Cohorte</label><input type="text" id="sCohort" placeholder="Ej: Cohorte Marzo"></div>
     <div class="field"><label class="f">Mes del método</label>
       <select id="sMonth">
@@ -720,6 +776,14 @@
         <option value="5">Mes 5 · Automatismo bajo presión</option>
       </select>
     </div>
+    <div class="sep"></div>
+    <span class="overline">Cobro y continuidad</span>
+    <div class="grid2">
+      <div class="field"><label class="f">Cuánto paga</label><input type="number" id="sFee" min="0" placeholder="0"></div>
+      <div class="field"><label class="f">Día de cobro</label><input type="number" id="sBillDay" min="1" max="31" placeholder="10"></div>
+    </div>
+    <div class="field"><label class="f">Cuándo termina el programa</label><input type="date" id="sEnd"></div>
+    <div class="field"><label class="f">Link de pago</label><input type="text" id="sPayLink" placeholder="Se copia de un toque cuando toca cobrar"></div>
     <button class="btn btn-dark full" id="btnSaveStudent" style="margin-top:20px">Guardar</button>
   </div>
 </div>
@@ -849,6 +913,26 @@
     { id: 'entreno', ico: '⚑', name: 'Entrenar',    type: 'toggle', sub: 'Fuerza, clase, lo que sea' },
     { id: 'respiro', ico: '☾', name: 'Respirar',    type: 'toggle', sub: 'Una práctica, aunque sea de 2 min' },
     { id: 'gente',   ico: '✦', name: 'Ver gente',   type: 'toggle', sub: 'Una amiga, una llamada real' }
+  ];
+
+  // Rutina de trabajo que se repite. Diaria se reinicia a medianoche; semanal, el lunes.
+  var DAILY = [
+    { id: 'agenda', q: '¿Preparaste tu agenda laboral?', hint: 'Los bloques del día decididos antes de que el día decida por vos.' },
+    { id: 'posteo', q: '¿Hiciste tu posteo diario?', hint: 'Constancia le gana a perfección. Uno por día sostiene todo lo demás.' },
+    { id: 'clases', q: '¿Tenés las clases listas?', hint: 'Material, ejemplos y transcripts preparados antes de entrar.' }
+  ];
+
+  var WEEKLY = [
+    { id: 'reports', ico: '◈', type: 'toggle', q: 'Revisar los weekly reports de tus 1:1',
+      hint: 'Ahí está lo que no te dicen en la clase.' },
+    { id: 'mensajes', ico: '✉', type: 'toggle', q: 'Escribirle a cada alumna 1:1',
+      hint: 'Un mensaje corto para saber cómo viene. Eso es lo que sostiene la renovación.' },
+    { id: 'grabar', ico: '⏺', type: 'count', goal: 2, q: 'Grabar clases del programa',
+      hint: 'Dos por semana y el programa termina grabado sin que lo sientas.' },
+    { id: 'ads', ico: '◎', type: 'toggle', q: 'Revisar los ads: ¿están entrando leads?',
+      hint: 'Si no mirás los números, la publicidad se gasta sola.' },
+    { id: 'convos', ico: '☏', type: 'count', goal: 3, q: 'Conversaciones de venta',
+      hint: 'Publicidad, publicaciones constantes y conversaciones. Las tres, siempre.' }
   ];
 
   var PRACTICES = {
@@ -998,9 +1082,10 @@
   // ═══════════════════ ESTADO ═══════════════════
   var DB = {
     v: 2,
-    settings: { name: '', brand: 'Breaking Barriers at Work', focusLong: 50, water: 8, walk: 30, trainWeek: 3, friendsWeek: 1 },
+    settings: { name: '', brand: 'Breaking Barriers at Work', focusLong: 50, water: 8, walk: 30, trainWeek: 3, friendsWeek: 1, programGoal: 40 },
     checkins: {}, tasks: [], movements: {}, focus: {}, closes: {},
-    care: {}, anx: [], students: [], friends: [], biz: {}, ideas: []
+    care: {}, anx: [], students: [], friends: [], ideas: [],
+    routines: { daily: {}, weekly: {} }
   };
 
   // Algunos navegadores (modo privado, webviews dentro de otras apps) bloquean
@@ -1049,8 +1134,12 @@
         focusLong: s.focusLong || 50,
         water: s.water || 8, walk: s.walk || 30,
         trainWeek: s.trainWeek == null ? 3 : s.trainWeek,
-        friendsWeek: s.friendsWeek == null ? 1 : s.friendsWeek
+        friendsWeek: s.friendsWeek == null ? 1 : s.friendsWeek,
+        programGoal: s.programGoal || 40
       };
+      if (!DB.routines || typeof DB.routines !== 'object') DB.routines = { daily: {}, weekly: {} };
+      if (!DB.routines.daily) DB.routines.daily = {};
+      if (!DB.routines.weekly) DB.routines.weekly = {};
     } catch (e) { /* arranca limpio */ }
   }
 
@@ -1074,6 +1163,12 @@
   function monthKey() { var d = new Date(); return d.getFullYear() + '-' + pad(d.getMonth() + 1); }
   function uid() { return Math.random().toString(36).slice(2, 10) + Date.now().toString(36).slice(-4); }
   function fromIso(k) { var p = k.split('-'); return new Date(+p[0], +p[1] - 1, +p[2]); }
+  function weekKey(d) {
+    var x = new Date(d || new Date());
+    x = new Date(x.getFullYear(), x.getMonth(), x.getDate());
+    x.setDate(x.getDate() - ((x.getDay() + 6) % 7)); // lunes como inicio de semana
+    return iso(x);
+  }
   function daysSince(k) {
     if (!k) return null;
     return Math.max(0, Math.round((fromIso(today()) - fromIso(k)) / 864e5));
@@ -1495,64 +1590,417 @@
     });
   }
 
-  function renderBiz() {
-    var mk = monthKey(), d = new Date();
-    $('#bizMonthLabel').textContent = MONTHS[d.getMonth()] + ' ' + d.getFullYear();
-    var b = DB.biz[mk] || {};
-    $('#bAlumnas').value = b.alumnas != null ? b.alumnas : '';
-    $('#bLeads').value = b.leads != null ? b.leads : '';
-    $('#bCierres').value = b.cierres != null ? b.cierres : '';
-    $('#bMeta').value = b.meta != null ? b.meta : '';
+  // ═══════════════════ RENDER: TRABAJO ═══════════════════
+  function routineDay() {
+    if (!DB.routines.daily[today()]) DB.routines.daily[today()] = {};
+    return DB.routines.daily[today()];
+  }
+  function routineWeek() {
+    var k = weekKey();
+    if (!DB.routines.weekly[k]) DB.routines.weekly[k] = {};
+    return DB.routines.weekly[k];
+  }
 
-    var cierres = parseInt(b.cierres, 10) || 0, meta = parseInt(b.meta, 10) || 0;
-    var pct = meta > 0 ? Math.min(100, Math.round(cierres / meta * 100)) : 0;
-    $('#bMeter').style.width = pct + '%';
-    $('#bMeterText').textContent = meta > 0
-      ? cierres + ' de ' + meta + ' cierres · ' + pct + '% de la meta del mes.'
-      : 'Poné una meta para ver el avance. Sin número, "vender más" no es un plan.';
-
-    var box = $('#areaBreakdown');
+  function renderDaily() {
+    var r = routineDay();
+    var box = $('#dailyList');
     box.innerHTML = '';
-    var since = Date.now() - 30 * 864e5, counts = {}, total = 0;
-    AREAS.forEach(function (a) { counts[a.id] = 0; });
-    DB.tasks.forEach(function (t) {
-      if (!t.done || !t.doneAt) return;
-      if (new Date(t.doneAt).getTime() < since) return;
-      if (counts[t.area] === undefined) counts[t.area] = 0;
-      counts[t.area]++; total++;
-    });
-    if (!total) {
-      box.appendChild(el('p', 'muted', 'Todavía no hay tareas cerradas en los últimos 30 días.'));
-      $('#areaInsight').textContent = 'Cuando cierres tareas, acá vas a ver dónde se te va el mes de verdad.';
-      return;
-    }
-    var maxArea = null, maxN = -1;
-    AREAS.forEach(function (a) {
-      var n = counts[a.id] || 0;
-      if (n > maxN) { maxN = n; maxArea = a; }
-      var row = el('div', 'between');
-      row.style.padding = '8px 0';
-      row.appendChild(el('div', '', a.label));
-      var right = el('div', 'row');
-      var meter = el('div');
-      meter.style.cssText = 'width:120px;height:6px;background:rgba(140,107,74,.16);border-radius:4px;overflow:hidden;flex:none';
-      var fill = el('i');
-      fill.style.cssText = 'display:block;height:100%;background:var(--terracota);width:' + Math.round(n / total * 100) + '%';
-      meter.appendChild(fill);
-      right.appendChild(meter);
-      right.appendChild(el('span', 'muted', String(n)));
-      row.appendChild(right);
+    DAILY.forEach(function (item) {
+      var done = !!r[item.id];
+      var row = el('div', 'care' + (done ? ' full-done' : ''));
+      var chk = el('button', 'check' + (done ? ' on' : ''), '✓');
+      chk.style.marginTop = '0';
+      if (done) { chk.style.background = 'var(--olive)'; chk.style.borderColor = 'var(--olive)'; chk.style.color = 'var(--cream)'; }
+      else { chk.style.borderColor = 'rgba(232,196,173,.5)'; }
+      chk.addEventListener('click', function () {
+        r[item.id] = done ? 0 : 1;
+        save(); renderTrabajo(); renderTabBadge();
+      });
+      row.appendChild(chk);
+      var body = el('div', 'care-body');
+      var q = el('div', 'care-name', item.q);
+      if (done) q.style.opacity = '.55';
+      body.appendChild(q);
+      body.appendChild(el('div', 'care-sub', item.hint));
+      row.appendChild(body);
       box.appendChild(row);
     });
-    var adminPct = Math.round(((counts.admin || 0) / total) * 100);
-    $('#areaInsight').textContent = adminPct >= 35
-      ? 'Admin se llevó el ' + adminPct + '% de tus tareas cerradas. Eso es tiempo que no está en alumnas ni en ventas — candidato número uno a delegar.'
-      : 'Tu mes se concentró en ' + maxArea.label + ' (' + maxN + ' de ' + total + '). ¿Es donde querías que estuviera?';
+    var n = DAILY.filter(function (i) { return r[i.id]; }).length;
+    $('#dailyScore').textContent = n + '/' + DAILY.length;
+  }
+
+  function renderWeekly() {
+    var w = routineWeek();
+    var box = $('#weeklyList');
+    box.innerHTML = '';
+    var mk = fromIso(weekKey());
+    $('#weekLabel').textContent = 'Semana del ' + mk.getDate() + ' de ' + MONTHS[mk.getMonth()];
+
+    WEEKLY.forEach(function (item) {
+      var val = w[item.id] || 0;
+      var done = item.type === 'count' ? val >= item.goal : !!val;
+      var row = el('div', 'care' + (done ? ' full-done' : ''));
+      row.appendChild(el('div', 'care-ico', item.ico));
+
+      var body = el('div', 'care-body');
+      body.appendChild(el('div', 'care-name', item.q));
+      body.appendChild(el('div', 'care-sub', item.hint));
+      if (item.type === 'count') {
+        var pips = el('div', 'pips');
+        for (var i = 0; i < Math.max(item.goal, val); i++) {
+          (function (idx) {
+            var pip = el('button', 'pip' + (idx < val ? ' on' : ''));
+            pip.addEventListener('click', function () {
+              w[item.id] = (idx < val) ? idx : idx + 1;
+              save(); renderTrabajo(); renderTabBadge();
+            });
+            pips.appendChild(pip);
+          })(i);
+        }
+        body.appendChild(pips);
+      }
+      row.appendChild(body);
+
+      if (item.type === 'count') {
+        var add = el('button', 'care-btn' + (done ? ' on' : ''), '+1');
+        add.addEventListener('click', function () {
+          w[item.id] = val + 1;
+          save(); renderTrabajo(); renderTabBadge();
+          if (item.id === 'grabar') toast('Una clase menos para tener el programa grabado.');
+        });
+        row.appendChild(add);
+      } else {
+        var tg = el('button', 'care-btn' + (done ? ' on' : ''), done ? 'Hecho' : 'Marcar');
+        tg.addEventListener('click', function () {
+          w[item.id] = done ? 0 : 1;
+          save(); renderTrabajo(); renderTabBadge();
+        });
+        row.appendChild(tg);
+      }
+      box.appendChild(row);
+    });
+
+    var n = WEEKLY.filter(function (item) {
+      var v = w[item.id] || 0;
+      return item.type === 'count' ? v >= item.goal : !!v;
+    }).length;
+    $('#weeklyScore').textContent = n + '/' + WEEKLY.length;
+  }
+
+  // ── Cobros y continuidad ───────────────────────────────
+  // Todo sale de las fechas cargadas en cada alumna; nada se escribe dos veces.
+  function billingDue(s) {
+    if (!s.billDay) return null;
+    var now = new Date();
+    var dim = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+    var day = Math.min(parseInt(s.billDay, 10), dim);
+    return new Date(now.getFullYear(), now.getMonth(), day);
+  }
+
+  function buildAlerts() {
+    var out = [];
+    var todayD = fromIso(today());
+
+    DB.students.forEach(function (s) {
+      var due = billingDue(s);
+      if (due && s.lastPaid !== monthKey()) {
+        var days = Math.round((due - todayD) / 864e5);
+        if (days <= 5) {
+          out.push({
+            kind: 'cobro', s: s, urgent: days <= 0, order: days,
+            title: 'Cobrar a ' + s.name,
+            sub: days < 0 ? 'Venció hace ' + Math.abs(days) + ' día' + (Math.abs(days) === 1 ? '' : 's')
+              : (days === 0 ? 'Vence hoy' : 'Vence en ' + days + ' día' + (days === 1 ? '' : 's'))
+              + (s.fee ? ' · ' + fmtMoney(s.fee) : '')
+          });
+        }
+      }
+
+      if (s.endDate) {
+        var end = fromIso(s.endDate);
+        var d2 = Math.round((end - todayD) / 864e5);
+        if (d2 >= 0 && d2 <= 45 && s.renewTalked !== s.endDate) {
+          out.push({
+            kind: 'fin', s: s, urgent: d2 <= 21, order: d2,
+            title: 'Termina el programa de ' + s.name,
+            sub: (d2 === 0 ? 'Termina hoy' : 'En ' + d2 + ' día' + (d2 === 1 ? '' : 's') + ' · ' + end.getDate() + ' de ' + MONTHS[end.getMonth()])
+              + ' — hablá de continuidad ahora, no la última semana'
+          });
+        }
+      }
+
+      if (s.modalidad === '1:1') {
+        var d3 = daysSince(s.lastReport);
+        if (d3 == null || d3 >= 7) {
+          out.push({
+            kind: 'report', s: s, urgent: d3 != null && d3 >= 14, order: 100 - (d3 == null ? 30 : d3),
+            title: 'Reporte de ' + s.name,
+            sub: d3 == null ? 'Todavía no revisaste ninguno' : 'Hace ' + d3 + ' días que no lo mirás'
+          });
+        }
+      }
+    });
+
+    out.sort(function (a, b) { return a.order - b.order; });
+    return out;
+  }
+
+  function fmtMoney(n) {
+    var v = parseInt(n, 10) || 0;
+    return '$' + v.toLocaleString('es-AR');
+  }
+
+  function renderMoney() {
+    var box = $('#moneySummary');
+    box.innerHTML = '';
+    var mk = monthKey();
+    var due = 0, paid = 0, pending = 0, active = 0;
+    DB.students.forEach(function (s) {
+      var ended = s.endDate && fromIso(s.endDate) < fromIso(today());
+      if (!ended) active++;
+      if (!s.fee || ended) return;
+      due += parseInt(s.fee, 10) || 0;
+      if (s.lastPaid === mk) paid += parseInt(s.fee, 10) || 0; else pending++;
+    });
+
+    var kpis = el('div', 'kpis');
+    [
+      { n: String(active), l: 'Alumnas activas' },
+      { n: due ? fmtMoney(due) : '—', l: 'A cobrar este mes' },
+      { n: due ? fmtMoney(paid) : '—', l: 'Ya cobrado' },
+      { n: due ? String(pending) : '—', l: 'Faltan cobrar' }
+    ].forEach(function (k) {
+      var c = el('div', 'kpi');
+      c.appendChild(el('div', 'n', k.n));
+      c.appendChild(el('div', 'l', k.l));
+      kpis.appendChild(c);
+    });
+    box.appendChild(kpis);
+
+    if (due) {
+      var m = el('div', 'meter');
+      var i = el('i');
+      i.style.width = Math.round(paid / due * 100) + '%';
+      m.appendChild(i);
+      box.appendChild(m);
+    }
+  }
+
+  function renderAlerts() {
+    var box = $('#alertList');
+    box.innerHTML = '';
+    var alerts = buildAlerts();
+    if (!alerts.length) {
+      var e = el('div', 'empty');
+      e.appendChild(el('span', 'moon', '✧'));
+      e.appendChild(el('div', '', DB.students.length
+        ? 'Nada pendiente de cobro ni de continuidad. Disfrutalo.'
+        : 'Cargá a tus alumnas con su día de cobro y su fecha de fin, y esto se llena solo.'));
+      box.appendChild(e);
+      return;
+    }
+
+    alerts.forEach(function (a) {
+      var row = el('div', 'stu');
+      row.appendChild(el('div', 'dot ' + (a.urgent ? 'd-silencio' : 'd-tibia')));
+
+      var body = el('div', 'stu-body');
+      body.appendChild(el('div', 'stu-name', a.title));
+      body.appendChild(el('div', 'care-sub', a.sub));
+      row.appendChild(body);
+
+      var acts = el('div', 't-actions');
+      if (a.kind === 'cobro') {
+        if (a.s.payLink) {
+          var cp = el('button', 'cycle', 'Link');
+          cp.title = 'Copiar el link de pago';
+          cp.addEventListener('click', function () { copyText(a.s.payLink); });
+          acts.appendChild(cp);
+        }
+        var ok = el('button', 'cycle warm', 'Cobrado');
+        ok.addEventListener('click', function () {
+          a.s.lastPaid = monthKey();
+          save(); renderTrabajo(); renderTabBadge();
+          toast(a.s.name + ' cobrada este mes.');
+        });
+        acts.appendChild(ok);
+      } else if (a.kind === 'fin') {
+        var talked = el('button', 'cycle warm', 'Ya hablamos');
+        talked.addEventListener('click', function () {
+          a.s.renewTalked = a.s.endDate;
+          save(); renderTrabajo(); renderTabBadge();
+        });
+        acts.appendChild(talked);
+      } else {
+        var seen = el('button', 'cycle', 'Revisado');
+        seen.addEventListener('click', function () {
+          a.s.lastReport = today();
+          save(); renderTrabajo(); renderTabBadge();
+        });
+        acts.appendChild(seen);
+      }
+      row.appendChild(acts);
+      box.appendChild(row);
+    });
+  }
+
+  function copyText(txt) {
+    function fallback() {
+      var ta = document.createElement('textarea');
+      ta.value = txt;
+      ta.style.cssText = 'position:fixed;opacity:0';
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); toast('Link copiado.'); }
+      catch (e) { toast('No se pudo copiar. El link es: ' + txt); }
+      document.body.removeChild(ta);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(txt).then(function () { toast('Link copiado.'); }, fallback);
+    } else { fallback(); }
+  }
+
+  // ── Programa grabado ───────────────────────────────────
+  function recordedTotal() {
+    var n = 0;
+    Object.keys(DB.routines.weekly).forEach(function (k) { n += DB.routines.weekly[k].grabar || 0; });
+    return n;
+  }
+
+  function renderProgram() {
+    var rec = recordedTotal();
+    var goal = DB.settings.programGoal || 40;
+    $('#progRec').textContent = rec;
+    $('#progGoalTxt').textContent = ' de ' + goal + ' clases';
+    $('#progMeter').style.width = Math.min(100, Math.round(rec / goal * 100)) + '%';
+
+    if (rec >= goal) {
+      $('#progProjection').textContent = 'Está completo. El programa ya existe sin vos adelante — eso cambia lo que podés vender.';
+      return;
+    }
+
+    // Ritmo real de las últimas cuatro semanas; si todavía no hay, proyectamos a dos.
+    var weeks = 0, sum = 0;
+    for (var i = 0; i < 4; i++) {
+      var d = new Date(); d.setDate(d.getDate() - i * 7);
+      var w = DB.routines.weekly[weekKey(d)];
+      if (w && w.grabar) { sum += w.grabar; weeks++; }
+    }
+    var rate = weeks ? (sum / weeks) : 0;
+    var falta = goal - rec;
+    if (rate <= 0) {
+      $('#progProjection').textContent = 'Faltan ' + falta + ' clases. A dos por semana, tenés el programa entero en ' + Math.ceil(falta / 2) + ' semanas.';
+      return;
+    }
+    var semanas = Math.ceil(falta / rate);
+    var fin = new Date(); fin.setDate(fin.getDate() + semanas * 7);
+    $('#progProjection').textContent = 'Vas a ' + (Math.round(rate * 10) / 10) + ' clases por semana. A ese ritmo faltan ' +
+      semanas + ' semanas: alrededor del ' + fin.getDate() + ' de ' + MONTHS[fin.getMonth()] + '.';
+  }
+
+  // ── Motor de ventas ────────────────────────────────────
+  function renderSales() {
+    var w = routineWeek();
+    $('#wLeads').value = w.leads != null ? w.leads : '';
+    $('#wConvos').value = w.convosN != null ? w.convosN : '';
+    $('#wCierres').value = w.cierres != null ? w.cierres : '';
+    $('#wAds').value = w.adsSpend != null ? w.adsSpend : '';
+
+    var keys = [], box = $('#barsLeads'), ax = $('#axisLeads');
+    box.innerHTML = ''; ax.innerHTML = '';
+    for (var i = 7; i >= 0; i--) {
+      var d = new Date(); d.setDate(d.getDate() - i * 7);
+      keys.push(weekKey(d));
+    }
+    var vals = keys.map(function (k) { return (DB.routines.weekly[k] || {}).leads || 0; });
+    var max = Math.max.apply(null, vals.concat([1]));
+    keys.forEach(function (k, idx) {
+      var v = vals[idx];
+      var b = el('div', 'b' + (v ? '' : ' empty-b'));
+      var i2 = el('i');
+      i2.style.height = (v ? Math.max(6, v / max * 100) : 6) + '%';
+      b.appendChild(i2);
+      b.title = k + ' · ' + v + ' leads';
+      box.appendChild(b);
+      if (idx % 2 === 0 || idx === 7) {
+        var dd = fromIso(k);
+        ax.appendChild(el('span', '', dd.getDate() + '/' + (dd.getMonth() + 1)));
+      }
+    });
+
+    var total = vals.reduce(function (a, b2) { return a + b2; }, 0);
+    var convos = keys.reduce(function (a, k) { return a + ((DB.routines.weekly[k] || {}).convosN || 0); }, 0);
+    var cierres = keys.reduce(function (a, k) { return a + ((DB.routines.weekly[k] || {}).cierres || 0); }, 0);
+
+    if (!total && !convos) {
+      $('#salesInsight').textContent = 'Sin números todavía. Anotalos una vez por semana: es lo único que convierte "creo que vamos bien" en una decisión.';
+      return;
+    }
+    var txt = total + ' leads y ' + convos + ' conversaciones en ocho semanas.';
+    if (convos && cierres) {
+      txt += ' Cerraste ' + cierres + ': una de cada ' + (Math.round(convos / cierres * 10) / 10) + ' conversaciones.';
+    }
+    if (total && convos / Math.max(total, 1) < 0.5) {
+      txt += ' Entran leads pero pocos llegan a conversación — el cuello no está en los ads, está en el seguimiento.';
+    } else if (!total && convos) {
+      txt += ' Todas las conversaciones salieron de tu contenido, no de los ads.';
+    }
+    $('#salesInsight').textContent = txt;
+  }
+
+  function renderTrabajo() {
+    renderDaily();
+    renderWeekly();
+    renderMoney();
+    renderAlerts();
+    renderProgram();
+    renderSales();
+  }
+
+  // Punto rojo en la pestaña: lo pendiente de hoy más lo urgente de cobro.
+  function renderTabBadge() {
+    var r = routineDay();
+    var pend = DAILY.filter(function (i) { return !r[i.id]; }).length;
+    var urgent = buildAlerts().filter(function (a) { return a.urgent; }).length;
+    var tab = $('.tab[data-v=trabajo]');
+    var dot = $('.tab-badge', tab);
+    if (!pend && !urgent) { if (dot) dot.remove(); return; }
+    if (!dot) {
+      dot = el('span', 'tab-badge');
+      tab.appendChild(dot);
+    }
+    dot.textContent = String(pend + urgent);
   }
 
   // ═══════════════════ RENDER: GENTE ═══════════════════
   var TEMPS = ['encendida', 'tibia', 'silencio'];
   var TEMP_LABEL = { encendida: 'Encendida', tibia: 'Tibia', silencio: 'En silencio' };
+
+  var sDraft = { id: null, modalidad: 'grupal' };
+  function findStudent(id) {
+    for (var i = 0; i < DB.students.length; i++) if (DB.students[i].id === id) return DB.students[i];
+    return null;
+  }
+  function paintStudentChips() {
+    $('#sMod11').classList.toggle('on', sDraft.modalidad === '1:1');
+    $('#sModGr').classList.toggle('on', sDraft.modalidad === 'grupal');
+  }
+  function openStudent(id) {
+    var s = id ? findStudent(id) : null;
+    sDraft = { id: s ? s.id : null, modalidad: (s && s.modalidad) || 'grupal' };
+    $('#sName').value = s ? s.name : '';
+    $('#sRole').value = s ? (s.role || '') : '';
+    $('#sCohort').value = s ? (s.cohort || '') : '';
+    $('#sMonth').value = s ? (s.month || '1') : '1';
+    $('#sFee').value = s && s.fee != null ? s.fee : '';
+    $('#sBillDay').value = s && s.billDay != null ? s.billDay : '';
+    $('#sEnd').value = s && s.endDate ? s.endDate : '';
+    $('#sPayLink').value = s ? (s.payLink || '') : '';
+    $('#studentModalTitle').textContent = s ? 'Editar a ' + s.name : 'Sumar una alumna';
+    paintStudentChips();
+    openModal('#mStudent');
+    if (!s) setTimeout(function () { $('#sName').focus(); }, 120);
+  }
 
   function renderFriends() {
     var list = $('#friendList');
@@ -1634,12 +2082,17 @@
       });
       row.appendChild(dot);
 
-      var body = el('div', 'stu-body');
+      var body = el('button', 'stu-body');
+      body.style.cssText = 'text-align:left;background:none';
+      body.title = 'Editar sus datos';
+      body.addEventListener('click', function () { openStudent(s.id); });
       body.appendChild(el('div', 'stu-name', s.name));
       var meta = el('div', 't-meta');
+      if (s.modalidad === '1:1') meta.appendChild(el('span', 'pill needle', '1:1'));
       if (s.role) meta.appendChild(el('span', 'pill', s.role));
       meta.appendChild(el('span', 'pill', 'Mes ' + s.month));
       if (s.cohort) meta.appendChild(el('span', 'pill', s.cohort));
+      if (!s.billDay && !s.endDate) meta.appendChild(el('span', 'pill w-pesado', 'Sin fechas'));
       body.appendChild(meta);
       row.appendChild(body);
 
@@ -2180,7 +2633,8 @@
     renderAreaFilter();
     renderBacklog();
     renderIdeas();
-    renderBiz();
+    renderTrabajo();
+    renderTabBadge();
     renderFriends();
     renderStudents();
     renderCohortArc();
@@ -2361,26 +2815,46 @@
       DB.friends.push({ id: uid(), name: n, every: parseInt($('#frEvery').value, 10) || 14, last: null });
       save(); closeModal('#mFriend'); renderFriends(); toast('Sumada.');
     });
-    $('#btnAddStudent').addEventListener('click', function () {
-      $('#sName').value = ''; $('#sRole').value = ''; $('#sCohort').value = '';
-      openModal('#mStudent');
-      setTimeout(function () { $('#sName').focus(); }, 120);
-    });
+    $('#btnAddStudent').addEventListener('click', function () { openStudent(null); });
+    $('#sMod11').addEventListener('click', function () { sDraft.modalidad = '1:1'; paintStudentChips(); });
+    $('#sModGr').addEventListener('click', function () { sDraft.modalidad = 'grupal'; paintStudentChips(); });
     $('#btnSaveStudent').addEventListener('click', function () {
       var n = $('#sName').value.trim();
       if (!n) { toast('Falta el nombre.'); return; }
-      DB.students.push({
-        id: uid(), name: n, role: $('#sRole').value.trim(), cohort: $('#sCohort').value.trim(),
-        month: $('#sMonth').value, temp: 'encendida', lastTouch: today()
-      });
-      save(); closeModal('#mStudent'); renderAll(); toast('Sumada al radar.');
+      function num(id) { var v = $(id).value; return v === '' ? null : parseInt(v, 10); }
+      var s = sDraft.id ? findStudent(sDraft.id) : null;
+      if (!s) {
+        s = { id: uid(), temp: 'encendida', lastTouch: today() };
+        DB.students.push(s);
+      }
+      s.name = n;
+      s.role = $('#sRole').value.trim();
+      s.cohort = $('#sCohort').value.trim();
+      s.month = $('#sMonth').value;
+      s.modalidad = sDraft.modalidad;
+      s.fee = num('#sFee');
+      s.billDay = num('#sBillDay');
+      s.endDate = $('#sEnd').value || null;
+      s.payLink = $('#sPayLink').value.trim();
+      save(); closeModal('#mStudent'); renderAll(); renderTabBadge();
+      toast(sDraft.id ? 'Datos actualizados.' : 'Sumada al radar.');
     });
 
-    // Negocio
-    $('#btnSaveBiz').addEventListener('click', function () {
+    // Trabajo
+    $('#btnSaveWeek').addEventListener('click', function () {
+      var w = routineWeek();
       function num(id) { var v = $(id).value; return v === '' ? null : parseInt(v, 10); }
-      DB.biz[monthKey()] = { alumnas: num('#bAlumnas'), leads: num('#bLeads'), cierres: num('#bCierres'), meta: num('#bMeta') };
-      save(); renderBiz(); toast('Mes guardado.');
+      w.leads = num('#wLeads');
+      w.convosN = num('#wConvos');
+      w.cierres = num('#wCierres');
+      w.adsSpend = num('#wAds');
+      save(); renderSales(); toast('Semana guardada.');
+    });
+    $('#btnProgGoal').addEventListener('click', function () {
+      var cur = DB.settings.programGoal || 40;
+      var next = cur === 40 ? 20 : (cur === 20 ? 60 : 40);
+      DB.settings.programGoal = next;
+      save(); renderProgram(); toast('Meta del programa: ' + next + ' clases.');
     });
 
     // Ideas
@@ -2509,7 +2983,7 @@
     if (today() !== lastDay) {
       lastDay = today();
       draft = { sleep: 0, energy: 0, reg: 0, anx: 0, mood: '', classDay: null };
-      resetTimer(); renderAll();
+      resetTimer(); renderAll(); renderTabBadge();
     }
   }, 60000);
 })();
