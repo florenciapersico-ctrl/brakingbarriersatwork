@@ -159,6 +159,12 @@
   .care:last-child { border-bottom: none; }
   .care-ico { width: 34px; height: 34px; border-radius: 50%; background: var(--cream-dark); display: grid; place-items: center; font-size: 15px; flex: none; }
   .care.full-done .care-ico { background: var(--olive); color: var(--cream); }
+  .card.dark .care-ico { background: rgba(232,196,173,.14); color: var(--terracota-light); }
+  .card.dark .care.full-done .care-ico { background: var(--olive-light); color: var(--text-dark); }
+  .card.dark .care { border-bottom-color: rgba(232,196,173,.18); }
+  .card.dark .care-sub { color: rgba(255,248,231,.52); }
+  .card.dark .care-btn { color: rgba(255,248,231,.75); }
+  .card.dark .care-btn.on { background: var(--olive-light); border-color: var(--olive-light); color: var(--text-dark); }
   .care-body { flex: 1; min-width: 0; }
   .care-name { font-size: 14.5px; font-weight: 600; }
   .care-sub { font-size: 11.5px; color: var(--text-soft); margin-top: 1px; }
@@ -383,15 +389,14 @@
       <p class="muted" style="margin-top:12px;font-size:12px" id="careNudge">—</p>
     </div>
 
-    <!-- Movimiento -->
+    <!-- Tareas del día -->
     <div class="card">
-      <span class="overline">La regla de uno</span>
-      <div class="between" style="margin-bottom:8px">
-        <h3>Movimiento del día</h3>
-        <button class="btn-ghost" id="btnPickMovement">Elegir</button>
+      <div class="between" style="margin-bottom:4px">
+        <div><span class="overline">Se reinician cada día</span><h3>Tus tareas de hoy</h3></div>
+        <div style="font-family:'Crimson Pro',Georgia,serif;font-size:26px;line-height:1" id="dailyScoreHoy">0/6</div>
       </div>
-      <p class="muted" style="margin-bottom:10px;font-size:12.5px">La única tarea que, si se hace, mueve el negocio. Lo demás es mantenimiento.</p>
-      <div id="movementBox"></div>
+      <p class="muted" style="margin-bottom:6px;font-size:12.5px">Las mismas están en Trabajo: marcás en cualquiera de las dos.</p>
+      <div id="dailyListHoy"></div>
     </div>
 
     <!-- Tareas -->
@@ -489,24 +494,22 @@
   <!-- ═══════════ TRABAJO ═══════════ -->
   <section class="view" id="v-trabajo">
 
-    <!-- Rutina diaria -->
+    <!-- Tareas del día -->
     <div class="card dark">
       <div class="between" style="margin-bottom:4px">
-        <div><span class="overline">Se reinicia cada día</span><h2>Tu rutina de hoy</h2></div>
-        <div style="font-family:'Crimson Pro',Georgia,serif;font-size:28px;line-height:1" id="dailyScore">0/3</div>
+        <div><span class="overline">Se reinician cada día</span><h2>Tus tareas de hoy</h2></div>
+        <div style="font-family:'Crimson Pro',Georgia,serif;font-size:28px;line-height:1" id="dailyScore">0/6</div>
       </div>
       <div class="sep"></div>
       <div id="dailyList"></div>
     </div>
 
-    <!-- Rutina semanal -->
+    <!-- Resumen de la semana -->
     <div class="card">
-      <div class="between" style="margin-bottom:4px">
-        <div><span class="overline" id="weekLabel">Semana</span><h3>Lo que sostiene el negocio</h3></div>
-        <div style="font-family:'Crimson Pro',Georgia,serif;font-size:26px;line-height:1" id="weeklyScore">0/5</div>
-      </div>
-      <p class="muted" style="margin-bottom:8px;font-size:12.5px">Se reinicia los lunes. Nada de esto es urgente — por eso se cae si no está escrito.</p>
-      <div id="weeklyList"></div>
+      <span class="overline" id="weekLabel">Semana</span>
+      <h3 style="margin-bottom:4px">Cómo viene la semana</h3>
+      <p class="muted" style="margin-bottom:14px;font-size:12.5px">Sale solo de lo que fuiste marcando. No hay nada que cargar dos veces.</p>
+      <div id="weekSummary"></div>
     </div>
 
     <!-- Cobros y continuidad -->
@@ -768,22 +771,19 @@
       </div>
     </div>
     <div class="field"><label class="f">Cohorte</label><input type="text" id="sCohort" placeholder="Ej: Cohorte Marzo"></div>
-    <div class="field"><label class="f">Mes del método</label>
-      <select id="sMonth">
-        <option value="1">Mes 1 · Diagnóstico y base</option>
-        <option value="2">Mes 2 · Vocabulario de poder</option>
-        <option value="3">Mes 3 · Reuniones en vivo</option>
-        <option value="4">Mes 4 · Presencia ejecutiva</option>
-        <option value="5">Mes 5 · Automatismo bajo presión</option>
-      </select>
-    </div>
     <div class="sep"></div>
-    <span class="overline">Cobro y continuidad</span>
+    <span class="overline">Fechas del programa</span>
+    <div class="grid2">
+      <div class="field"><label class="f">Empezó el</label><input type="date" id="sStart"></div>
+      <div class="field"><label class="f">Termina el</label><input type="date" id="sEnd"></div>
+    </div>
+    <p class="muted" id="sMonthCalc" style="margin-top:8px;font-size:12.5px">Con la fecha de inicio, la app calcula sola en qué mes del programa está. No lo tenés que actualizar nunca.</p>
+    <div class="sep"></div>
+    <span class="overline">Cobro</span>
     <div class="grid2">
       <div class="field"><label class="f">Cuánto paga</label><input type="number" id="sFee" min="0" placeholder="0"></div>
       <div class="field"><label class="f">Día de cobro</label><input type="number" id="sBillDay" min="1" max="31" placeholder="10"></div>
     </div>
-    <div class="field"><label class="f">Cuándo termina el programa</label><input type="date" id="sEnd"></div>
     <div class="field"><label class="f">Link de pago</label><input type="text" id="sPayLink" placeholder="Se copia de un toque cuando toca cobrar"></div>
     <button class="btn btn-dark full" id="btnSaveStudent" style="margin-top:20px">Guardar</button>
   </div>
@@ -820,18 +820,6 @@
     <div class="sep"></div>
     <div id="pSteps" class="stack"></div>
     <button class="btn btn-terra full" id="btnPracticeDone" style="margin-top:22px">Listo</button>
-  </div>
-</div>
-
-<div class="modal" id="mMovement">
-  <div class="scrim" data-close></div>
-  <div class="sheet">
-    <button class="sheet-close" data-close>×</button>
-    <span class="overline">La regla de uno</span>
-    <h2>Elegí el movimiento</h2>
-    <p class="muted" style="margin-top:6px">Solo una. Si terminás el día con esto hecho, el día valió.</p>
-    <div class="sep"></div>
-    <div id="movePickList"></div>
   </div>
 </div>
 
@@ -923,24 +911,20 @@
     { id: 'gente',   ico: '✦', name: 'Ver gente',   type: 'toggle', sub: 'Una amiga, una llamada real' }
   ];
 
-  // Rutina de trabajo que se repite. Diaria se reinicia a medianoche; semanal, el lunes.
+  // Las tareas que se repiten todos los días. Se reinician a medianoche.
   var DAILY = [
-    { id: 'agenda', q: '¿Preparaste tu agenda laboral?', hint: 'Los bloques del día decididos antes de que el día decida por vos.' },
-    { id: 'posteo', q: '¿Hiciste tu posteo diario?', hint: 'Constancia le gana a perfección. Uno por día sostiene todo lo demás.' },
-    { id: 'clases', q: '¿Tenés las clases listas?', hint: 'Material, ejemplos y transcripts preparados antes de entrar.' }
-  ];
-
-  var WEEKLY = [
-    { id: 'reports', ico: '◈', type: 'toggle', q: 'Revisar los weekly reports de tus 1:1',
+    { id: 'grabar', ico: '⏺', q: 'Grabar una clase de At Work para el programa',
+      hint: 'Cada una deja de depender de tu tiempo para siempre.' },
+    { id: 'contenido', ico: '✎', q: 'Crear el contenido del día',
+      hint: 'Constancia le gana a perfección.' },
+    { id: 'alumnas', ico: '✉', q: 'Contactar a tus alumnas, leer su weekly report y hacerles seguimiento',
       hint: 'Ahí está lo que no te dicen en la clase.' },
-    { id: 'mensajes', ico: '✉', type: 'toggle', q: 'Escribirle a cada alumna 1:1',
-      hint: 'Un mensaje corto para saber cómo viene. Eso es lo que sostiene la renovación.' },
-    { id: 'grabar', ico: '⏺', type: 'count', goal: 2, q: 'Grabar clases del programa',
-      hint: 'Dos por semana y el programa termina grabado sin que lo sientas.' },
-    { id: 'ads', ico: '◎', type: 'toggle', q: 'Revisar los ads: ¿están entrando leads?',
-      hint: 'Si no mirás los números, la publicidad se gasta sola.' },
-    { id: 'convos', ico: '☏', type: 'count', goal: 3, q: 'Conversaciones de venta',
-      hint: 'Publicidad, publicaciones constantes y conversaciones. Las tres, siempre.' }
+    { id: 'planificar', ico: '◈', q: 'Planificar las clases',
+      hint: 'Material, ejemplos y transcripts listos antes de entrar.' },
+    { id: 'ventas', ico: '☏', q: 'Tener conversaciones de venta',
+      hint: 'Sin conversaciones no entra nadie nuevo.' },
+    { id: 'ads', ico: '◎', q: 'Chequear los ads',
+      hint: 'Si no mirás los números, la publicidad se gasta sola.' }
   ];
 
   var PRACTICES = {
@@ -1089,9 +1073,9 @@
 
   // ═══════════════════ ESTADO ═══════════════════
   var DB = {
-    v: 2,
+    v: 3,
     settings: { name: '', brand: 'Breaking Barriers at Work', focusLong: 50, water: 8, walk: 30, trainWeek: 3, friendsWeek: 1, programGoal: 40 },
-    checkins: {}, tasks: [], movements: {}, focus: {}, closes: {},
+    checkins: {}, tasks: [], focus: {}, closes: {},
     care: {}, anx: [], students: [], friends: [], ideas: [],
     routines: { daily: {}, weekly: {} }
   };
@@ -1346,15 +1330,13 @@
       var down = el('button', '', '↓'); down.title = 'Mandar al backlog';
       down.addEventListener('click', function () {
         t.day = null;
-        if (DB.movements[today()] === t.id) delete DB.movements[today()];
-        save(); renderAll();
+          save(); renderAll();
       });
       acts.appendChild(down);
     }
     var del = el('button', '', '×'); del.title = 'Borrar';
     del.addEventListener('click', function () {
       DB.tasks = DB.tasks.filter(function (x) { return x.id !== t.id; });
-      if (DB.movements[today()] === t.id) delete DB.movements[today()];
       save(); renderAll();
     });
     acts.appendChild(del);
@@ -1454,25 +1436,11 @@
       : 'Carga del día: ' + used + ' de ' + lv.capacity + ' · ' + lv.blocks + ' bloques de ' + lv.focus + ' min.';
   }
 
-  function renderMovement() {
-    var box = $('#movementBox');
-    box.innerHTML = '';
-    var t = DB.movements[today()] ? findTask(DB.movements[today()]) : null;
-    if (!t) {
-      var e = el('div', 'empty');
-      e.appendChild(el('span', 'moon', '☾'));
-      e.appendChild(el('div', '', 'Todavía no elegiste. Sin movimiento, el día se llena de urgencias ajenas.'));
-      box.appendChild(e);
-      return;
-    }
-    box.appendChild(renderTask(t, { movement: true }));
-  }
 
   function renderToday() {
     var list = $('#todayList');
     list.innerHTML = '';
-    var mid = DB.movements[today()];
-    var ts = tasksFor(today()).filter(function (t) { return t.id !== mid; });
+    var ts = tasksFor(today());
     ts.sort(function (a, b) {
       if (a.done !== b.done) return a.done ? 1 : -1;
       if (a.needle !== b.needle) return a.needle ? -1 : 1;
@@ -1626,90 +1594,93 @@
     return DB.routines.weekly[k];
   }
 
+  // Las mismas tareas se dibujan en Hoy y en Trabajo: un solo estado, dos vistas.
   function renderDaily() {
     var r = routineDay();
-    var box = $('#dailyList');
-    box.innerHTML = '';
-    DAILY.forEach(function (item) {
-      var done = !!r[item.id];
-      var row = el('div', 'care' + (done ? ' full-done' : ''));
-      var chk = el('button', 'check' + (done ? ' on' : ''), '✓');
-      chk.style.marginTop = '0';
-      if (done) { chk.style.background = 'var(--olive)'; chk.style.borderColor = 'var(--olive)'; chk.style.color = 'var(--cream)'; }
-      else { chk.style.borderColor = 'rgba(232,196,173,.5)'; }
-      chk.addEventListener('click', function () {
-        r[item.id] = done ? 0 : 1;
-        save(); renderTrabajo(); renderTabBadge();
+    [['#dailyList', '#dailyScore', true], ['#dailyListHoy', '#dailyScoreHoy', false]].forEach(function (t) {
+      var box = $(t[0]);
+      if (!box) return;
+      box.innerHTML = '';
+      var dark = t[2];
+      DAILY.forEach(function (item) {
+        var done = !!r[item.id];
+        var row = el('div', 'care' + (done ? ' full-done' : ''));
+        row.appendChild(el('div', 'care-ico', item.ico));
+
+        var body = el('div', 'care-body');
+        var q = el('div', 'care-name', item.q);
+        if (done) q.style.opacity = '.55';
+        body.appendChild(q);
+        body.appendChild(el('div', 'care-sub', item.hint));
+        row.appendChild(body);
+
+        var btn = el('button', 'care-btn' + (done ? ' on' : ''), done ? 'Hecho' : 'Marcar');
+        if (dark && !done) btn.style.borderColor = 'rgba(232,196,173,.4)';
+        btn.addEventListener('click', function () {
+          r[item.id] = done ? 0 : 1;
+          save(); renderTrabajo(); renderTabBadge();
+          if (!done && item.id === 'grabar') toast('Una clase menos para tener el programa grabado.');
+        });
+        row.appendChild(btn);
+        box.appendChild(row);
       });
-      row.appendChild(chk);
-      var body = el('div', 'care-body');
-      var q = el('div', 'care-name', item.q);
-      if (done) q.style.opacity = '.55';
-      body.appendChild(q);
-      body.appendChild(el('div', 'care-sub', item.hint));
-      row.appendChild(body);
-      box.appendChild(row);
+      var n = DAILY.filter(function (i) { return r[i.id]; }).length;
+      var sc = $(t[1]);
+      if (sc) sc.textContent = n + '/' + DAILY.length;
     });
-    var n = DAILY.filter(function (i) { return r[i.id]; }).length;
-    $('#dailyScore').textContent = n + '/' + DAILY.length;
   }
 
-  function renderWeekly() {
-    var w = routineWeek();
-    var box = $('#weeklyList');
-    box.innerHTML = '';
+  // Días de esta semana ya transcurridos (lunes hasta hoy).
+  function weekDaysSoFar() {
+    var out = [], start = fromIso(weekKey()), t = fromIso(today());
+    for (var d = new Date(start); d <= t; d.setDate(d.getDate() + 1)) out.push(iso(d));
+    return out;
+  }
+  function daysDone(id, days) {
+    return days.filter(function (k) { return DB.routines.daily[k] && DB.routines.daily[k][id]; }).length;
+  }
+
+  function renderWeekSummary() {
     var mk = fromIso(weekKey());
     $('#weekLabel').textContent = 'Semana del ' + mk.getDate() + ' de ' + MONTHS[mk.getMonth()];
 
-    WEEKLY.forEach(function (item) {
-      var val = w[item.id] || 0;
-      var done = item.type === 'count' ? val >= item.goal : !!val;
-      var row = el('div', 'care' + (done ? ' full-done' : ''));
-      row.appendChild(el('div', 'care-ico', item.ico));
+    var days = weekDaysSoFar();
+    var box = $('#weekSummary');
+    box.innerHTML = '';
 
-      var body = el('div', 'care-body');
-      body.appendChild(el('div', 'care-name', item.q));
-      body.appendChild(el('div', 'care-sub', item.hint));
-      if (item.type === 'count') {
-        var pips = el('div', 'pips');
-        for (var i = 0; i < Math.max(item.goal, val); i++) {
-          (function (idx) {
-            var pip = el('button', 'pip' + (idx < val ? ' on' : ''));
-            pip.addEventListener('click', function () {
-              w[item.id] = (idx < val) ? idx : idx + 1;
-              save(); renderTrabajo(); renderTabBadge();
-            });
-            pips.appendChild(pip);
-          })(i);
-        }
-        body.appendChild(pips);
-      }
-      row.appendChild(body);
+    DAILY.forEach(function (item) {
+      var n = daysDone(item.id, days);
+      var row = el('div', 'between');
+      row.style.cssText = 'padding:9px 0;border-bottom:1px solid var(--line)';
 
-      if (item.type === 'count') {
-        var add = el('button', 'care-btn' + (done ? ' on' : ''), '+1');
-        add.addEventListener('click', function () {
-          w[item.id] = val + 1;
-          save(); renderTrabajo(); renderTabBadge();
-          if (item.id === 'grabar') toast('Una clase menos para tener el programa grabado.');
-        });
-        row.appendChild(add);
-      } else {
-        var tg = el('button', 'care-btn' + (done ? ' on' : ''), done ? 'Hecho' : 'Marcar');
-        tg.addEventListener('click', function () {
-          w[item.id] = done ? 0 : 1;
-          save(); renderTrabajo(); renderTabBadge();
-        });
-        row.appendChild(tg);
-      }
+      var left = el('div', '', item.q);
+      left.style.cssText = 'font-size:13.5px;flex:1;min-width:0;padding-right:12px';
+      row.appendChild(left);
+
+      var right = el('div', 'row');
+      var meter = el('div');
+      meter.style.cssText = 'width:74px;height:6px;background:rgba(140,107,74,.16);border-radius:4px;overflow:hidden;flex:none';
+      var fill = el('i');
+      fill.style.cssText = 'display:block;height:100%;background:var(--olive);width:' +
+        Math.round(n / days.length * 100) + '%';
+      meter.appendChild(fill);
+      right.appendChild(meter);
+      var cnt = el('span', 'muted', n + '/' + days.length);
+      cnt.style.cssText = 'min-width:34px;text-align:right';
+      right.appendChild(cnt);
+      row.appendChild(right);
       box.appendChild(row);
     });
 
-    var n = WEEKLY.filter(function (item) {
-      var v = w[item.id] || 0;
-      return item.type === 'count' ? v >= item.goal : !!v;
-    }).length;
-    $('#weeklyScore').textContent = n + '/' + WEEKLY.length;
+    var grabadas = daysDone('grabar', days);
+    var p = el('p', 'muted');
+    p.style.cssText = 'margin-top:14px;font-size:12.5px';
+    p.textContent = grabadas >= 2
+      ? 'Grabaste ' + grabadas + ' clases esta semana. Ese es el ritmo que termina el programa.'
+      : (grabadas === 1
+        ? 'Una clase grabada. Con una más, la semana cumple.'
+        : 'Todavía no grabaste ninguna clase esta semana.');
+    box.appendChild(p);
   }
 
   // ── Cobros y continuidad ───────────────────────────────
@@ -1888,6 +1859,8 @@
   // ── Programa grabado ───────────────────────────────────
   function recordedTotal() {
     var n = 0;
+    Object.keys(DB.routines.daily).forEach(function (k) { if (DB.routines.daily[k].grabar) n++; });
+    // Semanas cargadas con el contador anterior siguen sumando.
     Object.keys(DB.routines.weekly).forEach(function (k) { n += DB.routines.weekly[k].grabar || 0; });
     return n;
   }
@@ -1907,9 +1880,15 @@
     // Ritmo real de las últimas cuatro semanas; si todavía no hay, proyectamos a dos.
     var weeks = 0, sum = 0;
     for (var i = 0; i < 4; i++) {
-      var d = new Date(); d.setDate(d.getDate() - i * 7);
-      var w = DB.routines.weekly[weekKey(d)];
-      if (w && w.grabar) { sum += w.grabar; weeks++; }
+      var ref = new Date(); ref.setDate(ref.getDate() - i * 7);
+      var wk = fromIso(weekKey(ref)), n = 0;
+      for (var j = 0; j < 7; j++) {
+        var dd = new Date(wk); dd.setDate(dd.getDate() + j);
+        if (dd > fromIso(today())) break;
+        if (DB.routines.daily[iso(dd)] && DB.routines.daily[iso(dd)].grabar) n++;
+      }
+      n += (DB.routines.weekly[weekKey(ref)] || {}).grabar || 0;
+      if (n) { sum += n; weeks++; }
     }
     var rate = weeks ? (sum / weeks) : 0;
     var falta = goal - rec;
@@ -1975,7 +1954,7 @@
 
   function renderTrabajo() {
     renderDaily();
-    renderWeekly();
+    renderWeekSummary();
     renderMoney();
     renderAlerts();
     renderProgram();
@@ -2001,6 +1980,30 @@
   var TEMPS = ['encendida', 'tibia', 'silencio'];
   var TEMP_LABEL = { encendida: 'Encendida', tibia: 'Tibia', silencio: 'En silencio' };
 
+  // El mes del programa se deduce de la fecha de inicio: no hay nada que
+  // actualizar a mano cada treinta días.
+  function programMonth(s) {
+    if (!s.startDate) return null;
+    var st = fromIso(s.startDate), now = fromIso(today());
+    if (now < st) return 0;
+    var m = (now.getFullYear() - st.getFullYear()) * 12 + (now.getMonth() - st.getMonth());
+    if (now.getDate() < st.getDate()) m--;
+    return m + 1;
+  }
+  function programLength(s) {
+    if (!s.startDate || !s.endDate) return null;
+    var st = fromIso(s.startDate), en = fromIso(s.endDate);
+    var m = (en.getFullYear() - st.getFullYear()) * 12 + (en.getMonth() - st.getMonth());
+    return Math.max(1, m);
+  }
+  function programLabel(s) {
+    var m = programMonth(s);
+    if (m === null) return 'Sin fecha de inicio';
+    if (m === 0) return 'Empieza el ' + fromIso(s.startDate).getDate() + ' de ' + MONTHS[fromIso(s.startDate).getMonth()];
+    var total = programLength(s);
+    return 'Mes ' + m + (total ? ' de ' + total : '');
+  }
+
   var sDraft = { id: null, modalidad: 'grupal' };
   function findStudent(id) {
     for (var i = 0; i < DB.students.length; i++) if (DB.students[i].id === id) return DB.students[i];
@@ -2010,18 +2013,29 @@
     $('#sMod11').classList.toggle('on', sDraft.modalidad === '1:1');
     $('#sModGr').classList.toggle('on', sDraft.modalidad === 'grupal');
   }
+  function paintMonthCalc() {
+    var st = $('#sStart').value, en = $('#sEnd').value;
+    var box = $('#sMonthCalc');
+    if (!st) {
+      box.textContent = 'Con la fecha de inicio, la app calcula sola en qué mes del programa está. No lo tenés que actualizar nunca.';
+      return;
+    }
+    box.textContent = 'Hoy está en ' + programLabel({ startDate: st, endDate: en || null }).toLowerCase() + '.';
+  }
+
   function openStudent(id) {
     var s = id ? findStudent(id) : null;
     sDraft = { id: s ? s.id : null, modalidad: (s && s.modalidad) || 'grupal' };
     $('#sName').value = s ? s.name : '';
     $('#sRole').value = s ? (s.role || '') : '';
     $('#sCohort').value = s ? (s.cohort || '') : '';
-    $('#sMonth').value = s ? (s.month || '1') : '1';
+    $('#sStart').value = s && s.startDate ? s.startDate : '';
     $('#sFee').value = s && s.fee != null ? s.fee : '';
     $('#sBillDay').value = s && s.billDay != null ? s.billDay : '';
     $('#sEnd').value = s && s.endDate ? s.endDate : '';
     $('#sPayLink').value = s ? (s.payLink || '') : '';
     $('#studentModalTitle').textContent = s ? 'Editar a ' + s.name : 'Sumar una alumna';
+    paintMonthCalc();
     paintStudentChips();
     openModal('#mStudent');
     if (!s) setTimeout(function () { $('#sName').focus(); }, 120);
@@ -2115,7 +2129,7 @@
       var meta = el('div', 't-meta');
       if (s.modalidad === '1:1') meta.appendChild(el('span', 'pill needle', '1:1'));
       if (s.role) meta.appendChild(el('span', 'pill', s.role));
-      meta.appendChild(el('span', 'pill', 'Mes ' + s.month));
+      meta.appendChild(el('span', 'pill', programLabel(s)));
       if (s.cohort) meta.appendChild(el('span', 'pill', s.cohort));
       if (!s.billDay && !s.endDate) meta.appendChild(el('span', 'pill w-pesado', 'Sin fechas'));
       body.appendChild(meta);
@@ -2153,7 +2167,7 @@
     }
     var counts = [0, 0, 0, 0, 0];
     DB.students.forEach(function (s) {
-      var m = parseInt(s.month, 10);
+      var m = programMonth(s);
       if (m >= 1 && m <= 5) counts[m - 1]++;
     });
     var max = Math.max.apply(null, counts) || 1;
@@ -2595,33 +2609,6 @@
     setTimeout(function () { $('#tTitle').focus(); }, 120);
   }
 
-  function openMovementPicker() {
-    var box = $('#movePickList');
-    box.innerHTML = '';
-    var cands = DB.tasks.filter(function (t) { return !t.done && (t.day === today() || !t.day); });
-    cands.sort(function (a, b) { return (b.needle ? 1 : 0) - (a.needle ? 1 : 0); });
-    if (!cands.length) box.appendChild(el('p', 'muted', 'No hay tareas todavía. Creá una primero.'));
-    cands.forEach(function (t) {
-      var row = el('button', 'task');
-      row.style.cssText = 'width:100%;text-align:left';
-      var body = el('div', 't-body');
-      body.appendChild(el('div', 't-title', t.title));
-      var meta = el('div', 't-meta');
-      if (t.needle) meta.appendChild(el('span', 'pill needle', 'Mueve la aguja'));
-      meta.appendChild(el('span', 'pill', areaLabel(t.area)));
-      meta.appendChild(el('span', 'pill w-' + t.weight, weightLabel(t.weight)));
-      body.appendChild(meta);
-      row.appendChild(body);
-      row.addEventListener('click', function () {
-        t.day = today();
-        DB.movements[today()] = t.id;
-        save(); closeModal('#mMovement'); renderAll();
-        toast('Movimiento del día fijado.');
-      });
-      box.appendChild(row);
-    });
-    openModal('#mMovement');
-  }
 
   function openPractice(key) {
     var p = PRACTICES[key];
@@ -2649,7 +2636,6 @@
     renderHeader();
     renderCheckin();
     renderCare();
-    renderMovement();
     renderToday();
     renderCloses();
     renderTools();
@@ -2759,7 +2745,6 @@
     $('#btnSosSave').addEventListener('click', saveSos);
 
     // Movimiento / tareas
-    $('#btnPickMovement').addEventListener('click', openMovementPicker);
     $('#btnAddToday').addEventListener('click', function () { openTaskModal(true); });
     $('#btnAddTask').addEventListener('click', function () { openTaskModal(false); });
     $('#tNeedleYes').addEventListener('click', function () { tDraft.needle = true; paintTaskChips(); });
@@ -2841,6 +2826,8 @@
       save(); closeModal('#mFriend'); renderFriends(); toast('Sumada.');
     });
     $('#btnAddStudent').addEventListener('click', function () { openStudent(null); });
+    $('#sStart').addEventListener('change', paintMonthCalc);
+    $('#sEnd').addEventListener('change', paintMonthCalc);
     $('#sMod11').addEventListener('click', function () { sDraft.modalidad = '1:1'; paintStudentChips(); });
     $('#sModGr').addEventListener('click', function () { sDraft.modalidad = 'grupal'; paintStudentChips(); });
     $('#btnSaveStudent').addEventListener('click', function () {
@@ -2855,7 +2842,7 @@
       s.name = n;
       s.role = $('#sRole').value.trim();
       s.cohort = $('#sCohort').value.trim();
-      s.month = $('#sMonth').value;
+      s.startDate = $('#sStart').value || null;
       s.modalidad = sDraft.modalidad;
       s.fee = num('#sFee');
       s.billDay = num('#sBillDay');
@@ -2973,23 +2960,9 @@
     });
   }
 
-  // ═══════════════════ SEED ═══════════════════
-  function seedIfEmpty() {
-    if (DB.tasks.length || DB.students.length) return;
-    var b = Date.now();
-    DB.tasks = [
-      { id: uid(), title: 'Revisar transcripts de la clase del martes y marcar errores fosilizados', area: 'clases', weight: 'medio', needle: false, done: false, day: null, created: b },
-      { id: uid(), title: 'Grabar el módulo de Color Method para Skool', area: 'metodo', weight: 'pesado', needle: true, done: false, day: null, created: b - 1 },
-      { id: uid(), title: 'Seguimiento a los 3 leads que pidieron info la semana pasada', area: 'ventas', weight: 'medio', needle: true, done: false, day: null, created: b - 2 },
-      { id: uid(), title: 'Post sobre el Visibility Gap para LinkedIn', area: 'contenido', weight: 'ligero', needle: false, done: false, day: null, created: b - 3 },
-      { id: uid(), title: 'Facturas del mes', area: 'admin', weight: 'ligero', needle: false, done: false, day: null, created: b - 4 }
-    ];
-    save();
-  }
 
   // ═══════════════════ INIT ═══════════════════
   load();
-  seedIfEmpty();
   bind();
   resetTimer();
   renderAll();
