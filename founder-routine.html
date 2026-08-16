@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Founder ☾ Routine · She Breaks Limits</title>
-<meta name="description" content="Tu negocio y tu energía en la misma pantalla. Rutina diaria, tareas y radar de alumnas para Breaking Barriers at Work.">
+<meta name="description" content="Check-in diario de regulación emocional y productividad. Tu app de CEO: respirar, moverte, comer, ver gente y llevar tu negocio sin que te cueste la calma.">
 <meta name="theme-color" content="#2C1F0E">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -29,7 +29,6 @@
     --line: rgba(140,107,74,0.22);
     --card: #FFFDF6;
     --danger: #A4462F;
-    --ok: #6B6F4C;
     --shadow: 0 1px 2px rgba(44,31,14,0.05), 0 6px 20px rgba(44,31,14,0.05);
   }
 
@@ -39,63 +38,59 @@
     font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     background: var(--cream);
     color: var(--text-dark);
-    font-size: 15px;
-    line-height: 1.6;
+    font-size: 15px; line-height: 1.6;
     -webkit-font-smoothing: antialiased;
-    padding-bottom: env(safe-area-inset-bottom);
   }
 
   h1, h2, h3, h4 { font-family: 'Crimson Pro', Georgia, 'Times New Roman', serif; line-height: 1.15; font-weight: 600; }
-
   button, input, select, textarea { font-family: inherit; font-size: inherit; color: inherit; }
   button { cursor: pointer; border: none; background: none; }
 
-  /* ─────────── LAYOUT ─────────── */
-  .app { max-width: 720px; margin: 0 auto; padding: 0 18px 110px; }
+  .app { max-width: 720px; margin: 0 auto; padding: 0 18px 120px; }
 
-  header.top {
-    background: var(--text-dark);
-    color: var(--cream);
-    padding: calc(18px + env(safe-area-inset-top)) 18px 18px;
-    position: sticky; top: 0; z-index: 60;
-  }
+  /* ─────────── HEADER ─────────── */
+  header.top { background: var(--text-dark); color: var(--cream); padding: calc(16px + env(safe-area-inset-top)) 18px 16px; position: sticky; top: 0; z-index: 60; }
   .top-inner { max-width: 720px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 14px; }
-  .brand { font-family: 'Crimson Pro', Georgia, serif; font-size: 17px; letter-spacing: .02em; }
+  .brand { font-family: 'Crimson Pro', Georgia, serif; font-size: 17px; }
   .brand .moon { color: var(--terracota); }
   .brand small { display: block; font-family: 'Open Sans', sans-serif; font-size: 9.5px; letter-spacing: .22em; text-transform: uppercase; color: var(--terracota); margin-top: 3px; }
   .top-right { display: flex; align-items: center; gap: 10px; }
-  .datechip { font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: rgba(255,248,231,.6); text-align: right; }
+  .datechip { font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: rgba(255,248,231,.6); text-align: right; line-height: 1.35; }
   .iconbtn { color: var(--terracota); border: 1px solid rgba(198,140,108,.5); width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; font-size: 14px; flex: none; }
   .iconbtn:hover { background: rgba(198,140,108,.15); }
 
   /* ─────────── TABS ─────────── */
-  nav.tabs {
-    position: fixed; bottom: 0; left: 0; right: 0; z-index: 70;
-    background: var(--text-dark);
-    padding-bottom: env(safe-area-inset-bottom);
-    border-top: 1px solid rgba(198,140,108,.25);
-  }
+  nav.tabs { position: fixed; bottom: 0; left: 0; right: 0; z-index: 70; background: var(--text-dark); padding-bottom: env(safe-area-inset-bottom); border-top: 1px solid rgba(198,140,108,.25); }
   .tabs-inner { max-width: 720px; margin: 0 auto; display: grid; grid-template-columns: repeat(5, 1fr); }
-  .tab { padding: 10px 4px 12px; text-align: center; color: rgba(255,248,231,.45); font-size: 9.5px; letter-spacing: .1em; text-transform: uppercase; font-weight: 600; transition: color .18s; }
+  .tab { padding: 10px 4px 12px; text-align: center; color: rgba(255,248,231,.45); font-size: 9.5px; letter-spacing: .09em; text-transform: uppercase; font-weight: 600; transition: color .18s; }
   .tab .tico { display: block; font-size: 16px; margin-bottom: 3px; line-height: 1; }
   .tab.on { color: var(--terracota); }
 
-  .view { display: none; padding-top: 22px; }
+  .view { display: none; padding-top: 20px; }
   .view.on { display: block; animation: fade .22s ease; }
   @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+  /* ─────────── SOS ─────────── */
+  .sos {
+    position: fixed; right: 16px; bottom: calc(74px + env(safe-area-inset-bottom)); z-index: 80;
+    background: var(--danger); color: var(--cream); border-radius: 100px;
+    padding: 12px 18px; font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+    box-shadow: 0 4px 18px rgba(164,70,47,.4);
+  }
+  .sos:active { transform: scale(.97); }
 
   /* ─────────── PRIMITIVES ─────────── */
   .overline { font-size: 10px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--terracota); display: block; margin-bottom: 8px; }
   .card { background: var(--card); border: 1px solid var(--line); border-radius: 3px; padding: 20px; margin-bottom: 14px; box-shadow: var(--shadow); }
   .card.dark { background: var(--text-dark); color: var(--cream); border-color: var(--text-dark); }
-  .card.dark .overline { color: var(--terracota); }
+  .card.dark .muted { color: rgba(255,248,231,.62); }
   .card h2 { font-size: 24px; margin-bottom: 6px; }
   .card h3 { font-size: 18px; margin-bottom: 4px; }
   .muted { color: var(--text-soft); font-size: 13px; }
-  .card.dark .muted { color: rgba(255,248,231,.6); }
   .row { display: flex; align-items: center; gap: 10px; }
   .between { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
   .sep { height: 1px; background: var(--line); margin: 16px 0; }
+  .card.dark .sep { background: rgba(232,196,173,.2); }
   .stack > * + * { margin-top: 10px; }
 
   .btn { display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; padding: 13px 24px; border-radius: 2px; transition: background .18s, color .18s, transform .12s; text-align: center; }
@@ -112,38 +107,52 @@
   .full { width: 100%; display: block; }
 
   label.f { display: block; font-size: 10px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--text-soft); margin-bottom: 6px; }
-  input[type=text], input[type=number], input[type=date], select, textarea {
-    width: 100%; padding: 11px 12px; background: var(--cream); border: 1px solid var(--line); border-radius: 2px; outline: none;
-  }
+  input[type=text], input[type=number], select, textarea { width: 100%; padding: 11px 12px; background: var(--cream); border: 1px solid var(--line); border-radius: 2px; outline: none; }
   input:focus, select:focus, textarea:focus { border-color: var(--terracota); background: #fff; }
-  textarea { resize: vertical; min-height: 62px; line-height: 1.5; }
+  textarea { resize: vertical; min-height: 60px; line-height: 1.5; }
   .field + .field { margin-top: 12px; }
   .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
-  /* ─────────── SCALE PICKER ─────────── */
   .scale { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-top: 4px; }
   .scale button { border: 1px solid var(--line); background: var(--cream); padding: 12px 2px 9px; border-radius: 2px; font-size: 17px; line-height: 1; transition: all .15s; }
-  .scale button span { display: block; font-size: 8.5px; letter-spacing: .05em; text-transform: uppercase; color: var(--text-soft); margin-top: 6px; font-weight: 600; }
+  .scale button span { display: block; font-size: 8.5px; letter-spacing: .04em; text-transform: uppercase; color: var(--text-soft); margin-top: 6px; font-weight: 600; }
   .scale button.on { background: var(--text-dark); border-color: var(--text-dark); color: var(--cream); }
   .scale button.on span { color: var(--terracota); }
-  .qblock + .qblock { margin-top: 20px; }
+  .qblock + .qblock { margin-top: 18px; }
   .qblock p.q { font-size: 15px; font-weight: 600; margin-bottom: 2px; }
 
-  /* ─────────── DAY LEVEL ─────────── */
-  .level-chip { display: inline-flex; align-items: center; gap: 7px; font-size: 10.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; padding: 6px 12px; border-radius: 100px; }
-  .lv-cuidado { background: rgba(164,70,47,.14); color: var(--danger); }
-  .lv-estandar { background: rgba(198,140,108,.2); color: var(--brown); }
-  .lv-fuerte { background: rgba(107,111,76,.18); color: var(--olive); }
-  .card.dark .lv-cuidado { background: rgba(232,196,173,.16); color: var(--terracota-light); }
-  .card.dark .lv-estandar { background: rgba(232,196,173,.16); color: var(--terracota-light); }
-  .card.dark .lv-fuerte { background: rgba(168,172,138,.2); color: var(--olive-light); }
+  .chips { display: flex; flex-wrap: wrap; gap: 7px; }
+  .chip { font-size: 11.5px; font-weight: 600; padding: 8px 13px; border: 1px solid var(--line); border-radius: 100px; background: var(--cream); transition: all .15s; }
+  .chip.on { background: var(--text-dark); color: var(--cream); border-color: var(--text-dark); }
+  .card.dark .chip { background: transparent; border-color: rgba(232,196,173,.35); color: var(--cream); }
+  .card.dark .chip.on { background: var(--terracota); border-color: var(--terracota); color: var(--text-dark); }
 
-  .capacity { display: flex; gap: 4px; margin-top: 12px; }
-  .cap-dot { height: 5px; flex: 1; background: rgba(140,107,74,.18); border-radius: 3px; }
+  /* ─────────── NIVEL ─────────── */
+  .level-chip { display: inline-flex; align-items: center; gap: 7px; font-size: 10.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; padding: 6px 12px; border-radius: 100px; }
+  .lv-cuidado { background: rgba(232,196,173,.18); color: var(--terracota-light); }
+  .lv-estandar { background: rgba(232,196,173,.18); color: var(--terracota-light); }
+  .lv-fuerte { background: rgba(168,172,138,.22); color: var(--olive-light); }
+  .capacity { display: flex; gap: 4px; margin-top: 14px; }
+  .cap-dot { height: 5px; flex: 1; background: rgba(232,196,173,.22); border-radius: 3px; }
   .cap-dot.fill { background: var(--terracota); }
   .cap-dot.over { background: var(--danger); }
 
-  /* ─────────── TASKS ─────────── */
+  /* ─────────── CUIDADOS ─────────── */
+  .care { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+  .care:last-child { border-bottom: none; }
+  .care-ico { width: 34px; height: 34px; border-radius: 50%; background: var(--cream-dark); display: grid; place-items: center; font-size: 15px; flex: none; }
+  .care.full-done .care-ico { background: var(--olive); color: var(--cream); }
+  .care-body { flex: 1; min-width: 0; }
+  .care-name { font-size: 14.5px; font-weight: 600; }
+  .care-sub { font-size: 11.5px; color: var(--text-soft); margin-top: 1px; }
+  .pips { display: flex; gap: 3px; margin-top: 7px; flex-wrap: wrap; }
+  .pip { width: 15px; height: 15px; border-radius: 50%; border: 1.5px solid var(--line); background: transparent; padding: 0; }
+  .pip.on { background: var(--terracota); border-color: var(--terracota); }
+  .care-btn { border: 1px solid var(--line); border-radius: 100px; padding: 8px 14px; font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--text-soft); flex: none; }
+  .care-btn.on { background: var(--olive); border-color: var(--olive); color: var(--cream); }
+  .care-count { font-family: 'Crimson Pro', Georgia, serif; font-size: 22px; flex: none; min-width: 34px; text-align: right; }
+
+  /* ─────────── TAREAS ─────────── */
   .task { display: flex; gap: 12px; align-items: flex-start; padding: 13px 0; border-bottom: 1px solid var(--line); }
   .task:last-child { border-bottom: none; }
   .check { width: 20px; height: 20px; border: 1.5px solid var(--text-soft); border-radius: 50%; flex: none; margin-top: 2px; display: grid; place-items: center; font-size: 11px; color: transparent; transition: all .15s; }
@@ -161,72 +170,86 @@
   .t-actions { display: flex; gap: 8px; flex: none; }
   .t-actions button { font-size: 13px; color: var(--text-soft); padding: 2px 4px; }
   .t-actions button:hover { color: var(--brown); }
-
   .movement { border-left: 3px solid var(--terracota); padding-left: 14px; }
-  .empty { text-align: center; padding: 26px 10px; color: var(--text-soft); font-size: 13.5px; }
+  .empty { text-align: center; padding: 24px 10px; color: var(--text-soft); font-size: 13.5px; }
   .empty .moon { font-size: 26px; display: block; margin-bottom: 8px; color: var(--terracota); }
 
-  /* ─────────── FOCUS TIMER ─────────── */
+  /* ─────────── TIMER ─────────── */
   .timer { text-align: center; padding: 8px 0 4px; }
-  .timer .clock { font-family: 'Crimson Pro', Georgia, serif; font-size: 62px; line-height: 1; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
-  .timer .phase { font-size: 10px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--terracota); margin-bottom: 10px; }
+  .timer .clock { font-family: 'Crimson Pro', Georgia, serif; font-size: 60px; line-height: 1; font-variant-numeric: tabular-nums; }
+  .timer .phase { font-size: 10px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--terracota); margin-bottom: 8px; }
   .ring { height: 4px; background: rgba(255,248,231,.18); border-radius: 3px; margin: 16px 0 18px; overflow: hidden; }
   .ring i { display: block; height: 100%; background: var(--terracota); width: 0; transition: width .5s linear; }
 
-  /* ─────────── STUDENTS ─────────── */
+  /* ─────────── RESPIRACIÓN ─────────── */
+  .breath-stage { text-align: center; padding: 20px 0 8px; }
+  .breath-circle {
+    width: 168px; height: 168px; border-radius: 50%; margin: 0 auto;
+    background: radial-gradient(circle at 40% 35%, rgba(232,196,173,.5), rgba(198,140,108,.22) 62%, transparent 72%);
+    border: 1.5px solid rgba(232,196,173,.55);
+    display: grid; place-items: center;
+    transform: scale(.62);
+    transition: transform 1s cubic-bezier(.4,0,.5,1);
+  }
+  .breath-word { font-family: 'Crimson Pro', Georgia, serif; font-size: 24px; color: var(--cream); }
+  .breath-count { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--terracota); margin-top: 16px; }
+
+  /* ─────────── GENTE ─────────── */
   .stu { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--line); }
   .stu:last-child { border-bottom: none; }
-  .dot { width: 9px; height: 9px; border-radius: 50%; flex: none; display: inline-block; padding: 0; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; flex: none; display: inline-block; padding: 0; border: none; }
   .d-encendida { background: var(--olive); }
   .d-tibia { background: var(--terracota); }
   .d-silencio { background: var(--danger); }
   .stu-body { flex: 1; min-width: 0; }
   .stu-name { font-size: 14.5px; font-weight: 600; }
-  .cycle { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; font-weight: 700; color: var(--text-soft); border: 1px solid var(--line); padding: 5px 9px; border-radius: 100px; }
+  .cycle { font-size: 10px; letter-spacing: .09em; text-transform: uppercase; font-weight: 700; color: var(--text-soft); border: 1px solid var(--line); padding: 6px 10px; border-radius: 100px; }
+  .cycle.warm { border-color: var(--terracota); color: var(--brown); }
+  .legend { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 10px; font-size: 11px; color: var(--text-soft); }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
 
-  /* ─────────── PROGRESS ─────────── */
-  .bars { display: flex; align-items: flex-end; gap: 3px; height: 90px; margin-top: 6px; }
+  /* ─────────── PROGRESO ─────────── */
+  .bars { display: flex; align-items: flex-end; gap: 3px; height: 84px; margin-top: 6px; }
   .bars .b { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; height: 100%; }
   .bars .b i { display: block; border-radius: 2px 2px 0 0; background: var(--terracota); min-height: 2px; }
   .bars.olive .b i { background: var(--olive-light); }
+  .bars.danger .b i { background: #C97B62; }
   .bars .b.empty-b i { background: rgba(140,107,74,.14); }
-  .axis { display: flex; justify-content: space-between; font-size: 9.5px; color: var(--text-soft); margin-top: 6px; letter-spacing: .05em; }
+  .axis { display: flex; justify-content: space-between; font-size: 9.5px; color: var(--text-soft); margin-top: 6px; }
   .kpis { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
   .kpi { border: 1px solid var(--line); border-radius: 3px; padding: 14px; background: var(--card); }
   .kpi .n { font-family: 'Crimson Pro', Georgia, serif; font-size: 30px; line-height: 1; }
-  .kpi .l { font-size: 9.5px; letter-spacing: .13em; text-transform: uppercase; color: var(--text-soft); margin-top: 6px; font-weight: 600; }
+  .kpi .l { font-size: 9.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-soft); margin-top: 6px; font-weight: 600; }
   .meter { height: 6px; background: rgba(140,107,74,.16); border-radius: 4px; overflow: hidden; margin-top: 10px; }
   .meter i { display: block; height: 100%; background: var(--olive); }
-  .legend { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 12px; font-size: 11px; color: var(--text-soft); }
-  .legend span { display: inline-flex; align-items: center; gap: 6px; }
 
   /* ─────────── MODAL ─────────── */
   .modal { position: fixed; inset: 0; z-index: 100; display: none; }
   .modal.on { display: block; }
-  .scrim { position: absolute; inset: 0; background: rgba(44,31,14,.55); }
-  .sheet {
-    position: absolute; left: 0; right: 0; bottom: 0; max-height: 92vh; overflow-y: auto;
-    background: var(--cream); border-radius: 6px 6px 0 0; padding: 24px 20px calc(28px + env(safe-area-inset-bottom));
-    max-width: 720px; margin: 0 auto; animation: up .25s cubic-bezier(.2,.8,.3,1);
-  }
+  .scrim { position: absolute; inset: 0; background: rgba(44,31,14,.6); }
+  .sheet { position: absolute; left: 0; right: 0; bottom: 0; max-height: 93vh; overflow-y: auto; background: var(--cream); border-radius: 6px 6px 0 0; padding: 24px 20px calc(28px + env(safe-area-inset-bottom)); max-width: 720px; margin: 0 auto; animation: up .25s cubic-bezier(.2,.8,.3,1); }
+  .sheet.night { background: var(--text-dark); color: var(--cream); }
+  .sheet.night .muted { color: rgba(255,248,231,.62); }
+  .sheet.night .sep { background: rgba(232,196,173,.2); }
+  .sheet.night .sheet-close { color: rgba(255,248,231,.5); }
   @keyframes up { from { transform: translateY(24px); opacity: .6; } to { transform: none; opacity: 1; } }
   .sheet h2 { font-size: 26px; margin-bottom: 4px; }
-  .sheet-close { position: absolute; top: 16px; right: 18px; font-size: 20px; color: var(--text-soft); line-height: 1; }
+  .sheet-close { position: absolute; top: 16px; right: 18px; font-size: 22px; color: var(--text-soft); line-height: 1; z-index: 2; }
 
-  .toast { position: fixed; left: 50%; transform: translateX(-50%) translateY(20px); bottom: 88px; background: var(--text-dark); color: var(--cream); font-size: 12.5px; padding: 11px 20px; border-radius: 100px; z-index: 200; opacity: 0; pointer-events: none; transition: opacity .25s, transform .25s; }
+  .toast { position: fixed; left: 50%; transform: translateX(-50%) translateY(20px); bottom: 130px; background: var(--text-dark); color: var(--cream); font-size: 12.5px; padding: 11px 20px; border-radius: 100px; z-index: 200; opacity: 0; pointer-events: none; transition: opacity .25s, transform .25s; max-width: 90vw; text-align: center; }
   .toast.on { opacity: 1; transform: translateX(-50%) translateY(0); }
-
-  .chips { display: flex; flex-wrap: wrap; gap: 7px; }
-  .chip { font-size: 11px; font-weight: 600; letter-spacing: .04em; padding: 8px 13px; border: 1px solid var(--line); border-radius: 100px; background: var(--cream); transition: all .15s; }
-  .chip.on { background: var(--text-dark); color: var(--cream); border-color: var(--text-dark); }
 
   .note { font-size: 12.5px; color: var(--text-soft); line-height: 1.55; }
   .quote { font-family: 'Crimson Pro', Georgia, serif; font-style: italic; font-size: 19px; line-height: 1.45; }
+  .insight { padding-left: 14px; border-left: 2px solid var(--terracota); font-size: 12.5px; color: var(--text-soft); line-height: 1.55; }
+  .tool { display: block; width: 100%; text-align: left; border: 1px solid var(--line); border-radius: 3px; padding: 14px 16px; background: transparent; transition: all .15s; }
+  .sheet.night .tool { border-color: rgba(232,196,173,.28); }
+  .tool:hover { border-color: var(--terracota); background: rgba(198,140,108,.1); }
+  .tool .tn { font-size: 15px; font-weight: 600; }
+  .tool .td { font-size: 12px; color: var(--text-soft); margin-top: 3px; }
+  .sheet.night .tool .td { color: rgba(255,248,231,.55); }
 
-  @media (min-width: 620px) {
-    .kpis { grid-template-columns: repeat(4, 1fr); }
-    .card { padding: 24px; }
-  }
+  @media (min-width: 620px) { .kpis { grid-template-columns: repeat(4, 1fr); } .card { padding: 24px; } }
 </style>
 </head>
 <body>
@@ -248,12 +271,11 @@
   <!-- ═══════════ HOY ═══════════ -->
   <section class="view on" id="v-hoy">
 
-    <!-- Check-in -->
     <div class="card dark" id="checkinCard">
-      <span class="overline">Check-in de 20 segundos</span>
+      <span class="overline">Check-in de 30 segundos</span>
       <h2 id="hiTitle">Buenos días.</h2>
-      <p class="muted" id="hiSub">Marcá cómo llegás. El día se arma solo, según eso.</p>
-      <div class="sep" style="background:rgba(232,196,173,.2)"></div>
+      <p class="muted" id="hiSub">Marcá cómo llegás. El día se arma según eso, no según lo que "deberías" poder.</p>
+      <div class="sep"></div>
       <div id="checkinForm">
         <div class="qblock">
           <p class="q">¿Cómo dormiste?</p>
@@ -286,7 +308,22 @@
           </div>
         </div>
         <div class="qblock">
-          <p class="q">¿Hoy das clase o tenés call?</p>
+          <p class="q">¿Cuánta ansiedad traés?</p>
+          <div class="scale" data-k="anx">
+            <button data-v="1">○<span>Nada</span></button>
+            <button data-v="2">◔<span>Poca</span></button>
+            <button data-v="3">◑<span>Media</span></button>
+            <button data-v="4">◕<span>Alta</span></button>
+            <button data-v="5">●<span>Mucha</span></button>
+          </div>
+        </div>
+        <div class="qblock">
+          <p class="q">Ponele nombre</p>
+          <p class="muted" style="margin-bottom:8px">Nombrar lo que sentís ya baja la intensidad. No hace falta que sea lindo.</p>
+          <div class="chips" id="moodChips"></div>
+        </div>
+        <div class="qblock">
+          <p class="q">¿Hoy exponés? (clase, call, grabación)</p>
           <div class="chips" style="margin-top:8px">
             <button class="chip" id="chipClass">Sí, hoy expongo</button>
             <button class="chip" id="chipNoClass">No, día de taller</button>
@@ -294,32 +331,48 @@
         </div>
         <button class="btn btn-terra full" id="btnSaveCheckin" style="margin-top:22px">Armar mi día</button>
       </div>
+
       <div id="checkinResult" style="display:none">
-        <div class="between" style="align-items:flex-start">
-          <div>
-            <div class="level-chip" id="lvChip">—</div>
-            <h3 style="margin-top:12px;font-size:21px" id="lvTitle">—</h3>
-            <p class="muted" id="lvText">—</p>
-          </div>
-        </div>
+        <div class="level-chip" id="lvChip">—</div>
+        <h3 style="margin-top:12px;font-size:21px" id="lvTitle">—</h3>
+        <p class="muted" id="lvText">—</p>
         <div class="capacity" id="capBar"></div>
         <p class="muted" style="margin-top:8px;font-size:12px" id="capText">—</p>
-        <button class="btn-ghost" id="btnRedoCheckin" style="color:var(--terracota);margin-top:12px">↻ Rehacer check-in</button>
+        <div class="sep"></div>
+        <p class="overline" style="margin-bottom:6px">Lo primero de hoy</p>
+        <p id="lvFirst" style="font-size:14.5px">—</p>
+        <button class="btn-ghost" id="btnRedoCheckin" style="color:var(--terracota);margin-top:14px">↻ Rehacer check-in</button>
       </div>
     </div>
 
-    <!-- Movimiento del día -->
-    <div class="card" id="movementCard">
+    <!-- Cuidados -->
+    <div class="card">
+      <div class="between" style="margin-bottom:4px">
+        <div>
+          <span class="overline">Lo que te sostiene</span>
+          <h3>Cuidados de hoy</h3>
+        </div>
+        <div style="text-align:right">
+          <div style="font-family:'Crimson Pro',Georgia,serif;font-size:26px;line-height:1" id="careScore">0/6</div>
+        </div>
+      </div>
+      <p class="muted" style="margin-bottom:10px;font-size:12.5px">Sin rachas. Un día flojo no borra nada — solo te muestra qué necesitás mañana.</p>
+      <div id="careList"></div>
+      <p class="muted" style="margin-top:12px;font-size:12px" id="careNudge">—</p>
+    </div>
+
+    <!-- Movimiento -->
+    <div class="card">
       <span class="overline">La regla de uno</span>
-      <div class="between" style="margin-bottom:10px">
+      <div class="between" style="margin-bottom:8px">
         <h3>Movimiento del día</h3>
         <button class="btn-ghost" id="btnPickMovement">Elegir</button>
       </div>
-      <p class="muted" style="margin-bottom:12px;font-size:12.5px">La única tarea que, si se hace, mueve el negocio. Lo demás es mantenimiento.</p>
+      <p class="muted" style="margin-bottom:10px;font-size:12.5px">La única tarea que, si se hace, mueve el negocio. Lo demás es mantenimiento.</p>
       <div id="movementBox"></div>
     </div>
 
-    <!-- Tareas de hoy -->
+    <!-- Tareas -->
     <div class="card">
       <div class="between" style="margin-bottom:6px">
         <h3>Tu día</h3>
@@ -343,56 +396,105 @@
       <p class="muted" style="margin-top:12px;font-size:12px" id="fNote">—</p>
     </div>
 
-    <!-- Prácticas -->
-    <div class="card">
-      <span class="overline">Liderarte para liderar</span>
-      <h3 style="margin-bottom:10px">Prácticas de 2 minutos</h3>
-      <div class="chips">
-        <button class="chip" data-practice="ancla">☾ Ancla pre-clase</button>
-        <button class="chip" data-practice="descarga">✦ Descarga post-clase</button>
-        <button class="chip" data-practice="reset">◈ Reset entre bloques</button>
-        <button class="chip" data-practice="voz">✧ Rep en inglés</button>
-      </div>
-    </div>
-
     <!-- Cierre -->
     <div class="card">
       <span class="overline">Cierre del día</span>
       <h3 style="margin-bottom:12px">Antes de apagar</h3>
-      <div class="field">
-        <label class="f">¿Qué moviste hoy?</label>
-        <textarea id="cl1" placeholder="Aunque sea una sola cosa."></textarea>
+      <div class="qblock" style="margin-bottom:16px">
+        <p class="q">¿Cuánto disfrutaste hoy?</p>
+        <p class="muted" style="margin-bottom:6px;font-size:12.5px">Productiva y miserable no cuenta como buen día.</p>
+        <div class="scale" data-k="enjoy">
+          <button data-v="1">▁<span>Nada</span></button>
+          <button data-v="2">▃<span>Poco</span></button>
+          <button data-v="3">▅<span>Algo</span></button>
+          <button data-v="4">▆<span>Bastante</span></button>
+          <button data-v="5">█<span>Mucho</span></button>
+        </div>
       </div>
-      <div class="field">
-        <label class="f">¿Qué aprendiste de una alumna?</label>
-        <textarea id="cl2" placeholder="Una frase, una objeción, un bloqueo. Esto es material."></textarea>
-      </div>
-      <div class="field">
-        <label class="f">¿Qué soltás hasta mañana?</label>
-        <textarea id="cl3" placeholder="Escribirlo lo saca de tu cabeza."></textarea>
-      </div>
-      <div class="field">
-        <label class="f">El movimiento de mañana</label>
-        <input type="text" id="cl4" placeholder="Decidilo hoy, no mañana a las 9am.">
-      </div>
+      <div class="field"><label class="f">Un momento que disfrutaste</label><input type="text" id="cl0" placeholder="Chiquito vale. El café al sol vale."></div>
+      <div class="field"><label class="f">¿Qué moviste hoy?</label><textarea id="cl1" placeholder="Aunque sea una sola cosa."></textarea></div>
+      <div class="field"><label class="f">¿Qué aprendiste de una alumna?</label><textarea id="cl2" placeholder="Una frase, una objeción, un bloqueo. Esto es material."></textarea></div>
+      <div class="field"><label class="f">¿Qué soltás hasta mañana?</label><textarea id="cl3" placeholder="Escribirlo lo saca de tu cabeza."></textarea></div>
+      <div class="field"><label class="f">El movimiento de mañana</label><input type="text" id="cl4" placeholder="Decidilo hoy, no mañana a las 9am."></div>
       <button class="btn btn-dark full" id="btnClose" style="margin-top:16px">Cerrar el día</button>
       <p class="muted" id="closeSaved" style="margin-top:10px;display:none">Guardado. Descansá.</p>
     </div>
   </section>
 
-  <!-- ═══════════ TAREAS ═══════════ -->
-  <section class="view" id="v-tareas">
+  <!-- ═══════════ CUIDADO ═══════════ -->
+  <section class="view" id="v-cuidado">
+    <div class="card dark">
+      <span class="overline">Cuando la ansiedad sube</span>
+      <h2>Tu caja de herramientas</h2>
+      <p class="muted" style="margin-top:6px;margin-bottom:16px">No hace falta que estés mal para usarla. Se usa antes, no solo después.</p>
+      <div class="stack" id="toolList"></div>
+    </div>
+
+    <div class="card">
+      <span class="overline">Liderarte para liderar</span>
+      <h3 style="margin-bottom:10px">Rituales de 2 minutos</h3>
+      <p class="muted" style="margin-bottom:12px;font-size:12.5px">Los momentos del día que más te desregulan tienen un ritual propio.</p>
+      <div class="chips">
+        <button class="chip" data-practice="ancla">☾ Ancla pre-clase</button>
+        <button class="chip" data-practice="descarga">✦ Descarga post-clase</button>
+        <button class="chip" data-practice="reset">◈ Reset entre bloques</button>
+        <button class="chip" data-practice="arranque">☀ Arranque del día</button>
+        <button class="chip" data-practice="apagar">☽ Apagar la cabeza</button>
+        <button class="chip" data-practice="voz">✧ Rep en inglés</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <span class="overline">Registro</span>
+      <h3 style="margin-bottom:4px">Episodios de ansiedad</h3>
+      <p class="muted" style="margin-bottom:14px;font-size:12.5px">No para vigilarte. Para descubrir qué la dispara y qué te la baja de verdad.</p>
+      <div id="anxLog"></div>
+    </div>
+
+    <div class="card">
+      <span class="overline">Tus metas de cuidado</span>
+      <h3 style="margin-bottom:12px">Ajustá lo que te sirve</h3>
+      <div class="grid2">
+        <div class="field"><label class="f">Vasos de agua</label><input type="number" id="gWater" min="1" max="16"></div>
+        <div class="field"><label class="f">Minutos de caminata</label><input type="number" id="gWalk" min="5" max="180" step="5"></div>
+        <div class="field"><label class="f">Entrenos por semana</label><input type="number" id="gTrain" min="0" max="7"></div>
+        <div class="field"><label class="f">Ver amigas por semana</label><input type="number" id="gFriends" min="0" max="7"></div>
+      </div>
+      <button class="btn btn-dark full" id="btnSaveGoals" style="margin-top:16px">Guardar metas</button>
+    </div>
+  </section>
+
+  <!-- ═══════════ TRABAJO ═══════════ -->
+  <section class="view" id="v-trabajo">
     <div class="card">
       <div class="between" style="margin-bottom:14px">
-        <div>
-          <span class="overline">Backlog</span>
-          <h2 style="font-size:26px">Todo lo que hay</h2>
-        </div>
+        <div><span class="overline">Backlog</span><h2 style="font-size:26px">Todo lo que hay</h2></div>
         <button class="btn btn-dark btn-sm" id="btnAddTask">+ Tarea</button>
       </div>
       <div class="chips" id="areaFilter"></div>
       <div class="sep"></div>
       <div id="backlogList"></div>
+    </div>
+
+    <div class="card">
+      <span class="overline" id="bizMonthLabel">Mes</span>
+      <h3 style="margin-bottom:14px">Tablero del negocio</h3>
+      <div class="grid2">
+        <div class="field"><label class="f">Alumnas activas</label><input type="number" id="bAlumnas" min="0" placeholder="0"></div>
+        <div class="field"><label class="f">Leads en conversación</label><input type="number" id="bLeads" min="0" placeholder="0"></div>
+        <div class="field"><label class="f">Cierres del mes</label><input type="number" id="bCierres" min="0" placeholder="0"></div>
+        <div class="field"><label class="f">Meta de cierres</label><input type="number" id="bMeta" min="0" placeholder="0"></div>
+      </div>
+      <div class="meter" style="margin-top:16px"><i id="bMeter"></i></div>
+      <p class="muted" style="margin-top:8px;font-size:12px" id="bMeterText">—</p>
+      <button class="btn btn-dark full" id="btnSaveBiz" style="margin-top:16px">Guardar el mes</button>
+    </div>
+
+    <div class="card">
+      <span class="overline">Ritmo</span>
+      <h3 style="margin-bottom:12px">Dónde se te fue el mes</h3>
+      <div id="areaBreakdown"></div>
+      <p class="muted" style="margin-top:14px;font-size:12.5px" id="areaInsight">—</p>
     </div>
 
     <div class="card">
@@ -407,14 +509,21 @@
     </div>
   </section>
 
-  <!-- ═══════════ ALUMNAS ═══════════ -->
-  <section class="view" id="v-alumnas">
+  <!-- ═══════════ GENTE ═══════════ -->
+  <section class="view" id="v-gente">
     <div class="card">
       <div class="between" style="margin-bottom:8px">
-        <div>
-          <span class="overline">Radar</span>
-          <h2 style="font-size:26px">Tus alumnas</h2>
-        </div>
+        <div><span class="overline">Tu vida, no solo tu agenda</span><h2 style="font-size:26px">Amigas y familia</h2></div>
+        <button class="btn btn-dark btn-sm" id="btnAddFriend">+ Persona</button>
+      </div>
+      <p class="muted" style="margin-bottom:6px;font-size:12.5px">Los vínculos no se sostienen con intención, se sostienen con contacto. Tocá "Vi" cuando la viste o hablaron.</p>
+      <div class="sep"></div>
+      <div id="friendList"></div>
+    </div>
+
+    <div class="card">
+      <div class="between" style="margin-bottom:8px">
+        <div><span class="overline">Radar</span><h3>Tus alumnas</h3></div>
         <button class="btn btn-dark btn-sm" id="btnAddStudent">+ Alumna</button>
       </div>
       <p class="muted" style="margin-bottom:6px;font-size:12.5px">La que deja de hablar es la que se va. Tocá el punto para cambiar su estado.</p>
@@ -431,37 +540,6 @@
       <span class="overline">Arco del método</span>
       <h3 style="margin-bottom:12px">Dónde está cada cohorte</h3>
       <div id="cohortArc"></div>
-      <p class="muted" style="margin-top:14px;font-size:12px">Mes 1 diagnóstico · Mes 2 vocabulario · Mes 3 reuniones en vivo · Mes 4 presencia ejecutiva · Mes 5 automatismo.</p>
-    </div>
-  </section>
-
-  <!-- ═══════════ NEGOCIO ═══════════ -->
-  <section class="view" id="v-negocio">
-    <div class="card">
-      <span class="overline" id="bizMonthLabel">Mes</span>
-      <h2 style="font-size:26px;margin-bottom:14px">Tablero del negocio</h2>
-      <div class="grid2">
-        <div class="field"><label class="f">Alumnas activas</label><input type="number" id="bAlumnas" min="0" placeholder="0"></div>
-        <div class="field"><label class="f">Leads en conversación</label><input type="number" id="bLeads" min="0" placeholder="0"></div>
-        <div class="field"><label class="f">Cierres del mes</label><input type="number" id="bCierres" min="0" placeholder="0"></div>
-        <div class="field"><label class="f">Meta de cierres</label><input type="number" id="bMeta" min="0" placeholder="0"></div>
-      </div>
-      <div class="meter" style="margin-top:16px"><i id="bMeter"></i></div>
-      <p class="muted" style="margin-top:8px;font-size:12px" id="bMeterText">—</p>
-      <button class="btn btn-dark full" id="btnSaveBiz" style="margin-top:16px">Guardar el mes</button>
-    </div>
-
-    <div class="card">
-      <span class="overline">Ritmo</span>
-      <h3 style="margin-bottom:12px">Movimientos por área · últimos 30 días</h3>
-      <div id="areaBreakdown"></div>
-      <p class="muted" style="margin-top:14px;font-size:12.5px" id="areaInsight">—</p>
-    </div>
-
-    <div class="card dark">
-      <span class="overline">Recordatorio</span>
-      <p class="quote">"El mundo es pequeño cuando tu voz es grande."</p>
-      <p class="muted" style="margin-top:12px">Lo que le pedís a tus alumnas — práctica sistemática, no perfección — vale para vos también.</p>
     </div>
   </section>
 
@@ -470,7 +548,7 @@
     <div class="card">
       <span class="overline">Sin rachas, sin culpa</span>
       <h2 style="font-size:26px;margin-bottom:4px">Tus patrones</h2>
-      <p class="muted" style="margin-bottom:18px;font-size:12.5px">Esto es para conocerte, no para calificarte. Un día bajo no rompe nada.</p>
+      <p class="muted" style="margin-bottom:18px;font-size:12.5px">Esto es para conocerte, no para calificarte.</p>
       <div class="kpis" id="kpiBox"></div>
     </div>
 
@@ -480,15 +558,29 @@
       <div class="bars" id="barsEnergy"></div>
       <div class="axis" id="axisEnergy"></div>
       <div class="sep"></div>
-      <h3 style="margin-bottom:4px">Sueño</h3>
-      <div class="bars olive" id="barsSleep"></div>
-      <div class="axis" id="axisSleep"></div>
+      <h3 style="margin-bottom:4px">Ansiedad</h3>
+      <div class="bars danger" id="barsAnx"></div>
+      <div class="axis" id="axisAnx"></div>
+      <div class="sep"></div>
+      <h3 style="margin-bottom:4px">Disfrute</h3>
+      <div class="bars olive" id="barsEnjoy"></div>
+      <div class="axis" id="axisEnjoy"></div>
+      <div class="sep"></div>
+      <h3 style="margin-bottom:4px">Cuidados cumplidos</h3>
+      <div class="bars" id="barsCare"></div>
+      <div class="axis" id="axisCare"></div>
     </div>
 
     <div class="card">
       <span class="overline">Lectura</span>
-      <h3 style="margin-bottom:10px">Lo que veo en tus datos</h3>
+      <h3 style="margin-bottom:12px">Lo que veo en tus datos</h3>
       <div id="insights" class="stack"></div>
+    </div>
+
+    <div class="card">
+      <span class="overline">Lo que te funciona</span>
+      <h3 style="margin-bottom:12px">Herramientas que más te bajan la ansiedad</h3>
+      <div id="toolRank"></div>
     </div>
 
     <div class="card">
@@ -499,36 +591,93 @@
   </section>
 </main>
 
+<button class="sos" id="btnSos">☾ Respirar</button>
+
 <nav class="tabs">
   <div class="tabs-inner">
     <button class="tab on" data-v="hoy"><span class="tico">☾</span>Hoy</button>
-    <button class="tab" data-v="tareas"><span class="tico">✓</span>Tareas</button>
-    <button class="tab" data-v="alumnas"><span class="tico">✦</span>Alumnas</button>
-    <button class="tab" data-v="negocio"><span class="tico">◈</span>Negocio</button>
+    <button class="tab" data-v="cuidado"><span class="tico">♡</span>Cuidado</button>
+    <button class="tab" data-v="trabajo"><span class="tico">◈</span>Trabajo</button>
+    <button class="tab" data-v="gente"><span class="tico">✦</span>Gente</button>
     <button class="tab" data-v="progreso"><span class="tico">☉</span>Progreso</button>
   </div>
 </nav>
 
 <!-- ═══════════ MODALES ═══════════ -->
+<div class="modal" id="mSos">
+  <div class="scrim" data-close></div>
+  <div class="sheet night">
+    <button class="sheet-close" data-close>×</button>
+    <div id="sosStep1">
+      <span class="overline">Estás acá, eso ya es hacer algo</span>
+      <h2>¿Cómo estás ahora?</h2>
+      <p class="muted" style="margin-top:6px">Del 1 al 5. Sin pensarlo mucho.</p>
+      <div class="scale" data-k="sosBefore" style="margin-top:14px">
+        <button data-v="1">○<span>Calma</span></button>
+        <button data-v="2">◔<span>Inquieta</span></button>
+        <button data-v="3">◑<span>Tensa</span></button>
+        <button data-v="4">◕<span>Ansiosa</span></button>
+        <button data-v="5">●<span>Desbordada</span></button>
+      </div>
+      <div class="field" style="margin-top:18px"><label class="f">¿Qué la disparó? (opcional)</label><input type="text" id="sosTrigger" placeholder="Un mail, una clase, nada en particular…"></div>
+      <button class="btn btn-terra full" id="btnSosNext" style="margin-top:18px">Elegir una herramienta</button>
+    </div>
+
+    <div id="sosStep2" style="display:none">
+      <span class="overline">Elegí una</span>
+      <h2>¿Qué necesitás ahora?</h2>
+      <div class="sep"></div>
+      <div class="stack" id="sosTools"></div>
+    </div>
+
+    <div id="sosStep3" style="display:none">
+      <span class="overline" id="sosRunOver">Respirá</span>
+      <h2 id="sosRunTitle">—</h2>
+      <p class="muted" id="sosRunSub" style="margin-top:6px">—</p>
+      <div id="sosBreath" style="display:none">
+        <div class="breath-stage">
+          <div class="breath-circle" id="breathCircle"><span class="breath-word" id="breathWord">Listo</span></div>
+          <p class="breath-count" id="breathCount">—</p>
+        </div>
+      </div>
+      <div id="sosSteps" class="stack" style="margin-top:18px"></div>
+      <button class="btn btn-terra full" id="btnSosDone" style="margin-top:22px">Terminé</button>
+    </div>
+
+    <div id="sosStep4" style="display:none">
+      <span class="overline">Un minuto después</span>
+      <h2>¿Y ahora?</h2>
+      <p class="muted" style="margin-top:6px">Aunque haya bajado poquito, contá.</p>
+      <div class="scale" data-k="sosAfter" style="margin-top:14px">
+        <button data-v="1">○<span>Calma</span></button>
+        <button data-v="2">◔<span>Inquieta</span></button>
+        <button data-v="3">◑<span>Tensa</span></button>
+        <button data-v="4">◕<span>Ansiosa</span></button>
+        <button data-v="5">●<span>Desbordada</span></button>
+      </div>
+      <button class="btn btn-terra full" id="btnSosSave" style="margin-top:20px">Guardar y volver</button>
+      <p class="note" style="margin-top:14px">Si la ansiedad te desborda seguido o interfiere con tu vida, esto no reemplaza terapia. Es un apoyo, no un tratamiento.</p>
+    </div>
+  </div>
+</div>
+
 <div class="modal" id="mTask">
   <div class="scrim" data-close></div>
   <div class="sheet">
     <button class="sheet-close" data-close>×</button>
     <span class="overline">Nueva tarea</span>
-    <h2 id="taskModalTitle">¿Qué hay que hacer?</h2>
+    <h2>¿Qué hay que hacer?</h2>
     <div class="sep"></div>
     <div class="field"><label class="f">Tarea</label><input type="text" id="tTitle" placeholder="Ej: Feedback de transcripts de Marina"></div>
     <div class="field"><label class="f">Área</label><div class="chips" id="tAreaChips"></div></div>
     <div class="field"><label class="f">Peso</label><div class="chips" id="tWeightChips"></div></div>
-    <div class="field">
-      <label class="f">¿Mueve el negocio?</label>
+    <div class="field"><label class="f">¿Mueve el negocio?</label>
       <div class="chips">
         <button class="chip" id="tNeedleYes">Sí — mueve la aguja</button>
         <button class="chip" id="tNeedleNo">Es mantenimiento</button>
       </div>
     </div>
-    <div class="field">
-      <label class="f">¿Cuándo?</label>
+    <div class="field"><label class="f">¿Cuándo?</label>
       <div class="chips">
         <button class="chip" id="tWhenToday">Hoy</button>
         <button class="chip" id="tWhenBacklog">Backlog</button>
@@ -558,6 +707,27 @@
       </select>
     </div>
     <button class="btn btn-dark full" id="btnSaveStudent" style="margin-top:20px">Guardar</button>
+  </div>
+</div>
+
+<div class="modal" id="mFriend">
+  <div class="scrim" data-close></div>
+  <div class="sheet">
+    <button class="sheet-close" data-close>×</button>
+    <span class="overline">Tu gente</span>
+    <h2>Sumar a alguien</h2>
+    <p class="muted" style="margin-top:6px">La app te va a avisar cuando pase mucho tiempo sin verla.</p>
+    <div class="sep"></div>
+    <div class="field"><label class="f">Nombre</label><input type="text" id="frName" placeholder="Ej: Caro"></div>
+    <div class="field"><label class="f">Cada cuánto te gustaría verla</label>
+      <select id="frEvery">
+        <option value="7">Cada semana</option>
+        <option value="14" selected>Cada dos semanas</option>
+        <option value="30">Cada mes</option>
+        <option value="90">Cada tres meses</option>
+      </select>
+    </div>
+    <button class="btn btn-dark full" id="btnSaveFriend" style="margin-top:20px">Guardar</button>
   </div>
 </div>
 
@@ -622,53 +792,65 @@
   var KEY = 'sbl-founder-routine-v1';
 
   var AREAS = [
-    { id: 'alumnas',   label: 'Alumnas' },
-    { id: 'clases',    label: 'Clases' },
-    { id: 'contenido', label: 'Contenido' },
-    { id: 'ventas',    label: 'Ventas' },
-    { id: 'metodo',    label: 'Método' },
-    { id: 'admin',     label: 'Admin' }
+    { id: 'alumnas', label: 'Alumnas' }, { id: 'clases', label: 'Clases' },
+    { id: 'contenido', label: 'Contenido' }, { id: 'ventas', label: 'Ventas' },
+    { id: 'metodo', label: 'Método' }, { id: 'admin', label: 'Admin' },
+    { id: 'personal', label: 'Personal' }
   ];
 
   var WEIGHTS = [
     { id: 'ligero', label: 'Ligero', cost: 1 },
-    { id: 'medio',  label: 'Medio',  cost: 2 },
+    { id: 'medio', label: 'Medio', cost: 2 },
     { id: 'pesado', label: 'Pesado', cost: 3 }
   ];
+
+  var MOODS = ['Tranquila', 'Con impulso', 'Acelerada', 'Ansiosa', 'Cansada', 'Irritable', 'Dispersa', 'Triste', 'Entusiasmada', 'Abrumada'];
 
   var LEVELS = {
     cuidado: {
       key: 'cuidado', chip: 'lv-cuidado', name: 'Día de cuidado',
       text: 'Llegaste con poco. Hoy no se conquista nada: se sostiene. Un movimiento chico y listo.',
-      capacity: 3, focus: 25, brk: 5, blocks: 2
+      first: 'Antes de abrir el mail: cinco minutos de respiración y un vaso de agua. El día empieza cuando vos estás, no cuando suena la notificación.',
+      capacity: 3, focus: 25, brk: 10, blocks: 2
     },
     estandar: {
       key: 'estandar', chip: 'lv-estandar', name: 'Día estándar',
       text: 'Tenés con qué. Un movimiento real y lo que sostiene la operación. Sin heroísmos.',
+      first: 'Arrancá por el movimiento del día, antes de mirar mensajes. Lo primero que tocás define quién manda en tu día.',
       capacity: 6, focus: 45, brk: 10, blocks: 3
     },
     fuerte: {
       key: 'fuerte', chip: 'lv-fuerte', name: 'Día fuerte',
-      text: 'Hoy podés con lo difícil. Usalo en lo que mueve el negocio, no en lo que es urgente.',
+      text: 'Hoy podés con lo difícil. Usalo en lo que mueve el negocio, no en lo que grita más fuerte.',
+      first: 'Bloque largo desde temprano con lo más pesado. Y una caminata al mediodía — los días fuertes son los que más se saltean el cuerpo.',
       capacity: 9, focus: 50, brk: 10, blocks: 4
     }
   };
+
+  var CARE = [
+    { id: 'agua',    ico: '◍', name: 'Agua',        unit: 'vaso',  goalKey: 'water',   type: 'count', sub: 'Un toque por vaso' },
+    { id: 'caminar', ico: '↝', name: 'Caminata',    unit: 'min',   goalKey: 'walk',    type: 'minutes', step: 10, sub: 'Aire, luz, piernas' },
+    { id: 'comer',   ico: '◑', name: 'Comidas',     unit: 'comida', goal: 3,           type: 'count', sub: 'Sentada, sin pantalla' },
+    { id: 'entreno', ico: '⚑', name: 'Entrenar',    type: 'toggle', sub: 'Fuerza, clase, lo que sea' },
+    { id: 'respiro', ico: '☾', name: 'Respirar',    type: 'toggle', sub: 'Una práctica, aunque sea de 2 min' },
+    { id: 'gente',   ico: '✦', name: 'Ver gente',   type: 'toggle', sub: 'Una amiga, una llamada real' }
+  ];
 
   var PRACTICES = {
     ancla: {
       over: 'Antes de exponer', title: 'Ancla pre-clase',
       sub: 'Dos minutos para que tu sistema nervioso sepa que esto lo sabés hacer.',
       steps: [
-        'Sentate. Pies en el piso. Sentí los dos pies apoyados — literalmente, buscá la sensación.',
+        'Sentate. Pies en el piso. Buscá la sensación de los dos pies apoyados, literalmente.',
         'Cuatro respiraciones: inhalá contando 4, exhalá contando 6. La exhalación larga es la que baja la alerta.',
         'Nombrá en voz baja las tres cosas que querés que se lleven de la clase. Solo tres.',
-        'Decí una frase de apertura en voz alta. La primera frase dicha en voz alta destraba las siguientes.',
+        'Decí una frase de apertura en voz alta. La primera dicha en voz alta destraba las que siguen.',
         'Recordá: no vas a improvisar. Vas a ejecutar algo que ya sabés.'
       ]
     },
     descarga: {
       over: 'Después de exponer', title: 'Descarga post-clase',
-      sub: 'Si no la descargás, la clase sigue corriendo en tu cabeza toda la tarde.',
+      sub: 'Si no la descargás, la clase te sigue corriendo en la cabeza toda la tarde.',
       steps: [
         'Treinta segundos de silencio antes de abrir cualquier pantalla. No respondas mensajes todavía.',
         'Escribí una sola cosa que salió bien. Una. No la relativices.',
@@ -684,8 +866,30 @@
         'Levantate. La pausa sentada frente a la misma pantalla no es una pausa.',
         'Mirá algo a más de seis metros durante veinte segundos.',
         'Agua. En serio, agua.',
-        'No abras redes. Si entrás, el bloque siguiente arranca fragmentado.',
+        'No abras redes: si entrás, el bloque siguiente arranca fragmentado.',
         'Antes de volver, decí en una frase qué vas a hacer en el próximo bloque.'
+      ]
+    },
+    arranque: {
+      over: 'Lo primero de la mañana', title: 'Arranque del día',
+      sub: 'Los primeros veinte minutos deciden el tono de las siguientes doce horas.',
+      steps: [
+        'Agua antes que café. Dormiste ocho horas sin tomar nada.',
+        'Luz natural en los ojos, aunque sean tres minutos en la ventana o el balcón.',
+        'No abras mail ni WhatsApp todavía. Ahí adentro está la agenda de otros.',
+        'Hacé el check-in de la app. Treinta segundos.',
+        'Mirá una sola cosa: el movimiento del día. Ese es tu norte hasta que esté hecho.'
+      ]
+    },
+    apagar: {
+      over: 'Al final del día', title: 'Apagar la cabeza',
+      sub: 'La ansiedad de la noche casi siempre es trabajo sin cerrar dando vueltas.',
+      steps: [
+        'Escribí lo que quedó pendiente. Todo. En la app o en papel. Lo que está escrito deja de rondar.',
+        'Decidí el movimiento de mañana. Que tu cabeza no tenga que resolverlo a las 3am.',
+        'Cerrá la compu y dejala en otra habitación si podés.',
+        'Diez respiraciones con exhalación larga. Contá: inhalo 4, exhalo 6.',
+        'Una cosa que disfrutaste hoy. Aunque sea chiquita. Anotala en el cierre.'
       ]
     },
     voz: {
@@ -693,39 +897,119 @@
       sub: 'Cinco minutos. Vos también producís bajo presión, no solo tus alumnas.',
       steps: [
         'Elegí una situación real de esta semana: un email, una objeción de un lead, una explicación del método.',
-        'Decila en voz alta en inglés. Sin escribirla antes. Cronometrá noventa segundos.',
-        'Repetila una segunda vez, más corta y más directa. La segunda siempre es mejor.',
+        'Decila en voz alta en inglés, sin escribirla antes. Noventa segundos.',
+        'Repetila más corta y más directa. La segunda siempre es mejor.',
         'Anotá las dos palabras que te faltaron. Esas dos, no una lista de veinte.',
-        'Cerrá. La repetición corta y diaria gana a la sesión larga y semanal.'
+        'Cerrá. La repetición corta y diaria le gana a la sesión larga y semanal.'
       ]
     }
   };
 
+  // Herramientas de regulación. Las que tienen `breath` corren la animación guiada.
+  var TOOLS = [
+    {
+      id: 'exhala', name: 'Respiración de calma', desc: 'Inhalás 4, exhalás 6. Ocho rondas. La más confiable.',
+      over: 'Dos minutos', sub: 'La exhalación larga activa el freno del sistema nervioso. No es metáfora: es el nervio vago.',
+      breath: { cycles: 8, phases: [{ w: 'Inhalá', s: 4, size: 1 }, { w: 'Exhalá', s: 6, size: .58 }] },
+      steps: ['Seguí el círculo. Si te distraés, volvés. Distraerse es parte.']
+    },
+    {
+      id: 'suspiro', name: 'Suspiro fisiológico', desc: 'Dos inhalaciones cortas y una exhalación larga. Baja el pico rápido.',
+      over: 'Un minuto', sub: 'Es lo más rápido que existe para cortar un pico de ansiedad. Cinco rondas alcanzan.',
+      breath: { cycles: 5, phases: [{ w: 'Inhalá', s: 3, size: .92 }, { w: 'Otra vez', s: 1, size: 1 }, { w: 'Soltá largo', s: 6, size: .55 }] },
+      steps: ['Por la nariz las dos inhalaciones. Por la boca la salida, como si empañaras un vidrio.']
+    },
+    {
+      id: 'coherencia', name: 'Coherencia 5-5', desc: 'Inhalás 5, exhalás 5, durante dos minutos. Para sostener, no para apagar.',
+      over: 'Dos minutos', sub: 'Ritmo parejo. Sirve antes de una clase o una llamada difícil, cuando querés estar presente, no dormida.',
+      breath: { cycles: 12, phases: [{ w: 'Inhalá', s: 5, size: 1 }, { w: 'Exhalá', s: 5, size: .6 }] },
+      steps: ['Mantené el ritmo parejo. Si te cuesta llegar a 5, hacé 4 y 4.']
+    },
+    {
+      id: 'grounding', name: '5·4·3·2·1', desc: 'Cuando la cabeza se fue al futuro y el cuerpo quedó acá.',
+      over: 'Volver al presente', sub: 'La ansiedad vive en lo que todavía no pasó. Los sentidos solo existen ahora.',
+      steps: [
+        'Nombrá cinco cosas que ves. En voz alta o mentalmente, pero nombralas.',
+        'Cuatro cosas que podés tocar. Tocalas de verdad.',
+        'Tres sonidos. Aunque sean el ventilador y la calle.',
+        'Dos olores. O dos cosas que podrías oler si te acercaras.',
+        'Un sabor. Un sorbo de agua sirve.'
+      ]
+    },
+    {
+      id: 'caminar', name: 'Caminata de 10 minutos', desc: 'Salir. Sin auriculares con podcast, sin teléfono en la mano.',
+      over: 'La más subestimada', sub: 'Movimiento rítmico + luz exterior. Cambia la química más que veinte minutos de pensar en el problema.',
+      steps: [
+        'Salí ahora, no "cuando termine esto". El "cuando termine" no llega.',
+        'Dejá el teléfono en el bolsillo. La caminata mirando la pantalla no cuenta.',
+        'Mirá lejos: el horizonte, las copas de los árboles, el final de la cuadra.',
+        'Diez minutos. Si podés veinte, mejor, pero diez ya sirven.'
+      ]
+    },
+    {
+      id: 'descarga', name: 'Descarga física', desc: 'Sacudir, temblar, apretar y soltar. Dos minutos.',
+      over: 'Sacarlo del cuerpo', sub: 'La activación es energía que quedó adentro. Sale por el movimiento, no por el análisis.',
+      steps: [
+        'Parate. Sacudí las manos veinte segundos, como si te las secaras.',
+        'Sacudí los brazos, después los hombros, después las piernas.',
+        'Apretá todo el cuerpo cinco segundos y soltá de golpe. Tres veces.',
+        'Quedate quieta diez segundos y sentí el hormigueo. Eso es el sistema volviendo.'
+      ]
+    },
+    {
+      id: 'nombrar', name: 'Ponerle nombre', desc: 'Escribir qué sentís y qué la disparó. Nombrar baja la intensidad.',
+      over: 'Dos minutos', sub: 'Hay evidencia de sobra: poner en palabras una emoción reduce su intensidad. Escribir a mano funciona mejor.',
+      steps: [
+        'Escribí: "Estoy sintiendo ___". Una palabra basta.',
+        'Escribí: "Y tiene sentido porque ___".',
+        '¿Es un problema a resolver hoy, o una sensación a atravesar? Decidilo.',
+        'Si es a resolver: una sola acción concreta, la más chica posible.',
+        'Si es a atravesar: nada que hacer. Va a bajar. Siempre baja.'
+      ]
+    },
+    {
+      id: 'peor', name: 'Lo peor que puede pasar', desc: 'Para el bucle mental que no se apaga solo.',
+      over: 'Cortar el bucle', sub: 'La ansiedad hace las preguntas y no espera las respuestas. Escribirlas la desarma.',
+      steps: [
+        '¿Qué es exactamente lo que temés? Escribilo concreto, no "que salga mal".',
+        'Si pasara: ¿qué harías al día siguiente? Escribilo.',
+        '¿Qué probabilidad real le das, del 0 al 100?',
+        '¿Qué le dirías a una alumna tuya que te trae este mismo miedo?',
+        'Decítelo a vos con las mismas palabras.'
+      ]
+    }
+  ];
+
   // ═══════════════════ ESTADO ═══════════════════
   var DB = {
-    v: 1,
-    settings: { name: '', focusLong: 50 },
-    checkins: {},
-    tasks: [],
-    movements: {},
-    focus: [],
-    closes: {},
-    students: [],
-    biz: {},
-    ideas: []
+    v: 2,
+    settings: { name: '', focusLong: 50, water: 8, walk: 30, trainWeek: 3, friendsWeek: 1 },
+    checkins: {}, tasks: [], movements: {}, focus: {}, closes: {},
+    care: {}, anx: [], students: [], friends: [], biz: {}, ideas: []
   };
 
   function load() {
     try {
       var raw = localStorage.getItem(KEY);
       if (!raw) return;
-      var parsed = JSON.parse(raw);
-      if (parsed && typeof parsed === 'object') {
-        Object.keys(DB).forEach(function (k) {
-          if (parsed[k] !== undefined && parsed[k] !== null) DB[k] = parsed[k];
-        });
-        if (!DB.settings) DB.settings = { name: '', focusLong: 50 };
+      var p = JSON.parse(raw);
+      if (!p || typeof p !== 'object') return;
+      Object.keys(DB).forEach(function (k) {
+        if (p[k] !== undefined && p[k] !== null) DB[k] = p[k];
+      });
+      // v1 guardaba focus como array; v2 usa mapa por fecha.
+      if (Array.isArray(DB.focus)) {
+        var m = {};
+        DB.focus.forEach(function (f) { if (f && f.date) m[f.date] = (m[f.date] || 0) + (f.minutes || 0); });
+        DB.focus = m;
       }
+      var s = DB.settings || {};
+      DB.settings = {
+        name: s.name || '', focusLong: s.focusLong || 50,
+        water: s.water || 8, walk: s.walk || 30,
+        trainWeek: s.trainWeek == null ? 3 : s.trainWeek,
+        friendsWeek: s.friendsWeek == null ? 1 : s.friendsWeek
+      };
     } catch (e) { /* arranca limpio */ }
   }
 
@@ -735,8 +1019,8 @@
   }
 
   // ═══════════════════ HELPERS ═══════════════════
-  function $(sel, root) { return (root || document).querySelector(sel); }
-  function $$(sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
+  function $(s, r) { return (r || document).querySelector(s); }
+  function $$(s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); }
   function el(tag, cls, txt) {
     var n = document.createElement(tag);
     if (cls) n.className = cls;
@@ -748,23 +1032,20 @@
   function today() { return iso(new Date()); }
   function monthKey() { var d = new Date(); return d.getFullYear() + '-' + pad(d.getMonth() + 1); }
   function uid() { return Math.random().toString(36).slice(2, 10) + Date.now().toString(36).slice(-4); }
+  function fromIso(k) { var p = k.split('-'); return new Date(+p[0], +p[1] - 1, +p[2]); }
+  function daysSince(k) {
+    if (!k) return null;
+    return Math.max(0, Math.round((fromIso(today()) - fromIso(k)) / 864e5));
+  }
 
   var DAYS = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
   var MONTHS = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
-  var DAYS_SHORT = ['D', 'L', 'M', 'X', 'J', 'V', 'S'];
+  var DSHORT = ['D', 'L', 'M', 'X', 'J', 'V', 'S'];
 
-  function areaLabel(id) {
-    for (var i = 0; i < AREAS.length; i++) if (AREAS[i].id === id) return AREAS[i].label;
-    return 'Sin área';
-  }
-  function weightCost(id) {
-    for (var i = 0; i < WEIGHTS.length; i++) if (WEIGHTS[i].id === id) return WEIGHTS[i].cost;
-    return 2;
-  }
-  function weightLabel(id) {
-    for (var i = 0; i < WEIGHTS.length; i++) if (WEIGHTS[i].id === id) return WEIGHTS[i].label;
-    return 'Medio';
-  }
+  function areaLabel(id) { for (var i = 0; i < AREAS.length; i++) if (AREAS[i].id === id) return AREAS[i].label; return 'Sin área'; }
+  function weightCost(id) { for (var i = 0; i < WEIGHTS.length; i++) if (WEIGHTS[i].id === id) return WEIGHTS[i].cost; return 2; }
+  function weightLabel(id) { for (var i = 0; i < WEIGHTS.length; i++) if (WEIGHTS[i].id === id) return WEIGHTS[i].label; return 'Medio'; }
+  function toolById(id) { for (var i = 0; i < TOOLS.length; i++) if (TOOLS[i].id === id) return TOOLS[i]; return null; }
 
   var toastTimer = null;
   function toast(msg) {
@@ -772,44 +1053,122 @@
     t.textContent = msg;
     t.classList.add('on');
     clearTimeout(toastTimer);
-    toastTimer = setTimeout(function () { t.classList.remove('on'); }, 2600);
+    toastTimer = setTimeout(function () { t.classList.remove('on'); }, 2800);
   }
-
   function openModal(id) { $(id).classList.add('on'); }
   function closeModal(id) { $(id).classList.remove('on'); }
 
   // ═══════════════════ NIVEL DEL DÍA ═══════════════════
   function computeLevel(c) {
     var score = (c.sleep || 3) + (c.energy || 3) + (c.reg || 3);
-    var lv;
-    if (score <= 7) lv = LEVELS.cuidado;
-    else if (score <= 11) lv = LEVELS.estandar;
-    else lv = LEVELS.fuerte;
-    // Día de clase: la exposición cuesta. Se reserva energía bajando un escalón.
-    if (c.classDay) {
+    var lv = score <= 7 ? LEVELS.cuidado : (score <= 11 ? LEVELS.estandar : LEVELS.fuerte);
+    function down() {
       if (lv.key === 'fuerte') lv = LEVELS.estandar;
       else if (lv.key === 'estandar') lv = LEVELS.cuidado;
     }
+    if (c.anx >= 4) down();     // La ansiedad alta consume capacidad real.
+    if (c.classDay) down();     // Exponer cuesta; se reserva energía de antemano.
     return lv;
   }
-
   function todayCheckin() { return DB.checkins[today()] || null; }
-  function todayLevel() {
-    var c = todayCheckin();
-    return c ? computeLevel(c) : LEVELS.estandar;
+  function todayLevel() { var c = todayCheckin(); return c ? computeLevel(c) : LEVELS.estandar; }
+
+  // ═══════════════════ CUIDADOS ═══════════════════
+  function careOf(date) {
+    if (!DB.care[date]) DB.care[date] = {};
+    return DB.care[date];
+  }
+  function careGoal(item) {
+    if (item.goal) return item.goal;
+    if (item.goalKey === 'water') return DB.settings.water || 8;
+    if (item.goalKey === 'walk') return DB.settings.walk || 30;
+    return 1;
+  }
+  function careDone(item, c) {
+    var v = c[item.id] || 0;
+    if (item.type === 'toggle') return v ? 1 : 0;
+    return v >= careGoal(item) ? 1 : 0;
+  }
+  function careScore(date) {
+    var c = DB.care[date] || {};
+    return CARE.reduce(function (n, it) { return n + careDone(it, c); }, 0);
+  }
+
+  function renderCare() {
+    var c = careOf(today());
+    var box = $('#careList');
+    box.innerHTML = '';
+
+    CARE.forEach(function (item) {
+      var goal = careGoal(item);
+      var val = c[item.id] || 0;
+      var done = careDone(item, c);
+      var row = el('div', 'care' + (done ? ' full-done' : ''));
+      row.appendChild(el('div', 'care-ico', item.ico));
+
+      var body = el('div', 'care-body');
+      body.appendChild(el('div', 'care-name', item.name));
+      body.appendChild(el('div', 'care-sub', item.sub));
+
+      if (item.type === 'count') {
+        var pips = el('div', 'pips');
+        for (var i = 0; i < goal; i++) {
+          (function (idx) {
+            var p = el('button', 'pip' + (idx < val ? ' on' : ''));
+            p.setAttribute('aria-label', item.name + ' ' + (idx + 1));
+            p.addEventListener('click', function () {
+              c[item.id] = (idx < val) ? idx : idx + 1;
+              save(); renderCare(); renderProgreso();
+            });
+            pips.appendChild(p);
+          })(i);
+        }
+        body.appendChild(pips);
+      }
+      row.appendChild(body);
+
+      if (item.type === 'toggle') {
+        var tg = el('button', 'care-btn' + (val ? ' on' : ''), val ? 'Hecho' : 'Marcar');
+        tg.addEventListener('click', function () {
+          c[item.id] = val ? 0 : 1;
+          save(); renderCare(); renderProgreso();
+        });
+        row.appendChild(tg);
+      } else if (item.type === 'minutes') {
+        var cnt = el('div', 'care-count', val + '′');
+        row.appendChild(cnt);
+        var add = el('button', 'care-btn' + (done ? ' on' : ''), '+' + (item.step || 10));
+        add.addEventListener('click', function () {
+          c[item.id] = (c[item.id] || 0) + (item.step || 10);
+          if (c[item.id] > goal * 3) c[item.id] = 0;
+          save(); renderCare(); renderProgreso();
+        });
+        row.appendChild(add);
+      }
+
+      box.appendChild(row);
+    });
+
+    var sc = careScore(today());
+    $('#careScore').textContent = sc + '/' + CARE.length;
+
+    var missing = CARE.filter(function (it) { return !careDone(it, c); });
+    var hour = new Date().getHours();
+    var nudge;
+    if (!missing.length) nudge = 'Los seis. Hoy te cuidaste completo — anotalo, no lo minimices.';
+    else if (hour < 12) nudge = 'Recién arranca. Lo más fácil ahora: ' + missing[0].name.toLowerCase() + '.';
+    else if (hour < 19) nudge = 'Te faltan: ' + missing.map(function (m) { return m.name.toLowerCase(); }).join(', ') + '. Elegí uno, no los seis.';
+    else nudge = missing.length > 3
+      ? 'Día cargado, se nota. No es un reproche: es información para mañana.'
+      : 'Queda tiempo para ' + missing[0].name.toLowerCase() + '.';
+    $('#careNudge').textContent = nudge;
   }
 
   // ═══════════════════ TAREAS ═══════════════════
-  function tasksFor(date) {
-    return DB.tasks.filter(function (t) { return t.day === date; });
-  }
-  function backlog() {
-    return DB.tasks.filter(function (t) { return !t.day && !t.done; });
-  }
-  function findTask(id) {
-    for (var i = 0; i < DB.tasks.length; i++) if (DB.tasks[i].id === id) return DB.tasks[i];
-    return null;
-  }
+  function tasksFor(date) { return DB.tasks.filter(function (t) { return t.day === date; }); }
+  function backlog() { return DB.tasks.filter(function (t) { return !t.day && !t.done; }); }
+  function findTask(id) { for (var i = 0; i < DB.tasks.length; i++) if (DB.tasks[i].id === id) return DB.tasks[i]; return null; }
+  function usedCapacity() { return tasksFor(today()).reduce(function (s, t) { return s + weightCost(t.weight); }, 0); }
 
   function renderTask(t, opts) {
     opts = opts || {};
@@ -820,15 +1179,13 @@
     chk.addEventListener('click', function () {
       t.done = !t.done;
       t.doneAt = t.done ? new Date().toISOString() : null;
-      save();
-      renderAll();
+      save(); renderAll();
       if (t.done && t.needle) toast('Eso movió el negocio.');
     });
     wrap.appendChild(chk);
 
     var body = el('div', 't-body');
     body.appendChild(el('div', 't-title', t.title));
-
     var meta = el('div', 't-meta');
     if (t.needle) meta.appendChild(el('span', 'pill needle', 'Mueve la aguja'));
     meta.appendChild(el('span', 'pill', areaLabel(t.area)));
@@ -838,13 +1195,11 @@
 
     var acts = el('div', 't-actions');
     if (!t.day) {
-      var up = el('button', '', '↑');
-      up.title = 'Subir a hoy';
+      var up = el('button', '', '↑'); up.title = 'Subir a hoy';
       up.addEventListener('click', function () { t.day = today(); save(); renderAll(); toast('A hoy.'); });
       acts.appendChild(up);
     } else if (!t.done) {
-      var down = el('button', '', '↓');
-      down.title = 'Mandar al backlog';
+      var down = el('button', '', '↓'); down.title = 'Mandar al backlog';
       down.addEventListener('click', function () {
         t.day = null;
         if (DB.movements[today()] === t.id) delete DB.movements[today()];
@@ -852,8 +1207,7 @@
       });
       acts.appendChild(down);
     }
-    var del = el('button', '', '×');
-    del.title = 'Borrar';
+    var del = el('button', '', '×'); del.title = 'Borrar';
     del.addEventListener('click', function () {
       DB.tasks = DB.tasks.filter(function (x) { return x.id !== t.id; });
       if (DB.movements[today()] === t.id) delete DB.movements[today()];
@@ -861,22 +1215,30 @@
     });
     acts.appendChild(del);
     wrap.appendChild(acts);
-
     return wrap;
   }
 
-  function usedCapacity() {
-    return tasksFor(today()).reduce(function (sum, t) { return sum + weightCost(t.weight); }, 0);
-  }
-
   // ═══════════════════ RENDER: HOY ═══════════════════
-  var draft = { sleep: 0, energy: 0, reg: 0, classDay: false };
+  var draft = { sleep: 0, energy: 0, reg: 0, anx: 0, mood: '', classDay: null };
 
   function renderHeader() {
     var d = new Date();
     $('#topDate').innerHTML = DAYS[d.getDay()] + '<br>' + d.getDate() + ' ' + MONTHS[d.getMonth()];
     var n = (DB.settings.name || '').trim();
     $('#brandSub').textContent = n ? 'para ' + n : 'She Breaks Limits';
+  }
+
+  function renderMoodChips() {
+    var box = $('#moodChips');
+    box.innerHTML = '';
+    MOODS.forEach(function (m) {
+      var b = el('button', 'chip' + (draft.mood === m ? ' on' : ''), m);
+      b.addEventListener('click', function () {
+        draft.mood = (draft.mood === m) ? '' : m;
+        renderMoodChips();
+      });
+      box.appendChild(b);
+    });
   }
 
   function renderCheckin() {
@@ -889,23 +1251,26 @@
     if (!c) {
       $('#checkinForm').style.display = '';
       $('#checkinResult').style.display = 'none';
-      $('#hiSub').textContent = 'Marcá cómo llegás. El día se arma solo, según eso.';
-      $$('.scale').forEach(function (s) {
+      $('#hiSub').textContent = 'Marcá cómo llegás. El día se arma según eso, no según lo que "deberías" poder.';
+      $$('.scale[data-k]').forEach(function (s) {
         var k = s.getAttribute('data-k');
+        if (draft[k] === undefined) return;
         $$('button', s).forEach(function (b) {
           b.classList.toggle('on', draft[k] === parseInt(b.getAttribute('data-v'), 10));
         });
       });
       $('#chipClass').classList.toggle('on', draft.classDay === true);
       $('#chipNoClass').classList.toggle('on', draft.classDay === false);
+      renderMoodChips();
       return;
     }
 
     $('#checkinForm').style.display = 'none';
     $('#checkinResult').style.display = '';
-    $('#hiSub').textContent = c.classDay
-      ? 'Hoy exponés. El día ya viene con carga; lo demás se ajusta.'
-      : 'Ya sabemos cómo llegás. El día está armado.';
+    var bits = [];
+    if (c.mood) bits.push('Hoy llegaste ' + c.mood.toLowerCase() + '.');
+    if (c.classDay) bits.push('Exponés: el día ya viene con carga.');
+    $('#hiSub').textContent = bits.length ? bits.join(' ') : 'Ya sabemos cómo llegás. El día está armado.';
 
     var lv = computeLevel(c);
     var chip = $('#lvChip');
@@ -913,14 +1278,14 @@
     chip.textContent = lv.name;
     $('#lvTitle').textContent = lv.name;
     $('#lvText').textContent = lv.text;
+    $('#lvFirst').textContent = (c.anx >= 4)
+      ? 'Traés la ansiedad alta. Antes de cualquier tarea: dos minutos de respiración con el botón de abajo. No es perder tiempo, es recuperarlo.'
+      : lv.first;
 
     var used = usedCapacity();
     var bar = $('#capBar');
     bar.innerHTML = '';
-    for (var i = 0; i < lv.capacity; i++) {
-      var dot = el('div', 'cap-dot' + (i < used ? ' fill' : ''));
-      bar.appendChild(dot);
-    }
+    for (var i = 0; i < lv.capacity; i++) bar.appendChild(el('div', 'cap-dot' + (i < used ? ' fill' : '')));
     if (used > lv.capacity) {
       for (var j = 0; j < Math.min(used - lv.capacity, 6); j++) bar.appendChild(el('div', 'cap-dot over'));
     }
@@ -932,8 +1297,7 @@
   function renderMovement() {
     var box = $('#movementBox');
     box.innerHTML = '';
-    var mid = DB.movements[today()];
-    var t = mid ? findTask(mid) : null;
+    var t = DB.movements[today()] ? findTask(DB.movements[today()]) : null;
     if (!t) {
       var e = el('div', 'empty');
       e.appendChild(el('span', 'moon', '☾'));
@@ -966,23 +1330,77 @@
 
   function renderCloses() {
     var c = DB.closes[today()];
+    $('#cl0').value = c ? (c.joy || '') : '';
     $('#cl1').value = c ? (c.moved || '') : '';
     $('#cl2').value = c ? (c.learned || '') : '';
     $('#cl3').value = c ? (c.release || '') : '';
     $('#cl4').value = c ? (c.tomorrow || '') : '';
     $('#closeSaved').style.display = c ? '' : 'none';
+    var ev = c ? c.enjoy : 0;
+    $$('button', $('.scale[data-k=enjoy]')).forEach(function (b) {
+      b.classList.toggle('on', ev === parseInt(b.getAttribute('data-v'), 10));
+    });
+    if (ev) draft.enjoy = ev;
   }
 
-  // ═══════════════════ RENDER: TAREAS ═══════════════════
+  // ═══════════════════ RENDER: CUIDADO ═══════════════════
+  function renderTools() {
+    var box = $('#toolList');
+    box.innerHTML = '';
+    TOOLS.forEach(function (t) {
+      var b = el('button', 'tool');
+      b.appendChild(el('div', 'tn', t.name));
+      b.appendChild(el('div', 'td', t.desc));
+      b.addEventListener('click', function () { startSos(t.id); });
+      box.appendChild(b);
+    });
+  }
+
+  function renderAnxLog() {
+    var box = $('#anxLog');
+    box.innerHTML = '';
+    var items = DB.anx.slice().reverse().slice(0, 10);
+    if (!items.length) {
+      box.appendChild(el('p', 'muted', 'Todavía no registraste ninguno. Cada vez que uses el botón de respirar, queda acá.'));
+      return;
+    }
+    items.forEach(function (a) {
+      var row = el('div');
+      row.style.cssText = 'padding:12px 0;border-bottom:1px solid var(--line)';
+      var head = el('div', 'between');
+      var d = fromIso(a.date);
+      head.appendChild(el('div', 'overline', DAYS[d.getDay()] + ' ' + d.getDate() + ' de ' + MONTHS[d.getMonth()]));
+      var delta = (a.before != null && a.after != null) ? (a.before - a.after) : null;
+      head.appendChild(el('div', 'muted', a.before + ' → ' + (a.after != null ? a.after : '—') + (delta > 0 ? '  ↓' + delta : '')));
+      row.appendChild(head);
+      var tool = toolById(a.tool);
+      row.appendChild(el('div', '', tool ? tool.name : 'Sin herramienta'));
+      if (a.trigger) {
+        var tr = el('p', 'muted', '“' + a.trigger + '”');
+        tr.style.fontStyle = 'italic';
+        tr.style.marginTop = '4px';
+        row.appendChild(tr);
+      }
+      box.appendChild(row);
+    });
+  }
+
+  function renderGoals() {
+    $('#gWater').value = DB.settings.water;
+    $('#gWalk').value = DB.settings.walk;
+    $('#gTrain').value = DB.settings.trainWeek;
+    $('#gFriends').value = DB.settings.friendsWeek;
+  }
+
+  // ═══════════════════ RENDER: TRABAJO ═══════════════════
   var areaFilter = 'todas';
 
   function renderAreaFilter() {
     var box = $('#areaFilter');
     box.innerHTML = '';
-    var opts = [{ id: 'todas', label: 'Todas' }].concat(AREAS);
-    opts.forEach(function (a) {
+    [{ id: 'todas', label: 'Todas' }].concat(AREAS).forEach(function (a) {
       var b = el('button', 'chip' + (areaFilter === a.id ? ' on' : ''), a.label);
-      b.addEventListener('click', function () { areaFilter = a.id; renderAll(); });
+      b.addEventListener('click', function () { areaFilter = a.id; renderAreaFilter(); renderBacklog(); });
       box.appendChild(b);
     });
   }
@@ -998,7 +1416,7 @@
     if (!ts.length) {
       var e = el('div', 'empty');
       e.appendChild(el('span', 'moon', '☾'));
-      e.appendChild(el('div', '', 'Backlog limpio. Raro y hermoso.'));
+      e.appendChild(el('div', '', 'Nada pendiente acá. Raro y hermoso.'));
       list.appendChild(e);
       return;
     }
@@ -1009,10 +1427,7 @@
     var box = $('#ideaList');
     box.innerHTML = '';
     var items = DB.ideas.slice().reverse().slice(0, 12);
-    if (!items.length) {
-      box.appendChild(el('p', 'muted', 'Nada capturado todavía.'));
-      return;
-    }
+    if (!items.length) { box.appendChild(el('p', 'muted', 'Nada capturado todavía.')); return; }
     items.forEach(function (i) {
       var row = el('div', 'task');
       var body = el('div', 't-body');
@@ -1025,17 +1440,14 @@
       var toTask = el('button', '', '→');
       toTask.title = 'Convertir en tarea de contenido';
       toTask.addEventListener('click', function () {
-        DB.tasks.push({
-          id: uid(), title: 'Post: ' + i.text.slice(0, 60), area: 'contenido',
-          weight: 'ligero', needle: false, done: false, day: null, created: Date.now()
-        });
+        DB.tasks.push({ id: uid(), title: 'Post: ' + i.text.slice(0, 60), area: 'contenido', weight: 'ligero', needle: false, done: false, day: null, created: Date.now() });
         DB.ideas = DB.ideas.filter(function (x) { return x.id !== i.id; });
         save(); renderAll(); toast('Al backlog de contenido.');
       });
       var del = el('button', '', '×');
       del.addEventListener('click', function () {
         DB.ideas = DB.ideas.filter(function (x) { return x.id !== i.id; });
-        save(); renderAll();
+        save(); renderIdeas();
       });
       acts.appendChild(toTask); acts.appendChild(del);
       row.appendChild(acts);
@@ -1043,112 +1455,8 @@
     });
   }
 
-  // ═══════════════════ RENDER: ALUMNAS ═══════════════════
-  var TEMPS = ['encendida', 'tibia', 'silencio'];
-  var TEMP_LABEL = { encendida: 'Encendida', tibia: 'Tibia', silencio: 'En silencio' };
-
-  function renderStudents() {
-    var list = $('#studentList');
-    list.innerHTML = '';
-    if (!DB.students.length) {
-      var e = el('div', 'empty');
-      e.appendChild(el('span', 'moon', '✦'));
-      e.appendChild(el('div', '', 'Sumá a tus alumnas. Lo que se mide, se sostiene.'));
-      list.appendChild(e);
-      return;
-    }
-    var order = { silencio: 0, tibia: 1, encendida: 2 };
-    DB.students.slice().sort(function (a, b) {
-      return (order[a.temp] || 0) - (order[b.temp] || 0);
-    }).forEach(function (s) {
-      var row = el('div', 'stu');
-
-      var dot = el('button', 'dot d-' + s.temp);
-      dot.title = 'Cambiar estado';
-      dot.addEventListener('click', function () {
-        var i = TEMPS.indexOf(s.temp);
-        s.temp = TEMPS[(i + 1) % TEMPS.length];
-        s.lastTouch = today();
-        save(); renderAll();
-        toast(s.name + ': ' + TEMP_LABEL[s.temp]);
-      });
-      row.appendChild(dot);
-
-      var body = el('div', 'stu-body');
-      body.appendChild(el('div', 'stu-name', s.name));
-      var meta = el('div', 't-meta');
-      if (s.role) meta.appendChild(el('span', 'pill', s.role));
-      meta.appendChild(el('span', 'pill', 'Mes ' + s.month));
-      if (s.cohort) meta.appendChild(el('span', 'pill', s.cohort));
-      body.appendChild(meta);
-      row.appendChild(body);
-
-      var acts = el('div', 't-actions');
-      if (s.temp !== 'encendida') {
-        var ping = el('button', 'cycle', 'Tocar');
-        ping.title = 'Crear tarea de contacto para hoy';
-        ping.addEventListener('click', function () {
-          DB.tasks.push({
-            id: uid(), title: 'Escribirle a ' + s.name + ' — lleva días en silencio',
-            area: 'alumnas', weight: 'ligero', needle: true, done: false,
-            day: today(), created: Date.now()
-          });
-          save(); renderAll(); toast('Tarea creada para hoy.');
-        });
-        acts.appendChild(ping);
-      }
-      var del = el('button', '', '×');
-      del.addEventListener('click', function () {
-        DB.students = DB.students.filter(function (x) { return x.id !== s.id; });
-        save(); renderAll();
-      });
-      acts.appendChild(del);
-      row.appendChild(acts);
-
-      list.appendChild(row);
-    });
-  }
-
-  var ARC = ['Diagnóstico y base', 'Vocabulario de poder', 'Reuniones en vivo', 'Presencia ejecutiva', 'Automatismo bajo presión'];
-
-  function renderCohortArc() {
-    var box = $('#cohortArc');
-    box.innerHTML = '';
-    if (!DB.students.length) {
-      box.appendChild(el('p', 'muted', 'Cuando cargues alumnas, vas a ver acá en qué mes está cada grupo.'));
-      return;
-    }
-    var counts = [0, 0, 0, 0, 0];
-    DB.students.forEach(function (s) {
-      var m = parseInt(s.month, 10);
-      if (m >= 1 && m <= 5) counts[m - 1]++;
-    });
-    var max = Math.max.apply(null, counts) || 1;
-    for (var i = 0; i < 5; i++) {
-      var row = el('div', 'between');
-      row.style.padding = '9px 0';
-      row.style.borderBottom = i < 4 ? '1px solid rgba(232,196,173,.18)' : 'none';
-      var left = el('div');
-      left.appendChild(el('div', '', 'Mes ' + (i + 1) + ' · ' + ARC[i]));
-      left.style.fontSize = '13.5px';
-      var meter = el('div');
-      meter.style.cssText = 'width:96px;height:5px;background:rgba(232,196,173,.2);border-radius:3px;overflow:hidden;flex:none';
-      var fill = el('i');
-      fill.style.cssText = 'display:block;height:100%;background:var(--terracota);width:' + Math.round(counts[i] / max * 100) + '%';
-      meter.appendChild(fill);
-      var right = el('div', 'row');
-      right.appendChild(meter);
-      right.appendChild(el('div', 'muted', String(counts[i])));
-      row.appendChild(left);
-      row.appendChild(right);
-      box.appendChild(row);
-    }
-  }
-
-  // ═══════════════════ RENDER: NEGOCIO ═══════════════════
   function renderBiz() {
-    var mk = monthKey();
-    var d = new Date();
+    var mk = monthKey(), d = new Date();
     $('#bizMonthLabel').textContent = MONTHS[d.getMonth()] + ' ' + d.getFullYear();
     var b = DB.biz[mk] || {};
     $('#bAlumnas').value = b.alumnas != null ? b.alumnas : '';
@@ -1156,19 +1464,16 @@
     $('#bCierres').value = b.cierres != null ? b.cierres : '';
     $('#bMeta').value = b.meta != null ? b.meta : '';
 
-    var cierres = parseInt(b.cierres, 10) || 0;
-    var meta = parseInt(b.meta, 10) || 0;
+    var cierres = parseInt(b.cierres, 10) || 0, meta = parseInt(b.meta, 10) || 0;
     var pct = meta > 0 ? Math.min(100, Math.round(cierres / meta * 100)) : 0;
     $('#bMeter').style.width = pct + '%';
     $('#bMeterText').textContent = meta > 0
       ? cierres + ' de ' + meta + ' cierres · ' + pct + '% de la meta del mes.'
       : 'Poné una meta para ver el avance. Sin número, "vender más" no es un plan.';
 
-    // Distribución por área, últimos 30 días
     var box = $('#areaBreakdown');
     box.innerHTML = '';
-    var since = Date.now() - 30 * 864e5;
-    var counts = {}, total = 0;
+    var since = Date.now() - 30 * 864e5, counts = {}, total = 0;
     AREAS.forEach(function (a) { counts[a.id] = 0; });
     DB.tasks.forEach(function (t) {
       if (!t.done || !t.doneAt) return;
@@ -1200,71 +1505,201 @@
       box.appendChild(row);
     });
     var adminPct = Math.round(((counts.admin || 0) / total) * 100);
-    if (adminPct >= 35) {
-      $('#areaInsight').textContent = 'Admin se llevó el ' + adminPct + '% de tus tareas cerradas. Eso es tiempo que no está en alumnas ni en ventas — candidato número uno a delegar.';
-    } else {
-      $('#areaInsight').textContent = 'Tu mes se concentró en ' + maxArea.label + ' (' + maxN + ' de ' + total + '). ¿Es donde querías que estuviera?';
+    $('#areaInsight').textContent = adminPct >= 35
+      ? 'Admin se llevó el ' + adminPct + '% de tus tareas cerradas. Eso es tiempo que no está en alumnas ni en ventas — candidato número uno a delegar.'
+      : 'Tu mes se concentró en ' + maxArea.label + ' (' + maxN + ' de ' + total + '). ¿Es donde querías que estuviera?';
+  }
+
+  // ═══════════════════ RENDER: GENTE ═══════════════════
+  var TEMPS = ['encendida', 'tibia', 'silencio'];
+  var TEMP_LABEL = { encendida: 'Encendida', tibia: 'Tibia', silencio: 'En silencio' };
+
+  function renderFriends() {
+    var list = $('#friendList');
+    list.innerHTML = '';
+    if (!DB.friends.length) {
+      var e = el('div', 'empty');
+      e.appendChild(el('span', 'moon', '✦'));
+      e.appendChild(el('div', '', 'Sumá tres o cuatro personas. Las que querés que no se te pasen de largo.'));
+      list.appendChild(e);
+      return;
+    }
+    DB.friends.slice().sort(function (a, b) {
+      var da = daysSince(a.last), db2 = daysSince(b.last);
+      return (db2 == null ? 999 : db2) - (da == null ? 999 : da);
+    }).forEach(function (f) {
+      var d = daysSince(f.last);
+      var over = d != null && d > (f.every || 14);
+      var row = el('div', 'stu');
+      row.appendChild(el('div', 'dot ' + (over ? 'd-silencio' : (d != null && d > (f.every || 14) / 2 ? 'd-tibia' : 'd-encendida'))));
+
+      var body = el('div', 'stu-body');
+      body.appendChild(el('div', 'stu-name', f.name));
+      var sub = d == null ? 'Sin registro todavía'
+        : (d === 0 ? 'La viste hoy' : 'Hace ' + d + ' día' + (d === 1 ? '' : 's'));
+      var meta = el('div', 't-meta');
+      meta.appendChild(el('span', 'pill', sub));
+      meta.appendChild(el('span', 'pill', 'cada ' + (f.every || 14) + 'd'));
+      body.appendChild(meta);
+      row.appendChild(body);
+
+      var acts = el('div', 't-actions');
+      var seen = el('button', 'cycle' + (over ? ' warm' : ''), 'Vi');
+      seen.title = 'Registrar que la viste o hablaron';
+      seen.addEventListener('click', function () {
+        f.last = today();
+        careOf(today()).gente = 1;
+        save(); renderAll(); toast('Anotado. Eso también es sostener el negocio.');
+      });
+      acts.appendChild(seen);
+      if (over) {
+        var plan = el('button', 'cycle', 'Escribir');
+        plan.title = 'Crear tarea para hoy';
+        plan.addEventListener('click', function () {
+          DB.tasks.push({ id: uid(), title: 'Escribirle a ' + f.name + ' y proponer vernos', area: 'personal', weight: 'ligero', needle: false, done: false, day: today(), created: Date.now() });
+          save(); renderAll(); toast('Tarea creada para hoy.');
+        });
+        acts.appendChild(plan);
+      }
+      var del = el('button', '', '×');
+      del.addEventListener('click', function () {
+        DB.friends = DB.friends.filter(function (x) { return x.id !== f.id; });
+        save(); renderFriends();
+      });
+      acts.appendChild(del);
+      row.appendChild(acts);
+      list.appendChild(row);
+    });
+  }
+
+  function renderStudents() {
+    var list = $('#studentList');
+    list.innerHTML = '';
+    if (!DB.students.length) {
+      var e = el('div', 'empty');
+      e.appendChild(el('span', 'moon', '✧'));
+      e.appendChild(el('div', '', 'Sumá a tus alumnas. Lo que se mira, se sostiene.'));
+      list.appendChild(e);
+      return;
+    }
+    var order = { silencio: 0, tibia: 1, encendida: 2 };
+    DB.students.slice().sort(function (a, b) { return (order[a.temp] || 0) - (order[b.temp] || 0); }).forEach(function (s) {
+      var row = el('div', 'stu');
+      var dot = el('button', 'dot d-' + s.temp);
+      dot.title = 'Cambiar estado';
+      dot.addEventListener('click', function () {
+        s.temp = TEMPS[(TEMPS.indexOf(s.temp) + 1) % TEMPS.length];
+        s.lastTouch = today();
+        save(); renderStudents(); toast(s.name + ': ' + TEMP_LABEL[s.temp]);
+      });
+      row.appendChild(dot);
+
+      var body = el('div', 'stu-body');
+      body.appendChild(el('div', 'stu-name', s.name));
+      var meta = el('div', 't-meta');
+      if (s.role) meta.appendChild(el('span', 'pill', s.role));
+      meta.appendChild(el('span', 'pill', 'Mes ' + s.month));
+      if (s.cohort) meta.appendChild(el('span', 'pill', s.cohort));
+      body.appendChild(meta);
+      row.appendChild(body);
+
+      var acts = el('div', 't-actions');
+      if (s.temp !== 'encendida') {
+        var ping = el('button', 'cycle', 'Tocar');
+        ping.title = 'Crear tarea de contacto para hoy';
+        ping.addEventListener('click', function () {
+          DB.tasks.push({ id: uid(), title: 'Escribirle a ' + s.name + ' — lleva días en silencio', area: 'alumnas', weight: 'ligero', needle: true, done: false, day: today(), created: Date.now() });
+          save(); renderAll(); toast('Tarea creada para hoy.');
+        });
+        acts.appendChild(ping);
+      }
+      var del = el('button', '', '×');
+      del.addEventListener('click', function () {
+        DB.students = DB.students.filter(function (x) { return x.id !== s.id; });
+        save(); renderAll();
+      });
+      acts.appendChild(del);
+      row.appendChild(acts);
+      list.appendChild(row);
+    });
+  }
+
+  var ARC = ['Diagnóstico y base', 'Vocabulario de poder', 'Reuniones en vivo', 'Presencia ejecutiva', 'Automatismo bajo presión'];
+
+  function renderCohortArc() {
+    var box = $('#cohortArc');
+    box.innerHTML = '';
+    if (!DB.students.length) {
+      box.appendChild(el('p', 'muted', 'Cuando cargues alumnas, vas a ver acá en qué mes está cada grupo.'));
+      return;
+    }
+    var counts = [0, 0, 0, 0, 0];
+    DB.students.forEach(function (s) {
+      var m = parseInt(s.month, 10);
+      if (m >= 1 && m <= 5) counts[m - 1]++;
+    });
+    var max = Math.max.apply(null, counts) || 1;
+    for (var i = 0; i < 5; i++) {
+      var row = el('div', 'between');
+      row.style.cssText = 'padding:9px 0;' + (i < 4 ? 'border-bottom:1px solid rgba(232,196,173,.18)' : '');
+      var left = el('div', '', 'Mes ' + (i + 1) + ' · ' + ARC[i]);
+      left.style.fontSize = '13.5px';
+      var meter = el('div');
+      meter.style.cssText = 'width:90px;height:5px;background:rgba(232,196,173,.2);border-radius:3px;overflow:hidden;flex:none';
+      var fill = el('i');
+      fill.style.cssText = 'display:block;height:100%;background:var(--terracota);width:' + Math.round(counts[i] / max * 100) + '%';
+      meter.appendChild(fill);
+      var right = el('div', 'row');
+      right.appendChild(meter);
+      right.appendChild(el('div', 'muted', String(counts[i])));
+      row.appendChild(left); row.appendChild(right);
+      box.appendChild(row);
     }
   }
 
   // ═══════════════════ RENDER: PROGRESO ═══════════════════
   function lastDays(n) {
     var out = [];
-    for (var i = n - 1; i >= 0; i--) {
-      var d = new Date();
-      d.setDate(d.getDate() - i);
-      out.push(d);
-    }
+    for (var i = n - 1; i >= 0; i--) { var d = new Date(); d.setDate(d.getDate() - i); out.push(d); }
     return out;
   }
 
-  function renderBars(target, axis, key) {
+  function renderBars(target, axis, getter, maxVal) {
     var box = $(target), ax = $(axis);
     box.innerHTML = ''; ax.innerHTML = '';
-    var days = lastDays(14);
-    days.forEach(function (d, idx) {
-      var c = DB.checkins[iso(d)];
-      var v = c ? c[key] : 0;
+    lastDays(14).forEach(function (d, idx) {
+      var v = getter(iso(d)) || 0;
       var b = el('div', 'b' + (v ? '' : ' empty-b'));
       var i = el('i');
-      i.style.height = (v ? (v / 5 * 100) : 6) + '%';
+      i.style.height = (v ? Math.max(6, v / maxVal * 100) : 6) + '%';
       b.appendChild(i);
-      b.title = iso(d) + (v ? ' · ' + v + '/5' : ' · sin registro');
+      b.title = iso(d) + (v ? ' · ' + v : ' · sin registro');
       box.appendChild(b);
-      if (idx % 3 === 0 || idx === days.length - 1) {
-        ax.appendChild(el('span', '', DAYS_SHORT[d.getDay()] + d.getDate()));
-      }
+      if (idx % 3 === 0 || idx === 13) ax.appendChild(el('span', '', DSHORT[d.getDay()] + d.getDate()));
     });
   }
 
   function renderKpis() {
     var box = $('#kpiBox');
     box.innerHTML = '';
-    var days = lastDays(14);
-    var vals = [], sleeps = [];
+    var days = lastDays(14), en = [], anxv = [], enj = [], care = [];
     days.forEach(function (d) {
-      var c = DB.checkins[iso(d)];
-      if (c) { vals.push(c.energy || 0); sleeps.push(c.sleep || 0); }
+      var k = iso(d), c = DB.checkins[k];
+      if (c) { en.push(c.energy || 0); if (c.anx) anxv.push(c.anx); }
+      var cl = DB.closes[k];
+      if (cl && cl.enjoy) enj.push(cl.enjoy);
+      if (DB.care[k]) care.push(careScore(k));
     });
-    var avgE = vals.length ? (vals.reduce(function (a, b) { return a + b; }, 0) / vals.length) : 0;
-    var avgS = sleeps.length ? (sleeps.reduce(function (a, b) { return a + b; }, 0) / sleeps.length) : 0;
+    function avg(a) { return a.length ? (a.reduce(function (x, y) { return x + y; }, 0) / a.length) : 0; }
+    var mins = 0;
+    days.forEach(function (d) { mins += DB.focus[iso(d)] || 0; });
 
-    var since = Date.now() - 14 * 864e5;
-    var moves = 0;
-    DB.tasks.forEach(function (t) {
-      if (t.done && t.needle && t.doneAt && new Date(t.doneAt).getTime() >= since) moves++;
-    });
-    var mins = DB.focus.reduce(function (sum, f) {
-      return (f.ts && f.ts >= since) ? sum + (f.minutes || 0) : sum;
-    }, 0);
-
-    var kpis = [
-      { n: avgE ? avgE.toFixed(1) : '—', l: 'Energía media' },
-      { n: avgS ? avgS.toFixed(1) : '—', l: 'Sueño medio' },
-      { n: String(moves), l: 'Movimientos' },
-      { n: mins ? Math.round(mins / 60) + 'h' : '0h', l: 'Foco real' }
-    ];
-    kpis.forEach(function (k) {
+    [
+      { n: avg(en) ? avg(en).toFixed(1) : '—', l: 'Energía media' },
+      { n: avg(anxv) ? avg(anxv).toFixed(1) : '—', l: 'Ansiedad media' },
+      { n: avg(enj) ? avg(enj).toFixed(1) : '—', l: 'Disfrute medio' },
+      { n: avg(care) ? avg(care).toFixed(1) + '/6' : '—', l: 'Cuidados/día' }
+    ].forEach(function (k) {
       var c = el('div', 'kpi');
       c.appendChild(el('div', 'n', k.n));
       c.appendChild(el('div', 'l', k.l));
@@ -1275,11 +1710,10 @@
   function renderInsights() {
     var box = $('#insights');
     box.innerHTML = '';
-    var days = lastDays(21);
     var recs = [];
-    days.forEach(function (d) {
-      var c = DB.checkins[iso(d)];
-      if (c) recs.push({ d: d, c: c });
+    lastDays(28).forEach(function (d) {
+      var k = iso(d), c = DB.checkins[k];
+      if (c) recs.push({ k: k, d: d, c: c, close: DB.closes[k] || null, care: DB.care[k] ? careScore(k) : null });
     });
 
     if (recs.length < 4) {
@@ -1288,78 +1722,157 @@
     }
 
     var out = [];
+    function avgOf(arr, f) { return arr.length ? arr.reduce(function (s, r) { return s + f(r); }, 0) / arr.length : 0; }
 
-    // Relación sueño → energía
-    var lowSleep = recs.filter(function (r) { return r.c.sleep <= 2; });
-    if (lowSleep.length >= 2) {
-      var avgAfter = lowSleep.reduce(function (a, r) { return a + r.c.energy; }, 0) / lowSleep.length;
-      out.push('En los ' + lowSleep.length + ' días que dormiste mal, tu energía promedio fue ' + avgAfter.toFixed(1) + '/5. El sueño no es un lujo: es tu insumo de producción.');
+    // Sueño → ansiedad
+    var bad = recs.filter(function (r) { return r.c.sleep <= 2 && r.c.anx; });
+    var good = recs.filter(function (r) { return r.c.sleep >= 4 && r.c.anx; });
+    if (bad.length >= 2 && good.length >= 2) {
+      var ab = avgOf(bad, function (r) { return r.c.anx; }), ag = avgOf(good, function (r) { return r.c.anx; });
+      if (ab - ag >= 0.5) {
+        out.push('Cuando dormís mal, tu ansiedad promedia ' + ab.toFixed(1) + '. Cuando dormís bien, ' + ag.toFixed(1) + '. El sueño no es un lujo: es tu principal regulador.');
+      }
     }
 
-    // Día de la semana más bajo
-    var byDow = {}, cntDow = {};
+    // Caminar → disfrute
+    var walked = recs.filter(function (r) { return DB.care[r.k] && (DB.care[r.k].caminar || 0) >= 20 && r.close && r.close.enjoy; });
+    var still = recs.filter(function (r) { return (!DB.care[r.k] || (DB.care[r.k].caminar || 0) < 20) && r.close && r.close.enjoy; });
+    if (walked.length >= 2 && still.length >= 2) {
+      var ew = avgOf(walked, function (r) { return r.close.enjoy; }), es = avgOf(still, function (r) { return r.close.enjoy; });
+      if (ew - es >= 0.4) {
+        out.push('Los días que caminaste 20 minutos o más, disfrutaste ' + ew.toFixed(1) + '/5. Los días sin caminata, ' + es.toFixed(1) + '/5. Es la palanca más barata que tenés.');
+      }
+    }
+
+    // Cuidados → energía
+    var hiCare = recs.filter(function (r) { return r.care != null && r.care >= 4; });
+    var loCare = recs.filter(function (r) { return r.care != null && r.care <= 2; });
+    if (hiCare.length >= 2 && loCare.length >= 2) {
+      var eh = avgOf(hiCare, function (r) { return r.c.energy; }), elo = avgOf(loCare, function (r) { return r.c.energy; });
+      if (eh - elo >= 0.5) {
+        out.push('Después de los días con 4+ cuidados, llegás con ' + eh.toFixed(1) + '/5 de energía. Después de los de 2 o menos, ' + elo.toFixed(1) + '. Cuidarte es infraestructura, no premio.');
+      }
+    }
+
+    // Días de exposición
+    var expo = recs.filter(function (r) { return r.c.classDay && r.c.anx; });
+    if (expo.length >= 2) {
+      var ae = avgOf(expo, function (r) { return r.c.anx; });
+      var rest = recs.filter(function (r) { return !r.c.classDay && r.c.anx; });
+      if (rest.length >= 2) {
+        var ar = avgOf(rest, function (r) { return r.c.anx; });
+        if (ae - ar >= 0.5) out.push('Los días que exponés, tu ansiedad sube de ' + ar.toFixed(1) + ' a ' + ae.toFixed(1) + '. El ancla pre-clase no es opcional esos días: agendala como se agenda la clase.');
+        else out.push('Registraste ' + expo.length + ' días de exposición y tu ansiedad no se dispara en ellos. Eso es entrenamiento, no casualidad.');
+      }
+    }
+
+    // Peor día de la semana
+    var byDow = {}, cnt = {};
     recs.forEach(function (r) {
       var k = r.d.getDay();
       byDow[k] = (byDow[k] || 0) + r.c.energy;
-      cntDow[k] = (cntDow[k] || 0) + 1;
+      cnt[k] = (cnt[k] || 0) + 1;
     });
-    var worst = null, worstAvg = 99;
+    var worst = null, wv = 99;
     Object.keys(byDow).forEach(function (k) {
-      if (cntDow[k] < 2) return;
-      var avg = byDow[k] / cntDow[k];
-      if (avg < worstAvg) { worstAvg = avg; worst = parseInt(k, 10); }
+      if (cnt[k] < 2) return;
+      var a = byDow[k] / cnt[k];
+      if (a < wv) { wv = a; worst = +k; }
     });
-    if (worst !== null) {
-      out.push('Los ' + DAYS[worst] + ' son tu día más bajo (' + worstAvg.toFixed(1) + '/5 de energía). No pongas ahí lo que exige tu mejor versión.');
+    if (worst !== null) out.push('Los ' + DAYS[worst] + ' son tu día más bajo (' + wv.toFixed(1) + '/5 de energía). No pongas ahí lo que exige tu mejor versión.');
+
+    // Trabajo sin disfrute
+    var closes = recs.filter(function (r) { return r.close && r.close.enjoy; });
+    if (closes.length >= 4) {
+      var lowJoy = closes.filter(function (r) { return r.close.enjoy <= 2; }).length;
+      if (lowJoy / closes.length >= 0.5) {
+        out.push(lowJoy + ' de ' + closes.length + ' días cerraste con poco disfrute. Productiva y vacía no es sostenible cinco meses, y vos lo sabés mejor que nadie.');
+      } else if (lowJoy === 0) {
+        out.push('En ningún día cerraste con disfrute bajo. Está funcionando lo que estás haciendo — no lo cambies por moda.');
+      }
     }
 
-    // Días de clase
-    var classDays = recs.filter(function (r) { return r.c.classDay; });
-    if (classDays.length >= 2) {
-      out.push('Registraste ' + classDays.length + ' días de exposición en tres semanas. La descarga post-clase no es opcional cuando la frecuencia es esa.');
-    }
-
-    // Regulación
-    var lowReg = recs.filter(function (r) { return r.c.reg <= 2; }).length;
-    if (lowReg >= 3) {
-      out.push(lowReg + ' de ' + recs.length + ' días llegaste tensa o en alerta. No es un problema de agenda, es de carga sostenida.');
-    } else if (lowReg === 0) {
-      out.push('Ningún día llegaste en alerta. Eso es un logro operativo, no suerte — lo que estás haciendo, funciona.');
-    }
-
-    out.slice(0, 4).forEach(function (txt) {
-      var p = el('p', 'note', txt);
-      p.style.paddingLeft = '14px';
-      p.style.borderLeft = '2px solid var(--terracota)';
-      box.appendChild(p);
+    // Vínculos
+    var neglected = DB.friends.filter(function (f) {
+      var d = daysSince(f.last);
+      return d != null && d > (f.every || 14);
     });
+    if (neglected.length) {
+      out.push('Hace rato que no ves a ' + neglected.slice(0, 3).map(function (f) { return f.name; }).join(', ') + '. Los vínculos son el amortiguador de la ansiedad, no el premio por terminar el trabajo.');
+    }
+
+    if (!out.length) out.push('Todavía no veo patrones fuertes. Seguí registrando: las lecturas buenas aparecen alrededor de las tres semanas.');
+
+    out.slice(0, 5).forEach(function (txt) { box.appendChild(el('p', 'insight', txt)); });
+  }
+
+  function renderToolRank() {
+    var box = $('#toolRank');
+    box.innerHTML = '';
+    var stats = {};
+    DB.anx.forEach(function (a) {
+      if (a.before == null || a.after == null || !a.tool) return;
+      if (!stats[a.tool]) stats[a.tool] = { n: 0, drop: 0 };
+      stats[a.tool].n++;
+      stats[a.tool].drop += (a.before - a.after);
+    });
+    var keys = Object.keys(stats);
+    if (!keys.length) {
+      box.appendChild(el('p', 'muted', 'Cuando uses el botón de respirar y registres cómo quedaste, acá vas a ver qué te funciona a vos — no lo que dice internet.'));
+      return;
+    }
+    keys.map(function (k) {
+      return { id: k, avg: stats[k].drop / stats[k].n, n: stats[k].n };
+    }).sort(function (a, b) { return b.avg - a.avg; }).forEach(function (r) {
+      var t = toolById(r.id);
+      var row = el('div', 'between');
+      row.style.padding = '10px 0';
+      var left = el('div');
+      left.appendChild(el('div', '', t ? t.name : r.id));
+      left.appendChild(el('div', 'muted', 'usada ' + r.n + (r.n === 1 ? ' vez' : ' veces')));
+      row.appendChild(left);
+      var val = el('div');
+      val.style.cssText = "font-family:'Crimson Pro',Georgia,serif;font-size:22px;color:var(--olive)";
+      val.textContent = (r.avg > 0 ? '−' : '') + Math.abs(r.avg).toFixed(1);
+      row.appendChild(val);
+      box.appendChild(row);
+    });
+    box.appendChild(el('p', 'muted', 'Cuánto te baja la ansiedad en promedio, en la escala de 1 a 5.'));
   }
 
   function renderClosesList() {
     var box = $('#closesList');
     box.innerHTML = '';
     var keys = Object.keys(DB.closes).sort().reverse().slice(0, 7);
-    if (!keys.length) {
-      box.appendChild(el('p', 'muted', 'Todavía no cerraste ningún día.'));
-      return;
-    }
+    if (!keys.length) { box.appendChild(el('p', 'muted', 'Todavía no cerraste ningún día.')); return; }
     keys.forEach(function (k) {
-      var c = DB.closes[k];
+      var c = DB.closes[k], d = fromIso(k);
       var wrap = el('div');
       wrap.style.cssText = 'padding:12px 0;border-bottom:1px solid var(--line)';
-      var parts = k.split('-');
-      var dd = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
-      var date = el('div', 'overline', DAYS[dd.getDay()] + ' ' + dd.getDate() + ' de ' + MONTHS[dd.getMonth()]);
-      wrap.appendChild(date);
-      if (c.moved) wrap.appendChild(el('p', '', c.moved));
-      if (c.learned) {
-        var q = el('p', 'note', '“' + c.learned + '”');
-        q.style.marginTop = '6px';
-        q.style.fontStyle = 'italic';
-        wrap.appendChild(q);
+      wrap.appendChild(el('div', 'overline', DAYS[d.getDay()] + ' ' + d.getDate() + ' de ' + MONTHS[d.getMonth()] + (c.enjoy ? ' · disfrute ' + c.enjoy + '/5' : '')));
+      if (c.joy) {
+        var j = el('p', 'quote', c.joy);
+        j.style.fontSize = '16px';
+        wrap.appendChild(j);
+      }
+      if (c.moved) {
+        var m = el('p', 'muted', c.moved);
+        m.style.marginTop = '4px';
+        wrap.appendChild(m);
       }
       box.appendChild(wrap);
     });
+  }
+
+  function renderProgreso() {
+    renderKpis();
+    renderBars('#barsEnergy', '#axisEnergy', function (k) { return DB.checkins[k] ? DB.checkins[k].energy : 0; }, 5);
+    renderBars('#barsAnx', '#axisAnx', function (k) { return DB.checkins[k] ? DB.checkins[k].anx : 0; }, 5);
+    renderBars('#barsEnjoy', '#axisEnjoy', function (k) { return DB.closes[k] ? DB.closes[k].enjoy : 0; }, 5);
+    renderBars('#barsCare', '#axisCare', function (k) { return DB.care[k] ? careScore(k) : 0; }, CARE.length);
+    renderInsights();
+    renderToolRank();
+    renderClosesList();
   }
 
   // ═══════════════════ TIMER ═══════════════════
@@ -1368,46 +1881,38 @@
   function timerDurations() {
     var lv = todayLevel();
     var custom = parseInt(DB.settings.focusLong, 10);
-    var focusMin = lv.key === 'cuidado' ? 25 : (lv.key === 'estandar' ? 45 : (custom > 0 ? custom : 50));
-    return { focus: focusMin, brk: lv.brk };
+    var f = lv.key === 'cuidado' ? 25 : (lv.key === 'estandar' ? 45 : (custom > 0 ? custom : 50));
+    return { focus: f, brk: lv.brk };
   }
-
   function resetTimer() {
     var d = timerDurations();
-    timer.running = false;
-    timer.phase = 'foco';
-    timer.total = d.focus * 60;
-    timer.left = timer.total;
+    timer.running = false; timer.phase = 'foco';
+    timer.total = d.focus * 60; timer.left = timer.total;
     clearInterval(timer.handle);
     paintTimer();
   }
-
   function paintTimer() {
-    var m = Math.floor(timer.left / 60), s = timer.left % 60;
-    $('#fClock').textContent = pad(m) + ':' + pad(s);
+    $('#fClock').textContent = pad(Math.floor(timer.left / 60)) + ':' + pad(timer.left % 60);
     $('#fPhase').textContent = timer.phase === 'foco' ? 'Foco' : 'Pausa real';
     $('#btnFocus').textContent = timer.running ? 'Pausar' : (timer.left === timer.total ? 'Empezar' : 'Seguir');
-    var pct = timer.total ? ((timer.total - timer.left) / timer.total * 100) : 0;
-    $('#fRing').style.width = pct + '%';
-    var d = timerDurations();
-    var lv = todayLevel();
+    $('#fRing').style.width = (timer.total ? ((timer.total - timer.left) / timer.total * 100) : 0) + '%';
+    var d = timerDurations(), lv = todayLevel();
     $('#fNote').textContent = timer.phase === 'foco'
       ? 'Hoy: ' + lv.blocks + ' bloques de ' + d.focus + ' min. Ajustado a cómo llegaste, no a cómo deberías estar.'
-      : 'Levantate de verdad. La pausa frente a la misma pantalla no cuenta.';
+      : 'Levantate de verdad. Agua, ventana, piernas. La pausa frente a la misma pantalla no cuenta.';
   }
-
   function tick() {
     if (!timer.running) return;
     timer.left--;
     if (timer.left <= 0) {
       if (timer.phase === 'foco') {
-        var mins = Math.round(timer.total / 60);
-        DB.focus.push({ date: today(), minutes: mins, ts: Date.now() });
+        var k = today();
+        DB.focus[k] = (DB.focus[k] || 0) + Math.round(timer.total / 60);
         save();
         timer.phase = 'pausa';
         timer.total = timerDurations().brk * 60;
         timer.left = timer.total;
-        toast('Bloque cerrado. Pausá en serio.');
+        toast('Bloque cerrado. Pausá en serio: parate y tomá agua.');
       } else {
         timer.phase = 'foco';
         timer.total = timerDurations().focus * 60;
@@ -1419,6 +1924,126 @@
       renderKpis();
     }
     paintTimer();
+  }
+
+  // ═══════════════════ SOS / RESPIRACIÓN ═══════════════════
+  var sos = { before: 0, after: 0, trigger: '', tool: null };
+  var breath = { handle: null, timeout: null };
+
+  function stopBreath() {
+    clearInterval(breath.handle); clearTimeout(breath.timeout);
+    breath.handle = null; breath.timeout = null;
+  }
+
+  function runBreath(cfg) {
+    stopBreath();
+    var circle = $('#breathCircle'), word = $('#breathWord'), count = $('#breathCount');
+    var cycle = 0, pi = 0;
+
+    function phase() {
+      if (cycle >= cfg.cycles) {
+        word.textContent = 'Listo';
+        circle.style.transitionDuration = '1.2s';
+        circle.style.transform = 'scale(.72)';
+        count.textContent = 'Terminaste las ' + cfg.cycles + ' rondas';
+        return;
+      }
+      var p = cfg.phases[pi];
+      word.textContent = p.w;
+      circle.style.transitionDuration = p.s + 's';
+      circle.style.transform = 'scale(' + p.size + ')';
+      count.textContent = 'Ronda ' + (cycle + 1) + ' de ' + cfg.cycles;
+      breath.timeout = setTimeout(function () {
+        pi++;
+        if (pi >= cfg.phases.length) { pi = 0; cycle++; }
+        phase();
+      }, p.s * 1000);
+    }
+    // Un respiro antes de arrancar, para que el primer "Inhalá" no la agarre a mitad.
+    word.textContent = 'Preparate';
+    circle.style.transitionDuration = '1s';
+    circle.style.transform = 'scale(.62)';
+    count.textContent = '—';
+    breath.timeout = setTimeout(phase, 1400);
+  }
+
+  function showSosStep(n) {
+    ['#sosStep1', '#sosStep2', '#sosStep3', '#sosStep4'].forEach(function (id, i) {
+      $(id).style.display = (i === n - 1) ? '' : 'none';
+    });
+  }
+
+  function openSos() {
+    sos = { before: 0, after: 0, trigger: '', tool: null };
+    $('#sosTrigger').value = '';
+    $$('.scale[data-k=sosBefore] button, .scale[data-k=sosAfter] button').forEach(function (b) { b.classList.remove('on'); });
+    showSosStep(1);
+    openModal('#mSos');
+  }
+
+  function renderSosTools() {
+    var box = $('#sosTools');
+    box.innerHTML = '';
+    TOOLS.forEach(function (t) {
+      var b = el('button', 'tool');
+      b.appendChild(el('div', 'tn', t.name));
+      b.appendChild(el('div', 'td', t.desc));
+      b.addEventListener('click', function () { runTool(t); });
+      box.appendChild(b);
+    });
+  }
+
+  function runTool(t) {
+    sos.tool = t.id;
+    $('#sosRunOver').textContent = t.over;
+    $('#sosRunTitle').textContent = t.name;
+    $('#sosRunSub').textContent = t.sub;
+    var steps = $('#sosSteps');
+    steps.innerHTML = '';
+    (t.steps || []).forEach(function (s, i) {
+      var row = el('div', 'row');
+      row.style.alignItems = 'flex-start';
+      var n = el('div', '', String(i + 1));
+      n.style.cssText = "font-family:'Crimson Pro',Georgia,serif;font-size:20px;color:var(--terracota);flex:none;width:22px;line-height:1.2";
+      var x = el('div', '', s);
+      x.style.fontSize = '14px';
+      row.appendChild(n); row.appendChild(x);
+      steps.appendChild(row);
+    });
+    if (t.breath) {
+      $('#sosBreath').style.display = '';
+      runBreath(t.breath);
+    } else {
+      $('#sosBreath').style.display = 'none';
+      stopBreath();
+    }
+    showSosStep(3);
+  }
+
+  // Entrada directa desde la pestaña Cuidado: sin escala previa.
+  function startSos(toolId) {
+    sos = { before: 0, after: 0, trigger: '', tool: toolId };
+    openModal('#mSos');
+    var t = toolById(toolId);
+    if (t) runTool(t);
+  }
+
+  function saveSos() {
+    careOf(today()).respiro = 1;
+    if (sos.before || sos.after) {
+      DB.anx.push({
+        id: uid(), date: today(), ts: Date.now(),
+        before: sos.before || null, after: sos.after || null,
+        trigger: sos.trigger || '', tool: sos.tool || null
+      });
+    }
+    save();
+    stopBreath();
+    closeModal('#mSos');
+    renderAll();
+    var drop = (sos.before && sos.after) ? (sos.before - sos.after) : 0;
+    toast(drop > 0 ? 'Bajó ' + drop + ' punto' + (drop === 1 ? '' : 's') + '. Eso lo hiciste vos.'
+      : 'Registrado. Que no haya bajado ahora no significa que no sirva.');
   }
 
   // ═══════════════════ MODAL: TAREA ═══════════════════
@@ -1451,19 +2076,15 @@
     setTimeout(function () { $('#tTitle').focus(); }, 120);
   }
 
-  // ═══════════════════ MODAL: MOVIMIENTO ═══════════════════
   function openMovementPicker() {
     var box = $('#movePickList');
     box.innerHTML = '';
-    var candidates = DB.tasks.filter(function (t) { return !t.done && (t.day === today() || !t.day); });
-    candidates.sort(function (a, b) { return (b.needle ? 1 : 0) - (a.needle ? 1 : 0); });
-    if (!candidates.length) {
-      box.appendChild(el('p', 'muted', 'No hay tareas todavía. Creá una primero.'));
-    }
-    candidates.forEach(function (t) {
+    var cands = DB.tasks.filter(function (t) { return !t.done && (t.day === today() || !t.day); });
+    cands.sort(function (a, b) { return (b.needle ? 1 : 0) - (a.needle ? 1 : 0); });
+    if (!cands.length) box.appendChild(el('p', 'muted', 'No hay tareas todavía. Creá una primero.'));
+    cands.forEach(function (t) {
       var row = el('button', 'task');
-      row.style.width = '100%';
-      row.style.textAlign = 'left';
+      row.style.cssText = 'width:100%;text-align:left';
       var body = el('div', 't-body');
       body.appendChild(el('div', 't-title', t.title));
       var meta = el('div', 't-meta');
@@ -1483,7 +2104,6 @@
     openModal('#mMovement');
   }
 
-  // ═══════════════════ MODAL: PRÁCTICA ═══════════════════
   function openPractice(key) {
     var p = PRACTICES[key];
     if (!p) return;
@@ -1496,7 +2116,7 @@
       var row = el('div', 'row');
       row.style.alignItems = 'flex-start';
       var n = el('div', '', String(i + 1));
-      n.style.cssText = 'font-family:Crimson Pro,Georgia,serif;font-size:20px;color:var(--terracota);flex:none;width:22px;line-height:1.2';
+      n.style.cssText = "font-family:'Crimson Pro',Georgia,serif;font-size:20px;color:var(--terracota);flex:none;width:22px;line-height:1.2";
       var t = el('div', '', s);
       t.style.fontSize = '14px';
       row.appendChild(n); row.appendChild(t);
@@ -1509,26 +2129,26 @@
   function renderAll() {
     renderHeader();
     renderCheckin();
+    renderCare();
     renderMovement();
     renderToday();
     renderCloses();
+    renderTools();
+    renderAnxLog();
+    renderGoals();
     renderAreaFilter();
     renderBacklog();
     renderIdeas();
+    renderBiz();
+    renderFriends();
     renderStudents();
     renderCohortArc();
-    renderBiz();
-    renderKpis();
-    renderBars('#barsEnergy', '#axisEnergy', 'energy');
-    renderBars('#barsSleep', '#axisSleep', 'sleep');
-    renderInsights();
-    renderClosesList();
+    renderProgreso();
     paintTimer();
   }
 
   // ═══════════════════ EVENTOS ═══════════════════
   function bind() {
-    // Tabs
     $$('.tab').forEach(function (t) {
       t.addEventListener('click', function () {
         $$('.tab').forEach(function (x) { x.classList.remove('on'); });
@@ -1539,64 +2159,76 @@
       });
     });
 
-    // Cerrar modales
     $$('[data-close]').forEach(function (b) {
       b.addEventListener('click', function () {
         var m = b.closest('.modal');
-        if (m) m.classList.remove('on');
+        if (m) { m.classList.remove('on'); stopBreath(); }
       });
     });
     document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape') $$('.modal.on').forEach(function (m) { m.classList.remove('on'); });
+      if (e.key === 'Escape') { $$('.modal.on').forEach(function (m) { m.classList.remove('on'); }); stopBreath(); }
     });
 
     // Check-in
-    $$('.scale').forEach(function (s) {
+    $$('.scale[data-k]').forEach(function (s) {
       var k = s.getAttribute('data-k');
       $$('button', s).forEach(function (b) {
         b.addEventListener('click', function () {
-          draft[k] = parseInt(b.getAttribute('data-v'), 10);
+          var v = parseInt(b.getAttribute('data-v'), 10);
           $$('button', s).forEach(function (x) { x.classList.remove('on'); });
           b.classList.add('on');
+          if (k === 'sosBefore') sos.before = v;
+          else if (k === 'sosAfter') sos.after = v;
+          else draft[k] = v;
         });
       });
     });
     $('#chipClass').addEventListener('click', function () {
       draft.classDay = true;
-      $('#chipClass').classList.add('on');
-      $('#chipNoClass').classList.remove('on');
+      $('#chipClass').classList.add('on'); $('#chipNoClass').classList.remove('on');
     });
     $('#chipNoClass').addEventListener('click', function () {
       draft.classDay = false;
-      $('#chipNoClass').classList.add('on');
-      $('#chipClass').classList.remove('on');
+      $('#chipNoClass').classList.add('on'); $('#chipClass').classList.remove('on');
     });
     $('#btnSaveCheckin').addEventListener('click', function () {
-      if (!draft.sleep || !draft.energy || !draft.reg) {
-        toast('Faltan las tres respuestas. Son veinte segundos.');
+      if (!draft.sleep || !draft.energy || !draft.reg || !draft.anx) {
+        toast('Faltan respuestas. Son treinta segundos.');
         return;
       }
       DB.checkins[today()] = {
-        sleep: draft.sleep, energy: draft.energy, reg: draft.reg,
-        classDay: !!draft.classDay, ts: Date.now()
+        sleep: draft.sleep, energy: draft.energy, reg: draft.reg, anx: draft.anx,
+        mood: draft.mood || '', classDay: draft.classDay === true, ts: Date.now()
       };
-      save();
-      resetTimer();
-      renderAll();
+      save(); resetTimer(); renderAll();
       var lv = todayLevel();
       toast(lv.name + ' · así se arma el día.');
+      if (draft.anx >= 4) setTimeout(openSos, 900);
     });
     $('#btnRedoCheckin').addEventListener('click', function () {
       var c = todayCheckin();
-      if (c) draft = { sleep: c.sleep, energy: c.energy, reg: c.reg, classDay: !!c.classDay };
+      if (c) draft = { sleep: c.sleep, energy: c.energy, reg: c.reg, anx: c.anx, mood: c.mood || '', classDay: !!c.classDay };
       delete DB.checkins[today()];
       save(); renderAll();
     });
 
-    // Movimiento
-    $('#btnPickMovement').addEventListener('click', openMovementPicker);
+    // SOS
+    $('#btnSos').addEventListener('click', openSos);
+    $('#btnSosNext').addEventListener('click', function () {
+      if (!sos.before) { toast('Marcá cómo estás ahora. Es el punto de partida.'); return; }
+      sos.trigger = $('#sosTrigger').value.trim();
+      renderSosTools();
+      showSosStep(2);
+    });
+    $('#btnSosDone').addEventListener('click', function () {
+      stopBreath();
+      if (!sos.before) { saveSos(); return; }
+      showSosStep(4);
+    });
+    $('#btnSosSave').addEventListener('click', saveSos);
 
-    // Tareas
+    // Movimiento / tareas
+    $('#btnPickMovement').addEventListener('click', openMovementPicker);
     $('#btnAddToday').addEventListener('click', function () { openTaskModal(true); });
     $('#btnAddTask').addEventListener('click', function () { openTaskModal(false); });
     $('#tNeedleYes').addEventListener('click', function () { tDraft.needle = true; paintTaskChips(); });
@@ -1612,25 +2244,29 @@
       });
       save(); closeModal('#mTask'); renderAll();
       if (tDraft.day) {
-        var lv = todayLevel();
-        if (usedCapacity() > lv.capacity) toast('Ojo: pasaste la carga del día.');
-        else toast('Sumada a hoy.');
+        toast(usedCapacity() > todayLevel().capacity ? 'Ojo: pasaste la carga que tu día aguanta.' : 'Sumada a hoy.');
       } else { toast('Al backlog.'); }
     });
-    $('#tTitle').addEventListener('keydown', function (e) {
-      if (e.key === 'Enter') $('#btnSaveTask').click();
+    $('#tTitle').addEventListener('keydown', function (e) { if (e.key === 'Enter') $('#btnSaveTask').click(); });
+
+    // Prácticas
+    $$('[data-practice]').forEach(function (b) {
+      b.addEventListener('click', function () { openPractice(b.getAttribute('data-practice')); });
+    });
+    $('#btnPracticeDone').addEventListener('click', function () {
+      careOf(today()).respiro = 1;
+      save(); closeModal('#mPractice'); renderAll();
+      toast('Hecho. Vuelta al día.');
     });
 
-    // Ideas
-    function addIdea() {
-      var v = $('#ideaInput').value.trim();
-      if (!v) return;
-      DB.ideas.push({ id: uid(), text: v, date: today(), ts: Date.now() });
-      $('#ideaInput').value = '';
-      save(); renderAll(); toast('Guardado en el banco.');
-    }
-    $('#btnIdea').addEventListener('click', addIdea);
-    $('#ideaInput').addEventListener('keydown', function (e) { if (e.key === 'Enter') addIdea(); });
+    // Metas de cuidado
+    $('#btnSaveGoals').addEventListener('click', function () {
+      DB.settings.water = Math.min(16, Math.max(1, parseInt($('#gWater').value, 10) || 8));
+      DB.settings.walk = Math.min(180, Math.max(5, parseInt($('#gWalk').value, 10) || 30));
+      DB.settings.trainWeek = Math.min(7, Math.max(0, parseInt($('#gTrain').value, 10) || 0));
+      DB.settings.friendsWeek = Math.min(7, Math.max(0, parseInt($('#gFriends').value, 10) || 0));
+      save(); renderAll(); toast('Metas guardadas.');
+    });
 
     // Foco
     $('#btnFocus').addEventListener('click', function () {
@@ -1641,18 +2277,11 @@
     });
     $('#btnFocusReset').addEventListener('click', resetTimer);
 
-    // Prácticas
-    $$('[data-practice]').forEach(function (b) {
-      b.addEventListener('click', function () { openPractice(b.getAttribute('data-practice')); });
-    });
-    $('#btnPracticeDone').addEventListener('click', function () {
-      closeModal('#mPractice');
-      toast('Hecho. Vuelta al día.');
-    });
-
     // Cierre
     $('#btnClose').addEventListener('click', function () {
       DB.closes[today()] = {
+        enjoy: draft.enjoy || 0,
+        joy: $('#cl0').value.trim(),
         moved: $('#cl1').value.trim(),
         learned: $('#cl2').value.trim(),
         release: $('#cl3').value.trim(),
@@ -1662,16 +2291,24 @@
       var tm = $('#cl4').value.trim();
       if (tm) {
         var d = new Date(); d.setDate(d.getDate() + 1);
-        DB.tasks.push({
-          id: uid(), title: tm, area: 'alumnas', weight: 'medio',
-          needle: true, done: false, day: iso(d), created: Date.now()
-        });
+        DB.tasks.push({ id: uid(), title: tm, area: 'alumnas', weight: 'medio', needle: true, done: false, day: iso(d), created: Date.now() });
       }
       save(); renderAll();
       toast(tm ? 'Cerrado. Mañana ya tiene su movimiento.' : 'Día cerrado. Descansá.');
     });
 
-    // Alumnas
+    // Gente
+    $('#btnAddFriend').addEventListener('click', function () {
+      $('#frName').value = '';
+      openModal('#mFriend');
+      setTimeout(function () { $('#frName').focus(); }, 120);
+    });
+    $('#btnSaveFriend').addEventListener('click', function () {
+      var n = $('#frName').value.trim();
+      if (!n) { toast('Falta el nombre.'); return; }
+      DB.friends.push({ id: uid(), name: n, every: parseInt($('#frEvery').value, 10) || 14, last: null });
+      save(); closeModal('#mFriend'); renderFriends(); toast('Sumada.');
+    });
     $('#btnAddStudent').addEventListener('click', function () {
       $('#sName').value = ''; $('#sRole').value = ''; $('#sCohort').value = '';
       openModal('#mStudent');
@@ -1681,23 +2318,29 @@
       var n = $('#sName').value.trim();
       if (!n) { toast('Falta el nombre.'); return; }
       DB.students.push({
-        id: uid(), name: n, role: $('#sRole').value.trim(),
-        cohort: $('#sCohort').value.trim(), month: $('#sMonth').value,
-        temp: 'encendida', lastTouch: today()
+        id: uid(), name: n, role: $('#sRole').value.trim(), cohort: $('#sCohort').value.trim(),
+        month: $('#sMonth').value, temp: 'encendida', lastTouch: today()
       });
       save(); closeModal('#mStudent'); renderAll(); toast('Sumada al radar.');
     });
 
     // Negocio
     $('#btnSaveBiz').addEventListener('click', function () {
-      DB.biz[monthKey()] = {
-        alumnas: $('#bAlumnas').value === '' ? null : parseInt($('#bAlumnas').value, 10),
-        leads: $('#bLeads').value === '' ? null : parseInt($('#bLeads').value, 10),
-        cierres: $('#bCierres').value === '' ? null : parseInt($('#bCierres').value, 10),
-        meta: $('#bMeta').value === '' ? null : parseInt($('#bMeta').value, 10)
-      };
+      function num(id) { var v = $(id).value; return v === '' ? null : parseInt(v, 10); }
+      DB.biz[monthKey()] = { alumnas: num('#bAlumnas'), leads: num('#bLeads'), cierres: num('#bCierres'), meta: num('#bMeta') };
       save(); renderBiz(); toast('Mes guardado.');
     });
+
+    // Ideas
+    function addIdea() {
+      var v = $('#ideaInput').value.trim();
+      if (!v) return;
+      DB.ideas.push({ id: uid(), text: v, date: today(), ts: Date.now() });
+      $('#ideaInput').value = '';
+      save(); renderIdeas(); toast('Guardado en el banco.');
+    }
+    $('#btnIdea').addEventListener('click', addIdea);
+    $('#ideaInput').addEventListener('keydown', function (e) { if (e.key === 'Enter') addIdea(); });
 
     // Ajustes
     $('#btnSettings').addEventListener('click', function () {
@@ -1714,16 +2357,12 @@
       DB.settings.focusLong = (v >= 10 && v <= 90) ? v : 50;
       save(); resetTimer();
     });
-
     $('#btnExport').addEventListener('click', function () {
       var blob = new Blob([JSON.stringify(DB, null, 2)], { type: 'application/json' });
       var url = URL.createObjectURL(blob);
       var a = document.createElement('a');
-      a.href = url;
-      a.download = 'founder-routine-' + today() + '.json';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
+      a.href = url; a.download = 'founder-routine-' + today() + '.json';
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
       setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
     });
     $('#btnImport').addEventListener('click', function () { $('#fileImport').click(); });
@@ -1733,11 +2372,9 @@
       var r = new FileReader();
       r.onload = function () {
         try {
-          var parsed = JSON.parse(r.result);
-          Object.keys(DB).forEach(function (k) {
-            if (parsed[k] !== undefined && parsed[k] !== null) DB[k] = parsed[k];
-          });
-          save(); renderAll(); closeModal('#mSettings');
+          var p = JSON.parse(r.result);
+          Object.keys(DB).forEach(function (k) { if (p[k] !== undefined && p[k] !== null) DB[k] = p[k]; });
+          save(); load(); renderAll(); closeModal('#mSettings');
           toast('Respaldo restaurado.');
         } catch (err) { toast('Ese archivo no se pudo leer.'); }
       };
@@ -1745,7 +2382,7 @@
       e.target.value = '';
     });
     $('#btnReset').addEventListener('click', function () {
-      if (!confirm('Esto borra todo: check-ins, tareas, alumnas, cierres. No se puede deshacer.')) return;
+      if (!confirm('Esto borra todo: check-ins, cuidados, tareas, alumnas, cierres. No se puede deshacer.')) return;
       localStorage.removeItem(KEY);
       location.reload();
     });
@@ -1754,13 +2391,13 @@
   // ═══════════════════ SEED ═══════════════════
   function seedIfEmpty() {
     if (DB.tasks.length || DB.students.length) return;
-    var base = Date.now();
+    var b = Date.now();
     DB.tasks = [
-      { id: uid(), title: 'Revisar transcripts de la clase del martes y marcar errores fosilizados', area: 'clases', weight: 'medio', needle: false, done: false, day: null, created: base },
-      { id: uid(), title: 'Grabar el módulo de Color Method para Skool', area: 'metodo', weight: 'pesado', needle: true, done: false, day: null, created: base - 1 },
-      { id: uid(), title: 'Seguimiento a los 3 leads que pidieron info la semana pasada', area: 'ventas', weight: 'medio', needle: true, done: false, day: null, created: base - 2 },
-      { id: uid(), title: 'Post sobre el Visibility Gap para LinkedIn', area: 'contenido', weight: 'ligero', needle: false, done: false, day: null, created: base - 3 },
-      { id: uid(), title: 'Facturas del mes', area: 'admin', weight: 'ligero', needle: false, done: false, day: null, created: base - 4 }
+      { id: uid(), title: 'Revisar transcripts de la clase del martes y marcar errores fosilizados', area: 'clases', weight: 'medio', needle: false, done: false, day: null, created: b },
+      { id: uid(), title: 'Grabar el módulo de Color Method para Skool', area: 'metodo', weight: 'pesado', needle: true, done: false, day: null, created: b - 1 },
+      { id: uid(), title: 'Seguimiento a los 3 leads que pidieron info la semana pasada', area: 'ventas', weight: 'medio', needle: true, done: false, day: null, created: b - 2 },
+      { id: uid(), title: 'Post sobre el Visibility Gap para LinkedIn', area: 'contenido', weight: 'ligero', needle: false, done: false, day: null, created: b - 3 },
+      { id: uid(), title: 'Facturas del mes', area: 'admin', weight: 'ligero', needle: false, done: false, day: null, created: b - 4 }
     ];
     save();
   }
@@ -1772,10 +2409,13 @@
   resetTimer();
   renderAll();
 
-  // Si la app queda abierta y cambia el día, se reajusta sola.
   var lastDay = today();
   setInterval(function () {
-    if (today() !== lastDay) { lastDay = today(); draft = { sleep: 0, energy: 0, reg: 0, classDay: false }; resetTimer(); renderAll(); }
+    if (today() !== lastDay) {
+      lastDay = today();
+      draft = { sleep: 0, energy: 0, reg: 0, anx: 0, mood: '', classDay: null };
+      resetTimer(); renderAll();
+    }
   }, 60000);
 })();
 </script>
