@@ -521,18 +521,19 @@
       <div id="alertList" style="margin-top:6px"></div>
     </div>
 
-    <!-- Programa grabado -->
+    <!-- Producción del programa -->
     <div class="card dark">
       <span class="overline">El activo que estás construyendo</span>
-      <h3 style="margin-bottom:4px">Programa grabado</h3>
-      <p class="muted" style="margin-bottom:14px;font-size:12.5px">Cada clase que grabás deja de depender de tu tiempo. Dos por semana y esto se termina solo.</p>
+      <h3 style="margin-bottom:4px">AT WORK · qué falta grabar</h3>
+      <p class="muted" style="margin-bottom:14px;font-size:12.5px">Los trainings del roadmap, uno por uno. Tocá un módulo para abrirlo.</p>
       <div class="between" style="align-items:flex-end">
         <div><span style="font-family:'Crimson Pro',Georgia,serif;font-size:44px;line-height:1" id="progRec">0</span>
-          <span class="muted" id="progGoalTxt"> de 40 clases</span></div>
-        <button class="btn-ghost" id="btnProgGoal" style="color:var(--terracota)">Cambiar meta</button>
+          <span class="muted" id="progGoalTxt"> de 36 trainings</span></div>
       </div>
       <div class="meter" style="margin-top:14px;background:rgba(232,196,173,.2)"><i id="progMeter" style="background:var(--terracota)"></i></div>
       <p class="muted" style="margin-top:12px;font-size:12.5px" id="progProjection">—</p>
+      <div class="sep"></div>
+      <div id="prodList"></div>
     </div>
 
     <!-- Motor de ventas -->
@@ -605,8 +606,9 @@
     </div>
 
     <div class="card dark">
-      <span class="overline">Arco del método</span>
-      <h3 style="margin-bottom:12px">Dónde está cada cohorte</h3>
+      <span class="overline">AT WORK · 1:1, sin cohortes</span>
+      <h3 style="margin-bottom:4px">En qué etapa está cada una</h3>
+      <p class="muted" style="margin-bottom:14px;font-size:12.5px">Cada alumna avanza a su ritmo. Ponés la etapa en su ficha; acá ves el mapa completo.</p>
       <div id="cohortArc"></div>
     </div>
   </section>
@@ -771,7 +773,7 @@
       </div>
     </div>
     <div class="field"><label class="f">Estado</label><div class="chips" id="sEstadoChips"></div></div>
-    <div class="field"><label class="f">Cohorte</label><input type="text" id="sCohort" placeholder="Ej: Cohorte Marzo"></div>
+    <div class="field"><label class="f">Etapa del programa</label><div class="chips" id="sStageChips"></div></div>
     <div class="field"><label class="f">Notas</label><textarea id="sNote" placeholder="Nivel, contexto, lo que no querés olvidarte"></textarea></div>
     <div class="sep"></div>
     <span class="overline">Fechas del programa</span>
@@ -1151,6 +1153,97 @@
       note: 'Seña USD 100 pagada. Prevista para octubre: confirmar modalidad y fecha exacta.' }
   ];
 
+  // ═══════════════════ EL PROGRAMA ═══════════════════
+  // Del "AT WORK · Roadmap completo". Es 1:1, una sesión por semana, hasta 16
+  // alumnas activas: no hay cohortes, cada una avanza a su ritmo.
+  var CUPOS = 16;
+
+  var STAGES = [
+    { id: 'onboarding', label: 'Onboarding · Start & Diagnose',
+      hito: 'Sé desde dónde parto y tengo listo el sistema de entrenamiento.' },
+    { id: 'm1', label: 'M1 · Automatize Your English',
+      hito: 'Sé entrenar con mis situaciones reales de trabajo.' },
+    { id: 'm2', label: 'M2 · Communicate in Real Time',
+      hito: 'Puedo organizar y sostener mi mensaje en tiempo real.' },
+    { id: 'm3', label: 'M3 · Build Your Language System',
+      hito: 'Aplico los sistemas lingüísticos que aparecen una y otra vez en mi trabajo.' },
+    { id: 'm4', label: 'M4 · Understand & Be Understood',
+      hito: 'Entiendo el inglés real y sé entrenar mi oído y mi producción.' },
+    { id: 'cierre', label: 'Cierre y renovación',
+      hito: 'Cerramos el proceso y definimos si sigue.' }
+  ];
+  function stageLabel(id) {
+    for (var i = 0; i < STAGES.length; i++) if (STAGES[i].id === id) return STAGES[i].label;
+    return null;
+  }
+
+  // Producción del programa, tal cual figura en el roadmap. Onboarding, M1 y las
+  // Workplace Guides ya están grabadas; el resto es lo que falta.
+  var PRODUCTION = [
+    { id: 'onb', label: 'Onboarding · Start & Diagnose', ready: true, items: [
+      'Bienvenida: entendé tu bloqueo',
+      'Roadmap: las etapas del programa',
+      'Pilares de mentalidad y forma de trabajar',
+      'Cuestionario de contexto profesional'
+    ] },
+    { id: 'm1', label: 'M1 · Automatize Your English', ready: true, items: [
+      'Narrative Flow',
+      'Color Method',
+      'Role Play Method',
+      'Acceso a los bots y guías de uso'
+    ] },
+    { id: 'm2', label: 'M2 · Communicate in Real Time', items: [
+      '0 · Introducción: por qué estas 4 habilidades',
+      '1 · Keep Speaking When the Word Doesn’t Come (paraphrasing)',
+      '2 · Organize and Prioritize Your Message',
+      '3 · Repair and Continue',
+      '4 · Manage the Interaction'
+    ] },
+    { id: 'guides', label: 'Workplace Practice Library · 8 guides', ready: true, items: [
+      'Introducing Yourself to a New Team',
+      'Making Small Talk Before a Meeting',
+      'Giving a Clear Project Update',
+      'Explaining a Problem and the Next Steps',
+      'Disagreeing or Clarifying Politely',
+      'Explaining a Process Clearly',
+      'Handling Unexpected Questions',
+      'Giving a Professional Presentation'
+    ] },
+    { id: 'm3', label: 'M3 · Build Your Language System', items: [
+      '1 · The English Verb System — The Big Picture',
+      '2 · Present Perfect at Work — Simple vs Continuous',
+      '3 · What Does -ING Actually Mean?',
+      '4 · Stop Translating the Pattern',
+      '5 · Prepositions & Collocations That Keep Repeating',
+      '6 · Nominalization & Word Families',
+      '7 · Say How Strong You Mean It — Modals & Certainty',
+      '8 · Conditions, Consequences & Scenarios',
+      '9 · Questions & Word Order',
+      '10 · Passive Voice for Processes & Reporting',
+      '11 · Precision Micro-Lesson Bank (banco vivo)'
+    ] },
+    { id: 'm4', label: 'M4 · Understand & Be Understood', items: [
+      '1 · How English Sounds',
+      '2 · Pronunciation Patterns Spanish Speakers Need',
+      '3 · Why Real English Sounds Different',
+      '4 · Shadowing: Train Your Ear & Mouth'
+    ] }
+  ];
+
+  function prodKey(g, i) { return g.id + ':' + i; }
+  function prodDone(g, i) {
+    var v = DB.production[prodKey(g, i)];
+    if (v !== undefined) return !!v;
+    return !!g.ready;                       // lo que el roadmap ya da por grabado
+  }
+  function prodCounts() {
+    var done = 0, total = 0;
+    PRODUCTION.forEach(function (g) {
+      g.items.forEach(function (_, i) { total++; if (prodDone(g, i)) done++; });
+    });
+    return { done: done, total: total };
+  }
+
   var ESTADOS = [
     { id: 'activa', label: 'Activa' },
     { id: 'pausada', label: 'Pausada' },
@@ -1184,7 +1277,7 @@
     settings: { name: '', brand: 'Breaking Barriers at Work', focusLong: 50, water: 8, walk: 30, trainWeek: 3, friendsWeek: 1, programGoal: 40 },
     checkins: {}, tasks: [], focus: {}, closes: {},
     care: {}, anx: [], students: [], friends: [], ideas: [],
-    routines: { daily: {}, weekly: {} }
+    routines: { daily: {}, weekly: {} }, production: {}
   };
 
   // Algunos navegadores (modo privado, webviews dentro de otras apps) bloquean
@@ -1239,6 +1332,7 @@
       if (!DB.routines || typeof DB.routines !== 'object') DB.routines = { daily: {}, weekly: {} };
       if (!DB.routines.daily) DB.routines.daily = {};
       if (!DB.routines.weekly) DB.routines.weekly = {};
+      if (!DB.production || typeof DB.production !== 'object') DB.production = {};
     } catch (e) { /* arranca limpio */ }
   }
 
@@ -1879,7 +1973,7 @@
 
     var kpis = el('div', 'kpis');
     [
-      { n: String(active), l: 'Alumnas activas' },
+      { n: active + '/' + CUPOS, l: 'Cupos ocupados' },
       { n: sumTxt(due), l: 'A cobrar este mes' },
       { n: hasDue ? sumTxt(paid) : '—', l: 'Ya cobrado' },
       { n: hasDue ? String(pending) : '—', l: 'Faltan cobrar' }
@@ -1993,50 +2087,81 @@
     } else { fallback(); }
   }
 
-  // ── Programa grabado ───────────────────────────────────
-  function recordedTotal() {
-    var n = 0;
-    Object.keys(DB.routines.daily).forEach(function (k) { if (DB.routines.daily[k].grabar) n++; });
-    // Semanas cargadas con el contador anterior siguen sumando.
-    Object.keys(DB.routines.weekly).forEach(function (k) { n += DB.routines.weekly[k].grabar || 0; });
-    return n;
-  }
+  // ── Producción del programa ────────────────────────────
+  var prodOpen = { m2: true };
 
   function renderProgram() {
-    var rec = recordedTotal();
-    var goal = DB.settings.programGoal || 40;
-    $('#progRec').textContent = rec;
-    $('#progGoalTxt').textContent = ' de ' + goal + ' clases';
-    $('#progMeter').style.width = Math.min(100, Math.round(rec / goal * 100)) + '%';
+    var c = prodCounts();
+    $('#progRec').textContent = c.done;
+    $('#progGoalTxt').textContent = ' de ' + c.total + ' trainings';
+    $('#progMeter').style.width = Math.round(c.done / c.total * 100) + '%';
 
-    if (rec >= goal) {
-      $('#progProjection').textContent = 'Está completo. El programa ya existe sin vos adelante — eso cambia lo que podés vender.';
-      return;
-    }
-
-    // Ritmo real de las últimas cuatro semanas; si todavía no hay, proyectamos a dos.
-    var weeks = 0, sum = 0;
-    for (var i = 0; i < 4; i++) {
-      var ref = new Date(); ref.setDate(ref.getDate() - i * 7);
-      var wk = fromIso(weekKey(ref)), n = 0;
-      for (var j = 0; j < 7; j++) {
-        var dd = new Date(wk); dd.setDate(dd.getDate() + j);
-        if (dd > fromIso(today())) break;
-        if (DB.routines.daily[iso(dd)] && DB.routines.daily[iso(dd)].grabar) n++;
+    var falta = c.total - c.done;
+    if (!falta) {
+      $('#progProjection').textContent = 'Está completo. AT WORK existe entero sin vos adelante.';
+    } else {
+      // Ritmo real: trainings marcados en las últimas cuatro semanas.
+      var since = fromIso(weekKey(new Date(new Date().getTime() - 21 * 864e5)));
+      var recent = 0;
+      Object.keys(DB.production).forEach(function (k) {
+        var v = DB.production[k];
+        if (typeof v === 'string' && fromIso(v) >= since) recent++;
+      });
+      // Con menos de tres marcados el "ritmo" es ruido: no vale proyectar.
+      if (recent >= 3) {
+        var rate = recent / 4;
+        var semanas = Math.ceil(falta / rate);
+        var fin = new Date(); fin.setDate(fin.getDate() + semanas * 7);
+        $('#progProjection').textContent = 'Faltan ' + falta + '. Vas a ' + (Math.round(rate * 10) / 10) +
+          ' por semana: a ese ritmo, alrededor del ' + fin.getDate() + ' de ' + MONTHS[fin.getMonth()] + '.';
+      } else {
+        $('#progProjection').textContent = 'Faltan ' + falta + ' trainings. A dos por semana, AT WORK queda entero en ' +
+          Math.ceil(falta / 2) + ' semanas.';
       }
-      n += (DB.routines.weekly[weekKey(ref)] || {}).grabar || 0;
-      if (n) { sum += n; weeks++; }
     }
-    var rate = weeks ? (sum / weeks) : 0;
-    var falta = goal - rec;
-    if (rate <= 0) {
-      $('#progProjection').textContent = 'Faltan ' + falta + ' clases. A dos por semana, tenés el programa entero en ' + Math.ceil(falta / 2) + ' semanas.';
-      return;
-    }
-    var semanas = Math.ceil(falta / rate);
-    var fin = new Date(); fin.setDate(fin.getDate() + semanas * 7);
-    $('#progProjection').textContent = 'Vas a ' + (Math.round(rate * 10) / 10) + ' clases por semana. A ese ritmo faltan ' +
-      semanas + ' semanas: alrededor del ' + fin.getDate() + ' de ' + MONTHS[fin.getMonth()] + '.';
+
+    var box = $('#prodList');
+    box.innerHTML = '';
+    PRODUCTION.forEach(function (g) {
+      var done = 0;
+      g.items.forEach(function (_, i) { if (prodDone(g, i)) done++; });
+      var full = done === g.items.length;
+
+      var head = el('button', 'between');
+      head.style.cssText = 'width:100%;padding:11px 0;text-align:left;border-bottom:1px solid rgba(232,196,173,.18)';
+      var nm = el('div', '', g.label);
+      nm.style.cssText = 'font-size:14px;font-weight:600;flex:1;min-width:0;padding-right:10px' + (full ? ';opacity:.55' : '');
+      head.appendChild(nm);
+      var right = el('div', 'row');
+      right.appendChild(el('span', 'muted', done + '/' + g.items.length));
+      right.appendChild(el('span', 'muted', prodOpen[g.id] ? '▴' : '▾'));
+      head.appendChild(right);
+      head.addEventListener('click', function () {
+        prodOpen[g.id] = !prodOpen[g.id];
+        renderProgram();
+      });
+      box.appendChild(head);
+
+      if (!prodOpen[g.id]) return;
+      g.items.forEach(function (title, i) {
+        var isDone = prodDone(g, i);
+        var row = el('div', 'care');
+        var body = el('div', 'care-body');
+        var t = el('div', 'care-name', title);
+        t.style.fontSize = '13.5px';
+        if (isDone) t.style.opacity = '.5';
+        body.appendChild(t);
+        row.appendChild(body);
+        var chk = el('button', 'care-btn' + (isDone ? ' on' : ''), isDone ? 'Grabado' : 'Marcar');
+        chk.addEventListener('click', function () {
+          DB.production[prodKey(g, i)] = isDone ? false : today();
+          save(); renderProgram(); renderTabBadge();
+          if (!isDone) toast('Grabado. Queda uno menos.');
+        });
+        row.appendChild(chk);
+        box.appendChild(row);
+      });
+    });
   }
 
   // ── Motor de ventas ────────────────────────────────────
@@ -2141,7 +2266,7 @@
     return 'Mes ' + m + (total ? ' de ' + total : '');
   }
 
-  var sDraft = { id: null, modalidad: 'grupal' };
+  var sDraft = { id: null, modalidad: '1:1' };
   function findStudent(id) {
     for (var i = 0; i < DB.students.length; i++) if (DB.students[i].id === id) return DB.students[i];
     return null;
@@ -2157,6 +2282,16 @@
       var b = el('button', 'chip' + (sDraft.estado === e.id ? ' on' : ''), e.label);
       b.addEventListener('click', function () { sDraft.estado = e.id; paintStudentChips(); });
       box.appendChild(b);
+    });
+    var sb = $('#sStageChips');
+    sb.innerHTML = '';
+    STAGES.forEach(function (st) {
+      var b = el('button', 'chip' + (sDraft.stage === st.id ? ' on' : ''), st.label);
+      b.addEventListener('click', function () {
+        sDraft.stage = (sDraft.stage === st.id) ? null : st.id;
+        paintStudentChips();
+      });
+      sb.appendChild(b);
     });
   }
   function paintMonthCalc() {
@@ -2175,11 +2310,11 @@
       id: s ? s.id : null,
       modalidad: (s && s.modalidad) || '1:1',
       estado: (s && s.estado) || 'activa',
+      stage: (s && s.stage) || null,
       cur: (s && s.cur) || 'USD'
     };
     $('#sName').value = s ? s.name : '';
     $('#sRole').value = s ? (s.role || '') : '';
-    $('#sCohort').value = s ? (s.cohort || '') : '';
     $('#sNote').value = s ? (s.note || '') : '';
     $('#sStart').value = s && s.startDate ? s.startDate : '';
     $('#sFee').value = s && s.fee != null ? s.fee : '';
@@ -2284,7 +2419,7 @@
       if (s.role) meta.appendChild(el('span', 'pill', s.role));
       if (s.startDate) meta.appendChild(el('span', 'pill', programLabel(s)));
       if (s.fee) meta.appendChild(el('span', 'pill w-medio', fmtMoney(s.fee, s.cur)));
-      if (s.cohort) meta.appendChild(el('span', 'pill', s.cohort));
+      if (s.stage && stageLabel(s.stage)) meta.appendChild(el('span', 'pill', stageLabel(s.stage)));
       if (!s.startDate && !s.endDate) meta.appendChild(el('span', 'pill w-pesado', 'Faltan fechas'));
       body.appendChild(meta);
       if (s.note) {
@@ -2315,36 +2450,54 @@
     });
   }
 
-  var ARC = ['Diagnóstico y base', 'Vocabulario de poder', 'Reuniones en vivo', 'Presencia ejecutiva', 'Automatismo bajo presión'];
-
   function renderCohortArc() {
     var box = $('#cohortArc');
     box.innerHTML = '';
-    if (!DB.students.length) {
-      box.appendChild(el('p', 'muted', 'Cuando cargues alumnas, vas a ver acá en qué mes está cada grupo.'));
-      return;
-    }
-    var counts = [0, 0, 0, 0, 0];
+    var counts = {}, sin = 0;
     DB.students.forEach(function (s) {
-      var m = programMonth(s);
-      if (m >= 1 && m <= 5) counts[m - 1]++;
+      if (!isActive(s)) return;
+      if (s.stage && stageLabel(s.stage)) counts[s.stage] = (counts[s.stage] || 0) + 1;
+      else sin++;
     });
-    var max = Math.max.apply(null, counts) || 1;
-    for (var i = 0; i < 5; i++) {
+    var max = 1;
+    STAGES.forEach(function (st) { if ((counts[st.id] || 0) > max) max = counts[st.id]; });
+
+    STAGES.forEach(function (st, idx) {
+      var n = counts[st.id] || 0;
       var row = el('div', 'between');
-      row.style.cssText = 'padding:9px 0;' + (i < 4 ? 'border-bottom:1px solid rgba(232,196,173,.18)' : '');
-      var left = el('div', '', 'Mes ' + (i + 1) + ' · ' + ARC[i]);
-      left.style.fontSize = '13.5px';
-      var meter = el('div');
-      meter.style.cssText = 'width:90px;height:5px;background:rgba(232,196,173,.2);border-radius:3px;overflow:hidden;flex:none';
-      var fill = el('i');
-      fill.style.cssText = 'display:block;height:100%;background:var(--terracota);width:' + Math.round(counts[i] / max * 100) + '%';
-      meter.appendChild(fill);
+      row.style.cssText = 'padding:10px 0;align-items:flex-start' +
+        (idx < STAGES.length - 1 ? ';border-bottom:1px solid rgba(232,196,173,.18)' : '');
+
+      var left = el('div');
+      left.style.cssText = 'flex:1;min-width:0;padding-right:12px';
+      var nm = el('div', '', st.label);
+      nm.style.fontSize = '13.5px';
+      left.appendChild(nm);
+      var hito = el('div', 'care-sub', st.hito);
+      hito.style.marginTop = '2px';
+      left.appendChild(hito);
+      row.appendChild(left);
+
       var right = el('div', 'row');
+      var meter = el('div');
+      meter.style.cssText = 'width:70px;height:5px;background:rgba(232,196,173,.2);border-radius:3px;overflow:hidden;flex:none';
+      var fill = el('i');
+      fill.style.cssText = 'display:block;height:100%;background:var(--terracota);width:' + Math.round(n / max * 100) + '%';
+      meter.appendChild(fill);
       right.appendChild(meter);
-      right.appendChild(el('div', 'muted', String(counts[i])));
-      row.appendChild(left); row.appendChild(right);
+      var cnt = el('div', 'muted', String(n));
+      cnt.style.minWidth = '16px';
+      right.appendChild(cnt);
+      row.appendChild(right);
       box.appendChild(row);
+    });
+
+    if (sin) {
+      var p = el('p', 'muted');
+      p.style.cssText = 'margin-top:14px;font-size:12.5px';
+      p.textContent = sin + (sin === 1 ? ' alumna activa sin etapa asignada.' : ' alumnas activas sin etapa asignada.') +
+        ' Tocá su nombre y elegí en cuál está.';
+      box.appendChild(p);
     }
   }
 
@@ -3007,7 +3160,7 @@
       }
       s.name = n;
       s.role = $('#sRole').value.trim();
-      s.cohort = $('#sCohort').value.trim();
+      s.stage = sDraft.stage;
       s.note = $('#sNote').value.trim();
       s.startDate = $('#sStart').value || null;
       s.modalidad = sDraft.modalidad;
@@ -3030,12 +3183,6 @@
       w.cierres = num('#wCierres');
       w.adsSpend = num('#wAds');
       save(); renderSales(); toast('Semana guardada.');
-    });
-    $('#btnProgGoal').addEventListener('click', function () {
-      var cur = DB.settings.programGoal || 40;
-      var next = cur === 40 ? 20 : (cur === 20 ? 60 : 40);
-      DB.settings.programGoal = next;
-      save(); renderProgram(); toast('Meta del programa: ' + next + ' clases.');
     });
 
     // Ideas
