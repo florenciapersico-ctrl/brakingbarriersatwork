@@ -340,14 +340,15 @@
         </div>
         <div class="qblock">
           <p class="q">Ponele nombre</p>
-          <p class="muted" style="margin-bottom:8px">Nombrar lo que sentís ya baja la intensidad. No hace falta que sea lindo.</p>
+          <p class="muted" style="margin-bottom:8px">Elegí todas las que sientas — casi nunca es una sola. Nombrar ya baja la intensidad.</p>
           <div class="chips" id="moodChips"></div>
         </div>
         <div class="qblock">
-          <p class="q">¿Hoy exponés? (clase, call, grabación)</p>
-          <div class="chips" style="margin-top:8px">
-            <button class="chip" id="chipClass">Sí, hoy expongo</button>
-            <button class="chip" id="chipNoClass">No, día de taller</button>
+          <p class="q">¿Hoy das clase, tenés una llamada o grabás?</p>
+          <p class="muted" style="margin-bottom:8px">Hablar frente a otra persona cansa aunque te salga bien. Si marcás que sí, la app te deja el día más liviano.</p>
+          <div class="chips">
+            <button class="chip" id="chipClass">Sí</button>
+            <button class="chip" id="chipNoClass">No, hoy trabajo sola</button>
           </div>
         </div>
         <button class="btn btn-terra full" id="btnSaveCheckin" style="margin-top:22px">Armar mi día</button>
@@ -883,7 +884,14 @@
     { id: 'pesado', label: 'Pesado', cost: 3 }
   ];
 
-  var MOODS = ['Tranquila', 'Con impulso', 'Acelerada', 'Ansiosa', 'Cansada', 'Irritable', 'Dispersa', 'Triste', 'Entusiasmada', 'Abrumada'];
+  // Se puede elegir más de una, y hay tantas buenas como difíciles: un día
+  // entusiasmada y cansada a la vez es lo normal, no una contradicción.
+  var MOODS = [
+    'Tranquila', 'Contenta', 'Entusiasmada', 'Con impulso', 'Enfocada',
+    'Agradecida', 'Orgullosa', 'Inspirada', 'Serena', 'Expectante',
+    'Acelerada', 'Dispersa', 'Cansada', 'Ansiosa', 'Irritable', 'Triste',
+    'Insegura', 'Abrumada'
+  ];
 
   var LEVELS = {
     cuidado: {
@@ -937,7 +945,7 @@
 
   var PRACTICES = {
     ancla: {
-      over: 'Antes de exponer', title: 'Ancla pre-clase',
+      over: 'Antes de la clase', title: 'Ancla pre-clase',
       sub: 'Dos minutos para que tu sistema nervioso sepa que esto lo sabés hacer.',
       steps: [
         'Sentate. Pies en el piso. Buscá la sensación de los dos pies apoyados, literalmente.',
@@ -948,7 +956,7 @@
       ]
     },
     descarga: {
-      over: 'Después de exponer', title: 'Descarga post-clase',
+      over: 'Después de la clase', title: 'Descarga post-clase',
       sub: 'Si no la descargás, la clase te sigue corriendo en la cabeza toda la tarde.',
       steps: [
         'Treinta segundos de silencio antes de abrir cualquier pantalla. No respondas mensajes todavía.',
@@ -1203,7 +1211,7 @@
       else if (lv.key === 'estandar') lv = LEVELS.cuidado;
     }
     if (c.anx >= 4) down();     // La ansiedad alta consume capacidad real.
-    if (c.classDay) down();     // Exponer cuesta; se reserva energía de antemano.
+    if (c.classDay) down();     // Dar clase cuesta; se reserva energía de antemano.
     return lv;
   }
   function todayCheckin() { return DB.checkins[today()] || null; }
@@ -1355,7 +1363,20 @@
   }
 
   // ═══════════════════ RENDER: HOY ═══════════════════
-  var draft = { sleep: 0, energy: 0, reg: 0, anx: 0, mood: '', classDay: null };
+  var draft = { sleep: 0, energy: 0, reg: 0, anx: 0, moods: [], classDay: null };
+
+  // Los check-ins viejos guardaban una sola emoción en `mood`.
+  function moodsOf(c) {
+    if (!c) return [];
+    if (Array.isArray(c.moods)) return c.moods;
+    return c.mood ? [c.mood] : [];
+  }
+  function moodPhrase(list) {
+    var l = list.map(function (m) { return m.toLowerCase(); });
+    if (l.length === 1) return l[0];
+    if (l.length === 2) return l[0] + ' y ' + l[1];
+    return l.slice(0, -1).join(', ') + ' y ' + l[l.length - 1];
+  }
 
   function renderHeader() {
     var d = new Date();
@@ -1367,9 +1388,12 @@
     var box = $('#moodChips');
     box.innerHTML = '';
     MOODS.forEach(function (m) {
-      var b = el('button', 'chip' + (draft.mood === m ? ' on' : ''), m);
+      var on = draft.moods.indexOf(m) !== -1;
+      var b = el('button', 'chip' + (on ? ' on' : ''), m);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
       b.addEventListener('click', function () {
-        draft.mood = (draft.mood === m) ? '' : m;
+        var i = draft.moods.indexOf(m);
+        if (i === -1) draft.moods.push(m); else draft.moods.splice(i, 1);
         renderMoodChips();
       });
       box.appendChild(b);
@@ -1403,8 +1427,9 @@
     $('#checkinForm').style.display = 'none';
     $('#checkinResult').style.display = '';
     var bits = [];
-    if (c.mood) bits.push('Hoy llegaste ' + c.mood.toLowerCase() + '.');
-    if (c.classDay) bits.push('Exponés: el día ya viene con carga.');
+    var ms = moodsOf(c);
+    if (ms.length) bits.push('Hoy llegaste ' + moodPhrase(ms) + '.');
+    if (c.classDay) bits.push('Das clase o grabás: el día ya viene con carga.');
     $('#hiSub').textContent = bits.length ? bits.join(' ') : 'Ya sabemos cómo llegás. El día está armado.';
 
     var lv = computeLevel(c);
@@ -2247,15 +2272,15 @@
       }
     }
 
-    // Días de exposición
+    // Días de clase, llamada o grabación
     var expo = recs.filter(function (r) { return r.c.classDay && r.c.anx; });
     if (expo.length >= 2) {
       var ae = avgOf(expo, function (r) { return r.c.anx; });
       var rest = recs.filter(function (r) { return !r.c.classDay && r.c.anx; });
       if (rest.length >= 2) {
         var ar = avgOf(rest, function (r) { return r.c.anx; });
-        if (ae - ar >= 0.5) out.push('Los días que exponés, tu ansiedad sube de ' + ar.toFixed(1) + ' a ' + ae.toFixed(1) + '. El ancla pre-clase no es opcional esos días: agendala como se agenda la clase.');
-        else out.push('Registraste ' + expo.length + ' días de exposición y tu ansiedad no se dispara en ellos. Eso es entrenamiento, no casualidad.');
+        if (ae - ar >= 0.5) out.push('Los días que das clase o grabás, tu ansiedad sube de ' + ar.toFixed(1) + ' a ' + ae.toFixed(1) + '. El ancla pre-clase no es opcional esos días: agendala como se agenda la clase.');
+        else out.push('Registraste ' + expo.length + ' días de clase o grabación y tu ansiedad no se dispara en ellos. Eso es entrenamiento, no casualidad.');
       }
     }
 
@@ -2704,7 +2729,7 @@
       }
       DB.checkins[today()] = {
         sleep: draft.sleep, energy: draft.energy, reg: draft.reg, anx: draft.anx,
-        mood: draft.mood || '', classDay: draft.classDay === true, ts: Date.now()
+        moods: draft.moods.slice(), classDay: draft.classDay === true, ts: Date.now()
       };
       save(); resetTimer(); renderAll();
       var lv = todayLevel();
@@ -2713,7 +2738,7 @@
     });
     $('#btnRedoCheckin').addEventListener('click', function () {
       var c = todayCheckin();
-      if (c) draft = { sleep: c.sleep, energy: c.energy, reg: c.reg, anx: c.anx, mood: c.mood || '', classDay: !!c.classDay };
+      if (c) draft = { sleep: c.sleep, energy: c.energy, reg: c.reg, anx: c.anx, moods: moodsOf(c).slice(), classDay: !!c.classDay };
       delete DB.checkins[today()];
       save(); renderAll();
     });
@@ -2982,7 +3007,7 @@
   setInterval(function () {
     if (today() !== lastDay) {
       lastDay = today();
-      draft = { sleep: 0, energy: 0, reg: 0, anx: 0, mood: '', classDay: null };
+      draft = { sleep: 0, energy: 0, reg: 0, anx: 0, moods: [], classDay: null };
       resetTimer(); renderAll(); renderTabBadge();
     }
   }, 60000);
