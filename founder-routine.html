@@ -1,0 +1,1783 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Founder ☾ Routine · She Breaks Limits</title>
+<meta name="description" content="Tu negocio y tu energía en la misma pantalla. Rutina diaria, tareas y radar de alumnas para Breaking Barriers at Work.">
+<meta name="theme-color" content="#2C1F0E">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Founder Routine">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --brown: #82552E;
+    --terracota: #C68C6C;
+    --terracota-light: #E8C4AD;
+    --cream: #FFF8E7;
+    --cream-dark: #F5EDD6;
+    --olive: #6B6F4C;
+    --olive-light: #A8AC8A;
+    --text-dark: #2C1F0E;
+    --text-mid: #5C3D1E;
+    --text-soft: #8B6B4A;
+    --line: rgba(140,107,74,0.22);
+    --card: #FFFDF6;
+    --danger: #A4462F;
+    --ok: #6B6F4C;
+    --shadow: 0 1px 2px rgba(44,31,14,0.05), 0 6px 20px rgba(44,31,14,0.05);
+  }
+
+  html { -webkit-text-size-adjust: 100%; }
+
+  body {
+    font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: var(--cream);
+    color: var(--text-dark);
+    font-size: 15px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  h1, h2, h3, h4 { font-family: 'Crimson Pro', Georgia, 'Times New Roman', serif; line-height: 1.15; font-weight: 600; }
+
+  button, input, select, textarea { font-family: inherit; font-size: inherit; color: inherit; }
+  button { cursor: pointer; border: none; background: none; }
+
+  /* ─────────── LAYOUT ─────────── */
+  .app { max-width: 720px; margin: 0 auto; padding: 0 18px 110px; }
+
+  header.top {
+    background: var(--text-dark);
+    color: var(--cream);
+    padding: calc(18px + env(safe-area-inset-top)) 18px 18px;
+    position: sticky; top: 0; z-index: 60;
+  }
+  .top-inner { max-width: 720px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 14px; }
+  .brand { font-family: 'Crimson Pro', Georgia, serif; font-size: 17px; letter-spacing: .02em; }
+  .brand .moon { color: var(--terracota); }
+  .brand small { display: block; font-family: 'Open Sans', sans-serif; font-size: 9.5px; letter-spacing: .22em; text-transform: uppercase; color: var(--terracota); margin-top: 3px; }
+  .top-right { display: flex; align-items: center; gap: 10px; }
+  .datechip { font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: rgba(255,248,231,.6); text-align: right; }
+  .iconbtn { color: var(--terracota); border: 1px solid rgba(198,140,108,.5); width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; font-size: 14px; flex: none; }
+  .iconbtn:hover { background: rgba(198,140,108,.15); }
+
+  /* ─────────── TABS ─────────── */
+  nav.tabs {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 70;
+    background: var(--text-dark);
+    padding-bottom: env(safe-area-inset-bottom);
+    border-top: 1px solid rgba(198,140,108,.25);
+  }
+  .tabs-inner { max-width: 720px; margin: 0 auto; display: grid; grid-template-columns: repeat(5, 1fr); }
+  .tab { padding: 10px 4px 12px; text-align: center; color: rgba(255,248,231,.45); font-size: 9.5px; letter-spacing: .1em; text-transform: uppercase; font-weight: 600; transition: color .18s; }
+  .tab .tico { display: block; font-size: 16px; margin-bottom: 3px; line-height: 1; }
+  .tab.on { color: var(--terracota); }
+
+  .view { display: none; padding-top: 22px; }
+  .view.on { display: block; animation: fade .22s ease; }
+  @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+  /* ─────────── PRIMITIVES ─────────── */
+  .overline { font-size: 10px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--terracota); display: block; margin-bottom: 8px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 3px; padding: 20px; margin-bottom: 14px; box-shadow: var(--shadow); }
+  .card.dark { background: var(--text-dark); color: var(--cream); border-color: var(--text-dark); }
+  .card.dark .overline { color: var(--terracota); }
+  .card h2 { font-size: 24px; margin-bottom: 6px; }
+  .card h3 { font-size: 18px; margin-bottom: 4px; }
+  .muted { color: var(--text-soft); font-size: 13px; }
+  .card.dark .muted { color: rgba(255,248,231,.6); }
+  .row { display: flex; align-items: center; gap: 10px; }
+  .between { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .sep { height: 1px; background: var(--line); margin: 16px 0; }
+  .stack > * + * { margin-top: 10px; }
+
+  .btn { display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; padding: 13px 24px; border-radius: 2px; transition: background .18s, color .18s, transform .12s; text-align: center; }
+  .btn:active { transform: scale(.98); }
+  .btn-dark { background: var(--text-dark); color: var(--cream); }
+  .btn-dark:hover { background: var(--brown); }
+  .btn-terra { background: var(--terracota); color: var(--text-dark); }
+  .btn-terra:hover { background: var(--terracota-light); }
+  .btn-outline { border: 1.5px solid var(--brown); color: var(--brown); background: transparent; }
+  .btn-outline:hover { background: rgba(198,140,108,.14); }
+  .btn-ghost { color: var(--text-soft); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; font-weight: 600; padding: 8px 0; }
+  .btn-ghost:hover { color: var(--brown); }
+  .btn-sm { padding: 9px 16px; font-size: 10.5px; }
+  .full { width: 100%; display: block; }
+
+  label.f { display: block; font-size: 10px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--text-soft); margin-bottom: 6px; }
+  input[type=text], input[type=number], input[type=date], select, textarea {
+    width: 100%; padding: 11px 12px; background: var(--cream); border: 1px solid var(--line); border-radius: 2px; outline: none;
+  }
+  input:focus, select:focus, textarea:focus { border-color: var(--terracota); background: #fff; }
+  textarea { resize: vertical; min-height: 62px; line-height: 1.5; }
+  .field + .field { margin-top: 12px; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+  /* ─────────── SCALE PICKER ─────────── */
+  .scale { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-top: 4px; }
+  .scale button { border: 1px solid var(--line); background: var(--cream); padding: 12px 2px 9px; border-radius: 2px; font-size: 17px; line-height: 1; transition: all .15s; }
+  .scale button span { display: block; font-size: 8.5px; letter-spacing: .05em; text-transform: uppercase; color: var(--text-soft); margin-top: 6px; font-weight: 600; }
+  .scale button.on { background: var(--text-dark); border-color: var(--text-dark); color: var(--cream); }
+  .scale button.on span { color: var(--terracota); }
+  .qblock + .qblock { margin-top: 20px; }
+  .qblock p.q { font-size: 15px; font-weight: 600; margin-bottom: 2px; }
+
+  /* ─────────── DAY LEVEL ─────────── */
+  .level-chip { display: inline-flex; align-items: center; gap: 7px; font-size: 10.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; padding: 6px 12px; border-radius: 100px; }
+  .lv-cuidado { background: rgba(164,70,47,.14); color: var(--danger); }
+  .lv-estandar { background: rgba(198,140,108,.2); color: var(--brown); }
+  .lv-fuerte { background: rgba(107,111,76,.18); color: var(--olive); }
+  .card.dark .lv-cuidado { background: rgba(232,196,173,.16); color: var(--terracota-light); }
+  .card.dark .lv-estandar { background: rgba(232,196,173,.16); color: var(--terracota-light); }
+  .card.dark .lv-fuerte { background: rgba(168,172,138,.2); color: var(--olive-light); }
+
+  .capacity { display: flex; gap: 4px; margin-top: 12px; }
+  .cap-dot { height: 5px; flex: 1; background: rgba(140,107,74,.18); border-radius: 3px; }
+  .cap-dot.fill { background: var(--terracota); }
+  .cap-dot.over { background: var(--danger); }
+
+  /* ─────────── TASKS ─────────── */
+  .task { display: flex; gap: 12px; align-items: flex-start; padding: 13px 0; border-bottom: 1px solid var(--line); }
+  .task:last-child { border-bottom: none; }
+  .check { width: 20px; height: 20px; border: 1.5px solid var(--text-soft); border-radius: 50%; flex: none; margin-top: 2px; display: grid; place-items: center; font-size: 11px; color: transparent; transition: all .15s; }
+  .check:hover { border-color: var(--brown); }
+  .task.done .check { background: var(--olive); border-color: var(--olive); color: var(--cream); }
+  .task.done .t-title { text-decoration: line-through; color: var(--text-soft); }
+  .t-body { flex: 1; min-width: 0; }
+  .t-title { font-size: 14.5px; line-height: 1.4; word-wrap: break-word; }
+  .t-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; align-items: center; }
+  .pill { font-size: 9px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; padding: 3px 8px; border-radius: 100px; background: var(--cream-dark); color: var(--text-mid); white-space: nowrap; }
+  .pill.needle { background: var(--text-dark); color: var(--terracota); }
+  .pill.w-pesado { background: rgba(164,70,47,.13); color: var(--danger); }
+  .pill.w-medio { background: rgba(198,140,108,.22); color: var(--brown); }
+  .pill.w-ligero { background: rgba(107,111,76,.16); color: var(--olive); }
+  .t-actions { display: flex; gap: 8px; flex: none; }
+  .t-actions button { font-size: 13px; color: var(--text-soft); padding: 2px 4px; }
+  .t-actions button:hover { color: var(--brown); }
+
+  .movement { border-left: 3px solid var(--terracota); padding-left: 14px; }
+  .empty { text-align: center; padding: 26px 10px; color: var(--text-soft); font-size: 13.5px; }
+  .empty .moon { font-size: 26px; display: block; margin-bottom: 8px; color: var(--terracota); }
+
+  /* ─────────── FOCUS TIMER ─────────── */
+  .timer { text-align: center; padding: 8px 0 4px; }
+  .timer .clock { font-family: 'Crimson Pro', Georgia, serif; font-size: 62px; line-height: 1; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+  .timer .phase { font-size: 10px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--terracota); margin-bottom: 10px; }
+  .ring { height: 4px; background: rgba(255,248,231,.18); border-radius: 3px; margin: 16px 0 18px; overflow: hidden; }
+  .ring i { display: block; height: 100%; background: var(--terracota); width: 0; transition: width .5s linear; }
+
+  /* ─────────── STUDENTS ─────────── */
+  .stu { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+  .stu:last-child { border-bottom: none; }
+  .dot { width: 9px; height: 9px; border-radius: 50%; flex: none; display: inline-block; padding: 0; }
+  .d-encendida { background: var(--olive); }
+  .d-tibia { background: var(--terracota); }
+  .d-silencio { background: var(--danger); }
+  .stu-body { flex: 1; min-width: 0; }
+  .stu-name { font-size: 14.5px; font-weight: 600; }
+  .cycle { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; font-weight: 700; color: var(--text-soft); border: 1px solid var(--line); padding: 5px 9px; border-radius: 100px; }
+
+  /* ─────────── PROGRESS ─────────── */
+  .bars { display: flex; align-items: flex-end; gap: 3px; height: 90px; margin-top: 6px; }
+  .bars .b { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; height: 100%; }
+  .bars .b i { display: block; border-radius: 2px 2px 0 0; background: var(--terracota); min-height: 2px; }
+  .bars.olive .b i { background: var(--olive-light); }
+  .bars .b.empty-b i { background: rgba(140,107,74,.14); }
+  .axis { display: flex; justify-content: space-between; font-size: 9.5px; color: var(--text-soft); margin-top: 6px; letter-spacing: .05em; }
+  .kpis { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .kpi { border: 1px solid var(--line); border-radius: 3px; padding: 14px; background: var(--card); }
+  .kpi .n { font-family: 'Crimson Pro', Georgia, serif; font-size: 30px; line-height: 1; }
+  .kpi .l { font-size: 9.5px; letter-spacing: .13em; text-transform: uppercase; color: var(--text-soft); margin-top: 6px; font-weight: 600; }
+  .meter { height: 6px; background: rgba(140,107,74,.16); border-radius: 4px; overflow: hidden; margin-top: 10px; }
+  .meter i { display: block; height: 100%; background: var(--olive); }
+  .legend { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 12px; font-size: 11px; color: var(--text-soft); }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+
+  /* ─────────── MODAL ─────────── */
+  .modal { position: fixed; inset: 0; z-index: 100; display: none; }
+  .modal.on { display: block; }
+  .scrim { position: absolute; inset: 0; background: rgba(44,31,14,.55); }
+  .sheet {
+    position: absolute; left: 0; right: 0; bottom: 0; max-height: 92vh; overflow-y: auto;
+    background: var(--cream); border-radius: 6px 6px 0 0; padding: 24px 20px calc(28px + env(safe-area-inset-bottom));
+    max-width: 720px; margin: 0 auto; animation: up .25s cubic-bezier(.2,.8,.3,1);
+  }
+  @keyframes up { from { transform: translateY(24px); opacity: .6; } to { transform: none; opacity: 1; } }
+  .sheet h2 { font-size: 26px; margin-bottom: 4px; }
+  .sheet-close { position: absolute; top: 16px; right: 18px; font-size: 20px; color: var(--text-soft); line-height: 1; }
+
+  .toast { position: fixed; left: 50%; transform: translateX(-50%) translateY(20px); bottom: 88px; background: var(--text-dark); color: var(--cream); font-size: 12.5px; padding: 11px 20px; border-radius: 100px; z-index: 200; opacity: 0; pointer-events: none; transition: opacity .25s, transform .25s; }
+  .toast.on { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  .chips { display: flex; flex-wrap: wrap; gap: 7px; }
+  .chip { font-size: 11px; font-weight: 600; letter-spacing: .04em; padding: 8px 13px; border: 1px solid var(--line); border-radius: 100px; background: var(--cream); transition: all .15s; }
+  .chip.on { background: var(--text-dark); color: var(--cream); border-color: var(--text-dark); }
+
+  .note { font-size: 12.5px; color: var(--text-soft); line-height: 1.55; }
+  .quote { font-family: 'Crimson Pro', Georgia, serif; font-style: italic; font-size: 19px; line-height: 1.45; }
+
+  @media (min-width: 620px) {
+    .kpis { grid-template-columns: repeat(4, 1fr); }
+    .card { padding: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-inner">
+    <div class="brand">Founder <span class="moon">☾</span> Routine
+      <small id="brandSub">She Breaks Limits</small>
+    </div>
+    <div class="top-right">
+      <div class="datechip" id="topDate">—</div>
+      <button class="iconbtn" id="btnSettings" aria-label="Ajustes">⚙</button>
+    </div>
+  </div>
+</header>
+
+<main class="app">
+
+  <!-- ═══════════ HOY ═══════════ -->
+  <section class="view on" id="v-hoy">
+
+    <!-- Check-in -->
+    <div class="card dark" id="checkinCard">
+      <span class="overline">Check-in de 20 segundos</span>
+      <h2 id="hiTitle">Buenos días.</h2>
+      <p class="muted" id="hiSub">Marcá cómo llegás. El día se arma solo, según eso.</p>
+      <div class="sep" style="background:rgba(232,196,173,.2)"></div>
+      <div id="checkinForm">
+        <div class="qblock">
+          <p class="q">¿Cómo dormiste?</p>
+          <div class="scale" data-k="sleep">
+            <button data-v="1">◔<span>Mal</span></button>
+            <button data-v="2">◑<span>Poco</span></button>
+            <button data-v="3">◕<span>Ok</span></button>
+            <button data-v="4">●<span>Bien</span></button>
+            <button data-v="5">☀<span>Pleno</span></button>
+          </div>
+        </div>
+        <div class="qblock">
+          <p class="q">¿Con cuánta energía llegás?</p>
+          <div class="scale" data-k="energy">
+            <button data-v="1">▁<span>Vacía</span></button>
+            <button data-v="2">▃<span>Baja</span></button>
+            <button data-v="3">▅<span>Media</span></button>
+            <button data-v="4">▆<span>Alta</span></button>
+            <button data-v="5">█<span>Full</span></button>
+          </div>
+        </div>
+        <div class="qblock">
+          <p class="q">¿Qué tan regulada te sentís?</p>
+          <div class="scale" data-k="reg">
+            <button data-v="1">⚡<span>Alerta</span></button>
+            <button data-v="2">◇<span>Tensa</span></button>
+            <button data-v="3">◈<span>Neutra</span></button>
+            <button data-v="4">◉<span>Calma</span></button>
+            <button data-v="5">☾<span>Centro</span></button>
+          </div>
+        </div>
+        <div class="qblock">
+          <p class="q">¿Hoy das clase o tenés call?</p>
+          <div class="chips" style="margin-top:8px">
+            <button class="chip" id="chipClass">Sí, hoy expongo</button>
+            <button class="chip" id="chipNoClass">No, día de taller</button>
+          </div>
+        </div>
+        <button class="btn btn-terra full" id="btnSaveCheckin" style="margin-top:22px">Armar mi día</button>
+      </div>
+      <div id="checkinResult" style="display:none">
+        <div class="between" style="align-items:flex-start">
+          <div>
+            <div class="level-chip" id="lvChip">—</div>
+            <h3 style="margin-top:12px;font-size:21px" id="lvTitle">—</h3>
+            <p class="muted" id="lvText">—</p>
+          </div>
+        </div>
+        <div class="capacity" id="capBar"></div>
+        <p class="muted" style="margin-top:8px;font-size:12px" id="capText">—</p>
+        <button class="btn-ghost" id="btnRedoCheckin" style="color:var(--terracota);margin-top:12px">↻ Rehacer check-in</button>
+      </div>
+    </div>
+
+    <!-- Movimiento del día -->
+    <div class="card" id="movementCard">
+      <span class="overline">La regla de uno</span>
+      <div class="between" style="margin-bottom:10px">
+        <h3>Movimiento del día</h3>
+        <button class="btn-ghost" id="btnPickMovement">Elegir</button>
+      </div>
+      <p class="muted" style="margin-bottom:12px;font-size:12.5px">La única tarea que, si se hace, mueve el negocio. Lo demás es mantenimiento.</p>
+      <div id="movementBox"></div>
+    </div>
+
+    <!-- Tareas de hoy -->
+    <div class="card">
+      <div class="between" style="margin-bottom:6px">
+        <h3>Tu día</h3>
+        <button class="btn-ghost" id="btnAddToday">+ Tarea</button>
+      </div>
+      <div id="todayList"></div>
+    </div>
+
+    <!-- Foco -->
+    <div class="card dark">
+      <span class="overline">Bloque de foco</span>
+      <div class="timer">
+        <p class="phase" id="fPhase">Foco</p>
+        <div class="clock" id="fClock">50:00</div>
+      </div>
+      <div class="ring"><i id="fRing"></i></div>
+      <div class="row" style="gap:10px">
+        <button class="btn btn-terra" style="flex:1" id="btnFocus">Empezar</button>
+        <button class="btn btn-outline" style="flex:1;border-color:var(--terracota);color:var(--terracota)" id="btnFocusReset">Reiniciar</button>
+      </div>
+      <p class="muted" style="margin-top:12px;font-size:12px" id="fNote">—</p>
+    </div>
+
+    <!-- Prácticas -->
+    <div class="card">
+      <span class="overline">Liderarte para liderar</span>
+      <h3 style="margin-bottom:10px">Prácticas de 2 minutos</h3>
+      <div class="chips">
+        <button class="chip" data-practice="ancla">☾ Ancla pre-clase</button>
+        <button class="chip" data-practice="descarga">✦ Descarga post-clase</button>
+        <button class="chip" data-practice="reset">◈ Reset entre bloques</button>
+        <button class="chip" data-practice="voz">✧ Rep en inglés</button>
+      </div>
+    </div>
+
+    <!-- Cierre -->
+    <div class="card">
+      <span class="overline">Cierre del día</span>
+      <h3 style="margin-bottom:12px">Antes de apagar</h3>
+      <div class="field">
+        <label class="f">¿Qué moviste hoy?</label>
+        <textarea id="cl1" placeholder="Aunque sea una sola cosa."></textarea>
+      </div>
+      <div class="field">
+        <label class="f">¿Qué aprendiste de una alumna?</label>
+        <textarea id="cl2" placeholder="Una frase, una objeción, un bloqueo. Esto es material."></textarea>
+      </div>
+      <div class="field">
+        <label class="f">¿Qué soltás hasta mañana?</label>
+        <textarea id="cl3" placeholder="Escribirlo lo saca de tu cabeza."></textarea>
+      </div>
+      <div class="field">
+        <label class="f">El movimiento de mañana</label>
+        <input type="text" id="cl4" placeholder="Decidilo hoy, no mañana a las 9am.">
+      </div>
+      <button class="btn btn-dark full" id="btnClose" style="margin-top:16px">Cerrar el día</button>
+      <p class="muted" id="closeSaved" style="margin-top:10px;display:none">Guardado. Descansá.</p>
+    </div>
+  </section>
+
+  <!-- ═══════════ TAREAS ═══════════ -->
+  <section class="view" id="v-tareas">
+    <div class="card">
+      <div class="between" style="margin-bottom:14px">
+        <div>
+          <span class="overline">Backlog</span>
+          <h2 style="font-size:26px">Todo lo que hay</h2>
+        </div>
+        <button class="btn btn-dark btn-sm" id="btnAddTask">+ Tarea</button>
+      </div>
+      <div class="chips" id="areaFilter"></div>
+      <div class="sep"></div>
+      <div id="backlogList"></div>
+    </div>
+
+    <div class="card">
+      <span class="overline">Capturas rápidas</span>
+      <h3 style="margin-bottom:10px">Banco de contenido</h3>
+      <p class="muted" style="margin-bottom:12px;font-size:12.5px">Una frase de una alumna hoy es un post el jueves. Guardala antes de que se te vaya.</p>
+      <div class="row" style="gap:8px">
+        <input type="text" id="ideaInput" placeholder="&quot;Sabía todo lo que tenía que decir, pero no me salió.&quot;">
+        <button class="btn btn-terra btn-sm" id="btnIdea" style="flex:none">Guardar</button>
+      </div>
+      <div id="ideaList" style="margin-top:14px"></div>
+    </div>
+  </section>
+
+  <!-- ═══════════ ALUMNAS ═══════════ -->
+  <section class="view" id="v-alumnas">
+    <div class="card">
+      <div class="between" style="margin-bottom:8px">
+        <div>
+          <span class="overline">Radar</span>
+          <h2 style="font-size:26px">Tus alumnas</h2>
+        </div>
+        <button class="btn btn-dark btn-sm" id="btnAddStudent">+ Alumna</button>
+      </div>
+      <p class="muted" style="margin-bottom:6px;font-size:12.5px">La que deja de hablar es la que se va. Tocá el punto para cambiar su estado.</p>
+      <div class="legend">
+        <span><i class="dot d-encendida"></i> Encendida</span>
+        <span><i class="dot d-tibia"></i> Tibia</span>
+        <span><i class="dot d-silencio"></i> En silencio</span>
+      </div>
+      <div class="sep"></div>
+      <div id="studentList"></div>
+    </div>
+
+    <div class="card dark">
+      <span class="overline">Arco del método</span>
+      <h3 style="margin-bottom:12px">Dónde está cada cohorte</h3>
+      <div id="cohortArc"></div>
+      <p class="muted" style="margin-top:14px;font-size:12px">Mes 1 diagnóstico · Mes 2 vocabulario · Mes 3 reuniones en vivo · Mes 4 presencia ejecutiva · Mes 5 automatismo.</p>
+    </div>
+  </section>
+
+  <!-- ═══════════ NEGOCIO ═══════════ -->
+  <section class="view" id="v-negocio">
+    <div class="card">
+      <span class="overline" id="bizMonthLabel">Mes</span>
+      <h2 style="font-size:26px;margin-bottom:14px">Tablero del negocio</h2>
+      <div class="grid2">
+        <div class="field"><label class="f">Alumnas activas</label><input type="number" id="bAlumnas" min="0" placeholder="0"></div>
+        <div class="field"><label class="f">Leads en conversación</label><input type="number" id="bLeads" min="0" placeholder="0"></div>
+        <div class="field"><label class="f">Cierres del mes</label><input type="number" id="bCierres" min="0" placeholder="0"></div>
+        <div class="field"><label class="f">Meta de cierres</label><input type="number" id="bMeta" min="0" placeholder="0"></div>
+      </div>
+      <div class="meter" style="margin-top:16px"><i id="bMeter"></i></div>
+      <p class="muted" style="margin-top:8px;font-size:12px" id="bMeterText">—</p>
+      <button class="btn btn-dark full" id="btnSaveBiz" style="margin-top:16px">Guardar el mes</button>
+    </div>
+
+    <div class="card">
+      <span class="overline">Ritmo</span>
+      <h3 style="margin-bottom:12px">Movimientos por área · últimos 30 días</h3>
+      <div id="areaBreakdown"></div>
+      <p class="muted" style="margin-top:14px;font-size:12.5px" id="areaInsight">—</p>
+    </div>
+
+    <div class="card dark">
+      <span class="overline">Recordatorio</span>
+      <p class="quote">"El mundo es pequeño cuando tu voz es grande."</p>
+      <p class="muted" style="margin-top:12px">Lo que le pedís a tus alumnas — práctica sistemática, no perfección — vale para vos también.</p>
+    </div>
+  </section>
+
+  <!-- ═══════════ PROGRESO ═══════════ -->
+  <section class="view" id="v-progreso">
+    <div class="card">
+      <span class="overline">Sin rachas, sin culpa</span>
+      <h2 style="font-size:26px;margin-bottom:4px">Tus patrones</h2>
+      <p class="muted" style="margin-bottom:18px;font-size:12.5px">Esto es para conocerte, no para calificarte. Un día bajo no rompe nada.</p>
+      <div class="kpis" id="kpiBox"></div>
+    </div>
+
+    <div class="card">
+      <span class="overline">Últimos 14 días</span>
+      <h3 style="margin-bottom:4px">Energía</h3>
+      <div class="bars" id="barsEnergy"></div>
+      <div class="axis" id="axisEnergy"></div>
+      <div class="sep"></div>
+      <h3 style="margin-bottom:4px">Sueño</h3>
+      <div class="bars olive" id="barsSleep"></div>
+      <div class="axis" id="axisSleep"></div>
+    </div>
+
+    <div class="card">
+      <span class="overline">Lectura</span>
+      <h3 style="margin-bottom:10px">Lo que veo en tus datos</h3>
+      <div id="insights" class="stack"></div>
+    </div>
+
+    <div class="card">
+      <span class="overline">Diario</span>
+      <h3 style="margin-bottom:10px">Cierres recientes</h3>
+      <div id="closesList"></div>
+    </div>
+  </section>
+</main>
+
+<nav class="tabs">
+  <div class="tabs-inner">
+    <button class="tab on" data-v="hoy"><span class="tico">☾</span>Hoy</button>
+    <button class="tab" data-v="tareas"><span class="tico">✓</span>Tareas</button>
+    <button class="tab" data-v="alumnas"><span class="tico">✦</span>Alumnas</button>
+    <button class="tab" data-v="negocio"><span class="tico">◈</span>Negocio</button>
+    <button class="tab" data-v="progreso"><span class="tico">☉</span>Progreso</button>
+  </div>
+</nav>
+
+<!-- ═══════════ MODALES ═══════════ -->
+<div class="modal" id="mTask">
+  <div class="scrim" data-close></div>
+  <div class="sheet">
+    <button class="sheet-close" data-close>×</button>
+    <span class="overline">Nueva tarea</span>
+    <h2 id="taskModalTitle">¿Qué hay que hacer?</h2>
+    <div class="sep"></div>
+    <div class="field"><label class="f">Tarea</label><input type="text" id="tTitle" placeholder="Ej: Feedback de transcripts de Marina"></div>
+    <div class="field"><label class="f">Área</label><div class="chips" id="tAreaChips"></div></div>
+    <div class="field"><label class="f">Peso</label><div class="chips" id="tWeightChips"></div></div>
+    <div class="field">
+      <label class="f">¿Mueve el negocio?</label>
+      <div class="chips">
+        <button class="chip" id="tNeedleYes">Sí — mueve la aguja</button>
+        <button class="chip" id="tNeedleNo">Es mantenimiento</button>
+      </div>
+    </div>
+    <div class="field">
+      <label class="f">¿Cuándo?</label>
+      <div class="chips">
+        <button class="chip" id="tWhenToday">Hoy</button>
+        <button class="chip" id="tWhenBacklog">Backlog</button>
+      </div>
+    </div>
+    <button class="btn btn-dark full" id="btnSaveTask" style="margin-top:20px">Guardar</button>
+  </div>
+</div>
+
+<div class="modal" id="mStudent">
+  <div class="scrim" data-close></div>
+  <div class="sheet">
+    <button class="sheet-close" data-close>×</button>
+    <span class="overline">Radar de alumnas</span>
+    <h2>Sumar una alumna</h2>
+    <div class="sep"></div>
+    <div class="field"><label class="f">Nombre</label><input type="text" id="sName" placeholder="Ej: Marina"></div>
+    <div class="field"><label class="f">Rol / contexto</label><input type="text" id="sRole" placeholder="Ej: HR Manager · multinacional · México"></div>
+    <div class="field"><label class="f">Cohorte</label><input type="text" id="sCohort" placeholder="Ej: Cohorte Marzo"></div>
+    <div class="field"><label class="f">Mes del método</label>
+      <select id="sMonth">
+        <option value="1">Mes 1 · Diagnóstico y base</option>
+        <option value="2">Mes 2 · Vocabulario de poder</option>
+        <option value="3">Mes 3 · Reuniones en vivo</option>
+        <option value="4">Mes 4 · Presencia ejecutiva</option>
+        <option value="5">Mes 5 · Automatismo bajo presión</option>
+      </select>
+    </div>
+    <button class="btn btn-dark full" id="btnSaveStudent" style="margin-top:20px">Guardar</button>
+  </div>
+</div>
+
+<div class="modal" id="mPractice">
+  <div class="scrim" data-close></div>
+  <div class="sheet">
+    <button class="sheet-close" data-close>×</button>
+    <span class="overline" id="pOverline">Práctica</span>
+    <h2 id="pTitle">—</h2>
+    <p class="muted" id="pSub" style="margin-top:6px">—</p>
+    <div class="sep"></div>
+    <div id="pSteps" class="stack"></div>
+    <button class="btn btn-terra full" id="btnPracticeDone" style="margin-top:22px">Listo</button>
+  </div>
+</div>
+
+<div class="modal" id="mMovement">
+  <div class="scrim" data-close></div>
+  <div class="sheet">
+    <button class="sheet-close" data-close>×</button>
+    <span class="overline">La regla de uno</span>
+    <h2>Elegí el movimiento</h2>
+    <p class="muted" style="margin-top:6px">Solo una. Si terminás el día con esto hecho, el día valió.</p>
+    <div class="sep"></div>
+    <div id="movePickList"></div>
+  </div>
+</div>
+
+<div class="modal" id="mSettings">
+  <div class="scrim" data-close></div>
+  <div class="sheet">
+    <button class="sheet-close" data-close>×</button>
+    <span class="overline">Ajustes</span>
+    <h2>Tu app</h2>
+    <div class="sep"></div>
+    <div class="field"><label class="f">Tu nombre</label><input type="text" id="setName" placeholder="Flor"></div>
+    <div class="field"><label class="f">Bloque de foco largo (min)</label><input type="number" id="setFocus" min="10" max="90" value="50"></div>
+    <div class="sep"></div>
+    <span class="overline">Tus datos</span>
+    <p class="note" style="margin-bottom:14px">Todo vive en este teléfono o navegador. No sale a ningún servidor. Bajate el respaldo de vez en cuando.</p>
+    <div class="stack">
+      <button class="btn btn-outline full" id="btnExport">↓ Descargar respaldo</button>
+      <button class="btn btn-outline full" id="btnImport">↑ Restaurar respaldo</button>
+      <input type="file" id="fileImport" accept="application/json" style="display:none">
+      <button class="btn-ghost full" id="btnReset" style="color:var(--danger)">Borrar todo y empezar de cero</button>
+    </div>
+    <div class="sep"></div>
+    <span class="overline">Instalarla en el teléfono</span>
+    <p class="note"><strong>iPhone:</strong> abrí el enlace en Safari → Compartir → Añadir a inicio.<br><strong>Android:</strong> abrila en Chrome → menú (⋮) → Instalar app.</p>
+    <div class="sep"></div>
+    <p class="note">Founder ☾ Routine · She Breaks Limits · Herramienta de organización y autoconocimiento. No reemplaza atención médica ni psicológica.</p>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function () {
+  'use strict';
+
+  // ═══════════════════ CONSTANTES ═══════════════════
+  var KEY = 'sbl-founder-routine-v1';
+
+  var AREAS = [
+    { id: 'alumnas',   label: 'Alumnas' },
+    { id: 'clases',    label: 'Clases' },
+    { id: 'contenido', label: 'Contenido' },
+    { id: 'ventas',    label: 'Ventas' },
+    { id: 'metodo',    label: 'Método' },
+    { id: 'admin',     label: 'Admin' }
+  ];
+
+  var WEIGHTS = [
+    { id: 'ligero', label: 'Ligero', cost: 1 },
+    { id: 'medio',  label: 'Medio',  cost: 2 },
+    { id: 'pesado', label: 'Pesado', cost: 3 }
+  ];
+
+  var LEVELS = {
+    cuidado: {
+      key: 'cuidado', chip: 'lv-cuidado', name: 'Día de cuidado',
+      text: 'Llegaste con poco. Hoy no se conquista nada: se sostiene. Un movimiento chico y listo.',
+      capacity: 3, focus: 25, brk: 5, blocks: 2
+    },
+    estandar: {
+      key: 'estandar', chip: 'lv-estandar', name: 'Día estándar',
+      text: 'Tenés con qué. Un movimiento real y lo que sostiene la operación. Sin heroísmos.',
+      capacity: 6, focus: 45, brk: 10, blocks: 3
+    },
+    fuerte: {
+      key: 'fuerte', chip: 'lv-fuerte', name: 'Día fuerte',
+      text: 'Hoy podés con lo difícil. Usalo en lo que mueve el negocio, no en lo que es urgente.',
+      capacity: 9, focus: 50, brk: 10, blocks: 4
+    }
+  };
+
+  var PRACTICES = {
+    ancla: {
+      over: 'Antes de exponer', title: 'Ancla pre-clase',
+      sub: 'Dos minutos para que tu sistema nervioso sepa que esto lo sabés hacer.',
+      steps: [
+        'Sentate. Pies en el piso. Sentí los dos pies apoyados — literalmente, buscá la sensación.',
+        'Cuatro respiraciones: inhalá contando 4, exhalá contando 6. La exhalación larga es la que baja la alerta.',
+        'Nombrá en voz baja las tres cosas que querés que se lleven de la clase. Solo tres.',
+        'Decí una frase de apertura en voz alta. La primera frase dicha en voz alta destraba las siguientes.',
+        'Recordá: no vas a improvisar. Vas a ejecutar algo que ya sabés.'
+      ]
+    },
+    descarga: {
+      over: 'Después de exponer', title: 'Descarga post-clase',
+      sub: 'Si no la descargás, la clase sigue corriendo en tu cabeza toda la tarde.',
+      steps: [
+        'Treinta segundos de silencio antes de abrir cualquier pantalla. No respondas mensajes todavía.',
+        'Escribí una sola cosa que salió bien. Una. No la relativices.',
+        'Escribí una sola cosa que ajustarías. Sin lista, sin auditoría.',
+        'Capturá la frase de alumna que te quedó dando vueltas — va al banco de contenido.',
+        'Sacudí los brazos veinte segundos. La activación se descarga por el cuerpo, no por el análisis.'
+      ]
+    },
+    reset: {
+      over: 'Entre bloques', title: 'Reset entre bloques',
+      sub: 'La pausa real es lo que hace que el segundo bloque rinda como el primero.',
+      steps: [
+        'Levantate. La pausa sentada frente a la misma pantalla no es una pausa.',
+        'Mirá algo a más de seis metros durante veinte segundos.',
+        'Agua. En serio, agua.',
+        'No abras redes. Si entrás, el bloque siguiente arranca fragmentado.',
+        'Antes de volver, decí en una frase qué vas a hacer en el próximo bloque.'
+      ]
+    },
+    voz: {
+      over: 'Lo que pedís, lo hacés', title: 'Rep en inglés',
+      sub: 'Cinco minutos. Vos también producís bajo presión, no solo tus alumnas.',
+      steps: [
+        'Elegí una situación real de esta semana: un email, una objeción de un lead, una explicación del método.',
+        'Decila en voz alta en inglés. Sin escribirla antes. Cronometrá noventa segundos.',
+        'Repetila una segunda vez, más corta y más directa. La segunda siempre es mejor.',
+        'Anotá las dos palabras que te faltaron. Esas dos, no una lista de veinte.',
+        'Cerrá. La repetición corta y diaria gana a la sesión larga y semanal.'
+      ]
+    }
+  };
+
+  // ═══════════════════ ESTADO ═══════════════════
+  var DB = {
+    v: 1,
+    settings: { name: '', focusLong: 50 },
+    checkins: {},
+    tasks: [],
+    movements: {},
+    focus: [],
+    closes: {},
+    students: [],
+    biz: {},
+    ideas: []
+  };
+
+  function load() {
+    try {
+      var raw = localStorage.getItem(KEY);
+      if (!raw) return;
+      var parsed = JSON.parse(raw);
+      if (parsed && typeof parsed === 'object') {
+        Object.keys(DB).forEach(function (k) {
+          if (parsed[k] !== undefined && parsed[k] !== null) DB[k] = parsed[k];
+        });
+        if (!DB.settings) DB.settings = { name: '', focusLong: 50 };
+      }
+    } catch (e) { /* arranca limpio */ }
+  }
+
+  function save() {
+    try { localStorage.setItem(KEY, JSON.stringify(DB)); }
+    catch (e) { toast('No se pudo guardar. ¿Espacio del navegador lleno?'); }
+  }
+
+  // ═══════════════════ HELPERS ═══════════════════
+  function $(sel, root) { return (root || document).querySelector(sel); }
+  function $$(sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
+  function el(tag, cls, txt) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (txt !== undefined) n.textContent = txt;
+    return n;
+  }
+  function pad(n) { return n < 10 ? '0' + n : '' + n; }
+  function iso(d) { return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); }
+  function today() { return iso(new Date()); }
+  function monthKey() { var d = new Date(); return d.getFullYear() + '-' + pad(d.getMonth() + 1); }
+  function uid() { return Math.random().toString(36).slice(2, 10) + Date.now().toString(36).slice(-4); }
+
+  var DAYS = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
+  var MONTHS = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+  var DAYS_SHORT = ['D', 'L', 'M', 'X', 'J', 'V', 'S'];
+
+  function areaLabel(id) {
+    for (var i = 0; i < AREAS.length; i++) if (AREAS[i].id === id) return AREAS[i].label;
+    return 'Sin área';
+  }
+  function weightCost(id) {
+    for (var i = 0; i < WEIGHTS.length; i++) if (WEIGHTS[i].id === id) return WEIGHTS[i].cost;
+    return 2;
+  }
+  function weightLabel(id) {
+    for (var i = 0; i < WEIGHTS.length; i++) if (WEIGHTS[i].id === id) return WEIGHTS[i].label;
+    return 'Medio';
+  }
+
+  var toastTimer = null;
+  function toast(msg) {
+    var t = $('#toast');
+    t.textContent = msg;
+    t.classList.add('on');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { t.classList.remove('on'); }, 2600);
+  }
+
+  function openModal(id) { $(id).classList.add('on'); }
+  function closeModal(id) { $(id).classList.remove('on'); }
+
+  // ═══════════════════ NIVEL DEL DÍA ═══════════════════
+  function computeLevel(c) {
+    var score = (c.sleep || 3) + (c.energy || 3) + (c.reg || 3);
+    var lv;
+    if (score <= 7) lv = LEVELS.cuidado;
+    else if (score <= 11) lv = LEVELS.estandar;
+    else lv = LEVELS.fuerte;
+    // Día de clase: la exposición cuesta. Se reserva energía bajando un escalón.
+    if (c.classDay) {
+      if (lv.key === 'fuerte') lv = LEVELS.estandar;
+      else if (lv.key === 'estandar') lv = LEVELS.cuidado;
+    }
+    return lv;
+  }
+
+  function todayCheckin() { return DB.checkins[today()] || null; }
+  function todayLevel() {
+    var c = todayCheckin();
+    return c ? computeLevel(c) : LEVELS.estandar;
+  }
+
+  // ═══════════════════ TAREAS ═══════════════════
+  function tasksFor(date) {
+    return DB.tasks.filter(function (t) { return t.day === date; });
+  }
+  function backlog() {
+    return DB.tasks.filter(function (t) { return !t.day && !t.done; });
+  }
+  function findTask(id) {
+    for (var i = 0; i < DB.tasks.length; i++) if (DB.tasks[i].id === id) return DB.tasks[i];
+    return null;
+  }
+
+  function renderTask(t, opts) {
+    opts = opts || {};
+    var wrap = el('div', 'task' + (t.done ? ' done' : '') + (opts.movement ? ' movement' : ''));
+
+    var chk = el('button', 'check', '✓');
+    chk.setAttribute('aria-label', t.done ? 'Marcar pendiente' : 'Marcar hecha');
+    chk.addEventListener('click', function () {
+      t.done = !t.done;
+      t.doneAt = t.done ? new Date().toISOString() : null;
+      save();
+      renderAll();
+      if (t.done && t.needle) toast('Eso movió el negocio.');
+    });
+    wrap.appendChild(chk);
+
+    var body = el('div', 't-body');
+    body.appendChild(el('div', 't-title', t.title));
+
+    var meta = el('div', 't-meta');
+    if (t.needle) meta.appendChild(el('span', 'pill needle', 'Mueve la aguja'));
+    meta.appendChild(el('span', 'pill', areaLabel(t.area)));
+    meta.appendChild(el('span', 'pill w-' + t.weight, weightLabel(t.weight)));
+    body.appendChild(meta);
+    wrap.appendChild(body);
+
+    var acts = el('div', 't-actions');
+    if (!t.day) {
+      var up = el('button', '', '↑');
+      up.title = 'Subir a hoy';
+      up.addEventListener('click', function () { t.day = today(); save(); renderAll(); toast('A hoy.'); });
+      acts.appendChild(up);
+    } else if (!t.done) {
+      var down = el('button', '', '↓');
+      down.title = 'Mandar al backlog';
+      down.addEventListener('click', function () {
+        t.day = null;
+        if (DB.movements[today()] === t.id) delete DB.movements[today()];
+        save(); renderAll();
+      });
+      acts.appendChild(down);
+    }
+    var del = el('button', '', '×');
+    del.title = 'Borrar';
+    del.addEventListener('click', function () {
+      DB.tasks = DB.tasks.filter(function (x) { return x.id !== t.id; });
+      if (DB.movements[today()] === t.id) delete DB.movements[today()];
+      save(); renderAll();
+    });
+    acts.appendChild(del);
+    wrap.appendChild(acts);
+
+    return wrap;
+  }
+
+  function usedCapacity() {
+    return tasksFor(today()).reduce(function (sum, t) { return sum + weightCost(t.weight); }, 0);
+  }
+
+  // ═══════════════════ RENDER: HOY ═══════════════════
+  var draft = { sleep: 0, energy: 0, reg: 0, classDay: false };
+
+  function renderHeader() {
+    var d = new Date();
+    $('#topDate').innerHTML = DAYS[d.getDay()] + '<br>' + d.getDate() + ' ' + MONTHS[d.getMonth()];
+    var n = (DB.settings.name || '').trim();
+    $('#brandSub').textContent = n ? 'para ' + n : 'She Breaks Limits';
+  }
+
+  function renderCheckin() {
+    var c = todayCheckin();
+    var h = new Date().getHours();
+    var name = (DB.settings.name || '').trim();
+    var greet = h < 12 ? 'Buenos días' : (h < 19 ? 'Buenas tardes' : 'Buenas noches');
+    $('#hiTitle').textContent = greet + (name ? ', ' + name : '') + '.';
+
+    if (!c) {
+      $('#checkinForm').style.display = '';
+      $('#checkinResult').style.display = 'none';
+      $('#hiSub').textContent = 'Marcá cómo llegás. El día se arma solo, según eso.';
+      $$('.scale').forEach(function (s) {
+        var k = s.getAttribute('data-k');
+        $$('button', s).forEach(function (b) {
+          b.classList.toggle('on', draft[k] === parseInt(b.getAttribute('data-v'), 10));
+        });
+      });
+      $('#chipClass').classList.toggle('on', draft.classDay === true);
+      $('#chipNoClass').classList.toggle('on', draft.classDay === false);
+      return;
+    }
+
+    $('#checkinForm').style.display = 'none';
+    $('#checkinResult').style.display = '';
+    $('#hiSub').textContent = c.classDay
+      ? 'Hoy exponés. El día ya viene con carga; lo demás se ajusta.'
+      : 'Ya sabemos cómo llegás. El día está armado.';
+
+    var lv = computeLevel(c);
+    var chip = $('#lvChip');
+    chip.className = 'level-chip ' + lv.chip;
+    chip.textContent = lv.name;
+    $('#lvTitle').textContent = lv.name;
+    $('#lvText').textContent = lv.text;
+
+    var used = usedCapacity();
+    var bar = $('#capBar');
+    bar.innerHTML = '';
+    for (var i = 0; i < lv.capacity; i++) {
+      var dot = el('div', 'cap-dot' + (i < used ? ' fill' : ''));
+      bar.appendChild(dot);
+    }
+    if (used > lv.capacity) {
+      for (var j = 0; j < Math.min(used - lv.capacity, 6); j++) bar.appendChild(el('div', 'cap-dot over'));
+    }
+    $('#capText').textContent = used > lv.capacity
+      ? 'Cargaste más de lo que el día aguanta. Bajá algo al backlog — no es rendirse, es criterio.'
+      : 'Carga del día: ' + used + ' de ' + lv.capacity + ' · ' + lv.blocks + ' bloques de ' + lv.focus + ' min.';
+  }
+
+  function renderMovement() {
+    var box = $('#movementBox');
+    box.innerHTML = '';
+    var mid = DB.movements[today()];
+    var t = mid ? findTask(mid) : null;
+    if (!t) {
+      var e = el('div', 'empty');
+      e.appendChild(el('span', 'moon', '☾'));
+      e.appendChild(el('div', '', 'Todavía no elegiste. Sin movimiento, el día se llena de urgencias ajenas.'));
+      box.appendChild(e);
+      return;
+    }
+    box.appendChild(renderTask(t, { movement: true }));
+  }
+
+  function renderToday() {
+    var list = $('#todayList');
+    list.innerHTML = '';
+    var mid = DB.movements[today()];
+    var ts = tasksFor(today()).filter(function (t) { return t.id !== mid; });
+    ts.sort(function (a, b) {
+      if (a.done !== b.done) return a.done ? 1 : -1;
+      if (a.needle !== b.needle) return a.needle ? -1 : 1;
+      return weightCost(b.weight) - weightCost(a.weight);
+    });
+    if (!ts.length) {
+      var e = el('div', 'empty');
+      e.appendChild(el('span', 'moon', '✧'));
+      e.appendChild(el('div', '', 'Día vacío. Subí algo del backlog o dejalo así — también es una decisión.'));
+      list.appendChild(e);
+      return;
+    }
+    ts.forEach(function (t) { list.appendChild(renderTask(t)); });
+  }
+
+  function renderCloses() {
+    var c = DB.closes[today()];
+    $('#cl1').value = c ? (c.moved || '') : '';
+    $('#cl2').value = c ? (c.learned || '') : '';
+    $('#cl3').value = c ? (c.release || '') : '';
+    $('#cl4').value = c ? (c.tomorrow || '') : '';
+    $('#closeSaved').style.display = c ? '' : 'none';
+  }
+
+  // ═══════════════════ RENDER: TAREAS ═══════════════════
+  var areaFilter = 'todas';
+
+  function renderAreaFilter() {
+    var box = $('#areaFilter');
+    box.innerHTML = '';
+    var opts = [{ id: 'todas', label: 'Todas' }].concat(AREAS);
+    opts.forEach(function (a) {
+      var b = el('button', 'chip' + (areaFilter === a.id ? ' on' : ''), a.label);
+      b.addEventListener('click', function () { areaFilter = a.id; renderAll(); });
+      box.appendChild(b);
+    });
+  }
+
+  function renderBacklog() {
+    var list = $('#backlogList');
+    list.innerHTML = '';
+    var ts = backlog().filter(function (t) { return areaFilter === 'todas' || t.area === areaFilter; });
+    ts.sort(function (a, b) {
+      if (a.needle !== b.needle) return a.needle ? -1 : 1;
+      return (b.created || 0) - (a.created || 0);
+    });
+    if (!ts.length) {
+      var e = el('div', 'empty');
+      e.appendChild(el('span', 'moon', '☾'));
+      e.appendChild(el('div', '', 'Backlog limpio. Raro y hermoso.'));
+      list.appendChild(e);
+      return;
+    }
+    ts.forEach(function (t) { list.appendChild(renderTask(t)); });
+  }
+
+  function renderIdeas() {
+    var box = $('#ideaList');
+    box.innerHTML = '';
+    var items = DB.ideas.slice().reverse().slice(0, 12);
+    if (!items.length) {
+      box.appendChild(el('p', 'muted', 'Nada capturado todavía.'));
+      return;
+    }
+    items.forEach(function (i) {
+      var row = el('div', 'task');
+      var body = el('div', 't-body');
+      body.appendChild(el('div', 't-title', i.text));
+      var meta = el('div', 't-meta');
+      meta.appendChild(el('span', 'pill', i.date || ''));
+      body.appendChild(meta);
+      row.appendChild(body);
+      var acts = el('div', 't-actions');
+      var toTask = el('button', '', '→');
+      toTask.title = 'Convertir en tarea de contenido';
+      toTask.addEventListener('click', function () {
+        DB.tasks.push({
+          id: uid(), title: 'Post: ' + i.text.slice(0, 60), area: 'contenido',
+          weight: 'ligero', needle: false, done: false, day: null, created: Date.now()
+        });
+        DB.ideas = DB.ideas.filter(function (x) { return x.id !== i.id; });
+        save(); renderAll(); toast('Al backlog de contenido.');
+      });
+      var del = el('button', '', '×');
+      del.addEventListener('click', function () {
+        DB.ideas = DB.ideas.filter(function (x) { return x.id !== i.id; });
+        save(); renderAll();
+      });
+      acts.appendChild(toTask); acts.appendChild(del);
+      row.appendChild(acts);
+      box.appendChild(row);
+    });
+  }
+
+  // ═══════════════════ RENDER: ALUMNAS ═══════════════════
+  var TEMPS = ['encendida', 'tibia', 'silencio'];
+  var TEMP_LABEL = { encendida: 'Encendida', tibia: 'Tibia', silencio: 'En silencio' };
+
+  function renderStudents() {
+    var list = $('#studentList');
+    list.innerHTML = '';
+    if (!DB.students.length) {
+      var e = el('div', 'empty');
+      e.appendChild(el('span', 'moon', '✦'));
+      e.appendChild(el('div', '', 'Sumá a tus alumnas. Lo que se mide, se sostiene.'));
+      list.appendChild(e);
+      return;
+    }
+    var order = { silencio: 0, tibia: 1, encendida: 2 };
+    DB.students.slice().sort(function (a, b) {
+      return (order[a.temp] || 0) - (order[b.temp] || 0);
+    }).forEach(function (s) {
+      var row = el('div', 'stu');
+
+      var dot = el('button', 'dot d-' + s.temp);
+      dot.title = 'Cambiar estado';
+      dot.addEventListener('click', function () {
+        var i = TEMPS.indexOf(s.temp);
+        s.temp = TEMPS[(i + 1) % TEMPS.length];
+        s.lastTouch = today();
+        save(); renderAll();
+        toast(s.name + ': ' + TEMP_LABEL[s.temp]);
+      });
+      row.appendChild(dot);
+
+      var body = el('div', 'stu-body');
+      body.appendChild(el('div', 'stu-name', s.name));
+      var meta = el('div', 't-meta');
+      if (s.role) meta.appendChild(el('span', 'pill', s.role));
+      meta.appendChild(el('span', 'pill', 'Mes ' + s.month));
+      if (s.cohort) meta.appendChild(el('span', 'pill', s.cohort));
+      body.appendChild(meta);
+      row.appendChild(body);
+
+      var acts = el('div', 't-actions');
+      if (s.temp !== 'encendida') {
+        var ping = el('button', 'cycle', 'Tocar');
+        ping.title = 'Crear tarea de contacto para hoy';
+        ping.addEventListener('click', function () {
+          DB.tasks.push({
+            id: uid(), title: 'Escribirle a ' + s.name + ' — lleva días en silencio',
+            area: 'alumnas', weight: 'ligero', needle: true, done: false,
+            day: today(), created: Date.now()
+          });
+          save(); renderAll(); toast('Tarea creada para hoy.');
+        });
+        acts.appendChild(ping);
+      }
+      var del = el('button', '', '×');
+      del.addEventListener('click', function () {
+        DB.students = DB.students.filter(function (x) { return x.id !== s.id; });
+        save(); renderAll();
+      });
+      acts.appendChild(del);
+      row.appendChild(acts);
+
+      list.appendChild(row);
+    });
+  }
+
+  var ARC = ['Diagnóstico y base', 'Vocabulario de poder', 'Reuniones en vivo', 'Presencia ejecutiva', 'Automatismo bajo presión'];
+
+  function renderCohortArc() {
+    var box = $('#cohortArc');
+    box.innerHTML = '';
+    if (!DB.students.length) {
+      box.appendChild(el('p', 'muted', 'Cuando cargues alumnas, vas a ver acá en qué mes está cada grupo.'));
+      return;
+    }
+    var counts = [0, 0, 0, 0, 0];
+    DB.students.forEach(function (s) {
+      var m = parseInt(s.month, 10);
+      if (m >= 1 && m <= 5) counts[m - 1]++;
+    });
+    var max = Math.max.apply(null, counts) || 1;
+    for (var i = 0; i < 5; i++) {
+      var row = el('div', 'between');
+      row.style.padding = '9px 0';
+      row.style.borderBottom = i < 4 ? '1px solid rgba(232,196,173,.18)' : 'none';
+      var left = el('div');
+      left.appendChild(el('div', '', 'Mes ' + (i + 1) + ' · ' + ARC[i]));
+      left.style.fontSize = '13.5px';
+      var meter = el('div');
+      meter.style.cssText = 'width:96px;height:5px;background:rgba(232,196,173,.2);border-radius:3px;overflow:hidden;flex:none';
+      var fill = el('i');
+      fill.style.cssText = 'display:block;height:100%;background:var(--terracota);width:' + Math.round(counts[i] / max * 100) + '%';
+      meter.appendChild(fill);
+      var right = el('div', 'row');
+      right.appendChild(meter);
+      right.appendChild(el('div', 'muted', String(counts[i])));
+      row.appendChild(left);
+      row.appendChild(right);
+      box.appendChild(row);
+    }
+  }
+
+  // ═══════════════════ RENDER: NEGOCIO ═══════════════════
+  function renderBiz() {
+    var mk = monthKey();
+    var d = new Date();
+    $('#bizMonthLabel').textContent = MONTHS[d.getMonth()] + ' ' + d.getFullYear();
+    var b = DB.biz[mk] || {};
+    $('#bAlumnas').value = b.alumnas != null ? b.alumnas : '';
+    $('#bLeads').value = b.leads != null ? b.leads : '';
+    $('#bCierres').value = b.cierres != null ? b.cierres : '';
+    $('#bMeta').value = b.meta != null ? b.meta : '';
+
+    var cierres = parseInt(b.cierres, 10) || 0;
+    var meta = parseInt(b.meta, 10) || 0;
+    var pct = meta > 0 ? Math.min(100, Math.round(cierres / meta * 100)) : 0;
+    $('#bMeter').style.width = pct + '%';
+    $('#bMeterText').textContent = meta > 0
+      ? cierres + ' de ' + meta + ' cierres · ' + pct + '% de la meta del mes.'
+      : 'Poné una meta para ver el avance. Sin número, "vender más" no es un plan.';
+
+    // Distribución por área, últimos 30 días
+    var box = $('#areaBreakdown');
+    box.innerHTML = '';
+    var since = Date.now() - 30 * 864e5;
+    var counts = {}, total = 0;
+    AREAS.forEach(function (a) { counts[a.id] = 0; });
+    DB.tasks.forEach(function (t) {
+      if (!t.done || !t.doneAt) return;
+      if (new Date(t.doneAt).getTime() < since) return;
+      if (counts[t.area] === undefined) counts[t.area] = 0;
+      counts[t.area]++; total++;
+    });
+    if (!total) {
+      box.appendChild(el('p', 'muted', 'Todavía no hay tareas cerradas en los últimos 30 días.'));
+      $('#areaInsight').textContent = 'Cuando cierres tareas, acá vas a ver dónde se te va el mes de verdad.';
+      return;
+    }
+    var maxArea = null, maxN = -1;
+    AREAS.forEach(function (a) {
+      var n = counts[a.id] || 0;
+      if (n > maxN) { maxN = n; maxArea = a; }
+      var row = el('div', 'between');
+      row.style.padding = '8px 0';
+      row.appendChild(el('div', '', a.label));
+      var right = el('div', 'row');
+      var meter = el('div');
+      meter.style.cssText = 'width:120px;height:6px;background:rgba(140,107,74,.16);border-radius:4px;overflow:hidden;flex:none';
+      var fill = el('i');
+      fill.style.cssText = 'display:block;height:100%;background:var(--terracota);width:' + Math.round(n / total * 100) + '%';
+      meter.appendChild(fill);
+      right.appendChild(meter);
+      right.appendChild(el('span', 'muted', String(n)));
+      row.appendChild(right);
+      box.appendChild(row);
+    });
+    var adminPct = Math.round(((counts.admin || 0) / total) * 100);
+    if (adminPct >= 35) {
+      $('#areaInsight').textContent = 'Admin se llevó el ' + adminPct + '% de tus tareas cerradas. Eso es tiempo que no está en alumnas ni en ventas — candidato número uno a delegar.';
+    } else {
+      $('#areaInsight').textContent = 'Tu mes se concentró en ' + maxArea.label + ' (' + maxN + ' de ' + total + '). ¿Es donde querías que estuviera?';
+    }
+  }
+
+  // ═══════════════════ RENDER: PROGRESO ═══════════════════
+  function lastDays(n) {
+    var out = [];
+    for (var i = n - 1; i >= 0; i--) {
+      var d = new Date();
+      d.setDate(d.getDate() - i);
+      out.push(d);
+    }
+    return out;
+  }
+
+  function renderBars(target, axis, key) {
+    var box = $(target), ax = $(axis);
+    box.innerHTML = ''; ax.innerHTML = '';
+    var days = lastDays(14);
+    days.forEach(function (d, idx) {
+      var c = DB.checkins[iso(d)];
+      var v = c ? c[key] : 0;
+      var b = el('div', 'b' + (v ? '' : ' empty-b'));
+      var i = el('i');
+      i.style.height = (v ? (v / 5 * 100) : 6) + '%';
+      b.appendChild(i);
+      b.title = iso(d) + (v ? ' · ' + v + '/5' : ' · sin registro');
+      box.appendChild(b);
+      if (idx % 3 === 0 || idx === days.length - 1) {
+        ax.appendChild(el('span', '', DAYS_SHORT[d.getDay()] + d.getDate()));
+      }
+    });
+  }
+
+  function renderKpis() {
+    var box = $('#kpiBox');
+    box.innerHTML = '';
+    var days = lastDays(14);
+    var vals = [], sleeps = [];
+    days.forEach(function (d) {
+      var c = DB.checkins[iso(d)];
+      if (c) { vals.push(c.energy || 0); sleeps.push(c.sleep || 0); }
+    });
+    var avgE = vals.length ? (vals.reduce(function (a, b) { return a + b; }, 0) / vals.length) : 0;
+    var avgS = sleeps.length ? (sleeps.reduce(function (a, b) { return a + b; }, 0) / sleeps.length) : 0;
+
+    var since = Date.now() - 14 * 864e5;
+    var moves = 0;
+    DB.tasks.forEach(function (t) {
+      if (t.done && t.needle && t.doneAt && new Date(t.doneAt).getTime() >= since) moves++;
+    });
+    var mins = DB.focus.reduce(function (sum, f) {
+      return (f.ts && f.ts >= since) ? sum + (f.minutes || 0) : sum;
+    }, 0);
+
+    var kpis = [
+      { n: avgE ? avgE.toFixed(1) : '—', l: 'Energía media' },
+      { n: avgS ? avgS.toFixed(1) : '—', l: 'Sueño medio' },
+      { n: String(moves), l: 'Movimientos' },
+      { n: mins ? Math.round(mins / 60) + 'h' : '0h', l: 'Foco real' }
+    ];
+    kpis.forEach(function (k) {
+      var c = el('div', 'kpi');
+      c.appendChild(el('div', 'n', k.n));
+      c.appendChild(el('div', 'l', k.l));
+      box.appendChild(c);
+    });
+  }
+
+  function renderInsights() {
+    var box = $('#insights');
+    box.innerHTML = '';
+    var days = lastDays(21);
+    var recs = [];
+    days.forEach(function (d) {
+      var c = DB.checkins[iso(d)];
+      if (c) recs.push({ d: d, c: c });
+    });
+
+    if (recs.length < 4) {
+      box.appendChild(el('p', 'muted', 'Con tres o cuatro check-ins más ya puedo decirte algo útil. Por ahora, solo seguí marcando.'));
+      return;
+    }
+
+    var out = [];
+
+    // Relación sueño → energía
+    var lowSleep = recs.filter(function (r) { return r.c.sleep <= 2; });
+    if (lowSleep.length >= 2) {
+      var avgAfter = lowSleep.reduce(function (a, r) { return a + r.c.energy; }, 0) / lowSleep.length;
+      out.push('En los ' + lowSleep.length + ' días que dormiste mal, tu energía promedio fue ' + avgAfter.toFixed(1) + '/5. El sueño no es un lujo: es tu insumo de producción.');
+    }
+
+    // Día de la semana más bajo
+    var byDow = {}, cntDow = {};
+    recs.forEach(function (r) {
+      var k = r.d.getDay();
+      byDow[k] = (byDow[k] || 0) + r.c.energy;
+      cntDow[k] = (cntDow[k] || 0) + 1;
+    });
+    var worst = null, worstAvg = 99;
+    Object.keys(byDow).forEach(function (k) {
+      if (cntDow[k] < 2) return;
+      var avg = byDow[k] / cntDow[k];
+      if (avg < worstAvg) { worstAvg = avg; worst = parseInt(k, 10); }
+    });
+    if (worst !== null) {
+      out.push('Los ' + DAYS[worst] + ' son tu día más bajo (' + worstAvg.toFixed(1) + '/5 de energía). No pongas ahí lo que exige tu mejor versión.');
+    }
+
+    // Días de clase
+    var classDays = recs.filter(function (r) { return r.c.classDay; });
+    if (classDays.length >= 2) {
+      out.push('Registraste ' + classDays.length + ' días de exposición en tres semanas. La descarga post-clase no es opcional cuando la frecuencia es esa.');
+    }
+
+    // Regulación
+    var lowReg = recs.filter(function (r) { return r.c.reg <= 2; }).length;
+    if (lowReg >= 3) {
+      out.push(lowReg + ' de ' + recs.length + ' días llegaste tensa o en alerta. No es un problema de agenda, es de carga sostenida.');
+    } else if (lowReg === 0) {
+      out.push('Ningún día llegaste en alerta. Eso es un logro operativo, no suerte — lo que estás haciendo, funciona.');
+    }
+
+    out.slice(0, 4).forEach(function (txt) {
+      var p = el('p', 'note', txt);
+      p.style.paddingLeft = '14px';
+      p.style.borderLeft = '2px solid var(--terracota)';
+      box.appendChild(p);
+    });
+  }
+
+  function renderClosesList() {
+    var box = $('#closesList');
+    box.innerHTML = '';
+    var keys = Object.keys(DB.closes).sort().reverse().slice(0, 7);
+    if (!keys.length) {
+      box.appendChild(el('p', 'muted', 'Todavía no cerraste ningún día.'));
+      return;
+    }
+    keys.forEach(function (k) {
+      var c = DB.closes[k];
+      var wrap = el('div');
+      wrap.style.cssText = 'padding:12px 0;border-bottom:1px solid var(--line)';
+      var parts = k.split('-');
+      var dd = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
+      var date = el('div', 'overline', DAYS[dd.getDay()] + ' ' + dd.getDate() + ' de ' + MONTHS[dd.getMonth()]);
+      wrap.appendChild(date);
+      if (c.moved) wrap.appendChild(el('p', '', c.moved));
+      if (c.learned) {
+        var q = el('p', 'note', '“' + c.learned + '”');
+        q.style.marginTop = '6px';
+        q.style.fontStyle = 'italic';
+        wrap.appendChild(q);
+      }
+      box.appendChild(wrap);
+    });
+  }
+
+  // ═══════════════════ TIMER ═══════════════════
+  var timer = { running: false, phase: 'foco', left: 0, total: 0, handle: null };
+
+  function timerDurations() {
+    var lv = todayLevel();
+    var custom = parseInt(DB.settings.focusLong, 10);
+    var focusMin = lv.key === 'cuidado' ? 25 : (lv.key === 'estandar' ? 45 : (custom > 0 ? custom : 50));
+    return { focus: focusMin, brk: lv.brk };
+  }
+
+  function resetTimer() {
+    var d = timerDurations();
+    timer.running = false;
+    timer.phase = 'foco';
+    timer.total = d.focus * 60;
+    timer.left = timer.total;
+    clearInterval(timer.handle);
+    paintTimer();
+  }
+
+  function paintTimer() {
+    var m = Math.floor(timer.left / 60), s = timer.left % 60;
+    $('#fClock').textContent = pad(m) + ':' + pad(s);
+    $('#fPhase').textContent = timer.phase === 'foco' ? 'Foco' : 'Pausa real';
+    $('#btnFocus').textContent = timer.running ? 'Pausar' : (timer.left === timer.total ? 'Empezar' : 'Seguir');
+    var pct = timer.total ? ((timer.total - timer.left) / timer.total * 100) : 0;
+    $('#fRing').style.width = pct + '%';
+    var d = timerDurations();
+    var lv = todayLevel();
+    $('#fNote').textContent = timer.phase === 'foco'
+      ? 'Hoy: ' + lv.blocks + ' bloques de ' + d.focus + ' min. Ajustado a cómo llegaste, no a cómo deberías estar.'
+      : 'Levantate de verdad. La pausa frente a la misma pantalla no cuenta.';
+  }
+
+  function tick() {
+    if (!timer.running) return;
+    timer.left--;
+    if (timer.left <= 0) {
+      if (timer.phase === 'foco') {
+        var mins = Math.round(timer.total / 60);
+        DB.focus.push({ date: today(), minutes: mins, ts: Date.now() });
+        save();
+        timer.phase = 'pausa';
+        timer.total = timerDurations().brk * 60;
+        timer.left = timer.total;
+        toast('Bloque cerrado. Pausá en serio.');
+      } else {
+        timer.phase = 'foco';
+        timer.total = timerDurations().focus * 60;
+        timer.left = timer.total;
+        timer.running = false;
+        clearInterval(timer.handle);
+        toast('Listo para el próximo bloque.');
+      }
+      renderKpis();
+    }
+    paintTimer();
+  }
+
+  // ═══════════════════ MODAL: TAREA ═══════════════════
+  var tDraft = { area: 'alumnas', weight: 'medio', needle: false, day: null };
+
+  function paintTaskChips() {
+    var a = $('#tAreaChips'); a.innerHTML = '';
+    AREAS.forEach(function (x) {
+      var b = el('button', 'chip' + (tDraft.area === x.id ? ' on' : ''), x.label);
+      b.addEventListener('click', function () { tDraft.area = x.id; paintTaskChips(); });
+      a.appendChild(b);
+    });
+    var w = $('#tWeightChips'); w.innerHTML = '';
+    WEIGHTS.forEach(function (x) {
+      var b = el('button', 'chip' + (tDraft.weight === x.id ? ' on' : ''), x.label);
+      b.addEventListener('click', function () { tDraft.weight = x.id; paintTaskChips(); });
+      w.appendChild(b);
+    });
+    $('#tNeedleYes').classList.toggle('on', tDraft.needle === true);
+    $('#tNeedleNo').classList.toggle('on', tDraft.needle === false);
+    $('#tWhenToday').classList.toggle('on', tDraft.day === today());
+    $('#tWhenBacklog').classList.toggle('on', tDraft.day === null);
+  }
+
+  function openTaskModal(forToday) {
+    tDraft = { area: 'alumnas', weight: 'medio', needle: false, day: forToday ? today() : null };
+    $('#tTitle').value = '';
+    paintTaskChips();
+    openModal('#mTask');
+    setTimeout(function () { $('#tTitle').focus(); }, 120);
+  }
+
+  // ═══════════════════ MODAL: MOVIMIENTO ═══════════════════
+  function openMovementPicker() {
+    var box = $('#movePickList');
+    box.innerHTML = '';
+    var candidates = DB.tasks.filter(function (t) { return !t.done && (t.day === today() || !t.day); });
+    candidates.sort(function (a, b) { return (b.needle ? 1 : 0) - (a.needle ? 1 : 0); });
+    if (!candidates.length) {
+      box.appendChild(el('p', 'muted', 'No hay tareas todavía. Creá una primero.'));
+    }
+    candidates.forEach(function (t) {
+      var row = el('button', 'task');
+      row.style.width = '100%';
+      row.style.textAlign = 'left';
+      var body = el('div', 't-body');
+      body.appendChild(el('div', 't-title', t.title));
+      var meta = el('div', 't-meta');
+      if (t.needle) meta.appendChild(el('span', 'pill needle', 'Mueve la aguja'));
+      meta.appendChild(el('span', 'pill', areaLabel(t.area)));
+      meta.appendChild(el('span', 'pill w-' + t.weight, weightLabel(t.weight)));
+      body.appendChild(meta);
+      row.appendChild(body);
+      row.addEventListener('click', function () {
+        t.day = today();
+        DB.movements[today()] = t.id;
+        save(); closeModal('#mMovement'); renderAll();
+        toast('Movimiento del día fijado.');
+      });
+      box.appendChild(row);
+    });
+    openModal('#mMovement');
+  }
+
+  // ═══════════════════ MODAL: PRÁCTICA ═══════════════════
+  function openPractice(key) {
+    var p = PRACTICES[key];
+    if (!p) return;
+    $('#pOverline').textContent = p.over;
+    $('#pTitle').textContent = p.title;
+    $('#pSub').textContent = p.sub;
+    var box = $('#pSteps');
+    box.innerHTML = '';
+    p.steps.forEach(function (s, i) {
+      var row = el('div', 'row');
+      row.style.alignItems = 'flex-start';
+      var n = el('div', '', String(i + 1));
+      n.style.cssText = 'font-family:Crimson Pro,Georgia,serif;font-size:20px;color:var(--terracota);flex:none;width:22px;line-height:1.2';
+      var t = el('div', '', s);
+      t.style.fontSize = '14px';
+      row.appendChild(n); row.appendChild(t);
+      box.appendChild(row);
+    });
+    openModal('#mPractice');
+  }
+
+  // ═══════════════════ RENDER TODO ═══════════════════
+  function renderAll() {
+    renderHeader();
+    renderCheckin();
+    renderMovement();
+    renderToday();
+    renderCloses();
+    renderAreaFilter();
+    renderBacklog();
+    renderIdeas();
+    renderStudents();
+    renderCohortArc();
+    renderBiz();
+    renderKpis();
+    renderBars('#barsEnergy', '#axisEnergy', 'energy');
+    renderBars('#barsSleep', '#axisSleep', 'sleep');
+    renderInsights();
+    renderClosesList();
+    paintTimer();
+  }
+
+  // ═══════════════════ EVENTOS ═══════════════════
+  function bind() {
+    // Tabs
+    $$('.tab').forEach(function (t) {
+      t.addEventListener('click', function () {
+        $$('.tab').forEach(function (x) { x.classList.remove('on'); });
+        t.classList.add('on');
+        $$('.view').forEach(function (v) { v.classList.remove('on'); });
+        $('#v-' + t.getAttribute('data-v')).classList.add('on');
+        window.scrollTo(0, 0);
+      });
+    });
+
+    // Cerrar modales
+    $$('[data-close]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var m = b.closest('.modal');
+        if (m) m.classList.remove('on');
+      });
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') $$('.modal.on').forEach(function (m) { m.classList.remove('on'); });
+    });
+
+    // Check-in
+    $$('.scale').forEach(function (s) {
+      var k = s.getAttribute('data-k');
+      $$('button', s).forEach(function (b) {
+        b.addEventListener('click', function () {
+          draft[k] = parseInt(b.getAttribute('data-v'), 10);
+          $$('button', s).forEach(function (x) { x.classList.remove('on'); });
+          b.classList.add('on');
+        });
+      });
+    });
+    $('#chipClass').addEventListener('click', function () {
+      draft.classDay = true;
+      $('#chipClass').classList.add('on');
+      $('#chipNoClass').classList.remove('on');
+    });
+    $('#chipNoClass').addEventListener('click', function () {
+      draft.classDay = false;
+      $('#chipNoClass').classList.add('on');
+      $('#chipClass').classList.remove('on');
+    });
+    $('#btnSaveCheckin').addEventListener('click', function () {
+      if (!draft.sleep || !draft.energy || !draft.reg) {
+        toast('Faltan las tres respuestas. Son veinte segundos.');
+        return;
+      }
+      DB.checkins[today()] = {
+        sleep: draft.sleep, energy: draft.energy, reg: draft.reg,
+        classDay: !!draft.classDay, ts: Date.now()
+      };
+      save();
+      resetTimer();
+      renderAll();
+      var lv = todayLevel();
+      toast(lv.name + ' · así se arma el día.');
+    });
+    $('#btnRedoCheckin').addEventListener('click', function () {
+      var c = todayCheckin();
+      if (c) draft = { sleep: c.sleep, energy: c.energy, reg: c.reg, classDay: !!c.classDay };
+      delete DB.checkins[today()];
+      save(); renderAll();
+    });
+
+    // Movimiento
+    $('#btnPickMovement').addEventListener('click', openMovementPicker);
+
+    // Tareas
+    $('#btnAddToday').addEventListener('click', function () { openTaskModal(true); });
+    $('#btnAddTask').addEventListener('click', function () { openTaskModal(false); });
+    $('#tNeedleYes').addEventListener('click', function () { tDraft.needle = true; paintTaskChips(); });
+    $('#tNeedleNo').addEventListener('click', function () { tDraft.needle = false; paintTaskChips(); });
+    $('#tWhenToday').addEventListener('click', function () { tDraft.day = today(); paintTaskChips(); });
+    $('#tWhenBacklog').addEventListener('click', function () { tDraft.day = null; paintTaskChips(); });
+    $('#btnSaveTask').addEventListener('click', function () {
+      var title = $('#tTitle').value.trim();
+      if (!title) { toast('Escribí la tarea.'); return; }
+      DB.tasks.push({
+        id: uid(), title: title, area: tDraft.area, weight: tDraft.weight,
+        needle: tDraft.needle, done: false, day: tDraft.day, created: Date.now()
+      });
+      save(); closeModal('#mTask'); renderAll();
+      if (tDraft.day) {
+        var lv = todayLevel();
+        if (usedCapacity() > lv.capacity) toast('Ojo: pasaste la carga del día.');
+        else toast('Sumada a hoy.');
+      } else { toast('Al backlog.'); }
+    });
+    $('#tTitle').addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') $('#btnSaveTask').click();
+    });
+
+    // Ideas
+    function addIdea() {
+      var v = $('#ideaInput').value.trim();
+      if (!v) return;
+      DB.ideas.push({ id: uid(), text: v, date: today(), ts: Date.now() });
+      $('#ideaInput').value = '';
+      save(); renderAll(); toast('Guardado en el banco.');
+    }
+    $('#btnIdea').addEventListener('click', addIdea);
+    $('#ideaInput').addEventListener('keydown', function (e) { if (e.key === 'Enter') addIdea(); });
+
+    // Foco
+    $('#btnFocus').addEventListener('click', function () {
+      timer.running = !timer.running;
+      clearInterval(timer.handle);
+      if (timer.running) timer.handle = setInterval(tick, 1000);
+      paintTimer();
+    });
+    $('#btnFocusReset').addEventListener('click', resetTimer);
+
+    // Prácticas
+    $$('[data-practice]').forEach(function (b) {
+      b.addEventListener('click', function () { openPractice(b.getAttribute('data-practice')); });
+    });
+    $('#btnPracticeDone').addEventListener('click', function () {
+      closeModal('#mPractice');
+      toast('Hecho. Vuelta al día.');
+    });
+
+    // Cierre
+    $('#btnClose').addEventListener('click', function () {
+      DB.closes[today()] = {
+        moved: $('#cl1').value.trim(),
+        learned: $('#cl2').value.trim(),
+        release: $('#cl3').value.trim(),
+        tomorrow: $('#cl4').value.trim(),
+        ts: Date.now()
+      };
+      var tm = $('#cl4').value.trim();
+      if (tm) {
+        var d = new Date(); d.setDate(d.getDate() + 1);
+        DB.tasks.push({
+          id: uid(), title: tm, area: 'alumnas', weight: 'medio',
+          needle: true, done: false, day: iso(d), created: Date.now()
+        });
+      }
+      save(); renderAll();
+      toast(tm ? 'Cerrado. Mañana ya tiene su movimiento.' : 'Día cerrado. Descansá.');
+    });
+
+    // Alumnas
+    $('#btnAddStudent').addEventListener('click', function () {
+      $('#sName').value = ''; $('#sRole').value = ''; $('#sCohort').value = '';
+      openModal('#mStudent');
+      setTimeout(function () { $('#sName').focus(); }, 120);
+    });
+    $('#btnSaveStudent').addEventListener('click', function () {
+      var n = $('#sName').value.trim();
+      if (!n) { toast('Falta el nombre.'); return; }
+      DB.students.push({
+        id: uid(), name: n, role: $('#sRole').value.trim(),
+        cohort: $('#sCohort').value.trim(), month: $('#sMonth').value,
+        temp: 'encendida', lastTouch: today()
+      });
+      save(); closeModal('#mStudent'); renderAll(); toast('Sumada al radar.');
+    });
+
+    // Negocio
+    $('#btnSaveBiz').addEventListener('click', function () {
+      DB.biz[monthKey()] = {
+        alumnas: $('#bAlumnas').value === '' ? null : parseInt($('#bAlumnas').value, 10),
+        leads: $('#bLeads').value === '' ? null : parseInt($('#bLeads').value, 10),
+        cierres: $('#bCierres').value === '' ? null : parseInt($('#bCierres').value, 10),
+        meta: $('#bMeta').value === '' ? null : parseInt($('#bMeta').value, 10)
+      };
+      save(); renderBiz(); toast('Mes guardado.');
+    });
+
+    // Ajustes
+    $('#btnSettings').addEventListener('click', function () {
+      $('#setName').value = DB.settings.name || '';
+      $('#setFocus').value = DB.settings.focusLong || 50;
+      openModal('#mSettings');
+    });
+    $('#setName').addEventListener('input', function () {
+      DB.settings.name = $('#setName').value;
+      save(); renderHeader(); renderCheckin();
+    });
+    $('#setFocus').addEventListener('change', function () {
+      var v = parseInt($('#setFocus').value, 10);
+      DB.settings.focusLong = (v >= 10 && v <= 90) ? v : 50;
+      save(); resetTimer();
+    });
+
+    $('#btnExport').addEventListener('click', function () {
+      var blob = new Blob([JSON.stringify(DB, null, 2)], { type: 'application/json' });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = 'founder-routine-' + today() + '.json';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+    });
+    $('#btnImport').addEventListener('click', function () { $('#fileImport').click(); });
+    $('#fileImport').addEventListener('change', function (e) {
+      var f = e.target.files && e.target.files[0];
+      if (!f) return;
+      var r = new FileReader();
+      r.onload = function () {
+        try {
+          var parsed = JSON.parse(r.result);
+          Object.keys(DB).forEach(function (k) {
+            if (parsed[k] !== undefined && parsed[k] !== null) DB[k] = parsed[k];
+          });
+          save(); renderAll(); closeModal('#mSettings');
+          toast('Respaldo restaurado.');
+        } catch (err) { toast('Ese archivo no se pudo leer.'); }
+      };
+      r.readAsText(f);
+      e.target.value = '';
+    });
+    $('#btnReset').addEventListener('click', function () {
+      if (!confirm('Esto borra todo: check-ins, tareas, alumnas, cierres. No se puede deshacer.')) return;
+      localStorage.removeItem(KEY);
+      location.reload();
+    });
+  }
+
+  // ═══════════════════ SEED ═══════════════════
+  function seedIfEmpty() {
+    if (DB.tasks.length || DB.students.length) return;
+    var base = Date.now();
+    DB.tasks = [
+      { id: uid(), title: 'Revisar transcripts de la clase del martes y marcar errores fosilizados', area: 'clases', weight: 'medio', needle: false, done: false, day: null, created: base },
+      { id: uid(), title: 'Grabar el módulo de Color Method para Skool', area: 'metodo', weight: 'pesado', needle: true, done: false, day: null, created: base - 1 },
+      { id: uid(), title: 'Seguimiento a los 3 leads que pidieron info la semana pasada', area: 'ventas', weight: 'medio', needle: true, done: false, day: null, created: base - 2 },
+      { id: uid(), title: 'Post sobre el Visibility Gap para LinkedIn', area: 'contenido', weight: 'ligero', needle: false, done: false, day: null, created: base - 3 },
+      { id: uid(), title: 'Facturas del mes', area: 'admin', weight: 'ligero', needle: false, done: false, day: null, created: base - 4 }
+    ];
+    save();
+  }
+
+  // ═══════════════════ INIT ═══════════════════
+  load();
+  seedIfEmpty();
+  bind();
+  resetTimer();
+  renderAll();
+
+  // Si la app queda abierta y cambia el día, se reajusta sola.
+  var lastDay = today();
+  setInterval(function () {
+    if (today() !== lastDay) { lastDay = today(); draft = { sleep: 0, energy: 0, reg: 0, classDay: false }; resetTimer(); renderAll(); }
+  }, 60000);
+})();
+</script>
+</body>
+</html>
