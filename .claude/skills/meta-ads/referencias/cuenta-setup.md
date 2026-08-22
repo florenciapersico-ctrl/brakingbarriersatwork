@@ -57,7 +57,27 @@ Pedile al agente el link con:
 > en un archivo del repo, en un chat compartido ni en un ticket.** Se generan en el
 > momento, se usan y se descartan. Caducan solos.
 
-Ya conectado: `instagram_public` → cuenta `ysi_speakenglish` (Instagram orgánico).
+**Estado al 22/08/2026:**
+
+| Conexión | Estado |
+|---|---|
+| Meta Ads · lectura (Windsor, cuenta `37106731` · Flor Pérsico · USD) | ✅ |
+| Meta Ads · crear y editar anuncios | ❌ Falta permiso de página en la autorización |
+| Instagram (Supermetrics `IGI`, cuenta `17841463522872570` · Flor \| english coach) | ✅ |
+
+⚠️ **Windsor gratis admite una sola cuenta.** Al conectar `facebook` se cayó
+`instagram_public`. Por eso Instagram quedó del lado de Supermetrics: son dos
+proveedores distintos, cada uno con su lugar libre.
+
+⚠️ **El permiso de página se otorga en las pantallas de Facebook**, detrás del botón
+azul "Grant Facebook Ads Access" de la pestaña **1. Add data** — no en la lista de
+cuentas publicitarias ni en la pestaña "2. Preview and Destination". Hay que elegir
+"Activar todos los Páginas actuales y futuros". Sin esto, `create_adset` y `create_ad`
+fallan con error 1487202 "Permisos de página insuficientes para publicar anuncios".
+
+Página de la cuenta publicitaria: `247455008457160`. Si en la pantalla de Facebook solo
+aparece "Flowerfit", significa que esa página no está bajo control del perfil personal
+de Flor y hay que resolverlo en Business Manager.
 
 ## 7. Público personalizado de la base actual
 Si Flor tiene lista de emails de alumnas y de interesadas, subirla como público
