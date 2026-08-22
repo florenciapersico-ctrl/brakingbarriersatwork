@@ -69,8 +69,8 @@ promedio USD 1,41).
 | **Argentina** | Algunas | USD 1,76 | Baja: "al argentino no le gusta pagar en USD" |
 | **Costa Rica** | Sí | USD 1,14 | Se queda |
 | **Chile** | Sí | USD 2,05 | Se queda |
-| Uruguay | No conocidas | USD 1,21 | Prescindible |
-| Paraguay | No conocidas | USD 5,39 | Fuera |
+| **Paraguay** | **2** | USD 5,39 (el más caro) | **Se queda. El que mejor convierte** |
+| Uruguay | Sin confirmar | USD 1,21 | Preguntar antes de tocar |
 
 ⚠️ **México nunca va en el mismo conjunto que los mercados baratos.** Tiene el CPM más
 alto de la región: compartiendo presupuesto, Meta lo esquiva. Medido el 22/08 sobre 3
@@ -81,8 +81,22 @@ Argentina es un problema de oferta, no de pauta: es donde mejor le sale comunica
 (habla rioplatense) pero el precio en dólares la frena. Si algún día hay precio en
 pesos o pago local, se convierte en el mercado más natural.
 
-**El dato que manda es cuál se convirtió en alumna, no el costo por conversación.** Ese
-dato lo tiene Flor, no la API. Preguntarle antes de recortar un país.
+## 🚫 No recortar países por costo por conversación
+
+El 22/08 se propuso sacar Colombia, después Perú, después Paraguay, siempre mirando el
+costo por conversación. **Los tres tenían alumnas.** Paraguay era el más caro de la
+tabla (USD 5,39) y resultó el que mejor convierte de toda la cuenta: 2 conversaciones,
+2 alumnas, USD 10,78 de inversión total.
+
+El costo por conversación mide quién escribe. No mide quién paga. Son cosas distintas y
+en esta cuenta se comportan al revés.
+
+**Regla: ningún país se recorta sin que Flor confirme que no le dio alumnas.** El dato
+de origen de las alumnas lo tiene ella, no la API — la API no ve las ventas porque se
+cierran conversando por DM, sin píxel ni checkout en el medio.
+
+Pendiente de completar (`[COMPLETAR]`): **origen por país de cada alumna**, para poder
+calcular costo por alumna, que es la única métrica que decide presupuesto.
 
 ## El concepto central: el Visibility Gap
 
