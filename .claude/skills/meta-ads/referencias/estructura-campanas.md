@@ -66,6 +66,42 @@ cargadas como público personalizado. Es el de mejor rendimiento a mediano plazo
 ⚠️ Si Meta marca categoría especial de Empleo, se caen género y edad. Ver
 `politicas-meta.md` § 2.
 
+## ⚠️ Público Advantage+ : decidilo al crear, porque después no se puede sacar
+
+Cuando un conjunto de anuncios se crea con `targeting_automation: {advantage_audience: 1}`,
+**los intereses, el público similar y los públicos personalizados dejan de ser filtros y
+pasan a ser sugerencias.** Meta puede ignorarlos y buscar donde le resulte más barato.
+
+Y no se puede desactivar después. Intentado el 22/08 sobre los conjuntos
+`52545204552333` y `52545473038133`; Meta respondió:
+
+> "No se pueden desactivar las opciones de Advantage. La segmentación detallada
+> Advantage+, el público similar Advantage+ y el público personalizado Advantage+ no se
+> pueden cambiar porque tu campaña usa el público Advantage+. Si necesitas establecer la
+> segmentación detallada, los públicos similares o los públicos personalizados como
+> controles, crea una nueva campaña."
+
+Consecuencia: **para cambiar ubicaciones o segmentación en un conjunto Advantage+, hay
+que crear uno nuevo.** No se arregla editando.
+
+Es la explicación de por qué un conjunto con 22 intereses profesionales bien elegidos
+terminó entregando en el feed de Facebook en Colombia y Perú a CPM de USD 0,79: los
+intereses no estaban filtrando.
+
+Cuándo sí conviene Advantage+: cuando hay volumen de conversiones y se quiere que Meta
+explore. Cuándo no: presupuesto chico, mercados de costo muy distinto en el mismo
+conjunto, o cuando el público correcto es estrecho y específico — que es este caso.
+
+### Nota de API: `update_adset` reemplaza el targeting entero
+
+Windsor manda el objeto `targeting` completo a Meta, que lo reemplaza — no lo fusiona.
+Para tocar solo las ubicaciones hay que reenviar el spec entero leído con
+`adset_targeting`. Y si el conjunto es Advantage+, Meta rechaza el reenvío de
+`flexible_spec` y `custom_audiences`, así que directamente no se puede.
+
+Otro detalle: `instagram_positions` con `explore_home` exige incluir también `explore`,
+o Meta devuelve error 2490392.
+
 ## Separar los países caros de los baratos
 
 Meta reparte el presupuesto de un conjunto de anuncios buscando el resultado más
