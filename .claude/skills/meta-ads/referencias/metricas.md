@@ -48,6 +48,24 @@ lee en el Administrador de anuncios, no abajo del post.
 
 Métricas a ignorar en un anuncio: comentarios, likes, "me gusta de la página".
 
+## Antes de diagnosticar nada: mirá qué objetivo se eligió
+
+Un anuncio hace lo que le pediste, no lo que esperabas. La mitad de los "no funcionó"
+son en realidad "le pedí otra cosa".
+
+**Interacción → con la publicación** le pide a Meta la interacción más barata que
+exista: un like, un reacción, tres segundos de video. Meta sale a buscar gente propensa
+a eso, que no es la misma gente propensa a escribirte. Con ese objetivo, cero mensajes
+y cero comentarios es el resultado esperable, no una falla.
+
+Para que alguien escriba hay que pedirlo explícitamente:
+**Interacción → Mensajes → Instagram Direct.**
+
+⚠️ **El objetivo no se puede editar después de crear la campaña.** Si está mal elegido,
+no hay ajuste posible: se apaga y se relanza. Es la única excepción legítima a la regla
+de "no toques nada los primeros 3–4 días" — esa regla es para problemas de rendimiento,
+no para una campaña que estructuralmente nunca va a traer lo que se busca.
+
 ## Árbol de diagnóstico
 
 **Pocas impresiones / casi no gasta**
