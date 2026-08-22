@@ -82,7 +82,13 @@ Y no se puede desactivar después. Intentado el 22/08 sobre los conjuntos
 > controles, crea una nueva campaña."
 
 Consecuencia: **para cambiar ubicaciones o segmentación en un conjunto Advantage+, hay
-que crear uno nuevo.** No se arregla editando.
+que crear uno nuevo.** No se arregla editando. Confirmado dos veces el 22/08: falla
+tanto reenviando el spec completo como enviando solo los campos de ubicación.
+
+**Salida sin API: duplicar el conjunto en el Administrador.** El duplicado se crea como
+conjunto nuevo, así que admite apagar Advantage+ y pasar las ubicaciones a manuales, y
+conserva intereses, públicos similares, países y presupuesto del original. Es el camino
+a recomendar cuando no hay permisos de página para crear por API.
 
 Es la explicación de por qué un conjunto con 22 intereses profesionales bien elegidos
 terminó entregando en el feed de Facebook en Colombia y Perú a CPM de USD 0,79: los
