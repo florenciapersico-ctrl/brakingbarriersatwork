@@ -66,6 +66,20 @@ cargadas como público personalizado. Es el de mejor rendimiento a mediano plazo
 ⚠️ Si Meta marca categoría especial de Empleo, se caen género y edad. Ver
 `politicas-meta.md` § 2.
 
+## Dos cosas que bloquean o encarecen un impulso
+
+**Nunca impulsar desde la app de iPhone.** Apple cobra su 30% de comisión sobre
+cualquier compra hecha dentro de una app en iOS, y la pauta cuenta como compra. USD 49
+de presupuesto se convierten en unos USD 64. Desde el navegador no hay recargo.
+
+**Los carruseles con música no se pueden promocionar.** No es cuestión de elegir otro
+tema: la música en publicaciones de imagen es una función solo orgánica y bloquea la
+promoción entera. Meta lo esconde de la lista de publicaciones promocionables sin decir
+por qué. Solución: volver a publicar el carrusel sin audio.
+
+Si un posteo no aparece en "Seleccionar una publicación para promocionar", revisar en
+este orden: filtro "Tipo de contenido", scroll (la lista no es cronológica), y música.
+
 ## ✅ Chequeo obligatorio antes de publicar una campaña nueva
 
 Meta trae dos opciones activadas de fábrica que rompen exactamente lo que esta cuenta
