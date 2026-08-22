@@ -56,8 +56,25 @@ genérico):
 - Neuróloga aplicando a una CRO internacional — 20 años de experiencia que suenan a
   principiante en una entrevista en inglés.
 
-Países principales: Argentina, México, `[COMPLETAR: ¿otros? Colombia, Chile, España,
-hispanos en EE.UU.?]`
+## Mercados (dicho por Flor, 22/08/2026)
+
+| Mercado | Realidad | Prioridad en pauta |
+|---|---|---|
+| **México** | La mayoría de sus alumnas. Paga en USD sin fricción | **Máxima.** Conjunto propio y presupuesto propio |
+| **Argentina** | Le llegan algunas, pero "al argentino no le gusta pagar en USD" | Baja hasta que exista precio en pesos o pago local |
+| **Colombia** | Le han llegado alumnas | Media |
+| **Chile** | Le han llegado alumnas | Media |
+| **Costa Rica** | Le han llegado alumnas | Media |
+| **Perú** | No mencionado como origen de alumnas | Fuera, salvo indicación contraria |
+
+⚠️ **México nunca va en el mismo conjunto que Colombia o Perú.** Tiene el CPM más caro
+de la región: si comparte presupuesto con mercados baratos, Meta lo esquiva y México
+queda con migajas. Medido el 22/08: de USD 31 gastados en 3 días, a México le tocaron
+USD 1,57 (5%), mientras Perú —que no genera alumnas— se llevaba más.
+
+Argentina es un problema de oferta, no de pauta: es donde mejor le sale comunicar
+(habla rioplatense) pero el precio en dólares la frena. Si algún día hay precio en
+pesos o pago local, se convierte en el mercado más natural.
 
 ## El concepto central: el Visibility Gap
 

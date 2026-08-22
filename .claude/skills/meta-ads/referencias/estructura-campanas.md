@@ -66,6 +66,29 @@ cargadas como público personalizado. Es el de mejor rendimiento a mediano plazo
 ⚠️ Si Meta marca categoría especial de Empleo, se caen género y edad. Ver
 `politicas-meta.md` § 2.
 
+## Separar los países caros de los baratos
+
+Meta reparte el presupuesto de un conjunto de anuncios buscando el resultado más
+barato. Si en el mismo conjunto conviven un mercado caro y uno barato, el caro no
+recibe casi nada — no porque rinda peor, sino porque llegar ahí cuesta más.
+
+En esta cuenta eso es crítico: **México es el mercado que más vende y el que tiene el
+CPM más alto de la región.** Metido junto a Colombia y Perú, se queda sin pauta.
+
+Regla: **un conjunto de anuncios por mercado prioritario**, con su propio presupuesto.
+Nunca "toda LatAm" en un solo conjunto.
+
+Estructura para esta cuenta:
+
+```
+Conjunto A · México                          ← presupuesto propio, el más alto
+Conjunto B · Colombia + Chile + Costa Rica   ← mercados secundarios reales
+Conjunto C · Argentina                       ← solo si hay precio en pesos o pago local
+```
+
+Cómo detectarlo cuando ya está pasando: pedí `get_data` con el campo `country` y mirá
+el reparto de `spend`. Si tu mejor mercado está abajo en la lista, es esto.
+
 ## Presupuesto
 
 Mínimos honestos:
