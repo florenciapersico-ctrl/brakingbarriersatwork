@@ -23,6 +23,31 @@ El error más caro no es elegir mal el público: es apagar un anuncio bueno al s
 Ignorá: alcance, "interacciones", "me gusta de la página", frecuencia (salvo que pase
 de 3 en retargeting). No pagan nada.
 
+## Los comentarios NO son la métrica de un anuncio
+
+Esto merece su propia sección porque es la confusión más cara de esta cuenta.
+
+Orgánicamente, los posts de Flor cierran con "comentá GUÍA y te lo envío" y funcionan:
+el post del 1/7 sacó 15 comentarios. Pero eso pasa con **seguidoras**, gente que ya
+eligió seguirla y que ya está adentro del tema.
+
+En pauta le estás hablando a desconocidas. Y una desconocida no comenta, por dos razones:
+
+1. **Comentar es público.** El problema que vende Flor es vergonzante: escribir "GUÍA"
+   debajo de un anuncio sobre no poder hablar inglés en el trabajo es admitir en
+   público, con nombre y foto, que a una le pasa eso. Con las seguidoras hay confianza
+   construida. Con una desconocida, no.
+2. **No hay vínculo.** Comentar es un gesto de comunidad. El primer contacto no lo es.
+
+Una desconocida interesada hace otras cosas: mira el video entero, guarda, entra al
+perfil, y —si el anuncio se lo hace fácil— manda un DM. El DM es privado: ahí sí.
+
+**Consecuencia práctica:** un anuncio con cero comentarios puede estar funcionando
+perfecto. Si el objetivo es Mensajes, la métrica es **conversaciones iniciadas**, y se
+lee en el Administrador de anuncios, no abajo del post.
+
+Métricas a ignorar en un anuncio: comentarios, likes, "me gusta de la página".
+
 ## Árbol de diagnóstico
 
 **Pocas impresiones / casi no gasta**
