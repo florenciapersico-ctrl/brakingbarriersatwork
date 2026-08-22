@@ -56,25 +56,33 @@ genérico):
 - Neuróloga aplicando a una CRO internacional — 20 años de experiencia que suenan a
   principiante en una entrevista en inglés.
 
-## Mercados (dicho por Flor, 22/08/2026)
+## Mercados (dicho por Flor, 22/08/2026, cruzado con datos de la cuenta)
 
-| Mercado | Realidad | Prioridad en pauta |
-|---|---|---|
-| **México** | La mayoría de sus alumnas. Paga en USD sin fricción | **Máxima.** Conjunto propio y presupuesto propio |
-| **Argentina** | Le llegan algunas, pero "al argentino no le gusta pagar en USD" | Baja hasta que exista precio en pesos o pago local |
-| **Colombia** | Le han llegado alumnas | Media |
-| **Chile** | Le han llegado alumnas | Media |
-| **Costa Rica** | Le han llegado alumnas | Media |
-| **Perú** | No mencionado como origen de alumnas | Fuera, salvo indicación contraria |
+Costo por conversación medido sobre 60 días (USD 442 de inversión, 314 conversaciones,
+promedio USD 1,41).
 
-⚠️ **México nunca va en el mismo conjunto que Colombia o Perú.** Tiene el CPM más caro
-de la región: si comparte presupuesto con mercados baratos, Meta lo esquiva y México
-queda con migajas. Medido el 22/08: de USD 31 gastados en 3 días, a México le tocaron
-USD 1,57 (5%), mientras Perú —que no genera alumnas— se llevaba más.
+| Mercado | Alumnas | Costo/conversación | Prioridad |
+|---|---|---|---|
+| **México** | La mayoría | **USD 0,98** (el más barato) | **Máxima. Conjunto propio** |
+| **Perú** | 1 | USD 1,47 | Se queda |
+| **Colombia** | Sí | USD 1,62 | Se queda |
+| **Argentina** | Algunas | USD 1,76 | Baja: "al argentino no le gusta pagar en USD" |
+| **Costa Rica** | Sí | USD 1,14 | Se queda |
+| **Chile** | Sí | USD 2,05 | Se queda |
+| Uruguay | No conocidas | USD 1,21 | Prescindible |
+| Paraguay | No conocidas | USD 5,39 | Fuera |
+
+⚠️ **México nunca va en el mismo conjunto que los mercados baratos.** Tiene el CPM más
+alto de la región: compartiendo presupuesto, Meta lo esquiva. Medido el 22/08 sobre 3
+días: de USD 31 gastados, a México le tocaron USD 1,57 (5%) — siendo el mercado que
+más alumnas y más conversaciones baratas produce.
 
 Argentina es un problema de oferta, no de pauta: es donde mejor le sale comunicar
 (habla rioplatense) pero el precio en dólares la frena. Si algún día hay precio en
 pesos o pago local, se convierte en el mercado más natural.
+
+**El dato que manda es cuál se convirtió en alumna, no el costo por conversación.** Ese
+dato lo tiene Flor, no la API. Preguntarle antes de recortar un país.
 
 ## El concepto central: el Visibility Gap
 
