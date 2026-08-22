@@ -32,9 +32,13 @@ Bonos (⚠️ **son los mejores lead magnets que tiene** — ver campaña 01):
 Datos comerciales:
 - Precio: `[COMPLETAR]`
 - Modalidad de pago: `[COMPLETAR]`
-- Próxima cohorte / fecha de apertura: `[COMPLETAR]`
-- Cupos: `[COMPLETAR]`
-- Paso de venta: `[COMPLETAR — ¿llamada de diagnóstico, aplicación, checkout directo?]`
+- Próxima cohorte: **octubre** (según los posts de agosto en IG). Confirmar fecha exacta.
+- Cupos: **2–3 lugares 1:1 para octubre** (los posts de agosto venden un proceso 1:1,
+  no el grupal de 5 meses de la landing). ⚠️ Confirmar con Flor cuál se pauta.
+- Paso de venta real hoy: **conversación por DM de Instagram.** Los posts cierran con
+  "escribime AT WORK / REUNIONES / LIBRE por DM" o "comentá GUÍA y te lo envío".
+  No hay formulario en el medio.
+- Nivel del público según sus propios posts: **B1–B2**, ya trabaja en inglés.
 
 ## A quién le hablamos
 

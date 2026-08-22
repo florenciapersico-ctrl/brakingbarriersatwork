@@ -3,6 +3,32 @@
 Plan concreto para las primeras dos semanas. Todo el copy está listo para pegar y ya
 pasó el filtro de políticas de Meta.
 
+## ⚠️ Corrección sobre el plan original (2026-08-22)
+
+Al mirar los datos reales de `@ysi_speakenglish` (34 publicaciones, 25/06 al 21/08)
+aparecieron dos cosas que cambian el plan:
+
+**1. La venta se cierra por DM, no por formulario.** Todos los posts terminan en
+"escribime AT WORK por DM" o "comentá GUÍA y te lo envío". Ese embudo ya funciona y
+Flor ya sabe conversar ahí. Entonces el objetivo de la campaña de arranque debería ser
+**`OUTCOME_ENGAGEMENT` con destino `INSTAGRAM_DIRECT`** (Click-to-Message), no leads a
+una landing. Se le pone la palabra clave como mensaje de apertura y la conversación
+arranca sola.
+
+Ventajas: no hace falta píxel, ni landing, ni verificar dominio, ni automatizar la
+entrega del lead magnet. **Se puede lanzar esta semana.** El plan de leads a landing
+queda para después, cuando el píxel esté puesto.
+
+**2. La cuenta es chica.** La mediana está en ~5 likes por post y el máximo del
+bimestre fue 16. No hay que esperar que impulsar un post haga milagros: con este
+alcance orgánico, la pauta es lo que va a traer gente nueva, no el post en sí.
+
+El copy de los 6 anuncios de abajo sirve igual. Solo cambia el cierre: en vez de
+"descargalo gratis" va **"escribime AT WORK por DM"**, y el botón pasa a
+`MESSAGE_PAGE`.
+
+---
+
 ## La decisión estratégica de fondo
 
 Un programa de 5 meses **no se vende con un anuncio a puerta fría**. Nadie que nunca
