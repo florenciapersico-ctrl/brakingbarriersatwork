@@ -66,6 +66,35 @@ cargadas como público personalizado. Es el de mejor rendimiento a mediano plazo
 ⚠️ Si Meta marca categoría especial de Empleo, se caen género y edad. Ver
 `politicas-meta.md` § 2.
 
+## ✅ Chequeo obligatorio antes de publicar una campaña nueva
+
+Meta trae dos opciones activadas de fábrica que rompen exactamente lo que esta cuenta
+necesita. Vienen tildadas y con la palabra "recomendado" al lado, así que se pasan por
+alto con facilidad — le pasó a Flor el 21/08 en dos campañas seguidas.
+
+**Preguntarle SIEMPRE estas dos antes de que le dé a publicar:**
+
+1. **¿Ubicaciones en manuales, solo Instagram?** (no "Advantage+ / automáticas")
+2. **¿Público Advantage+ apagado?**
+
+Contexto que importa: de los 72 conjuntos históricos de la cuenta, **52 son solo
+Instagram**. Es su forma habitual de trabajar. Los que fallan son los creados desde el
+flujo completo del Administrador — se reconocen por el nombre por defecto *"Nuevo
+conjunto de anuncios de…"*, frente a los *"Publicación de Instagram: …"* que salen de
+promocionar un post y arrancan en Instagram solos.
+
+Si un conjunto se llama "Nuevo conjunto de anuncios de…", asumir que trae los dos
+defaults puestos y verificarlo.
+
+**Cómo verificar de verdad** (la configuración se discute, la entrega no):
+
+```
+adset_targeting → publisher_platforms   ← si el campo no está, son automáticas
+get_data con publisher_platform + platform_position + impressions
+```
+
+Lo segundo es la prueba real: dice dónde se mostró el anuncio, no dónde debía mostrarse.
+
 ## ⚠️ Público Advantage+ : decidilo al crear, porque después no se puede sacar
 
 Cuando un conjunto de anuncios se crea con `targeting_automation: {advantage_audience: 1}`,
