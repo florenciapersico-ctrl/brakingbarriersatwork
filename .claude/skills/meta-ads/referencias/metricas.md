@@ -48,6 +48,32 @@ lee en el Administrador de anuncios, no abajo del post.
 
 Métricas a ignorar en un anuncio: comentarios, likes, "me gusta de la página".
 
+## ⚠️ Windsor cachea las lecturas: verificá un cambio con otra forma de consulta
+
+Después de `execute_action`, repetir el mismo `get_data` de antes puede devolver el
+estado viejo aunque el cambio se haya aplicado. Pasó el 22/08: 33 campañas devolvieron
+"paused successfully" y la verificación las seguía mostrando ACTIVE.
+
+Para forzar una lectura fresca, cambiá la forma de la consulta — otros campos u otro
+rango de fechas. Sirve pedir `campaign_effective_status` y `campaign_configured_status`
+en vez de `campaign_status`, y mirar `data_fetched_at` para saber de cuándo es el dato.
+
+**Nunca le confirmes a Flor que algo se aplicó basándote en la respuesta del action.**
+Verificalo con una lectura fresca primero.
+
+## Nunca borrar campañas
+
+Borrar en Meta destruye el historial de rendimiento, y en esta cuenta ese historial es
+la única fuente de verdad: no hay píxel ni checkout, las ventas se cierran por DM. Los
+USD 442 ya gastados son datos comprados.
+
+Cuando pida "borrar" o "limpiar", lo que resuelve el problema es:
+1. **Pausar** lo que no debe correr (se puede por API).
+2. **Archivar** lo viejo desde el Administrador — lo oculta y conserva los datos (lo
+   hace ella; no hay acción de archivar en la conexión).
+
+Archivar sí. Eliminar no.
+
 ## Antes de diagnosticar nada: leé la configuración real, no la deduzcas
 
 ⚠️ **`OUTCOME_ENGAGEMENT` NO quiere decir "interacción con la publicación".** Es un
