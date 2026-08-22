@@ -95,6 +95,34 @@ get_data con publisher_platform + platform_position + impressions
 
 Lo segundo es la prueba real: dice dónde se mostró el anuncio, no dónde debía mostrarse.
 
+## El camino que funciona en esta cuenta: impulsar el posteo, no armar campaña
+
+Medido sobre 2 años de historial: **todos los anuncios ganadores de Flor son posteos de
+Instagram impulsados** (nombres tipo "Publicación de Instagram: …"), con costos por
+conversación de USD 0,43 a 0,84. Los dos armados desde cero en el Administrador el
+21/08 dieron **cero conversaciones**.
+
+La causa no es el flujo en sí, son los defaults: el Administrador completo trae
+Advantage+ y ubicaciones automáticas activados; el flujo de impulsar un posteo de
+Instagram fija las ubicaciones en Instagram (no se puede desmarcar) y permite elegir un
+público guardado con Advantage+ apagado.
+
+**Ruta recomendada, paso a paso** (Business Suite, no la app):
+
+1. `business.facebook.com` → **Anuncios** → botón **Crear anuncio**
+2. **Promocionar contenido de Instagram** → elegir el posteo
+3. **Objetivo → Cambiar → "Recibir más mensajes"** (el default es "visitas en el perfil": inútil acá)
+4. **Contenido Advantage+ → apagar.** ⚠️ Se vuelve a prender solo al cambiar el objetivo — verificarlo de nuevo al final
+5. **Categoría de anuncio especial → dejar apagada.** Meta sugiere "Empleo" por el rubro de la página; marcarlo haría perder segmentación por género y edad, y el historial muestra que sin marcarlo los anuncios corren bien
+6. **Público → "Professionals"** (público guardado: 8 países, mujeres, 25-60, 22 intereses, Advantage+ desactivado)
+7. **Presupuesto → USD 10/día, 7 días**
+8. **Ubicaciones** → aparece "Instagram" fijo y en gris. Correcto, no se toca
+9. **Publicar**
+
+El cartel "Mejoras en la entrega de anuncios" no se puede desactivar. Expande intereses
+y públicos similares, **no** lugar, edad ni sexo. Estaba presente también cuando el
+anuncio estrella rendía a USD 0,43, así que no es la causa de una caída.
+
 ## ⚠️ Público Advantage+ : decidilo al crear, porque después no se puede sacar
 
 Cuando un conjunto de anuncios se crea con `targeting_automation: {advantage_audience: 1}`,
