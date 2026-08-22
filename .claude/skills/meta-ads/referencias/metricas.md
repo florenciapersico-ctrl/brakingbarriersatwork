@@ -48,6 +48,84 @@ lee en el Administrador de anuncios, no abajo del post.
 
 Métricas a ignorar en un anuncio: comentarios, likes, "me gusta de la página".
 
+## Antes de diagnosticar nada: leé la configuración real, no la deduzcas
+
+⚠️ **`OUTCOME_ENGAGEMENT` NO quiere decir "interacción con la publicación".** Es un
+objetivo paraguas que incluye mensajes, interacción con el post, visitas al perfil y
+reproducciones de video. Deducir cuál es a partir del nombre del objetivo, o del patrón
+de clics, lleva a conclusiones equivocadas — pasó el 22/08 y casi hace apagar una
+campaña bien armada.
+
+Se mira con `get_data`, no se supone:
+
+```
+adsset_optimization_goal   → CONVERSATIONS / POST_ENGAGEMENT / PROFILE_VISIT ...
+adset_destination_type     → INSTAGRAM_DIRECT / MESSENGER / ON_POST / WEBSITE ...
+adset_daily_budget         → en centavos (700 = USD 7,00)
+adset_effective_status
+```
+
+Y la métrica de resultado se llama distinto según el destino. Para Click-to-Message:
+
+```
+actions_onsite_conversion_messaging_conversation_started_7d
+actions_onsite_conversion_messaging_first_reply
+actions_onsite_conversion_total_messaging_connection
+```
+
+Buscar "comentarios" o "clics" cuando el objetivo son conversaciones hace parecer que
+un anuncio no trae nada cuando en realidad sí.
+
+## El destino tiene que coincidir con la ubicación
+
+Un anuncio con `destination_type: INSTAGRAM_DIRECT` mostrado en el feed de Facebook es
+un embudo roto: se le pide a alguien que está en Facebook que abra un DM de Instagram,
+y mucha gente ni siquiera tiene las cuentas vinculadas.
+
+Medido el 22/08 en esta cuenta: 12.984 de 13.004 impresiones en feed de Facebook, 20 en
+Instagram — con destino Instagram Direct. Con ubicaciones automáticas esto pasa solo,
+porque el feed de Facebook es el inventario más barato.
+
+**Regla: si el destino es Instagram Direct, las ubicaciones van manuales y solo Instagram.**
+
+## La fase de aprendizaje necesita volumen, y el volumen necesita foco
+
+Meta necesita del orden de **50 resultados por semana por conjunto de anuncios** para
+aprender. Por debajo de eso el conjunto nunca sale del aprendizaje y la entrega se
+degrada al inventario más barato que exista — feed de Facebook, países de CPM bajo.
+
+Un CPM sospechosamente bajo (menos de USD 1 para público profesional) no es una ganga:
+es la señal de que el conjunto está a ciegas.
+
+Consecuencia práctica: **es peor tener tres campañas de USD 5–7 por día que una sola de
+USD 15–20.** Repartir presupuesto entre campañas es repartir el aprendizaje, y ninguna
+llega. Cuando hay poco presupuesto, foco.
+
+## Los comentarios NO son la métrica de un anuncio
+
+Esto merece su propia sección porque es la confusión más cara de esta cuenta.
+
+Orgánicamente, los posts de Flor cierran con "comentá GUÍA y te lo envío" y funcionan:
+el post del 1/7 sacó 15 comentarios. Pero eso pasa con **seguidoras**, gente que ya
+eligió seguirla y que ya está adentro del tema.
+
+En pauta le estás hablando a desconocidas. Y una desconocida no comenta, por dos razones:
+
+1. **Comentar es público.** El problema que vende Flor es vergonzante: escribir "GUÍA"
+   debajo de un anuncio sobre no poder hablar inglés en el trabajo es admitir en
+   público, con nombre y foto, que a una le pasa eso. Con las seguidoras hay confianza
+   construida. Con una desconocida, no.
+2. **No hay vínculo.** Comentar es un gesto de comunidad. El primer contacto no lo es.
+
+Una desconocida interesada hace otras cosas: mira el video entero, guarda, entra al
+perfil, y —si el anuncio se lo hace fácil— manda un DM. El DM es privado: ahí sí.
+
+**Consecuencia práctica:** un anuncio con cero comentarios puede estar funcionando
+perfecto. Si el objetivo es Mensajes, la métrica es **conversaciones iniciadas**, y se
+lee en el Administrador de anuncios, no abajo del post.
+
+Métricas a ignorar en un anuncio: comentarios, likes, "me gusta de la página".
+
 ## Antes de diagnosticar nada: mirá qué objetivo se eligió
 
 Un anuncio hace lo que le pediste, no lo que esperabas. La mitad de los "no funcionó"
