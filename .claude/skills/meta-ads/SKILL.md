@@ -67,6 +67,26 @@ Antes de escribir cualquier copy, leé `referencias/politicas-meta.md`. Resumen:
    importa acá. Verificá esto antes de armar el público y planificá el plan B
    (que el creativo haga el filtro).
 
+## ⛔ La regla que más importa: no le cambies algo todos los días
+
+El 23/08 Flor lo dijo así: *"todos los días me decís algo distinto y estoy cambiando la ad
+y nunca llega a pasar la curva de aprendizaje"*. Tenía razón, y era el daño más grande que
+se le estaba haciendo.
+
+Un anuncio necesita **de 7 a 14 días sin tocarse** para que sus números signifiquen algo.
+Cada edición de público, presupuesto o creativo reinicia la fase de aprendizaje y quema
+presupuesto en volver a empezar.
+
+**Antes de proponer cualquier cambio, preguntate: ¿cuántos días lleva corriendo sin
+tocarse?** Si son menos de 7, la respuesta correcta casi siempre es "todavía no se puede
+saber" — y decir eso es hacer bien el trabajo, no esquivarlo.
+
+Con 2 o 3 días de datos, cualquier ranking entre anuncios es ruido. Decirlo es más útil
+que inventar una recomendación.
+
+**Cuando haya un congelamiento acordado, respetalo aunque los números se vean feos.** Eso
+es parte del plan, no una falla que haya que corregir.
+
 ## Rutina de trabajo
 
 ### Cuando Flor pide anuncios nuevos
