@@ -1,0 +1,127 @@
+{
+ "version": 1,
+ "actualizado": "2026-08-25",
+ "fuente": "Ángulos propuestos por Flor · 25/8/2026",
+ "estructura_obligatoria": [
+  "hook (escena concreta)",
+  "qué cree ella",
+  "diagnóstico / giro",
+  "hacia dónde lleva",
+  "mecanismo (único en la semana)"
+ ],
+ "angulos": [
+  {
+   "n": 1,
+   "tipo": "Concientización",
+   "estado": "pendiente · listening vs procesar en tiempo real",
+   "hook": "Entendiste perfectamente la reunión. Hasta que te hicieron una pregunta.",
+   "cree": "\"Mi listening todavía no es suficientemente bueno.\"",
+   "diagnostico": "Entender mientras escuchas y procesar una pregunta para responder en tiempo real son demandas diferentes.",
+   "lleva": "Entrenar escuchar → procesar → responder, no solo consumir más listening.",
+   "eje": "Listening"
+  },
+  {
+   "n": 2,
+   "tipo": "Diferenciación",
+   "estado": "reemplazado por la versión rearmada de Flor · 25/8",
+   "hook": "Tu clase puede estar 100% personalizada y aun así hacerte practicar muy poco.",
+   "cree": "Personalizado = trabajar temas relacionados con mi profesión.",
+   "diagnostico": "Personalización real no es hablar de marketing, HR o tech: es trabajar con lo que te pasó esta semana usando inglés.",
+   "lleva": "Material real → diagnóstico → feedback → retry → aplicación.",
+   "eje": "Método"
+  },
+  {
+   "n": 3,
+   "tipo": "Concientización",
+   "estado": "reemplazado por la versión rearmada de Flor · 25/8",
+   "hook": "Si antes de una reunión escribes todo lo que quieres decir, quizás esa preparación te está jugando en contra.",
+   "cree": "\"Si preparo bien el script, voy a hablar mejor.\"",
+   "diagnostico": "Practica leer o recordar un texto, pero la reunión exige construir y adaptar el mensaje mientras habla.",
+   "lleva": "Preparar ideas y lenguaje clave → practicar sin script → interrupciones y preguntas → retry.",
+   "eje": "Perfectionism Under Pressure"
+  },
+  {
+   "n": 4,
+   "tipo": "Concientización",
+   "estado": "reemplazado por la versión rearmada de Flor · 25/8",
+   "hook": "Sabes perfectamente que es \"I've been working\", pero cuando hablas dices \"I'm working here since 2022\".",
+   "cree": "\"Tengo que volver a estudiar Present Perfect.\"",
+   "diagnostico": "Muchas veces conoce la regla; lo que falta es automatizarla dentro de su propio lenguaje.",
+   "lleva": "Detectar errores fosilizados sobre producción real → corregir → repetir en contextos nuevos.",
+   "eje": "Executive Communication"
+  },
+  {
+   "n": 5,
+   "tipo": "Diferenciación",
+   "estado": "pendiente · conversación ≠ entrenamiento deliberado",
+   "hook": "Practicar conversación no es lo mismo que entrenar para una reunión.",
+   "cree": "\"Necesito hablar más inglés para ganar fluidez.\"",
+   "diagnostico": "Hablar una hora no entrena explicar un problema, responder algo inesperado, interrumpir, aclarar o dar un update.",
+   "lleva": "Entrenamiento deliberado de la situación que necesita resolver.",
+   "eje": "Meetings"
+  },
+  {
+   "n": 6,
+   "tipo": "Concientización",
+   "estado": "reemplazado por la versión rearmada de Flor · 25/8",
+   "hook": "Tu reunión terminó bien. Pero dijiste el 30% de lo que realmente querías decir.",
+   "cree": "\"Bueno, por lo menos pude comunicarme.\"",
+   "diagnostico": "Sobrevivir la reunión puede esconder que achicó sus ideas para adaptarlas al inglés disponible.",
+   "lleva": "Identificar qué dejó afuera → construir ese lenguaje → entrenarlo → llevarlo a la próxima reunión.",
+   "eje": "Visibility Gap"
+  }
+ ],
+ "descartado": [
+  {
+   "hook": "Tell us a bit about yourself",
+   "motivo": "Flor: \"intentar convertir Tell me about yourself en un gran problema\" fuerza un problema chico. No tiene síntoma suficientemente doloroso."
+  },
+  {
+   "hook": "Hay un error que cometes en cada reunión…",
+   "motivo": "Flor: \"demasiado genérico y clickbait. Hay que nombrar el error invisible concreto.\""
+  },
+  {
+   "hook": "Tengo una regla para decidir qué entra a mi programa…",
+   "motivo": "Flor: \"demasiado centrado en vos. En Diferenciación tiene que hablarle primero a ella.\""
+  }
+ ],
+ "regla_de_oro": "Cada pieza de la semana tiene un MECANISMO distinto. Si dos comparten mecanismo, una sobra: van a decir lo mismo con otro gancho.",
+ "errores_marcados_por_flor": [
+  "Armar temas + hooks sin construir el recorrido estratégico interno de cada pieza.",
+  "Hooks vacíos o clickbait: \"hay un error que cometes en cada reunión\" no nombra el error. Hay que nombrarlo.",
+  "En Diferenciación, arrancar por mí (\"tengo una regla\", \"mi programa\"). Primero se le habla a ella; después aparece mi criterio.",
+  "Forzar un problema chico para que parezca grande. \"Tell me about yourself\" no da para pieza fuerte."
+ ],
+ "semana_31ago": [
+  {
+   "dia": "Lun 31",
+   "tipo": "Concientización · Verdadero problema",
+   "mecanismo": "Organización de ideas bajo carga doble",
+   "hook": "Te pidieron que explicaras un proceso que conoces de memoria. Y aun así te trabaste."
+  },
+  {
+   "dia": "Mié 2",
+   "tipo": "Diferenciación · Opinión picante",
+   "mecanismo": "Criterio curricular",
+   "hook": "Que algo sea \"Business English\" no significa que necesites estudiarlo."
+  },
+  {
+   "dia": "Vie 4",
+   "tipo": "Concientización · Error invisible",
+   "mecanismo": "Orden del mensaje · llegar tarde al punto",
+   "hook": "Tu error no siempre está en la gramática. A veces está en decir la idea importante demasiado tarde."
+  },
+  {
+   "dia": "Sáb 5",
+   "tipo": "Concientización · Metodología",
+   "mecanismo": "Feedback sin retry no alcanza",
+   "hook": "En AT WORK no corrijo un error y sigo. Lo vuelves a producir hasta que empieza a salir distinto."
+  },
+  {
+   "dia": "Dom 6",
+   "tipo": "Transformación · Mini transformación",
+   "mecanismo": "Progreso sin aprendizaje nuevo",
+   "hook": "Le pedí que explicara la misma situación dos veces. La segunda vez no sabía más inglés que cinco minutos antes."
+  }
+ ]
+}

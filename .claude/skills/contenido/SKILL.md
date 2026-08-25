@@ -47,6 +47,37 @@ Los transcripts **no** se usan para redefinir el programa.
 Ninguna sustituye a las otras. "Estilo Nadia" **no** es copiar su voz ni sus hooks:
 es **calidad del diagnóstico**.
 
+## La regla de oro: un mecanismo por pieza
+
+Cada pieza de la semana tiene que apoyarse en un **mecanismo distinto**.
+Si dos comparten mecanismo, una sobra: van a decir lo mismo con otro gancho.
+
+Cinco mecanismos distintos en una semana = cinco territorios cubiertos.
+Cinco ganchos distintos sobre el mismo mecanismo = una semana repetitiva.
+
+## Los cuatro campos obligatorios
+
+Antes de escribir una sola lámina, completar:
+
+| Campo | Qué va |
+|---|---|
+| **Hook** | Una escena concreta de trabajo. No un tema. |
+| **Qué cree ella** | La explicación que ella ya se dio. Textual, entre comillas. |
+| **Diagnóstico / giro** | Lo que vos ves y ella todavía no. Tiene que ir MÁS ALLÁ de lo que ella cree. |
+| **Hacia dónde lleva** | La intervención concreta, con el recorrido del método. |
+
+Si el diagnóstico es igual a lo que ella cree, la pieza se rechaza: hay
+identificación, pero no expertise.
+
+## Errores que Flor ya marcó (no repetir)
+
+- Armar **temas + hooks** sin construir el recorrido estratégico interno.
+- Hooks vacíos: *"hay un error que cometes en cada reunión"* no nombra el error.
+  Hay que nombrarlo.
+- En Diferenciación, arrancar por Flor (*"tengo una regla"*, *"mi programa"*).
+  Primero se le habla a ella; después aparece el criterio.
+- Forzar un problema chico para que parezca grande.
+
 ## Arquitectura psicológica de una pieza
 
 ```
