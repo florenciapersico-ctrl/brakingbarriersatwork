@@ -1,13 +1,13 @@
 {
-  "name": "Content OS · Breaking Barriers at Work",
+  "name": "Content OS · AT WORK",
   "short_name": "Content OS",
-  "description": "El mes de contenido armado con criterio propio. Cada día te dice cuál toca, con el copy y el brief de diseño listos.",
-  "start_url": ".",
-  "scope": ".",
+  "description": "Qué publico hoy: caption, láminas e historias listas para pegar.",
+  "start_url": "./index.html",
+  "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#FFF8E7",
-  "theme_color": "#2C1F0E",
+  "theme_color": "#FFF8E7",
   "lang": "es",
   "icons": [
     { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },

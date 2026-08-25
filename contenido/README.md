@@ -1,31 +1,35 @@
-# Content OS
+# Content OS · AT WORK
 
-El mes de contenido de Instagram, armado con criterio propio y listo para publicar.
+La app que dice qué se publica hoy, con el caption, las láminas y las historias
+listas para pegar.
 
-**Se usa desde el celular:** abrir la URL de GitHub Pages, compartir → "Agregar a
-pantalla de inicio". Queda como una app y funciona sin internet.
+## Cómo se instala en el celular
 
-## Qué hace
+1. Prender GitHub Pages una sola vez:
+   **Settings → Pages → Source: Deploy from a branch → Branch: `claude/ai-builder-weekend-workshop-qy8hpz` → carpeta `/ (root)` → Save.**
+2. Esperar un par de minutos y abrir en el celular:
+   `https://florenciapersico-ctrl.github.io/brakingbarriersatwork/contenido/`
+3. iPhone: compartir → **Agregar a inicio**.
+   Android: los tres puntitos → **Instalar aplicación**.
 
-- Arma el mes entero: 4 piezas por semana, con tipo, subtipo, formato, copy y brief
-  de diseño.
-- Cada día dice cuál toca, y qué quedó sin publicar.
-- Nunca repite una idea.
-- El copy está listo para pegar en Instagram; el brief de diseño listo para pegar en Canva.
+Queda como cualquier otra app: ícono propio, pantalla completa, sin barra de
+navegador, y abre sin internet.
 
 ## Qué hay acá
 
 | Archivo | Qué es |
 |---|---|
-| `index.html` | La app entera: interfaz y generador |
-| `banco.json` | 248 ideas de los tres Manuales de Contenido de Flor |
-| `canva.json` | Links de diseños ya hechos, por fecha (opcional) |
-| `sw.js` | Cache para que ande sin internet |
+| `index.html` | La app entera, con el contenido adentro. No depende de nada externo. |
+| `manifest.webmanifest` | Lo que la hace instalable |
+| `sw.js` | Cache, para que abra sin internet |
+| `memoria-editorial.json` | Todo lo ya publicado y planificado, para no repetir |
+| `insights/library.json` | Insights anonimizados sacados de los transcripts |
+| `banco.json` | Ideas de los tres Manuales de Contenido (material crudo) |
 
-## Importante
+## Al publicar contenido nuevo
 
-Al editar `banco.json` hay que subir la versión de `CACHE` en `sw.js`, si no el
-celular sigue mostrando el banco viejo.
+Hay que subir la versión de `CACHE` en `sw.js` (`contentos-v3` → `contentos-v4`).
+Si no, el celular sigue mostrando la app vieja.
 
-El criterio real está en `.claude/skills/contenido/SKILL.md`. La app que usa Flor en el celular es el artifact, no este `index.html` — este quedó con el criterio viejo.
-`.claude/skills/contenido/SKILL.md`.
+El criterio completo está en `.claude/skills/contenido/SKILL.md`.
+Las fuentes, en `config/content_sources.yaml`.

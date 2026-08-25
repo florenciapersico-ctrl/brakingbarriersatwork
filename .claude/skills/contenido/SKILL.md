@@ -139,7 +139,14 @@ Se abren con `https://www.canva.com/design?create=true&template=<ID>`.
 
 ## La app
 
-`https://claude.ai/code/artifact/65185f6a-03fe-49a8-a9ed-4af91391d6f1`
+Vive en dos lados, con el mismo contenido:
+
+- **Instalable (la que usa Flor):** `contenido/index.html` servido por GitHub Pages en
+  `https://florenciapersico-ctrl.github.io/brakingbarriersatwork/contenido/`.
+  Es una PWA real: ícono propio, pantalla completa, funciona sin internet.
+  Todo el contenido va dentro del HTML; no depende de archivos externos.
+  Al publicar contenido nuevo hay que subir `CACHE` en `contenido/sw.js`.
+- **Vista rápida:** `https://claude.ai/code/artifact/65185f6a-03fe-49a8-a9ed-4af91391d6f1`
 
 Es el dashboard "qué publico hoy". **No genera texto** — es una página, no un bot.
 Muestra caption, láminas, historias y la plantilla de Canva de cada pieza.

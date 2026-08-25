@@ -3,782 +3,453 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Content OS · Breaking Barriers at Work</title>
-<meta name="description" content="El mes de contenido armado con criterio, listo para publicar. Cada día te dice cuál toca, con el copy y el brief de diseño hechos.">
-<meta name="theme-color" content="#2C1F0E">
+<title>Content OS · AT WORK</title>
+<meta name="description" content="Qué publico hoy: caption, láminas e historias listas para pegar.">
+<meta name="theme-color" content="#FFF8E7">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Content OS">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon-192.png" sizes="192x192" type="image/png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-:root{
-  --brown:#82552E; --terracota:#C68C6C; --terracota-light:#E8C4AD;
-  --cream:#FFF8E7; --cream-dark:#F5EDD6; --olive:#6B6F4C; --olive-light:#A8AC8A;
-  --ink:#2C1F0E; --ink-mid:#5C3D1E; --ink-soft:#8B6B4A;
-  --line:rgba(130,85,46,.16);
-  --t-con:#6B6F4C;      /* concientizacion  */
-  --t-dif:#82552E;      /* diferenciacion   */
-  --t-tra:#C0703F;      /* transformacion   */
-  --safe-t:env(safe-area-inset-top); --safe-b:env(safe-area-inset-bottom);
-}
-html{-webkit-text-size-adjust:100%}
-body{
-  font-family:'Open Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-  background:var(--cream); color:var(--ink); font-size:16px; line-height:1.6;
-  -webkit-font-smoothing:antialiased; overscroll-behavior-y:none;
-  padding-bottom:calc(76px + var(--safe-b));
-}
-h1,h2,h3,.serif{font-family:'Crimson Pro',Georgia,serif;line-height:1.18;font-weight:600}
-button{font:inherit;color:inherit;background:none;border:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
-.wrap{max-width:640px;margin:0 auto;padding:0 18px}
-
-/* ---------- header ---------- */
-header{
-  position:sticky;top:0;z-index:40;background:rgba(255,248,231,.94);
-  backdrop-filter:saturate(180%) blur(12px); border-bottom:1px solid var(--line);
-  padding-top:var(--safe-t);
-}
-.hd{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0 11px}
-.hd h1{font-size:20px;letter-spacing:-.01em}
-.hd .sub{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);font-weight:600;margin-top:1px}
-.mnav{display:flex;align-items:center;gap:2px}
-.mnav button{width:32px;height:32px;border-radius:9px;display:grid;place-items:center;color:var(--ink-soft);font-size:17px}
-.mnav button:active{background:var(--cream-dark)}
-.mnav .mlabel{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-mid);min-width:74px;text-align:center}
-
-/* ---------- progress strip ---------- */
-.strip{display:flex;gap:3px;padding:0 0 11px}
-.strip i{height:4px;flex:1;border-radius:2px;background:var(--line);transition:background .2s}
-.strip i.done{background:var(--olive)}
-.strip i.today{background:var(--brown)}
-
-/* ---------- cards ---------- */
-.card{
-  background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;
-  margin-bottom:14px;position:relative;overflow:hidden;
-}
-.card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--tc,var(--brown))}
-.card.pub{opacity:.62}
-.tag{
-  display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:700;
-  letter-spacing:.11em;text-transform:uppercase;color:var(--tc,var(--brown));
-}
-.tag .dot{width:6px;height:6px;border-radius:50%;background:currentColor;flex:none}
-.meta{font-size:11.5px;color:var(--ink-soft);letter-spacing:.03em;margin-top:2px}
-.card h2{font-size:23px;margin:9px 0 8px;letter-spacing:-.012em}
-.card .lede{font-size:14.5px;color:var(--ink-mid);line-height:1.62}
-.card .foot{display:flex;align-items:center;gap:8px;margin-top:15px;flex-wrap:wrap}
-
-.chip{
-  font-size:12px;font-weight:600;padding:7px 13px;border-radius:999px;
-  border:1px solid var(--line);color:var(--ink-mid);background:var(--cream);
-}
-.chip.solid{background:var(--brown);color:#fff;border-color:var(--brown)}
-.chip.olive{background:var(--olive);color:#fff;border-color:var(--olive)}
-.chip:active{transform:scale(.97)}
-.chip[disabled]{opacity:.5}
-
-/* ---------- hero (hoy) ---------- */
-.hero{padding:22px 0 6px}
-.hero .kicker{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);font-weight:700}
-.hero h2{font-size:31px;margin-top:4px;letter-spacing:-.02em}
-.hero .date{font-size:13px;color:var(--ink-soft);margin-top:3px}
-.empty{text-align:center;padding:44px 20px;color:var(--ink-soft)}
-.empty .big{font-size:34px;margin-bottom:10px}
-.empty p{font-size:14.5px;max-width:300px;margin:0 auto;line-height:1.6}
-
-/* ---------- calendar ---------- */
-.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin:6px 0 20px}
-.cal .dow{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);text-align:center;padding-bottom:5px}
-.cal .cell{
-  aspect-ratio:1;border-radius:11px;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;gap:4px;font-size:13px;
-  color:var(--ink-soft);border:1px solid transparent;
-}
-.cal .cell.has{background:#fff;border-color:var(--line);color:var(--ink);font-weight:600}
-.cal .cell.today{border-color:var(--brown);border-width:2px}
-.cal .cell .pip{width:6px;height:6px;border-radius:50%;background:var(--tc)}
-.cal .cell.pub .pip{background:var(--olive-light)}
-.cal .cell.pub{color:var(--ink-soft)}
-.cal .cell.out{opacity:.28}
-
-/* ---------- sheet ---------- */
-.scrim{
-  position:fixed;inset:0;background:rgba(44,31,14,.42);z-index:60;opacity:0;
-  pointer-events:none;transition:opacity .22s;backdrop-filter:blur(2px);
-}
-.scrim.on{opacity:1;pointer-events:auto}
-.sheet{
-  position:fixed;left:0;right:0;bottom:0;z-index:61;background:var(--cream);
-  border-radius:20px 20px 0 0;max-height:92vh;display:flex;flex-direction:column;
-  transform:translateY(101%);transition:transform .28s cubic-bezier(.32,.72,0,1);
-  box-shadow:0 -8px 40px rgba(44,31,14,.16);
-}
-.sheet.on{transform:translateY(0)}
-.sheet .grab{width:38px;height:4px;border-radius:2px;background:var(--line);margin:9px auto 0;flex:none}
-.sheet .body{overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px 20px calc(26px + var(--safe-b))}
-.sheet .close{position:absolute;right:12px;top:12px;width:32px;height:32px;border-radius:50%;background:var(--cream-dark);display:grid;place-items:center;font-size:15px;color:var(--ink-mid);z-index:2}
-
-.blk{margin-top:22px}
-.blk .lbl{
-  font-size:10.5px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;
-  color:var(--ink-soft);display:flex;align-items:center;gap:8px;margin-bottom:9px;
-}
-.blk .lbl::after{content:'';flex:1;height:1px;background:var(--line)}
-.copybox{
-  background:#fff;border:1px solid var(--line);border-radius:13px;padding:16px;
-  font-size:15px;line-height:1.72;white-space:pre-wrap;color:var(--ink);
-}
-.slides{display:flex;flex-direction:column;gap:8px}
-.slide{
-  background:#fff;border:1px solid var(--line);border-radius:11px;padding:12px 14px;
-  display:flex;gap:12px;align-items:flex-start;font-size:14px;line-height:1.55;
-}
-.slide .n{
-  flex:none;width:22px;height:22px;border-radius:6px;background:var(--cream-dark);
-  color:var(--ink-mid);font-size:11px;font-weight:700;display:grid;place-items:center;margin-top:1px;
-}
-.kv{display:flex;gap:10px;font-size:13.5px;padding:7px 0;border-bottom:1px dashed var(--line)}
-.kv:last-child{border:0}
-.kv b{flex:none;width:96px;color:var(--ink-soft);font-weight:600;font-size:12.5px;letter-spacing:.02em}
-.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px}
-.actions .chip{flex:1;min-width:132px;text-align:center;padding:12px}
-
-/* ---------- banco tab ---------- */
-.stat{background:#fff;border:1px solid var(--line);border-radius:14px;padding:15px 16px;margin-bottom:10px}
-.stat .top{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
-.stat .name{font-size:14.5px;font-weight:700;color:var(--tc)}
-.stat .num{font-size:12.5px;color:var(--ink-soft);font-variant-numeric:tabular-nums}
-.bar{height:6px;border-radius:3px;background:var(--cream-dark);margin-top:9px;overflow:hidden}
-.bar i{display:block;height:100%;background:var(--tc);border-radius:3px}
-.stat .fn{font-size:12.5px;color:var(--ink-soft);margin-top:9px;line-height:1.5}
-.subs{display:flex;flex-wrap:wrap;gap:5px;margin-top:11px}
-.subs span{font-size:10.5px;padding:4px 8px;border-radius:6px;background:var(--cream-dark);color:var(--ink-mid);font-weight:600}
-
-/* ---------- tabbar ---------- */
-nav.tabs{
-  position:fixed;left:0;right:0;bottom:0;z-index:50;
-  background:rgba(255,248,231,.96);backdrop-filter:saturate(180%) blur(12px);
-  border-top:1px solid var(--line);padding-bottom:var(--safe-b);
-  display:flex;
-}
-nav.tabs button{
-  flex:1;padding:11px 4px 10px;display:flex;flex-direction:column;align-items:center;gap:3px;
-  font-size:10.5px;font-weight:600;letter-spacing:.04em;color:var(--ink-soft);
-}
-nav.tabs button svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
-nav.tabs button.on{color:var(--brown)}
-
-.toast{
-  position:fixed;left:50%;bottom:calc(88px + var(--safe-b));transform:translate(-50%,14px);
-  background:var(--ink);color:var(--cream);font-size:13.5px;font-weight:600;
-  padding:11px 20px;border-radius:999px;z-index:80;opacity:0;pointer-events:none;
-  transition:all .24s;box-shadow:0 6px 22px rgba(44,31,14,.3);
-}
-.toast.on{opacity:1;transform:translate(-50%,0)}
-.note{font-size:12.5px;color:var(--ink-soft);line-height:1.6;margin-top:14px}
-.hidden{display:none !important}
-</style>
+<style>html{-webkit-text-size-adjust:100%}body{padding-bottom:calc(82px + env(safe-area-inset-bottom))}
+header{padding-top:env(safe-area-inset-top)}nav{padding-bottom:env(safe-area-inset-bottom)}</style>
 </head>
 <body>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400&family=Open+Sans:wght@400;500;600;700&display=swap">
+<style>
+*,*::before,*::after{box-sizing:border-box}
+:root{
+  --brown:#82552E; --terracota:#C68C6C; --cream:#FFF8E7; --cream-2:#F5EDD6;
+  --olive:#6B6F4C; --olive-2:#A8AC8A;
+  --ink:#2C1F0E; --ink-2:#5C3D1E; --ink-3:#8B6B4A;
+  --surface:#FFFFFF; --line:rgba(130,85,46,.18);
+  --t-con:#6B6F4C; --t-dif:#82552E; --t-tra:#C0703F; --t-fil:#7A5C7B;
+  --shadow:0 1px 2px rgba(44,31,14,.05),0 8px 24px -14px rgba(44,31,14,.25);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --cream:#191410; --cream-2:#221B15; --surface:#221B15;
+  --ink:#F2E9D8; --ink-2:#C9B79C; --ink-3:#9B876C;
+  --line:rgba(232,196,173,.16);
+  --t-con:#A8AC8A; --t-dif:#D6A47F; --t-tra:#E09A6A; --t-fil:#BFA0C0;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 26px -16px rgba(0,0,0,.8);
+}}
+:root[data-theme="dark"]{
+  --cream:#191410; --cream-2:#221B15; --surface:#221B15;
+  --ink:#F2E9D8; --ink-2:#C9B79C; --ink-3:#9B876C;
+  --line:rgba(232,196,173,.16);
+  --t-con:#A8AC8A; --t-dif:#D6A47F; --t-tra:#E09A6A; --t-fil:#BFA0C0;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 26px -16px rgba(0,0,0,.8);
+}
+body{margin:0;background:var(--cream);color:var(--ink);
+  font-family:'Open Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  font-size:16px;line-height:1.62;-webkit-font-smoothing:antialiased;padding-bottom:82px}
+h1,h2,h3,.serif{font-family:'Crimson Pro',Georgia,serif;line-height:1.16;text-wrap:balance;margin:0}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+.wrap{max-width:620px;margin:0 auto;padding:0 18px}
 
-<header>
-  <div class="wrap">
-    <div class="hd">
-      <div>
-        <div class="sub">Content OS</div>
-        <h1 id="hTitle">Septiembre</h1>
-      </div>
-      <div class="mnav">
-        <button id="prevM" aria-label="Mes anterior">‹</button>
-        <span class="mlabel" id="mLabel">SEP 26</span>
-        <button id="nextM" aria-label="Mes siguiente">›</button>
-      </div>
-    </div>
-    <div class="strip" id="strip"></div>
+header{position:sticky;top:0;z-index:30;background:var(--cream);border-bottom:1px solid var(--line)}
+.hd{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;padding:16px 0 12px}
+.hd .sub{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);font-weight:700}
+.hd h1{font-size:24px;font-weight:700;margin-top:2px}
+.count{font-size:11.5px;color:var(--ink-3);font-weight:600;white-space:nowrap;font-variant-numeric:tabular-nums}
+.strip{display:flex;gap:3px;padding-bottom:11px}
+.strip i{height:4px;flex:1;border-radius:2px;background:var(--line)}
+.strip i.done{background:var(--olive)}
+.strip i.hoy{background:var(--brown)}
+
+.hero{padding:24px 0 4px}
+.hero .k{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);font-weight:700}
+.hero h2{font-size:30px;font-weight:700;margin-top:5px;letter-spacing:-.015em}
+.hero .d{font-size:13.5px;color:var(--ink-3);margin-top:4px}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:15px;padding:17px;
+  margin-bottom:13px;position:relative;overflow:hidden;box-shadow:var(--shadow)}
+.card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--tc)}
+.card.pub{opacity:.55}
+.tag{display:flex;align-items:flex-start;gap:7px;font-size:10px;font-weight:700;
+  letter-spacing:.11em;text-transform:uppercase;color:var(--tc);line-height:1.5}
+.tag .dot{width:6px;height:6px;border-radius:50%;background:currentColor;flex:none;margin-top:5px}
+.meta{font-size:11.5px;color:var(--ink-3);margin-top:3px}
+.card h3{font-size:20px;font-weight:700;margin:9px 0 7px;letter-spacing:-.01em}
+.card .lede{font-size:14px;color:var(--ink-2);line-height:1.6}
+.foot{display:flex;gap:7px;margin-top:14px;flex-wrap:wrap}
+.chip{font-size:12.5px;font-weight:600;padding:8px 14px;border-radius:999px;
+  border:1px solid var(--line);color:var(--ink-2);background:var(--cream)}
+.chip.solid{background:var(--brown);color:#FFF8E7;border-color:var(--brown)}
+.chip.olive{background:var(--olive);color:#FFF8E7;border-color:var(--olive)}
+.chip:active{transform:scale(.97)}
+.chip:focus-visible{outline:2px solid var(--brown);outline-offset:2px}
+
+.lbl{font-size:10.5px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3);
+  display:flex;align-items:center;gap:9px;margin:26px 0 11px}
+.lbl::after{content:'';flex:1;height:1px;background:var(--line)}
+
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin:8px 0 4px}
+.cal .dow{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--ink-3);text-align:center;padding-bottom:4px}
+.cal .c{aspect-ratio:1;border-radius:10px;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:4px;font-size:13px;color:var(--ink-3);border:1px solid transparent}
+.cal .c.has{background:var(--surface);border-color:var(--line);color:var(--ink);font-weight:600;cursor:pointer}
+.cal .c.hoy{border-color:var(--brown);border-width:2px}
+.cal .c .p{width:6px;height:6px;border-radius:50%;background:var(--tc)}
+.cal .c.pub{opacity:.5}
+
+.scrim{position:fixed;inset:0;background:rgba(44,31,14,.45);z-index:60;opacity:0;pointer-events:none;transition:opacity .22s}
+.scrim.on{opacity:1;pointer-events:auto}
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:61;background:var(--cream);
+  border-radius:20px 20px 0 0;max-height:93vh;display:flex;flex-direction:column;
+  transform:translateY(101%);transition:transform .28s cubic-bezier(.32,.72,0,1);box-shadow:0 -8px 40px rgba(44,31,14,.3)}
+.sheet.on{transform:translateY(0)}
+.grab{width:38px;height:4px;border-radius:2px;background:var(--line);margin:9px auto 0;flex:none}
+.sbody{overflow-y:auto;-webkit-overflow-scrolling:touch;padding:12px 18px 34px}
+.close{position:absolute;right:12px;top:11px;width:32px;height:32px;border-radius:50%;
+  background:var(--cream-2);display:grid;place-items:center;font-size:14px;color:var(--ink-2);z-index:2}
+
+.copybox{background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:16px;
+  font-size:15px;line-height:1.75;white-space:pre-wrap;color:var(--ink)}
+.slide{background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:12px 14px;
+  display:flex;gap:12px;align-items:flex-start;margin-bottom:7px}
+.slide .n{flex:none;width:23px;height:23px;border-radius:6px;background:var(--cream-2);color:var(--ink-2);
+  font-size:11px;font-weight:700;display:grid;place-items:center;margin-top:2px;font-variant-numeric:tabular-nums}
+.slide b{font-size:10px;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-3);display:block;margin-bottom:4px}
+.slide .x{font-size:14.5px;line-height:1.6;white-space:pre-wrap}
+.acts{display:flex;gap:7px;flex-wrap:wrap;margin-top:15px}
+.acts .chip{flex:1;min-width:140px;text-align:center;padding:12px 10px}
+.kv{display:flex;gap:11px;font-size:13.5px;padding:9px 0;border-bottom:1px dashed var(--line);line-height:1.55}
+.kv:last-child{border:0}
+.kv b{flex:none;width:82px;color:var(--ink-3);font-weight:600;font-size:12px;letter-spacing:.02em}
+.chk{display:flex;gap:10px;font-size:13.5px;padding:8px 0;color:var(--ink-2);line-height:1.5}
+.chk s{flex:none;color:var(--olive);font-weight:700;text-decoration:none}
+.note{font-size:12.5px;color:var(--ink-3);line-height:1.6;margin-top:16px}
+
+nav{position:fixed;left:0;right:0;bottom:0;z-index:50;background:var(--cream);
+  border-top:1px solid var(--line);display:flex}
+nav button{flex:1;padding:12px 4px 14px;display:flex;flex-direction:column;align-items:center;gap:3px;
+  font-size:10.5px;font-weight:700;letter-spacing:.05em;color:var(--ink-3);text-transform:uppercase}
+nav button.on{color:var(--brown)}
+nav svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.toast{position:fixed;left:50%;bottom:94px;transform:translate(-50%,12px);background:var(--ink);color:var(--cream);
+  font-size:13.5px;font-weight:600;padding:11px 20px;border-radius:999px;z-index:80;opacity:0;
+  pointer-events:none;transition:all .24s}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+.mnav{display:flex;align-items:center;gap:4px}
+.mnav button{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;
+  color:var(--ink-3);font-size:19px;line-height:1}
+.mnav button:disabled{opacity:.25}
+.mnav button:not(:disabled):active{background:var(--cream-2)}
+.banner{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--brown);
+  border-radius:13px;padding:15px 16px;margin:18px 0 4px;box-shadow:var(--shadow)}
+.banner h4{font-family:'Crimson Pro',Georgia,serif;font-size:18px;font-weight:700;margin:0 0 6px}
+.banner p{font-size:14px;color:var(--ink-2);margin:0;line-height:1.6}
+.banner ol{margin:9px 0 0;padding-left:19px;font-size:14px;color:var(--ink-2);line-height:1.75}
+.banner .x{position:absolute;right:10px;top:8px;font-size:13px;color:var(--ink-3);padding:6px}
+.banner{position:relative}
+.pedir{display:flex;flex-direction:column;gap:7px;margin-top:11px}
+.pedir button{text-align:left;border:1px solid var(--line);border-radius:11px;padding:12px 14px;
+  background:var(--surface);font-size:14px;font-weight:600;color:var(--ink);display:flex;
+  align-items:center;justify-content:space-between;gap:10px}
+.pedir button:active{background:var(--cream-2)}
+.pedir button span{font-size:12.5px;font-weight:400;color:var(--ink-3);flex:none}
+.hide{display:none!important}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<header><div class="wrap">
+  <div class="hd">
+    <div><div class="sub">Content OS · AT WORK</div><h1 id="hT">Septiembre</h1></div>
+    <div class="mnav"><button id="mPrev" aria-label="Mes anterior">‹</button>
+      <span class="count" id="hC"></span>
+      <button id="mNext" aria-label="Mes siguiente">›</button></div>
   </div>
-</header>
+  <div class="strip" id="strip"></div>
+</div></header>
 
 <main class="wrap">
   <section id="vHoy"></section>
-  <section id="vMes" class="hidden"></section>
-  <section id="vBanco" class="hidden"></section>
+  <section id="vMes" class="hide"></section>
 </main>
 
-<nav class="tabs">
-  <button data-tab="hoy" class="on">
-    <svg viewBox="0 0 24 24"><path d="M12 3v3M5 8h14M6 8v11a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8"/><circle cx="12" cy="14" r="2.4"/></svg>
-    Hoy
-  </button>
-  <button data-tab="mes">
-    <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2.5"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
-    Mes
-  </button>
-  <button data-tab="banco">
-    <svg viewBox="0 0 24 24"><path d="M4 7c0-1.7 3.6-3 8-3s8 1.3 8 3-3.6 3-8 3-8-1.3-8-3z"/><path d="M4 7v10c0 1.7 3.6 3 8 3s8-1.3 8-3V7"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg>
-    Banco
-  </button>
+<nav>
+  <button data-t="hoy" class="on"><svg viewBox="0 0 24 24"><path d="M12 3v3M5 8h14M6 8v11a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8"/><circle cx="12" cy="14" r="2.4"/></svg>Hoy</button>
+  <button data-t="mes"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2.5"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>El mes</button>
 </nav>
 
 <div class="scrim" id="scrim"></div>
-<div class="sheet" id="sheet">
-  <div class="grab"></div>
-  <button class="close" id="sClose">✕</button>
-  <div class="body" id="sBody"></div>
-</div>
+<div class="sheet" id="sheet"><div class="grab"></div><button class="close" id="sX">✕</button><div class="sbody" id="sB"></div></div>
 <div class="toast" id="toast"></div>
 
 <script>
 'use strict';
+const POSTS = [{"f":"2026-08-25","tipo":"concientizacion","sub":"Receta fallida","fmt":"carrusel","eje":"Listening","micro":"Practicaste, pero practicaste lo que no era: consumir inglés no es producirlo.","b":[["SLIDE 1","Practicaste con Duolingo todos los días. Viste series sin subtítulos. Hiciste clases de gramática. Y en la reunión internacional del martes… te perdiste igual."],["SLIDE 2","No es que no hayas practicado.\n\nEs que practicaste lo que no era."],["SLIDE 3","Duolingo te entrena para situaciones que no tienen nada que ver con tu trabajo. Las series mejoran tu comprensión auditiva, pero no tu capacidad de producir bajo presión. La gramática te da reglas que no puedes aplicar en el momento real."],["SLIDE 4","El problema es que todas esas herramientas entrenan una sola cosa: consumir inglés.\n\nNinguna te entrena para producirlo cuando alguien te está mirando y esperando que respondas."],["SLIDE 5","Para entender a los nativos cuando hablan rápido necesitas algo distinto: entender cómo conectan los sonidos, cómo cambian las palabras al juntarse, cuál es el ritmo real del idioma.\n\nNo vocabulario. Patrones sonoros."],["SLIDE 6","\"What are you going to do?\" no suena como en el libro. Suena como \"Whatcha gonna do?\".\n\nEso se llama connected speech. Y nadie te lo enseñó."],["SLIDE 7","Cuando entiendes esos patrones, empiezas a reconocerlos. Y de repente el nativo que antes te parecía imposible de entender empieza a tener sentido."],["SLIDE 8 · CTA","Eso es lo que trabajamos en AT WORK: el inglés que realmente se usa, no el inglés del libro.\n\nLos cupos de AT WORK abren en octubre. Escríbeme AT WORK y te aviso cuando sea el momento."]],"caption":"Practicaste. Y sigues perdiéndote en las reuniones internacionales.\n\nNo es que no hayas practicado suficiente. Es que practicaste lo que no era.\n\nLos cupos de AT WORK abren en octubre. Escríbeme AT WORK y te aviso cuando sea el momento.","h1":"Texto sobre fondo: \"¿Cuántas apps usaste y sigues sin entender a los nativos?\" Invita a deslizar.","h2":"Los cupos de AT WORK abren en octubre. Escríbeme AT WORK y te aviso cuando sea el momento.","dia":"Martes","num":25,"tipoNom":"Concientización","fmtNom":"Carrusel","tpl":{"nombre":"CONCIENTIZACION 1 · lunes","url":"https://www.canva.com/design?create=true&template=EAHLS8B0Mzw"},"ancla":"Calendario real de Flor · MES_AT_WORK_AGO_SEP · objetivo del mes: lista de espera, cero venta directa."},{"f":"2026-08-27","tipo":"diferenciacion","sub":"Opinión picante","fmt":"reel","eje":"Diferenciación","micro":"Los cursos de business english enseñan frases hechas para situaciones que nunca viviste.","b":[["HOOK · a cámara","Hay algo de la industria del inglés que me tiene harta. Y lo voy a decir."],["DESARROLLO","La mayoría de los cursos de \"business english\" te enseña frases hechas para situaciones que nunca viviste.\n\n\"Let me take that offline.\"\n\"We need to circle back on this.\"\n\"I'll loop you in.\"\n\nFrases útiles, sí. Pero que no te ayudan en lo más mínimo cuando tu manager te hace una pregunta inesperada sobre tu proyecto y necesitas responder en tiempo real."],["GIRO","Porque el problema no es no saber esas frases.\n\nEl problema es no saber cómo pensar en inglés cuando la presión es alta y la situación no era la que esperabas."],["AHA","Y eso no se soluciona con un curso de frases. Se soluciona entrenando TUS situaciones, con TU vocabulario, antes de que lleguen."],["CIERRE","Eso es lo que me diferencia. No te enseño un inglés genérico que funciona para cualquiera. Te ayudo a entrenar el inglés que necesitas tú, para el trabajo que ya tienes.\n\nLos cupos de AT WORK abren en octubre. Escríbeme AT WORK y te aviso cuando sea el momento."]],"caption":"La mayoría de los cursos de business english te enseña frases hechas para situaciones que nunca viviste. Eso no te ayuda cuando la presión es real.\n\nLos cupos de AT WORK abren en octubre. Escríbeme AT WORK y te aviso cuando sea el momento.","h1":"A cámara: \"Hay algo de la industria del inglés que me tiene harta.\" Link al reel.","h2":"Los cupos de AT WORK abren en octubre. Escríbeme AT WORK y te aviso cuando sea el momento.","dia":"Jueves","num":27,"tipoNom":"Diferenciación","fmtNom":"Reel a cámara","tpl":{"nombre":"martes DIFERENCIACION","url":"https://www.canva.com/design?create=true&template=EAHKB4Xyhuc"},"ancla":"Calendario real de Flor · MES_AT_WORK_AGO_SEP · objetivo del mes: lista de espera, cero venta directa."},{"f":"2026-08-29","tipo":"concientizacion","sub":"Error invisible","fmt":"carrusel","eje":"Executive Communication","micro":"Das demasiados detalles en el orden equivocado cuando te piden un update.","b":[["SLIDE 1","El error que cometes cada vez que das una actualización de tu proyecto en inglés. Y nadie te lo dijo."],["SLIDE 2","Cuando tu manager dice \"Can you give us a quick update?\", la mayoría responde con demasiados detalles, en el orden equivocado, sin dejar claro al final qué se espera de quién."],["SLIDE 3","La audiencia no necesita saber todo lo que hiciste.\n\nNecesita saber tres cosas: dónde está el proyecto, qué se avanzó, y cuál es el próximo paso."],["SLIDE 4","El error es empezar por los detalles cuando la audiencia todavía no tiene el mapa general.\n\nPrimero el estado (on track, slightly delayed). Después los avances clave. Después el próximo paso. Eso es todo."],["SLIDE 5","Dar más información de la que pidieron no muestra que sabes más. Muestra que no sabes seleccionar lo que importa.\n\nY en un contexto de liderazgo, eso se lee como falta de claridad ejecutiva."],["SLIDE 6","Esta semana, antes de dar tu próximo update, hazte una pregunta:\n\nsi la audiencia solo puede recordar una cosa de lo que dije, ¿qué quiero que sea?"],["SLIDE 7","Esa pregunta cambia completamente cómo estructuras lo que sale."],["SLIDE 8 · CTA","Eso es lo que entrenamos en AT WORK: la comunicación ejecutiva que te posiciona.\n\nLos cupos de AT WORK abren en octubre. Escríbeme AT WORK y te aviso cuando sea el momento."]],"caption":"Cuando das un update de tu proyecto en inglés, probablemente estás dando demasiados detalles en el orden equivocado.\n\nEso no muestra que sabes más. Muestra que no sabes seleccionar lo que importa.\n\nLos cupos de AT WORK abren en octubre. Escríbeme AT WORK y te aviso cuando sea el momento.","h1":"Texto sobre fondo: \"El error invisible que cometes en cada update de proyecto.\" Invita a deslizar.","h2":"Los cupos de AT WORK abren en octubre. Escríbeme AT WORK y te aviso cuando sea el momento.","dia":"Sábado","num":29,"tipoNom":"Concientización","fmtNom":"Carrusel","tpl":{"nombre":"CONCIENTIZACION 1 · lunes","url":"https://www.canva.com/design?create=true&template=EAHLS8B0Mzw"},"ancla":"Calendario real de Flor · MES_AT_WORK_AGO_SEP · objetivo del mes: lista de espera, cero venta directa."},{"f":"2026-08-30","tipo":"concientizacion","sub":"Hoja de ruta","fmt":"carrusel","eje":"Roadmap AT WORK","micro":"Las 5 etapas del roadmap y por qué el orden importa.","b":[["SLIDE 1","Las 5 etapas por las que pasa cualquier profesional que va de sobrevivir a liderar en inglés. Y por qué el orden importa."],["SLIDE 2","ETAPA 1 — Diagnóstico real.\n\nNo empezamos con gramática. Empezamos identificando exactamente dónde se rompe tu comunicación: qué es un error fosilizado (algo que sabes pero cometes por hábito) y qué es un gap de base (algo que genuinamente nunca aprendiste)."],["SLIDE 3","ETAPA 2 — Automatizas el idioma.\n\nAprendes a practicar con tu material real, no con situaciones inventadas. Color Method, Narrative Flow, y un sistema de práctica que puedes hacer sola, con criterio."],["SLIDE 4","ETAPA 3 — Trabajas lo que está detrás del bloqueo.\n\nPerfeccionismo, comparación, síndrome del impostor. Porque sin esto, el entrenamiento técnico no es suficiente."],["SLIDE 5","ETAPA 4 — Entrenas tus situaciones de trabajo, una por una.\n\nSmall talk, updates, preguntas inesperadas, desacuerdo, presentaciones. Cada una con su framework."],["SLIDE 6","ETAPA 5 — Pronunciación y connected speech.\n\nAl final, no al principio. Porque sonar natural es el resultado de todo lo anterior, no el punto de partida."],["SLIDE 7","Cada etapa existe porque la anterior, sola, no alcanza. Este es el camino que hacemos juntas en AT WORK."],["SLIDE 8 · CTA","Los cupos de AT WORK abren en octubre. Si quieres ser de las primeras en saber cuándo, escríbeme AT WORK."]],"caption":"El orden de las 5 etapas no es casualidad. Cada una existe porque la anterior, sola, no alcanza. Este es el camino que hacemos en AT WORK.\n\nLos cupos de AT WORK abren en octubre. Escríbeme AT WORK y te aviso cuando sea el momento.","h1":"Foto tuya enseñando o texto sobre fondo: \"Te cuento cómo es el camino real en AT WORK.\" Invita a deslizar.","h2":"Los cupos de AT WORK abren en octubre. Escríbeme AT WORK y te aviso cuando sea el momento.","dia":"Domingo","num":30,"tipoNom":"Concientización","fmtNom":"Carrusel","tpl":{"nombre":"CONCIENTIZACION 1 · lunes","url":"https://www.canva.com/design?create=true&template=EAHLS8B0Mzw"},"ancla":"Calendario real de Flor · MES_AT_WORK_AGO_SEP · objetivo del mes: lista de espera, cero venta directa."},{"f":"2026-08-31","tipo":"transformacion","sub":"Testimonio emocional","fmt":"reel","eje":"Leadership","micro":"\"Hoy participé. No solo escuché. Participé.\"","b":[["HOOK · a cámara","Esta semana me llegó un mensaje después de una reunión que me hizo pararme a pensar."],["DESARROLLO","Una alumna mía había tenido una reunión con su CFO. En inglés.\n\nMe escribió solo esto: \"Flor, hoy participé. No solo escuché. Participé.\"\n\nTres palabras. Y yo supe exactamente lo que significaban."],["EL ANTES","Porque cuando llegó a AT WORK, esa misma persona me había dicho que mandaba sus ideas por Teams después de la reunión, porque en el momento no le salían en inglés."],["EL DESPUÉS","Hoy entró a esa reunión. Dijo lo que pensaba. Y salió pensando \"lo hice\"."],["AHA","Eso no es un cambio de nivel. Es un cambio de identidad profesional."],["CIERRE","Eso es lo que construimos en AT WORK.\n\nLos cupos de AT WORK abren en octubre. Escríbeme AT WORK y te aviso cuando sea el momento."]],"caption":"\"Hoy participé. No solo escuché. Participé.\"\n\nTres palabras. Y yo supe exactamente lo que significaban.\n\nLos cupos de AT WORK abren en octubre. Escríbeme AT WORK y te aviso cuando sea el momento.","h1":"Foto tuya o texto sobre fondo: \"Me llegó un mensaje esta semana que me hizo pararme a pensar.\" Link al reel.","h2":"Los cupos de AT WORK abren en octubre. Escríbeme AT WORK y te aviso cuando sea el momento.","dia":"Lunes","num":31,"tipoNom":"Transformación y Deseo","fmtNom":"Reel a cámara","tpl":{"nombre":"jueves TRANSFORMACION Y DESEO","url":"https://www.canva.com/design?create=true&template=EAHKB4SjwII"},"ancla":"Calendario real de Flor · MES_AT_WORK_AGO_SEP · objetivo del mes: lista de espera, cero venta directa."},{"f":"2026-09-01","tipo":"concientizacion","sub":"Verdadero problema","fmt":"carrusel","eje":"Connected Speech","micro":"No entiendes a los nativos por connected speech, no por nivel.","b":[["SLIDE 1","No entiendes a los nativos cuando hablan rápido. Y crees que es porque no tienes suficiente nivel.\n\nPero casi nunca es eso."],["SLIDE 2","El problema es que los nativos no hablan como aprendiste en los libros.\n\n\"What are you going to do?\" no suena como se escribe. Suena como \"Whatcha gonna do?\".\n\nEso es connected speech."],["SLIDE 3","Los nativos conectan palabras, eliminan sonidos, cambian otros, y hablan con un ritmo completamente distinto al que estudiaste.\n\nSi nunca estudiaste esos patrones, aunque entiendas cada palabra por separado, a velocidad real te vas a perder."],["SLIDE 4","La buena noticia: el connected speech tiene reglas. No son aleatorias. Se pueden aprender. Y una vez que las conoces, empiezas a reconocerlas en cualquier conversación."],["SLIDE 5","No necesitas sonar nativa para comunicarte con autoridad. Pero sí necesitas entender cuando te hablan.\n\nPorque si no entiendes, no puedes participar. Y si no participas, pierdes autoridad."],["SLIDE 6","Esta es la Etapa 5 de AT WORK. La trabajamos al final, no al principio. Porque para entender a los nativos, primero necesitas tener la base de todo lo anterior."],["SLIDE 7","Alumnas que llevan semanas en el programa me dicen: \"En la reunión de hoy entendí todo lo que hablaban los nativos.\"\n\nEso no es magia. Es entrenamiento específico."],["SLIDE 8 · CTA","Los cupos de AT WORK abren en octubre. Escríbeme AT WORK y te aviso cuando sea el momento."]],"caption":"No entiendes a los nativos cuando hablan rápido. No es por tu nivel. Es porque los nativos no hablan como aprendiste en el libro.\n\nY eso se puede aprender.\n\nLos cupos de AT WORK abren en octubre. Escríbeme AT WORK y te aviso cuando sea el momento.","h1":"Texto sobre fondo: \"Por qué no entiendes a los nativos aunque tu nivel sea bueno.\" Invita a deslizar.","h2":"Los cupos de AT WORK abren en octubre. Escríbeme AT WORK y te aviso cuando sea el momento.","dia":"Martes","num":1,"tipoNom":"Concientización","fmtNom":"Carrusel","tpl":{"nombre":"CONCIENTIZACION 1 · lunes","url":"https://www.canva.com/design?create=true&template=EAHLS8B0Mzw"},"ancla":"Calendario real de Flor · MES_AT_WORK_AGO_SEP · objetivo del mes: lista de espera, cero venta directa."},{"f":"2026-09-03","tipo":"diferenciacion","sub":"Vulnerabilidad","fmt":"reel","eje":"Diferenciación","micro":"Grabo las clases para encontrar los momentos donde se queda en blanco.","b":[["HOOK · a cámara","Hay algo que muy pocas personas saben de mis clases."],["DESARROLLO","No las grabo para mostrar momentos perfectos.\n\nLas grabo para encontrar los momentos donde una alumna se queda en blanco, o dice algo que no era lo que quería decir, o se olvida de una palabra a mitad de frase."],["GIRO","Porque esos son exactamente los momentos que le sirven.\n\nNo para avergonzarla. Para que sepa exactamente dónde entrenar la semana que viene."],["AHA","Mi trabajo no es hacerte sentir bien después de cada clase. Es ayudarte a identificar con precisión qué necesitas automatizar para que la próxima vez que eso pase en una reunión real, no te pase."],["CIERRE","Eso requiere honestidad. Y requiere que confíes en el proceso incluso cuando es incómodo.\n\nEso es AT WORK.\n\nLos cupos de AT WORK abren en octubre. Escríbeme AT WORK y te aviso cuando sea el momento."]],"caption":"Grabo las clases para encontrar los momentos donde las alumnas se quedan en blanco. No para avergonzarlas. Para que sepan exactamente dónde entrenar.\n\nEso es AT WORK.\n\nLos cupos de AT WORK abren en octubre. Escríbeme AT WORK y te aviso cuando sea el momento.","h1":"A cámara: \"Algo que muy pocas personas saben de mis clases.\" Link al reel.","h2":"Los cupos de AT WORK abren en octubre. Escríbeme AT WORK y te aviso cuando sea el momento.","dia":"Jueves","num":3,"tipoNom":"Diferenciación","fmtNom":"Reel a cámara","tpl":{"nombre":"martes DIFERENCIACION","url":"https://www.canva.com/design?create=true&template=EAHKB4Xyhuc"},"ancla":"Calendario real de Flor · MES_AT_WORK_AGO_SEP · objetivo del mes: lista de espera, cero venta directa."},{"f":"2026-09-05","tipo":"concientizacion","sub":"Objeción","fmt":"carrusel","eje":"Inversión","micro":"\"Es caro\" — la cuenta que casi nadie hace.","b":[["SLIDE 1","Invertir en inglés profesional es caro. Eso me dicen.\n\nY entiendo por qué lo piensan."],["SLIDE 2","Pero quiero que hagamos una cuenta diferente."],["SLIDE 3","Cuánto te costó, en términos de oportunidades reales, no haber conseguido ese puesto que requería más inglés.\n\nO no haber pedido el aumento porque no te sientes segura en las reuniones con liderazgo senior.\n\nO haber perdido un proyecto frente a alguien que hablaba con más autoridad, aunque supiera menos."],["SLIDE 4","Eso no se contabiliza en un pago. Se acumula en años."],["SLIDE 5","Lo que sí es caro es llegar a reuniones importantes sin estar preparada. Que tu manager note que evitas participar. Que pierdas proyectos frente a personas que hablan con más autoridad aunque sepan menos."],["SLIDE 6","Invertir en AT WORK no es un gasto en inglés. Es una inversión en la profesional que ya eres, para que pueda mostrarse de la manera que se merece."],["SLIDE 7","Las alumnas que más avanzan no llegaron con más nivel. Llegaron con la decisión de que ya no querían seguir pagando el costo de quedarse calladas."],["SLIDE 8 · CTA","Los cupos de AT WORK abren en octubre. Si quieres reservar tu lugar antes de que se llenen, escríbeme AT WORK."]],"caption":"\"Invertir en inglés profesional es caro.\" Entiendo por qué lo piensan.\n\nPero hay otra cuenta que casi nadie hace.\n\nLos cupos de AT WORK abren en octubre. Escríbeme AT WORK y te aviso cuando sea el momento.","h1":"Texto sobre fondo: \"Hablemos del verdadero costo de no invertir.\" Invita a deslizar.","h2":"Los cupos de AT WORK abren en octubre. Escríbeme AT WORK y te aviso cuando sea el momento.","dia":"Sábado","num":5,"tipoNom":"Concientización","fmtNom":"Carrusel","tpl":{"nombre":"CONCIENTIZACION 1 · lunes","url":"https://www.canva.com/design?create=true&template=EAHLS8B0Mzw"},"ancla":"Calendario real de Flor · MES_AT_WORK_AGO_SEP · objetivo del mes: lista de espera, cero venta directa."},{"f":"2026-09-06","tipo":"concientizacion","sub":"Diagnóstico","fmt":"carrusel","eje":"Diagnóstico AT WORK","micro":"Error fosilizado vs gap de base: por qué confundirlos te hace perder meses.","b":[["SLIDE 1","El diagnóstico que ningún curso de inglés te va a hacer."],["SLIDE 2","La mayoría de los programas de inglés empieza con el nivel: A2, B1, B2. Y te enseñan según ese nivel.\n\nEl problema es que tu nivel no es el problema."],["SLIDE 3","Lo que realmente importa diagnosticar es esto: qué es un error fosilizado (algo que sabes pero cometes por hábito, en piloto automático) y qué es un gap de base (algo que genuinamente nunca aprendiste).\n\nPorque la solución es completamente distinta en cada caso."],["SLIDE 4","Si confundes uno con el otro, terminas entrenando durante meses lo que ya sabes en vez de lo que realmente te falta."],["SLIDE 5","También importa saber si tu bloqueo es técnico (te faltan estructuras, vocabulario, frameworks) o emocional (perfeccionismo, síndrome del impostor, miedo a quedar expuesta).\n\nPorque si trabajas solo uno de los dos, el bloqueo vuelve en cuanto sube la presión."],["SLIDE 6","Por eso lo primero que hago con cada alumna en AT WORK es un diagnóstico real de su producción, no de su nivel."],["SLIDE 7","Ese diagnóstico cambia todo: el orden en que trabajamos, qué entrenamos primero, y por qué."],["SLIDE 8 · CTA","Los cupos de AT WORK abren en octubre. Si quieres ser de las primeras en saber cuándo, escríbeme AT WORK."]],"caption":"El diagnóstico que ningún curso de inglés te va a hacer. No es sobre tu nivel. Es sobre exactamente qué necesitas entrenar primero.\n\nLos cupos de AT WORK abren en octubre. Escríbeme AT WORK y te aviso cuando sea el momento.","h1":"Foto tuya o texto sobre fondo: \"El diagnóstico que cambia todo.\" Invita a deslizar.","h2":"Los cupos de AT WORK abren en octubre. Escríbeme AT WORK y te aviso cuando sea el momento.","dia":"Domingo","num":6,"tipoNom":"Concientización","fmtNom":"Carrusel","tpl":{"nombre":"CONCIENTIZACION 1 · lunes","url":"https://www.canva.com/design?create=true&template=EAHLS8B0Mzw"},"ancla":"Calendario real de Flor · MES_AT_WORK_AGO_SEP · objetivo del mes: lista de espera, cero venta directa."},{"f":"2026-09-07","tipo":"transformacion","sub":"Antes vs Después","fmt":"reel","eje":"Meetings","micro":"De mandar las ideas por Teams a decirlas en vivo.","b":[["HOOK · a cámara","Antes de AT WORK, una alumna mía mandaba sus ideas por Teams."],["EL ANTES","No porque se le ocurrieran después. Sino porque en la reunión, mientras organizaba la frase en inglés, alguien más ya había dicho su idea.\n\nY ella prefería mandarla después, por escrito, con tiempo, que decirla en vivo y sonar insegura."],["EL DESPUÉS","Meses después de entrenar juntas, me escribió algo que me quedó:\n\n\"Hoy mi jefe me preguntó algo en la reunión. Y yo respondí. Sin pensarlo tanto. Sin mandar nada después.\""],["AHA","No fue magia. Fue entrenamiento específico de esa situación real, con su vocabulario, con su industria, antes de que llegara el momento."],["CIERRE","Eso es lo que construimos en AT WORK. No solo el inglés. La profesional que puede mostrarse cuando importa.\n\nLos cupos de AT WORK abren en octubre. Escríbeme AT WORK y te aviso cuando sea el momento."]],"caption":"Antes: mandaba sus ideas por Teams después de la reunión. Después: las dice en vivo.\n\nNo fue magia. Fue entrenamiento específico.\n\nLos cupos de AT WORK abren en octubre. Escríbeme AT WORK y te aviso cuando sea el momento.","h1":"A cámara: \"Esta es la transformación más común que veo en AT WORK.\" Link al reel.","h2":"Los cupos de AT WORK abren en octubre. Escríbeme AT WORK y te aviso cuando sea el momento.","dia":"Lunes","num":7,"tipoNom":"Transformación y Deseo","fmtNom":"Reel a cámara","tpl":{"nombre":"jueves TRANSFORMACION Y DESEO","url":"https://www.canva.com/design?create=true&template=EAHKB4SjwII"},"ancla":"Calendario real de Flor · MES_AT_WORK_AGO_SEP · objetivo del mes: lista de espera, cero venta directa."}];
 
-/* ============================================================
-   Content OS — generador de contenido con criterio propio.
-   El banco de ideas sale de los Manuales de Contenido
-   (Concientización / Diferenciación / Transformación y Deseo).
-   Nada de lo que se publica se inventa: se elige del banco,
-   se arma con la fórmula de la marca y no se repite nunca.
-   ============================================================ */
-
-const DIAS  = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+/* Los seis filtros de Nadia. Se muestran en cada pieza para poder
+   verificarlos antes de publicar, no como decoración. */
+const FILTROS = [
+  ['Hook = escena concreta','No una frase que serviría para cualquier nicho.'],
+  ['Un solo micro-ángulo','Si mezclás emocional + estratégico + acompañamiento, suena repetitivo.'],
+  ['Se ve el método','No queda todo en mentalidad: aparece el framework concreto.'],
+  ['La solución sale del producto','Se nombra AT WORK o la herramienta que resuelve eso.'],
+  ['Una sola llamada','Y es una invitación al espacio, no una reflexión bonita.'],
+  ['Suena a Flor','No a plantilla de LinkedIn.']
+];
+const COLOR = {concientizacion:'var(--t-con)',diferenciacion:'var(--t-dif)',transformacion:'var(--t-tra)',filtro:'var(--t-fil)'};
 const MESES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
-const ABBR  = ['ENE','FEB','MAR','ABR','MAY','JUN','JUL','AGO','SEP','OCT','NOV','DIC'];
-const COLOR = {concientizacion:'var(--t-con)', diferenciacion:'var(--t-dif)', transformacion:'var(--t-tra)'};
 
-/* Los días que se publica y qué tipo va cada uno. */
-const RITMO = {1:'concientizacion', 2:'diferenciacion', 4:'transformacion', 5:'concientizacion'};
+/* El contexto que viaja con cada pedido, para que cualquier chat pueda
+   responder con el criterio de Nadia sin tener el repo delante. */
+const CRITERIO = `Contexto: Instagram de Breaking Barriers at Work (@ysi_speakenglish), mentoría de comunicación profesional en inglés para directoras y managers latinoamericanas. Se escribe en tú, nunca en vos.
 
-/* Qué formato pide cada subtipo. Sale de cómo se lee cada idea:
-   las que necesitan desarrollo van a carrusel, las que se dicen mejor
-   de lo que se leen van a reel, y las que se sostienen en una frase van a post. */
-const FORMATO = {
-  'verdadero-problema':'post',   'mito-creencia':'post',        'receta-fallida':'post',
-  'te-lo-digo-con-amor':'reel',  'hoja-de-ruta':'carrusel',
-  'opinion-picante':'reel',      'perspectiva-unica':'post',    'historia-de-marca':'reel',
-  'vulnerabilidad':'reel',       'valores-de-marca':'post',     'detras-de-escena':'reel',
-  'transformacion-completa':'carrusel', 'mini-transformacion':'post', 'avance-en-proceso':'post',
-  'logro-cotidiano':'post',      'testimonio-emocional':'post', 'caso-de-estudio':'carrusel',
-  'antes-vs-despues':'carrusel', 'transformacion-interna':'post'
-};
+Estructura obligatoria: HOOK → DESARROLLO → GIRO → AHA → CTA.
 
-/* El puente: la línea que conecta la idea con el método, sin venderlo de más. */
-const PUENTES = {
-  concientizacion:[
-    'Esto no se resuelve estudiando más. Se entrena.',
-    'No es falta de inglés. Es el Visibility Gap: la distancia entre lo que sabés y lo que lográs proyectar cuando sube la presión.',
-    'El nivel casi nunca es el techo. Lo que frena está en otro lado.',
-    'Y mientras tanto seguís buscando la solución en el lugar equivocado.'
-  ],
-  diferenciacion:[
-    'Por eso acá no se abre un libro. Se abre el transcript real de tu reunión del martes a las 9.',
-    'Acá no estudiamos inglés. Intervenimos tu comunicación.',
-    'Así trabajo. Y por eso esto no es para cualquiera.',
-    'Cinco meses, cuatro pilares, y tu material real: tus emails, tus reuniones, tu semana.'
-  ],
-  transformacion:[
-    'No aprendió más inglés. Aprendió a usar el que ya tenía, cuando importaba.',
-    'Esto pasa cuando entrenás tus situaciones reales, no situaciones parecidas.',
-    'No hubo un curso nuevo en el medio. Hubo entrenamiento sobre su propio material.',
-    'Sabía exactamente quién era en español. Lo que cambió es que la sala también lo supo.'
-  ]
-};
+Reglas, todas obligatorias:
+1. El hook es una escena concreta de trabajo. Si serviría igual para un post de fitness o de finanzas, está genérico y hay que reescribirlo.
+2. Un solo micro-ángulo por pieza. No mezclar lo emocional, lo estratégico y el acompañamiento en la misma.
+3. Que se vea el método concreto, no la mentalidad abstracta.
+4. La solución sale del producto: nombrar AT WORK y la herramienta que resuelve eso (Role Play Method, Color Method, Narrative Flow, Shadowing, STAR, PREP).
+5. Una sola llamada a la acción, y es una invitación a escribir por DM.
+6. Nada de "empoderamiento" ni motivación genérica. No prometer ausencia de errores, fluidez nativa, ni un ascenso.`;
 
-/* ---------- utilidades ---------- */
-const $  = s => document.querySelector(s);
+const PEDIDOS = [
+  ['hook','Cambiame el hook','Dame 5 hooks alternativos para este posteo. Cada uno tiene que ser una escena concreta de trabajo, distinta de la actual. Después decime cuál elegirías y por qué.'],
+  ['corto','Hacelo más corto','Acortá este posteo a la mitad sin perder el micro-ángulo ni el anclaje al método. Mantené la estructura HOOK → DESARROLLO → GIRO → AHA → CTA.'],
+  ['filtro','Revisá si pasa el filtro','Revisá este posteo contra las seis reglas, una por una. Decime cuáles pasa y cuáles no, y reescribí solo las partes que fallan.'],
+  ['nuevo','Escribime otro sobre lo mismo','Escribime un posteo nuevo, distinto de este, sobre el mismo micro-ángulo pero entrando por otro lado.'],
+  ['libre','Otra cosa…','']
+];
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const pad = n => String(n).padStart(2,'0');
-const ymKey = d => d.getFullYear()+'-'+pad(d.getMonth()+1);
-const dKey  = d => ymKey(d)+'-'+pad(d.getDate());
-const hoyKey = () => dKey(new Date());
+const hoyKey = () => { const d=new Date(); return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate()); };
 
-/* Generador pseudoaleatorio con semilla: el mismo mes siempre da el mismo
-   plan. Sin esto el calendario cambiaría cada vez que abrís la app. */
-function rng(seed){
-  let a = seed >>> 0;
-  return function(){
-    a += 0x6D2B79F5;
-    let t = a;
-    t = Math.imul(t ^ t>>>15, t|1);
-    t ^= t + Math.imul(t ^ t>>>7, t|61);
-    return ((t ^ t>>>14) >>> 0) / 4294967296;
-  };
-}
+let estado = {};
+try { estado = JSON.parse(localStorage.getItem('bbatw_contentos_sep') || '{}'); } catch(e){}
+function guardar(){ try{ localStorage.setItem('bbatw_contentos_sep', JSON.stringify(estado)); }catch(e){} }
+const pub = f => estado[f] === 1;
 
-/* Corta la idea en gancho (primera frase) y cuerpo (el resto). */
-function partir(txt){
-  const m = txt.match(/^(.+?[.!?…])(\s+)(.*)$/s);
-  if(!m || m[1].length > 150) return {gancho:txt, cuerpo:''};
-  return {gancho:m[1].trim(), cuerpo:m[3].trim()};
-}
-function frases(txt){
-  const out = []; let buf = '';
-  for(const ch of txt){
-    buf += ch;
-    if('.!?…'.indexOf(ch) > -1){ out.push(buf.trim()); buf = ''; }
-  }
-  if(buf.trim()) out.push(buf.trim());
-  return out.filter(Boolean);
-}
-
-/* ---------- almacenamiento ---------- */
-const KEY = 'bbatw_contentos_v1';
-let store = {usadas:{}, estado:{}, overrides:{}, canva:{}};
-function load(){
-  try{ const r = localStorage.getItem(KEY); if(r) store = Object.assign(store, JSON.parse(r)); }
-  catch(e){ /* modo privado o storage bloqueado: se sigue sin persistir */ }
-}
-function save(){
-  try{ localStorage.setItem(KEY, JSON.stringify(store)); }catch(e){}
-}
-
-let BANCO = null;
-let mesActual = new Date();
-let planCache = {};
-
-/* ============================================================
-   El generador
-   ============================================================ */
-function fechasDelMes(y, m){
-  const out = [], d = new Date(y, m, 1);
-  while(d.getMonth() === m){
-    if(RITMO[d.getDay()]) out.push(new Date(d));
-    d.setDate(d.getDate()+1);
-  }
-  return out;
-}
-
-function idsDe(tipoKey){
-  const t = BANCO.tipos[tipoKey], out = [];
-  for(const sk in t.subtipos)
-    t.subtipos[sk].ideas.forEach((_,i)=> out.push(tipoKey+'|'+sk+'|'+i));
-  return out;
-}
-function existe(id){
-  if(!id) return false;
-  const [tk, sk, i] = String(id).split('|');
-  const t = BANCO.tipos[tk];
-  return !!(t && t.subtipos[sk] && t.subtipos[sk].ideas[+i]);
-}
-function leerId(id){
-  const [tk, sk, i] = id.split('|');
-  const t = BANCO.tipos[tk], s = t.subtipos[sk];
-  return {tipoKey:tk, subKey:sk, tipo:t, sub:s, idea:s.ideas[+i], id};
-}
-
-/* Elige la próxima idea sin usar de un tipo, rotando entre subtipos para
-   que no salgan dos piezas seguidas del mismo subtipo. */
-function elegir(tipoKey, recientes, usadasEsteMes, rand){
-  const t = BANCO.tipos[tipoKey];
-  const subs = Object.keys(t.subtipos);
-  const evitar = recientes || [];
-  /* Primero se intenta con los subtipos que no salieron hace poco.
-     Si no queda ninguno, se relaja la restricción de a un paso. */
-  for(let holgura = evitar.length; holgura >= 0; holgura--){
-    const veto = new Set(evitar.slice(-holgura));
-    const libres = subs.filter(sk => !veto.has(sk));
-    const arranque = Math.floor(rand()*libres.length);
-    for(let k=0;k<libres.length;k++){
-      const sk = libres[(arranque+k)%libres.length];
-      const ideas = t.subtipos[sk].ideas;
-      const off = Math.floor(rand()*ideas.length);
-      for(let j=0;j<ideas.length;j++){
-        const i = (off+j)%ideas.length;
-        const id = tipoKey+'|'+sk+'|'+i;
-        if(!store.usadas[id] && !usadasEsteMes.has(id)) return id;
-      }
-    }
-  }
-  /* Si un tipo entero se agotó, se recicla antes que dejar el día vacío.
-     La pestaña Banco avisa cuando esto está por pasar. */
-  const todos = idsDe(tipoKey).filter(id=>!usadasEsteMes.has(id));
-  return todos[Math.floor(rand()*todos.length)] || idsDe(tipoKey)[0];
-}
-
-function armarPieza(fecha, id, indice, esVenta){
-  const r = leerId(id);
-  const {gancho, cuerpo} = partir(r.idea);
-  const formato = FORMATO[r.subKey] || 'post';
-  const puentes = PUENTES[r.tipoKey];
-  const puente  = puentes[indice % puentes.length];
-
-  /* CTA: los lead magnets son los activos que mejor funcionan, así que
-     entran cada tres piezas. El resto rota entre DM y guardado. */
-  let cta;
-  if(esVenta)            cta = BANCO.ctas.find(c=>c.id==='cohorte');
-  else if(indice%6===2)  cta = BANCO.ctas.find(c=>c.id==='dm-guia');
-  else if(indice%6===5)  cta = BANCO.ctas.find(c=>c.id==='dm-smalltalk');
-  else {
-    const rot = ['dm-atwork','dm-reuniones','guardar','dm-libre','comentario','dm-atwork'];
-    cta = BANCO.ctas.find(c=>c.id===rot[indice%rot.length]);
-  }
-
-  const copy = [gancho, cuerpo, puente, cta.texto].filter(Boolean).join('\n\n');
-
-  /* Brief visual: lo que tiene que decir el diseño, no cómo tiene que verse. */
-  const visual = {portada: gancho.length>90 ? frases(gancho)[0] : gancho, laminas:[], guion:[]};
-  const cuerpoFrases = cuerpo ? frases(cuerpo) : [];
-  let fmt = formato;
-
-  if(fmt==='carrusel'){
-    visual.laminas.push({t:'Portada', x:visual.portada});
-    cuerpoFrases.forEach((f,i)=> visual.laminas.push({t:'Lámina '+(i+2), x:f}));
-    visual.laminas.push({t:'Puente', x:puente});
-    visual.laminas.push({t:'Cierre', x:cta.texto});
-    /* Un carrusel de menos de 4 láminas no es un carrusel: es una placa. */
-    if(visual.laminas.length < 4){ fmt = 'post'; visual.laminas = []; }
-  }
-
-  if(fmt==='reel'){
-    visual.guion.push({t:'0-3 s · a cámara, sin intro', x:gancho});
-    if(cuerpo) visual.guion.push({t:'3-25 s · desarrollo', x:cuerpo});
-    visual.guion.push({t:(cuerpo?'25-35 s':'3-15 s')+' · puente', x:puente});
-    visual.guion.push({t:'Cierre · texto en pantalla', x:cta.texto});
-  } else if(fmt==='post'){
-    visual.laminas = [{t:'Placa', x:visual.portada}];
-    if(cuerpo) visual.laminas.push({t:'Pie de placa', x:cuerpo});
-    visual.laminas.push({t:'Pie de placa', x:puente});
-  }
-
-  return {
-    id, fecha:dKey(fecha), dia:DIAS[fecha.getDay()], num:fecha.getDate(),
-    tipoKey:r.tipoKey, tipo:r.tipo.nombre, subKey:r.subKey, sub:r.sub.nombre,
-    pauta:r.sub.pauta, objetivo:esVenta?'venta':r.tipo.objetivo,
-    formato:fmt, idea:r.idea, gancho, cuerpo, puente, cta:cta.texto, ctaTipo:cta.tipo,
-    copy, visual, color:COLOR[r.tipoKey]
-  };
-}
-
-function generarPlan(y, m){
-  const clave = y+'-'+pad(m+1);
-  if(planCache[clave]) return planCache[clave];
-
-  const fechas = fechasDelMes(y, m);
-  const rand = rng(y*100 + m);
-  const usadasEsteMes = new Set();
-  const recientes = {};
-  const plan = [];
-
-  /* El último viernes del mes cierra vendiendo: es el que empuja a la cohorte. */
-  const viernes = fechas.filter(f=>f.getDay()===5);
-  const ultViernes = viernes.length ? dKey(viernes[viernes.length-1]) : null;
-
-  fechas.forEach((f, i)=>{
-    const k = dKey(f);
-    const esVenta = (k === ultViernes);
-    let tipoKey = esVenta ? 'transformacion' : RITMO[f.getDay()];
-    let id = store.overrides[k];
-    if(id && !existe(id)) id = null;
-    if(!id) id = elegir(tipoKey, recientes[tipoKey], usadasEsteMes, rand);
-    usadasEsteMes.add(id);
-    const p = armarPieza(f, id, i, esVenta);
-    (recientes[p.tipoKey] = recientes[p.tipoKey] || []).push(p.subKey);
-    plan.push(p);
-  });
-
-  planCache[clave] = plan;
-  return plan;
-}
-
-/* ============================================================
-   Pantalla
-   ============================================================ */
 let tab = 'hoy';
-const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const publicado = k => store.estado[k] === 'pub';
-
-function toast(msg){
-  const t = $('#toast'); t.textContent = msg; t.classList.add('on');
-  clearTimeout(toast._t); toast._t = setTimeout(()=>t.classList.remove('on'), 1900);
+let mesIdx = 0;
+const CLAVES = [...new Set(POSTS.map(p=>p.f.slice(0,7)))].sort();
+const delMes = k => POSTS.filter(p=>p.f.slice(0,7)===k);
+function mesDeHoy(){
+  const hk = hoyKey().slice(0,7);
+  const i = CLAVES.indexOf(hk);
+  if(i>-1) return i;
+  const j = CLAVES.findIndex(k=>k>=hk);
+  return j>-1 ? j : CLAVES.length-1;
 }
-async function copiar(txt, msg){
-  try{ await navigator.clipboard.writeText(txt); toast(msg || 'Copiado'); }
+mesIdx = mesDeHoy();
+function toast(m){ const t=$('#toast'); t.textContent=m; t.classList.add('on');
+  clearTimeout(toast._t); toast._t=setTimeout(()=>t.classList.remove('on'),1900); }
+async function copiar(txt,msg){
+  try{ await navigator.clipboard.writeText(txt); toast(msg); }
   catch(e){
-    const ta = document.createElement('textarea');
-    ta.value = txt; ta.style.position='fixed'; ta.style.opacity='0';
+    const ta=document.createElement('textarea'); ta.value=txt;
+    ta.style.position='fixed'; ta.style.opacity='0';
     document.body.appendChild(ta); ta.select();
-    try{ document.execCommand('copy'); toast(msg || 'Copiado'); }
-    catch(_){ toast('No se pudo copiar'); }
+    try{ document.execCommand('copy'); toast(msg); }catch(_){ toast('No se pudo copiar'); }
     ta.remove();
   }
 }
 
 function tarjeta(p, conFecha){
-  const pub = publicado(p.fecha);
-  return `<article class="card${pub?' pub':''}" style="--tc:${p.color}" data-f="${p.fecha}">
-    <div class="tag"><span class="dot"></span>${esc(p.tipo)} · ${esc(p.sub)}</div>
-    <div class="meta">${conFecha ? esc(p.dia)+' '+p.num+' · ' : ''}${esc(BANCO.formatos[p.formato].nombre)}${pub?' · publicado':''}</div>
-    <h2>${esc(p.gancho)}</h2>
-    ${p.cuerpo ? `<p class="lede">${esc(p.cuerpo.length>190 ? p.cuerpo.slice(0,190)+'…' : p.cuerpo)}</p>` : ''}
+  const y = pub(p.f);
+  return `<article class="card${y?' pub':''}" style="--tc:${COLOR[p.tipo]}">
+    <div class="tag"><span class="dot"></span><span>${esc(p.tipoNom)} · ${esc(p.sub)}</span></div>
+    <div class="meta">${conFecha?esc(p.dia)+' '+p.num+' · ':''}${esc(p.fmtNom)}${p.eje?' · '+esc(p.eje):''}${y?' · publicado':''}</div>
+    <h3>${esc(p.b[0][1])}</h3>
+    <p class="lede">${esc(p.micro)}</p>
     <div class="foot">
-      <button class="chip solid" data-act="ver" data-f="${p.fecha}">Ver la pieza</button>
-      <button class="chip" data-act="copy" data-f="${p.fecha}">Copiar copy</button>
-      ${pub ? `<button class="chip" data-act="unpub" data-f="${p.fecha}">Desmarcar</button>`
-            : `<button class="chip olive" data-act="pub" data-f="${p.fecha}">Publicado</button>`}
+      <button class="chip solid" data-a="ver" data-f="${p.f}">Ver el posteo</button>
+      <button class="chip" data-a="copy" data-f="${p.f}">Copiar texto</button>
+      ${y?`<button class="chip" data-a="no" data-f="${p.f}">Desmarcar</button>`
+         :`<button class="chip olive" data-a="si" data-f="${p.f}">Publicado</button>`}
     </div>
   </article>`;
 }
 
 function pintarHoy(){
-  const plan = generarPlan(mesActual.getFullYear(), mesActual.getMonth());
   const hk = hoyKey();
-  const hoy = plan.find(p=>p.fecha===hk);
-  const prox = plan.filter(p=>p.fecha>hk && !publicado(p.fecha)).slice(0,3);
-  const pend = plan.filter(p=>p.fecha<hk && !publicado(p.fecha));
-
-  let h = '';
-  if(hoy){
-    h += `<div class="hero">
-      <div class="kicker">Hoy toca</div>
-      <h2>${esc(hoy.tipo)}</h2>
-      <div class="date">${esc(hoy.dia)} ${hoy.num} de ${MESES[mesActual.getMonth()].toLowerCase()} · ${esc(BANCO.formatos[hoy.formato].nombre)}</div>
-    </div>`;
-    h += tarjeta(hoy, false);
+  const hoy = POSTS.find(p=>p.f===hk && !pub(p.f));
+  /* Si hoy no toca, el protagonista pasa a ser el siguiente que hay que
+     preparar. Una app que dice "hoy nada" todos los días no sirve. */
+  const foco = hoy || POSTS.find(p=>p.f>=hk && !pub(p.f)) || POSTS.filter(p=>!pub(p.f)).pop();
+  const atras = POSTS.filter(p=>p.f<hk && !pub(p.f) && p!==foco).slice(-2);
+  const prox = POSTS.filter(p=>p.f>hk && !pub(p.f) && p!==foco).slice(0,3);
+  let h = instalar();
+  if(foco){
+    const esHoy = foco.f===hk, pasado = foco.f<hk;
+    h += `<div class="hero"><div class="k">${esHoy?'Hoy toca':(pasado?'Te quedó pendiente':'Lo próximo')}</div>
+      <h2>${esc(foco.tipoNom)}</h2>
+      <div class="d">${esc(foco.dia)} ${foco.num} de ${MESES[+foco.f.slice(5,7)-1].toLowerCase()} · ${esc(foco.fmtNom)}</div></div>`;
+    h += tarjeta(foco,false);
   } else {
-    h += `<div class="empty"><div class="big">◦</div>
-      <p>Hoy no toca publicar. El ritmo es lunes, martes, jueves y viernes: los días libres también son parte del plan.</p></div>`;
+    h += `<div class="hero"><div class="k">Todo publicado</div><h2>No queda nada pendiente</h2>
+      <div class="d">El mes que viene se escribe solo el día 25.</div></div>`;
   }
-  if(pend.length){
-    h += `<div class="blk"><div class="lbl">Quedaron sin publicar (${pend.length})</div></div>`;
-    h += pend.slice(-3).map(p=>tarjeta(p,true)).join('');
-  }
-  if(prox.length){
-    h += `<div class="blk"><div class="lbl">Lo que viene</div></div>`;
-    h += prox.map(p=>tarjeta(p,true)).join('');
-  }
+  if(atras.length){ h += `<div class="lbl">Quedó sin publicar</div>` + atras.map(p=>tarjeta(p,true)).join(''); }
+  if(prox.length){ h += `<div class="lbl">Lo que viene</div>` + prox.map(p=>tarjeta(p,true)).join(''); }
   $('#vHoy').innerHTML = h;
 }
 
-function pintarMes(){
-  const y = mesActual.getFullYear(), m = mesActual.getMonth();
-  const plan = generarPlan(y, m);
-  const porFecha = {}; plan.forEach(p=>porFecha[p.fecha]=p);
-  const primero = new Date(y, m, 1);
-  const arranque = (primero.getDay()+6)%7;          // semana que empieza en lunes
-  const dias = new Date(y, m+1, 0).getDate();
-  const hk = hoyKey();
+/* Instrucciones para dejarla como ícono. Solo aparece si todavía se está
+   viendo dentro del navegador. */
+function instalar(){
+  let yaEsApp = false;
+  try{ yaEsApp = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true; }catch(e){}
+  if(yaEsApp || estado._inst) return '';
+  const ios = /iPhone|iPad|iPod/i.test(navigator.userAgent||'');
+  const pasos = ios
+    ? ['Tocá el botón de compartir, abajo en el centro (el cuadradito con la flecha para arriba).',
+       'Bajá en la lista hasta <b>Agregar a inicio</b>.',
+       'Tocá <b>Agregar</b>, arriba a la derecha.']
+    : ['Tocá los tres puntitos, arriba a la derecha.',
+       'Elegí <b>Agregar a pantalla principal</b> o <b>Instalar aplicación</b>.',
+       'Confirmá con <b>Instalar</b>.'];
+  return `<div class="banner"><button class="x" data-a="cerrarInst" data-f="_">✕</button>
+    <h4>Dejala como ícono en el celular</h4>
+    <p>Tres pasos y queda como cualquier otra app, sin la barra del navegador.</p>
+    <ol>${pasos.map(x=>'<li>'+x+'</li>').join('')}</ol></div>`;
+}
 
-  let h = '<div class="cal">' + ['L','M','M','J','V','S','D'].map(d=>`<div class="dow">${d}</div>`).join('');
-  for(let i=0;i<arranque;i++) h += '<div class="cell out"></div>';
-  for(let d=1; d<=dias; d++){
-    const k = y+'-'+pad(m+1)+'-'+pad(d);
-    const p = porFecha[k];
-    const cls = ['cell'];
-    if(p) cls.push('has');
-    if(k===hk) cls.push('today');
-    if(publicado(k)) cls.push('pub');
-    h += `<div class="${cls.join(' ')}" ${p?`style="--tc:${p.color}" data-act="ver" data-f="${k}"`:''}>
-      <span>${d}</span>${p?'<span class="pip"></span>':''}</div>`;
+function pintarMes(){
+  const hk = hoyKey(), clave = CLAVES[mesIdx], porF = {};
+  const y = +clave.slice(0,4), m = +clave.slice(5,7)-1;
+  delMes(clave).forEach(p=>porF[p.f]=p);
+  const arranque=(new Date(y,m,1).getDay()+6)%7, dias=new Date(y,m+1,0).getDate();
+  let h = '<div class="cal">'+['L','M','M','J','V','S','D'].map(d=>`<div class="dow">${d}</div>`).join('');
+  for(let i=0;i<arranque;i++) h+='<div class="c"></div>';
+  for(let d=1;d<=dias;d++){
+    const f=clave+'-'+pad(d), p=porF[f];
+    const cls=['c']; if(p)cls.push('has'); if(f===hk)cls.push('hoy'); if(pub(f))cls.push('pub');
+    h += `<div class="${cls.join(' ')}" ${p?`style="--tc:${COLOR[p.tipo]}" data-a="ver" data-f="${f}"`:''}>
+      <span>${d}</span>${p?'<span class="p"></span>':''}</div>`;
   }
   h += '</div>';
-
-  const hechas = plan.filter(p=>publicado(p.fecha)).length;
-  h += `<div class="blk"><div class="lbl">${plan.length} piezas · ${hechas} publicadas</div></div>`;
-  h += plan.map(p=>tarjeta(p,true)).join('');
-  h += `<p class="note">El plan del mes es fijo: el mismo mes siempre genera las mismas piezas. Si una idea no te cierra, abrila y pedí otra — esa queda cambiada para siempre.</p>`;
+  const lote = delMes(clave);
+  h += `<div class="lbl">${lote.length} posteos · ${lote.filter(x=>pub(x.f)).length} publicados</div>`
+     + lote.map(p=>tarjeta(p,true)).join('');
+  h += `<p class="note">Todo el texto está escrito y revisado contra los seis filtros de Nadia. Editá lo que quieras antes de publicar: es un borrador con criterio, no un guion cerrado.</p>`;
   $('#vMes').innerHTML = h;
 }
 
-function pintarBanco(){
-  let h = `<div class="hero"><div class="kicker">Banco de ideas</div>
-    <h2>Lo que queda por decir</h2>
-    <div class="date">Sale de tus tres Manuales de Contenido</div></div>`;
-
-  for(const tk in BANCO.tipos){
-    const t = BANCO.tipos[tk];
-    const ids = idsDe(tk);
-    const usadas = ids.filter(id=>store.usadas[id]).length;
-    const pct = Math.round(usadas/ids.length*100);
-    h += `<div class="stat" style="--tc:${COLOR[tk]}">
-      <div class="top"><span class="name">${esc(t.nombre)}</span>
-        <span class="num">${ids.length-usadas} sin usar de ${ids.length}</span></div>
-      <div class="bar"><i style="width:${pct}%"></i></div>
-      <div class="fn">${esc(t.funcion)}</div>
-      <div class="subs">${Object.keys(t.subtipos).map(sk=>{
-        const s = t.subtipos[sk];
-        const rest = s.ideas.filter((_,i)=>!store.usadas[tk+'|'+sk+'|'+i]).length;
-        return `<span>${esc(s.nombre)} · ${rest}</span>`;
-      }).join('')}</div>
-    </div>`;
-  }
-
-  const total = Object.keys(BANCO.tipos).reduce((a,tk)=>a+idsDe(tk).length,0);
-  const usadasT = Object.keys(store.usadas).length;
-  const semanas = Math.floor((total-usadasT)/4);
-  h += `<p class="note">Una idea se marca como usada cuando marcás la pieza como publicada. Con ${total-usadasT} ideas sin usar te quedan unas <b>${semanas} semanas</b> de contenido a 4 por semana, sin repetir nada.</p>
-  <p class="note">Cuando el banco se achique, la fuente para recargarlo son los Manuales de Contenido en Drive (HIGH LEVEL › CONTENIDO › dividido) y la bitácora de clases.</p>`;
-  $('#vBanco').innerHTML = h;
-}
-
-function pintarStrip(){
-  const plan = generarPlan(mesActual.getFullYear(), mesActual.getMonth());
-  const hk = hoyKey();
-  $('#strip').innerHTML = plan.map(p=>{
-    const c = publicado(p.fecha) ? 'done' : (p.fecha===hk ? 'today' : '');
-    return `<i class="${c}"></i>`;
-  }).join('');
-}
-
 function pintar(){
-  $('#hTitle').textContent = MESES[mesActual.getMonth()];
-  $('#mLabel').textContent = ABBR[mesActual.getMonth()]+' '+String(mesActual.getFullYear()).slice(2);
-  $('#vHoy').classList.toggle('hidden', tab!=='hoy');
-  $('#vMes').classList.toggle('hidden', tab!=='mes');
-  $('#vBanco').classList.toggle('hidden', tab!=='banco');
-  pintarStrip();
-  if(tab==='hoy') pintarHoy();
-  if(tab==='mes') pintarMes();
-  if(tab==='banco') pintarBanco();
+  const clave = CLAVES[mesIdx], lote = delMes(clave), hk = hoyKey();
+  $('#hT').textContent = MESES[+clave.slice(5,7)-1];
+  $('#hC').textContent = lote.filter(p=>pub(p.f)).length+' de '+lote.length;
+  $('#mPrev').disabled = mesIdx===0;
+  $('#mNext').disabled = mesIdx===CLAVES.length-1;
+  $('#strip').innerHTML = lote.map(p=>`<i class="${pub(p.f)?'done':(p.f===hk?'hoy':'')}"></i>`).join('');
+  $('#vHoy').classList.toggle('hide', tab!=='hoy');
+  $('#vMes').classList.toggle('hide', tab!=='mes');
+  if(tab==='hoy') pintarHoy(); else pintarMes();
 }
 
-/* ---------- la ficha de la pieza ---------- */
-function briefDiseno(p){
-  const bloques = p.formato==='reel' ? p.visual.guion : p.visual.laminas;
-  return `Diseño para Instagram · ${BANCO.formatos[p.formato].nombre}\n`
-    + `Marca: Breaking Barriers at Work — She Breaks Limits (@ysi_speakenglish)\n`
-    + `Paleta: marrón #82552E, terracota #C68C6C, crema #FFF8E7, oliva #6B6F4C.\n`
-    + `Tipografía: títulos en serif (Crimson Pro), texto en sans (Open Sans).\n`
-    + `Tono: adulto, sobrio, con aire. Sin emojis, sin mayúsculas gritando.\n\n`
-    + bloques.map(b=>`${b.t}: ${b.x}`).join('\n\n');
+function pedido(p, texto){
+  return texto + '\n\n' + CRITERIO
+    + `\n\nDatos de la pieza:\nTipo: ${p.tipoNom} · Subtipo: ${p.sub} · Formato: ${p.fmtNom}\n`
+    + `Micro-ángulo (uno solo): ${p.micro}\n`
+    + `Eje temático: ${p.eje||'—'}\n`
+    + `Objetivo del mes: lista de espera para los cupos de octubre. CERO venta directa.\n`
+    + `Anclaje al método que tiene que quedar visible: ${p.ancla}\n\n`
+    + `El posteo actual:\n\n${p.caption}`;
 }
 
-function abrirPieza(fecha){
-  const plan = generarPlan(mesActual.getFullYear(), mesActual.getMonth());
-  const p = plan.find(x=>x.fecha===fecha);
-  if(!p) return;
-  const pub = publicado(p.fecha);
-  const bloques = p.formato==='reel' ? p.visual.guion : p.visual.laminas;
-  const canva = store.canva[p.fecha];
+function abrir(f){
+  const p = POSTS.find(x=>x.f===f); if(!p) return;
+  const y = pub(p.f);
+  $('#sB').innerHTML = `
+    <div class="tag" style="--tc:${COLOR[p.tipo]};color:${COLOR[p.tipo]}"><span class="dot"></span><span>${esc(p.tipoNom)} · ${esc(p.sub)}</span></div>
+    <h2 class="serif" style="font-size:24px;font-weight:700;margin:8px 0 5px">${esc(p.b[0][1])}</h2>
+    <div class="meta">${esc(p.dia)} ${p.num} de septiembre · ${esc(p.fmtNom)}</div>
 
-  $('#sBody').innerHTML = `
-    <div class="tag" style="--tc:${p.color};color:${p.color}"><span class="dot"></span>${esc(p.tipo)} · ${esc(p.sub)}</div>
-    <h2 class="serif" style="font-size:26px;margin:8px 0 6px;letter-spacing:-.015em">${esc(p.gancho)}</h2>
-    <div class="meta">${esc(p.dia)} ${p.num} · ${esc(BANCO.formatos[p.formato].nombre)} · objetivo: ${esc(p.objetivo)}</div>
-
-    <div class="blk"><div class="lbl">Copy listo para pegar</div>
-      <div class="copybox">${esc(p.copy)}</div>
-      <div class="actions">
-        <button class="chip solid" data-act="copy" data-f="${p.fecha}">Copiar copy</button>
-        ${pub ? `<button class="chip" data-act="unpub" data-f="${p.fecha}">Desmarcar</button>`
-              : `<button class="chip olive" data-act="pub" data-f="${p.fecha}">Marcar publicado</button>`}
-      </div>
+    <div class="lbl">Caption, listo para pegar</div>
+    <div class="copybox">${esc(p.caption)}</div>
+    <div class="acts">
+      <button class="chip solid" data-a="copy" data-f="${p.f}">Copiar texto</button>
+      ${y?`<button class="chip" data-a="no" data-f="${p.f}">Desmarcar</button>`
+         :`<button class="chip olive" data-a="si" data-f="${p.f}">Marcar publicado</button>`}
     </div>
 
-    <div class="blk"><div class="lbl">${p.formato==='reel'?'Guion':'Diseño, lámina por lámina'}</div>
-      <div class="slides">${bloques.map((b,i)=>`
-        <div class="slide"><span class="n">${i+1}</span><div><b style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);display:block;margin-bottom:3px">${esc(b.t)}</b>${esc(b.x)}</div></div>
-      `).join('')}</div>
-      <div class="actions">
-        <button class="chip" data-act="brief" data-f="${p.fecha}">Copiar brief de diseño</button>
-        ${canva ? `<button class="chip solid" data-act="canva-open" data-f="${p.fecha}">Abrir en Canva</button>`
-                : `<button class="chip" data-act="canva-new" data-f="${p.fecha}">Diseñar en Canva</button>`}
-        <button class="chip" data-act="canva-link" data-f="${p.fecha}">${canva?'Cambiar link':'Guardar link de Canva'}</button>
-      </div>
-    </div>
+    <div class="lbl">${p.fmt==='reel'?'El guion, parte por parte':'El carrusel, lámina por lámina'}</div>
+    ${p.b.map((b,i)=>`<div class="slide"><span class="n">${i+1}</span><div><b>${esc(b[0])}</b><div class="x">${esc(b[1])}</div></div></div>`).join('')}
+    <div class="acts"><button class="chip" data-a="laminas" data-f="${p.f}">Copiar solo las láminas</button></div>
 
-    <div class="blk"><div class="lbl">Por qué esta pieza</div>
-      <div class="kv"><b>Tipo</b><span>${esc(p.tipo)} — ${esc(BANCO.tipos[p.tipoKey].funcion)}</span></div>
-      <div class="kv"><b>Subtipo</b><span>${esc(p.sub)} — ${esc(p.pauta)}</span></div>
-      <div class="kv"><b>Formato</b><span>${esc(BANCO.formatos[p.formato].cuando)}</span></div>
-      <div class="kv"><b>Llamada</b><span>${esc(p.cta)}</span></div>
-      <div class="kv"><b>Idea base</b><span>${esc(p.idea)}</span></div>
-      <div class="actions">
-        <button class="chip" data-act="otra" data-f="${p.fecha}">Esta idea no me cierra, dame otra</button>
-      </div>
+    ${(p.h1||p.h2)?`<div class="lbl">Historias</div>
+      ${p.h1?`<div class="slide"><span class="n">1</span><div><b>El día de la publicación</b><div class="x">${esc(p.h1)}</div></div></div>`:''}
+      ${p.h2?`<div class="slide"><span class="n">2</span><div><b>A las 24 horas</b><div class="x">${esc(p.h2)}</div></div></div>`:''}
+      <div class="acts"><button class="chip" data-a="hist" data-f="${p.f}">Copiar las historias</button></div>`:''}
+    <div class="acts">
+      <button class="chip solid" data-a="canva" data-f="${p.f}">Abrir tu plantilla en Canva</button>
     </div>
+    <p class="note">Se abre <b>${esc(p.tpl.nombre)}</b>, tu plantilla de Canva para este tipo de contenido. El texto lo pegás vos: Canva todavía no acepta que se lo llene automáticamente.</p>
 
-    <p class="note">La idea sale textual de tus manuales. El puente y la llamada a la acción los arma la app con la fórmula de la marca. Si la editás antes de publicar, mejor: esto es un borrador con criterio, no un guion cerrado.</p>
+    <div class="lbl">Los filtros de Nadia</div>
+    ${FILTROS.map(f=>`<div class="chk"><s>✓</s><div><b>${esc(f[0])}</b> — ${esc(f[1])}</div></div>`).join('')}
+    <p class="note">Revisalos antes de publicar. El que más se cae es el primero: si el hook sirve para un post de fitness o de finanzas, no es tuyo todavía.</p>
+
+    <div class="lbl">Por qué esta pieza</div>
+    <div class="kv"><b>Eje</b><span>${esc(p.eje||'—')}</span></div>
+    <div class="kv"><b>Micro-ángulo</b><span>${esc(p.micro)}</span></div>
+    <div class="kv"><b>Anclaje</b><span>${esc(p.ancla)}</span></div>
+    <div class="kv"><b>Estructura</b><span>${esc(p.b.map(b=>b[0]).join(' → '))}</span></div>
+    <div class="lbl">Pedirle un cambio</div>
+    <div class="pedir">${PEDIDOS.map(x=>`<button data-a="ped" data-f="${p.f}" data-p="${x[0]}">${esc(x[1])}<span>abre el chat ›</span></button>`).join('')}</div>
+    <p class="note">Se copia el pedido con todo el criterio adentro y se abre el chat. Solo tenés que pegarlo.</p>
   `;
-  $('#scrim').classList.add('on');
-  $('#sheet').classList.add('on');
+  $('#scrim').classList.add('on'); $('#sheet').classList.add('on');
+  $('#sB').scrollTop = 0;
 }
 function cerrar(){ $('#scrim').classList.remove('on'); $('#sheet').classList.remove('on'); }
 
-/* ---------- acciones ---------- */
-function accion(act, f){
-  const plan = generarPlan(mesActual.getFullYear(), mesActual.getMonth());
-  const p = plan.find(x=>x.fecha===f);
-  if(!p) return;
-
-  if(act==='ver')   return abrirPieza(f);
-  if(act==='copy')  return copiar(p.copy, 'Copy copiado');
-  if(act==='brief') return copiar(briefDiseno(p), 'Brief de diseño copiado');
-
-  if(act==='pub'){
-    store.estado[f]='pub'; store.usadas[p.id]=true; save();
-    pintar(); if($('#sheet').classList.contains('on')) abrirPieza(f);
-    return toast('Publicada. La idea sale del banco.');
-  }
-  if(act==='unpub'){
-    delete store.estado[f]; delete store.usadas[p.id]; save();
-    pintar(); if($('#sheet').classList.contains('on')) abrirPieza(f);
-    return toast('Desmarcada');
-  }
-  if(act==='otra'){
-    const usadasMes = new Set(plan.map(x=>x.id));
-    const nuevo = elegir(p.tipoKey, [p.subKey], usadasMes, rng(Date.now()));
-    store.overrides[f] = nuevo; save();
-    planCache = {};
-    pintar(); abrirPieza(f);
-    return toast('Idea cambiada');
-  }
-  if(act==='canva-new'){
-    copiar(briefDiseno(p), 'Brief copiado — pegalo en Canva');
-    const size = p.formato==='reel' ? 'instagram-reels' : 'instagram-post';
-    setTimeout(()=> window.open('https://www.canva.com/create/'+size+'/', '_blank', 'noopener'), 300);
-    return;
-  }
-  if(act==='canva-open'){
-    return window.open(store.canva[f], '_blank', 'noopener');
-  }
-  if(act==='canva-link'){
-    const url = prompt('Pegá el link del diseño en Canva para esta pieza:', store.canva[f]||'');
-    if(url===null) return;
-    if(url.trim()){ store.canva[f]=url.trim(); toast('Link guardado'); }
-    else { delete store.canva[f]; toast('Link borrado'); }
-    save(); abrirPieza(f);
-    return;
-  }
-}
-
 document.addEventListener('click', e=>{
-  const el = e.target.closest('[data-act]');
-  if(el){ e.preventDefault(); return accion(el.dataset.act, el.dataset.f); }
-  const tb = e.target.closest('nav.tabs button');
+  const el = e.target.closest('[data-a]');
+  if(el){
+    const a = el.dataset.a;
+    if(a==='cerrarInst'){ estado._inst=1; guardar(); pintar(); return; }
+    const p = POSTS.find(x=>x.f===el.dataset.f); if(!p) return;
+    if(a==='ver')   return abrir(p.f);
+    if(a==='copy')  return copiar(p.caption,'Texto copiado');
+    if(a==='laminas') return copiar(p.b.map((b,i)=>b[0]+'\n'+b[1]).join('\n\n'),'Láminas copiadas');
+    if(a==='hist')    return copiar('HISTORIA 1 — el día de la publicación\n'+(p.h1||'')+'\n\nHISTORIA 2 — a las 24 horas\n'+(p.h2||''),'Historias copiadas');
+    if(a==='ped'){
+      const id = el.dataset.p, def = PEDIDOS.find(x=>x[0]===id);
+      let texto = def[2];
+      if(id==='libre'){
+        texto = prompt('¿Qué querés pedirle sobre este posteo?', '');
+        if(!texto || !texto.trim()) return;
+      }
+      copiar(pedido(p, texto), 'Pedido copiado — pegalo en el chat');
+      setTimeout(()=>window.open('https://claude.ai/new','_blank','noopener'), 450);
+      return;
+    }
+    if(a==='cerrarInst'){ estado._inst=1; guardar(); pintar(); return; }
+    if(a==='canva'){ window.open(p.tpl.url,'_blank','noopener'); return; }
+    if(a==='si'||a==='no'){
+      if(a==='si') estado[p.f]=1; else delete estado[p.f];
+      guardar(); pintar();
+      if($('#sheet').classList.contains('on')) abrir(p.f);
+      return toast(a==='si'?'Marcado como publicado':'Desmarcado');
+    }
+    return;
+  }
+  const tb = e.target.closest('nav button');
   if(tb){
-    tab = tb.dataset.tab;
-    document.querySelectorAll('nav.tabs button').forEach(b=>b.classList.toggle('on', b===tb));
+    tab = tb.dataset.t;
+    document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on', b===tb));
     window.scrollTo({top:0}); pintar();
   }
 });
 $('#scrim').addEventListener('click', cerrar);
-$('#sClose').addEventListener('click', cerrar);
-$('#prevM').addEventListener('click', ()=>{ mesActual = new Date(mesActual.getFullYear(), mesActual.getMonth()-1, 1); pintar(); });
-$('#nextM').addEventListener('click', ()=>{ mesActual = new Date(mesActual.getFullYear(), mesActual.getMonth()+1, 1); pintar(); });
+$('#sX').addEventListener('click', cerrar);
+$('#mPrev').addEventListener('click', ()=>{ if(mesIdx>0){ mesIdx--; window.scrollTo({top:0}); pintar(); } });
+$('#mNext').addEventListener('click', ()=>{ if(mesIdx<CLAVES.length-1){ mesIdx++; window.scrollTo({top:0}); pintar(); } });
+pintar();
+</script>
 
-/* ---------- arranque ---------- */
-load();
-fetch('banco.json')
-  .then(r=>{ if(!r.ok) throw new Error(r.status); return r.json(); })
-  .then(b=>{
-    BANCO = b;
-    /* Los links de Canva que ya vienen preparados no pisan los que ella guardó. */
-    return fetch('canva.json').then(r=>r.ok?r.json():{}).catch(()=>({}));
-  })
-  .then(pre=>{
-    for(const k in pre) if(!store.canva[k]) store.canva[k]=pre[k];
-    pintar();
-  })
-  .catch(()=>{
-    $('#vHoy').innerHTML = `<div class="empty"><div class="big">◦</div>
-      <p>No se pudo cargar el banco de ideas. Si abriste el archivo directo desde la compu, subilo a GitHub Pages y abrilo desde ahí.</p></div>`;
-  });
-
+<script>
 if('serviceWorker' in navigator){
-  window.addEventListener('load', ()=> navigator.serviceWorker.register('sw.js').catch(()=>{}));
+  window.addEventListener('load', function(){ navigator.serviceWorker.register('sw.js').catch(function(){}); });
 }
 </script>
 </body>
