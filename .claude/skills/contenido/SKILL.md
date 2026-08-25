@@ -132,9 +132,25 @@ nombre (`titulo`, `pie`, `cta`) a cada plantilla y republicarla.
 ## La app
 
 `https://claude.ai/code/artifact/65185f6a-03fe-49a8-a9ed-4af91391d6f1`
-Se abre en el celular y se agrega a la pantalla de inicio. Tiene los 17 posteos de
-septiembre terminados. **No genera texto sola** — es una página, no un bot. Cuando
-haga falta octubre, se escribe acá y se republica el artifact con el mismo link.
+
+Maneja varios meses: adentro tiene una constante `POSTS` con todos los posteos y
+la interfaz arma sola el selector a partir de las fechas. Hoy tiene agosto (5) y
+septiembre (17).
+
+**No genera texto sola** — es una página, no un bot. Los posteos se escriben acá
+y se republica el artifact con el mismo link. Al agregar un mes hay que **sumarlo**
+al array, nunca reemplazar: Flor consulta los meses viejos.
+
+Cada pieza tiene botones de "pedirle un cambio" que copian un pedido con todo el
+criterio adentro y abren un chat nuevo. Eso resuelve que la app no pueda pensar:
+el pedido viaja autocontenido.
+
+### Automatización
+
+Routine `trig_01Sazpo5JgtJkA2EU6VULy9w` — corre el **25 de cada mes a las 12:00 UTC**,
+escribe el mes siguiente, lo commitea y republica la app en el mismo link. Flor
+recibe aviso por push y mail. La sesión que dispara **no tiene conectores**
+(ni Drive ni Canva), así que todo lo que necesita tiene que estar en el repo.
 
 ⚠️ La app vieja en `contenido/index.html` genera con el criterio equivocado
 (3 tipos, estructura vieja, voseo). No usarla hasta reescribirla con esto.
