@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Content OS · Breaking Barriers at Work</title>
+<meta name="description" content="El mes de contenido armado con criterio, listo para publicar. Cada día te dice cuál toca, con el copy y el brief de diseño hechos.">
+<meta name="theme-color" content="#2C1F0E">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Content OS">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png" sizes="192x192" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --brown:#82552E; --terracota:#C68C6C; --terracota-light:#E8C4AD;
+  --cream:#FFF8E7; --cream-dark:#F5EDD6; --olive:#6B6F4C; --olive-light:#A8AC8A;
+  --ink:#2C1F0E; --ink-mid:#5C3D1E; --ink-soft:#8B6B4A;
+  --line:rgba(130,85,46,.16);
+  --t-con:#6B6F4C;      /* concientizacion  */
+  --t-dif:#82552E;      /* diferenciacion   */
+  --t-tra:#C0703F;      /* transformacion   */
+  --safe-t:env(safe-area-inset-top); --safe-b:env(safe-area-inset-bottom);
+}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:'Open Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  background:var(--cream); color:var(--ink); font-size:16px; line-height:1.6;
+  -webkit-font-smoothing:antialiased; overscroll-behavior-y:none;
+  padding-bottom:calc(76px + var(--safe-b));
+}
+h1,h2,h3,.serif{font-family:'Crimson Pro',Georgia,serif;line-height:1.18;font-weight:600}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.wrap{max-width:640px;margin:0 auto;padding:0 18px}
+
+/* ---------- header ---------- */
+header{
+  position:sticky;top:0;z-index:40;background:rgba(255,248,231,.94);
+  backdrop-filter:saturate(180%) blur(12px); border-bottom:1px solid var(--line);
+  padding-top:var(--safe-t);
+}
+.hd{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0 11px}
+.hd h1{font-size:20px;letter-spacing:-.01em}
+.hd .sub{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);font-weight:600;margin-top:1px}
+.mnav{display:flex;align-items:center;gap:2px}
+.mnav button{width:32px;height:32px;border-radius:9px;display:grid;place-items:center;color:var(--ink-soft);font-size:17px}
+.mnav button:active{background:var(--cream-dark)}
+.mnav .mlabel{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-mid);min-width:74px;text-align:center}
+
+/* ---------- progress strip ---------- */
+.strip{display:flex;gap:3px;padding:0 0 11px}
+.strip i{height:4px;flex:1;border-radius:2px;background:var(--line);transition:background .2s}
+.strip i.done{background:var(--olive)}
+.strip i.today{background:var(--brown)}
+
+/* ---------- cards ---------- */
+.card{
+  background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;
+  margin-bottom:14px;position:relative;overflow:hidden;
+}
+.card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--tc,var(--brown))}
+.card.pub{opacity:.62}
+.tag{
+  display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:700;
+  letter-spacing:.11em;text-transform:uppercase;color:var(--tc,var(--brown));
+}
+.tag .dot{width:6px;height:6px;border-radius:50%;background:currentColor;flex:none}
+.meta{font-size:11.5px;color:var(--ink-soft);letter-spacing:.03em;margin-top:2px}
+.card h2{font-size:23px;margin:9px 0 8px;letter-spacing:-.012em}
+.card .lede{font-size:14.5px;color:var(--ink-mid);line-height:1.62}
+.card .foot{display:flex;align-items:center;gap:8px;margin-top:15px;flex-wrap:wrap}
+
+.chip{
+  font-size:12px;font-weight:600;padding:7px 13px;border-radius:999px;
+  border:1px solid var(--line);color:var(--ink-mid);background:var(--cream);
+}
+.chip.solid{background:var(--brown);color:#fff;border-color:var(--brown)}
+.chip.olive{background:var(--olive);color:#fff;border-color:var(--olive)}
+.chip:active{transform:scale(.97)}
+.chip[disabled]{opacity:.5}
+
+/* ---------- hero (hoy) ---------- */
+.hero{padding:22px 0 6px}
+.hero .kicker{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);font-weight:700}
+.hero h2{font-size:31px;margin-top:4px;letter-spacing:-.02em}
+.hero .date{font-size:13px;color:var(--ink-soft);margin-top:3px}
+.empty{text-align:center;padding:44px 20px;color:var(--ink-soft)}
+.empty .big{font-size:34px;margin-bottom:10px}
+.empty p{font-size:14.5px;max-width:300px;margin:0 auto;line-height:1.6}
+
+/* ---------- calendar ---------- */
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin:6px 0 20px}
+.cal .dow{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);text-align:center;padding-bottom:5px}
+.cal .cell{
+  aspect-ratio:1;border-radius:11px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:4px;font-size:13px;
+  color:var(--ink-soft);border:1px solid transparent;
+}
+.cal .cell.has{background:#fff;border-color:var(--line);color:var(--ink);font-weight:600}
+.cal .cell.today{border-color:var(--brown);border-width:2px}
+.cal .cell .pip{width:6px;height:6px;border-radius:50%;background:var(--tc)}
+.cal .cell.pub .pip{background:var(--olive-light)}
+.cal .cell.pub{color:var(--ink-soft)}
+.cal .cell.out{opacity:.28}
+
+/* ---------- sheet ---------- */
+.scrim{
+  position:fixed;inset:0;background:rgba(44,31,14,.42);z-index:60;opacity:0;
+  pointer-events:none;transition:opacity .22s;backdrop-filter:blur(2px);
+}
+.scrim.on{opacity:1;pointer-events:auto}
+.sheet{
+  position:fixed;left:0;right:0;bottom:0;z-index:61;background:var(--cream);
+  border-radius:20px 20px 0 0;max-height:92vh;display:flex;flex-direction:column;
+  transform:translateY(101%);transition:transform .28s cubic-bezier(.32,.72,0,1);
+  box-shadow:0 -8px 40px rgba(44,31,14,.16);
+}
+.sheet.on{transform:translateY(0)}
+.sheet .grab{width:38px;height:4px;border-radius:2px;background:var(--line);margin:9px auto 0;flex:none}
+.sheet .body{overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px 20px calc(26px + var(--safe-b))}
+.sheet .close{position:absolute;right:12px;top:12px;width:32px;height:32px;border-radius:50%;background:var(--cream-dark);display:grid;place-items:center;font-size:15px;color:var(--ink-mid);z-index:2}
+
+.blk{margin-top:22px}
+.blk .lbl{
+  font-size:10.5px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--ink-soft);display:flex;align-items:center;gap:8px;margin-bottom:9px;
+}
+.blk .lbl::after{content:'';flex:1;height:1px;background:var(--line)}
+.copybox{
+  background:#fff;border:1px solid var(--line);border-radius:13px;padding:16px;
+  font-size:15px;line-height:1.72;white-space:pre-wrap;color:var(--ink);
+}
+.slides{display:flex;flex-direction:column;gap:8px}
+.slide{
+  background:#fff;border:1px solid var(--line);border-radius:11px;padding:12px 14px;
+  display:flex;gap:12px;align-items:flex-start;font-size:14px;line-height:1.55;
+}
+.slide .n{
+  flex:none;width:22px;height:22px;border-radius:6px;background:var(--cream-dark);
+  color:var(--ink-mid);font-size:11px;font-weight:700;display:grid;place-items:center;margin-top:1px;
+}
+.kv{display:flex;gap:10px;font-size:13.5px;padding:7px 0;border-bottom:1px dashed var(--line)}
+.kv:last-child{border:0}
+.kv b{flex:none;width:96px;color:var(--ink-soft);font-weight:600;font-size:12.5px;letter-spacing:.02em}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px}
+.actions .chip{flex:1;min-width:132px;text-align:center;padding:12px}
+
+/* ---------- banco tab ---------- */
+.stat{background:#fff;border:1px solid var(--line);border-radius:14px;padding:15px 16px;margin-bottom:10px}
+.stat .top{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.stat .name{font-size:14.5px;font-weight:700;color:var(--tc)}
+.stat .num{font-size:12.5px;color:var(--ink-soft);font-variant-numeric:tabular-nums}
+.bar{height:6px;border-radius:3px;background:var(--cream-dark);margin-top:9px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--tc);border-radius:3px}
+.stat .fn{font-size:12.5px;color:var(--ink-soft);margin-top:9px;line-height:1.5}
+.subs{display:flex;flex-wrap:wrap;gap:5px;margin-top:11px}
+.subs span{font-size:10.5px;padding:4px 8px;border-radius:6px;background:var(--cream-dark);color:var(--ink-mid);font-weight:600}
+
+/* ---------- tabbar ---------- */
+nav.tabs{
+  position:fixed;left:0;right:0;bottom:0;z-index:50;
+  background:rgba(255,248,231,.96);backdrop-filter:saturate(180%) blur(12px);
+  border-top:1px solid var(--line);padding-bottom:var(--safe-b);
+  display:flex;
+}
+nav.tabs button{
+  flex:1;padding:11px 4px 10px;display:flex;flex-direction:column;align-items:center;gap:3px;
+  font-size:10.5px;font-weight:600;letter-spacing:.04em;color:var(--ink-soft);
+}
+nav.tabs button svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+nav.tabs button.on{color:var(--brown)}
+
+.toast{
+  position:fixed;left:50%;bottom:calc(88px + var(--safe-b));transform:translate(-50%,14px);
+  background:var(--ink);color:var(--cream);font-size:13.5px;font-weight:600;
+  padding:11px 20px;border-radius:999px;z-index:80;opacity:0;pointer-events:none;
+  transition:all .24s;box-shadow:0 6px 22px rgba(44,31,14,.3);
+}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+.note{font-size:12.5px;color:var(--ink-soft);line-height:1.6;margin-top:14px}
+.hidden{display:none !important}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="hd">
+      <div>
+        <div class="sub">Content OS</div>
+        <h1 id="hTitle">Septiembre</h1>
+      </div>
+      <div class="mnav">
+        <button id="prevM" aria-label="Mes anterior">‹</button>
+        <span class="mlabel" id="mLabel">SEP 26</span>
+        <button id="nextM" aria-label="Mes siguiente">›</button>
+      </div>
+    </div>
+    <div class="strip" id="strip"></div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section id="vHoy"></section>
+  <section id="vMes" class="hidden"></section>
+  <section id="vBanco" class="hidden"></section>
+</main>
+
+<nav class="tabs">
+  <button data-tab="hoy" class="on">
+    <svg viewBox="0 0 24 24"><path d="M12 3v3M5 8h14M6 8v11a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8"/><circle cx="12" cy="14" r="2.4"/></svg>
+    Hoy
+  </button>
+  <button data-tab="mes">
+    <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2.5"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+    Mes
+  </button>
+  <button data-tab="banco">
+    <svg viewBox="0 0 24 24"><path d="M4 7c0-1.7 3.6-3 8-3s8 1.3 8 3-3.6 3-8 3-8-1.3-8-3z"/><path d="M4 7v10c0 1.7 3.6 3 8 3s8-1.3 8-3V7"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg>
+    Banco
+  </button>
+</nav>
+
+<div class="scrim" id="scrim"></div>
+<div class="sheet" id="sheet">
+  <div class="grab"></div>
+  <button class="close" id="sClose">✕</button>
+  <div class="body" id="sBody"></div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+'use strict';
+
+/* ============================================================
+   Content OS — generador de contenido con criterio propio.
+   El banco de ideas sale de los Manuales de Contenido
+   (Concientización / Diferenciación / Transformación y Deseo).
+   Nada de lo que se publica se inventa: se elige del banco,
+   se arma con la fórmula de la marca y no se repite nunca.
+   ============================================================ */
+
+const DIAS  = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+const MESES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+const ABBR  = ['ENE','FEB','MAR','ABR','MAY','JUN','JUL','AGO','SEP','OCT','NOV','DIC'];
+const COLOR = {concientizacion:'var(--t-con)', diferenciacion:'var(--t-dif)', transformacion:'var(--t-tra)'};
+
+/* Los días que se publica y qué tipo va cada uno. */
+const RITMO = {1:'concientizacion', 2:'diferenciacion', 4:'transformacion', 5:'concientizacion'};
+
+/* Qué formato pide cada subtipo. Sale de cómo se lee cada idea:
+   las que necesitan desarrollo van a carrusel, las que se dicen mejor
+   de lo que se leen van a reel, y las que se sostienen en una frase van a post. */
+const FORMATO = {
+  'verdadero-problema':'post',   'mito-creencia':'post',        'receta-fallida':'post',
+  'te-lo-digo-con-amor':'reel',  'hoja-de-ruta':'carrusel',
+  'opinion-picante':'reel',      'perspectiva-unica':'post',    'historia-de-marca':'reel',
+  'vulnerabilidad':'reel',       'valores-de-marca':'post',     'detras-de-escena':'reel',
+  'transformacion-completa':'carrusel', 'mini-transformacion':'post', 'avance-en-proceso':'post',
+  'logro-cotidiano':'post',      'testimonio-emocional':'post', 'caso-de-estudio':'carrusel',
+  'antes-vs-despues':'carrusel', 'transformacion-interna':'post'
+};
+
+/* El puente: la línea que conecta la idea con el método, sin venderlo de más. */
+const PUENTES = {
+  concientizacion:[
+    'Esto no se resuelve estudiando más. Se entrena.',
+    'No es falta de inglés. Es el Visibility Gap: la distancia entre lo que sabés y lo que lográs proyectar cuando sube la presión.',
+    'El nivel casi nunca es el techo. Lo que frena está en otro lado.',
+    'Y mientras tanto seguís buscando la solución en el lugar equivocado.'
+  ],
+  diferenciacion:[
+    'Por eso acá no se abre un libro. Se abre el transcript real de tu reunión del martes a las 9.',
+    'Acá no estudiamos inglés. Intervenimos tu comunicación.',
+    'Así trabajo. Y por eso esto no es para cualquiera.',
+    'Cinco meses, cuatro pilares, y tu material real: tus emails, tus reuniones, tu semana.'
+  ],
+  transformacion:[
+    'No aprendió más inglés. Aprendió a usar el que ya tenía, cuando importaba.',
+    'Esto pasa cuando entrenás tus situaciones reales, no situaciones parecidas.',
+    'No hubo un curso nuevo en el medio. Hubo entrenamiento sobre su propio material.',
+    'Sabía exactamente quién era en español. Lo que cambió es que la sala también lo supo.'
+  ]
+};
+
+/* ---------- utilidades ---------- */
+const $  = s => document.querySelector(s);
+const pad = n => String(n).padStart(2,'0');
+const ymKey = d => d.getFullYear()+'-'+pad(d.getMonth()+1);
+const dKey  = d => ymKey(d)+'-'+pad(d.getDate());
+const hoyKey = () => dKey(new Date());
+
+/* Generador pseudoaleatorio con semilla: el mismo mes siempre da el mismo
+   plan. Sin esto el calendario cambiaría cada vez que abrís la app. */
+function rng(seed){
+  let a = seed >>> 0;
+  return function(){
+    a += 0x6D2B79F5;
+    let t = a;
+    t = Math.imul(t ^ t>>>15, t|1);
+    t ^= t + Math.imul(t ^ t>>>7, t|61);
+    return ((t ^ t>>>14) >>> 0) / 4294967296;
+  };
+}
+
+/* Corta la idea en gancho (primera frase) y cuerpo (el resto). */
+function partir(txt){
+  const m = txt.match(/^(.+?[.!?…])(\s+)(.*)$/s);
+  if(!m || m[1].length > 150) return {gancho:txt, cuerpo:''};
+  return {gancho:m[1].trim(), cuerpo:m[3].trim()};
+}
+function frases(txt){
+  const out = []; let buf = '';
+  for(const ch of txt){
+    buf += ch;
+    if('.!?…'.indexOf(ch) > -1){ out.push(buf.trim()); buf = ''; }
+  }
+  if(buf.trim()) out.push(buf.trim());
+  return out.filter(Boolean);
+}
+
+/* ---------- almacenamiento ---------- */
+const KEY = 'bbatw_contentos_v1';
+let store = {usadas:{}, estado:{}, overrides:{}, canva:{}};
+function load(){
+  try{ const r = localStorage.getItem(KEY); if(r) store = Object.assign(store, JSON.parse(r)); }
+  catch(e){ /* modo privado o storage bloqueado: se sigue sin persistir */ }
+}
+function save(){
+  try{ localStorage.setItem(KEY, JSON.stringify(store)); }catch(e){}
+}
+
+let BANCO = null;
+let mesActual = new Date();
+let planCache = {};
+
+/* ============================================================
+   El generador
+   ============================================================ */
+function fechasDelMes(y, m){
+  const out = [], d = new Date(y, m, 1);
+  while(d.getMonth() === m){
+    if(RITMO[d.getDay()]) out.push(new Date(d));
+    d.setDate(d.getDate()+1);
+  }
+  return out;
+}
+
+function idsDe(tipoKey){
+  const t = BANCO.tipos[tipoKey], out = [];
+  for(const sk in t.subtipos)
+    t.subtipos[sk].ideas.forEach((_,i)=> out.push(tipoKey+'|'+sk+'|'+i));
+  return out;
+}
+function existe(id){
+  if(!id) return false;
+  const [tk, sk, i] = String(id).split('|');
+  const t = BANCO.tipos[tk];
+  return !!(t && t.subtipos[sk] && t.subtipos[sk].ideas[+i]);
+}
+function leerId(id){
+  const [tk, sk, i] = id.split('|');
+  const t = BANCO.tipos[tk], s = t.subtipos[sk];
+  return {tipoKey:tk, subKey:sk, tipo:t, sub:s, idea:s.ideas[+i], id};
+}
+
+/* Elige la próxima idea sin usar de un tipo, rotando entre subtipos para
+   que no salgan dos piezas seguidas del mismo subtipo. */
+function elegir(tipoKey, recientes, usadasEsteMes, rand){
+  const t = BANCO.tipos[tipoKey];
+  const subs = Object.keys(t.subtipos);
+  const evitar = recientes || [];
+  /* Primero se intenta con los subtipos que no salieron hace poco.
+     Si no queda ninguno, se relaja la restricción de a un paso. */
+  for(let holgura = evitar.length; holgura >= 0; holgura--){
+    const veto = new Set(evitar.slice(-holgura));
+    const libres = subs.filter(sk => !veto.has(sk));
+    const arranque = Math.floor(rand()*libres.length);
+    for(let k=0;k<libres.length;k++){
+      const sk = libres[(arranque+k)%libres.length];
+      const ideas = t.subtipos[sk].ideas;
+      const off = Math.floor(rand()*ideas.length);
+      for(let j=0;j<ideas.length;j++){
+        const i = (off+j)%ideas.length;
+        const id = tipoKey+'|'+sk+'|'+i;
+        if(!store.usadas[id] && !usadasEsteMes.has(id)) return id;
+      }
+    }
+  }
+  /* Si un tipo entero se agotó, se recicla antes que dejar el día vacío.
+     La pestaña Banco avisa cuando esto está por pasar. */
+  const todos = idsDe(tipoKey).filter(id=>!usadasEsteMes.has(id));
+  return todos[Math.floor(rand()*todos.length)] || idsDe(tipoKey)[0];
+}
+
+function armarPieza(fecha, id, indice, esVenta){
+  const r = leerId(id);
+  const {gancho, cuerpo} = partir(r.idea);
+  const formato = FORMATO[r.subKey] || 'post';
+  const puentes = PUENTES[r.tipoKey];
+  const puente  = puentes[indice % puentes.length];
+
+  /* CTA: los lead magnets son los activos que mejor funcionan, así que
+     entran cada tres piezas. El resto rota entre DM y guardado. */
+  let cta;
+  if(esVenta)            cta = BANCO.ctas.find(c=>c.id==='cohorte');
+  else if(indice%6===2)  cta = BANCO.ctas.find(c=>c.id==='dm-guia');
+  else if(indice%6===5)  cta = BANCO.ctas.find(c=>c.id==='dm-smalltalk');
+  else {
+    const rot = ['dm-atwork','dm-reuniones','guardar','dm-libre','comentario','dm-atwork'];
+    cta = BANCO.ctas.find(c=>c.id===rot[indice%rot.length]);
+  }
+
+  const copy = [gancho, cuerpo, puente, cta.texto].filter(Boolean).join('\n\n');
+
+  /* Brief visual: lo que tiene que decir el diseño, no cómo tiene que verse. */
+  const visual = {portada: gancho.length>90 ? frases(gancho)[0] : gancho, laminas:[], guion:[]};
+  const cuerpoFrases = cuerpo ? frases(cuerpo) : [];
+  let fmt = formato;
+
+  if(fmt==='carrusel'){
+    visual.laminas.push({t:'Portada', x:visual.portada});
+    cuerpoFrases.forEach((f,i)=> visual.laminas.push({t:'Lámina '+(i+2), x:f}));
+    visual.laminas.push({t:'Puente', x:puente});
+    visual.laminas.push({t:'Cierre', x:cta.texto});
+    /* Un carrusel de menos de 4 láminas no es un carrusel: es una placa. */
+    if(visual.laminas.length < 4){ fmt = 'post'; visual.laminas = []; }
+  }
+
+  if(fmt==='reel'){
+    visual.guion.push({t:'0-3 s · a cámara, sin intro', x:gancho});
+    if(cuerpo) visual.guion.push({t:'3-25 s · desarrollo', x:cuerpo});
+    visual.guion.push({t:(cuerpo?'25-35 s':'3-15 s')+' · puente', x:puente});
+    visual.guion.push({t:'Cierre · texto en pantalla', x:cta.texto});
+  } else if(fmt==='post'){
+    visual.laminas = [{t:'Placa', x:visual.portada}];
+    if(cuerpo) visual.laminas.push({t:'Pie de placa', x:cuerpo});
+    visual.laminas.push({t:'Pie de placa', x:puente});
+  }
+
+  return {
+    id, fecha:dKey(fecha), dia:DIAS[fecha.getDay()], num:fecha.getDate(),
+    tipoKey:r.tipoKey, tipo:r.tipo.nombre, subKey:r.subKey, sub:r.sub.nombre,
+    pauta:r.sub.pauta, objetivo:esVenta?'venta':r.tipo.objetivo,
+    formato:fmt, idea:r.idea, gancho, cuerpo, puente, cta:cta.texto, ctaTipo:cta.tipo,
+    copy, visual, color:COLOR[r.tipoKey]
+  };
+}
+
+function generarPlan(y, m){
+  const clave = y+'-'+pad(m+1);
+  if(planCache[clave]) return planCache[clave];
+
+  const fechas = fechasDelMes(y, m);
+  const rand = rng(y*100 + m);
+  const usadasEsteMes = new Set();
+  const recientes = {};
+  const plan = [];
+
+  /* El último viernes del mes cierra vendiendo: es el que empuja a la cohorte. */
+  const viernes = fechas.filter(f=>f.getDay()===5);
+  const ultViernes = viernes.length ? dKey(viernes[viernes.length-1]) : null;
+
+  fechas.forEach((f, i)=>{
+    const k = dKey(f);
+    const esVenta = (k === ultViernes);
+    let tipoKey = esVenta ? 'transformacion' : RITMO[f.getDay()];
+    let id = store.overrides[k];
+    if(id && !existe(id)) id = null;
+    if(!id) id = elegir(tipoKey, recientes[tipoKey], usadasEsteMes, rand);
+    usadasEsteMes.add(id);
+    const p = armarPieza(f, id, i, esVenta);
+    (recientes[p.tipoKey] = recientes[p.tipoKey] || []).push(p.subKey);
+    plan.push(p);
+  });
+
+  planCache[clave] = plan;
+  return plan;
+}
+
+/* ============================================================
+   Pantalla
+   ============================================================ */
+let tab = 'hoy';
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const publicado = k => store.estado[k] === 'pub';
+
+function toast(msg){
+  const t = $('#toast'); t.textContent = msg; t.classList.add('on');
+  clearTimeout(toast._t); toast._t = setTimeout(()=>t.classList.remove('on'), 1900);
+}
+async function copiar(txt, msg){
+  try{ await navigator.clipboard.writeText(txt); toast(msg || 'Copiado'); }
+  catch(e){
+    const ta = document.createElement('textarea');
+    ta.value = txt; ta.style.position='fixed'; ta.style.opacity='0';
+    document.body.appendChild(ta); ta.select();
+    try{ document.execCommand('copy'); toast(msg || 'Copiado'); }
+    catch(_){ toast('No se pudo copiar'); }
+    ta.remove();
+  }
+}
+
+function tarjeta(p, conFecha){
+  const pub = publicado(p.fecha);
+  return `<article class="card${pub?' pub':''}" style="--tc:${p.color}" data-f="${p.fecha}">
+    <div class="tag"><span class="dot"></span>${esc(p.tipo)} · ${esc(p.sub)}</div>
+    <div class="meta">${conFecha ? esc(p.dia)+' '+p.num+' · ' : ''}${esc(BANCO.formatos[p.formato].nombre)}${pub?' · publicado':''}</div>
+    <h2>${esc(p.gancho)}</h2>
+    ${p.cuerpo ? `<p class="lede">${esc(p.cuerpo.length>190 ? p.cuerpo.slice(0,190)+'…' : p.cuerpo)}</p>` : ''}
+    <div class="foot">
+      <button class="chip solid" data-act="ver" data-f="${p.fecha}">Ver la pieza</button>
+      <button class="chip" data-act="copy" data-f="${p.fecha}">Copiar copy</button>
+      ${pub ? `<button class="chip" data-act="unpub" data-f="${p.fecha}">Desmarcar</button>`
+            : `<button class="chip olive" data-act="pub" data-f="${p.fecha}">Publicado</button>`}
+    </div>
+  </article>`;
+}
+
+function pintarHoy(){
+  const plan = generarPlan(mesActual.getFullYear(), mesActual.getMonth());
+  const hk = hoyKey();
+  const hoy = plan.find(p=>p.fecha===hk);
+  const prox = plan.filter(p=>p.fecha>hk && !publicado(p.fecha)).slice(0,3);
+  const pend = plan.filter(p=>p.fecha<hk && !publicado(p.fecha));
+
+  let h = '';
+  if(hoy){
+    h += `<div class="hero">
+      <div class="kicker">Hoy toca</div>
+      <h2>${esc(hoy.tipo)}</h2>
+      <div class="date">${esc(hoy.dia)} ${hoy.num} de ${MESES[mesActual.getMonth()].toLowerCase()} · ${esc(BANCO.formatos[hoy.formato].nombre)}</div>
+    </div>`;
+    h += tarjeta(hoy, false);
+  } else {
+    h += `<div class="empty"><div class="big">◦</div>
+      <p>Hoy no toca publicar. El ritmo es lunes, martes, jueves y viernes: los días libres también son parte del plan.</p></div>`;
+  }
+  if(pend.length){
+    h += `<div class="blk"><div class="lbl">Quedaron sin publicar (${pend.length})</div></div>`;
+    h += pend.slice(-3).map(p=>tarjeta(p,true)).join('');
+  }
+  if(prox.length){
+    h += `<div class="blk"><div class="lbl">Lo que viene</div></div>`;
+    h += prox.map(p=>tarjeta(p,true)).join('');
+  }
+  $('#vHoy').innerHTML = h;
+}
+
+function pintarMes(){
+  const y = mesActual.getFullYear(), m = mesActual.getMonth();
+  const plan = generarPlan(y, m);
+  const porFecha = {}; plan.forEach(p=>porFecha[p.fecha]=p);
+  const primero = new Date(y, m, 1);
+  const arranque = (primero.getDay()+6)%7;          // semana que empieza en lunes
+  const dias = new Date(y, m+1, 0).getDate();
+  const hk = hoyKey();
+
+  let h = '<div class="cal">' + ['L','M','M','J','V','S','D'].map(d=>`<div class="dow">${d}</div>`).join('');
+  for(let i=0;i<arranque;i++) h += '<div class="cell out"></div>';
+  for(let d=1; d<=dias; d++){
+    const k = y+'-'+pad(m+1)+'-'+pad(d);
+    const p = porFecha[k];
+    const cls = ['cell'];
+    if(p) cls.push('has');
+    if(k===hk) cls.push('today');
+    if(publicado(k)) cls.push('pub');
+    h += `<div class="${cls.join(' ')}" ${p?`style="--tc:${p.color}" data-act="ver" data-f="${k}"`:''}>
+      <span>${d}</span>${p?'<span class="pip"></span>':''}</div>`;
+  }
+  h += '</div>';
+
+  const hechas = plan.filter(p=>publicado(p.fecha)).length;
+  h += `<div class="blk"><div class="lbl">${plan.length} piezas · ${hechas} publicadas</div></div>`;
+  h += plan.map(p=>tarjeta(p,true)).join('');
+  h += `<p class="note">El plan del mes es fijo: el mismo mes siempre genera las mismas piezas. Si una idea no te cierra, abrila y pedí otra — esa queda cambiada para siempre.</p>`;
+  $('#vMes').innerHTML = h;
+}
+
+function pintarBanco(){
+  let h = `<div class="hero"><div class="kicker">Banco de ideas</div>
+    <h2>Lo que queda por decir</h2>
+    <div class="date">Sale de tus tres Manuales de Contenido</div></div>`;
+
+  for(const tk in BANCO.tipos){
+    const t = BANCO.tipos[tk];
+    const ids = idsDe(tk);
+    const usadas = ids.filter(id=>store.usadas[id]).length;
+    const pct = Math.round(usadas/ids.length*100);
+    h += `<div class="stat" style="--tc:${COLOR[tk]}">
+      <div class="top"><span class="name">${esc(t.nombre)}</span>
+        <span class="num">${ids.length-usadas} sin usar de ${ids.length}</span></div>
+      <div class="bar"><i style="width:${pct}%"></i></div>
+      <div class="fn">${esc(t.funcion)}</div>
+      <div class="subs">${Object.keys(t.subtipos).map(sk=>{
+        const s = t.subtipos[sk];
+        const rest = s.ideas.filter((_,i)=>!store.usadas[tk+'|'+sk+'|'+i]).length;
+        return `<span>${esc(s.nombre)} · ${rest}</span>`;
+      }).join('')}</div>
+    </div>`;
+  }
+
+  const total = Object.keys(BANCO.tipos).reduce((a,tk)=>a+idsDe(tk).length,0);
+  const usadasT = Object.keys(store.usadas).length;
+  const semanas = Math.floor((total-usadasT)/4);
+  h += `<p class="note">Una idea se marca como usada cuando marcás la pieza como publicada. Con ${total-usadasT} ideas sin usar te quedan unas <b>${semanas} semanas</b> de contenido a 4 por semana, sin repetir nada.</p>
+  <p class="note">Cuando el banco se achique, la fuente para recargarlo son los Manuales de Contenido en Drive (HIGH LEVEL › CONTENIDO › dividido) y la bitácora de clases.</p>`;
+  $('#vBanco').innerHTML = h;
+}
+
+function pintarStrip(){
+  const plan = generarPlan(mesActual.getFullYear(), mesActual.getMonth());
+  const hk = hoyKey();
+  $('#strip').innerHTML = plan.map(p=>{
+    const c = publicado(p.fecha) ? 'done' : (p.fecha===hk ? 'today' : '');
+    return `<i class="${c}"></i>`;
+  }).join('');
+}
+
+function pintar(){
+  $('#hTitle').textContent = MESES[mesActual.getMonth()];
+  $('#mLabel').textContent = ABBR[mesActual.getMonth()]+' '+String(mesActual.getFullYear()).slice(2);
+  $('#vHoy').classList.toggle('hidden', tab!=='hoy');
+  $('#vMes').classList.toggle('hidden', tab!=='mes');
+  $('#vBanco').classList.toggle('hidden', tab!=='banco');
+  pintarStrip();
+  if(tab==='hoy') pintarHoy();
+  if(tab==='mes') pintarMes();
+  if(tab==='banco') pintarBanco();
+}
+
+/* ---------- la ficha de la pieza ---------- */
+function briefDiseno(p){
+  const bloques = p.formato==='reel' ? p.visual.guion : p.visual.laminas;
+  return `Diseño para Instagram · ${BANCO.formatos[p.formato].nombre}\n`
+    + `Marca: Breaking Barriers at Work — She Breaks Limits (@ysi_speakenglish)\n`
+    + `Paleta: marrón #82552E, terracota #C68C6C, crema #FFF8E7, oliva #6B6F4C.\n`
+    + `Tipografía: títulos en serif (Crimson Pro), texto en sans (Open Sans).\n`
+    + `Tono: adulto, sobrio, con aire. Sin emojis, sin mayúsculas gritando.\n\n`
+    + bloques.map(b=>`${b.t}: ${b.x}`).join('\n\n');
+}
+
+function abrirPieza(fecha){
+  const plan = generarPlan(mesActual.getFullYear(), mesActual.getMonth());
+  const p = plan.find(x=>x.fecha===fecha);
+  if(!p) return;
+  const pub = publicado(p.fecha);
+  const bloques = p.formato==='reel' ? p.visual.guion : p.visual.laminas;
+  const canva = store.canva[p.fecha];
+
+  $('#sBody').innerHTML = `
+    <div class="tag" style="--tc:${p.color};color:${p.color}"><span class="dot"></span>${esc(p.tipo)} · ${esc(p.sub)}</div>
+    <h2 class="serif" style="font-size:26px;margin:8px 0 6px;letter-spacing:-.015em">${esc(p.gancho)}</h2>
+    <div class="meta">${esc(p.dia)} ${p.num} · ${esc(BANCO.formatos[p.formato].nombre)} · objetivo: ${esc(p.objetivo)}</div>
+
+    <div class="blk"><div class="lbl">Copy listo para pegar</div>
+      <div class="copybox">${esc(p.copy)}</div>
+      <div class="actions">
+        <button class="chip solid" data-act="copy" data-f="${p.fecha}">Copiar copy</button>
+        ${pub ? `<button class="chip" data-act="unpub" data-f="${p.fecha}">Desmarcar</button>`
+              : `<button class="chip olive" data-act="pub" data-f="${p.fecha}">Marcar publicado</button>`}
+      </div>
+    </div>
+
+    <div class="blk"><div class="lbl">${p.formato==='reel'?'Guion':'Diseño, lámina por lámina'}</div>
+      <div class="slides">${bloques.map((b,i)=>`
+        <div class="slide"><span class="n">${i+1}</span><div><b style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);display:block;margin-bottom:3px">${esc(b.t)}</b>${esc(b.x)}</div></div>
+      `).join('')}</div>
+      <div class="actions">
+        <button class="chip" data-act="brief" data-f="${p.fecha}">Copiar brief de diseño</button>
+        ${canva ? `<button class="chip solid" data-act="canva-open" data-f="${p.fecha}">Abrir en Canva</button>`
+                : `<button class="chip" data-act="canva-new" data-f="${p.fecha}">Diseñar en Canva</button>`}
+        <button class="chip" data-act="canva-link" data-f="${p.fecha}">${canva?'Cambiar link':'Guardar link de Canva'}</button>
+      </div>
+    </div>
+
+    <div class="blk"><div class="lbl">Por qué esta pieza</div>
+      <div class="kv"><b>Tipo</b><span>${esc(p.tipo)} — ${esc(BANCO.tipos[p.tipoKey].funcion)}</span></div>
+      <div class="kv"><b>Subtipo</b><span>${esc(p.sub)} — ${esc(p.pauta)}</span></div>
+      <div class="kv"><b>Formato</b><span>${esc(BANCO.formatos[p.formato].cuando)}</span></div>
+      <div class="kv"><b>Llamada</b><span>${esc(p.cta)}</span></div>
+      <div class="kv"><b>Idea base</b><span>${esc(p.idea)}</span></div>
+      <div class="actions">
+        <button class="chip" data-act="otra" data-f="${p.fecha}">Esta idea no me cierra, dame otra</button>
+      </div>
+    </div>
+
+    <p class="note">La idea sale textual de tus manuales. El puente y la llamada a la acción los arma la app con la fórmula de la marca. Si la editás antes de publicar, mejor: esto es un borrador con criterio, no un guion cerrado.</p>
+  `;
+  $('#scrim').classList.add('on');
+  $('#sheet').classList.add('on');
+}
+function cerrar(){ $('#scrim').classList.remove('on'); $('#sheet').classList.remove('on'); }
+
+/* ---------- acciones ---------- */
+function accion(act, f){
+  const plan = generarPlan(mesActual.getFullYear(), mesActual.getMonth());
+  const p = plan.find(x=>x.fecha===f);
+  if(!p) return;
+
+  if(act==='ver')   return abrirPieza(f);
+  if(act==='copy')  return copiar(p.copy, 'Copy copiado');
+  if(act==='brief') return copiar(briefDiseno(p), 'Brief de diseño copiado');
+
+  if(act==='pub'){
+    store.estado[f]='pub'; store.usadas[p.id]=true; save();
+    pintar(); if($('#sheet').classList.contains('on')) abrirPieza(f);
+    return toast('Publicada. La idea sale del banco.');
+  }
+  if(act==='unpub'){
+    delete store.estado[f]; delete store.usadas[p.id]; save();
+    pintar(); if($('#sheet').classList.contains('on')) abrirPieza(f);
+    return toast('Desmarcada');
+  }
+  if(act==='otra'){
+    const usadasMes = new Set(plan.map(x=>x.id));
+    const nuevo = elegir(p.tipoKey, [p.subKey], usadasMes, rng(Date.now()));
+    store.overrides[f] = nuevo; save();
+    planCache = {};
+    pintar(); abrirPieza(f);
+    return toast('Idea cambiada');
+  }
+  if(act==='canva-new'){
+    copiar(briefDiseno(p), 'Brief copiado — pegalo en Canva');
+    const size = p.formato==='reel' ? 'instagram-reels' : 'instagram-post';
+    setTimeout(()=> window.open('https://www.canva.com/create/'+size+'/', '_blank', 'noopener'), 300);
+    return;
+  }
+  if(act==='canva-open'){
+    return window.open(store.canva[f], '_blank', 'noopener');
+  }
+  if(act==='canva-link'){
+    const url = prompt('Pegá el link del diseño en Canva para esta pieza:', store.canva[f]||'');
+    if(url===null) return;
+    if(url.trim()){ store.canva[f]=url.trim(); toast('Link guardado'); }
+    else { delete store.canva[f]; toast('Link borrado'); }
+    save(); abrirPieza(f);
+    return;
+  }
+}
+
+document.addEventListener('click', e=>{
+  const el = e.target.closest('[data-act]');
+  if(el){ e.preventDefault(); return accion(el.dataset.act, el.dataset.f); }
+  const tb = e.target.closest('nav.tabs button');
+  if(tb){
+    tab = tb.dataset.tab;
+    document.querySelectorAll('nav.tabs button').forEach(b=>b.classList.toggle('on', b===tb));
+    window.scrollTo({top:0}); pintar();
+  }
+});
+$('#scrim').addEventListener('click', cerrar);
+$('#sClose').addEventListener('click', cerrar);
+$('#prevM').addEventListener('click', ()=>{ mesActual = new Date(mesActual.getFullYear(), mesActual.getMonth()-1, 1); pintar(); });
+$('#nextM').addEventListener('click', ()=>{ mesActual = new Date(mesActual.getFullYear(), mesActual.getMonth()+1, 1); pintar(); });
+
+/* ---------- arranque ---------- */
+load();
+fetch('banco.json')
+  .then(r=>{ if(!r.ok) throw new Error(r.status); return r.json(); })
+  .then(b=>{
+    BANCO = b;
+    /* Los links de Canva que ya vienen preparados no pisan los que ella guardó. */
+    return fetch('canva.json').then(r=>r.ok?r.json():{}).catch(()=>({}));
+  })
+  .then(pre=>{
+    for(const k in pre) if(!store.canva[k]) store.canva[k]=pre[k];
+    pintar();
+  })
+  .catch(()=>{
+    $('#vHoy').innerHTML = `<div class="empty"><div class="big">◦</div>
+      <p>No se pudo cargar el banco de ideas. Si abriste el archivo directo desde la compu, subilo a GitHub Pages y abrilo desde ahí.</p></div>`;
+  });
+
+if('serviceWorker' in navigator){
+  window.addEventListener('load', ()=> navigator.serviceWorker.register('sw.js').catch(()=>{}));
+}
+</script>
+</body>
+</html>

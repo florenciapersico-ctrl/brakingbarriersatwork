@@ -1,0 +1,510 @@
+{
+ "version": 1,
+ "actualizado": "2026-08-25",
+ "fuente": "Manuales de Contenido (Drive › HIGH LEVEL › CONTENIDO › dividido): Concientización, Diferenciación, Transformación y Deseo.",
+ "marca": {
+  "cuenta": "@ysi_speakenglish",
+  "programa": "Breaking Barriers at Work - She Breaks Limits",
+  "concepto": "El Visibility Gap: la brecha entre su genialidad profesional y lo que logra proyectar cuando sube la presión.",
+  "publico": "Mujer, 32-50, directora o manager en multinacional o empresa con equipo global. Habla español como primera lengua. Ya sabe inglés (B1-B2). El problema no es el nivel.",
+  "voz": [
+   "Directa",
+   "adulta",
+   "cálida sin ser blanda",
+   "específica",
+   "voseo rioplatense entendible en México y Colombia"
+  ],
+  "no_es": [
+   "motivacional genérica",
+   "empoderamiento abstracto",
+   "promesas de fluidez nativa",
+   "urgencia falsa",
+   "emojis en catarata",
+   "mayúsculas gritando"
+  ],
+  "no_promete": [
+   "ausencia de errores",
+   "fluidez nativa en 5 meses",
+   "un ascenso, un aumento ni un puesto"
+  ],
+  "frases_ancla": [
+   "Sabés exactamente quién sos en español. Ya es hora de que la sala lo sepa.",
+   "Tu cerebro va a mil, pero tu boca no lo alcanza.",
+   "El mundo es pequeño cuando tu voz es grande.",
+   "No es falta de inglés. Es el Visibility Gap.",
+   "Acá no estudiamos inglés. Intervenimos tu comunicación."
+  ]
+ },
+ "tipos": {
+  "concientizacion": {
+   "nombre": "Concientización",
+   "objetivo": "alcance",
+   "funcion": "Le pone nombre al problema que ella siente y no sabe explicar. Es la puerta de entrada: se piensa para alguien que todavía no te conoce.",
+   "peso": 0.41,
+   "subtipos": {
+    "verdadero-problema": {
+     "nombre": "Verdadero Problema",
+     "pauta": "Estructura «Crees que X. En realidad Y.» Nombra la creencia sin culpar y la reemplaza por el diagnóstico real.",
+     "ideas": [
+      "Crees que necesitás más vocabulario para participar en reuniones. En realidad necesitás aprender a recuperar las palabras que ya conocés bajo presión.",
+      "Crees que te falta confianza para hablar. En realidad te faltan experiencias exitosas donde hablaste, te equivocaste y comprobaste que podías hacerlo igual.",
+      "Crees que necesitás otro curso de conversación. En realidad llevás años hablando de viajes, hobbies y fines de semana, pero nunca practicaste las conversaciones que tenés en tu trabajo.",
+      "Crees que deberías volver a estudiar gramática. En realidad ya conocés muchas de las reglas: el problema es que todavía no las automatizaste mientras hablás.",
+      "Crees que necesitás sonar más profesional. En realidad necesitás aprender a organizar y desarrollar mejor tus ideas.",
+      "Crees que no eres buena para el networking. En realidad nadie te enseñó cómo pasar de un “How are you?” a una conversación profesional interesante.",
+      "Crees que los nativos hablan demasiado rápido. En realidad nunca te enseñaron qué pasa con las palabras cuando los nativos hablan entre ellos.",
+      "Crees que te falta nivel para aplicar a una posición internacional. En realidad muchas veces el problema no es tu nivel, sino tu capacidad para mostrar todo lo que ya sabés en una entrevista.",
+      "Crees que necesitás estudiar más. En realidad llevás años consumiendo inglés y muy poco tiempo produciéndolo.",
+      "Crees que te bloqueás porque no sabés suficiente inglés. En realidad te bloqueás porque sentís que todo lo que decís tiene que salir perfecto.",
+      "Crees que necesitás memorizar tus presentaciones. En realidad necesitás aprender a explicar tus ideas aunque la conversación se salga del guion.",
+      "Crees que te cuesta hablar porque eres introvertida. En realidad te faltan herramientas para iniciar conversaciones, hacer preguntas y mantenerlas vivas.",
+      "Crees que necesitás más clases. En realidad el verdadero cambio ocurre en lo que hacés entre una clase y la siguiente.",
+      "Crees que el problema es equivocarte. En realidad el problema es seguir cometiendo los mismos errores durante años sin saber por qué aparecen.",
+      "Crees que no entendés las reuniones. En realidad entendés gran parte de lo que ocurre, pero entrás en pánico cada vez que aparece una palabra que no conocés.",
+      "Crees que te falta inglés para liderar reuniones. En realidad te faltan estructuras para abrir conversaciones, dar dirección, interrumpir profesionalmente y cerrar acuerdos.",
+      "Crees que necesitás un nivel más alto. En realidad todavía no estás usando todo el nivel que ya tenés cuando la situación se vuelve exigente.",
+      "Crees que tenés un problema de inglés. En realidad podés entender, leer y explicar mucho más de lo que lográs producir cuando alguien te hace una pregunta inesperada.",
+      "Crees que tenés miedo de hablar inglés. En realidad tenés miedo de quedarte sin recursos en mitad de una conversación.",
+      "Crees que te falta vocabulario técnico. En realidad te faltan conectores para organizar ideas complejas.",
+      "Es como haber leído de memoria el manual de cómo volar un avión. Pero cuando te toca despegar de verdad, el motor prende y ahí se complica todo: te faltaron horas de vuelo, no teoría.",
+      "Te venden “clases personalizadas” cuando en realidad es el mismo libro de Business English genérico, solo adaptado a tu ritmo. Personalización real es trabajar con tu material, tus problemas, tu semana."
+     ]
+    },
+    "mito-creencia": {
+     "nombre": "Mito / Creencia",
+     "pauta": "Estructura «Te hicieron creer que X. Pero Y.» Desarma a la industria sin nombrar competidores.",
+     "ideas": [
+      "Te hicieron creer que necesitás más gramática. Pero muchas veces el problema no es que no conozcas la estructura: es que no podés acceder a ella cuando alguien te hace una pregunta en una reunión.",
+      "Te hicieron creer que primero necesitás confianza para hablar. Pero la confianza suele aparecer después de acumular experiencias exitosas hablando. No antes.",
+      "Te hicieron creer que hablar más automáticamente te hará mejorar. Pero si repetís los mismos errores durante años sin detectarlos, también podés practicar el error.",
+      "Te hicieron creer que tu progreso depende de tu profesora. Pero el verdadero progreso ocurre en lo que hacés cuando la profesora no está.",
+      "Te hicieron creer que el problema es tu nivel. Pero muchas profesionales con nivel B2 o incluso C1 siguen bloqueándose en reuniones.",
+      "Te hicieron creer que si entendés inglés ya deberías poder hablarlo. Pero entender y producir son habilidades distintas.",
+      "Te hicieron creer que ver series y escuchar podcasts te va a preparar para participar en reuniones. Pero consumir inglés y producir inglés son dos cosas diferentes.",
+      "Te hicieron creer que el objetivo es sonar como una nativa. Pero en un entorno profesional, la claridad suele importar mucho más que el acento.",
+      "Te hicieron creer que necesitás aprender más vocabulario. Pero muchas veces ya conocés las palabras: el problema es recuperarlas bajo presión.",
+      "Te hicieron creer que cuando mejores tu speaking, todo lo demás se acomodará solo. Pero presentar, participar, liderar reuniones, hacer networking y responder preguntas inesperadas son habilidades distintas.",
+      "Te hicieron creer que el problema es la falta de confianza. Pero muchas veces el problema es que no tenés las herramientas para expresar lo que querés decir.",
+      "Te hicieron creer que practicar conversaciones genéricas te prepara para cualquier situación. Pero las reuniones reales no se parecen a los role plays genéricos de los cursos tradicionales.",
+      "Te hicieron creer que necesitás estudiar más. Pero el principal problema de muchas profesionales B1-B2 no es aprender más inglés: es aprender a usar el inglés que ya tienen cuando realmente importa.",
+      "Te hicieron creer que hablar perfecto es el objetivo. Pero la mayoría de las personas que admirás en reuniones internacionales cometen errores. La diferencia es que participan igual.",
+      "Te hicieron creer que una reunión difícil es una prueba de inglés. Pero en realidad es una situación de comunicación profesional.",
+      "Te hicieron creer que el inglés profesional se aprende estudiando. Yo creo que el inglés profesional se entrena.",
+      "Te hicieron creer que el inglés es una materia. Pero el inglés profesional funciona mucho más como una habilidad de rendimiento.",
+      "Te hicieron creer que necesitás eliminar todos tus errores para comunicarte bien. Pero muchas veces el problema no son los errores: es quedarte callada para evitarlos.",
+      "Te hicieron creer que necesitás esperar a sentirte preparada. Pero la sensación de estar preparada rara vez llega antes de actuar.",
+      "Te hicieron creer que el problema es el idioma. Muchas veces el verdadero problema es que nadie te enseñó cómo usarlo en tu realidad profesional.",
+      "Te hicieron creer que con suficientes años de clases ibas a dejar de bloquearte. Pero hay profesionales con 20 y 30 años de inglés encima que siguen sin sentir un estímulo real, hasta que cambian el método, no la cantidad."
+     ]
+    },
+    "receta-fallida": {
+     "nombre": "Receta Fallida",
+     "pauta": "Nombra la práctica concreta que la frena y el costo exacto. Sin reto ni culpa: descripción clínica.",
+     "ideas": [
+      "Practicar solamente cuando tenés clase es lo que está frenando tu progreso. El inglés se desarrolla en la práctica diaria, no en una hora semanal.",
+      "Seguir haciendo cursos generales de inglés cuando tu problema ocurre en reuniones reales está alargando innecesariamente tu camino.",
+      "Esperar a sentirte segura antes de participar es exactamente lo que está retrasando tu confianza.",
+      "Memorizar respuestas para entrevistas te ayuda hasta que te hacen una pregunta que no habías preparado.",
+      "Traducir mentalmente cada frase antes de hablar es una de las razones por las que te quedás en blanco.",
+      "Intentar sonar perfecta está haciendo que participes menos de lo que deberías.",
+      "Pasar horas estudiando vocabulario aislado sin usarlo en contexto está haciendo que se te olvide rápidamente.",
+      "Evitar reuniones, presentaciones o conversaciones difíciles para no equivocarte está frenando tu crecimiento profesional.",
+      "Escuchar inglés durante horas sin producirlo está creando la ilusión de progreso.",
+      "Buscar una nueva técnica cada mes en lugar de dominar una está manteniéndote estancada.",
+      "Tomar notas de todo sin volver a utilizarlas probablemente está aportando menos de lo que crees.",
+      "Preparar cada frase antes de hablar está impidiendo que desarrolles espontaneidad.",
+      "Obsesionarte con la gramática mientras hablás está afectando tu fluidez más de lo que imaginás.",
+      "Esperar a tener un nivel “suficiente” para aplicar a una oportunidad internacional puede hacer que nunca apliques.",
+      "Pensar que entender una reunión es lo mismo que participar en ella está generando una falsa sensación de avance.",
+      "Practicar conversaciones genéricas cuando tu desafío son reuniones ejecutivas está entrenando la habilidad equivocada.",
+      "Corregir todos tus errores al mismo tiempo es una de las formas más rápidas de saturarte.",
+      "Depender completamente de tu profesora para mejorar está limitando tu autonomía y tu velocidad de progreso.",
+      "Medir tu progreso por cuánto entendés en lugar de por cuánto participás puede darte una imagen distorsionada de tu nivel.",
+      "Quedarte callada para evitar errores está haciendo que los demás subestimen todo lo que sabés.",
+      "Resolver tus dudas después de la reunión está impidiendo que desarrolles la habilidad de intervenir en tiempo real.",
+      "Escribir en el chat lo que podrías haber dicho en voz alta está reforzando el hábito de esconderte.",
+      "Esperar a tener la respuesta perfecta está haciendo que pierdas oportunidades de participar.",
+      "Pasar años estudiando inglés sin entrenar situaciones reales de trabajo es una de las razones por las que muchas profesionales siguen bloqueándose.",
+      "Pensar demasiado en cómo sonás está haciendo que prestes menos atención a la conversación.",
+      "Obsesionarte con tu acento está desviando tu atención del problema que realmente impacta tu carrera: la participación.",
+      "Hablar solamente en contextos cómodos está impidiendo que desarrolles las habilidades que necesitás en contextos exigentes.",
+      "Esperar que te inviten a participar está haciendo que pases desapercibida.",
+      "Querer demostrar que sabés inglés está impidiendo que usés el inglés para demostrar todo lo que sabés de tu profesión.",
+      "Seguir evitando las conversaciones que te incomodan está manteniendo exactamente el problema que querés resolver."
+     ]
+    },
+    "te-lo-digo-con-amor": {
+     "nombre": "Te lo digo con amor",
+     "pauta": "Estructura «No X. Y.» Mismo mensaje que Verdadero Problema pero en tono directo y cariñoso. Funciona muy bien dicho a cámara.",
+     "ideas": [
+      "No te falta inglés. Te falta usar el inglés que ya tenés cuando realmente importa.",
+      "No eres mala para hablar. Simplemente nunca practicaste las situaciones que hoy te generan ansiedad.",
+      "No necesitás otro curso. Necesitás empezar a usar todo lo que aprendiste en los anteriores.",
+      "No te está frenando tu nivel. Te está frenando quedarte callada cuando tenés algo para aportar.",
+      "No necesitás más vocabulario. Necesitás aprender a recuperar las palabras que ya conocés bajo presión.",
+      "No tenés un problema de confianza. Tenés muy poca evidencia acumulada de que podés hacerlo.",
+      "No eres introvertida. Simplemente nadie te enseñó cómo hacer small talk profesional.",
+      "No necesitás sonar nativa. Necesitás sentirte cómoda participando.",
+      "No te bloqueás porque no sabés inglés. Te bloqueás porque sentís que todo tiene que salir perfecto.",
+      "No necesitás estudiar más. Necesitás producir más.",
+      "No necesitás memorizar mejores respuestas. Necesitás aprender a construir respuestas en tiempo real.",
+      "No necesitás otro certificado. Necesitás empezar a confiar en lo que ya sabés.",
+      "No te cuesta entender inglés. Te cuesta seguir escuchando cuando aparece algo que no entendés.",
+      "No te falta fluidez. Te faltan herramientas para organizar tus ideas mientras hablás.",
+      "No necesitás más clases. Necesitás entrenar entre clase y clase.",
+      "No es que no tengas nada para aportar. Es que todavía no encontraste una forma cómoda de hacerlo en inglés.",
+      "No necesitás un nivel más alto para empezar a participar. Necesitás empezar a participar con el nivel que ya tenés.",
+      "No tenés miedo de hablar inglés. Tenés miedo de sentirte expuesta mientras hablás inglés.",
+      "No estás estancada porque te falte capacidad. Estás estancada porque seguís intentando resolver el problema equivocado.",
+      "No eres menos competente en inglés. Simplemente todavía no lográs mostrar todo lo competente que eres."
+     ]
+    },
+    "hoja-de-ruta": {
+     "nombre": "Hoja de Ruta",
+     "pauta": "Formato «Si yo tuviera que X, este sería el orden». Muestra el método completo sin venderlo.",
+     "ideas": [
+      "Si hoy quisiera dejar de bloquearme en reuniones, este sería el orden. No empezaría con gramática en abstracto. Primero pasaría mi propia producción por un diagnóstico, para encontrar mis errores específicos, no los de cualquiera. Después activaría el vocabulario de mi propia industria, no listas genéricas. Recién ahí practicaría mi reunión específica de esta semana, antes de que pase. Y trabajaría qué creencia o qué autoboicot aparece justo en ese momento. Y solo al final, pronunciación.",
+      "Si mañana tuviera una entrevista internacional, esto haría durante la semana anterior. No memorizaría respuestas. Pasaría mis historias reales de carrera por un diagnóstico de errores. Activaría el vocabulario específico para entrevistas que todavía no tengo automatizado. Entrenaría preguntas inesperadas, no solo las que espero. Simularía la entrevista completa varias veces. Y al final, pronunciación de los términos que más voy a usar.",
+      "Si sintiera que entiendo todo pero nunca participo, este sería mi plan de 30 días. Primero identificaría qué creencia tengo instalada sobre por qué no puedo participar. Después entrenaría responder preguntas simples, sin pretender hacerlo perfecto. Después, dar mi opinión. Después, interrumpir con educación. Y por último, expresar desacuerdo. La participación se construye por etapas, y el orden importa.",
+      "Si quisiera sonar más segura en inglés, esto es lo último que trabajaría, no lo primero. Primero pasaría mi producción real por Narrative Flow, para encontrar qué me hace sonar insegura. Después activaría con Color Method el vocabulario que ya tengo pero no uso. Después practicaría con Role Play mis situaciones reales. Y recién ahí, pronunciación. Una persona segura no habla mejor: piensa con más claridad mientras habla.",
+      "Si quisiera dejar de traducir mentalmente, esto cambiaría primero. Dejaría de construir frases palabra por palabra. Activaría chunks completos de mi propio vocabulario con Color Method. Los practicaría en mis situaciones reales con Role Play, no en ejercicios sueltos. Y produciría mucho más de lo que consumiría.",
+      "Si solo tuviera 20 minutos por día, este sería mi entrenamiento. 5 minutos con Narrative Flow, sobre algo que escribí o dije esta semana. 5 minutos con Color Method, activando vocabulario de mi industria. 5 minutos de Role Play, sobre mi próxima situación real. 5 minutos revisando si algún error fosilizado volvió a aparecer.",
+      "Si quisiera un trabajo internacional en seis meses, este sería el orden. Primero, diagnóstico de mis errores y activación de mi vocabulario. Después, cómo presentarme con autoridad. Después, small talk y reuniones. Después, responder preguntas inesperadas en una entrevista. Y al final, pronunciación. Ese es el orden en el que realmente aparecen esos desafíos.",
+      "Si quisiera dejar de depender de mi profesora, esto haría. Construiría un sistema para practicar sola con mi propio material. Aprendería a detectar mis propios errores fosilizados antes de que alguien me los señale. Entrenaría mis situaciones reales con Role Play. Y usaría ese feedback para ajustar yo misma. El objetivo no es tener más clases. Es necesitar cada vez menos ayuda.",
+      "Si tuviera que transformar un B2 académico en un B2 profesional, este sería mi proceso. No estudiaría más teoría. Diagnosticaría mis errores fosilizados específicos. Activaría mi vocabulario profesional con Color Method. Entrenaría mis situaciones reales con Role Play. Y trabajaría qué me frena además del idioma: perfeccionismo, comparación, autoboicot. Recién ahí, pronunciación.",
+      "Si quisiera cerrar la distancia entre la profesional que soy en español y la que muestro en inglés, este sería el camino. Primero dejaría de medir mi progreso por cuánto entiendo. Empezaría a medirlo por cuánto participo. Trabajaría qué creencia específica tengo sobre mí misma en inglés. Entrenaría mis situaciones más desafiantes. Y construiría evidencia, reunión tras reunión, de que puedo hacerlo.",
+      "Si tuviera que liderar una negociación difícil, este sería el orden. Primero diagnosticaría qué digo que me hace ceder antes de tiempo. Activaría con Color Method las estructuras para sostener mi posición. Practicaría con Role Play la negociación con mis números reales. Trabajaría qué me hace ceder: autoboicot, perfeccionismo, miedo a sonar agresiva. Al final, tono: firme sin sonar dura.",
+      "Si quisiera dejar de sonar junior frente a liderazgo senior, esto trabajaría primero. Identificaría qué digo que suena a pedir permiso en vez de aportar. Activaría frases que comunican autoridad, no carencia. Trabajaría la creencia de que todavía no merezco estar en esa mesa. Practicaría reuniones reales con liderazgo. Al final, tono y ritmo.",
+      "Si tuviera que dar una mala noticia a un cliente internacional, este sería mi proceso. Diagnosticaría con Narrative Flow cómo sonó la última vez que hice algo parecido. Activaría la estructura: qué pasó, qué estoy haciendo, qué necesito de la otra parte. Practicaría con Role Play sostener la calma cuando me presionan. Al final, que mi voz no delate que estoy nerviosa.",
+      "Si quisiera dejar de necesitar que me corrijan, esto cambiaría primero. Aprendería a usar Narrative Flow yo misma para reconocer mis errores fosilizados. Construiría un sistema para practicar sola. Mediría mi progreso por cuánto detecto sin ayuda. Y cada vez necesitaría menos a alguien del otro lado.",
+      "Si tuviera que liderar mi primera reunión internacional, este sería mi plan. Primero trabajaría la creencia de que no tengo autoridad para dirigir esa conversación. Activaría las estructuras para abrir, dar dirección e interrumpir con educación. Practicaría con Role Play preguntas que no esperaba. Al final, cómo sueno bajo presión.",
+      "Si quisiera presentar resultados a un board internacional sin quedarme en blanco, este sería el camino. Diagnosticaría con Narrative Flow cómo suenan mis explicaciones cuando me desordeno. Ordenaría mis ideas con una estructura que sostenga aunque me saquen del guion. Entrenaría las preguntas difíciles, no solo el discurso. Al final, pronunciación de términos técnicos.",
+      "Si quisiera dejar de minimizar mis logros en una entrevista, esto trabajaría primero. Identificaría la creencia que me hace decir “ayudé un poco” en vez de “lideré, implementé, logré”. Activaría el vocabulario de impacto que no uso. Practicaría contar mi experiencia con estructura. Al final, tono de autoridad, no de disculpa.",
+      "Si quisiera pasar de comunicarme a liderar en inglés en seis meses, este sería el orden. Diagnóstico de mis errores reales. Vocabulario de liderazgo específico, no genérico. Trabajar la creencia de que liderar en otro idioma no me corresponde todavía. Practicar reuniones donde tengo que dirigir. Al final, pronunciación y tono.",
+      "Si tuviera que manejar la objeción difícil de un stakeholder, este sería mi entrenamiento. Activaría con PREP la estructura: punto, razón, ejemplo, punto. Practicaría que me interrumpan a la mitad y tener que retomar. Trabajaría qué me hace ceder cuando me presionan. Al final, que mi voz no delate la tensión.",
+      "Si quisiera dejar de depender del traductor, esto haría primero. Activaría las frases que más repito en mis reuniones reales. Practicaría responder sin pensar en español primero. Entraría a una reunión real sin esa muleta. Y al final, recién ahí, afinaría cómo suena lo que digo.",
+      "Si quisiera hacer networking real sin esconderme, este sería el camino. Trabajaría primero la creencia de que no tengo nada interesante para decir en otro idioma. Practicaría con el Context Trick sostener una conversación después del “How are you?”. Simularía el evento completo, con gente que no conozco. Al final, confianza en mi propio acento.",
+      "Si tuviera que aplicar a un puesto internacional este año, este sería el orden. Diagnosticaría cómo cuento mi experiencia hoy. Activaría el vocabulario de impacto que me falta. Entrenaría entrevistas completas con preguntas que no esperaba. Trabajaría qué creencia me frena para aplicar sin sentirme lista. Y al final, cuando todo eso esté sólido, ahí sí afinaría cómo sueno."
+     ]
+    }
+   }
+  },
+  "diferenciacion": {
+   "nombre": "Diferenciación",
+   "objetivo": "posicionamiento",
+   "funcion": "Explica por qué esto no es otro curso de inglés y por qué vos. Filtra: atrae a la alumna correcta y espanta a la equivocada.",
+   "peso": 0.29,
+   "subtipos": {
+    "opinion-picante": {
+     "nombre": "Opinión Picante",
+     "pauta": "Postura fuerte en primera persona. Se banca la contra. Nunca nombra competidores por nombre.",
+     "ideas": [
+      "No creo que una hora de conversación por semana alcance para cambiar el inglés de una profesional.",
+      "Ya no creo en estudiar vocabulario por listas. El vocabulario se activa usándolo, no memorizándolo.",
+      "No vendo perfección, porque no existe. Vendo participación.",
+      "Creo que el mayor error de la industria es hacer que las alumnas dependan de la profesora para siempre.",
+      "No me interesa que suenes nativa. Me interesa que lideres.",
+      "No corrijo absolutamente todo, y lo hago a propósito: corregir todo destruye la confianza más rápido que cualquier error.",
+      "No creo que el problema sea la falta de confianza. Creo que es la falta de herramientas para expresar lo que ya pensás.",
+      "Practicar conversaciones genéricas para reuniones ejecutivas me parece casi una pérdida de tiempo.",
+      "No creo que sonar perfecta sea un objetivo razonable para nadie que tiene que comunicarse bajo presión real.",
+      "Creo que la pronunciación está sobrevalorada comparada con la participación.",
+      "No creo en los cursos que enseñan “Business English” genérico sin tocar nunca el trabajo real de la alumna.",
+      "Creo que medir el nivel de alguien por un examen dice menos de lo que parece sobre cómo se va a desempeñar en una reunión real.",
+      "No puedo trabajar con personas que actúan como víctimas: las que siempre ven el lado negativo, que quieren que les resuelvan todo, que esperan que les den de comer en la boca.",
+      "Yo te doy la receta. Pero la que se tiene que poner a cocinar sos vos."
+     ]
+    },
+    "perspectiva-unica": {
+     "nombre": "Perspectiva Única",
+     "pauta": "Lo que ves en tus alumnas que nadie más nombra así. Observación clínica, no opinión.",
+     "ideas": [
+      "No trabajo sobre el inglés solamente. Trabajo sobre la identidad profesional en inglés.",
+      "El inglés no es un problema académico. Es un problema emocional.",
+      "Lo que descubrí trabajando con mujeres que tienen B2 y siguen bloqueándose: el nivel nunca fue el límite real.",
+      "La diferencia entre la profesional que habla mucho en español y la que desaparece en inglés no es el idioma: es el permiso que se da para ocupar espacio.",
+      "Lo que cambió cuando dejé de mirar el nivel de mis alumnas y empecé a mirar su comportamiento bajo presión.",
+      "El patrón que se repite en casi todas las mujeres con las que trabajo: entienden mucho más de lo que producen.",
+      "Lo que una reunión internacional me enseñó sobre el miedo: no desaparece, se entrena alrededor de él.",
+      "Veo mujeres brillantes esconderse en reuniones, no porque no sepan, sino porque no se sienten con permiso de ocupar espacio.",
+      "La mayoría de las profesionales con las que trabajo no tienen un problema de inglés. Tienen un problema de transferencia.",
+      "Creo que el inglés profesional funciona mucho más como una habilidad de rendimiento que como una materia.",
+      "La pregunta que más me dice sobre una alumna nueva no es su nivel: es qué le pasa a su inglés bajo presión.",
+      "Diagnosticar mal si un error es fosilizado o un vacío de base es la forma más común de perder meses sin avanzar.",
+      "Cada bot que uso tiene un fundamento psicopedagógico detrás. No es un ChatGPT que tira feedback genérico: cada uno está pensado para un objetivo concreto.",
+      "Una alumna no solo tiene un problema con el inglés. Puede tener síndrome del impostor, perfeccionismo, miedo a no merecer el puesto. Si solo miro el error, no veo lo que realmente está pasando.",
+      "Ayudo a mis alumnas a encontrar su superpoder del otro lado de lo que las hace sentir mal con ellas mismas. La misma intensidad que alguien ve como un defecto puede ser exactamente lo que la hace elegible.",
+      "La frustración de muchas alumnas al principio no era el inglés: era no saber medir su propio progreso. Por eso siempre defino con cada una de dónde parte, hacia dónde va y qué vamos a medir."
+     ]
+    },
+    "historia-de-marca": {
+     "nombre": "Historia de Marca",
+     "pauta": "Tu propia historia con el inglés, en piezas. De Marcela a Londres a hoy. Siempre cierra conectando con la alumna.",
+     "ideas": [
+      "Mi mamá me mandaba todas las tardes a la casa de Marcela, mi profesora de inglés. No estudiábamos de forma tradicional: cocinábamos, bailábamos, íbamos de compras. Aprendía inglés sin darme cuenta de que estaba aprendiendo inglés.",
+      "En mi casa éramos muchos hermanos y sentía que no tenía tanta atención. En la casa de Marcela me sentía como hija única, vista, segura. Eso fue lo primero que el inglés significó para mí.",
+      "A los 15, por una crisis en el país, nos fuimos a vivir a Madrid. Mi papá, con miedo de que me “drogaran” acá, me mandó a un colegio privado carísimo que en realidad no podíamos pagar.",
+      "Me costó tanto adaptarme académicamente en ese colegio nuevo que llamaron a mis padres para avisar que iba a repetir el año.",
+      "Lo único en lo que me destacaba era inglés. Tuvieron que abrir un grupo nuevo en todo el colegio, no solo en mi clase, para que otra alumna y yo pudiéramos rendir el Proficiency de Cambridge.",
+      "No elegí estudiar inglés por vocación al idioma. Lo elegí porque era mi lugar seguro, donde me sentía valiosa, justo cuando dejé psicología porque mi papá se había enfermado de Alzheimer.",
+      "A los 21 me fui sola a Londres a estudiar, porque tenía un perfeccionismo extremo y ninguna universidad de Buenos Aires me parecía suficiente.",
+      "En España aprendí algo que no esperaba: incluso hablando el mismo idioma, la comunicación puede ser muy difícil cuando cambia la cultura y la jerga.",
+      "Trabajé en colegios que cambiaba todo el tiempo porque nunca encontraba mi forma de enseñar. Una vez un alumno dibujó el sistema solar en vez de copiar del libro, y la directora le rompió el dibujo. A mí me pareció fantástico que aprendiera así.",
+      "Tuve ataques de pánico constantes por el sistema tradicional hasta que renuncié sin saber qué iba a hacer después.",
+      "Con la herencia de mi papá, que había fallecido, hice dos inversiones grandes sin saber si me iban a resultar: estudiar Health Coaching en Estados Unidos y una mentoría de negocios.",
+      "El día que entendí que mi trabajo ya no era enseñar inglés. Era aprender a liderarme primero a mí misma."
+     ]
+    },
+    "vulnerabilidad": {
+     "nombre": "Vulnerabilidad / Humanidad",
+     "pauta": "Lo que te costó, lo que todavía te cuesta, lo que aprendiste tarde. Nunca termina en moraleja fácil.",
+     "ideas": [
+      "Pasé casi un año y medio dando clases enfocadas solo en desarrollo personal, respirar y meditar, hasta que entendí que pensar bonito no alcanza: mis alumnas también necesitaban estructura.",
+      "Toda mi vida tuve mucha energía y fui muy intensa, y durante años lo viví como mi lado negativo, hasta que entendí que del otro lado de eso estaba mi superpoder.",
+      "Desde chica desarrollé habilidades de comunicación muy por encima de mis compañeritos, no porque fuera superdotada, sino porque en mi casa todos eran adultos y tuve que aprender a comunicarme para que me escucharan.",
+      "Eso mismo me costó tener amigas de mi edad. Me sentí distinta toda mi vida.",
+      "Dejar a mi coach anterior y empezar a tomar yo sola las decisiones de mi negocio fue uno de los momentos más incómodos de mi carrera como emprendedora.",
+      "Me cuesta muchísimo adaptar mi forma de comunicar (estructurada, profunda, con tiempo) al formato de Instagram. Si fuera por mí, grabaría un podcast.",
+      "Cuando entré a una nueva mentoría me encontré con otras cinco profesoras de inglés que ya hacían trabajo de mentalidad y síndrome del impostor. Sentí una herida profunda: ¿qué tengo yo de especial?",
+      "Entendí que mi valor no está en ser única en el tema. Está en cómo viví mi propia teoría: una adaptación cultural a los 15, la enfermedad de mi papá, ser la menor de seis hermanos, ataques de ansiedad a los 15 cuando mi papá estaba por morir y yo estaba sola en otro país.",
+      "El momento que más me cambió como persona no fue el más triste. Fue cuando renuncié a mi último colegio para animarme a emprender, sin saber si era capaz de hacer otra cosa.",
+      "En ese mismo momento conocí a mi marido, hablante nativo, y empecé a dudar de mi propio valor comparándome con él.",
+      "Dudo de mí misma todo el tiempo. Ya tengo herramientas para no dejar que eso me detenga: no se trata de no dudar, se trata de hacerlo aunque dudes.",
+      "Creía que hacer lo que amás hacía que el dinero llegara solo. Hoy sigo creyendo en eso, pero también entendí que mi salud no es negociable."
+     ]
+    },
+    "valores-de-marca": {
+     "nombre": "Valores de Marca",
+     "pauta": "Lo que admirás, lo que no negociás, lo que buscás en una alumna. Filtra por afinidad, no por nivel.",
+     "ideas": [
+      "No creo que las personas exitosas duden menos. Creo que aprendieron a actuar aunque dudaran.",
+      "No admiro a la gente más talentosa. Admiro a la gente que hace.",
+      "La autonomía es una de las habilidades más importantes que una persona puede desarrollar.",
+      "No quiero alumnas que me necesiten para siempre. Quiero alumnas que aprendan a resolver.",
+      "Creo que una buena mentora no crea dependencia. Desarrolla criterio.",
+      "Hay una cualidad que valoro mucho más que el talento: la constancia.",
+      "Si hay algo que me cuesta profundamente es trabajar con personas que esperan que otros resuelvan su vida.",
+      "Las alumnas que más disfruto acompañar tienen algo en común: hacen antes de sentirse listas.",
+      "Me interesa mucho más una alumna comprometida que una alumna brillante.",
+      "Mi trabajo termina cuando una alumna deja de pensar “¿qué haría Flor?” y empieza a preguntarse “¿qué creo que es lo mejor en esta situación?”.",
+      "Admiro profundamente a la gente constante, determinada, que resuelve y es autónoma. No puedo trabajar con personas que actúan como víctimas.",
+      "Mi programa está dividido en tres partes que siempre van juntas: la técnica, la mentalidad y el entrenamiento. Ninguna alcanza sola.",
+      "No me gusta dar clases sin un objetivo concreto. Prefiero una alumna que aplica, aunque sea de a poco, a una que solo quiere practicar porque sí."
+     ]
+    },
+    "detras-de-escena": {
+     "nombre": "Detrás de Escena",
+     "pauta": "Cómo nació el método y por qué cada herramienta funciona como funciona. Es el contra-mecanismo: la razón por la que esto no es otro curso.",
+     "ideas": [
+      "El día que entendí que una clase por semana nunca iba a ser suficiente, y por qué empecé a diseñar para el espacio entre clases.",
+      "Por qué dejé de usar role plays genéricos para siempre. La reunión del martes que me lo confirmó.",
+      "El error que vi repetirse en casi todas mis alumnas y que dio origen a Narrative Flow.",
+      "La pregunta que me obsesionó durante años: cómo hacer que una palabra que una alumna entiende leyendo también aparezca cuando habla.",
+      "Lo que miro antes de conocer a una alumna nueva: no es su nivel, es qué le pasa a su inglés bajo presión.",
+      "Por qué la pronunciación aparece al final de mi proceso y no al principio.",
+      "La decisión que cambió mi forma de enseñar: dejé de preguntarme cómo enseñar mejor una regla y empecé a preguntarme qué necesita esta mujer para llegar preparada a su próxima reunión.",
+      "Por qué incorporé IA en mis programas: no para reemplazar nada de lo que hago, sino para todo lo que yo no puedo estar ahí para sostener.",
+      "Cómo funciona el Role Play por dentro: el bot no interrumpe para corregir, sostiene la conversación, hace preguntas inesperadas y agrega presión, como un jefe o cliente real.",
+      "Por qué Color Method tiene 3 etapas (la descubro, la entiendo, la uso): el objetivo no es sumar vocabulario nuevo, es subir el que ya tenés de pasivo a activo.",
+      "Lo primero que le pido a una alumna antes de la primera clase: un cuestionario de contexto profesional con producción real en inglés.",
+      "Cómo distingo un error fosilizado de un vacío de base: el primero se corrige con feedback puntual sobre su propio material, el segundo necesita una explicación nueva.",
+      "Por qué el Role Play tiene que ser la reunión real de esta semana, no una parecida.",
+      "El verdadero trabajo empieza cuando termina la clase: lo que hacés entre sesión y sesión es lo que cambia tu inglés, no la sesión en sí.",
+      "Uso el framework PREP (Point, Reason, Example, Point) para que una alumna pueda dar una opinión o una recomendación sin perder el hilo bajo presión.",
+      "Uso el framework STAR (Situation, Task, Action, Result) para que en una entrevista no se vaya por las ramas contando todo sin estructura.",
+      "Para presentaciones uso el framework de 3 Actos: setup, contenido, resolución. Así una alumna no necesita memorizar palabra por palabra: sabe que tiene 3 actos y dentro de cada uno puede improvisar.",
+      "Cuando un error fosilizado es muy recurrente, a veces propongo algo lúdico: cada vez que lo dice, hacemos una sentadilla. Convierte el error en algo divertido en vez de vergonzoso.",
+      "El Color Method tiene 3 colores: lo que la alumna ya tiene activo (verde), lo que conoce pero nunca usa (amarillo), lo que no conoce y necesita (rojo). No avanzo a vocabulario nuevo hasta que el anterior está integrado."
+     ]
+    }
+   }
+  },
+  "transformacion": {
+   "nombre": "Transformación y Deseo",
+   "objetivo": "prueba",
+   "funcion": "Muestra el resultado con nombre y contexto real. Es lo que convierte: la alumna se ve a sí misma en la historia.",
+   "peso": 0.3,
+   "subtipos": {
+    "transformacion-completa": {
+     "nombre": "Transformación Completa",
+     "pauta": "El arco entero, de antes a después, con nombre y contexto real. La prueba más fuerte que tenés.",
+     "ideas": [
+      "Mónica llegó diciendo que su vocabulario de RR.HH. estaba “guardado en un cajón”. Meses después tuvo una entrevista con Tesla en inglés y salió diciendo que se sintió cómoda y segura.",
+      "Isis llegó pensando que nunca la contratarían por su inglés. Hoy dice que el programa fue exactamente el lugar al que tenía que llegar.",
+      "Betiana llevaba 30 años aprendiendo inglés sin sentir un estímulo real. Después de entrenar con su material de trabajo real, me dijo que generé un estímulo que nadie había logrado en esos 30 años.",
+      "Lina se había puesto ella misma el límite del idioma y dejaba pasar oportunidades por miedo a no dar resultados. Empezó a quedarse en las conversaciones en vez de buscar la salida.",
+      "Stephie llegaba en pánico absoluto a cada reunión después de 3 años intentando mejorar con otros métodos. El cambio no fue más inglés: fue entrenar sus situaciones reales en Pfizer.",
+      "Belem pasó de depender del traductor y no abrir la boca en el grupo grande, a leer contenido en inglés por su cuenta sin que nadie se lo pidiera."
+     ]
+    },
+    "mini-transformacion": {
+     "nombre": "Mini Transformación",
+     "pauta": "Cambios chicos que, vistos de cerca, valen mucho. Bajan la barrera: el progreso se ve posible.",
+     "ideas": [
+      "Belem: “Hoy leí varias cosas en inglés y ya no en español como lo hacía. No fue mucho, pero ya estoy intentando.”",
+      "Mónica practicó sola con el bot de Narrative Flow antes de que yo le dijera nada, y trajo el feedback a la clase siguiente.",
+      "Isis, después de su primera entrevista practicada con role play: “me sentí un poco nerviosa, y ahora repasando dije: ahh, eso se puede decir así.”",
+      "Adriana ajustó una sola palabra en su frase (“I need” por “I’m ready for”) y cambió por completo cómo se la percibía.",
+      "Mónica identificó sola su propio error antes de que yo se lo señalara: “eliminate the a, because news is uncountable.”",
+      "Isis completó sola una frase en voz pasiva que antes no le salía: “the taxes haven’t been paid yet”, autocorrigiéndose de “has” a “have”."
+     ]
+    },
+    "avance-en-proceso": {
+     "nombre": "Avance en Proceso",
+     "pauta": "Alumnas a mitad de camino. Todavía no es el cierre, pero ya hay movimiento real. Da credibilidad: no todo es milagro.",
+     "ideas": [
+      "Betiana ya participa y ya no se esconde en reuniones. Ahora estamos trabajando algo distinto: sonar como una senior professional, no solo comunicarse.",
+      "Graciela está dejando de memorizar sus presentaciones de memoria y empezando a construir estructuras que le permitan improvisar dentro de lo que preparó.",
+      "Isis está construyendo, una estructura a la vez, su inglés técnico de contabilidad: pasó de no saber armar una voz pasiva a manejarla en presente, pasado y futuro.",
+      "Mónica está en el proceso de dejar de depender de la clase para producir inglés: ya practica sola entre sesiones.",
+      "Betiana está aprendiendo a pedir clarificación en vez de decir “okay, okay” cuando no entiende del todo lo que le dicen en una reunión."
+     ]
+    },
+    "logro-cotidiano": {
+     "nombre": "Logro Cotidiano",
+     "pauta": "Lo que pasa en una clase puntual, sin necesitar el arco completo. Prueba de alta frecuencia.",
+     "ideas": [
+      "Mónica corrigió sola un error que llevaba meses repitiendo, sin que nadie se lo señalara.",
+      "Isis usó correctamente la voz pasiva en una frase que armó completamente sola, en clase.",
+      "Adriana entregó su introducción profesional completa, de corrido, sin bloquearse, después de una hora de trabajo enfocado.",
+      "Betiana practicó su reunión real de trabajo con el bot antes de que se lo pidiera, y cuando terminó preguntó si podían seguir.",
+      "Belem leyó contenido en inglés en su día a día por primera vez, sin que fuera tarea de clase.",
+      "Mónica usó en una entrevista real una frase que habíamos trabajado la semana anterior, y dijo que sintió que “los conocimientos se movieron un poco y salieron más.”"
+     ]
+    },
+    "testimonio-emocional": {
+     "nombre": "Testimonio Emocional",
+     "pauta": "En sus propias palabras, tal como las dijeron. La cita textual es lo más creíble y lo más seguro ante las políticas de Meta.",
+     "ideas": [
+      "Stephie: “Yo quiero tranquilidad. Quiero poder mostrar lo que soy profesionalmente. Que no sea una angustia más dentro de todos los días laborales.”",
+      "Mónica: “Contigo me siento tranquila, en un espacio de confianza. Pero tú no vas a estar conmigo en las juntas, así que tengo que poder estar preparada.”",
+      "Lina: “Sueño con poder entrar a una reunión sintiéndome segura, y no solo adornando el lugar.”",
+      "Betiana: “Vos sos muy crack con lo que hacés y generás ese estímulo que en mis 30 años de aprender inglés nadie lo hizo.”",
+      "Isis: “Créeme que siento que efectivamente era acá donde tenía que llegar. Hoy reconfirmado.”",
+      "Adriana, después de entrenar su introducción profesional, recibió este feedback del bot: “Your response stayed focused on your professional background, which is exactly what the interviewer is looking for.”"
+     ]
+    },
+    "caso-de-estudio": {
+     "nombre": "Caso de Estudio",
+     "pauta": "El desglose técnico: situación, método aplicado, resultado. Es la pieza que más precalifica.",
+     "ideas": [
+      "Adriana, neuróloga con 20 años de experiencia: una hora entera de trabajo sobre su introducción profesional, con shadowing y corrección en tiempo real, hasta que pudo decirla de corrido.",
+      "Betiana, Statutory Reporting Manager LATAM: no podía explicar el IVA argentino en inglés a un colega de Miami. Trabajamos los chunks exactos (“output VAT”, “offset against an income tax prepayment”) hasta que la segunda vez que lo explicó, salió completo.",
+      "Isis, contadora en Costa Rica: de no saber construir una voz pasiva a manejarla en presente, pasado, perfecto y futuro, con vocabulario de financial statements y auditorías.",
+      "Betiana trabajando el Voice Method (View the Room, Open with your Proposal, Invest in your Words, Claim your Space, Exit with Action): identificó que ya no le falta sostener su posición, le falta animarse a pedir clarificación en vez de ceder.",
+      "Adriana practicando el método STAR sobre un caso real de un ensayo clínico de fase 3 con reclutamiento atrasado, hasta poder contarlo con números y estructura de impacto medible.",
+      "Así se entrena una reunión difícil antes de que pase: practicar con el framework PREP (Point, Reason, Example, Point) un pedido de más recursos con un deadline adelantado, hasta pasar de una respuesta entrecortada y reactiva a abrir con la propuesta y cerrar ofreciendo el siguiente paso.",
+      "Así se combinan las herramientas en una sola clase: Role Play para practicar la respuesta de entrevista, Narrative Flow para corregir los errores de esa respuesta, y Shadowing para trabajar la pronunciación de la versión ya corregida. La alumna sale con una respuesta correcta, con vocabulario profesional, y que puede pronunciar con fluidez."
+     ]
+    },
+    "antes-vs-despues": {
+     "nombre": "Antes vs Después",
+     "pauta": "El contraste explícito, una sola idea por alumna. El formato visual es obvio: dos columnas.",
+     "ideas": [
+      "Antes: Betiana decía “okay, okay” aunque no estuviera de acuerdo. Después: aprendió a pedir clarificación y sostener su posición.",
+      "Antes: Belem dependía del traductor y el ChatGPT para todo, y no abría la boca en el grupo grande. Después: empezó a leer contenido en inglés por su cuenta.",
+      "Antes: Adriana se bloqueaba al decir su propia introducción profesional. Después: la entregó completa, de corrido, en una entrevista simulada.",
+      "Antes: Mónica sentía que su vocabulario de RR.HH. estaba guardado en un cajón. Después: tuvo una entrevista con Tesla en inglés y se sintió cómoda.",
+      "Antes: Isis pensaba que no la contratarían por su inglés. Después: confirmó que el programa era el lugar correcto para ella.",
+      "Antes: Betiana llevaba 30 años de inglés sin sentir un estímulo real. Después: encontró, por primera vez, un método que la hizo avanzar."
+     ]
+    },
+    "transformacion-interna": {
+     "nombre": "Transformación Interna",
+     "pauta": "Lo que cambia por debajo del inglés: identidad, voz, permiso para ocupar espacio. La pieza más emocional del banco.",
+     "ideas": [
+      "Sentís que quien habla en inglés no sos vos. Esto es lo que cambia cuando empezás a construir tu versión en inglés, no solo tu nivel.",
+      "La distancia entre quién eres en español y quién eres en inglés no se cierra con más gramática: se cierra cuando tu voz profesional empieza a aparecer también ahí.",
+      "Mónica: “los conocimientos que tengo se movieron tantito y salieron más” — no aprendió contenido nuevo, recuperó acceso a lo que ya tenía.",
+      "El objetivo nunca fue que una alumna se sienta bien conmigo en clase. Es que pueda sostenerse cuando yo no estoy.",
+      "Cuando el inglés deja de sentirse como una amenaza, la profesional que ya eras en español empieza a aparecer también en inglés."
+     ]
+    }
+   }
+  }
+ },
+ "formatos": {
+  "carrusel": {
+   "nombre": "Carrusel",
+   "laminas": "5 a 7",
+   "cuando": "Ideas que necesitan desarrollo: Hoja de Ruta, Caso de Estudio, Transformación Completa, Antes vs Después."
+  },
+  "reel": {
+   "nombre": "Reel a cámara",
+   "laminas": "30-45 seg",
+   "cuando": "Ideas que funcionan mejor dichas que leídas: Te lo digo con amor, Opinión Picante, Historia de Marca, Vulnerabilidad, Detrás de Escena."
+  },
+  "post": {
+   "nombre": "Post simple",
+   "laminas": "1 imagen",
+   "cuando": "Una frase que se sostiene sola: Mito/Creencia, Verdadero Problema, Receta Fallida, Testimonio, Valores."
+  }
+ },
+ "ctas": [
+  {
+   "id": "dm-atwork",
+   "texto": "Escribime AT WORK por DM y te cuento cómo es el proceso.",
+   "tipo": "dm"
+  },
+  {
+   "id": "dm-reuniones",
+   "texto": "Escribime REUNIONES por DM y vemos tu caso puntual.",
+   "tipo": "dm"
+  },
+  {
+   "id": "dm-libre",
+   "texto": "Escribime LIBRE por DM si querés dejar de esconderte en las reuniones.",
+   "tipo": "dm"
+  },
+  {
+   "id": "dm-guia",
+   "texto": "Comentá GUÍA y te mando las S.O.S. Rescue Phrases: qué decir cuando te quedás en blanco o te interrumpen.",
+   "tipo": "lead-magnet"
+  },
+  {
+   "id": "dm-smalltalk",
+   "texto": "Comentá SMALL TALK y te mando la guía de los 5 minutos antes de la reunión.",
+   "tipo": "lead-magnet"
+  },
+  {
+   "id": "guardar",
+   "texto": "Guardalo para tu próxima reunión difícil.",
+   "tipo": "guardado"
+  },
+  {
+   "id": "comentario",
+   "texto": "¿Te pasa? Contámelo en comentarios.",
+   "tipo": "conversacion"
+  },
+  {
+   "id": "cohorte",
+   "texto": "La próxima cohorte abre en octubre. Escribime AT WORK por DM si querés tu lugar.",
+   "tipo": "venta"
+  }
+ ],
+ "reglas": {
+  "ritmo": "4 piezas por semana: lunes, martes, jueves, viernes.",
+  "rotacion_semanal": {
+   "1": {
+    "tipo": "concientizacion",
+    "objetivo": "alcance"
+   },
+   "2": {
+    "tipo": "diferenciacion",
+    "objetivo": "posicionamiento"
+   },
+   "4": {
+    "tipo": "transformacion",
+    "objetivo": "prueba"
+   },
+   "5": {
+    "tipo": "concientizacion",
+    "objetivo": "alcance"
+   }
+  },
+  "no_repetir": "Ninguna idea se usa dos veces. Las publicadas quedan registradas y se saltean.",
+  "subtipo_no_consecutivo": "No se repite un subtipo hasta que pasaron al menos otras dos piezas del mismo tipo.",
+  "cierre_de_mes": "El último viernes del mes cierra vendiendo: pasa a Transformación y Deseo con la llamada a la cohorte.",
+  "una_sola_cta": "Una llamada a la acción por pieza. Dos CTAs = cero CTAs."
+ }
+}
