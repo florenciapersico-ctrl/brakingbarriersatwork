@@ -1,0 +1,180 @@
+{
+ "actualizado": "2026-08-25",
+ "fuente": "MES_AT_WORK_AGO_SEP (1) (1).xlsx · 1M14AIysiVN_9dqk7G3_8U4qWikxY17-U",
+ "objetivo_agosto": "Calentar audiencia para cupos de octubre (3) y noviembre (5). CERO venta directa. Solo lista de espera.",
+ "cadencia": "LUN Concientización · MIÉ Diferenciación · VIE Concientización · SÁB Concientización · DOM Transformación",
+ "ejes_tematicos": [
+  "Small Talk",
+  "Questions Under Pressure",
+  "Executive Communication",
+  "Listening",
+  "Pronunciation / Connected Speech",
+  "Meetings / Disagreeing",
+  "Executive Introduction",
+  "Visibility Gap",
+  "Perfectionism",
+  "Leadership"
+ ],
+ "piezas": [
+  {
+   "fecha": "2026-08-11",
+   "estado": "publicado",
+   "tipo": "Concientización",
+   "subtipo": "Verdadero problema",
+   "eje": "Meetings",
+   "hook": "Dijiste que sí aunque no estabas de acuerdo"
+  },
+  {
+   "fecha": "2026-08-13",
+   "estado": "publicado",
+   "tipo": "Diferenciación",
+   "subtipo": "Detrás de escena",
+   "eje": "Diferenciación",
+   "hook": "Role play real Tetra Pak / aeropuerto El Dorado"
+  },
+  {
+   "fecha": "2026-08-15",
+   "estado": "publicado",
+   "tipo": "Concientización",
+   "subtipo": "Error invisible",
+   "eje": "Q Under Pressure",
+   "hook": "Tu primer instinto al responder una pregunta inesperada es lo que te hace sonar insegura"
+  },
+  {
+   "fecha": "2026-08-16",
+   "estado": "publicado",
+   "tipo": "Concientización",
+   "subtipo": "Verdadero problema",
+   "eje": "Small Talk",
+   "hook": "El small talk no es superficial. Es lo que decide si te incluyen"
+  },
+  {
+   "fecha": "2026-08-17",
+   "estado": "publicado",
+   "tipo": "Transformación y Deseo",
+   "subtipo": "Avance en proceso",
+   "eje": "Executive Comm.",
+   "hook": "La primera vez que salió de una reunión sin quedarse pensando en todo lo que dijo de más"
+  },
+  {
+   "fecha": "2026-08-18",
+   "estado": "publicado",
+   "tipo": "Concientización",
+   "subtipo": "Mito/creencia",
+   "eje": "Visibility Gap",
+   "hook": "Llevas años estudiando inglés. ¿Por qué sigues bloqueándote cuando importa?"
+  },
+  {
+   "fecha": "2026-08-20",
+   "estado": "publicado",
+   "tipo": "Diferenciación",
+   "subtipo": "Historia de marca",
+   "eje": "Diferenciación",
+   "hook": "El inglés siempre fue mi lugar seguro. Por eso no puedo enseñarlo como si fueran verbos"
+  },
+  {
+   "fecha": "2026-08-22",
+   "estado": "publicado",
+   "tipo": "Concientización",
+   "subtipo": "Costo de no cambiar",
+   "eje": "Visibility Gap",
+   "hook": "Cuánto te está costando, en oportunidades reales, quedarte callada"
+  },
+  {
+   "fecha": "2026-08-23",
+   "estado": "publicado",
+   "tipo": "Concientización",
+   "subtipo": "Nueva perspectiva",
+   "eje": "Perfectionism",
+   "hook": "No te falta inglés. Te falta saber qué hacer en los 5 segundos antes de hablar"
+  },
+  {
+   "fecha": "2026-08-24",
+   "estado": "publicado",
+   "tipo": "Transformación y Deseo",
+   "subtipo": "Logro cotidiano",
+   "eje": "Executive Comm.",
+   "hook": "Creyó que su problema era gramática. No lo era"
+  },
+  {
+   "fecha": "2026-08-25",
+   "estado": "planificado",
+   "tipo": "Concientización",
+   "subtipo": "Receta fallida",
+   "eje": "Listening",
+   "hook": "Practicaste con Duolingo todos los días. Viste series sin subtítulos. Hiciste clases de gramática. Y en la reunión internacional del martes… te perdis"
+  },
+  {
+   "fecha": "2026-08-27",
+   "estado": "planificado",
+   "tipo": "Diferenciación",
+   "subtipo": "Opinión picante",
+   "eje": "Diferenciación",
+   "hook": "Hay algo de la industria del inglés que me tiene harta. Y lo voy a decir."
+  },
+  {
+   "fecha": "2026-08-29",
+   "estado": "planificado",
+   "tipo": "Concientización",
+   "subtipo": "Error invisible",
+   "eje": "Executive Communication",
+   "hook": "El error que cometes cada vez que das una actualización de tu proyecto en inglés. Y nadie te lo dijo."
+  },
+  {
+   "fecha": "2026-08-30",
+   "estado": "planificado",
+   "tipo": "Concientización",
+   "subtipo": "Hoja de ruta",
+   "eje": "Roadmap AT WORK",
+   "hook": "Las 5 etapas por las que pasa cualquier profesional que va de sobrevivir a liderar en inglés. Y por qué el orden importa."
+  },
+  {
+   "fecha": "2026-08-31",
+   "estado": "planificado",
+   "tipo": "Transformación y Deseo",
+   "subtipo": "Testimonio emocional",
+   "eje": "Leadership",
+   "hook": "Esta semana me llegó un mensaje después de una reunión que me hizo pararme a pensar."
+  },
+  {
+   "fecha": "2026-09-01",
+   "estado": "planificado",
+   "tipo": "Concientización",
+   "subtipo": "Verdadero problema",
+   "eje": "Connected Speech",
+   "hook": "No entiendes a los nativos cuando hablan rápido. Y crees que es porque no tienes suficiente nivel.\n\nPero casi nunca es eso."
+  },
+  {
+   "fecha": "2026-09-03",
+   "estado": "planificado",
+   "tipo": "Diferenciación",
+   "subtipo": "Vulnerabilidad",
+   "eje": "Diferenciación",
+   "hook": "Hay algo que muy pocas personas saben de mis clases."
+  },
+  {
+   "fecha": "2026-09-05",
+   "estado": "planificado",
+   "tipo": "Concientización",
+   "subtipo": "Objeción",
+   "eje": "Inversión",
+   "hook": "Invertir en inglés profesional es caro. Eso me dicen.\n\nY entiendo por qué lo piensan."
+  },
+  {
+   "fecha": "2026-09-06",
+   "estado": "planificado",
+   "tipo": "Concientización",
+   "subtipo": "Diagnóstico",
+   "eje": "Diagnóstico AT WORK",
+   "hook": "El diagnóstico que ningún curso de inglés te va a hacer."
+  },
+  {
+   "fecha": "2026-09-07",
+   "estado": "planificado",
+   "tipo": "Transformación y Deseo",
+   "subtipo": "Antes vs Después",
+   "eje": "Meetings",
+   "hook": "Antes de AT WORK, una alumna mía mandaba sus ideas por Teams."
+  }
+ ]
+}

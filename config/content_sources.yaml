@@ -1,0 +1,121 @@
+# CONTENT OS — Registro de fuentes
+# Breaking Barriers at Work / AT WORK
+#
+# Jerarquía obligatoria cuando dos fuentes se contradicen:
+#   1. Lo que Flor dice explícitamente ahora
+#   2. Roadmap CANONICAL de AT WORK
+#   3. Reglas personalizadas "Estilo Nadia" de Flor
+#   4. Guía estratégica personalizada / Guía 4
+#   5. Materiales originales de Nadia
+#   6. Sistema de contenido de Nadia
+#   7. Finmark
+#   8. Historial editorial
+#   9. Inferencias del modelo
+#
+# Una inferencia NUNCA reemplaza un dato faltante.
+# Si falta precio, cupo, fecha, resultado, testimonio o permiso:
+#   devolver MISSING_REQUIRED_FACT y preguntarle a Flor.
+
+roadmap:
+  canonical:
+    id: 12ZRNAqvEiStd_-iSIEK3zi_bdCo6raDl
+    titulo: AT_WORK_Etapa_2_Roadmap_Completo_Final (4).docx
+    status: canonical
+    nota: >
+      No se reemplaza automáticamente por tener "Final" en el nombre.
+      Solo cambia cuando Flor marca una versión nueva como aprobada.
+      Nunca mezclar componentes de un roadmap histórico con el canonical.
+
+content_os:
+  - id: 1PzTwffiOeaxIvrWbtii6t_XEdmjbcIlLWsDFYiecMbs
+    rol: 00 — READ ME FIRST (jerarquía de fuentes y reglas generales)
+    prioridad: 1
+    status: leido
+  - id: 1uAKMlsZo7KRNxsE9-adkU4WM4YzRdKY3gOQ4eFMhQ3E
+    rol: 01 — MASTER INSTRUCTIONS (clienta ideal, posicionamiento, criterios)
+    prioridad: 1
+    status: pendiente
+  - id: 1g5y1Kb3JA1WgqUhS1hZ7DAnlvhxausj2LyTGORa3Wzw
+    rol: 02 — MONTHLY WORKFLOW (proceso completo del mes)
+    prioridad: 1
+    status: pendiente
+  - id: 1PeJgklWZyPUWJhiYWsRo2DCCjWw6YW0jVxy-x3NwRgA
+    rol: AT WORK CONTENT TERRITORIES (roadmap → microterritorios editoriales)
+    prioridad: 1
+    status: pendiente
+  - id: 1eH5jvanhTe1h6QvS9jYVFxYrWLZZBLbvcUTesmiOhyM
+    rol: QUALITY CONTROL — NADIA × FINMARK (gates obligatorios)
+    prioridad: 1
+    status: pendiente
+  - id: 1_KHNmRlqr00Z8cnXTdWAhV4OqOrvsRpfvKL2vyC8-do
+    rol: MONTHLY BRIEF (objetivo comercial, cupos, fechas, restricciones)
+    prioridad: 1
+    status: pendiente
+    nota: Variable por mes. Sin esto no se arma el mes.
+
+nadia:
+  personalizado:
+    id: 1AX_mNe2HhXpH4ni1AeumMQduO5tfW2rhg0Dazg766bs
+    rol: CÓMO CREAR MI CONTENIDO "ESTILO NADIA"
+    prioridad: 3
+    status: pendiente
+  originales:
+    - {id: 1qPbmMVum1gJEj0gNpPF7vxDn97i8-SsP, rol: Concientización, prioridad: 5}
+    - {id: 1a1mWAODVSlr_o0JiBh_mu9e4fhH1wIZ9, rol: Diferenciación, prioridad: 5}
+    - {id: 12UuDDJSFmEVSRMu4wNswAqfipxF15nS5, rol: Transformación / resultados, prioridad: 5}
+    - {id: 1q1uzn93J-mtonCXmF-jdRkNhxw58fBPz, rol: Filtro / Repele, prioridad: 5}
+    - {id: 1RuR8neXJn12nzYfQLLOpzubKRtUwzvjO, rol: Sistema de contenido de Nadia, prioridad: 6}
+    - {id: 1OckDa7C-b47Lyr7Lhjerj73sTvhwz70f, rol: Guía estratégica personalizada / Guía 4, prioridad: 4}
+
+finmark:
+  id: 1uAm0L8H5mIzqoUHtKco4CVn7t0B19XxxQBmqcI9W3ao
+  rol: Objetivo, identidad, hook, rehook, valor, AHA, CTA, accionabilidad
+  prioridad: 7
+  objetivos_validos: [GROWTH, CONNECTION, SALES]
+  nota: >
+    Nadia pregunta "¿entiendo el problema?". Finmark pregunta "¿esta pieza
+    cumple su objetivo?". No confundirlos ni fusionarlos.
+
+transcripts:
+  folder_id: 1JQsEqQL8REQrEHP4xsjSg85PGSoiqGqL
+  nota: >
+    Hay varias carpetas llamadas "Google Meet" en el Drive. Usar SIEMPRE este id,
+    nunca buscar por nombre.
+  protocolo:
+    id: 1VYew0ZZ1_pG8uucaJw19WCDtVD0y6anFEfuG0bCdclg
+    rol: 08_TRANSCRIPTS_VOC_PROTOCOL
+    status: pendiente
+  privacidad: >
+    Los transcripts son investigación privada, NO material publicable.
+    Cadena obligatoria: RAW_TRANSCRIPT → PRIVATE_RESEARCH_EXTRACTION →
+    ANONYMIZED_INSIGHT → CONTENT_EVIDENCE. El generador de contenido solo
+    accede a ANONYMIZED_INSIGHT, salvo explicit_publication_permission = true.
+    Los transcripts crudos NO se guardan en este repositorio.
+  elegibilidad:
+    - ¿Es mujer profesional?
+    - ¿Es hispanohablante?
+    - ¿Tiene aproximadamente nivel B1-B2?
+    - ¿YA usa inglés en su trabajo?
+    - ¿La sesión tiene suficiente evidencia laboral?
+    resultado: [VOC_ELIGIBLE, VOC_INELIGIBLE, VOC_UNCERTAIN]
+    regla: Solo VOC_ELIGIBLE alimenta research. Sin evidencia suficiente, EXCLUDE. No inferir.
+
+memoria_editorial:
+  fuente:
+    id: 1M14AIysiVN_9dqk7G3_8U4qWikxY17-U
+    titulo: MES_AT_WORK_AGO_SEP
+    rol: Historial editorial real (agosto → 7 de septiembre 2026)
+    status: leido
+  local: contenido/memoria-editorial.json
+  regla: Nunca asumir que una pieza planificada fue publicada.
+
+app:
+  url: https://claude.ai/code/artifact/65185f6a-03fe-49a8-a9ed-4af91391d6f1
+  rol: Dashboard "qué publico hoy". No genera texto; muestra lo ya escrito.
+
+pendiente_de_confirmar:
+  - >
+    Los días de la semana del calendario no coinciden con las fechas de 2026.
+    El archivo dice "LUN 25 AGO" pero el 25 de agosto de 2026 es martes, y
+    "MIE 27" cae jueves. Mandan las FECHAS (Flor lo confirmó), pero hay que
+    decidir si el ritmo se corrige a los días reales.

@@ -1,116 +1,131 @@
 ---
 name: contenido
-description: Escribe el contenido de Instagram de Breaking Barriers at Work con el estándar de Nadia. Usalo cuando se hable de armar el mes, escribir un posteo, carrusel o reel, revisar si un copy pasa el filtro, o recargar el banco de ideas. Se activa con "el mes de contenido", "qué publico", "escribime el posteo de", "pasalo por el filtro de Nadia", "Content OS".
+description: Escribe el contenido de Instagram de Breaking Barriers at Work / AT WORK con el sistema real de Flor. Usalo cuando se hable de armar el mes, escribir un posteo, carrusel o reel, revisar si un copy pasa el control de calidad, procesar transcripts de clase, o preguntar qué se publica hoy. Se activa con "el mes de contenido", "qué publico", "escribime el posteo de", "pasalo por el filtro", "Content OS", "transcripts".
 ---
 
-# Contenido — Breaking Barriers at Work
+# Content OS — Breaking Barriers at Work
 
-> ⚠️ **Este archivo se reescribió el 25/08/2026.** La primera versión tenía el
-> sistema de tipos equivocado (3 tipos en vez de 4), la estructura equivocada y
-> voseo en vez de tú. Lo que está acá ahora sale de los documentos reales de
-> Nadia. No volver a la versión anterior.
+> ⚠️ **Reescrito el 25/08/2026, segunda vez.** Las dos versiones anteriores estaban
+> mal: inventaban contenido desde un banco de ideas estático en vez de leer las
+> fuentes reales de Flor. Ese contenido ya estaba publicado y habría hecho repetir.
+> **Nada se escribe sin leer primero `config/content_sources.yaml`.**
 
-## Dónde está la verdad
+## La regla que rompió todo antes
 
-| Qué | Dónde |
-|---|---|
-| Los 4 tipos y sus estructuras | Drive › `MODULO CONTENIDO HIGH LEVEL` › **TUS TIPOS + SUBTIPOS DE CONTENIDO** |
-| El feedback de Nadia, textual | Drive › `MODULO CONTENIDO HIGH LEVEL` › **feedback contenido nadia** |
-| Posteos terminados de referencia | Drive › `MODULO CONTENIDO HIGH LEVEL` › **ejemplos de posteos** |
-| Banco de ideas crudas | `contenido/banco.json` (248 ideas) |
-| Septiembre 2026 escrito | `contenido/septiembre-2026.json` (17 posteos) |
+El contenido de Flor **no sale de un banco de ideas**. Sale de:
 
-## Los 4 tipos (son cuatro, no tres)
+```
+ROADMAP CANONICAL DE AT WORK   (qué problemas puede resolver legítimamente)
+        ∩
+TRANSCRIPTS DE CLASES REALES   (cómo aparece ese problema en la vida real)
+        ↓
+DIAGNÓSTICO DE FLOR
+        ↓
+CRITERIO NADIA + EJECUCIÓN FINMARK
+        ↓
+PIEZA
+```
 
-**1. Concientización** — abrir los ojos.
-Subtipos: verdadero problema · error invisible · mito/creencia · receta fallida ·
-hoja de ruta · costo de no cambiar · objeción · metodología · nueva perspectiva.
+El roadmap **no** se usa para inventar dolores.
+Los transcripts **no** se usan para redefinir el programa.
 
-> Estructura: **Hook (escena hiper-específica) → su realidad con detalle →
-> conclusión falsa → problema real → solución general → cierre con invitación.**
+## Antes de escribir una sola línea
 
-**2. Diferenciación** — que te elijan a vos.
-Subtipos: opinión picante · perspectiva única · historia de marca ·
-vulnerabilidad/humanidad · valores de marca · detrás de escena.
+1. Leer `config/content_sources.yaml` — ahí está cada fuente con su id y prioridad.
+2. Leer `contenido/memoria-editorial.json` — lo ya publicado y lo ya planificado.
+3. Verificar el MONTHLY BRIEF del mes: objetivo comercial, cupos, fechas.
+   Sin brief no se arma el mes.
 
-> Estructura: **quién sos y por qué hacés esto.** Nunca una explicación de
-> herramienta sin ángulo personal — eso es Concientización subtipo metodología.
+## Las tres capas
 
-**3. Transformación y Deseo** — el contenido nº1 de venta, dicho por Nadia.
-Subtipos: transformación completa · mini · avance en proceso · logro cotidiano ·
-testimonio emocional · caso de estudio · antes vs después · transformación interna.
+| Capa | Aporta | Pregunta |
+|---|---|---|
+| **Nadia** | Profundidad del diagnóstico, recorrido psicológico, posicionamiento | ¿Flor entiende el problema mejor de lo que su alumna lo entiende? |
+| **Finmark** | Objetivo (GROWTH / CONNECTION / SALES), hook, rehook, valor, AHA, CTA | ¿Esta pieza está construida para cumplir su objetivo? |
+| **AT WORK** | Verdad del producto, metodología real, territorios | ¿Esto es cierto sobre el programa? |
 
-> Estructura: **Hook = resultado concreto → Antes → Proceso (roadmap visible) →
-> Después (evidencia real) → Cierre = invitación explícita reconstruyendo el método.**
+Ninguna sustituye a las otras. "Estilo Nadia" **no** es copiar su voz ni sus hooks:
+es **calidad del diagnóstico**.
 
-**4. Filtro / Repele** — elevar percepción.
-Subtipos: requisito actitudinal · límite de marca · anti people pleasing ·
-"esto NO es para vos" · estándares · autonomía · clienta ideal vs tóxica ·
-verdad incómoda.
+## Arquitectura psicológica de una pieza
 
-> Estructura: **límite claro → por qué (con vulnerabilidad) → para quién sí →
-> declaración contundente → cierre/CTA opcional.**
+```
+SÍNTOMA / ESCENA → PENSAMIENTO PRIVADO → LO QUE ELLA CREE QUE SIGNIFICA
+→ GIRO → DIAGNÓSTICO DE FLOR → MECANISMO → AHA
+→ QUÉ NECESITA ENTRENAR DIFERENTE → OFERTA (si corresponde) → CTA
+```
 
-## Los seis filtros de Nadia
+Nunca saltar de "te pasa X" a "compra AT WORK". Primero demostrar comprensión.
 
-Todo posteo los tiene que pasar. En orden de cuál falla más seguido.
+**Regla del diagnóstico:** si el diagnóstico de Flor es igual a lo que la alumna
+ya cree, la pieza se rechaza. Hay identificación pero no expertise.
 
-1. **El hook es una escena, no una frase.** Test: si el hook serviría igual para
-   un post de fitness o de finanzas, está genérico. Bajalo al contexto laboral,
-   como si fuera una película. *"Cuando estés lista, lo hago"* falló por esto.
-2. **Un solo micro-ángulo por pieza.** El error que la hace sentir repetitiva es
-   meter la parte emocional + la estratégica + el acompañamiento en el mismo
-   carrusel. Cada una es un posteo distinto.
-3. **Que se vea el método, no la mentalidad.** Textual de Nadia: *"si cada vez que
-   me hablás del problema siempre te vas a que es un tema de mentalidad, yo no veo
-   la razón para comprar: le pago a una psicóloga."* Mostrar el framework concreto.
-4. **La solución sale del producto.** Nombrar AT WORK y la herramienta que resuelve
-   eso puntual (Role Play, Narrative Flow, Color Method, STAR, PREP).
-5. **Una sola llamada, y es una invitación al espacio.** No una reflexión linda.
-   *"30 años esperando encontrar lo que funciona"* no es un cierre.
-6. **Suena a Flor.** Ni motivacional genérica ni plantilla de LinkedIn.
+## El ritmo real (agosto 2026)
 
-Extra para testimonios: tienen que tener un **win muy claro** y **reconstruir un
-pedazo del roadmap**. No alcanza con "me encantó la clase".
+`LUN Concientización · MIÉ Diferenciación · VIE Concientización · SÁB Concientización · DOM Transformación`
 
-## Cómo se escribe
+Objetivo de agosto: **lista de espera para cupos de octubre (3) y noviembre (5).
+CERO venta directa.** CTA único: *"Los cupos de AT WORK abren en octubre.
+Escríbeme AT WORK y te aviso cuando sea el momento."*
 
-- **En tú, no en vos.** Decisión de Flor del 25/08/2026. México es el mercado más
-  grande y más barato. Las citas textuales de alumnas van tal cual las dijeron,
-  aunque sean en voseo.
-- Estructura visible por bloques: **HOOK → DESARROLLO → GIRO → AHA → CTA.**
-  Los ejemplos terminados usan exactamente esos rótulos.
-- Cerrar anclando en el roadmap: *"Base real: Role Play Method — situación real →
-  intento → feedback → ajuste → retry."*
+⚠️ Los rótulos de día del calendario están corridos respecto a 2026 (dice "LUN 25 AGO"
+y el 25 es martes). **Mandan las fechas.** Pendiente que Flor decida si se corrige.
 
-**Vocabulario del método** (usarlo, es lo que hace tangible el programa):
-AT WORK · Narrative Flow · Color Method (verde/amarillo/rojo) · Role Play Method ·
-Shadowing · PREP · STAR · 3 Actos · Voice Method · Build Your Language System ·
-Keep Speaking When the Word Doesn't Come · Structure Before You Speak ·
-Say Enough, Not Everything · Handle the Conversation, Not the Script ·
-knowledge gap vs. patrón fosilizado.
+## Los 10 ejes temáticos (síntomas, no módulos)
 
-**Alumnas reales** (usar nombres, funcionan mejor que un avatar):
-Betiana (Statutory Reporting Manager LATAM, IVA argentino, 30 años de inglés) ·
-Adriana (neuróloga, 20 años, introducción profesional) · Isis (contadora en Costa
-Rica, voz pasiva) · Mónica (RR.HH., entrevista con Tesla) · Belem (dependía del
-traductor) · Lina (Bogotá) · Stephie (Pfizer) · Graciela (presentaciones memorizadas).
+Small Talk · Questions Under Pressure · Executive Communication · Listening ·
+Pronunciation / Connected Speech · Meetings / Disagreeing · Executive Introduction ·
+Visibility Gap · Perfectionism · Leadership
 
-**Lo que no se promete:** ausencia de errores · fluidez nativa en 5 meses ·
-un ascenso, un aumento ni un puesto.
+## Formato de salida
 
-**Los CTA** invitan a conversar por DM y ahí Flor filtra entre el grupal y el 1:1.
-Palabras clave: AT WORK · REUNIONES · LIBRE · GUÍA · SMALL TALK.
+**Carrusel:** 8 láminas + CAPTION + HISTORIA 1 + HISTORIA 2 (+24 h).
+Una idea por lámina. Si necesita letra diminuta: `TOO_MUCH_TEXT`.
 
-## El ritmo
+**Reel:** hook (0-3 s) + rehook (4-7 s) + guion hablado + texto en pantalla +
+CAPTION + HISTORIA 1 + HISTORIA 2. Tiene que sonar hablado, no un artículo.
 
-4 piezas por semana: lunes, martes, jueves, viernes.
-Lunes y viernes Concientización (el viernes rota con Filtro/Repele),
-martes Diferenciación, jueves Transformación. El último viernes del mes vende.
+## Voz
+
+Español latinoamericano: **tú, tienes, puedes, quieres, necesitas.**
+Nunca vos, tenés, podés, querés — aunque los documentos de Nadia los usen.
+Las citas textuales de alumnas van tal cual las dijeron.
+
+Suena: inteligente, profesional, cálida, directa, humana, sofisticada.
+Flor le habla a otra profesional. No a una principiante.
+
+**Nunca:** "no puedes hablar inglés", "no entiendes nada", "necesitas empezar de cero".
+La tensión real es: *"Puedo trabajar en inglés, pero mi inglés todavía no responde
+con la rapidez, organización y autonomía que necesito para mostrar mi nivel profesional."*
+
+## Privacidad de transcripts
+
+Cadena obligatoria:
+`RAW → PRIVATE_RESEARCH_EXTRACTION → ANONYMIZED_INSIGHT → CONTENT_EVIDENCE`
+
+Nunca publicar nombre, empresa, cargo, proyecto, colegas, errores atribuibles,
+screenshot, voz ni situación reconocible sin permiso explícito.
+**Los transcripts crudos no se guardan en este repositorio.**
+
+## Motor de repetición
+
+Antes de aprobar una idea, compararla contra `contenido/memoria-editorial.json` en:
+tema · territorio · síntoma · diagnóstico · mecanismo · escena · hook · formato ·
+CTA · emoción · ángulo de venta.
+
+Se puede volver a un territorio si cambia la manifestación, el diagnóstico, el nivel
+de conciencia o la función estratégica. No alcanza con cambiar el hook.
+
+## Lo que no se hace nunca
+
+Inventar resultados, testimonios, situaciones, dolores, cupos, fechas o experiencias
+de Flor · tratar a la alumna como principiante · convertir transcripts en contenido
+literal · publicar información identificable · explicar todo con mentalidad ·
+usar el roadmap como folleto · construir hooks agresivos "porque eso es Nadia".
 
 ## Canva
 
-Flor tiene brand templates propias, por día:
+Plantillas reales de Flor (ninguna acepta autollenado, verificado 25/08/2026):
 
 | Tipo | Plantilla | ID |
 |---|---|---|
@@ -118,39 +133,20 @@ Flor tiene brand templates propias, por día:
 | Concientización viernes | concientizacion 3 · viernes | `EAHMA4-YHW8` |
 | Diferenciación | martes DIFERENCIACION | `EAHKB4Xyhuc` |
 | Transformación | jueves TRANSFORMACION Y DESEO | `EAHKB4SjwII` |
-| Filtro / otros | template at work | `EAHST4KGYjA` |
 
 Se abren con `https://www.canva.com/design?create=true&template=<ID>`.
-
-⚠️ **Ninguna acepta autollenado.** Verificado el 25/08/2026: `get-brand-template-dataset`
-devuelve `{}` para todas. El texto se pega a mano. Y **no usar `generate-design`**:
-trunca los titulares e inventa copy que la marca prohíbe.
-
-Para que el autollenado funcione, Flor tendría que agregarle campos de texto con
-nombre (`titulo`, `pie`, `cta`) a cada plantilla y republicarla.
+**No usar `generate-design`**: trunca titulares e inventa copy.
 
 ## La app
 
 `https://claude.ai/code/artifact/65185f6a-03fe-49a8-a9ed-4af91391d6f1`
 
-Maneja varios meses: adentro tiene una constante `POSTS` con todos los posteos y
-la interfaz arma sola el selector a partir de las fechas. Hoy tiene agosto (5) y
-septiembre (17).
+Es el dashboard "qué publico hoy". **No genera texto** — es una página, no un bot.
+Muestra caption, láminas, historias y la plantilla de Canva de cada pieza.
+Al agregar contenido se **suma** al array `POSTS`, nunca se reemplaza.
 
-**No genera texto sola** — es una página, no un bot. Los posteos se escriben acá
-y se republica el artifact con el mismo link. Al agregar un mes hay que **sumarlo**
-al array, nunca reemplazar: Flor consulta los meses viejos.
+## Estado del build
 
-Cada pieza tiene botones de "pedirle un cambio" que copian un pedido con todo el
-criterio adentro y abren un chat nuevo. Eso resuelve que la app no pueda pensar:
-el pedido viaja autocontenido.
-
-### Automatización
-
-Routine `trig_01Sazpo5JgtJkA2EU6VULy9w` — corre el **25 de cada mes a las 12:00 UTC**,
-escribe el mes siguiente, lo commitea y republica la app en el mismo link. Flor
-recibe aviso por push y mail. La sesión que dispara **no tiene conectores**
-(ni Drive ni Canva), así que todo lo que necesita tiene que estar en el repo.
-
-⚠️ La app vieja en `contenido/index.html` genera con el criterio equivocado
-(3 tipos, estructura vieja, voseo). No usarla hasta reescribirla con esto.
+Hecho: registro de fuentes · memoria editorial · calendario real cargado (25 ago → 7 sep).
+Pendiente: leer 01/02/territorios/QA/brief/estilo-Nadia/protocolo-VOC ·
+pipeline de transcripts → insights anonimizados · generación de septiembre desde el 8.
