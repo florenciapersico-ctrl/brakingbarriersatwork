@@ -74,6 +74,29 @@ Cuando pida "borrar" o "limpiar", lo que resuelve el problema es:
 
 Archivar sí. Eliminar no.
 
+## "Activo" no significa que esté entregando
+
+Un anuncio puede figurar `ACTIVE` en Meta y no mostrarse a nadie. El estado dice lo que
+está configurado, no lo que está pasando.
+
+**El único chequeo válido es el gasto por día.** Si un anuncio activo gastó cero uno o
+más días, está roto aunque la interfaz lo muestre en verde.
+
+Pasó el 25/08: el reel figuraba activo, con presupuesto y fecha de fin vigentes, y
+llevaba dos días sin entregar una sola impresión.
+
+### Causa más frecuente: el público quedó demasiado chico
+
+Achicar la segmentación puede dejar un conjunto sin volumen suficiente para que Meta lo
+entregue con ese presupuesto. El 23/08 se pasó el reel de 25-60 a 30-50 y dejó de
+entregar ese mismo día.
+
+**Regla: cambiar un solo parámetro por vez, y mirar el gasto de los dos días
+siguientes.** Si cae a cero, revertir — no es paciencia lo que hace falta, está roto.
+
+Otras causas de gasto en cero: presupuesto insuficiente para el objetivo, anuncio en
+revisión, método de pago fallado, o fecha de fin ya pasada.
+
 ## Antes de diagnosticar nada: leé la configuración real, no la deduzcas
 
 ⚠️ **`OUTCOME_ENGAGEMENT` NO quiere decir "interacción con la publicación".** Es un
