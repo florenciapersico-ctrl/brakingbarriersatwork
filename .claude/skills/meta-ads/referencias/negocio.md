@@ -29,12 +29,59 @@ Bonos (⚠️ **son los mejores lead magnets que tiene** — ver campaña 01):
 - **Framework de Authority Storytelling** — convertir tareas en hitos de impacto.
 - **Guía de Small Talk para Líderes** — los 5 minutos antes de la reunión.
 
-Datos comerciales (confirmados por Flor en la reunión del 24/08/2026):
-- Precio: **USD 250 por mes × 5 meses = USD 1.250 por alumna.**
-- Modalidad de pago: mensual vía **Stripe**. Varias alumnas pagaron el total por adelantado.
-- **Valor de una alumna nueva: USD 1.250.** Es el número contra el que se mide cualquier
-  gasto de marketing. Un mes de pauta que no produce una alumna, no se paga solo.
-- Histórico: **~30 alumnas** desde el inicio (≈ 0,8 por mes). Ingreso actual **~USD 2.000/mes**.
+Datos comerciales (corregidos por Flor el 25/08/2026 — ver ⚠️ abajo):
+- Precio: **USD 250/mes** con 1 sesión por semana · **USD 444/mes** con 2 sesiones por semana.
+  Programa de 5 meses. Pago mensual vía **Stripe**; varias pagaron el total por adelantado.
+- **Valor de una alumna nueva: USD 1.250** (tarifa de 250) o **USD 2.220** (tarifa de 444).
+  Es el número contra el que se mide cualquier gasto de marketing.
+- **Techo de inversión al 30% del valor de alumna: USD 375 / USD 666 por alumna.**
+  A ~2,1 alumnas nuevas por mes, eso son **USD 700-800/mes de marketing, todo incluido**
+  (pauta + honorarios de quien la maneje; no son partidas separadas).
+
+### Facturación real (estas son las cifras buenas, no las reconstruidas)
+
+| | |
+|---|---|
+| Agosto 2026 | **USD 3.500/mes** |
+| Septiembre 2026 (proyectado) | **USD 3.100/mes** |
+| Recurrente desde el 8/10, cuando termina Belem | **USD 2.494/mes** |
+| Piso que Flor fijó | **USD 3.000/mes** |
+| Faltante a cubrir desde octubre | **USD 506/mes** ≈ 2 alumnas de 250 |
+| Objetivo propio de Flor | **3 cupos para octubre** |
+
+**Alumnas nuevas necesarias para sostener los 3.000: ≈ 2,1 por mes, todos los meses.**
+(10-11 alumnas activas con la mezcla actual, dividido por el ciclo de 5 meses.)
+
+⚠️ **No reconstruyas la facturación sumando el roster.** Se intentó el 25/08 y dio
+USD 2.338 — casi 1.200 por debajo de lo real. El roster del Drive no incluye a todas
+las alumnas que facturan (ver pendientes abajo). **Usá las cifras de esta tabla.**
+
+### 🚩 Diciembre es el mes a trabajar, no octubre
+
+Cuatro alumnas de 250 empezaron entre el 12 y el 20 de julio: **Luz, Alejandra Santos,
+Gabriela y Soledad.** El programa dura 5 meses, así que las cuatro terminan la misma
+semana de diciembre — USD 1.000/mes que se van juntos. Sin reposición, enero queda en
+~USD 1.494.
+
+Una alumna que firma en diciembre recién factura en diciembre: **las conversaciones de
+renovación y las ventas nuevas para cubrir enero se hacen en octubre y noviembre.**
+
+### Pendientes que ensucian cualquier proyección
+
+- **Virginia** — Flor la cuenta como activa (primer pago 1/08, transferencia mensual),
+  pero **no está en ningún archivo del Drive**: ni en el Roster Maestro, ni en el
+  Tracker, ni en «ALUMNAS Y FECHAS». Falta cargarla con monto y fecha de fin.
+- **Laura González** — las fuentes se contradicen. El Drive dice que empezó el 1/07 y
+  termina el 1/10 (USD 200/mes por 3 meses, referida por Maggi). Flor dice que
+  **empieza** el 1/10. Es un ingreso que se va o uno que entra: son cosas opuestas.
+  Además hay una «Laura – entrevistas» que parece ser otra persona.
+- **Graciela Alfonso y Alejandra Rossi** — el Roster Maestro las marca «confirmar si
+  sigue activa»; el Tracker las da por activas y fijas (USD 200 y ARS 350.000). Entre
+  las dos son ~USD 450/mes. Descontarlas fue el error de la primera proyección.
+- **Angie y Lourdes** — las dos pagaron seña. Los registros se contradicen sobre cuál
+  dejó USD 100 y cuál pagó el programa entero.
+- Histórico: **~30 alumnas** desde el inicio. Sirve como referencia gruesa, no para
+  calcular ritmo: no se sabe en cuánto tiempo entraron.
 - Próxima cohorte: **octubre** (según los posts de agosto en IG). Confirmar fecha exacta.
 - Cupos: **2–3 lugares 1:1 para octubre** (los posts de agosto venden un proceso 1:1,
   no el grupal de 5 meses de la landing). ⚠️ Confirmar con Flor cuál se pauta.
