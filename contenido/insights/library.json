@@ -1,0 +1,132 @@
+{
+ "version": 1,
+ "actualizado": "2026-08-25",
+ "protocolo": "08_TRANSCRIPTS_VOC_PROTOCOL · 1VYew0ZZ1_pG8uucaJw19WCDtVD0y6anFEfuG0bCdclg",
+ "regla": "Solo insights anonimizados. Los transcripts crudos no se guardan acá. Nunca presentar un insight anonimizado como cita textual o testimonio.",
+ "clases_procesadas": 1,
+ "clases_en_carpeta": "25+",
+ "insights": [
+  {
+   "id": "INS-2026-07-28-01",
+   "date": "2026-07-28",
+   "source_type": "transcript",
+   "source_ref": "clase grupal · 2026-07-28 · role play de networking",
+   "avatar_match": "eligible",
+   "avatar_nota": "Dos profesionales hispanohablantes que ya usan inglés en su trabajo (operaciones aeroportuarias y área comercial industrial). Nivel en el borde bajo del avatar: sostienen 40 minutos de role play profesional, pero con producción entrecortada. Las SITUACIONES y los DIAGNÓSTICOS generalizan; los síntomas puramente lingüísticos hay que usarlos con cuidado.",
+   "situation": "Primer contacto en el coffee break de un evento de industria. Tiene que presentarse, explicar a qué se dedica su empresa y decidir si hay una oportunidad de trabajar juntas.",
+   "symptom": "Tiene la idea completa y ordenada en la cabeza, pero al hablar la frase se corta. No aparecen los conectores y la explicación queda como una lista de fragmentos.",
+   "student_interpretation": "\"Me cuesta conectar las frases. Tengo la idea en la mente pero cuando hablo no tengo la palabra para unirla.\" Lo atribuye a falta de vocabulario y a que traduce.",
+   "flor_diagnosis": "No es falta de vocabulario. Flor detecta dos cosas distintas debajo del mismo síntoma: traducción mental palabra por palabra, y confusión sistemática entre sustantivo, verbo y adjetivo de la misma familia. La alumna dice la forma nominal donde necesita la verbal, y viceversa.",
+   "mechanism": "GRAMMAR_PRECISION + ORGANIZATION_GAP",
+   "skill_needed": "Nominalización y voz pasiva como recursos de registro profesional, no como tema de gramática.",
+   "roadmap_territory": "Executive Communication",
+   "intervention": "Flor no corrige palabra por palabra. Nombra el patrón, lo enseña como recurso de registro (\"We decided to reduce costs\" → \"The decision to reduce costs was based on…\") y lo devuelve al role play para que se produzca otra vez.",
+   "voc_language": [
+    "me cuesta conectar las frases",
+    "tengo la idea en la mente pero cuando hablo no me sale",
+    "trato de no traducir"
+   ],
+   "flor_language": [
+    "¿Ves el patrón?",
+    "Eso es nominalización",
+    "No es que no sepas la palabra: es qué forma de la palabra necesitas ahí"
+   ],
+   "confidence": 0.9,
+   "privacy_status": "private_anonymized"
+  },
+  {
+   "id": "INS-2026-07-28-02",
+   "date": "2026-07-28",
+   "source_type": "transcript",
+   "source_ref": "clase grupal · 2026-07-28 · role play de networking",
+   "avatar_match": "eligible",
+   "situation": "La misma conversación de networking, practicada dos veces en la misma clase: primero sin apoyo, después con los chunks entregados.",
+   "symptom": "En el primer intento la conversación es lenta, entrecortada, con vueltas largas para explicar algo que domina. En el segundo intento, veinte minutos después, la misma conversación fluye.",
+   "student_interpretation": "Vivió el primer intento como prueba de que le falta nivel.",
+   "flor_diagnosis": "Entre un intento y el otro no aprendió inglés nuevo. Recibió los bloques que le faltaban disponibles. El contenido siempre estuvo; lo que no estaba era el acceso inmediato a las estructuras de entrada.",
+   "mechanism": "RETRIEVAL_GAP",
+   "skill_needed": "Chunks de entrada y reacción automatizados, para no construirlos desde cero mientras habla.",
+   "roadmap_territory": "Small Talk / Executive Introduction",
+   "intervention": "Role Play → feedback → entrega de chunks → retry inmediato del mismo escenario. El retry en la misma clase es lo que hace visible que el salto no fue de nivel.",
+   "voc_language": [
+    "fue difícil",
+    "no me salían las palabras"
+   ],
+   "flor_language": [
+    "¿Cómo se sintió ahora?",
+    "¿Qué frase te llevarías?"
+   ],
+   "confidence": 0.95,
+   "privacy_status": "private_anonymized",
+   "valor_editorial": "ALTO. Demuestra el argumento central de AT WORK —el nivel no era el techo— con evidencia observable dentro de una sola sesión, sin prometer un resultado a futuro."
+  },
+  {
+   "id": "INS-2026-07-28-03",
+   "date": "2026-07-28",
+   "source_type": "transcript",
+   "source_ref": "clase grupal · 2026-07-28 · role play de networking",
+   "avatar_match": "eligible",
+   "situation": "Después del primer role play, Flor pregunta qué fue lo difícil.",
+   "symptom": "La alumna se traba explicando su propio proceso de trabajo, algo que domina en español.",
+   "student_interpretation": "Asume que se trabó por el inglés.",
+   "flor_diagnosis": "Flor lo separa en el momento: no era el inglés, era no tener resuelto cómo seguía el proceso que estaba explicando. El idioma dejó al descubierto un hueco de contenido, no de idioma.",
+   "mechanism": "OTHER — claridad de la idea, previa al idioma",
+   "skill_needed": "Ordenar la idea antes de traducirla. Si la idea no está clara en español, en inglés se rompe.",
+   "roadmap_territory": "Executive Communication",
+   "intervention": "Pregunta diagnóstica directa después de la producción, para separar qué falló: idioma o contenido.",
+   "voc_language": [
+    "me costó explicarlo"
+   ],
+   "flor_language": [
+    "Entonces no era el inglés. Era no saber cómo seguía el proceso."
+   ],
+   "confidence": 0.85,
+   "privacy_status": "private_anonymized",
+   "valor_editorial": "ALTO. Es diagnóstico puro y contraintuitivo: una profesora de inglés diciendo que el problema no era el inglés. Cumple la regla de Nadia de que el diagnóstico tiene que ir más allá de lo que la alumna ya cree."
+  },
+  {
+   "id": "INS-2026-07-28-04",
+   "date": "2026-07-28",
+   "source_type": "transcript",
+   "source_ref": "clase grupal · 2026-07-28 · role play de networking",
+   "avatar_match": "eligible",
+   "situation": "Diseño de la clase: Flor arma el escenario cruzando las industrias reales de las dos alumnas y las hace negociar entre ellas.",
+   "symptom": "—",
+   "student_interpretation": "—",
+   "flor_diagnosis": "—",
+   "mechanism": "N/A — evidencia de método, no de síntoma",
+   "skill_needed": "—",
+   "roadmap_territory": "Material real / Role Play",
+   "intervention": "El escenario no se inventa: sale del cruce entre los trabajos reales de las participantes, con sus industrias, sus plazos y su vocabulario. Ninguna de las dos podría haber encontrado esa práctica en un libro.",
+   "flor_language": [
+    "Imaginen que yo no estoy acá",
+    "Explíquense la situación entre ustedes"
+   ],
+   "confidence": 0.95,
+   "privacy_status": "private_anonymized",
+   "valor_editorial": "Material de DIFERENCIACIÓN. Ojo: la pieza publicada el 13 de agosto ya usó este mismo escenario nombrando las dos empresas reales. Repetirlo sería repetición, y además conviene revisar el permiso."
+  },
+  {
+   "id": "INS-2026-07-28-05",
+   "date": "2026-07-28",
+   "source_type": "transcript",
+   "source_ref": "clase grupal · 2026-07-28 · role play de networking",
+   "avatar_match": "eligible",
+   "situation": "Cierre de clase: Flor entrega micro-recursos de small talk profesional como herramientas de entrada a una conversación.",
+   "symptom": "Sin esos recursos, la conversación arranca con una pregunta directa de trabajo y se siente un interrogatorio.",
+   "student_interpretation": "Cree que el small talk es relleno.",
+   "flor_diagnosis": "El small talk profesional no es charla: son estructuras de entrada que abren la conversación y permiten sostenerla. Se enseñan como recurso, no como cortesía.",
+   "mechanism": "COMMUNICATION_SKILL_GAP",
+   "skill_needed": "Repertorio de entrada y reacción disponible sin pensarlo.",
+   "roadmap_territory": "Small Talk",
+   "intervention": "Entrega de expresiones concretas de apertura y reacción, práctica en voz alta, y tarea de repetirlas con el bot definiendo ella la situación.",
+   "flor_language": [
+    "¿Qué frase te llevarías?",
+    "Practicalo con el bot y vos elegís la situación"
+   ],
+   "confidence": 0.9,
+   "privacy_status": "private_anonymized",
+   "valor_editorial": "MEDIO. Small Talk ya se usó el 16 de agosto. Solo sirve si cambia el ángulo: de \"por qué importa\" a \"qué son exactamente esas estructuras\"."
+  }
+ ]
+}
