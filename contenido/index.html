@@ -94,6 +94,9 @@ header{position:sticky;top:0;z-index:30;background:var(--cream);border-bottom:1p
 .cal .c.hoy{border-color:var(--brown);border-width:2px}
 .cal .c .p{width:6px;height:6px;border-radius:50%;background:var(--tc)}
 .cal .c.pub{opacity:.5}
+.cal .c.libre{cursor:pointer;color:var(--ink-3)}
+.cal .c.libre .mas{font-size:13px;line-height:1;color:var(--line);font-weight:700}
+.cal .c.libre:active{background:var(--cream-2)}
 
 .scrim{position:fixed;inset:0;background:rgba(44,31,14,.45);z-index:60;opacity:0;pointer-events:none;transition:opacity .22s}
 .scrim.on{opacity:1;pointer-events:auto}
@@ -149,6 +152,8 @@ nav svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:1.7;st
 .pedir button{text-align:left;border:1px solid var(--line);border-radius:11px;padding:12px 14px;
   background:var(--surface);font-size:14px;font-weight:600;color:var(--ink);display:flex;
   align-items:center;justify-content:space-between;gap:10px}
+.pedir button:has(span+span){flex-direction:column;align-items:flex-start;gap:3px}
+.pedir button span+span{font-size:12.5px;font-weight:400;color:var(--ink-3)}
 .pedir button:active{background:var(--cream-2)}
 .pedir button span{font-size:12.5px;font-weight:400;color:var(--ink-3);flex:none}
 .hide{display:none!important}
@@ -306,7 +311,10 @@ function pintarHoy(){
     h += tarjeta(foco,false);
   } else {
     h += `<div class="hero"><div class="k">Todo publicado</div><h2>No queda nada pendiente</h2>
-      <div class="d">El mes que viene se escribe solo el día 25.</div></div>`;
+      <div class="d">Tocá cualquier día del calendario para pedir una pieza nueva.</div></div>`;
+  }
+  if(!hoy){
+    h += `<div class="acts" style="margin-top:18px"><button class="chip solid" data-a="crear" data-f="${hk}">Quiero publicar algo hoy</button></div>`;
   }
   if(atras.length){ h += `<div class="lbl">Quedó sin publicar</div>` + atras.map(p=>tarjeta(p,true)).join(''); }
   if(prox.length){ h += `<div class="lbl">Lo que viene</div>` + prox.map(p=>tarjeta(p,true)).join(''); }
@@ -343,9 +351,11 @@ function pintarMes(){
   for(let i=0;i<arranque;i++) h+='<div class="c"></div>';
   for(let d=1;d<=dias;d++){
     const f=clave+'-'+pad(d), p=porF[f];
-    const cls=['c']; if(p)cls.push('has'); if(f===hk)cls.push('hoy'); if(pub(f))cls.push('pub');
-    h += `<div class="${cls.join(' ')}" ${p?`style="--tc:${COLOR[p.tipo]}" data-a="ver" data-f="${f}"`:''}>
-      <span>${d}</span>${p?'<span class="p"></span>':''}</div>`;
+    const cls=['c']; if(p)cls.push('has'); else cls.push('libre');
+    if(f===hk)cls.push('hoy'); if(pub(f))cls.push('pub');
+    h += `<div class="${cls.join(' ')}" ${p?`style="--tc:${COLOR[p.tipo]}" data-a="ver" data-f="${f}"`
+                                          :`data-a="crear" data-f="${f}"`}>
+      <span>${d}</span>${p?'<span class="p"></span>':'<span class="mas">+</span>'}</div>`;
   }
   h += '</div>';
   const lote = delMes(clave);
@@ -441,6 +451,57 @@ function abrir(f){
   $('#scrim').classList.add('on'); $('#sheet').classList.add('on');
   $('#sB').scrollTop = 0;
 }
+
+/* La app no escribe. Pero arma el pedido completo, con el criterio y los
+   mecanismos ya usados adentro, para que no se repita nada. */
+const CADENCIA = {1:'concientizacion',3:'diferenciacion',5:'concientizacion',6:'concientizacion',0:'transformacion'};
+const TIPOS = [['concientizacion','Concientización','Abrirle los ojos a un problema que no sabe nombrar'],
+               ['diferenciacion','Diferenciación','Por qué vos y no cualquier profesora'],
+               ['transformacion','Transformación y Deseo','El resultado, con evidencia real'],
+               ['filtro','Filtro / Repele','Para quién no es esto']];
+
+function pedidoNuevo(f, tipoKey){
+  const d = new Date(f+'T12:00:00');
+  const dia = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'][d.getDay()];
+  const t = TIPOS.find(x=>x[0]===tipoKey);
+  const usados = POSTS.map(p=>'- '+p.mecanismo).join('\n');
+  const subtipos = POSTS.filter(p=>p.tipo===tipoKey).map(p=>p.sub);
+  return `Escribime la pieza del ${dia} ${d.getDate()} para Instagram de Breaking Barriers at Work (@ysi_speakenglish).\n\n`
+    + `Tipo: ${t[1]} — ${t[2]}\n\n`
+    + CRITERIO + `\n\n`
+    + `Completá SIEMPRE estos cuatro campos antes de escribir una lámina:\n`
+    + `- Hook: una escena concreta de trabajo\n`
+    + `- Qué cree ella: la explicación que ya se dio, textual\n`
+    + `- Diagnóstico: lo que yo veo y ella todavía no. Tiene que ir MÁS ALLÁ de lo que ella cree\n`
+    + `- Hacia dónde lleva: la intervención concreta\n\n`
+    + `MECANISMO: tiene que ser distinto de todos estos, que ya están usados:\n${usados}\n\n`
+    + (subtipos.length ? `Subtipos de ${t[1]} ya usados, no repetir: ${subtipos.join(', ')}\n\n` : '')
+    + `Formato: carrusel de 8 láminas, o reel con guion hablado.\n`
+    + `Entregá: las láminas (o el guion), el caption, y dos historias.\n`
+    + `Sin cupos, sin fechas y sin precio: si hace falta un dato comercial, preguntámelo.`;
+}
+
+function abrirCrear(f){
+  const d = new Date(f+'T12:00:00');
+  const dia = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'][d.getDay()];
+  const sug = CADENCIA[d.getDay()];
+  $('#sB').innerHTML = `
+    <div class="tag" style="--tc:var(--brown);color:var(--brown)"><span class="dot"></span><span>Día libre</span></div>
+    <h2 class="serif" style="font-size:24px;font-weight:700;margin:8px 0 5px">${dia} ${d.getDate()}</h2>
+    <div class="meta">No hay pieza para este día todavía.</div>
+    <div class="lbl">¿Qué querés publicar?</div>
+    <div class="pedir">${TIPOS.map(t=>`
+      <button data-a="crearTipo" data-f="${f}" data-t="${t[0]}">
+        <span style="font-weight:700;color:var(--ink)">${esc(t[1])}${t[0]===sug?' · sugerido':''}</span>
+        <span>${esc(t[2])}</span>
+      </button>`).join('')}</div>
+    <p class="note">Se copia el pedido con todo el criterio adentro —incluidos los mecanismos que ya usaste, para que no se repita— y se abre el chat. Solo lo pegás.</p>
+    <div class="lbl">O escribilo vos</div>
+    <div class="acts"><button class="chip" data-a="crearLibre" data-f="${f}">Contar qué quiero publicar ese día</button></div>
+  `;
+  $('#scrim').classList.add('on'); $('#sheet').classList.add('on'); $('#sB').scrollTop = 0;
+}
+
 function cerrar(){ $('#scrim').classList.remove('on'); $('#sheet').classList.remove('on'); }
 
 document.addEventListener('click', e=>{
@@ -448,6 +509,20 @@ document.addEventListener('click', e=>{
   if(el){
     const a = el.dataset.a;
     if(a==='cerrarInst'){ estado._inst=1; guardar(); pintar(); return; }
+    if(a==='crear') return abrirCrear(el.dataset.f);
+    if(a==='crearTipo'){
+      copiar(pedidoNuevo(el.dataset.f, el.dataset.t), 'Pedido copiado — pegalo en el chat');
+      setTimeout(()=>window.open('https://claude.ai/new','_blank','noopener'), 450);
+      return;
+    }
+    if(a==='crearLibre'){
+      const q = prompt('¿Qué querés publicar ese día?', '');
+      if(!q || !q.trim()) return;
+      const d = new Date(el.dataset.f+'T12:00:00');
+      copiar(`Escribime la pieza del ${d.getDate()} de este mes para Instagram de Breaking Barriers at Work.\n\nLo que quiero publicar: ${q}\n\n`+CRITERIO+`\n\nMecanismos ya usados, no repetir:\n`+POSTS.map(p=>'- '+p.mecanismo).join('\n'), 'Pedido copiado — pegalo en el chat');
+      setTimeout(()=>window.open('https://claude.ai/new','_blank','noopener'), 450);
+      return;
+    }
     const p = POSTS.find(x=>x.f===el.dataset.f); if(!p) return;
     if(a==='ver')   return abrir(p.f);
     if(a==='copy')  return copiar(p.caption,'Texto copiado');
