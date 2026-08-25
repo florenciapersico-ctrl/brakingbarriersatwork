@@ -27,5 +27,5 @@ pantalla de inicio". Queda como una app y funciona sin internet.
 Al editar `banco.json` hay que subir la versión de `CACHE` en `sw.js`, si no el
 celular sigue mostrando el banco viejo.
 
-El criterio completo — de dónde sale cada cosa y qué no se puede romper — está en
+El criterio real está en `.claude/skills/contenido/SKILL.md`. La app que usa Flor en el celular es el artifact, no este `index.html` — este quedó con el criterio viejo.
 `.claude/skills/contenido/SKILL.md`.
