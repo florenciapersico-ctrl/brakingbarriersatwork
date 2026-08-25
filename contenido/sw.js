@@ -2,7 +2,7 @@
    la app alcanza para que abra sin internet.
    Al publicar contenido nuevo hay que subir la versión, si no el celular
    sigue mostrando la app vieja. */
-const CACHE = 'contentos-v3';
+const CACHE = 'contentos-v4';
 const ARCHIVOS = ['./', './index.html', './manifest.webmanifest',
                   './icon-192.png', './icon-512.png', './apple-touch-icon.png'];
 
