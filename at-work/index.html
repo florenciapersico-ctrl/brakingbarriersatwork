@@ -425,6 +425,13 @@
     text-transform: uppercase; color: var(--terracota); }
   .price:hover .pay { color: var(--terracota-lt); }
   .price.best:hover { background: rgba(198, 140, 108, .16); }
+  #pagar { scroll-margin-top: 0; }
+  #pagar .section-title { margin-bottom: 28px; }
+  @media (min-width: 760px) { .prices { grid-template-columns: 1fr 1fr; gap: 20px; } }
+  .incl { margin-top: 46px; padding-top: 34px; border-top: 1px solid var(--on-ink-line); }
+  .incl h3 { font-size: 20px; margin-bottom: 20px; color: var(--on-ink); }
+  @media (min-width: 900px) { .incl .includes { columns: 2; column-gap: 48px; } .incl .includes li { break-inside: avoid; } }
+
   .paytitle {
     font-size: 22px; margin-bottom: 16px; color: var(--on-ink);
     scroll-margin-top: 28px;
@@ -927,43 +934,37 @@
 </section>
 
 <!-- ═══════════════ OFERTA ═══════════════ -->
-<section class="band-ink" id="aplicar">
+<section class="band-ink" id="pagar">
   <div class="wrap">
     <span class="eyebrow">La inversión</span>
-    <h2 class="section-title">Breaking Barriers at Work.</h2>
-    <p class="lede">Cinco meses de acompañamiento 1:1 para desbloquear el inglés que ya tienes.</p>
+    <h2 class="section-title">Dos formas de pagarlo.</h2>
 
-    <div class="offer-grid">
-      <div>
-        <ul class="includes">
-          <li><strong>Una sesión 1:1 semanal conmigo</strong> <span>— diagnóstico, aplicación, producción, role play, feedback y segundo intento.</span></li>
-          <li><strong>Las tres herramientas del método</strong> <span>— Narrative Flow, Color Method y Role Play, cada una con su bot de práctica configurado con tu contexto.</span></li>
-          <li><strong>Onboarding + 4 módulos grabados</strong> <span>— Automatize, Communicate in Real Time, Build Your Language System y Understand &amp; Be Understood.</span></li>
-          <li><strong>Workplace Practice Library</strong> <span>— ocho guías de situaciones reales con vocabulario, expresiones y role play.</span></li>
-          <li><strong>Banco de precisión y pronunciación</strong> <span>— para cuando te trabas con algo puntual, en el momento en que lo necesitas.</span></li>
-          <li><strong>WhatsApp entre semana</strong> <span>— para lo puntual que no puede esperar a la sesión.</span></li>
-        </ul>
-      </div>
+    <div class="prices">
+      <a class="price" href="https://buy.stripe.com/00wbJ21pn9oJ1F70RQ8k813" target="_blank" rel="noopener noreferrer">
+        <div class="plan">En cuotas</div>
+        <div class="amount">USD 250<small> /mes</small></div>
+        <div class="terms">Cinco cuotas mensuales, con tarjeta.</div>
+        <span class="pay">Pagar con tarjeta →</span>
+      </a>
+      <a class="price best" href="https://buy.stripe.com/fZu14o9VT1Wh6Zrasq8k80Z" target="_blank" rel="noopener noreferrer">
+        <span class="flag">Mejor valor</span>
+        <div class="plan">Pago único</div>
+        <div class="amount">USD 1.100</div>
+        <div class="terms">Un solo pago, con tarjeta.</div>
+        <span class="pay">Pagar con tarjeta →</span>
+      </a>
+    </div>
 
-      <div>
-        <h3 class="paytitle" id="pagar">Dos formas de pagarlo</h3>
-        <div class="prices">
-          <a class="price" href="https://buy.stripe.com/00wbJ21pn9oJ1F70RQ8k813" target="_blank" rel="noopener noreferrer">
-            <div class="plan">En cuotas</div>
-            <div class="amount">USD 250<small> /mes</small></div>
-            <div class="terms">Cinco cuotas mensuales, con tarjeta.</div>
-            <span class="pay">Pagar con tarjeta →</span>
-          </a>
-          <a class="price best" href="https://buy.stripe.com/fZu14o9VT1Wh6Zrasq8k80Z" target="_blank" rel="noopener noreferrer">
-            <span class="flag">Mejor valor</span>
-            <div class="plan">Pago único</div>
-            <div class="amount">USD 1.100</div>
-            <div class="terms">Un solo pago, con tarjeta.</div>
-            <span class="pay">Pagar con tarjeta →</span>
-          </a>
-        </div>
-
-      </div>
+    <div class="incl">
+      <h3>Los cinco meses incluyen</h3>
+      <ul class="includes">
+        <li><strong>Una sesión 1:1 semanal conmigo</strong> <span>— diagnóstico, aplicación, producción, role play, feedback y segundo intento.</span></li>
+        <li><strong>Las tres herramientas del método</strong> <span>— Narrative Flow, Color Method y Role Play, cada una con su bot de práctica configurado con tu contexto.</span></li>
+        <li><strong>Onboarding + 4 módulos grabados</strong> <span>— Automatize, Communicate in Real Time, Build Your Language System y Understand &amp; Be Understood.</span></li>
+        <li><strong>Workplace Practice Library</strong> <span>— ocho guías de situaciones reales con vocabulario, expresiones y role play.</span></li>
+        <li><strong>Banco de precisión y pronunciación</strong> <span>— para cuando te trabas con algo puntual, en el momento en que lo necesitas.</span></li>
+        <li><strong>WhatsApp entre semana</strong> <span>— para lo puntual que no puede esperar a la sesión.</span></li>
+      </ul>
     </div>
   </div>
 </section>
