@@ -152,27 +152,8 @@
   .hero .cta-row { margin-top: 40px; display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
   .hero .cta-note { font-size: 13px; color: var(--on-ink-soft); }
 
-  .cta-note.standalone { margin-top: 34px; font-size: 13.5px; color: var(--on-ink-soft); }
-
-  .factstrip {
-    border-top: 1px solid var(--on-ink-line);
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-  }
-  .fact { padding: 26px 0 30px; border-right: 1px solid var(--on-ink-line); }
-  .fact:last-child { border-right: 0; }
-  .fact .n {
-    font-family: var(--display); font-size: 34px; line-height: 1;
-    display: block; font-variant-numeric: tabular-nums;
-  }
-  .fact .l {
-    display: block; margin-top: 8px;
-    font-size: 10.5px; font-weight: 600; letter-spacing: .16em;
-    text-transform: uppercase; color: var(--on-ink-soft);
-  }
   @media (max-width: 620px) {
-    .factstrip { grid-template-columns: 1fr 1fr; }
-    .fact:nth-child(2) { border-right: 0; }
+      .fact:nth-child(2) { border-right: 0; }
     .fact:nth-child(1), .fact:nth-child(2) { border-bottom: 1px solid var(--on-ink-line); }
   }
 
@@ -542,7 +523,6 @@
         repites los mismos errores de siempre — y lo que llega no representa el nivel
         profesional que tienes.
       </p>
-      <p class="cta-note standalone">Programa 1:1 de 5 meses · una sesión por semana</p>
       </div>
       <figure class="heroshot">
         <img src="img/flor-laptop.webp" alt="Flor Pérsico" width="420" height="574" loading="eager">
@@ -550,14 +530,6 @@
     </div>
   </div>
 
-  <div class="wrap">
-    <div class="factstrip">
-      <div class="fact"><span class="n">5</span><span class="l">Meses 1:1</span></div>
-      <div class="fact"><span class="n">4</span><span class="l">Módulos + onboarding</span></div>
-      <div class="fact"><span class="n">3</span><span class="l">Herramientas del método</span></div>
-      <div class="fact"><span class="n">8</span><span class="l">Situaciones que ensayas</span></div>
-    </div>
-  </div>
 </header>
 
 <!-- ═══════════════ RECONOCIMIENTO ═══════════════ -->
