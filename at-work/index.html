@@ -377,13 +377,31 @@
   .includes li span { color: var(--on-ink-soft); }
 
   .prices { display: grid; gap: 16px; }
+  .paylead {
+    font-size: 11px; font-weight: 700; letter-spacing: .16em;
+    text-transform: uppercase; color: var(--terracota);
+    margin-bottom: 14px;
+  }
   .price {
     border: 1px solid var(--on-ink-line);
     border-radius: 3px;
     padding: 26px 26px 24px;
     position: relative;
+    display: block;
+    text-decoration: none;
+    color: var(--on-ink);
+    transition: border-color .18s ease, background .18s ease, transform .12s ease;
   }
+  .price:hover { border-color: var(--terracota); background: rgba(198, 140, 108, .1); }
+  .price:active { transform: translateY(1px); }
+  .price .pay {
+    display: inline-block; margin-top: 18px;
+    font-size: 11.5px; font-weight: 700; letter-spacing: .11em;
+    text-transform: uppercase; color: var(--terracota);
+  }
+  .price:hover .pay { color: var(--terracota-lt); }
   .price.best { border-color: var(--terracota); background: rgba(198, 140, 108, .08); }
+  .price.best:hover { background: rgba(198, 140, 108, .16); }
   .price .plan {
     font-size: 11px; font-weight: 700; letter-spacing: .16em;
     text-transform: uppercase; color: var(--terracota);
@@ -949,23 +967,30 @@
       </div>
 
       <div>
+        <div class="paylead">¿Ya lo decidiste? Paga directo:</div>
         <div class="prices">
-          <div class="price">
+          <a class="price" href="https://buy.stripe.com/00wbJ21pn9oJ1F70RQ8k813" target="_blank" rel="noopener noreferrer">
             <div class="plan">En cuotas</div>
             <div class="amount">USD 250<small> /mes</small></div>
             <div class="terms">Cinco cuotas mensuales · con tarjeta</div>
-          </div>
-          <div class="price best">
+            <span class="pay">Pagar con tarjeta →</span>
+          </a>
+          <a class="price best" href="https://buy.stripe.com/fZu14o9VT1Wh6Zrasq8k80Z" target="_blank" rel="noopener noreferrer">
             <span class="flag">Mejor valor</span>
             <div class="plan">Pago único</div>
             <div class="amount">USD 1.100</div>
             <div class="terms">Ahorras USD 150 sobre el total en cuotas</div>
-          </div>
+            <span class="pay">Pagar con tarjeta →</span>
+          </a>
         </div>
 
         <p class="seats">
           El programa sostiene <strong>hasta 16 alumnas activas</strong> por mes. No hay
           cohortes ni clases grupales: cada lugar que se abre es uno que se liberó.
+        </p>
+        <p class="seats" style="border:0;padding-top:0;margin-top:10px">
+          ¿Todavía no hablamos? Aplica primero — reviso que el programa sea para ti
+          antes de que pagues nada.
         </p>
 
         <div class="cta-row" style="margin-top:30px;display:flex;gap:14px;flex-wrap:wrap">
