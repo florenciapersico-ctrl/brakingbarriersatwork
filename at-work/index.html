@@ -328,7 +328,6 @@
     padding: 30px 28px;
     display: flex; flex-direction: column;
   }
-  .quote .mark { font-family: var(--display); font-size: 44px; line-height: .6; color: var(--terracota); margin-bottom: 16px; }
   .quote p { font-size: 16px; line-height: 1.6; }
   .quote p + p { margin-top: 13px; }
   .quote .attr {
@@ -453,7 +452,13 @@
     display: block; width: 100%; max-width: 340px; height: auto;
     border-radius: 3px;
   }
-  @media (max-width: 899px) { .heroshot { display: none; } }
+  @media (max-width: 899px) {
+    .heroshot { order: -1; }
+    .heroshot img { max-width: 260px; }
+  }
+
+  .tick { display: block; width: 46px; height: auto; margin-bottom: 20px; }
+  .qmark { display: block; width: 40px; height: auto; margin-bottom: 16px; }
 
   .bioshot {
     display: block; width: 100%; max-width: 320px; height: auto;
@@ -561,6 +566,7 @@
   <div class="wrap">
     <div class="split">
       <div>
+        <img class="tick" src="img/tilde.webp" alt="" width="964" height="968" loading="lazy">
         <span class="eyebrow">Esto es para ti si</span>
         <h2 class="section-title">Te vas a reconocer<br>en alguna de estas.</h2>
         <ul class="mirror" style="margin-top:34px">
@@ -599,8 +605,8 @@
 
     <div class="wins">
       <div class="win">
-        <div class="k">Dices la idea en el momento en que la piensas.</div>
-        <p>En vez de ver cómo un colega dice algo más simple que tú y se queda con el crédito.</p>
+        <div class="k">Recuperas más rápido lo que ya sabías decir.</div>
+        <p>Menos tiempo armando la frase por dentro, más veces llegando a decirla antes de que otro diga algo más simple.</p>
       </div>
       <div class="win">
         <div class="k">Respondes lo que no viste venir.</div>
@@ -615,8 +621,8 @@
         <p>Y sostienes la charla antes de que empiece la reunión, sin esperar a que hable otra persona.</p>
       </div>
       <div class="win">
-        <div class="k">Sigues la conversación aunque hablen rápido.</div>
-        <p>Sin pedir que repitan ni perderte los dos minutos siguientes pensando en lo que no entendiste.</p>
+        <div class="k">Entiendes más cuando hablan rápido.</div>
+        <p>Y cuando algo se te escapa, pides que lo repitan sin que eso te cueste los dos minutos siguientes.</p>
       </div>
       <div class="win">
         <div class="k">Sales pensando «dije lo que quería decir».</div>
@@ -860,7 +866,7 @@
 
     <div class="quotes">
       <article class="quote">
-        <div class="mark">“</div>
+        <img class="qmark" src="img/comillas.webp" alt="" width="111" height="80" loading="lazy">
         <p>Las clases parten de un contexto y las vas dirigiendo de acuerdo con las capacidades de cada una. No se siente como una clase genérica «para cumplir»: realmente hay un objetivo detrás.</p>
         <p>Cada vez me doy más cuenta de que sí entiendo, y que hay muchas situaciones cotidianas que puedo abordar de manera simple, con estructura, sin enredarme tanto.</p>
         <p>Siento que he ganado más confianza. Me has ayudado a entender que sí puedo, que solo tengo que arriesgarme más y hacerlo.</p>
@@ -871,7 +877,7 @@
       </article>
 
       <article class="quote">
-        <div class="mark">“</div>
+        <img class="qmark" src="img/comillas.webp" alt="" width="111" height="80" loading="lazy">
         <p>I feel more comfortable and confident when I speak. I had my first interview in English — with Tesla — and I felt good. I could share my point of view and I felt comfortable and confident.</p>
         <p>Posta que funcionó.</p>
         <div class="attr">
@@ -881,7 +887,7 @@
       </article>
 
       <article class="quote">
-        <div class="mark">“</div>
+        <img class="qmark" src="img/comillas.webp" alt="" width="111" height="80" loading="lazy">
         <p>I noticed that since a couple of meetings now he's not asking «what do you mean?» anymore. I felt less nervous. I gave myself the chance to use other words.</p>
         <p>Decidí dejar de evaluarme tanto. Ahora estoy desafiando activamente a mis colegas en reuniones para expresar desacuerdo y proponer alternativas. Antes me quedaba callada.</p>
         <div class="attr">
@@ -949,7 +955,7 @@
       <a class="price best" href="https://buy.stripe.com/fZu14o9VT1Wh6Zrasq8k80Z" target="_blank" rel="noopener noreferrer">
         <span class="flag">Mejor valor</span>
         <div class="plan">Pago único</div>
-        <div class="amount">USD 1.100</div>
+        <div class="amount">USD 1.111</div>
         <div class="terms">Un solo pago, con tarjeta.</div>
         <span class="pay">Pagar con tarjeta →</span>
       </a>
@@ -1031,8 +1037,8 @@
   <div class="wrap narrow">
     <h2>Tu próxima reunión puede ser <em>distinta.</em></h2>
     <p class="lede">
-      No en cinco meses. Desde la primera semana en que empieces a practicar
-      la situación que hoy te traba.
+      No hace falta esperar cinco meses para empezar: desde la primera semana
+      practicas sobre la reunión que tienes de verdad esta semana.
     </p>
   </div>
 </section>
