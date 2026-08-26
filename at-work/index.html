@@ -408,6 +408,27 @@
   }
   .seats strong { color: var(--terracota); font-weight: 600; }
 
+  /* ── fila de contacto ──────────────────────────────────── */
+  .mailrow {
+    margin-top: 26px; padding-top: 22px;
+    border-top: 1px solid var(--on-ink-line);
+    display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
+    font-size: 14.5px;
+  }
+  .mailrow-label { color: var(--on-ink-soft); }
+  .mailrow-addr { color: var(--terracota); text-decoration: none; word-break: break-all; }
+  .mailrow-addr:hover { text-decoration: underline; }
+  .copybtn {
+    font-family: var(--body); font-size: 11px; font-weight: 700;
+    letter-spacing: .1em; text-transform: uppercase;
+    color: var(--on-ink); background: transparent;
+    border: 1px solid var(--on-ink-line); border-radius: 2px;
+    padding: 7px 13px; cursor: pointer;
+    transition: background .18s ease, border-color .18s ease;
+  }
+  .copybtn:hover { background: rgba(198, 140, 108, .14); border-color: var(--terracota); }
+  .copybtn.done { background: var(--terracota); border-color: var(--terracota); color: var(--ink); }
+
   /* ── faq ───────────────────────────────────────────────── */
   .faq { margin-top: 40px; border-top: 1px solid var(--line); }
   .faq details { border-bottom: 1px solid var(--line); }
@@ -954,6 +975,12 @@
           Aplicas, conversamos y confirmamos que el programa es para ti antes de
           cualquier pago.
         </p>
+
+        <div class="mailrow">
+          <span class="mailrow-label">O escríbeme directo:</span>
+          <a class="mailrow-addr" href="mailto:florenciapersico@breakingbarriers.site">florenciapersico@breakingbarriers.site</a>
+          <button class="copybtn" type="button" data-copy="florenciapersico@breakingbarriers.site">Copiar</button>
+        </div>
       </div>
     </div>
   </div>
@@ -1041,5 +1068,67 @@
   </div>
 </footer>
 
+
+<script>
+(function () {
+  'use strict';
+
+  // El visor de artifacts inyecta un <base href>, y con eso un href="#aplicar"
+  // resuelve contra la base en vez de contra la página: el navegador intenta
+  // irse a otra URL en lugar de bajar hasta la sección. Movemos el scroll a
+  // mano, así el botón funciona tanto acá como en el sitio propio.
+  var smooth = !window.matchMedia || !matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest ? e.target.closest('a[href]') : null;
+    if (!a) return;
+    var raw = a.getAttribute('href') || '';
+    if (raw.charAt(0) !== '#' || raw.length < 2) return;
+    var target = document.getElementById(raw.slice(1));
+    if (!target) return;
+    e.preventDefault();
+    target.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'start' });
+    // Que el teclado siga la lectura donde quedó la vista.
+    target.setAttribute('tabindex', '-1');
+    target.focus({ preventScroll: true });
+  });
+
+  // Copiar el correo: dentro de un iframe con sandbox, mailto: puede no abrir
+  // nada, así que siempre queda una vía.
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest ? e.target.closest('.copybtn') : null;
+    if (!b) return;
+    var text = b.getAttribute('data-copy') || '';
+    var original = b.getAttribute('data-label') || b.textContent;
+    b.setAttribute('data-label', original);
+
+    function done(ok) {
+      b.textContent = ok ? 'Copiado' : 'Selecciónalo';
+      b.classList.toggle('done', ok);
+      setTimeout(function () {
+        b.textContent = b.getAttribute('data-label');
+        b.classList.remove('done');
+      }, 2200);
+    }
+    function fallback() {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+      document.body.appendChild(ta);
+      ta.select();
+      var ok = false;
+      try { ok = document.execCommand('copy'); } catch (err) { ok = false; }
+      document.body.removeChild(ta);
+      done(ok);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () { done(true); }, fallback);
+    } else {
+      fallback();
+    }
+  });
+})();
+</script>
 </body>
 </html>
