@@ -430,6 +430,39 @@
     scroll-margin-top: 28px;
   }
 
+  @media (max-width: 460px) {
+    .btn { font-size: 11.5px; letter-spacing: .07em; padding: 17px 20px; }
+  }
+
+  .brandlogo { display: block; width: 190px; height: auto; }
+  .footlogo { display: block; width: 170px; height: auto; margin-bottom: 4px; }
+
+  .hero-split { display: grid; gap: 40px; align-items: end; }
+  @media (min-width: 900px) {
+    .hero-split { grid-template-columns: 1.35fr .65fr; gap: 56px; }
+  }
+  .heroshot { margin: 0; align-self: end; }
+  .heroshot img {
+    display: block; width: 100%; max-width: 340px; height: auto;
+    border-radius: 3px;
+  }
+  @media (max-width: 899px) { .heroshot { display: none; } }
+
+  .bioshot {
+    display: block; width: 100%; max-width: 320px; height: auto;
+    border-radius: 3px; margin-bottom: 22px;
+  }
+
+  .stage .solves, .stage .how { font-size: 15.5px; color: var(--muted); max-width: var(--measure); }
+  .stage .solves strong, .stage .how strong { color: var(--ink); font-weight: 600; }
+  .stage .how { margin-top: 10px; }
+  .stage .shift {
+    margin-top: 14px;
+    font-family: var(--display); font-style: italic;
+    font-size: 18px; line-height: 1.4; color: var(--brown);
+    max-width: var(--measure);
+  }
+
   .inline-link { color: var(--terracota); text-decoration: underline; text-underline-offset: 3px; }
   .inline-link:hover { color: var(--terracota-lt); }
   .btn.full { display: flex; justify-content: center; width: 100%; margin-top: 20px; }
@@ -483,11 +516,12 @@
 <header class="hero">
   <div class="wrap">
     <div class="brandbar">
-      <div class="brandmark">Breaking Barriers <span>at Work</span></div>
+      <img class="brandlogo" src="img/logo.webp" alt="Breaking Barriers at Work" width="705" height="287">
       <div class="who">Flor Pérsico · Programa 1:1</div>
     </div>
 
-    <div class="hero-inner">
+    <div class="hero-inner hero-split">
+      <div>
       <h1>Te hacen una pregunta que <em>no viste venir.</em></h1>
       <p class="sub">
         Y contestas una versión mucho más simple de lo que en realidad piensas.
@@ -498,6 +532,10 @@
         <a class="btn btn-primary" href="#pagar">Quiero ingresar al programa →</a>
         <span class="cta-note">5 meses · una sesión 1:1 por semana · cupos limitados</span>
       </div>
+      </div>
+      <figure class="heroshot">
+        <img src="img/flor-laptop.webp" alt="Flor Pérsico trabajando" width="420" height="574" loading="eager">
+      </figure>
     </div>
   </div>
 
@@ -669,20 +707,16 @@
           <h3>Start &amp; Diagnose</h3>
         </div>
         <div>
-          <p class="fn">
-            Antes de empezar necesito conocerte a fondo: en qué está tu inglés hoy, cómo
-            son tus reuniones, quiénes son tus interlocutores y qué te traba de verdad.
-            Aquí se configura todo tu sistema de entrenamiento.
-          </p>
-          <ul>
-            <li>Bienvenida: entiende tu bloqueo y firma el contrato de trabajo</li>
-            <li>Road map: las etapas del programa, para qué sirve cada una</li>
-            <li>Los 8 pilares de mentalidad y el weekly report</li>
-            <li>Cuestionario de contexto profesional y producción real como punto de partida</li>
-          </ul>
+          <p class="solves"><strong>Qué resuelve:</strong> que no empieces a ciegas. Vas a saber
+          desde dónde partes, cómo es el recorrido completo y qué se espera de ti
+          durante los cinco meses.</p>
+          <p class="how"><strong>Cómo:</strong> hacemos tu diagnóstico sobre producción real, no
+          sobre un test. Mapeamos tu contexto: quiénes son tus interlocutores, en qué
+          situaciones se te complica, qué evitas decir. Con eso queda configurado tu
+          sistema de entrenamiento, con tu material.</p>
           <div class="hito">
-            <span class="lbl">Hito</span>
-            <span class="q">«Sé desde dónde parto, cómo es el recorrido del programa, y tengo listo lo que necesito para entrenar con el sistema autónomo de Breaking Barriers.»</span>
+            <span class="lbl">Al terminar esta etapa</span>
+            <span class="q">«Sé desde dónde parto, cómo es el recorrido del programa, y tengo listo lo que necesito para entrenar.»</span>
           </div>
         </div>
       </article>
@@ -693,19 +727,16 @@
           <h3>Automatize Your English</h3>
         </div>
         <div>
-          <p class="fn">
-            Te enseño a entrenar con tu propio material: prácticas reales como si
-            estuvieras en tus reuniones, para detectar errores fosilizados frente a
-            falta de base, y mejorar tu registro y tu vocabulario técnico.
-          </p>
-          <ul>
-            <li>Narrative Flow: convierte tu producción espontánea en material de entrenamiento</li>
-            <li>Color Method: pasa el vocabulario de reconocerlo a poder usarlo</li>
-            <li>Role Play Method: convierte situaciones futuras en práctica deliberada</li>
-            <li>Acceso a los tres bots y guías de configuración, en un solo documento</li>
-          </ul>
+          <p class="solves"><strong>Qué resuelve:</strong> que el inglés que ya tienes deje de
+          estar guardado. Lo sabes, lo entiendes, lo lees — pero no te sale cuando
+          lo necesitas. Aquí se activa.</p>
+          <p class="how"><strong>Cómo:</strong> te enseño a entrenar con tu propio material.
+          Separamos los errores que repites en automático de los que nunca te
+          explicaron, movemos tu vocabulario profesional de reconocerlo a poder usarlo,
+          y ensayas tus reuniones antes de que ocurran. Sales con tu método de
+          práctica configurado y funcionando.</p>
           <div class="hito">
-            <span class="lbl">Hito</span>
+            <span class="lbl">Al terminar esta etapa</span>
             <span class="q">«Sé cómo entrenar con mis situaciones reales de trabajo para desenvolverme cada día mejor en ellas.»</span>
           </div>
         </div>
@@ -717,51 +748,39 @@
           <h3>Communicate in Real Time</h3>
         </div>
         <div>
-          <p class="fn">
-            Cuatro habilidades para construir, sostener y adaptar tu mensaje mientras
-            la comunicación está sucediendo. Son las que trancan justo a alguien que
-            ya habla inglés bien.
-          </p>
-          <ul>
-            <li>Seguir hablando cuando no viene la palabra (paraphrasing)</li>
-            <li>Organizar y priorizar el mensaje: qué es necesario y qué es accesorio</li>
-            <li>Reparar y continuar sin abandonar la idea ni empezar de nuevo</li>
-            <li>Manejar la interacción: preguntas, interrupciones, cambios de dirección</li>
-          </ul>
+          <p class="solves"><strong>Qué resuelve:</strong> lo que se te cae justo cuando la
+          conversación se sale del guion. La pregunta que no viste venir, la palabra
+          que no aparece, la interrupción que te desarma.</p>
+          <p class="how"><strong>Cómo:</strong> cuatro habilidades que se entrenan por separado —
+          seguir hablando cuando no viene la palabra, ordenar y priorizar lo que dices,
+          reparar sin frenar el mensaje, y manejar preguntas e interrupciones. Después
+          las aplicas en ocho situaciones reales: presentarte ante un equipo nuevo, dar
+          un update, explicar un problema, disentir, responder lo inesperado, presentar
+          delante de quien decide.</p>
           <div class="hito">
-            <span class="lbl">Hito</span>
+            <span class="lbl">Al terminar esta etapa</span>
             <span class="q">«Puedo organizar y sostener mi mensaje en tiempo real. Sé qué hacer cuando no recuerdo una palabra, cuando necesito ordenar una idea, cuando noto que no fui clara o cuando la conversación cambia de dirección.»</span>
           </div>
         </div>
       </article>
 
-      <article class="stage two-col">
+      <article class="stage">
         <div class="label">
           <span class="tag">Módulo 3</span>
           <h3>Build Your Language System</h3>
         </div>
         <div>
-          <p class="fn">
-            A veces el bloqueo no es de fluidez: es de estructura. Aquí están grabados
-            los once sistemas que se repiten una y otra vez en alumnas B1–B2. No es
-            toda la gramática del nivel: solo lo recurrente, transferible y que de
-            verdad merece explicación.
-          </p>
-          <ul>
-            <li>El sistema verbal completo</li>
-            <li>Present perfect: simple vs. continuous</li>
-            <li>Qué significa realmente el <em>-ing</em></li>
-            <li>Dejar de traducir el patrón</li>
-            <li>Preposiciones y collocations que se repiten</li>
-            <li>Nominalización y familias de palabras</li>
-            <li>Modales, certeza y obligación</li>
-            <li>Condiciones, consecuencias y escenarios</li>
-            <li>Preguntas y orden de palabras</li>
-            <li>Voz pasiva para procesos y reportes</li>
-            <li>Banco de micro-lecciones de precisión</li>
-          </ul>
+          <p class="solves"><strong>Qué resuelve:</strong> a veces el bloqueo no es de fluidez,
+          es de estructura. Vas a entender cómo funciona el idioma de verdad, no la
+          gramática aislada que te vinieron enseñando durante años, para que dejes de
+          armar cada frase por fragmentos.</p>
+          <p class="how"><strong>Cómo:</strong> solo los sistemas que de verdad se repiten en tu
+          trabajo. No es toda la gramática del nivel: es lo que aparece una y otra vez
+          en tus reuniones y en tus mails.</p>
+          <p class="shift">Vas a dejar de dudar cómo preguntarle algo a tu jefa
+          mientras ella todavía está hablando.</p>
           <div class="hito">
-            <span class="lbl">Hito</span>
+            <span class="lbl">Al terminar esta etapa</span>
             <span class="q">«Entiendo y puedo aplicar los sistemas lingüísticos que aparecen repetidamente en mi comunicación laboral.»</span>
           </div>
         </div>
@@ -773,49 +792,20 @@
           <h3>Understand &amp; Be Understood</h3>
         </div>
         <div>
-          <p class="fn">
-            Entender a hablantes nativos y hacer que tu producción sea fácil de seguir.
-            El principio es inteligibilidad, no eliminar tu acento: tu acento no es el
-            problema.
-          </p>
-          <ul>
-            <li>Cómo suena el inglés y por qué no sigue las reglas del español</li>
-            <li>Los patrones que necesita quien habla español</li>
-            <li>Por qué el inglés real suena distinto: connected speech</li>
-            <li>Shadowing para entrenar tu oído y tu boca</li>
-          </ul>
+          <p class="solves"><strong>Qué resuelve:</strong> los dos lados del sonido. Entender a
+          alguien que habla rápido sin perderte los dos minutos siguientes, y que a ti
+          te entiendan sin que nadie tenga que pedirte que repitas.</p>
+          <p class="how"><strong>Cómo:</strong> por qué el inglés no sigue las reglas de sonido del
+          español, los patrones que necesita quien habla español, y cómo suena el habla
+          real cuando las palabras se encadenan. El objetivo es inteligibilidad, no
+          eliminar tu acento: tu acento no es el problema.</p>
           <div class="hito">
-            <span class="lbl">Hito</span>
+            <span class="lbl">Al terminar esta etapa</span>
             <span class="q">«Entiendo mejor por qué el inglés real suena como suena y sé cómo entrenar mi oído y mi producción.»</span>
           </div>
         </div>
       </article>
 
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════ GUIDES ═══════════════ -->
-<section>
-  <div class="wrap">
-    <span class="eyebrow">Workplace Practice Library</span>
-    <h2 class="section-title">Ocho situaciones reales,<br>listas para ensayar.</h2>
-    <p class="lede">
-      Cada guía toma una situación concreta de trabajo y te da el vocabulario, las
-      expresiones, los idioms y los phrasal verbs de ese contexto, más un prompt de
-      role play con IA. No son ocho videos repitiendo teoría: son donde aplicas lo
-      que ya aprendiste.
-    </p>
-
-    <div class="guides">
-      <div class="guide"><span class="en">Introducing Yourself to a New Team</span><span class="es">Presentarte ante un equipo nuevo</span></div>
-      <div class="guide"><span class="en">Making Small Talk Before a Meeting</span><span class="es">Los cinco minutos antes de que empiece</span></div>
-      <div class="guide"><span class="en">Giving a Clear Project Update</span><span class="es">Dar un update sin irte por las ramas</span></div>
-      <div class="guide"><span class="en">Explaining a Problem and the Next Steps</span><span class="es">Explicar un problema y qué sigue</span></div>
-      <div class="guide"><span class="en">Disagreeing or Clarifying Politely</span><span class="es">Disentir sin sonar agresiva ni pedir permiso</span></div>
-      <div class="guide"><span class="en">Explaining a Process Clearly</span><span class="es">Explicar un proceso con claridad</span></div>
-      <div class="guide"><span class="en">Handling Unexpected Questions</span><span class="es">Responder lo que no viste venir</span></div>
-      <div class="guide"><span class="en">Giving a Professional Presentation</span><span class="es">Presentar delante de quien decide</span></div>
     </div>
   </div>
 </section>
@@ -901,6 +891,7 @@
   <div class="wrap">
     <div class="bio">
       <div class="plate">
+        <img class="bioshot" src="img/flor-cafe.webp" alt="Flor Pérsico" width="410" height="566" loading="lazy">
         <div class="sig">Flor Pérsico</div>
         <div class="sigrole">Creadora del método Breaking Barriers</div>
         <ul>
@@ -1057,7 +1048,7 @@
 <footer>
   <div class="wrap foot">
     <div>
-      <div class="fname">Breaking Barriers at Work</div>
+      <img class="footlogo" src="img/logo.webp" alt="Breaking Barriers at Work" width="705" height="287">
       <div style="margin-top:6px">Professional English for leadership, clarity and presence.</div>
     </div>
     <div style="text-align:right">
