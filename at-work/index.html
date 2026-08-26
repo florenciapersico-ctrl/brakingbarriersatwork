@@ -426,6 +426,19 @@
   }
   .seats strong { color: var(--terracota); font-weight: 600; }
 
+  .payopt { display: grid; gap: 8px; }
+  .linkcopy {
+    justify-self: start;
+    font-family: var(--body); font-size: 11px; font-weight: 600;
+    letter-spacing: .08em; text-transform: uppercase;
+    color: var(--on-ink-soft); background: transparent;
+    border: 0; border-bottom: 1px solid var(--on-ink-line);
+    padding: 2px 0; cursor: pointer;
+    transition: color .18s ease, border-color .18s ease;
+  }
+  .linkcopy:hover { color: var(--terracota); border-color: var(--terracota); }
+  .linkcopy.done { color: var(--terracota); border-color: var(--terracota); }
+
   /* ── fila de contacto ──────────────────────────────────── */
   .mailrow {
     margin-top: 26px; padding-top: 22px;
@@ -969,19 +982,25 @@
       <div>
         <div class="paylead">¿Ya lo decidiste? Paga directo:</div>
         <div class="prices">
-          <a class="price" href="https://buy.stripe.com/00wbJ21pn9oJ1F70RQ8k813" target="_blank" rel="noopener noreferrer">
-            <div class="plan">En cuotas</div>
-            <div class="amount">USD 250<small> /mes</small></div>
-            <div class="terms">Cinco cuotas mensuales · con tarjeta</div>
-            <span class="pay">Pagar con tarjeta →</span>
-          </a>
-          <a class="price best" href="https://buy.stripe.com/fZu14o9VT1Wh6Zrasq8k80Z" target="_blank" rel="noopener noreferrer">
-            <span class="flag">Mejor valor</span>
-            <div class="plan">Pago único</div>
-            <div class="amount">USD 1.100</div>
-            <div class="terms">Ahorras USD 150 sobre el total en cuotas</div>
-            <span class="pay">Pagar con tarjeta →</span>
-          </a>
+          <div class="payopt">
+            <a class="price" href="https://buy.stripe.com/00wbJ21pn9oJ1F70RQ8k813" target="_blank" rel="noopener noreferrer">
+              <div class="plan">En cuotas</div>
+              <div class="amount">USD 250<small> /mes</small></div>
+              <div class="terms">Cinco cuotas mensuales · con tarjeta</div>
+              <span class="pay">Pagar con tarjeta →</span>
+            </a>
+            <button class="linkcopy" type="button" data-copy="https://buy.stripe.com/00wbJ21pn9oJ1F70RQ8k813">Copiar el link de pago</button>
+          </div>
+          <div class="payopt">
+            <a class="price best" href="https://buy.stripe.com/fZu14o9VT1Wh6Zrasq8k80Z" target="_blank" rel="noopener noreferrer">
+              <span class="flag">Mejor valor</span>
+              <div class="plan">Pago único</div>
+              <div class="amount">USD 1.100</div>
+              <div class="terms">Ahorras USD 150 sobre el total en cuotas</div>
+              <span class="pay">Pagar con tarjeta →</span>
+            </a>
+            <button class="linkcopy" type="button" data-copy="https://buy.stripe.com/fZu14o9VT1Wh6Zrasq8k80Z">Copiar el link de pago</button>
+          </div>
         </div>
 
         <p class="seats">
@@ -1121,7 +1140,7 @@
   // Copiar el correo: dentro de un iframe con sandbox, mailto: puede no abrir
   // nada, así que siempre queda una vía.
   document.addEventListener('click', function (e) {
-    var b = e.target.closest ? e.target.closest('.copybtn') : null;
+    var b = e.target.closest ? e.target.closest('.copybtn, .linkcopy') : null;
     if (!b) return;
     var text = b.getAttribute('data-copy') || '';
     var original = b.getAttribute('data-label') || b.textContent;
