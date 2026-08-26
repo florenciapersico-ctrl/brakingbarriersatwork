@@ -377,11 +377,6 @@
   .includes li span { color: var(--on-ink-soft); }
 
   .prices { display: grid; gap: 16px; }
-  .paylead {
-    font-size: 11px; font-weight: 700; letter-spacing: .16em;
-    text-transform: uppercase; color: var(--terracota);
-    margin-bottom: 14px;
-  }
   .price {
     border: 1px solid var(--on-ink-line);
     border-radius: 3px;
@@ -394,12 +389,6 @@
   }
   .price:hover { border-color: var(--terracota); background: rgba(198, 140, 108, .1); }
   .price:active { transform: translateY(1px); }
-  .price .pay {
-    display: inline-block; margin-top: 18px;
-    font-size: 11.5px; font-weight: 700; letter-spacing: .11em;
-    text-transform: uppercase; color: var(--terracota);
-  }
-  .price:hover .pay { color: var(--terracota-lt); }
   .price.best { border-color: var(--terracota); background: rgba(198, 140, 108, .08); }
   .price.best:hover { background: rgba(198, 140, 108, .16); }
   .price .plan {
@@ -426,39 +415,11 @@
   }
   .seats strong { color: var(--terracota); font-weight: 600; }
 
-  .payopt { display: grid; gap: 8px; }
-  .linkcopy {
-    justify-self: start;
-    font-family: var(--body); font-size: 11px; font-weight: 600;
-    letter-spacing: .08em; text-transform: uppercase;
-    color: var(--on-ink-soft); background: transparent;
-    border: 0; border-bottom: 1px solid var(--on-ink-line);
-    padding: 2px 0; cursor: pointer;
-    transition: color .18s ease, border-color .18s ease;
-  }
-  .linkcopy:hover { color: var(--terracota); border-color: var(--terracota); }
-  .linkcopy.done { color: var(--terracota); border-color: var(--terracota); }
 
-  /* ── fila de contacto ──────────────────────────────────── */
-  .mailrow {
-    margin-top: 26px; padding-top: 22px;
-    border-top: 1px solid var(--on-ink-line);
-    display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
-    font-size: 14.5px;
-  }
-  .mailrow-label { color: var(--on-ink-soft); }
-  .mailrow-addr { color: var(--terracota); text-decoration: none; word-break: break-all; }
-  .mailrow-addr:hover { text-decoration: underline; }
-  .copybtn {
-    font-family: var(--body); font-size: 11px; font-weight: 700;
-    letter-spacing: .1em; text-transform: uppercase;
-    color: var(--on-ink); background: transparent;
-    border: 1px solid var(--on-ink-line); border-radius: 2px;
-    padding: 7px 13px; cursor: pointer;
-    transition: background .18s ease, border-color .18s ease;
-  }
-  .copybtn:hover { background: rgba(198, 140, 108, .14); border-color: var(--terracota); }
-  .copybtn.done { background: var(--terracota); border-color: var(--terracota); color: var(--ink); }
+  .inline-link { color: var(--terracota); text-decoration: underline; text-underline-offset: 3px; }
+  .inline-link:hover { color: var(--terracota-lt); }
+  .btn.full { display: flex; justify-content: center; width: 100%; margin-top: 20px; }
+
 
   /* ── faq ───────────────────────────────────────────────── */
   .faq { margin-top: 40px; border-top: 1px solid var(--line); }
@@ -520,7 +481,7 @@
         que no se puede preparar.
       </p>
       <div class="cta-row">
-        <a class="btn btn-primary" href="#aplicar">Quiero aplicar al programa →</a>
+        <a class="btn btn-primary" href="https://buy.stripe.com/fZu14o9VT1Wh6Zrasq8k80Z" target="_blank" rel="noopener noreferrer">Quiero mi lugar →</a>
         <span class="cta-note">5 meses · una sesión 1:1 por semana · cupos limitados</span>
       </div>
     </div>
@@ -980,51 +941,32 @@
       </div>
 
       <div>
-        <div class="paylead">¿Ya lo decidiste? Paga directo:</div>
         <div class="prices">
-          <div class="payopt">
-            <a class="price" href="https://buy.stripe.com/00wbJ21pn9oJ1F70RQ8k813" target="_blank" rel="noopener noreferrer">
-              <div class="plan">En cuotas</div>
-              <div class="amount">USD 250<small> /mes</small></div>
-              <div class="terms">Cinco cuotas mensuales · con tarjeta</div>
-              <span class="pay">Pagar con tarjeta →</span>
-            </a>
-            <button class="linkcopy" type="button" data-copy="https://buy.stripe.com/00wbJ21pn9oJ1F70RQ8k813">Copiar el link de pago</button>
-          </div>
-          <div class="payopt">
-            <a class="price best" href="https://buy.stripe.com/fZu14o9VT1Wh6Zrasq8k80Z" target="_blank" rel="noopener noreferrer">
-              <span class="flag">Mejor valor</span>
-              <div class="plan">Pago único</div>
-              <div class="amount">USD 1.100</div>
-              <div class="terms">Ahorras USD 150 sobre el total en cuotas</div>
-              <span class="pay">Pagar con tarjeta →</span>
-            </a>
-            <button class="linkcopy" type="button" data-copy="https://buy.stripe.com/fZu14o9VT1Wh6Zrasq8k80Z">Copiar el link de pago</button>
+          <div class="price best">
+            <span class="flag">Mejor valor</span>
+            <div class="plan">Pago único</div>
+            <div class="amount">USD 1.100</div>
+            <div class="terms">Un solo pago, con tarjeta. Acceso completo a los cinco meses.</div>
           </div>
         </div>
 
+        <a class="btn btn-primary full" href="https://buy.stripe.com/fZu14o9VT1Wh6Zrasq8k80Z" target="_blank" rel="noopener noreferrer">Quiero mi lugar →</a>
+
         <p class="seats">
+          ¿Prefieres pagarlo en cuotas? Son
+          <a class="inline-link" href="https://buy.stripe.com/00wbJ21pn9oJ1F70RQ8k813" target="_blank" rel="noopener noreferrer">cinco cuotas de USD 250</a>.
+        </p>
+
+        <p class="seats" style="border:0;padding-top:0;margin-top:10px">
           El programa sostiene <strong>hasta 16 alumnas activas</strong> por mes. No hay
           cohortes ni clases grupales: cada lugar que se abre es uno que se liberó.
         </p>
+
         <p class="seats" style="border:0;padding-top:0;margin-top:10px">
-          ¿Todavía no hablamos? Aplica primero — reviso que el programa sea para ti
-          antes de que pagues nada.
+          Si tienes dudas de si es para ti, escríbeme antes de pagar a
+          <a class="inline-link" href="mailto:florenciapersico@breakingbarriers.site">florenciapersico@breakingbarriers.site</a>
+          y lo vemos juntas.
         </p>
-
-        <div class="cta-row" style="margin-top:30px;display:flex;gap:14px;flex-wrap:wrap">
-          <a class="btn btn-primary" href="mailto:florenciapersico@breakingbarriers.site?subject=Quiero%20aplicar%20a%20AT%20WORK">Quiero aplicar al programa →</a>
-        </div>
-        <p class="seats" style="border:0;padding-top:14px;margin-top:6px">
-          Aplicas, conversamos y confirmamos que el programa es para ti antes de
-          cualquier pago.
-        </p>
-
-        <div class="mailrow">
-          <span class="mailrow-label">O escríbeme directo:</span>
-          <a class="mailrow-addr" href="mailto:florenciapersico@breakingbarriers.site">florenciapersico@breakingbarriers.site</a>
-          <button class="copybtn" type="button" data-copy="florenciapersico@breakingbarriers.site">Copiar</button>
-        </div>
       </div>
     </div>
   </div>
@@ -1095,7 +1037,7 @@
       No en cinco meses. Desde la primera semana en que empieces a practicar
       la situación que hoy te traba.
     </p>
-    <a class="btn btn-primary" href="#aplicar">Quiero aplicar al programa →</a>
+    <a class="btn btn-primary" href="https://buy.stripe.com/fZu14o9VT1Wh6Zrasq8k80Z" target="_blank" rel="noopener noreferrer">Quiero mi lugar →</a>
   </div>
 </section>
 
@@ -1137,41 +1079,6 @@
     target.focus({ preventScroll: true });
   });
 
-  // Copiar el correo: dentro de un iframe con sandbox, mailto: puede no abrir
-  // nada, así que siempre queda una vía.
-  document.addEventListener('click', function (e) {
-    var b = e.target.closest ? e.target.closest('.copybtn, .linkcopy') : null;
-    if (!b) return;
-    var text = b.getAttribute('data-copy') || '';
-    var original = b.getAttribute('data-label') || b.textContent;
-    b.setAttribute('data-label', original);
-
-    function done(ok) {
-      b.textContent = ok ? 'Copiado' : 'Selecciónalo';
-      b.classList.toggle('done', ok);
-      setTimeout(function () {
-        b.textContent = b.getAttribute('data-label');
-        b.classList.remove('done');
-      }, 2200);
-    }
-    function fallback() {
-      var ta = document.createElement('textarea');
-      ta.value = text;
-      ta.setAttribute('readonly', '');
-      ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
-      document.body.appendChild(ta);
-      ta.select();
-      var ok = false;
-      try { ok = document.execCommand('copy'); } catch (err) { ok = false; }
-      document.body.removeChild(ta);
-      done(ok);
-    }
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(function () { done(true); }, fallback);
-    } else {
-      fallback();
-    }
-  });
 })();
 </script>
 </body>
