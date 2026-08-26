@@ -425,6 +425,11 @@
     text-transform: uppercase; color: var(--terracota); }
   .price:hover .pay { color: var(--terracota-lt); }
   .price.best:hover { background: rgba(198, 140, 108, .16); }
+  .paytitle {
+    font-size: 22px; margin-bottom: 16px; color: var(--on-ink);
+    scroll-margin-top: 28px;
+  }
+
   .inline-link { color: var(--terracota); text-decoration: underline; text-underline-offset: 3px; }
   .inline-link:hover { color: var(--terracota-lt); }
   .btn.full { display: flex; justify-content: center; width: 100%; margin-top: 20px; }
@@ -490,7 +495,7 @@
         que no se puede preparar.
       </p>
       <div class="cta-row">
-        <a class="btn btn-primary" href="#aplicar">Quiero aplicar al programa →</a>
+        <a class="btn btn-primary" href="#pagar">Quiero ingresar al programa →</a>
         <span class="cta-note">5 meses · una sesión 1:1 por semana · cupos limitados</span>
       </div>
     </div>
@@ -950,6 +955,7 @@
       </div>
 
       <div>
+        <h3 class="paytitle" id="pagar">Dos formas de pagarlo</h3>
         <div class="prices">
           <a class="price" href="https://buy.stripe.com/00wbJ21pn9oJ1F70RQ8k813" target="_blank" rel="noopener noreferrer">
             <div class="plan">En cuotas</div>
