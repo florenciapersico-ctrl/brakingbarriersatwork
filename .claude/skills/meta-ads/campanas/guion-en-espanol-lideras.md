@@ -1,14 +1,66 @@
-# Guion — "En español lideras" (reel de conversión)
+# Guion del segundo anuncio de conversión
 
-**Escrito:** 27 ago 2026
-**Para:** segundo anuncio de conversión (mensajes), a lanzar el 7 de septiembre 2026
-**Reemplaza a:** el reel "Sabes hacer tu trabajo" del 25 de agosto
+**Actualizado:** 27 ago 2026
+**Para:** segundo anuncio de mensajes, a lanzar el 7 de septiembre 2026
+**Estado:** listo para grabar
 
 ---
 
-## Por qué se reescribió
+## El guion (≈25 segundos)
 
-El reel original decía lo correcto pero tardaba demasiado en decirlo.
+> **"¿Te pasa que preparas las reuniones de memoria?**
+> **¿Que si te hacen una pregunta inesperada te quedas completamente en blanco?**
+> **¿Que llevas años estudiando inglés y todavía no logras hablar como te gustaría?**
+>
+> **No necesitas volver a hacer ese curso de nivel intermedio.**
+>
+> **Si te pasa, comenta QUIERO y te voy a explicar por qué te sucede y cómo lo puedes solucionar."**
+
+---
+
+## De dónde salió
+
+Este guion es de Flor, no mío. Ya lo tenía grabado. Se ajustó en tres pasos:
+
+**1. Se cortó una condición repetida.** El original tenía cuatro: "preparas
+las reuniones de memoria", "dependes de tener un script al lado tuyo", "te
+quedas en blanco", "llevas años estudiando". Las dos primeras dicen lo mismo
+(sobrepreparación). Con cuatro, el giro llegaba en el segundo 17; con tres,
+llega en el 13.
+
+**2. "¿Qué te pasa que…?" → "¿Te pasa que…?"** En español rioplatense y
+mexicano, "qué te pasa que" es reproche. "Te pasa que" es una pregunta que la
+persona se contesta por dentro. Además arranca dos palabras antes.
+
+**3. Una pregunta larga → tres preguntas.** Da tres respiros al hablar y tres
+oportunidades distintas de reconocerse: si no se ve en la primera, se ve en la
+segunda.
+
+---
+
+## Por qué este y no uno escrito de cero
+
+El arranque de Flor describe **conductas**, no sensaciones: prepararse de
+memoria, quedarse en blanco ante una pregunta inesperada. La persona no tiene
+que interpretar si le pasa — se ve.
+
+Un arranque tipo "en inglés te callas" es más rápido pero más abstracto.
+Este golpea más fuerte, y además ya estaba filmado.
+
+El giro — *"no necesitas volver a hacer ese curso de nivel intermedio"* —
+hace dos trabajos a la vez: dice lo que ninguna academia de inglés dice, y
+filtra sola, porque le avisa a alguien que ya estudió que el camino conocido
+no le sirve.
+
+El "si te pasa" antes del CTA es el segundo filtro: pide reconocerse antes de
+escribir. Eso ataca el problema real de agosto, que no fue el alcance sino
+los leads desalineados (un niño y dos mujeres fuera del perfil).
+
+---
+
+## Por qué el original de 38 segundos no servía
+
+El reel del 25 de agosto ("Sabes hacer tu trabajo…") tenía este problema:
 
 | Dato | Valor | Origen |
 |---|---|---|
@@ -18,59 +70,11 @@ El reel original decía lo correcto pero tardaba demasiado en decirlo.
 | **Promedio por persona** | **6,0 seg** | 1.691 ÷ 281 |
 | Retención | 16% | 6 ÷ 38 |
 
-La primera frase — *"Sabes hacer tu trabajo… pero cuando tienes que hablar en
-inglés, sientes que no pareces tan capaz"* — son 18 palabras más una pausa:
-entre 6 y 8 segundos hablados.
+Su primera frase son 18 palabras más una pausa: entre 6 y 8 segundos
+hablados. **La persona promedio se iba justo cuando terminaba el gancho.**
 
-**La persona promedio se iba justo cuando terminaba el gancho.** El mensaje no
-falló: nunca llegó a escucharse entero.
-
-En un anuncio de conversión eso pesa el doble, porque la persona tiene que
-llegar al final para escribir.
-
----
-
-## El guion (32 segundos)
-
-### Seg. 0-2 · GANCHO
-> **"En español lideras esa reunión. En inglés te callas."**
-
-Hablado **y** en pantalla desde el primer frame. Sin música de intro, sin
-logo, sin "hola soy Flor" (Flor descartó ese formato: tarda en arrancar y la
-presenta por su nombre en vez de por el problema de la otra persona).
-
-### Seg. 2-9 · LA ESCENA
-> "Tienes el cargo. Tienes los años. Sabes más del tema que nadie en esa
-> llamada. Y cuando toca decirlo en inglés, esperas a que lo diga otro."
-
-### Seg. 9-16 · EL GIRO
-> "No es tu inglés. Tu inglés alcanza. Lo que falta es sonar con autoridad en
-> un idioma en el que todavía traduces."
-
-El momento clave: es lo que ninguna academia de inglés dice, y es la razón por
-la que escriben.
-
-### Seg. 16-24 · QUÉ ES
-> "Eso se entrena. Cinco meses, en grupo, con mujeres que están donde tú
-> estás: liderando equipos, con inglés intermedio, cansadas de sonar más
-> chicas de lo que son."
-
-### Seg. 24-32 · CIERRE QUE FILTRA
-> "Si eres una de ellas, escríbeme por mensaje directo y te cuento cómo
-> funciona. **Si buscas clases de inglés desde cero, esto no es para ti.**"
-
----
-
-## El filtro del cierre
-
-El problema de Flor en agosto no fue el alcance: fueron los leads
-desalineados (un niño y dos mujeres fuera del perfil por completo).
-
-Un anuncio que dice "aprende inglés" atrae a cualquiera que quiera aprender
-inglés. Uno que **nombra a quién no es para** filtra antes del mensaje.
-
-Menos conversaciones, mejor calidad. Es el intercambio correcto cuando hay
-tres lugares para llenar, no treinta.
+El mensaje no falló — nunca llegó a escucharse entero. En un anuncio de
+conversión eso pesa doble, porque hay que llegar al final para escribir.
 
 ---
 
@@ -78,41 +82,51 @@ tres lugares para llenar, no treinta.
 
 | | |
 |---|---|
-| Duración | 32 seg — no estirarlo |
-| Texto en pantalla | Desde el frame 1, mínimo el gancho |
+| Duración | ≈25 seg |
+| Texto en pantalla | Desde el frame 1, mínimo la primera pregunta |
 | Arranque | Hablando. Sin presentación ni música previa |
 | Formato | Vertical, a cámara |
-| Primer plano | Cara visible en el segundo 0 |
+| Corte | Jump cut donde se sacó la condición repetida — normal en reels |
 
-## Otros ganchos válidos para el mismo contenido
-
-Si el primero no le suena natural al grabarlo, cualquiera de estos entra en
-2-3 segundos y hace el mismo contraste:
-
-- "Nadie en esa sala sabe lo que realmente vales."
-- "Eres la que más sabe del tema. Y la que menos habla."
+Flor descartó explícitamente el formato "hola soy Flor": tarda en arrancar y
+la presenta por su nombre en vez de por el problema de la otra persona.
 
 ---
 
-## Revisión de políticas
+## ⚠️ Pendiente antes de promocionar
 
-Nada aquí afirma un atributo personal prohibido. La estructura es la misma
-que Meta ya aprobó en el anuncio de mejor rendimiento histórico
-("Sabes inglés. Pero cuando hablas en una reunión, te quedas en blanco"):
-describe una escena, no diagnostica a la persona.
+**¿El comentario "QUIERO" dispara un DM automático?**
 
-**No** es categoría especial: no es empleo, ni vivienda, ni crédito. Es
+- **Si sí:** dejar el CTA tal cual. Comentar es más fácil que mandar un DM,
+  suma alcance orgánico, y Meta igual cuenta la conversación iniciada.
+- **Si no:** el anuncio está optimizado para `CONVERSATIONS` /
+  `INSTAGRAM_DIRECT` y el audio manda a comentar. La gente comenta, nadie
+  escribe, y el costo por conversación sube porque casi nadie hace lo que el
+  anuncio busca. Se arregla cambiando el cierre a "escríbeme QUIERO por
+  mensaje directo", o armando la automatización (mejor).
+
+**Sin resolver esto, no se promociona.**
+
+---
+
+## Revisión de políticas de Meta
+
+Preguntar no es afirmar. Al estar todo el arranque en preguntas, el anuncio
+no le atribuye características a nadie — que es justo donde Meta rechaza.
+Es más seguro que la versión afirmativa.
+
+No es categoría especial: no es empleo, ni vivienda, ni crédito. Es
 formación profesional.
 
 ---
 
 ## Lanzamiento
 
-**No lanzar antes del 7 de septiembre 2026.**
+**No promocionar antes del 7 de septiembre 2026.**
 
-El carrusel de conversión (`52545649578333`, $7/día) está en congelamiento
-hasta esa fecha para completar su curva de aprendizaje. El 7 de septiembre se
-revisa su costo por conversación, y ese número es la referencia contra la
-cual se mide este segundo anuncio.
+El carrusel de conversión (`52545649578333`, $7/día) está congelado hasta esa
+fecha para completar su curva de aprendizaje. El 7 se lee su costo por
+conversación, y ese número es la referencia contra la cual se mide este
+segundo anuncio.
 
-Publicarlo orgánico antes está bien — la promoción espera.
+Publicarlo orgánico antes está bien. La promoción espera.
