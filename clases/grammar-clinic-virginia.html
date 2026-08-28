@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grammar Clinic · Virginia — Breaking Barriers at Work</title>
+<meta name="description" content="Nine grammar patterns taken from Virginia's own emails and calls. Explanations, drills and answer keys.">
+<meta name="theme-color" content="#3F1E0D">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400;1,600&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+  /* ══════════════════════════════════════════════════════════
+     Grammar Clinic — material de clase 1:1
+     Misma paleta y tipografías que el sitio. Un solo mundo
+     visual (crema cálida), pensado para leerse en pantalla
+     durante la sesión y para imprimirse después.
+     ══════════════════════════════════════════════════════════ */
+
+  :root {
+    --cream:       #F9F5EE;
+    --cream-warm:  #FBF2D0;
+    --sand:        #EDE5CC;
+    --ink:         #3F1E0D;
+    --brown:       #895325;
+    --terracota:   #C68C6C;
+    --terracota-lt:#D7A184;
+    --muted:       #7B6A58;
+    --line:        rgba(63, 30, 13, .14);
+    --line-soft:   rgba(63, 30, 13, .08);
+    --on-ink:      #F4EADF;
+    --on-ink-soft: rgba(244, 234, 223, .62);
+    --on-ink-line: rgba(198, 140, 108, .28);
+
+    --display: 'Crimson Pro', Georgia, 'Times New Roman', serif;
+    --body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+
+    --wrap: 860px;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 17px;
+    line-height: 1.62;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4 { font-family: var(--display); font-weight: 600; line-height: 1.1; letter-spacing: -.01em; text-wrap: balance; }
+  p { text-wrap: pretty; }
+  a { color: var(--brown); }
+  strong { font-weight: 600; }
+  em { font-style: italic; }
+  :focus-visible { outline: 2px solid var(--brown); outline-offset: 3px; border-radius: 2px; }
+
+  .wrap { max-width: var(--wrap); margin: 0 auto; padding: 0 26px; }
+
+  /* ── portada ───────────────────────────────────────────── */
+  header.cover {
+    background: var(--ink);
+    color: var(--on-ink);
+    padding: 44px 0 62px;
+  }
+  .brandbar {
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: 20px; flex-wrap: wrap; padding-bottom: 54px;
+  }
+  .brandlogo { display: block; width: 178px; height: auto; }
+  .brandbar .who {
+    font-size: 11px; letter-spacing: .2em; text-transform: uppercase;
+    color: var(--on-ink-soft);
+  }
+  .eyebrow {
+    display: block; font-size: 11px; font-weight: 700;
+    letter-spacing: .22em; text-transform: uppercase;
+    color: var(--terracota); margin-bottom: 18px;
+  }
+  header.cover h1 { font-size: clamp(34px, 6.4vw, 54px); }
+  header.cover h1 em { color: var(--terracota); display: block; }
+  header.cover .lede {
+    margin-top: 24px; max-width: 56ch;
+    font-size: clamp(16px, 2vw, 18px); color: var(--on-ink-soft);
+  }
+  header.cover .lede + .lede { margin-top: 12px; }
+  .coverfoot {
+    margin-top: 40px; padding-top: 16px;
+    border-top: 1px solid var(--on-ink-line);
+    font-size: 11px; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--on-ink-soft);
+  }
+
+  /* ── índice ────────────────────────────────────────────── */
+  .toc { background: var(--sand); padding: 46px 0; }
+  .toc h2 { font-size: 22px; margin-bottom: 4px; }
+  .toc .hint { color: var(--muted); font-size: 15px; margin-bottom: 22px; }
+  .toc ol { list-style: none; counter-reset: t; }
+  .toc li {
+    counter-increment: t; position: relative; padding: 9px 0 9px 46px;
+    border-top: 1px solid var(--line-soft); font-size: 16px;
+  }
+  .toc li::before {
+    content: counter(t, decimal-leading-zero);
+    position: absolute; left: 0; top: 9px;
+    font-family: var(--display); font-size: 15px; color: var(--terracota);
+    font-variant-numeric: tabular-nums;
+  }
+  .toc a { text-decoration: none; color: var(--ink); border-bottom: 1px solid transparent; }
+  .toc a:hover { border-bottom-color: var(--terracota); }
+  .toc li span { display: block; color: var(--muted); font-size: 14.5px; }
+
+  /* ── secciones ─────────────────────────────────────────── */
+  main section { padding: 54px 0 8px; }
+  main section + section { border-top: 1px solid var(--line-soft); }
+  .num {
+    font-family: var(--display); font-size: 13px; letter-spacing: .16em;
+    text-transform: uppercase; color: var(--terracota); display: block;
+    margin-bottom: 10px;
+  }
+  h2.title { font-size: clamp(26px, 4.2vw, 36px); margin-bottom: 14px; }
+  h2.title em { color: var(--brown); }
+  h3 { font-size: 21px; margin: 30px 0 10px; }
+  h4 {
+    font-family: var(--body); font-size: 11px; font-weight: 700;
+    letter-spacing: .18em; text-transform: uppercase; color: var(--brown);
+    margin: 26px 0 8px;
+  }
+  p + p, p + ul, p + ol, ul + p, ol + p { margin-top: 12px; }
+  .lede-s { color: var(--muted); font-size: 17.5px; max-width: 60ch; }
+
+  ul.plain { list-style: none; }
+  ul.plain li { position: relative; padding-left: 20px; margin-bottom: 7px; }
+  ul.plain li::before {
+    content: ''; position: absolute; left: 0; top: .72em;
+    width: 11px; height: 1px; background: var(--terracota);
+  }
+
+  /* ── ejemplos ──────────────────────────────────────────── */
+  .ex {
+    font-family: var(--display); font-size: 20px; line-height: 1.4;
+    position: relative; padding-left: 30px; margin: 8px 0;
+  }
+  .ex::before {
+    position: absolute; left: 0; top: .12em;
+    font-family: var(--body); font-size: 13px; font-weight: 700;
+  }
+  .ex.bad::before  { content: '\00D7'; color: #A8442B; font-size: 17px; top: .04em; }
+  .ex.good::before { content: '\2713'; color: var(--brown); }
+  .ex.neutral::before { content: '\2014'; color: var(--terracota); }
+  .ex.bad { color: var(--muted); }
+  .ex u { text-decoration: none; border-bottom: 2px solid var(--terracota); padding-bottom: 1px; }
+
+  .quote {
+    font-family: var(--display); font-size: 20px; line-height: 1.4;
+    border-left: 2px solid var(--terracota); padding: 2px 0 2px 18px; margin: 14px 0;
+  }
+
+  /* ── tarjeta de regla ──────────────────────────────────── */
+  .card {
+    background: var(--cream-warm);
+    border: 1px solid rgba(137, 83, 37, .2);
+    border-radius: 3px; padding: 22px 24px; margin: 20px 0;
+  }
+  .card.plainbg { background: #fff; border-color: var(--line); }
+  .card.ink { background: var(--ink); color: var(--on-ink); border-color: var(--ink); }
+  .card.ink h4 { color: var(--terracota); }
+  .card.ink p { color: rgba(244, 234, 223, .82); }
+  .card > *:first-child { margin-top: 0; }
+  .pattern {
+    font-family: var(--display); font-size: 22px; line-height: 1.3;
+    margin: 6px 0 4px;
+  }
+  .pattern b { font-weight: 600; color: var(--brown); }
+
+  /* ── dos columnas ──────────────────────────────────────── */
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; margin: 18px 0; }
+  @media (max-width: 620px) { .cols { grid-template-columns: 1fr; gap: 18px; } }
+
+  /* ── ejercicios ────────────────────────────────────────── */
+  .drill {
+    background: #fff; border: 1px solid var(--line);
+    border-radius: 3px; padding: 24px 26px; margin: 22px 0;
+  }
+  .drill > h4:first-child { margin-top: 0; }
+  .drill ol { list-style: none; counter-reset: d; }
+  .drill ol li {
+    counter-increment: d; position: relative;
+    padding: 7px 0 7px 32px; border-bottom: 1px solid var(--line-soft);
+    font-size: 16.5px;
+  }
+  .drill ol li:last-child { border-bottom: 0; padding-bottom: 0; }
+  .drill ol li::before {
+    content: counter(d) '.'; position: absolute; left: 0; top: 7px;
+    font-family: var(--display); color: var(--terracota); font-size: 16px;
+  }
+  .drill ol.ab li { padding-bottom: 12px; }
+  .drill ol.ab .opt { display: block; color: var(--muted); margin-top: 2px; }
+  .drill .pick { color: var(--brown); font-style: italic; white-space: nowrap; }
+
+  /* ── clave de respuestas ───────────────────────────────── */
+  details.key { margin-top: 18px; border-top: 1px solid var(--line); padding-top: 14px; }
+  details.key summary {
+    cursor: pointer; list-style: none; display: inline-flex; align-items: center; gap: 9px;
+    font-size: 11px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--brown);
+  }
+  details.key summary::-webkit-details-marker { display: none; }
+  details.key summary::before {
+    content: '+'; display: inline-flex; align-items: center; justify-content: center;
+    width: 19px; height: 19px; border: 1px solid var(--terracota); border-radius: 50%;
+    font-size: 13px; line-height: 1; color: var(--terracota);
+  }
+  details.key[open] summary::before { content: '\2212'; }
+  details.key summary:hover { color: var(--ink); }
+  details.key .keybody { margin-top: 14px; }
+  details.key ol { list-style: none; counter-reset: k; }
+  details.key ol li {
+    counter-increment: k; position: relative; padding: 5px 0 5px 32px;
+    font-size: 16.5px;
+  }
+  details.key ol li::before {
+    content: counter(k) '.'; position: absolute; left: 0; top: 5px;
+    font-family: var(--display); color: var(--terracota); font-size: 16px;
+  }
+  details.key b { color: var(--brown); font-weight: 600; }
+
+  /* ── tabla ─────────────────────────────────────────────── */
+  .tablewrap { overflow-x: auto; margin: 22px 0; }
+  table { border-collapse: collapse; width: 100%; min-width: 620px; font-size: 15.5px; }
+  th, td { text-align: left; padding: 11px 14px; border-bottom: 1px solid var(--line-soft); vertical-align: top; }
+  thead th {
+    font-size: 10.5px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase;
+    color: var(--brown); border-bottom: 1px solid var(--line);
+  }
+  td:first-child { color: var(--muted); }
+  td b { color: var(--ink); font-weight: 600; }
+
+  /* ── checklist ─────────────────────────────────────────── */
+  .checklist { list-style: none; margin-top: 10px; }
+  .checklist li { display: flex; gap: 12px; align-items: flex-start; padding: 7px 0; font-size: 16.5px; }
+  .checklist input { margin-top: .42em; accent-color: var(--brown); width: 15px; height: 15px; flex: none; }
+
+  /* ── cierre ────────────────────────────────────────────── */
+  .closing { background: var(--ink); color: var(--on-ink); padding: 56px 0 44px; margin-top: 54px; }
+  .closing h2 { color: var(--on-ink); font-size: clamp(26px, 4.2vw, 34px); }
+  .closing p { color: rgba(244, 234, 223, .78); max-width: 56ch; margin-top: 14px; }
+  .closing .sig { font-family: var(--display); font-style: italic; font-size: 21px; margin-top: 26px; color: var(--terracota); }
+  .closing .mail {
+    margin-top: 26px; padding-top: 16px; border-top: 1px solid var(--on-ink-line);
+    font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--on-ink-soft);
+  }
+  .closing .mail a { color: var(--terracota); text-decoration: none; }
+
+  /* ── impresión ─────────────────────────────────────────── */
+  @media print {
+    body { background: #fff; font-size: 10.6pt; }
+    header.cover, .closing { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    main section { page-break-inside: auto; padding-top: 26px; }
+    .drill, .card, .toc li, table tr { page-break-inside: avoid; }
+    h2.title, h3 { page-break-after: avoid; }
+    details.key summary { display: none; }
+    .toc { page-break-after: always; }
+    a { text-decoration: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="cover">
+  <div class="wrap">
+    <div class="brandbar">
+      <img class="brandlogo" src="data:image/webp;base64,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" alt="Breaking Barriers at Work" width="705" height="287">
+      <div class="who">Flor Pérsico · 1:1 session</div>
+    </div>
+
+    <span class="eyebrow">Grammar clinic · Virginia</span>
+    <h1>Ten sentences you already said.<em>Let's take them apart.</em></h1>
+
+    <p class="lede">Everything in this class comes out of your own emails and calls. I didn't
+    invent a single example. That matters, because these aren't nine grammar rules in general:
+    they're the nine things your English does when you stop watching it.</p>
+    <p class="lede">Most of them are small. All of them are fixable. And you already know more
+    than enough grammar to fix them — what's missing is noticing them in time.</p>
+
+    <div class="coverfoot">Nine patterns · Drills with answer keys · Homework at the end</div>
+  </div>
+</header>
+
+<nav class="toc">
+  <div class="wrap">
+    <h2>What we're doing today</h2>
+    <p class="hint">Work in order. The answers are hidden on purpose — write yours first,
+    then open them. If you open them first, the drill stops teaching you anything.</p>
+    <ol>
+      <li><a href="#s1">Warm-up: six sentences, don't fix them yet</a></li>
+      <li><a href="#s2">Ask doesn't take a preposition</a><span>I ask to my colleague</span></li>
+      <li><a href="#s3">A workaround, not workaround</a><span>like as workaround rather a proper process</span></li>
+      <li><a href="#s4">Going to never travels without be</a><span>they who need going to use it · who don't gonna use it</span></li>
+      <li><a href="#s5">In case doesn't take will</a><span>in case it'll be necessary</span></li>
+      <li><a href="#s6">Every counts one at a time</a><span>use it every status</span></li>
+      <li><a href="#s7">The verb agrees with the subject, not with the closest noun</a><span>the name of the statuses are…</span></li>
+      <li><a href="#s8">The -s that disappears</a><span>what status represent…</span></li>
+      <li><a href="#s9">Questions have their own word order</a><span>when status is normally expected to be used?</span></li>
+      <li><a href="#s10">Would needs someone to be okay</a><span>Would be okay taking the lead?</span></li>
+      <li><a href="#s11">Your error map</a></li>
+      <li><a href="#s12">Wrong, or just not what we'd say?</a></li>
+      <li><a href="#s13">Error detective</a></li>
+      <li><a href="#s14">A or B</a></li>
+      <li><a href="#s15">Now about your own work</a></li>
+      <li><a href="#s16">Final production: explain the workflow</a></li>
+      <li><a href="#s17">Before you hit send</a></li>
+      <li><a href="#s18">Exit ticket</a></li>
+      <li><a href="#s19">Homework</a></li>
+    </ol>
+  </div>
+</nav>
+
+<main>
+
+<!-- ═════ 1 ═════ -->
+<section id="s1">
+  <div class="wrap">
+    <span class="num">One · Warm-up</span>
+    <h2 class="title">Six sentences. Don't fix them yet.</h2>
+    <p class="lede-s">Read them once, out loud if you can. The only job right now is to notice
+    where the sentence trips — not to repair it.</p>
+
+    <div class="drill">
+      <ol>
+        <li>I ask to my colleague.</li>
+        <li>They who need going to use it should receive training.</li>
+        <li>The name of the statuses are very friendly.</li>
+        <li>In case it'll be necessary, we can change it.</li>
+        <li>Would be okay taking the lead?</li>
+        <li>What status represent Intuition's life cycle?</li>
+      </ol>
+      <h4>While you read</h4>
+      <ul class="plain">
+        <li>Which ones sound wrong immediately, and which ones almost pass?</li>
+        <li>Is there a word missing, or a word too many?</li>
+        <li>Is the trouble in a verb, a preposition, an article, the subject, or the word order of a question?</li>
+      </ul>
+      <p style="margin-top:14px;color:var(--muted);font-size:15.5px">The ones that almost pass are
+      the expensive ones. Those are the sentences that go out in an email and nobody corrects.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═════ 2 ═════ -->
+<section id="s2">
+  <div class="wrap">
+    <span class="num">Two · Verb pattern</span>
+    <h2 class="title"><em>Ask</em> doesn't take a preposition.</h2>
+
+    <p class="ex bad">I ask <u>to</u> my colleague.</p>
+    <p class="ex good">I ask my colleague.</p>
+    <p class="ex good">I ask my colleague to check it.</p>
+
+    <div class="card">
+      <h4>The patterns</h4>
+      <p class="pattern"><b>ask + person</b> — I asked Sarah.</p>
+      <p class="pattern"><b>ask + person + to + verb</b> — I asked Sarah to review the document.</p>
+      <p class="pattern"><b>ask + for + thing</b> — I asked for more information.</p>
+      <p class="pattern"><b>ask + person + for + thing</b> — I asked Sarah for more information.</p>
+    </div>
+
+    <h3>Where the <em>to</em> actually belongs</h3>
+    <p>This is the useful part. The <em>to</em> in this structure belongs to the second verb,
+    never to the person:</p>
+    <p class="quote">I asked <u>Virginia</u> <strong>to explain</strong> the process.</p>
+    <p>Person: Virginia. Action: to explain. Once you hear it that way, <em>ask to my colleague</em>
+    starts sounding like what it is — a <em>to</em> that lost its verb.</p>
+
+    <div class="cols">
+      <div>
+        <p class="ex bad">I asked to Sarah.</p>
+        <p class="ex bad">I asked to Sarah to send the file.</p>
+      </div>
+      <div>
+        <p class="ex good">I asked Sarah.</p>
+        <p class="ex good">I asked Sarah to send the file.</p>
+        <p class="ex good">I asked Sarah for the file.</p>
+      </div>
+    </div>
+
+    <div class="drill">
+      <h4>Fix these</h4>
+      <ol>
+        <li>I asked to my manager about the deadline.</li>
+        <li>We should ask to the client.</li>
+        <li>She asked me helping her.</li>
+        <li>I asked John a clarification.</li>
+      </ol>
+      <details class="key"><summary>Answers</summary>
+        <div class="keybody"><ol>
+          <li>I asked <b>my manager</b> about the deadline.</li>
+          <li>We should ask <b>the client</b>.</li>
+          <li>She asked me <b>to help</b> her.</li>
+          <li>I asked John <b>for</b> clarification.</li>
+        </ol></div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ═════ 3 ═════ -->
+<section id="s3">
+  <div class="wrap">
+    <span class="num">Three · Articles and comparison</span>
+    <h2 class="title">A workaround, not <em>workaround</em>.</h2>
+
+    <p class="ex bad">like as workaround rather a proper process</p>
+    <p class="ex good">more like a workaround than a proper process</p>
+    <p class="ex good">It works as a workaround rather than as a proper process.</p>
+
+    <p>Three things went missing at once here, which is why the sentence feels harder to repair
+    than it is. Take them one at a time.</p>
+
+    <h3>One — <em>workaround</em> is countable</h3>
+    <p>A singular countable noun almost never stands alone in English. It needs something in front of it.</p>
+    <p class="ex bad">It's workaround.</p>
+    <p class="ex good">It's <u>a</u> workaround.</p>
+    <p class="ex good">It's <u>the</u> workaround we discussed.</p>
+    <p class="ex good">It's <u>our</u> workaround.</p>
+
+    <h3>Two — <em>rather than</em>, complete</h3>
+    <p>The structure is <strong>rather than</strong> + noun, verb or phrase. Not <em>rather</em> alone.</p>
+    <p class="ex good">We use it as a temporary solution <u>rather than</u> a permanent process.</p>
+    <p class="ex good">I'd call it a workaround <u>rather than</u> a solution.</p>
+
+    <h3>Three — <em>more like X than Y</em></h3>
+    <p>This is the one I'd like you to steal. It's how you say something is not quite what it
+    claims to be, without accusing anybody:</p>
+    <p class="quote">It's <strong>more like a workaround than a proper process</strong>.</p>
+    <p>At work that's a very useful sentence shape. You're describing your perception, not
+    issuing a verdict — which makes it much easier for the other person to agree with you.</p>
+
+    <div class="card">
+      <h4>Same move, other contexts</h4>
+      <p class="pattern">This feels more like a temporary fix than a permanent solution.</p>
+      <p class="pattern">I'd describe it as a workaround rather than an established process.</p>
+      <p class="pattern">It's more like an internal guideline than an official policy.</p>
+    </div>
+
+    <div class="drill">
+      <h4>Complete with <em>a</em>, <em>an</em>, <em>the</em>, <em>more like… than</em> or <em>rather than</em></h4>
+      <ol>
+        <li>It's ______ temporary solution.</li>
+        <li>We should treat this as ______ exception ______ a general rule.</li>
+        <li>It feels ______ workaround ______ actual solution.</li>
+        <li>This isn't ______ process we normally follow.</li>
+      </ol>
+      <details class="key"><summary>Answers</summary>
+        <div class="keybody"><ol>
+          <li>It's <b>a</b> temporary solution.</li>
+          <li>… as <b>an</b> exception <b>rather than</b> a general rule.</li>
+          <li>It feels <b>more like a</b> workaround <b>than an</b> actual solution.</li>
+          <li>This isn't <b>the</b> process we normally follow.</li>
+        </ol></div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ═════ 4 ═════ -->
+<section id="s4">
+  <div class="wrap">
+    <span class="num">Four · Future</span>
+    <h2 class="title"><em>Going to</em> never travels without <em>be</em>.</h2>
+    <p class="lede-s">Two of your sentences broke in the same place, which is how I know this
+    one isn't a slip — it's a habit.</p>
+
+    <p class="ex bad">they who need going to use it</p>
+    <p class="ex bad">who don't gonna use it</p>
+
+    <div class="card ink">
+      <h4>The full structure</h4>
+      <p class="pattern" style="color:var(--on-ink)">subject + <b style="color:var(--terracota)">be</b> + going to + base verb</p>
+      <p style="margin-top:10px">I <strong>am going to use</strong> it. · She <strong>is going to use</strong> it.
+      · They <strong>are going to use</strong> it.</p>
+    </div>
+
+    <h4>In the negative</h4>
+    <p class="ex good">They <u>aren't</u> going to use it.</p>
+    <p class="ex bad">They don't going to use it.</p>
+    <p class="ex bad">They don't gonna use it.</p>
+    <p>The <em>be</em> is what carries the negative. <em>Don't</em> has nothing to do here, because
+    <em>going</em> isn't the main verb — <em>use</em> is.</p>
+
+    <h3><em>Gonna</em> is pronunciation, not grammar</h3>
+    <p>You'll hear it constantly: <em>I'm gonna call him. They're gonna change it.</em> That's just
+    how <em>going to</em> sounds in fast informal speech. Notice what survives even there:</p>
+    <p class="ex good">They<u>'re</u> gonna use it.</p>
+    <p class="ex bad">They don't gonna use it.</p>
+    <p>The <em>be</em> never disappears. And in anything you write at work, use the full form:
+    <strong>They are going to use it.</strong></p>
+
+    <h3><em>Those who</em>, not <em>they who</em></h3>
+    <p><em>They who</em> exists in English roughly the way <em>aquellos que</em> exists in Spanish —
+    technically readable, but nobody at your office says it.</p>
+    <p class="ex good"><u>Those who</u> are going to use it should receive training.</p>
+    <p class="ex good"><u>People who</u> are going to use it should receive training.</p>
+
+    <div class="card plainbg">
+      <h4>And these two don't mean the same thing</h4>
+      <p><strong>Employees who need to use the system…</strong> — using it is a requirement.</p>
+      <p><strong>Employees who are going to use the system…</strong> — they intend to, or they're
+      expected to. In your original sentence you had both structures fighting for the same slot.
+      Pick the meaning first, then the structure follows.</p>
+    </div>
+
+    <div class="drill">
+      <h4>Rewrite</h4>
+      <ol>
+        <li>People who going to participate should register.</li>
+        <li>Those who don't going to attend should let us know.</li>
+        <li>Employees who need going to use the platform need access.</li>
+        <li>She's going use the new system tomorrow.</li>
+      </ol>
+      <details class="key"><summary>Answers</summary>
+        <div class="keybody"><ol>
+          <li>People who <b>are going to participate</b> should register.</li>
+          <li>Those who <b>aren't going to attend</b> should let us know.</li>
+          <li>Employees who <b>need to use</b> the platform need access.</li>
+          <li>She's <b>going to use</b> the new system tomorrow.</li>
+        </ol></div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ═════ 5 ═════ -->
+<section id="s5">
+  <div class="wrap">
+    <span class="num">Five · Precaution</span>
+    <h2 class="title"><em>In case</em> doesn't take <em>will</em>.</h2>
+
+    <p class="ex bad">in case it'll be necessary</p>
+    <p class="ex good">in case it's necessary</p>
+    <p class="ex good">in case it becomes necessary</p>
+
+    <p>The future is already in the sentence — it lives in the main clause. The <em>in case</em>
+    part stays in the present, even though it clearly refers to something that hasn't happened yet.</p>
+    <p class="quote">I'll save a copy <strong>in case we need it later</strong>.</p>
+
+    <div class="cols">
+      <div>
+        <p class="ex bad">I'll prepare another version in case we'll need it.</p>
+        <p class="ex bad">Keep the document in case it'll be necessary.</p>
+      </div>
+      <div>
+        <p class="ex good">I'll prepare another version in case we need it.</p>
+        <p class="ex good">Keep the document in case it's necessary.</p>
+      </div>
+    </div>
+
+    <h3><em>In case</em> and <em>if</em> are not interchangeable</h3>
+    <p>This is worth more to you than the <em>will</em> rule, honestly, because getting it wrong
+    changes what you're saying.</p>
+    <div class="cols">
+      <div class="card plainbg">
+        <h4>If — condition</h4>
+        <p class="pattern">I'll call the technician <b>if</b> the system stops working.</p>
+        <p>I call only when the problem actually happens.</p>
+      </div>
+      <div class="card plainbg">
+        <h4>In case — precaution</h4>
+        <p class="pattern">I'll save the technician's number <b>in case</b> the system stops working.</p>
+        <p>I'm preparing now, because it might happen later.</p>
+      </div>
+    </div>
+
+    <div class="drill">
+      <h4><em>If</em> or <em>in case</em>?</h4>
+      <ol>
+        <li>Take your laptop ______ we need to work after the meeting.</li>
+        <li>______ we need more time, we'll extend the deadline.</li>
+        <li>Save a backup ______ something goes wrong.</li>
+        <li>______ the client changes the requirements, we'll adapt the process.</li>
+      </ol>
+      <details class="key"><summary>Answers</summary>
+        <div class="keybody"><ol>
+          <li><b>in case</b> — you take it as a precaution.</li>
+          <li><b>If</b> — the extension depends on the condition.</li>
+          <li><b>in case</b> — precaution again.</li>
+          <li><b>If</b> — we adapt only when it happens.</li>
+        </ol></div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ═════ 6 ═════ -->
+<section id="s6">
+  <div class="wrap">
+    <span class="num">Six · Determiners</span>
+    <h2 class="title"><em>Every</em> counts one at a time.</h2>
+
+    <p class="ex bad">use it every status</p>
+    <p>What the correction is depends on what you meant, and both are useful to have:</p>
+    <p class="ex good">use it <u>for</u> every status</p>
+    <p class="ex good">use it <u>at</u> every stage</p>
+
+    <div class="card">
+      <h4>After <em>every</em>, one thing</h4>
+      <p class="pattern">every <b>status</b> · every <b>stage</b> · every <b>employee</b> · every <b>meeting</b></p>
+      <p style="margin-top:8px">Never <em>every statuses</em>, never <em>every employees</em>.
+      <em>Every</em> looks at the group and points at the members one by one.</p>
+    </div>
+
+    <div class="cols">
+      <div>
+        <h4>every status</h4>
+        <p>Each individual status.</p>
+        <p class="ex neutral">We need a description for every status.</p>
+      </div>
+      <div>
+        <h4>all statuses</h4>
+        <p>The group as a whole.</p>
+        <p class="ex neutral">We reviewed all the statuses.</p>
+      </div>
+    </div>
+
+    <div class="drill">
+      <h4>Choose</h4>
+      <ol>
+        <li>Every <span class="pick">employee / employees</span> needs access.</li>
+        <li>We need to review every <span class="pick">stages / stage</span>.</li>
+        <li>All <span class="pick">status / statuses</span> should be documented.</li>
+        <li>Each <span class="pick">users / user</span> receives an email.</li>
+      </ol>
+      <details class="key"><summary>Answers</summary>
+        <div class="keybody"><ol>
+          <li>Every <b>employee</b></li>
+          <li>every <b>stage</b></li>
+          <li>all <b>statuses</b></li>
+          <li>each <b>user</b></li>
+        </ol></div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ═════ 7 ═════ -->
+<section id="s7">
+  <div class="wrap">
+    <span class="num">Seven · Agreement</span>
+    <h2 class="title">The verb agrees with the subject,<br>not with the closest noun.</h2>
+
+    <p class="ex bad">the name of the statuses are very friendly and common</p>
+    <p class="ex good">The name of the statuses <u>is</u> very friendly and common.</p>
+    <p class="ex good">The names of the statuses <u>are</u> very friendly and common.</p>
+    <p>Both are correct English. Which one you want depends on whether you're talking about one
+    name or several — so the first question isn't grammatical, it's factual.</p>
+
+    <h3>Find the real subject</h3>
+    <p>In <em>The name of the statuses is clear</em>, the subject is <strong>the name</strong>.
+    <em>Of the statuses</em> is extra information about which name; it has no say in the verb.</p>
+
+    <div class="cols">
+      <div>
+        <p class="ex neutral">The <u>list</u> of problems <strong>is</strong> long.</p>
+        <p class="ex neutral">The <u>purpose</u> of these statuses <strong>is</strong> clear.</p>
+      </div>
+      <div>
+        <p class="ex neutral">The <u>problems</u> on the list <strong>are</strong> serious.</p>
+        <p class="ex neutral">The <u>statuses</u> <strong>are</strong> easy to understand.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h4>Why it happens</h4>
+      <p>The longer the phrase between subject and verb, the harder your ear works against you:</p>
+      <p class="pattern">The <b>description</b> of all the different stages of the process <b>is</b> confusing.</p>
+      <p style="margin-top:8px">Your ear hears <em>stages</em> and <em>process</em> right before the verb.
+      The subject is <em>description</em>, four words back. When the sentence gets long, cover the middle
+      with your finger and read only the two ends.</p>
+    </div>
+
+    <div class="drill">
+      <h4>Underline the real subject, then choose <em>is</em> or <em>are</em></h4>
+      <ol>
+        <li>The purpose of these meetings ______ clear.</li>
+        <li>The names of the stages ______ confusing.</li>
+        <li>The list of possible statuses ______ available online.</li>
+        <li>The descriptions of the process ______ useful.</li>
+      </ol>
+      <details class="key"><summary>Answers</summary>
+        <div class="keybody"><ol>
+          <li>The <b>purpose</b> … <b>is</b></li>
+          <li>The <b>names</b> … <b>are</b></li>
+          <li>The <b>list</b> … <b>is</b></li>
+          <li>The <b>descriptions</b> … <b>are</b></li>
+        </ol></div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ═════ 8 ═════ -->
+<section id="s8">
+  <div class="wrap">
+    <span class="num">Eight · Third person</span>
+    <h2 class="title">The <em>-s</em> that disappears.</h2>
+
+    <p class="ex bad">what status represent Intuition's life cycle</p>
+    <p class="ex good">Which status <u>represents</u> this stage of Intuition's life cycle?</p>
+
+    <p>Why <em>represents</em>? Because <em>status</em> is <em>it</em>. In the present simple,
+    everything is bare except that one form:</p>
+
+    <div class="card">
+      <p class="pattern">I represent · you represent · we represent · they represent</p>
+      <p class="pattern">but: it <b>represents</b> · the status <b>represents</b></p>
+    </div>
+
+    <p class="ex neutral">The system <u>shows</u> the current stage.</p>
+    <p class="ex neutral">The process <u>includes</u> four steps.</p>
+    <p class="ex neutral">The document <u>explains</u> the workflow.</p>
+    <p>This one you know perfectly well. It goes missing under pressure, not out of ignorance —
+    which is exactly why drilling it is worth the five minutes.</p>
+
+    <div class="drill">
+      <h4>Choose</h4>
+      <ol>
+        <li>The status <span class="pick">represent / represents</span> a completed task.</li>
+        <li>These statuses <span class="pick">represents / represent</span> different stages.</li>
+        <li>The system <span class="pick">include / includes</span> four categories.</li>
+        <li>Our guidelines <span class="pick">explains / explain</span> the process.</li>
+      </ol>
+      <details class="key"><summary>Answers</summary>
+        <div class="keybody"><ol>
+          <li><b>represents</b> — one status.</li>
+          <li><b>represent</b> — plural subject.</li>
+          <li><b>includes</b> — the system, singular.</li>
+          <li><b>explain</b> — guidelines, plural.</li>
+        </ol></div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ═════ 9 ═════ -->
+<section id="s9">
+  <div class="wrap">
+    <span class="num">Nine · Word order</span>
+    <h2 class="title">Questions have their own word order.</h2>
+    <p class="lede-s">This is the section that will change the most in how you sound, because
+    questions are what you ask all day and the mistake is audible immediately.</p>
+
+    <h3>A direct question inverts</h3>
+    <p class="ex bad">when status is normally expected to be used?</p>
+    <p class="ex good">When <u>is the status</u> normally expected to be used?</p>
+    <div class="card">
+      <p class="pattern">question word + <b>be</b> + subject</p>
+      <p class="pattern">When <b>is</b> the status used? · Why <b>is</b> this option necessary? · Where <b>are</b> these files stored?</p>
+    </div>
+
+    <h3>An embedded question doesn't</h3>
+    <p>The moment the question sits inside another sentence, it goes back to normal order.</p>
+    <p class="ex good">Can you explain <u>when the status is</u> normally expected to be used?</p>
+    <p class="ex bad">Can you explain when is the status normally expected to be used?</p>
+    <div class="cols">
+      <div>
+        <h4>Direct</h4>
+        <p class="quote">When <strong>is</strong> the status used?</p>
+      </div>
+      <div>
+        <h4>Embedded</h4>
+        <p class="quote">Do you know when the status <strong>is</strong> used?</p>
+      </div>
+    </div>
+    <p>Worth knowing: the embedded version is also the polite one. <em>Could you tell me when the
+    document is updated?</em> lands softer than the direct question, which is often what you want
+    with a client.</p>
+
+    <h3>When the question word <em>is</em> the subject</h3>
+    <p>Here's the distinction hiding behind your sentence about the statuses.</p>
+    <div class="cols">
+      <div class="card plainbg">
+        <h4>Which status represents…?</h4>
+        <p class="pattern">Which status <b>represents</b> the final stage?</p>
+        <p>No <em>does</em>. <em>Which status</em> is the subject — it's the thing doing the
+        representing. You're trying to identify the status.</p>
+      </div>
+      <div class="card plainbg">
+        <h4>What does the status represent?</h4>
+        <p class="pattern">What <b>does</b> this status <b>represent</b>?</p>
+        <p>Here the subject is <em>this status</em>, so you need <em>does</em> + base verb — and the
+        <em>-s</em> moves onto <em>does</em>. You already know the status; you want its meaning.</p>
+      </div>
+    </div>
+    <p class="ex bad">What does this status represents?</p>
+    <p>One <em>-s</em> per question. <em>Does</em> already took it.</p>
+
+    <div class="drill">
+      <h4>Question clinic</h4>
+      <ol>
+        <li>When the meeting is going to start?</li>
+        <li>What this status means?</li>
+        <li>Which option represent the final stage?</li>
+        <li>Do you know when is the deadline?</li>
+        <li>Why this process is necessary?</li>
+      </ol>
+      <details class="key"><summary>Answers</summary>
+        <div class="keybody"><ol>
+          <li><b>When is the meeting going to start?</b></li>
+          <li><b>What does this status mean?</b></li>
+          <li><b>Which option represents the final stage?</b></li>
+          <li><b>Do you know when the deadline is?</b> — embedded, no inversion.</li>
+          <li><b>Why is this process necessary?</b></li>
+        </ol></div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ═════ 10 ═════ -->
+<section id="s10">
+  <div class="wrap">
+    <span class="num">Ten · Polite questions</span>
+    <h2 class="title"><em>Would</em> needs someone to be okay.</h2>
+
+    <p class="ex bad">Would be okay taking the lead…?</p>
+    <p>English almost never lets a verb sit without a subject. Spanish does — <em>¿Estaría bien…?</em>
+    is a complete question. English needs to say who or what would be okay. You have two options,
+    and they don't ask the same thing.</p>
+
+    <div class="cols">
+      <div class="card">
+        <h4>Would it be okay to + verb?</h4>
+        <p class="pattern">Would <b>it</b> be okay <b>to take</b> the lead?</p>
+        <p>Is this action acceptable? You're asking about the situation, not about the person.</p>
+      </div>
+      <div class="card">
+        <h4>Would you be okay with + -ing?</h4>
+        <p class="pattern">Would <b>you</b> be okay <b>with taking</b> the lead?</p>
+        <p>Are you comfortable doing it? Now you're asking the person directly.</p>
+      </div>
+    </div>
+
+    <p class="ex good">Would it be okay to change the deadline?</p>
+    <p class="ex good">Would it be okay to mention this during the meeting?</p>
+    <p class="ex good">Would you be okay with presenting this section?</p>
+    <p class="ex good">Would you be okay with moving the meeting?</p>
+
+    <p>In a meeting, the first one is safer when you don't want to put someone on the spot. The
+    second one is the right choice when the answer genuinely depends on how they feel about it.</p>
+
+    <div class="drill">
+      <h4>Complete</h4>
+      <ol>
+        <li>Would ______ be okay to postpone the meeting?</li>
+        <li>Would you be okay ______ presenting first?</li>
+        <li>Would it be okay ______ contact the client?</li>
+        <li>Would she be okay ______ taking responsibility for this task?</li>
+      </ol>
+      <details class="key"><summary>Answers</summary>
+        <div class="keybody"><ol>
+          <li><b>it</b></li>
+          <li><b>with</b></li>
+          <li><b>to</b></li>
+          <li><b>with</b></li>
+        </ol></div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ═════ 11 ═════ -->
+<section id="s11">
+  <div class="wrap">
+    <span class="num">Eleven · Summary</span>
+    <h2 class="title">Your error map.</h2>
+    <p class="lede-s">Everything from today in one place. Keep this open next to your inbox for
+    a couple of weeks — that's where it does its work, not here.</p>
+
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr><th>What you said</th><th>What's going on</th><th>What to say instead</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>I ask <em>to</em> my colleague</td><td>Verb pattern</td><td><b>I ask my colleague.</b></td></tr>
+          <tr><td>like as workaround rather a proper process</td><td>Article + comparison</td><td><b>It's more like a workaround than a proper process.</b></td></tr>
+          <tr><td>they who need going to use it</td><td>Two structures in one slot</td><td><b>Those who are going to use it…</b> / <b>Those who need to use it…</b></td></tr>
+          <tr><td>who don't gonna use it</td><td>Missing <em>be</em></td><td><b>who aren't going to use it</b></td></tr>
+          <tr><td>in case it'll be necessary</td><td><em>Will</em> after <em>in case</em></td><td><b>in case it's / it becomes necessary</b></td></tr>
+          <tr><td>use it every status</td><td>Missing preposition</td><td><b>use it for every status</b></td></tr>
+          <tr><td>the name of the statuses are…</td><td>Subject–verb agreement</td><td><b>The name… is</b> / <b>The names… are</b></td></tr>
+          <tr><td>what status represent…</td><td>Third person <em>-s</em></td><td><b>Which status represents…?</b></td></tr>
+          <tr><td>when status is normally expected…?</td><td>No inversion, no article</td><td><b>When is the status normally expected…?</b></td></tr>
+          <tr><td>Would be okay taking the lead?</td><td>Missing subject</td><td><b>Would it be okay to take the lead?</b></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ═════ 12 ═════ -->
+<section id="s12">
+  <div class="wrap">
+    <span class="num">Twelve · A distinction that matters</span>
+    <h2 class="title">Wrong, or just not what we'd say?</h2>
+
+    <p>Not everything that sounds unusual is a grammar error, and I don't want you treating the
+    two the same way. Some of the expressions in your material — <em>take the ownership</em>,
+    <em>descriptive by itself</em>, <em>proficient way</em>, <em>organize all</em> — are perfectly
+    well-built sentences. They're just not the words a proficient speaker would reach for there.</p>
+
+    <p class="quote">It's descriptive by itself.</p>
+    <p>The structure is fine: subject + be + adjective + prepositional phrase. Nothing is broken.
+    The improvement is a vocabulary one — <strong>the label is self-explanatory</strong> is what
+    someone would actually say. That's a different kind of note from this:</p>
+    <p class="ex bad">The labels is clear.</p>
+    <p>That one is broken.</p>
+
+    <div class="card ink">
+      <h4>Why I'm separating them</h4>
+      <p>Grammar errors you fix with a rule, and they stay fixed. Naturalness you fix by
+      collecting — hearing an expression, noting it, using it. Different problem, different work,
+      different timeline. If you treat every awkward phrase as a mistake, you'll end up second-guessing
+      sentences that were fine, and that hesitation costs you more in a meeting than the phrasing did.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═════ 13 ═════ -->
+<section id="s13">
+  <div class="wrap">
+    <span class="num">Thirteen · Practice</span>
+    <h2 class="title">Error detective.</h2>
+    <p class="lede-s">One error per sentence. Find it, name the pattern, fix it.</p>
+
+    <div class="drill">
+      <ol>
+        <li>I asked to my colleague to review the document.</li>
+        <li>People who is going to use the system need training.</li>
+        <li>Those who don't going to participate can leave.</li>
+        <li>I'll create a backup in case we'll need it.</li>
+        <li>Every statuses needs a description.</li>
+        <li>The purpose of these categories are quite clear.</li>
+        <li>What this status represent?</li>
+        <li>Which category represent the final stage?</li>
+        <li>When the document is normally updated?</li>
+        <li>Could you tell me when is the document updated?</li>
+        <li>Would be okay to change the name?</li>
+        <li>Would you be okay to taking responsibility for it?</li>
+      </ol>
+      <details class="key"><summary>Answers</summary>
+        <div class="keybody"><ol>
+          <li>I asked <b>my colleague</b> to review the document.</li>
+          <li>People who <b>are going to use</b> the system need training.</li>
+          <li>Those who <b>aren't going to participate</b> can leave.</li>
+          <li>I'll create a backup in case <b>we need it</b>.</li>
+          <li><b>Every status needs</b> a description.</li>
+          <li>The <b>purpose</b> of these categories <b>is</b> quite clear.</li>
+          <li><b>What does this status represent?</b></li>
+          <li><b>Which category represents the final stage?</b></li>
+          <li><b>When is the document normally updated?</b></li>
+          <li>Could you tell me <b>when the document is updated?</b></li>
+          <li><b>Would it be okay to change the name?</b></li>
+          <li>Would you be okay <b>with taking</b> responsibility for it?</li>
+        </ol></div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ═════ 14 ═════ -->
+<section id="s14">
+  <div class="wrap">
+    <span class="num">Fourteen · Practice</span>
+    <h2 class="title">A or B.</h2>
+    <p class="lede-s">Faster than the last one. Don't analyse — choose, then check.</p>
+
+    <div class="drill">
+      <ol class="ab">
+        <li>A. I asked to Laura to check it.<span class="opt">B. I asked Laura to check it.</span></li>
+        <li>A. People who are going to use it need access.<span class="opt">B. People who going to use it need access.</span></li>
+        <li>A. Keep the document in case we'll need it.<span class="opt">B. Keep the document in case we need it.</span></li>
+        <li>A. The list of statuses are confusing.<span class="opt">B. The list of statuses is confusing.</span></li>
+        <li>A. Which status represents the final stage?<span class="opt">B. Which status does represent the final stage?</span></li>
+        <li>A. Do you know when the meeting starts?<span class="opt">B. Do you know when does the meeting start?</span></li>
+        <li>A. Would it be okay to change this?<span class="opt">B. Would be okay changing this?</span></li>
+      </ol>
+      <details class="key"><summary>Answers</summary>
+        <div class="keybody"><ol>
+          <li><b>B</b> — ask + person.</li>
+          <li><b>A</b> — <em>be</em> + going to.</li>
+          <li><b>B</b> — no <em>will</em> after <em>in case</em>.</li>
+          <li><b>A</b> is wrong: the subject is <em>the list</em>. <b>B</b>.</li>
+          <li><b>A</b> — the question word is the subject, no <em>does</em>.</li>
+          <li><b>A</b> — embedded question, normal order.</li>
+          <li><b>A</b> — <em>would</em> needs a subject.</li>
+        </ol></div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ═════ 15 ═════ -->
+<section id="s15">
+  <div class="wrap">
+    <span class="num">Fifteen · Production</span>
+    <h2 class="title">Now about your own work.</h2>
+    <p class="lede-s">Finish each one with something true about a real process at your job. True
+    matters: invented sentences don't stick, and you'll never need them again.</p>
+
+    <div class="drill">
+      <ol>
+        <li>I'm going to ask ____________ to ____________.</li>
+        <li>People who are going to ____________ should ____________.</li>
+        <li>Those who aren't going to ____________ don't need to ____________.</li>
+        <li>We'll keep ____________ in case ____________.</li>
+        <li>Every ____________ needs ____________.</li>
+        <li>The purpose of ____________ is ____________.</li>
+        <li>Which ____________ represents ____________?</li>
+        <li>What does ____________ represent?</li>
+        <li>When is ____________ normally used?</li>
+        <li>Would it be okay to ____________?</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ═════ 16 ═════ -->
+<section id="s16">
+  <div class="wrap">
+    <span class="num">Sixteen · Production</span>
+    <h2 class="title">Explain the workflow.</h2>
+
+    <p>Your company has introduced a new system with different statuses representing the stages of
+    a project's life cycle. Explain it to a new colleague, in writing, in about 150–200 words.</p>
+
+    <div class="card">
+      <h4>Include at least</h4>
+      <ul class="plain">
+        <li>one <strong>ask + person + to + verb</strong></li>
+        <li>one <strong>be going to + verb</strong>, and one in the negative</li>
+        <li>one sentence with <strong>in case</strong></li>
+        <li>one <strong>every + singular noun</strong></li>
+        <li>one long subject with <strong>of + plural noun</strong></li>
+        <li>one <strong>Which…?</strong> question and one <strong>What does…?</strong> question</li>
+        <li>one <strong>When is…?</strong> question</li>
+        <li>one polite question with <strong>Would…?</strong></li>
+      </ul>
+    </div>
+
+    <p class="quote">We use several statuses to represent the different stages of the project's life
+    cycle. The name of each status is designed to make its purpose easy to understand. People who
+    are going to use the system regularly should become familiar with every status…</p>
+    <p style="color:var(--muted);font-size:15.5px">That's the opening. Keep going from there —
+    and bring it to the next session even if you're not happy with it.</p>
+  </div>
+</section>
+
+<!-- ═════ 17 ═════ -->
+<section id="s17">
+  <div class="wrap">
+    <span class="num">Seventeen · Self-correction</span>
+    <h2 class="title">Before you hit send.</h2>
+    <p class="lede-s">Twelve seconds, on anything that matters. Not on every message — you'd stop
+    writing altogether.</p>
+
+    <div class="drill">
+      <h4>Verb patterns</h4>
+      <ul class="checklist">
+        <li><input type="checkbox"><span><em>ask + person</em>, with no <em>to</em> in front of them?</span></li>
+        <li><input type="checkbox"><span>After <em>need</em>, did I use <em>to</em> + verb?</span></li>
+        <li><input type="checkbox"><span>Is there an <em>am / is / are</em> in front of every <em>going to</em>?</span></li>
+      </ul>
+      <h4>Future</h4>
+      <ul class="checklist">
+        <li><input type="checkbox"><span>No <em>will</em> after <em>in case</em>?</span></li>
+        <li><input type="checkbox"><span>Did I mean a precaution (<em>in case</em>) or a condition (<em>if</em>)?</span></li>
+      </ul>
+      <h4>Nouns</h4>
+      <ul class="checklist">
+        <li><input type="checkbox"><span>Does that singular countable noun have <em>a / an / the / every / my / this</em>?</span></li>
+        <li><input type="checkbox"><span>Is the noun after <em>every</em> singular?</span></li>
+      </ul>
+      <h4>Agreement</h4>
+      <ul class="checklist">
+        <li><input type="checkbox"><span>What's the real subject — not the noun closest to the verb?</span></li>
+        <li><input type="checkbox"><span>Singular or plural? Does the verb match it?</span></li>
+        <li><input type="checkbox"><span>Third person singular: is the <em>-s</em> there?</span></li>
+      </ul>
+      <h4>Questions</h4>
+      <ul class="checklist">
+        <li><input type="checkbox"><span>Direct question — did I invert?</span></li>
+        <li><input type="checkbox"><span>Embedded question — did I <em>not</em> invert?</span></li>
+        <li><input type="checkbox"><span>Is the question word itself the subject? Then no <em>do / does</em>.</span></li>
+      </ul>
+      <h4>Would</h4>
+      <ul class="checklist">
+        <li><input type="checkbox"><span>Is there a subject after <em>would</em>?</span></li>
+        <li><input type="checkbox"><span><em>Would it be okay to</em> + verb, or <em>would you be okay with</em> + -ing?</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ═════ 18 ═════ -->
+<section id="s18">
+  <div class="wrap">
+    <span class="num">Eighteen · Exit ticket</span>
+    <h2 class="title">Without scrolling back up.</h2>
+
+    <div class="drill">
+      <ol>
+        <li>I need to ask to my colleague.</li>
+        <li>Those who don't gonna attend should tell me.</li>
+        <li>I'll keep it in case it'll be necessary.</li>
+        <li>The meaning of these statuses are clear.</li>
+        <li>What this status represent?</li>
+        <li>Do you know when is this status used?</li>
+        <li>Would be okay changing it?</li>
+      </ol>
+      <details class="key"><summary>Answers</summary>
+        <div class="keybody"><ol>
+          <li>I need to ask <b>my colleague</b>.</li>
+          <li>Those who <b>aren't going to attend</b> should tell me.</li>
+          <li>I'll keep it in case <b>it's necessary</b>.</li>
+          <li>The <b>meaning</b> of these statuses <b>is</b> clear.</li>
+          <li><b>What does this status represent?</b></li>
+          <li>Do you know <b>when this status is used?</b></li>
+          <li><b>Would it be okay to change it?</b></li>
+        </ol></div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ═════ 19 ═════ -->
+<section id="s19">
+  <div class="wrap">
+    <span class="num">Nineteen · Homework</span>
+    <h2 class="title">From correction to automatic.</h2>
+
+    <p>Write eight to ten sentences about a real process at your job — one you'd have to explain
+    to somebody new. Not exercises: an explanation you could actually send.</p>
+
+    <div class="card">
+      <h4>Use all of these</h4>
+      <ul class="plain">
+        <li><em>ask someone to…</em></li>
+        <li><em>somebody is going to…</em> and <em>somebody isn't going to…</em></li>
+        <li><em>in case…</em></li>
+        <li><em>every</em> + singular noun</li>
+        <li><em>the</em> + singular noun + <em>of</em> + plural noun + singular verb</li>
+        <li><em>Which…? · What does…? · Would it be okay to…?</em></li>
+      </ul>
+    </div>
+
+    <p>Then close this document and go back over what you wrote, marking the subject and the main
+    verb of every sentence. That second pass is the actual homework — the writing is just what
+    gives you something to look at.</p>
+  </div>
+</section>
+
+</main>
+
+<div class="closing">
+  <div class="wrap">
+    <h2>The goal isn't <em>I know the correction</em>.</h2>
+    <p>Anyone can learn a correction. What we're building is the half-second earlier: recognising
+    the pattern while the sentence is still forming, before it comes out of your mouth.</p>
+    <p>That takes repetition on your own material, which is why the homework is about your job and
+    not about a textbook. Bring it however it turns out. Half-finished and honest is more useful
+    to me than polished and safe.</p>
+    <p class="sig">Nos vemos en la próxima. — Flor</p>
+    <div class="mail">
+      Breaking Barriers at Work · <a href="mailto:florenciapersico@breakingbarriers.site">florenciapersico@breakingbarriers.site</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Al imprimir, abrir todas las claves de respuestas; al terminar, dejarlas
+  // como estaban. Así la versión en papel sirve de material de referencia.
+  (function () {
+    var opened = [];
+    window.addEventListener('beforeprint', function () {
+      opened = [];
+      document.querySelectorAll('details.key').forEach(function (d) {
+        if (!d.open) { opened.push(d); d.open = true; }
+      });
+    });
+    window.addEventListener('afterprint', function () {
+      opened.forEach(function (d) { d.open = false; });
+      opened = [];
+    });
+  })();
+</script>
+
+</body>
+</html>
