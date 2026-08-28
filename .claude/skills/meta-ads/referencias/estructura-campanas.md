@@ -252,3 +252,54 @@ es lo que hace que las decisiones sean rápidas después.
 4. **Imagen simple con una frase fuerte** y mucho aire. Buena para retargeting.
 
 Siempre en 9:16 (feed/reels/stories) y con subtítulos quemados: se ve sin sonido.
+
+---
+
+## ⚠️ Impulsá SIEMPRE desde la app de Instagram, nunca desde Business Suite
+
+**Comprobado el 28/08/2026.** El 27 de agosto Flor publicó tres anuncios de
+siembra. Dos los impulsó desde la app de Instagram y uno desde otra vía
+(Business Suite), porque el reel que quería no le aparecía en la lista.
+
+Resultado, leído en la configuración real de cada conjunto:
+
+| Anuncio | Origen | `publisher_platforms` |
+|---|---|---|
+| "¿Alguna vez saliste de…" | app de Instagram | `["instagram"]` ✅ |
+| "Te repiten lo que…" | app de Instagram | `["instagram"]` ✅ |
+| "Si tu problema es que…" | Business Suite | `["facebook","instagram"]` ❌ |
+
+El tercero además traía `facebook_positions: ["feed","story","facebook_reels"]`.
+
+**Entrega real del tercero (27-28 ago):**
+
+| Ubicación | Impresiones | Gasto |
+|---|---|---|
+| **Facebook feed** | **377** | **USD 0,26** |
+| Instagram (todas) | 191 | USD 0,16 |
+
+**El 66% del presupuesto se fue a Facebook** en un anuncio cuyo objetivo es
+`VISIT_INSTAGRAM_PROFILE` — mandar gente al perfil de Instagram. Es dinero
+gastado en una plataforma donde el destino del anuncio no existe.
+
+### Y no se puede arreglar por API
+
+Se intentó `update_adset` con `publisher_platforms: ["instagram"]`. Meta lo
+rechazó:
+
+> **error 1991005** — "Solo se pueden editar publicaciones promocionadas en la
+> app de Instagram."
+
+Es la misma pared que bloquea cualquier edición de publicaciones impulsadas.
+**Antes de prometerle a Flor que se arregla algo de un post impulsado, avisarle
+de este límite.**
+
+Nota aparte: `targeting_optimization` ya no existe (error 1870197). No incluirlo
+nunca en un `update_adset`.
+
+### La regla
+
+**Todo impulso sale de la app de Instagram.** Si un posteo no aparece ahí para
+promocionar, la solución NO es hacerlo desde Business Suite — es entender por
+qué no aparece (música de la biblioteca de Instagram, carrusel con música) y
+resolver eso.
