@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Breaking Barriers at Work — Guía del programa</title>
+<style>/*__FONTS__*/</style>
+<style>
+  /* ══════════════════════════════════════════════════════════
+     Fuente del PDF "Cómo funciona AT WORK".
+     Se imprime a A4 con Playwright. Paleta y tipografías de la
+     marca; todo pensado para leerse en papel o en pantalla, no
+     para vender a los gritos.
+     ══════════════════════════════════════════════════════════ */
+
+  :root {
+    --cream:      #F9F5EE;
+    --cream-warm: #FBF2D0;
+    --sand:       #EDE5CC;
+    --ink:        #3F1E0D;
+    --brown:      #895325;
+    --terracota:  #C68C6C;
+    --muted:      #6E5A46;
+    --line:       rgba(63, 30, 13, .16);
+    --line-soft:  rgba(63, 30, 13, .09);
+    --display: 'Crimson Pro', Georgia, serif;
+    --body: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  }
+
+  @page {
+    size: A4;
+    margin: 18mm 17mm 20mm;
+  }
+  @page :first { margin: 0; }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: var(--body);
+    font-size: 10.4pt;
+    line-height: 1.62;
+    color: var(--ink);
+    background: #fff;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  h1, h2, h3 { font-family: var(--display); font-weight: 600; line-height: 1.14; }
+  p { orphans: 3; widows: 3; }
+  em { font-style: italic; }
+  strong { font-weight: 600; }
+
+  /* ── portada ───────────────────────────────────────────── */
+  .cover {
+    background: var(--ink);
+    color: var(--cream);
+    height: 297mm;
+    padding: 40mm 22mm 22mm;
+    display: flex; flex-direction: column; justify-content: space-between;
+    page-break-after: always;
+  }
+  .cover .mark {
+    font-family: var(--display); font-size: 13pt; letter-spacing: .02em;
+  }
+  .cover .mark span { color: var(--terracota); }
+  .cover h1 {
+    font-size: 38pt; line-height: 1.02; letter-spacing: -.01em;
+    max-width: 15cm;
+  }
+  .cover h1 em { color: var(--terracota); }
+  .cover .sub {
+    margin-top: 10mm; font-size: 12pt; line-height: 1.5;
+    color: rgba(249, 245, 238, .72); max-width: 12.5cm;
+  }
+  .cover .foot {
+    font-size: 8.6pt; letter-spacing: .18em; text-transform: uppercase;
+    color: rgba(249, 245, 238, .55);
+    border-top: 1px solid rgba(198, 140, 108, .3);
+    padding-top: 6mm;
+  }
+
+  /* ── secciones ─────────────────────────────────────────── */
+  .sec { page-break-inside: avoid; margin-bottom: 9mm; }
+  .sec.br { page-break-before: always; }
+
+  .kicker {
+    font-size: 7.8pt; font-weight: 700; letter-spacing: .2em;
+    text-transform: uppercase; color: var(--terracota);
+    margin-bottom: 3mm;
+  }
+  h2 { font-size: 20pt; margin-bottom: 4mm; }
+  h2 em { color: var(--brown); }
+  h3 { font-size: 12.6pt; margin-bottom: 2mm; }
+
+  p + p { margin-top: 3mm; }
+  .sec > p, .sec > ul, .sec > ol { max-width: 16cm; }
+
+  .lead { font-size: 11.4pt; line-height: 1.55; color: var(--muted); margin-bottom: 5mm; }
+
+  ul, ol { margin-left: 0; list-style: none; }
+  ul li, ol li { position: relative; padding-left: 7mm; margin-bottom: 2.6mm; }
+  ul li::before {
+    content: ''; position: absolute; left: 0; top: .72em;
+    width: 4mm; height: .4mm; background: var(--terracota);
+  }
+  ol { counter-reset: n; }
+  ol li::before {
+    counter-increment: n; content: counter(n);
+    position: absolute; left: 0; top: 0;
+    font-family: var(--display); font-size: 11pt; color: var(--terracota);
+  }
+
+  /* ── bloques ───────────────────────────────────────────── */
+  .box {
+    background: var(--cream);
+    border: .3mm solid var(--line);
+    border-radius: 1mm;
+    padding: 6mm 7mm;
+    margin: 5mm 0;
+    page-break-inside: avoid;
+  }
+  .box.warm { background: var(--cream-warm); border-color: rgba(137, 83, 37, .2); }
+  .box.ink { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+  .box.ink .kicker { color: var(--terracota); }
+  .box h3 { margin-bottom: 2.5mm; }
+
+  .pull {
+    border-left: .7mm solid var(--terracota);
+    padding: 1mm 0 1mm 6mm;
+    margin: 5mm 0;
+    page-break-inside: avoid;
+  }
+  .pull .q {
+    font-family: var(--display); font-style: italic;
+    font-size: 12.4pt; line-height: 1.4;
+  }
+  .pull .who {
+    margin-top: 2.5mm; font-size: 8.4pt;
+    letter-spacing: .12em; text-transform: uppercase; color: var(--brown);
+  }
+
+  /* ── etapas ────────────────────────────────────────────── */
+  .stage {
+    page-break-inside: avoid;
+    border-top: .3mm solid var(--line);
+    padding: 5mm 0;
+  }
+  .stage:last-of-type { border-bottom: .3mm solid var(--line); }
+  .stage .tag {
+    font-size: 7.6pt; font-weight: 700; letter-spacing: .16em;
+    text-transform: uppercase; color: var(--terracota);
+  }
+  .stage h3 { margin: 1.5mm 0 2mm; }
+  .stage p { color: var(--muted); font-size: 10pt; }
+  .stage .hito {
+    margin-top: 3.5mm; padding-left: 5mm;
+    border-left: .5mm solid var(--terracota);
+    font-family: var(--display); font-style: italic; font-size: 11pt;
+    line-height: 1.4;
+  }
+
+  /* ── tabla de precios ──────────────────────────────────── */
+  .money { display: flex; gap: 5mm; margin: 5mm 0; page-break-inside: avoid; }
+  .money .opt {
+    flex: 1; border: .3mm solid var(--line); border-radius: 1mm;
+    padding: 5mm 5mm 4.5mm;
+  }
+  .money .opt.best { border-color: var(--terracota); background: rgba(198, 140, 108, .09); }
+  .money .plan {
+    font-size: 7.6pt; font-weight: 700; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--brown);
+  }
+  .money .amt {
+    font-family: var(--display); font-size: 22pt; line-height: 1;
+    margin-top: 2mm; font-variant-numeric: tabular-nums;
+  }
+  .money .amt small { font-size: 11pt; color: var(--muted); }
+  .money .note { margin-top: 2mm; font-size: 8.8pt; color: var(--muted); }
+
+  /* ── dos columnas ──────────────────────────────────────── */
+  .cols { display: flex; gap: 8mm; page-break-inside: avoid; }
+  .cols > div { flex: 1; }
+  .cols h3 { font-size: 11.6pt; }
+
+  /* ── cierre ────────────────────────────────────────────── */
+  .closing {
+    background: var(--ink); color: var(--cream);
+    padding: 9mm 9mm 8mm; border-radius: 1mm;
+    page-break-inside: avoid; margin-top: 6mm;
+  }
+  .closing .kicker { color: var(--terracota); }
+  .closing h2 { color: var(--cream); font-size: 18pt; }
+  .closing p { color: rgba(249, 245, 238, .78); }
+  .closing .mail {
+    margin-top: 5mm; padding-top: 4mm;
+    border-top: 1px solid rgba(198, 140, 108, .3);
+    font-family: var(--display); font-size: 13pt; color: var(--terracota);
+  }
+
+  .sig { font-family: var(--display); font-style: italic; font-size: 13pt; margin-top: 5mm; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════ PORTADA ═══════════════ -->
+<div class="cover">
+  <div class="mark">Breaking Barriers <span>at Work</span></div>
+  <div>
+    <h1>Cómo funciona<br>AT WORK, <em>contado<br>sin vueltas.</em></h1>
+    <p class="sub">
+      Todo lo que necesitas saber antes de decidir: qué vamos a hacer,
+      en qué orden, cuánto tiempo te va a llevar y qué vas a poder hacer
+      al final que hoy no puedes.
+    </p>
+  </div>
+  <div class="foot">Flor Pérsico · Programa premium 1:1 · 5 meses</div>
+</div>
+
+<!-- ═══════════════ 1 ═══════════════ -->
+<div class="sec">
+  <span class="kicker">Antes que nada</span>
+  <h2>Te escribo a ti.</h2>
+  <p class="lead">
+    Si llegaste hasta aquí probablemente sea porque algo de esto te resulta familiar.
+  </p>
+  <p>
+    Preparaste toda la semana la reunión. Te sabías el tema mejor que nadie en esa
+    sala. Y entonces alguien hizo una pregunta que no viste venir, y contestaste
+    una versión mucho más simple de lo que en realidad pensabas.
+  </p>
+  <p>
+    O sigues sin esfuerzo a tus colegas latinos hablando en inglés, pero cuando habla un nativo —rápido, encadenando las palabras— pierdes el hilo, y te da vergüenza pedir que lo repita.
+  </p>
+  <p>
+    O saliste de la llamada y mandaste por mail, con calma y bien escrito, exactamente
+    lo que no te animaste a decir en vivo.
+  </p>
+  <p>
+    Nada de eso es un problema de inglés. Tú ya sabes inglés. Es otra cosa,
+    y de eso se trata este documento.
+  </p>
+</div>
+
+<div class="box warm">
+  <span class="kicker">Para quién es AT WORK</span>
+  <p>
+    Para profesionales hispanohablantes de nivel <strong>B1–B2</strong> que ya
+    trabajan en inglés: tienen las reuniones, los clientes, los reportes. Y que
+    bajo presión traducen, tardan en construir la frase, pierden palabras o
+    sienten que su inglés no representa su verdadero nivel profesional.
+  </p>
+</div>
+
+<div class="box">
+  <span class="kicker">Para quién no es</span>
+  <ul>
+    <li>Si eres B1–B2 pero todavía no usas inglés en tu trabajo, no es el momento.</li>
+    <li>Si buscas clases de gramática tradicionales o preparación para exámenes, hay opciones mejores que la mía.</li>
+    <li>Si no vas a practicar entre sesiones, no va a funcionar. Y prefiero decírtelo ahora.</li>
+  </ul>
+  <p style="margin-top:4mm;font-size:9.6pt;color:var(--muted)">
+    Yo te doy las herramientas, el recorrido y te acompaño. La que acciona eres tú.
+  </p>
+</div>
+
+<!-- ═══════════════ 2 ═══════════════ -->
+<div class="sec br">
+  <span class="kicker">Por qué te pasa</span>
+  <h2>El problema no son los nervios.</h2>
+  <p class="lead">
+    Es la falta de instancias de práctica reales.
+  </p>
+  <p>
+    Estudiaste años. Lees documentación técnica sin despeinarte. Escribes bien cuando tienes tiempo de revisar. Y aun así, cuando la conversación se sale del guion, tu inglés
+    queda dos pasos atrás de tu pensamiento.
+  </p>
+  <p>
+    Eso pasa porque casi todo lo que practicaste en tu vida fue lenguaje
+    <em>preparado</em>: ejercicios, textos, situaciones armadas. Pero en tu trabajo
+    lo que se te exige es lenguaje <em>en tiempo real</em>, y esa es una habilidad
+    distinta que casi nadie entrena.
+  </p>
+  <p>
+    No se arregla con más gramática. Se arregla practicando exactamente la situación
+    que te traba, con tu material real, hasta que la respuesta salga sin que la
+    tengas que construir.
+  </p>
+
+  <div class="box ink">
+    <span class="kicker">La diferencia concreta</span>
+    <p>
+      En AT WORK no abrimos un libro. Abrimos el transcript de tu reunión del martes.
+      Trabajamos sobre lo que dijiste de verdad, sobre los errores que repites sin
+      darte cuenta y sobre las estructuras que evitas porque no te salen.
+    </p>
+  </div>
+</div>
+
+<!-- ═══════════════ 3 ═══════════════ -->
+<div class="sec">
+  <span class="kicker">El método</span>
+  <h2>Tres herramientas, y un bot para cada una.</h2>
+  <p class="lead">
+    Las tres trabajan sobre lo mismo: tu producción real. Y las tres vienen con un
+    bot configurado con tu contexto, para que puedas entrenar entre sesiones sin
+    depender de que yo esté del otro lado.
+  </p>
+</div>
+
+<div class="sec">
+  <h3>1 · Narrative Flow — corrección en contexto</h3>
+  <p>
+    Corregimos sobre tus emails y tus reuniones reales. Vas a saber exactamente qué
+    errores dices en automático aunque te los hayan corregido mil veces, y cuáles
+    son porque nadie te explicó la regla todavía. Cada corrección viene con la
+    explicación puntual que te falta, y practicas hasta que sale sin pensarlo.
+  </p>
+</div>
+
+<div class="sec">
+  <h3>2 · Color Method — activación de vocabulario</h3>
+  <p>
+    No memorizas listas: activas el vocabulario que ya usas en tu rubro, pero en
+    inglés. Eliges las cinco o diez palabras que más te sirven esta semana y las
+    practicas hasta decirlas sin buscarlas en tu cabeza. No avanzamos a vocabulario
+    nuevo hasta que el anterior sale solo, porque el problema nunca fue no conocer
+    palabras: fue no poder usarlas en el momento.
+  </p>
+</div>
+
+<div class="sec">
+  <h3>3 · Role Play — el simulador de vuelo</h3>
+  <p>
+    Practicas tu próxima reunión real —con tu jefe, sobre tu proyecto— antes de que
+    pase de verdad. La primera vez hablas sin que nadie te corte. Solo en la segunda vuelta te doy el feedback puntual. Esa segunda vez siempre sale mejor,
+    y ahí es donde se construye la confianza real: no leyendo teoría.
+  </p>
+</div>
+
+<!-- ═══════════════ 4 ═══════════════ -->
+<div class="sec br">
+  <span class="kicker">El recorrido</span>
+  <h2>Cinco etapas, y siempre sabes en cuál estás.</h2>
+  <p class="lead">
+    Cada etapa resuelve algo distinto y termina en un hito concreto. Lo que está en
+    cursiva es lo que vas a poder decir al cerrar cada una.
+  </p>
+</div>
+
+<div class="stage">
+  <span class="tag">Onboarding</span>
+  <h3>Start &amp; Diagnose</h3>
+  <p>
+    Antes de empezar te conozco a fondo: en qué está tu inglés hoy, cómo son tus
+    reuniones, quiénes son tus interlocutores y qué te traba de verdad. Aquí se configura todo tu sistema de entrenamiento, con tu material, no con ejemplos
+    genéricos. También vemos los ocho pilares de mentalidad con los que vamos a
+    trabajar estos cinco meses.
+  </p>
+  <div class="hito">«Sé desde dónde parto, cómo es el recorrido del programa, y tengo listo lo que necesito para entrenar con el sistema autónomo de Breaking Barriers.»</div>
+</div>
+
+<div class="stage">
+  <span class="tag">Módulo 1</span>
+  <h3>Automatize Your English</h3>
+  <p>
+    Te enseño a entrenar con tu propio material: Narrative Flow para separar los
+    errores fosilizados de la falta de base, Color Method para mover el vocabulario
+    de reconocerlo a poder usarlo, y Role Play para convertir situaciones futuras en
+    práctica deliberada. Sales de aquí con los tres bots configurados y sabiendo usarlos.
+  </p>
+  <div class="hito">«Sé cómo entrenar con mis situaciones reales de trabajo para desenvolverme cada día mejor en ellas.»</div>
+</div>
+
+<div class="stage">
+  <span class="tag">Módulo 2</span>
+  <h3>Communicate in Real Time</h3>
+  <p>
+    Cuatro habilidades para construir, sostener y adaptar tu mensaje mientras la
+    conversación está sucediendo: seguir hablando cuando no viene la palabra,
+    organizar y priorizar lo que quieres decir, reparar sin abandonar la idea, y
+    manejar preguntas, interrupciones y cambios de dirección. Son justamente las que
+    trancan a alguien que ya habla inglés bien.
+  </p>
+  <div class="hito">«Puedo organizar y sostener mi mensaje en tiempo real. Sé qué hacer cuando no recuerdo una palabra, cuando necesito ordenar una idea, cuando noto que no fui clara o cuando la conversación cambia de dirección.»</div>
+</div>
+
+<div class="stage">
+  <span class="tag">Módulo 3</span>
+  <h3>Build Your Language System</h3>
+  <p>
+    A veces el bloqueo no es de fluidez: es de estructura. Aquí están los once sistemas
+    que se repiten una y otra vez en alumnas B1–B2 — el sistema verbal completo, el
+    present perfect, qué significa realmente el <em>-ing</em>, las preposiciones que no
+    se traducen, los modales y la certeza, las condiciones, el orden de las preguntas,
+    la voz pasiva. No es toda la gramática del nivel: es solo lo recurrente y lo que
+    de verdad merece explicación.
+  </p>
+  <div class="hito">«Entiendo y puedo aplicar los sistemas lingüísticos que aparecen repetidamente en mi comunicación laboral.»</div>
+</div>
+
+<div class="stage">
+  <span class="tag">Módulo 4</span>
+  <h3>Understand &amp; Be Understood</h3>
+  <p>
+    Entender a hablantes nativos cuando hablan rápido y hacer que tu producción sea
+    fácil de seguir. El principio aquí es inteligibilidad, no eliminar tu acento:
+    tu acento no es el problema y nunca lo fue.
+  </p>
+  <div class="hito">«Entiendo mejor por qué el inglés real suena como suena y sé cómo entrenar mi oído y mi producción.»</div>
+</div>
+
+<!-- ═══════════════ 5 ═══════════════ -->
+<div class="sec br">
+  <span class="kicker">Workplace Practice Library</span>
+  <h2>Ocho situaciones reales, listas para ensayar.</h2>
+  <p class="lead">
+    Cada guía toma una situación concreta de tu trabajo y te da el vocabulario, las
+    expresiones, los idioms y los phrasal verbs de ese contexto, más un prompt de
+    role play para practicarla. No son ocho videos repitiendo teoría: son donde
+    aplicas lo que ya aprendiste.
+  </p>
+  <div class="cols">
+    <div>
+      <ul>
+        <li>Presentarte ante un equipo nuevo</li>
+        <li>Los cinco minutos de charla antes de la reunión</li>
+        <li>Dar un update de proyecto sin irte por las ramas</li>
+        <li>Explicar un problema y los próximos pasos</li>
+      </ul>
+    </div>
+    <div>
+      <ul>
+        <li>Disentir o pedir aclaraciones sin pedir permiso</li>
+        <li>Explicar un proceso con claridad</li>
+        <li>Responder preguntas que no viste venir</li>
+        <li>Presentar delante de quien decide</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ 6 ═══════════════ -->
+<div class="sec">
+  <span class="kicker">Cómo se vive por dentro</span>
+  <h2>Tu semana, en concreto.</h2>
+  <ol>
+    <li><strong>Una sesión conmigo por semana, en horario fijo.</strong> Diagnóstico, aplicación, producción, role play, feedback y segundo intento. Una hora que se aprovecha entera porque llego sabiendo cómo vienes.</li>
+    <li><strong>Un weekly report, también por semana.</strong> Cómo entrenaste, tus wins, dónde estás trabada. Lo leo antes de la sesión, así no gastamos tiempo poniéndonos al día.</li>
+    <li><strong>Cuarenta minutos de práctica, tres veces por semana.</strong> Con los bots, en el horario que te quede mejor. No hace falta más; tampoco funciona con menos.</li>
+    <li><strong>WhatsApp entre semana</strong> para lo puntual que no puede esperar a la sesión.</li>
+  </ol>
+  <div class="box">
+    <h3>Sobre la parte que no es de inglés</h3>
+    <p>
+      Muchos bloqueos no son de idioma: son perfeccionismo, autoexigencia, miedo a la
+      exposición. Tienes tu espacio en el weekly report para contarme cómo estás, y lo
+      trabajamos igual que lo demás. Nadie produce bien en otro idioma mientras se
+      está juzgando en el propio.
+    </p>
+  </div>
+</div>
+
+<!-- ═══════════════ 7 ═══════════════ -->
+<div class="sec br">
+  <span class="kicker">Adónde llegas</span>
+  <h2>Qué vas a poder hacer en cinco meses.</h2>
+  <ul>
+    <li>Decir la idea en el momento en que la piensas, en vez de ver cómo un colega dice algo más simple y se queda con el crédito.</li>
+    <li>Responder una pregunta que no viste venir con una respuesta clara, no con la primera frase que se te ocurre para salir del paso.</li>
+    <li>Decir «no estoy de acuerdo» ahí, en la reunión, en el momento en que lo piensas. No en el mail que mandas después.</li>
+    <li>Presentarte en dos frases y sostener la charla previa a la reunión sin esperar a que hable otra persona.</li>
+    <li>Seguir la conversación cuando alguien habla rápido, sin pedir que repitan ni perderte los dos minutos siguientes.</li>
+    <li>Salir de la reunión pensando «dije lo que quería decir».</li>
+  </ul>
+  <div class="box warm">
+    <p>
+      Lo que <strong>no</strong> te prometo es que dejes de cometer errores. Si alguien
+      te promete eso, desconfía. Lo que sí va a pasar es que vas a producir
+      consistentemente como la profesional que ya eres: con errores que no te frenan,
+      en vez de errores que te dejan en silencio.
+    </p>
+  </div>
+</div>
+
+<!-- ═══════════════ 8 ═══════════════ -->
+<div class="sec">
+  <span class="kicker">Lo que dicen ellas</span>
+  <h2>Con sus palabras.</h2>
+
+  <div class="pull">
+    <div class="q">«Cada vez me doy más cuenta de que sí entiendo, y que hay muchas situaciones cotidianas que puedo abordar de manera simple, con estructura, sin enredarme tanto. Siento que he ganado más confianza. Me has ayudado a entender que sí puedo, que solo tengo que arriesgarme más y hacerlo.»</div>
+    <div class="who">Lina · Ingeniera aeronáutica · Colombia</div>
+  </div>
+
+  <div class="pull">
+    <div class="q">«I feel more comfortable and confident when I speak. I had my first interview in English —with Tesla— and I felt good. I could share my point of view and I felt comfortable and confident.»</div>
+    <div class="who">Moni · HR Professional · México</div>
+  </div>
+
+  <div class="pull">
+    <div class="q">«Decidí dejar de evaluarme tanto. Ahora estoy desafiando activamente a mis colegas en reuniones para expresar desacuerdo y proponer alternativas. Antes me quedaba callada.»</div>
+    <div class="who">Maribel · Procurement Manager · México</div>
+  </div>
+</div>
+
+<!-- ═══════════════ 9 ═══════════════ -->
+<div class="sec br">
+  <span class="kicker">Preguntas que me hacen siempre</span>
+  <h2>Lo que quizá te estés preguntando.</h2>
+
+  <h3>¿Cuánto tiempo necesito por semana?</h3>
+  <p>
+    Una sesión conmigo más unos cuarenta minutos de práctica, tres veces por semana.
+    El método se apoya en la repetición corta y sostenida, no en sesiones largas y
+    espaciadas.
+  </p>
+
+  <h3 style="margin-top:5mm">¿Y si no estoy segura de tener nivel B1–B2?</h3>
+  <p>
+    Lo vemos antes de que pagues nada. No evalúo por tu puesto ni por lo que creas de
+    tu inglés: evalúo tu producción real. Si estás por debajo del rango, te lo digo,
+    porque arrancar sin la base te frustraría a ti y me haría perder el tiempo a mí.
+  </p>
+
+  <h3 style="margin-top:5mm">¿En qué se diferencia de una clase particular?</h3>
+  <p>
+    Una clase particular es una hora suelta: llegas, se trabaja lo que surja ese día, y la semana siguiente se empieza otra vez de cero. Aquí también adaptamos todo a tu nivel y a tu industria —eso es lo mínimo— pero además hay un programa completo detrás: un recorrido con un orden pensado, cinco etapas, materiales y guías para consultar, y tres herramientas de práctica con sus bots. En cada momento sabes en qué etapa estás, qué viene después y para qué sirve. No son clases sueltas: es un método con un paso a paso. Y cuando el programa termina, ese sistema sigue siendo tuyo.
+  </p>
+
+  <h3 style="margin-top:5mm">¿Qué pasa si una semana no puedo?</h3>
+  <p>
+    Se reprograma. Si aparece un viaje de trabajo o una temporada imposible, se
+    conversa y se pausa. Prefiero eso a que pagues un mes que no vas a poder aprovechar.
+  </p>
+
+  <h3 style="margin-top:5mm">¿Trabajas mi acento?</h3>
+  <p>
+    Trabajo tu inteligibilidad, que no es lo mismo. El objetivo es que te entiendan sin
+    esfuerzo y que tú entiendas el inglés real, con su habla conectada.
+  </p>
+</div>
+
+<!-- ═══════════════ 10 ═══════════════ -->
+<div class="sec">
+  <span class="kicker">Lo que incluye</span>
+  <h2>Qué te llevas.</h2>
+  <ul>
+    <li><strong>Una sesión individual conmigo por semana</strong>, durante los cinco meses.</li>
+    <li><strong>Las tres herramientas del método</strong> —Narrative Flow, Color Method y Role Play— cada una con su bot de práctica configurado con tu contexto.</li>
+    <li><strong>Onboarding y los cuatro módulos grabados</strong>, para ver a tu ritmo y volver cuando lo necesites.</li>
+    <li><strong>La Workplace Practice Library</strong>: ocho guías de situaciones reales.</li>
+    <li><strong>El banco de precisión y el material de pronunciación</strong>, para cuando te trabas con algo puntual.</li>
+    <li><strong>WhatsApp entre semana</strong> para lo que no puede esperar.</li>
+  </ul>
+
+  <div class="money">
+    <div class="opt">
+      <div class="plan">En cuotas</div>
+      <div class="amt">USD 250<small> /mes</small></div>
+      <div class="note">Cinco cuotas mensuales, con tarjeta.</div>
+    </div>
+    <div class="opt best">
+      <div class="plan">Pago único</div>
+      <div class="amt">USD 1.111</div>
+      <div class="note">Un solo pago, con tarjeta.</div>
+    </div>
+  </div>
+
+  <p style="font-size:9.6pt;color:var(--muted)">
+    El programa sostiene hasta 16 alumnas activas por mes. No hay cohortes ni clases
+    grupales: cada lugar que se abre es uno que se liberó.
+  </p>
+</div>
+
+<!-- ═══════════════ CIERRE ═══════════════ -->
+<div class="closing">
+  <span class="kicker">Cómo empezamos</span>
+  <h2>Escríbeme y lo hablamos.</h2>
+  <p>
+    No hace falta que decidas ahora. Lo primero es una conversación: me cuentas cómo
+    son tus reuniones, qué te está pasando y qué necesitas, y yo te digo con
+    honestidad si AT WORK es lo que te sirve o si te conviene otra cosa.
+  </p>
+  <p>
+    Si después de esa charla quieres avanzar, te paso el link de pago y arrancamos
+    con el onboarding esa misma semana.
+  </p>
+  <div class="mail">florenciapersico@breakingbarriers.site</div>
+  <div class="sig">Flor</div>
+</div>
+
+</body>
+</html>
