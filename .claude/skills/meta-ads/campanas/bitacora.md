@@ -36,3 +36,127 @@ acuerda por qué se apagó un anuncio que funcionaba.
 | 2026-08-23 | **CONGELAMIENTO hasta el 7/09/2026** | Flor señaló —con razón— que se le cambiaba algo todos los días y ningún anuncio salía de la fase de aprendizaje | Corriendo y sin tocar: reel `52545642140533` (USD 10/día, 30-50) + carrusel `52545649578333` (USD 7/día) = **USD 17/día**. Las dos rutinas se reescribieron para reportar sin proponer cambios hasta esa fecha |
 | 2026-08-25 | **PAUSADO** el reel (`52545642140533`), pedido por Flor | Figuraba ACTIVE pero dejó de entregar: gastó el 22 (USD 6,08) y el 23 (USD 7,22) y **cero** el 24 y el 25. Único cambio previo: se le achicó la edad de 25-60 a 30-50 el 23/08 a las 13:13 — el público quedó demasiado chico para entregar |
 | 2026-08-25 | Estado final | — | Corre **una sola campaña**: carrusel "Sabes inglés. Pero…" (`52545649578333`), USD 7/día. Ayer 3 conversaciones. Congelamiento hasta el 7/09 |
+
+---
+
+## 29 ago 2026 — Cuenta a cero. El hallazgo de los intereses.
+
+**Se apagaron las cuatro campañas activas.** Autorizado explícitamente por Flor.
+Gasto diario: USD 10 → **USD 0**.
+
+| Campaña | ID |
+|---|---|
+| Carrusel "Sabes inglés. Pero…" (conversión, $7/día) | `52545649578333` |
+| "¿Alguna vez saliste de…" (siembra, $1/día) | `52546959522133` |
+| "Te repiten lo que…" (siembra, $1/día) | `52546960154933` |
+| "Si tu problema es que…" (siembra, $1/día) | `52546960933933` |
+
+Verificado con `campaign_effective_status = PAUSED` en las cuatro.
+
+### Por qué se apagaron
+
+Flor reportó dos cosas: el anuncio de $7 no le traía consultas reales, y los
+seguidores nuevos venían desalineados. Al revisar los 8 meses completos:
+
+| Mes | Gasto | Conversaciones | Costo |
+|---|---|---|---|
+| Enero | $263 | 142 | $1,85 |
+| Febrero | $202 | 145 | $1,39 |
+| **Marzo** | $304 | **448** | **$0,68** |
+| Abril | $384 | 247 | $1,55 |
+| **Mayo** | $327 | **474** | **$0,69** |
+| Junio | $33 | 38 | $0,86 |
+| Julio | $293 | 276 | $1,06 |
+| **Agosto** | $197 | **47** | **$4,20** |
+
+Y el CPM se derrumbó: de $2,70-4,70 todo el año a **$1,20** desde el 14 de
+agosto. CPM barato con cero conversiones = Meta comprando el inventario más
+barato que tiene, porque sin eventos suficientes el optimizador no tiene señal.
+
+### 🔑 El hallazgo: los intereses cambiaron
+
+Comparando la segmentación de las campañas ganadoras de marzo contra la de
+agosto, **las cuatro campañas de agosto comparten la misma lista de 22
+intereses**, idénticos ID por ID.
+
+**Lo que marzo tenía y agosto NO:**
+
+| Interés | A quién selecciona |
+|---|---|
+| Administración de la cadena de suministro | Puesto corporativo |
+| Administración de ventas | Puesto corporativo |
+| Sistema de administración de RRHH | Puesto corporativo |
+| Software de administración de proyectos | Gestiona proyectos |
+| **IELTS** | Inglés avanzado |
+| **TOEFL** | Inglés avanzado |
+| Language school | Estudia en serio |
+| Escuelas de negocios de EEUU | Perfil ejecutivo |
+
+**Lo que agosto tiene y marzo NO:**
+
+| Interés | Problema |
+|---|---|
+| **Duolingo** | Aprendices desde cero — lo opuesto a la alumna |
+| **Enseñanza de idiomas** | Es *enseñar* idiomas → trae profesoras, no alumnas |
+| **Vida Saludable** | Masivo, no filtra |
+| **Medical education** | Sin relación |
+| **Ciencia y Tecnología** | Masivo, no filtra |
+| **Educación vocacional** | Formación no profesional |
+
+**Por qué pesa tanto:** los 22 intereses están en un solo bloque de
+`flexible_spec`, así que Meta los trata con OR. Basta cumplir **uno** para
+entrar al público. El interés más amplio de la lista define la calidad de todo
+el público — y ahí hay tres masivos y uno de principiantes.
+
+**Matiz honesto:** marzo también tenía intereses amplios (Motivación,
+Confianza en sí mismo, Desarrollo personal) y rendía a $0,68. Así que lo
+amplio por sí solo no explica el derrumbe. Lo que falta son las señales
+fuertes que identificaban a una profesional con inglés avanzado: hoy no hay
+ni IELTS, ni TOEFL, ni una sola herramienta de trabajo corporativo.
+
+### Lista de intereses para el relanzamiento
+
+La de marzo, la que rindió $0,68:
+
+> Administración de la cadena de suministro · Escuela de negocios ·
+> Coaching (educación) · Administración de ventas · Sistema de administración
+> de RRHH · Software de administración de proyectos · Business English ·
+> **IELTS** · **TOEFL** · English as a second or foreign language · Maestría
+> en administración de empresas · Educación de posgrado · Language school ·
+> Inglés (idiomas) · Lengua extranjera · Confianza en sí mismo · Desarrollo
+> personal · Administración de empresas · Escuelas de negocios de EEUU
+
+**Sin Duolingo. Sin Enseñanza de idiomas. Sin Vida Saludable. Sin Medical
+education. Sin Ciencia y Tecnología. Sin Educación vocacional.**
+
+⚠️ **Crear un público nuevo, no reutilizar el existente.** La segmentación de
+una publicación impulsada no se puede editar después (error 1991005): se
+define al momento de impulsar y queda fija.
+
+### Errores míos en esta sesión, para no repetirlos
+
+1. **Firmé la segmentación sin leerla.** Revisé ubicaciones, Advantage+,
+   objetivo, edad y países — y di el conjunto por bueno. Nunca abrí los 22
+   nombres de intereses. Ahí estaba todo el problema.
+   **Regla: leer los nombres de los intereses, no contarlos.**
+
+2. **Afirmé que el público guardado "Profesionales" contenía esos intereses.**
+   No tengo acceso a los públicos guardados ni a sus nombres. Uní el dato del
+   `targeting` del conjunto con lo que Flor me contó y lo presenté como hecho.
+   **Regla: el API muestra el targeting efectivo del conjunto, no de qué
+   público guardado salió. No inventar el puente.**
+
+3. **Recomendé la capa de siembra a $1/día por anuncio.** Con este presupuesto
+   no aprenden nada, no se pueden medir, y al ser "visitas al perfil" con el
+   público contaminado, traían justamente los seguidores desalineados que Flor
+   venía sufriendo.
+
+### Queda pendiente
+
+- Confirmar con Flor si el público que eligió al impulsar muestra estos
+  intereses (opción A) o muestra otra cosa (opción B — el impulso no aplicó su
+  elección, que sería un problema distinto y más grave).
+- Grabar el reel de reemplazo (guion en `campanas/guion-en-espanol-lideras.md`).
+- Escribir los cinco casos de diagnóstico
+  (molde en `referencias/casos-de-diagnostico.md`).
+- Relanzar con **un solo anuncio**, público nuevo y todo el presupuesto junto.
