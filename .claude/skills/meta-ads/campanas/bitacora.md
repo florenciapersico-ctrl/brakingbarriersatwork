@@ -160,3 +160,90 @@ define al momento de impulsar y queda fija.
 - Escribir los cinco casos de diagnóstico
   (molde en `referencias/casos-de-diagnostico.md`).
 - Relanzar con **un solo anuncio**, público nuevo y todo el presupuesto junto.
+
+---
+
+## 31 ago 2026 — Reporte de cierre y el hallazgo de Argentina
+
+Cuenta verificada en cero: sin gasto el 30 ni el 31. Las cuatro campañas en
+PAUSED. (Los USD 1,29 del 29 son de antes de que la pausa se aplicara.)
+
+**Última semana con anuncios (24-29 ago):**
+
+| | |
+|---|---|
+| Gasto | USD 40,74 |
+| Alcance | 27.435 |
+| CTR del carrusel | 2,39% |
+| Conversaciones | 9 |
+| Costo por conversación | USD 4,53 |
+
+### 🔑 Meta concentró el 56% del presupuesto en Argentina
+
+| País | Gasto | Conversaciones |
+|---|---|---|
+| **Argentina** | **USD 22,90** | **8** |
+| Colombia | 4,64 | 0 |
+| Chile | 4,23 | 0 |
+| Paraguay | 2,80 | 0 |
+| Perú | 2,66 | 0 |
+| **México** | **1,91** | 1 |
+| Uruguay | 0,94 | 0 |
+| Costa Rica | 0,66 | 0 |
+
+**8 de las 9 conversaciones salieron de Argentina. México — la mayor fuente de
+alumnas de Flor — se llevó el 5% del presupuesto.**
+
+Meta hizo lo que hace siempre: buscar la conversación más barata. Las más
+baratas están en Argentina. Pero Meta no sabe cuál termina en venta, y Flor
+tiene registrado que **Argentina se resiste a pagar en dólares**.
+
+Puede ser una parte importante de por qué las conversaciones de agosto no se
+convertían en consultas reales: el presupuesto se fue al mercado que más
+conversa y menos compra.
+
+**Pregunta abierta para Flor, que solo ella puede contestar:** ¿tiene alumnas
+argentinas? Si son pocas o ninguna, en el relanzamiento conviene separar
+Argentina en su propio conjunto — o dejarla afuera — para que no se coma el
+presupuesto de los países donde sí hay venta.
+
+⚠️ Esto **no contradice** la regla de no recortar países por costo por
+conversación. La regla prohíbe cortar por precio; acá el criterio es el que la
+regla misma manda: qué país dio alumnas. Paraguay sigue adentro aunque sea el
+más caro, porque convirtió 2 de 2.
+
+### Otras notas
+
+- El anuncio viejo "Estás mucho más cerca…" (`6860890053529`) figura en
+  `WITH_ISSUES`. Su campaña está pausada hace meses y no se va a usar. Inocuo.
+- Las dos rutinas (diaria y de los lunes) quedaron actualizadas: ya no
+  describen un carrusel corriendo ni un congelamiento hasta el 7/09. La de los
+  lunes ahora verifica el cero, pregunta por el avance del reel y de los casos,
+  y guarda el checklist de relanzamiento.
+
+### Instagram orgánico — descartado que la cuenta esté penalizada
+
+Flor temía tener la cuenta "muerta". El **Estado de la cuenta** de Instagram
+dice, textual: *"No tienes ninguna restricción en la cuenta"* y
+*"Alcance: no se aplican límites a tu alcance"*. Las cuatro categorías en
+verde, incluida monetización.
+
+Lo que sí está medido es la retención de sus reels:
+
+| Reel | Duración | Promedio | Retención |
+|---|---|---|---|
+| 25 ago | 38 s | 6 s | **16%** |
+| 28 ago | 26 s | 7 s | **27%** |
+
+El del 28 tuvo 221 visualizaciones y 142 espectadores sobre ~7.000 seguidores
+(3%). Pero de esos 142: 8 me gusta y 4 comentarios — **8,5% de interacción**,
+que es una tasa sana.
+
+**A quien lo ve le gusta; el problema es que no se reparte.** Y lo que decide
+el reparto de un reel es cuánto tiempo lo miran. Su curva de retención está
+viva los primeros 5 segundos y plana casi todo el resto.
+
+Instagram le mostró el cartel "¡Este reel es muy popular!" — pero ese cartel
+compara contra sus propios reels recientes, no contra ningún estándar. Con
+reels flojos previos, se dispara con cualquier cosa apenas mejor. **No tomarlo
+como señal de buen rendimiento.**
