@@ -97,9 +97,11 @@ como hipótesis a probar, no como hallazgo.
 ## Cuando Flor te pide "hacé la investigación"
 
 1. Leé `negocio.md` y el documento actual — no arranques de cero si ya hay material.
-2. Elegí 2–3 cuentas de `referencias/donde-buscar.md`, buscá sus reels más vistos y
-   traé frases crudas con link y fecha. `WebSearch` y `WebFetch` llegan a los reels y
-   posts públicos de Instagram; lo que esté detrás del login lo tiene que pegar Flor.
+2. **Instagram bloquea la lectura automática de comentarios** (429/403 a cualquier
+   fetch). No prometas traerlos vos. Lo que sí podés: evaluar y proponer cuentas con
+   `WebSearch`, y clasificar, ordenar y sintetizar los comentarios que pegue Flor.
+   Cuando le pidas material, pedíselo concreto: qué cuenta, qué reel, cuántos
+   comentarios.
 3. Volcá todo en `documento/investigacion-mercado.md` con el formato de tabla que ya
    está ahí. **Sumá al final, no pises lo anterior.**
 4. Cuando el bloque llegue a su meta, hacé la síntesis y mostrale a Flor **los 5

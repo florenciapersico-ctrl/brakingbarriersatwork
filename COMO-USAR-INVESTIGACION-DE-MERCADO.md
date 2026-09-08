@@ -62,8 +62,9 @@ para gente que nunca te va a comprar. La lista de cuentas que sí sirven ya est�
 1. **Creá una cuenta secundaria de research** y seguí solo a la competencia. En dos o
    tres días el algoritmo te muestra todo el nicho solo. Tu feed personal no sirve para
    esto: está entrenado por lo que consumís vos, no tu clienta.
-2. **Pedile al agente 15 comentarios** de `@hadar.accentsway` y `@speakconfidentenglish`
-   — son las dos cuentas con el avatar más parecido al tuyo.
+2. **Entrá a [@loewhaley](https://www.instagram.com/loewhaley/)** (2,9M, todo su
+   contenido es "cómo se dice esto en el trabajo sin quedar mal"), ordená sus reels
+   por reproducciones y copiá 20 comentarios largos. Pegámelos y yo los clasifico.
 3. **Poné una caja de preguntas** en stories: *"¿Qué fue lo último que no pudiste decir
    en una reunión en inglés?"*. Específica, no "¿en qué te ayudo?".
 4. **Pasale 20 DMs** de alumnas (de antes de contratar) y de gente que preguntó y no
@@ -71,9 +72,14 @@ para gente que nunca te va a comprar. La lista de cuentas que sí sirven ya est�
 
 ## Lo único que no puede hacer el agente
 
-Tus DMs, tus respuestas de stories y tus transcripts de llamadas están detrás del
-login: no hay forma de leerlos desde acá. Copiá y pegá, o mandá capturas. Todo lo
-público de Instagram sí lo puede ir a buscar él.
+**Leer comentarios de Instagram.** IG bloquea la lectura automática (devuelve error a
+cualquier intento). El agente sí puede encontrar y evaluar cuentas, pero los
+comentarios los copiás vos — y tus DMs y tus respuestas de stories, con más razón,
+porque están detrás del login.
+
+Así que la división del trabajo es: vos scrolleás y copiás, él clasifica, sintetiza y
+convierte en hooks. Veinte minutos de scroll tuyo son la base de seis meses de
+contenido.
 
 Y una cosa más: **el mercado no elige por vos.** La investigación te muestra qué hay
 afuera; con qué tipo de mujer querés trabajar lo decidís vos.
@@ -84,7 +90,7 @@ afuera; con qué tipo de mujer querés trabajar lo decidís vos.
 .claude/skills/investigacion-mercado/
 ├── SKILL.md                          ← el cerebro del agente
 ├── referencias/
-│   ├── donde-buscar.md               ← las 10 cuentas de IG, ya verificadas
+│   ├── donde-buscar.md               ← las cuentas que sí tienen volumen + el chequeo de 2 min
 │   ├── que-buscar.md                 ← el filtro y las 9 preguntas guía
 │   └── sintesis.md                   ← de 40 frases sueltas a 5 dolores
 └── documento/
