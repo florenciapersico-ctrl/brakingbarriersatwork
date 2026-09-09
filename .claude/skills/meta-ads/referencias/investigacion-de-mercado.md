@@ -95,7 +95,14 @@ entrada de la oferta front-end (el low ticket)**.
 
 Estado al 2026-09-09.
 
-## 1. Insights Públicos (IP) — 🟡 a medias
+| Frente | Estado | Falta |
+|---|---|---|
+| Insights Públicos (IP) | 🟢 23 líneas crudas | llegar a 40 y sumar voz en español |
+| Insights Internos (II) | 🟡 6 verbatim + roster | **los 314 DMs — solo puede Flor** |
+| Conversaciones directas (DCS) | 🔴 sin empezar | caja de preguntas en stories |
+| Síntesis | 🟢 5 dolores, 4 con evidencia externa | reescribir tras los DMs |
+
+## 1. Insights Públicos (IP) — 🟢 cosecha hecha, falta voz en español
 
 Hecho: el mapa estructural de la competencia (quién, qué promete, qué precio, cómo
 vende). Está en la conversación y resumido acá abajo.
@@ -118,13 +125,97 @@ Conclusiones del mapa:
   realmente defendible de Flor.**
 - Nadie le puso nombre al problema. El **Visibility Gap** no tiene competencia conceptual.
 
-**FALTA (lo que el playbook pide de verdad):** las 25–40 **líneas crudas**. Frases
-textuales, sin traducir, de mujeres reales. Dónde ir a buscarlas:
-- Comentarios en los reels de Lauri Prada, Profe Charlie, Alex Alfonso.
-- Comentarios en YouTube de videos en español sobre "inglés para el trabajo",
-  "reuniones en inglés", "me quedo en blanco en inglés".
-- Testimonios publicados por la competencia (ahí hablan las clientas, no el coach).
-- Comentarios en los propios reels de `@ysi_speakenglish`.
+### 🟢 Cosecha de líneas crudas — 23 al 2026-09-09
+
+Sin traducir, sin corregir, tal como las escribieron. Fuente: testimonios publicados por
+la competencia (ahí habla la clienta, no el coach) y reseñas de Trustpilot.
+
+**Dolor — alumnas citadas textualmente por Speak Confident English:**
+
+> "I feel nervous about sharing well-organized ideas in meetings."
+> "I often stay silent in meetings; it's too much stress to speak."
+> "When I feel stressed, I lose all my grammar, and my ideas become a disaster."
+> "When I speak English, my ideas become mixed and disorganized."
+> "It takes me so long to express my ideas in English. I just can't find the words."
+> "I can't find the right words and I worry no one will understand me."
+
+**Deseo y transformación — testimonios firmados:**
+
+> "The meeting was smooth because I knew how to navigate it and how to be clear with my
+> ideas." — Claudia
+
+> "This training has made it clear how to express exactly what I want to say in a clear
+> and organized way." — Ines P.
+
+> "I have gained trust and confidence in my skills… I can now effortlessly articulate my
+> thoughts and ideas in a meeting in English." — Elinor
+
+> "It's not just about vocabulary but also culture and posture." — Deisi B.
+
+> "The same day that I did the workshop, my literature teacher asked me an unexpected
+> question, and thanks to Annemarie's workshop, I could successfully respond. **I felt so
+> happy and proud of myself.** […] I've already noticed a positive change in terms of how
+> not only my teachers but also my classmates pay attention to me." — Laura
+
+> "Now I've gained the confidence to state my ideas." — Vivian H.
+
+> ⭐ "My limiting belief was that I didn't want to sell myself and I expected the other
+> person (boss or colleague) to see the results of my work and that would be enough. I
+> have realized that I must be the one who communicates my work well, without arrogance,
+> but with clarity and **without making myself lesser**. […] to focus on communicating my
+> competencies with confidence and **without so much embarrassment**." — Aroa, España
+
+> "During the interview and the other activities, I was relaxed and I knew if I performed
+> as I had prepared, the position would be mine." — Thayna, Brasil
+
+> "Now I feel more confident in my abilities to talk about myself and my career." — Genevieve
+
+> "During the interviews, I was really confident with clarity, and sharp and **able to
+> handle almost all of the questions thrown at me!**" — Ying, Brunéi
+
+> "They paid compliments to my background, my English, and they also praised my resume."
+> — Cida, Brasil
+
+> "I believe your courses are much more than learning English. It could really be
+> life-changing experience 🙂 **Especially for shy people like me.** […] I feel different
+> as a person: more courageous, positive and definitely more confident." — Gintare, Lituania
+
+> "There's a big difference between interviews in my country and interviews in English!"
+> — Tanya, Ucrania
+
+**Reseñas de Trustpilot (español, academias de volumen) — por qué se enojan:**
+
+> "Mi experiencia personal no fue la que esperaba… con frecuencia se repiten los mismos
+> temas, lo que dificulta avanzar de manera continua." — Jatty Argueta, 2★
+
+> "…nunca estas perdido o con la mente en las nubes" — Luis Jiménez, 5★
+
+> "Me encanta la amabilidad y la forma como me invitan los docentes a hablar mucho durante
+> las clases." — Elmer Saravia, 5★
+
+### Lo que sale de leer las 23 juntas
+
+1. **"La pregunta inesperada" aparece sola, sin que nadie la induzca.** Laura la cuenta
+   como su momento de victoria; Ying dice "questions thrown at me"; la competencia la
+   pone como bullet de venta. Es evidencia externa del dolor #1 — no es intuición de Flor
+   ni mía.
+2. **La frase de Aroa es el Visibility Gap dicho por una clienta**, y no habla de inglés:
+   habla de creer que el trabajo bien hecho se ve solo. "Sin hacerme menos" es material de
+   hook, y es español nativo.
+3. **Nadie celebra su inglés. Celebran el orgullo y la atención ajena.** "I felt so happy
+   and proud of myself." "How my classmates pay attention to me." "I feel different as a
+   person." → El mensaje de transformación no es fluidez: es dejar de achicarse y que se
+   note.
+4. **"Especially for shy people like me."** La timidez se auto-declara. El público se
+   identifica como tímido/perfeccionista antes que como mal hablante.
+5. **Lo que hace enojar a las clientas de las academias:** repetir temas y no sentir que
+   avanzan. El road map de 5 etapas con hito por etapa es la respuesta directa a eso, y
+   hoy no se está usando como argumento de venta contra ellas.
+
+**Todavía falta** para llegar a las 25–40 del playbook, y sobre todo **falta voz en
+español**: 20 de 23 líneas son en inglés. Fuentes que probé y están bloqueadas para mí:
+Reddit (403), Quora (403), Instagram (429/login), varios blogs con muro de Cloudflare.
+Los testimonios de Lauri Prada son capturas de pantalla, no texto.
 
 ## 2. Insights Internos (II) — 🟡 rico pero sin explotar
 
@@ -179,28 +270,51 @@ Nada todavía. Lo más barato y rápido de arrancar:
 
 ---
 
-## Síntesis provisional
+## Síntesis
 
-⚠️ **Provisional.** Sale de la landing, los testimonios y el roster — no de los DMs. Se
-reescribe cuando estén las líneas crudas.
+Cada dolor lleva su nivel de evidencia:
+🟢 confirmado por fuente externa · 🟡 apoyado solo en material de Flor · 🔴 hipótesis pura.
 
-### Los 5 Dolores Repetidos (hipótesis)
+### Los 5 Dolores Repetidos
 
-1. Le preguntan algo que no preparó y se queda en blanco — contesta una versión mucho más
-   simple de lo que en realidad piensa.
-2. Traduce en la cabeza y llega tarde: para cuando armó la frase, otro ya dijo algo más
-   simple.
-3. Se calla en la reunión y manda por mail después lo que no se animó a decir en vivo.
-4. Entiende a sus colegas latinos, pero con un nativo rápido pierde el hilo — y le da
+1. 🟢 **Le preguntan algo que no preparó y se queda en blanco** — contesta una versión
+   mucho más simple de lo que en realidad piensa.
+   *Externo:* Laura ("asked me an unexpected question"), Ying ("questions thrown at me"),
+   y la competencia lo vende como bullet propio.
+2. 🟢 **Bajo estrés se le cae todo lo que sabe** — no solo las palabras: la gramática.
+   *Externo:* "When I feel stressed, I lose all my grammar, and my ideas become a
+   disaster." · "It takes me so long… I just can't find the words."
+3. 🟢 **Se calla.** No participa, y después manda por mail lo que no dijo en vivo.
+   *Externo:* "I often stay silent in meetings; it's too much stress to speak."
+4. 🟢 **Cree que su trabajo bien hecho debería hablar por sí solo — y no habla.**
+   *Externo:* Aroa. Este dolor no estaba en la lista original y salió de la cosecha.
+5. 🟡 **Entiende a sus colegas latinos pero pierde el hilo con un nativo rápido**, y le da
    vergüenza pedir que repita.
-5. Suena como una versión más chica de sí misma. Su nivel profesional no llega a la sala.
+   *Solo interno* (landing y roster). Sin evidencia externa todavía.
 
-### Los Síntomas Emocionales Ocultos (hipótesis)
+Dolor que se cayó de la lista: "traduce en la cabeza y llega tarde". No apareció ni una
+vez en la cosecha externa. Puede ser real pero es lenguaje de Flor, no de ellas.
 
-Vergüenza a pedir que repitan · no poder dormir la noche anterior a una reunión
-importante · perfeccionismo y autoexigencia · miedo a la exposición · evaluarse
-permanentemente mientras habla · ataque de pánico (caso real) · la sensación de que en
-las conversaciones que deciden cosas termina hablando otra persona por ella.
+### Los Síntomas Emocionales Ocultos
+
+⚠️ El detalle del método salió incompleto en el PDF. Esto sale de la evidencia, no de la clase.
+
+Vergüenza explícita ("without so much embarrassment") · autoidentificarse como tímida
+("especially for shy people like me") · el estrés como razón declarada para callarse
+("it's too much stress to speak") · perfeccionismo y evaluarse mientras habla ("decidí
+dejar de evaluarme tanto" — Maribel) · achicarse ("without making myself lesser") · no
+poder dormir la noche anterior · ataque de pánico real en reunión (Brenda) · la sensación
+de que en las conversaciones que deciden cosas habla otra persona por ella.
+
+### El hallazgo de mensaje más importante
+
+**Ninguna festeja su inglés. Festejan el orgullo y que la miren.**
+
+> "I felt so happy and proud of myself." · "How my classmates pay attention to me." ·
+> "I feel different as a person."
+
+Ni una dice "mejoró mi inglés". El mensaje de transformación no es fluidez: es dejar de
+achicarse y que se note. Eso debería estar arriba de todo en la comunicación, no abajo.
 
 ### Los Resultados Deseados
 
@@ -218,10 +332,43 @@ corto. Criterio adicional que no está en el playbook pero que salió del análi
 competencia: **el low ticket vende mejor cuando el dolor tiene fecha en el calendario**
 (una entrevista el jueves, una reunión el martes, un performance review este mes).
 
-Productos cortos candidatos hoy:
-- **Interview Me** — ya existe como 1:1, ya se cobró USD 250. Falta grabarlo.
-- Responder lo que no viste venir (dolores 1 y 2).
-- Que se note lo que hiciste / Authority Storytelling (dolor 5).
+### Los tres cortos, decididos
+
+| # | Producto | Dolor que resuelve | Evidencia | Estado |
+|---|---|---|---|---|
+| 1 | **Interview Me** | tiene una entrevista con fecha | ya se vendió a USD 250 (Lula); es el producto insignia de la competencia a USD 247 | contenido dado 1:1, falta grabar |
+| 2 | **Responder lo que no viste venir** | dolores 1, 2 y 3 | 🟢 el más confirmado de los cinco | material en "Real Work Meetings & Calls" + S.O.S. Rescue Phrases |
+| 3 | **Que se note lo que hiciste** | dolor 4 | 🟢 Aroa, textual | Authority Storytelling ya escrito como bono |
+
+Los tres tienen fecha en el calendario: una entrevista el jueves, una reunión el martes,
+un performance review este mes. Ninguno es "mejorá tu inglés".
+
+Cada uno lleva su bot — es lo único que ningún competidor puede copiar — y la sesión 1:1
+con Flor queda como add-on que **solo compran las alumnas del producto**. Así su hora deja
+de ser el techo del negocio y pasa a ser el escalón de arriba.
+
+---
+
+## 🔴 Lo único que no puedo hacer yo
+
+Instagram no está autenticado ni en Windsor ni en Supermetrics, y bloquea el acceso
+directo. **Tus 314 conversaciones de DM son inaccesibles para mí.** Es la fuente más rica
+del playbook entero y la única parte que depende de vos.
+
+Protocolo, 25 minutos, una sola vez:
+
+1. Abrí los DMs de `@ysi_speakenglish` y andá a los últimos 40–60.
+2. Por cada uno, copiá y pegá **la primera frase con la que te describieron su problema**.
+3. **No resumas. No corrijas la ortografía. No la pases a tercera persona.** Si escribió
+   "ya no se que hacer me da panico hablar en las juntas", va así.
+4. Pegá todo junto en un mensaje o un archivo. No hace falta ordenarlo.
+
+Con eso, los cinco dolores dejan de tener un 🟡 y una línea de "solo interno", y sobre
+todo dejan de estar en inglés prestado.
+
+**Y una tarea de 3 minutos para hoy:** caja de preguntas en stories.
+*"¿Cuál fue la última vez que te quedaste callada en una reunión en inglés? Contame qué
+pasó."* Eso arranca el tercer frente (DCS), que hoy está en cero.
 
 Inventario de material ya grabado en Gamma (49 documentos): Módulo 0 completo (clases
 1–4), Módulo 1, El Método Breaking Barriers, THE NARRATIVE FLOW, Narrative Flow en acción,
