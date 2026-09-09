@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sin Guion — Flor Pérsico</title>
+<meta name="description" content="Entrenamiento grabado de 60 minutos: qué decir cuando te preguntan algo que no preparaste. Con las S.O.S. Rescue Phrases y tu bot de práctica. USD 47.">
+<meta name="theme-color" content="#3F1E0D">
+<meta property="og:title" content="Sin Guion — qué decir cuando te preguntan algo que no preparaste">
+<meta property="og:description" content="60 minutos grabados, cuatro movimientos, tu bot de práctica. USD 47, descontable de AT WORK.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400;1,600&family=Inter:wght@400;500;600;700&display=swap">
+
+<!-- ═══════════════════════════════════════════════════════════════
+     ⚠️  FLOR: LO ÚNICO QUE TENÉS QUE CAMBIAR ACÁ
+
+     1. El link de pago. Buscá  data-pago  (aparece 4 veces) y
+        reemplazá el href por tu link de Hotmart / Stripe / Mercado Pago.
+        Mientras tanto apunta a tu DM de Instagram, así ya funciona.
+
+     2. Si cambiás el precio, buscá  USD 47  (4 lugares).
+     ═══════════════════════════════════════════════════════════════ -->
+
+<style>
+  /* Mismo sistema visual que at-work/index.html — crema cálida, un solo mundo. */
+  :root {
+    --cream:#F9F5EE; --cream-warm:#FBF2D0; --sand:#EDE5CC;
+    --ink:#3F1E0D; --brown:#895325; --terracota:#C68C6C; --terracota-lt:#D7A184;
+    --muted:#7B6A58;
+    --line:rgba(63,30,13,.14); --line-soft:rgba(63,30,13,.08);
+    --on-ink:#F4EADF; --on-ink-soft:rgba(244,234,223,.62); --on-ink-line:rgba(198,140,108,.28);
+    --display:'Crimson Pro',Georgia,'Times New Roman',serif;
+    --body:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
+    --wrap:1080px; --measure:62ch;
+  }
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}
+    *,*::before,*::after{animation-duration:.001ms!important;transition-duration:.001ms!important}}
+  body{background:var(--cream);color:var(--ink);font-family:var(--body);
+    font-size:17px;line-height:1.62;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+    padding-bottom:78px}
+  h1,h2,h3,h4{font-family:var(--display);font-weight:600;line-height:1.08;text-wrap:balance;letter-spacing:-.01em}
+  p{text-wrap:pretty}
+  a{color:inherit}
+  strong{font-weight:600}
+  em{font-style:italic}
+  :focus-visible{outline:2px solid var(--brown);outline-offset:3px;border-radius:2px}
+
+  .wrap{max-width:var(--wrap);margin:0 auto;padding:0 24px}
+  .narrow{max-width:760px;margin-left:auto;margin-right:auto}
+  section{padding:84px 0}
+  section.tight{padding:58px 0}
+  .band-ink{background:var(--ink);color:var(--on-ink)}
+  .band-sand{background:var(--sand)}
+  .band-warm{background:var(--cream-warm)}
+
+  .eyebrow{display:block;font-size:11px;font-weight:700;letter-spacing:.22em;
+    text-transform:uppercase;color:var(--brown);margin-bottom:18px}
+  .band-ink .eyebrow{color:var(--terracota)}
+  h2.section-title{font-size:clamp(30px,5vw,46px);margin-bottom:16px}
+  h2.section-title em{color:var(--terracota);font-style:italic}
+  .lede{font-size:clamp(17px,2vw,19px);color:var(--muted);max-width:var(--measure)}
+  .band-ink .lede{color:var(--on-ink-soft)}
+
+  .btn{display:inline-flex;align-items:center;gap:10px;font-family:var(--body);
+    font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+    padding:18px 34px;border:0;border-radius:2px;text-decoration:none;
+    transition:background .2s ease,color .2s ease,transform .12s ease}
+  .btn:active{transform:translateY(1px)}
+  .btn-primary{background:var(--ink);color:var(--cream)}
+  .btn-primary:hover{background:var(--brown)}
+  .band-ink .btn-primary,header.hero .btn-primary{background:var(--terracota);color:var(--ink)}
+  .band-ink .btn-primary:hover,header.hero .btn-primary:hover{background:var(--terracota-lt)}
+
+  /* ── hero ─────────────────────────────────────────────── */
+  header.hero{background:var(--ink);color:var(--on-ink);padding:34px 0 0}
+  .brandbar{display:flex;align-items:baseline;justify-content:space-between;gap:20px;
+    flex-wrap:wrap;padding-bottom:46px}
+  .brandmark{font-family:var(--display);font-size:19px;text-decoration:none}
+  .brandmark span{color:var(--terracota)}
+  .brandbar .who{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--on-ink-soft)}
+  .hero-inner{padding-bottom:70px}
+  .hero h1{font-size:clamp(38px,7.4vw,76px);line-height:.99;letter-spacing:-.025em;max-width:16ch}
+  .hero h1 em{color:var(--terracota);font-style:italic}
+  .hero .sub{margin-top:26px;font-size:clamp(17px,2.2vw,21px);color:var(--on-ink-soft);
+    max-width:54ch;line-height:1.55}
+  .hero .cta-row{margin-top:38px;display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+  .hero .cta-note{font-size:13px;color:var(--on-ink-soft)}
+  .facts{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--on-ink-line);
+    margin-top:56px}
+  @media(min-width:760px){.facts{grid-template-columns:repeat(4,1fr)}}
+  .fact{padding:22px 20px 26px 0;border-right:1px solid var(--on-ink-line)}
+  .fact:last-child{border-right:0}
+  .fact .n{font-family:var(--display);font-size:26px;color:var(--terracota);display:block}
+  .fact .l{font-size:12px;letter-spacing:.06em;color:var(--on-ink-soft);margin-top:4px;display:block}
+  @media(max-width:759px){.fact:nth-child(2n){border-right:0}
+    .fact:nth-child(1),.fact:nth-child(2){border-bottom:1px solid var(--on-ink-line)}}
+
+  /* ── voces reales ─────────────────────────────────────── */
+  .voices{display:grid;gap:1px;background:var(--line);margin-top:44px;
+    border:1px solid var(--line);border-radius:3px;overflow:hidden}
+  @media(min-width:720px){.voices{grid-template-columns:1fr 1fr}}
+  .voice{background:var(--cream);padding:26px 26px 24px}
+  .voice q{font-family:var(--display);font-style:italic;font-size:20px;line-height:1.4;
+    display:block;quotes:none;color:var(--ink)}
+  .voice .src{display:block;margin-top:14px;font-size:12.5px;color:var(--muted);letter-spacing:.02em}
+
+  /* ── movimientos ──────────────────────────────────────── */
+  .moves{display:grid;gap:0;margin-top:46px}
+  .move{display:grid;grid-template-columns:1fr;gap:14px;padding:36px 0;border-top:1px solid var(--line)}
+  .move:last-child{border-bottom:1px solid var(--line)}
+  @media(min-width:820px){.move{grid-template-columns:230px 1fr;gap:46px}}
+  .move .idx{font-family:var(--display);font-size:15px;color:var(--terracota);
+    letter-spacing:.08em;font-variant-numeric:tabular-nums;display:block;margin-bottom:8px}
+  .move h3{font-size:26px;line-height:1.14}
+  .move p{font-size:16px;color:var(--muted);max-width:var(--measure)}
+  .move p+p{margin-top:12px}
+
+  /* ── incluye ──────────────────────────────────────────── */
+  .kit{display:grid;gap:24px;margin-top:44px}
+  @media(min-width:900px){.kit{grid-template-columns:repeat(3,1fr)}}
+  .kit-card{background:var(--cream);border:1px solid var(--line);border-radius:3px;
+    padding:32px 28px 28px;display:flex;flex-direction:column}
+  .band-sand .kit-card{background:var(--cream)}
+  .kit-card .kicker{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--brown);margin-bottom:14px}
+  .kit-card h3{font-size:24px;margin-bottom:12px}
+  .kit-card p{font-size:15.5px;color:var(--muted)}
+  .kit-card p+p{margin-top:11px}
+  .kit-card .tagline{margin-top:auto;padding-top:22px;border-top:1px solid var(--line-soft);
+    font-size:12.5px;font-weight:600;letter-spacing:.04em;color:var(--brown)}
+
+  ul.mirror{list-style:none;display:grid;gap:18px;margin-top:32px}
+  ul.mirror li{padding-left:30px;position:relative;max-width:var(--measure)}
+  ul.mirror li::before{content:'';position:absolute;left:0;top:.72em;width:16px;height:1.5px;
+    background:var(--terracota)}
+  .band-ink ul.mirror li{color:var(--on-ink)}
+
+  /* ── testimonios ──────────────────────────────────────── */
+  .quotes{display:grid;gap:24px;margin-top:44px}
+  @media(min-width:900px){.quotes{grid-template-columns:repeat(3,1fr)}}
+  .quote{background:var(--cream);border:1px solid var(--line);border-radius:3px;
+    padding:30px 28px;display:flex;flex-direction:column}
+  .quote p{font-size:16px;line-height:1.6}
+  .quote .attr{margin-top:auto;padding-top:24px;border-top:1px solid var(--line-soft)}
+  .quote .name{font-family:var(--display);font-size:19px;display:block}
+  .quote .role{font-size:12.5px;color:var(--muted)}
+
+  /* ── precio ───────────────────────────────────────────── */
+  .price-card{background:var(--cream);border:1px solid var(--line);border-radius:3px;
+    padding:44px 36px;margin-top:40px;text-align:center;max-width:520px;
+    margin-left:auto;margin-right:auto}
+  .price-card .amount{font-family:var(--display);font-size:clamp(52px,10vw,72px);
+    line-height:1;letter-spacing:-.02em;display:block}
+  .price-card .cur{font-size:.42em;color:var(--muted);vertical-align:.5em;letter-spacing:.04em}
+  .price-card .once{font-size:13px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--brown);font-weight:700;margin-top:12px;display:block}
+  .price-card .btn{margin-top:28px}
+  .price-card .after{margin-top:20px;font-size:14.5px;color:var(--muted);line-height:1.55}
+
+  /* ── faq ──────────────────────────────────────────────── */
+  .faq{margin-top:38px;border-top:1px solid var(--line)}
+  .faq details{border-bottom:1px solid var(--line)}
+  .faq summary{cursor:pointer;list-style:none;padding:24px 0;font-family:var(--display);
+    font-size:21px;display:flex;justify-content:space-between;gap:20px;align-items:baseline}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::after{content:'+';color:var(--terracota);font-size:24px;line-height:1;flex:none}
+  .faq details[open] summary::after{content:'–'}
+  .faq .a{padding:0 0 26px;max-width:var(--measure);color:var(--muted);font-size:16px}
+  .faq .a p+p{margin-top:12px}
+
+  /* ── bio ──────────────────────────────────────────────── */
+  .bio{display:grid;gap:34px}
+  @media(min-width:880px){.bio{grid-template-columns:.85fr 1.15fr;gap:56px;align-items:start}}
+  .bio img{width:100%;height:auto;border-radius:3px;display:block;border:1px solid var(--on-ink-line)}
+  .bio .body p+p{margin-top:16px}
+  .band-ink .bio .body{color:var(--on-ink-soft)}
+  .band-ink .bio .body strong{color:var(--on-ink)}
+
+  /* ── barra fija ───────────────────────────────────────── */
+  .sticky{position:fixed;left:0;right:0;bottom:0;z-index:50;background:var(--ink);
+    color:var(--on-ink);border-top:1px solid var(--on-ink-line)}
+  .sticky .inner{max-width:var(--wrap);margin:0 auto;padding:14px 24px;
+    display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap}
+  .sticky .txt{font-size:14.5px;color:var(--on-ink-soft)}
+  .sticky .txt strong{color:var(--on-ink);font-weight:600}
+  .sticky .btn{padding:13px 24px;font-size:11.5px;background:var(--terracota);color:var(--ink)}
+  .sticky .btn:hover{background:var(--terracota-lt)}
+  @media(max-width:620px){.sticky .txt{display:none}
+    .sticky .inner{justify-content:center;padding:11px 20px}
+    .sticky .btn{width:100%;justify-content:center}}
+
+  footer{background:var(--ink);color:var(--on-ink-soft);padding:52px 0 62px;font-size:14px}
+  footer .fwrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:baseline}
+  footer a{color:var(--terracota);text-decoration:none}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="brandbar">
+      <a class="brandmark" href="../at-work/">Breaking Barriers <span>at Work</span></a>
+      <span class="who">Flor Pérsico · Entrenamiento grabado</span>
+    </div>
+    <div class="hero-inner">
+      <span class="eyebrow">Sin Guion · 60 minutos</span>
+      <h1>Te preguntan algo que <em>no preparaste</em>. Y se te va todo.</h1>
+      <p class="sub">
+        Preparaste la reunión entera. Pero alguien pregunta algo que no viste venir y,
+        en un segundo, contestas una versión mucho más chica de lo que en realidad piensas.
+        Esto es un entrenamiento para ese segundo exacto.
+      </p>
+      <div class="cta-row">
+        <!-- data-pago -->
+        <a class="btn btn-primary" data-pago href="https://ig.me/m/ysi_speakenglish">
+          Quiero el entrenamiento →
+        </a>
+        <span class="cta-note">USD 47 · acceso de por vida</span>
+      </div>
+      <div class="facts">
+        <div class="fact"><span class="n">60</span><span class="l">minutos grabados</span></div>
+        <div class="fact"><span class="n">4</span><span class="l">movimientos</span></div>
+        <div class="fact"><span class="n">1</span><span class="l">bot de práctica</span></div>
+        <div class="fact"><span class="n">∞</span><span class="l">acceso de por vida</span></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ── el dolor, en palabras de ellas ────────────────────── -->
+<section>
+  <div class="wrap">
+    <span class="eyebrow">No sos la única</span>
+    <h2 class="section-title">Esto me lo escribieron <em>a mí</em>.</h2>
+    <p class="lede">
+      Reviso todos los mensajes que me llegan. Estas son mujeres que ya trabajan en inglés,
+      con puestos que se ganaron. Cambié los nombres, no las palabras.
+    </p>
+
+    <div class="voices">
+      <div class="voice">
+        <q>El miedo la paraliza y la mente le queda en blanco en reuniones operativas.</q>
+        <span class="src">Senior Coordinator de operaciones globales · multinacional</span>
+      </div>
+      <div class="voice">
+        <q>Prefiere no decir la idea antes que trabarse.</q>
+        <span class="src">Industria farmacéutica · Costa Rica</span>
+      </div>
+      <div class="voice">
+        <q>Se congela al expresar ideas complejas en el 1:1 con su jefe.</q>
+        <span class="src">Tax Director en aseguradora americana · abogada</span>
+      </div>
+      <div class="voice">
+        <q>Suda y se traba con gente importante y reuniones grandes.</q>
+        <span class="src">Soporte en departamento legal</span>
+      </div>
+      <div class="voice">
+        <q>Se bloquea y prefiere escuchar.</q>
+        <span class="src">Participa en conferencias, recibe visitantes de Londres · Colombia</span>
+      </div>
+      <div class="voice">
+        <q>Se traba con USA e India. Habla lo mínimo.</q>
+        <span class="src">Gerente en corporativo hotelero · México</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── el reencuadre ─────────────────────────────────────── -->
+<section class="band-ink">
+  <div class="wrap narrow">
+    <span class="eyebrow">Real talk</span>
+    <h2 class="section-title">No es tu inglés. Es que <em>nadie entrena esto</em>.</h2>
+    <div class="lede" style="margin-top:26px">
+      <p>
+        Estudiaste años. Lees documentación técnica sin despeinarte. Escribes bien cuando
+        tienes tiempo de revisar. Y sin embargo, cuando la conversación se sale del guion,
+        tu inglés se queda dos pasos atrás de tu pensamiento.
+      </p>
+      <p style="margin-top:16px">
+        Las clases te enseñan a hablar cuando te toca a ti, sobre un tema que sabías de
+        antemano, con alguien que te espera. <strong style="color:var(--on-ink)">Tu trabajo
+        no funciona así.</strong> Tu trabajo te interrumpe, te cambia de tema y te pregunta
+        lo que no preparaste.
+      </p>
+      <p style="margin-top:16px">
+        Eso no se arregla con más gramática. Se arregla entrenando exactamente ese momento,
+        hasta que la respuesta te salga sin construirla.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ── los 4 movimientos ─────────────────────────────────── -->
+<section>
+  <div class="wrap">
+    <span class="eyebrow">El método</span>
+    <h2 class="section-title">Cuatro movimientos.</h2>
+    <p class="lede">
+      No son consejos. Son cuatro cosas concretas que haces con la boca y con la cabeza,
+      en orden, cuando la pregunta ya está en el aire y todos te están mirando.
+    </p>
+
+    <div class="moves">
+      <div class="move">
+        <div>
+          <span class="idx">01</span>
+          <h3>Seguir hablando</h3>
+        </div>
+        <div>
+          <p>
+            Cuando la palabra no aparece. La mayoría se detiene, se disculpa y pierde el
+            turno — y ahí es donde otro toma la palabra.
+          </p>
+          <p>
+            Aprendes a rodear la palabra que no viene sin frenar la frase, y a comprar los
+            dos segundos que necesitas sin que se note que los estás comprando.
+          </p>
+        </div>
+      </div>
+
+      <div class="move">
+        <div>
+          <span class="idx">02</span>
+          <h3>Ordenar rápido</h3>
+        </div>
+        <div>
+          <p>
+            Antes de que otro conteste por ti. Tienes la idea completa en español y la
+            estás traduciendo entera antes de abrir la boca. Para cuando terminas, la
+            conversación siguió sin ti.
+          </p>
+          <p>
+            Practicas una estructura fija para ordenar la respuesta mientras hablas, no antes.
+          </p>
+        </div>
+      </div>
+
+      <div class="move">
+        <div>
+          <span class="idx">03</span>
+          <h3>Retomar el hilo</h3>
+        </div>
+        <div>
+          <p>
+            Sin quedarte pegada al error. Te equivocas en un tiempo verbal, lo notas, y los
+            siguientes treinta segundos los pasas pensando en eso en vez de en lo que estás
+            diciendo.
+          </p>
+          <p>
+            Entrenas a seguir de largo. El error que no frena la frase deja de ser un error.
+          </p>
+        </div>
+      </div>
+
+      <div class="move">
+        <div>
+          <span class="idx">04</span>
+          <h3>Sostener la pregunta</h3>
+        </div>
+        <div>
+          <p>
+            Preguntas que no viste venir e interrupciones. Es el movimiento que le da nombre
+            a todo esto: qué haces en el segundo exacto en que te preguntan algo que no
+            preparaste.
+          </p>
+          <p>
+            Aprendes a ganar tiempo con una frase que suena profesional, a pedir que
+            reformulen sin que parezca que no entendiste, y a responder aunque no tengas la
+            respuesta completa.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── qué te llevas ─────────────────────────────────────── -->
+<section class="band-sand">
+  <div class="wrap">
+    <span class="eyebrow">Qué te llevas</span>
+    <h2 class="section-title">Tres cosas, y las tres <em>siguen siendo tuyas</em>.</h2>
+
+    <div class="kit">
+      <div class="kit-card">
+        <span class="kicker">El entrenamiento</span>
+        <h3>60 minutos grabados</h3>
+        <p>
+          Los cuatro movimientos explicados con ejemplos reales de reuniones de trabajo —
+          no con diálogos de manual.
+        </p>
+        <p>
+          Con pausas para que practiques en voz alta mientras miras. No es un video que se
+          ve: es uno que se hace.
+        </p>
+        <span class="tagline">Acceso de por vida</span>
+      </div>
+
+      <div class="kit-card">
+        <span class="kicker">El PDF</span>
+        <h3>S.O.S. Rescue Phrases</h3>
+        <p>
+          Las frases exactas para cuando te quedas en blanco, te interrumpen, no entendiste
+          la pregunta o necesitas dos segundos más.
+        </p>
+        <p>
+          Pensado para tenerlo abierto en otra pestaña durante la reunión. Ese es el uso,
+          no es trampa.
+        </p>
+        <span class="tagline">Descargable</span>
+      </div>
+
+      <div class="kit-card">
+        <span class="kicker">La práctica</span>
+        <h3>Tu bot de preguntas</h3>
+        <p>
+          Un bot configurado para hacer lo que más te cuesta: preguntarte cosas que no
+          preparaste, sobre tu trabajo, sin avisarte.
+        </p>
+        <p>
+          Le cuentas de qué se trata tu próxima reunión y te interroga. Cuantas veces
+          quieras, a la hora que quieras.
+        </p>
+        <span class="tagline">Esto no lo tiene nadie más</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── resultado ─────────────────────────────────────────── -->
+<section>
+  <div class="wrap narrow">
+    <span class="eyebrow">Después de los 60 minutos</span>
+    <h2 class="section-title">Qué cambia el lunes.</h2>
+    <ul class="mirror">
+      <li>Cuando no te sale la palabra, sigues hablando en vez de frenar y disculparte.</li>
+      <li>Contestas antes de tener la frase entera armada en la cabeza.</li>
+      <li>Te equivocas y sigues, en vez de quedarte treinta segundos pensando en el error.</li>
+      <li>Tienes algo concreto que decir en el segundo en que te preguntan lo que no preparaste.</li>
+      <li>Pides que reformulen sin sentir que estás admitiendo una derrota.</li>
+      <li>Sales de la reunión sin ir repasando en el auto lo que te quedaste pensando y no dijiste.</li>
+    </ul>
+    <p class="lede" style="margin-top:34px">
+      Lo que <strong>no</strong> te prometo: que dejes de cometer errores, ni que en una hora
+      hables como nativa. Si alguien te promete eso, desconfía.
+    </p>
+  </div>
+</section>
+
+<!-- ── testimonios ───────────────────────────────────────── -->
+<section class="band-warm">
+  <div class="wrap">
+    <span class="eyebrow">Lo que dicen ellas</span>
+    <h2 class="section-title">Con sus palabras. Sin editar.</h2>
+
+    <div class="quotes">
+      <div class="quote">
+        <p>
+          «Cada vez me doy más cuenta de que sí entiendo, y que hay muchas situaciones
+          cotidianas que puedo abordar de manera simple, con estructura, sin enredarme tanto.»
+        </p>
+        <div class="attr">
+          <span class="name">Lina</span>
+          <span class="role">Ingeniera aeronáutica · Colombia</span>
+        </div>
+      </div>
+      <div class="quote">
+        <p>
+          «I noticed that since a couple of meetings now he's not asking "what do you mean?"
+          anymore. I felt less nervous. I gave myself the chance to use other words.»
+        </p>
+        <p>«Antes me quedaba callada.»</p>
+        <div class="attr">
+          <span class="name">Maribel</span>
+          <span class="role">Procurement Manager · México</span>
+        </div>
+      </div>
+      <div class="quote">
+        <p>
+          «I feel more comfortable and confident when I speak. I had my first interview in
+          English — with Tesla — and I felt good. I could share my point of view.»
+        </p>
+        <p>«Posta que funcionó.»</p>
+        <div class="attr">
+          <span class="name">Moni</span>
+          <span class="role">HR Professional · México</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── precio ────────────────────────────────────────────── -->
+<section id="comprar">
+  <div class="wrap">
+    <span class="eyebrow" style="text-align:center;display:block">La inversión</span>
+    <h2 class="section-title" style="text-align:center">Un solo pago.</h2>
+
+    <div class="price-card">
+      <span class="amount"><span class="cur">USD</span>47</span>
+      <span class="once">Pago único · acceso de por vida</span>
+      <!-- data-pago -->
+      <a class="btn btn-primary" data-pago href="https://ig.me/m/ysi_speakenglish">
+        Quiero el entrenamiento →
+      </a>
+      <p class="after">
+        Y si después entras a <strong>AT WORK</strong>, estos USD 47 se te descuentan del
+        programa completo.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ── faq ───────────────────────────────────────────────── -->
+<section class="band-sand">
+  <div class="wrap narrow">
+    <span class="eyebrow">Antes de comprar</span>
+    <h2 class="section-title">Lo que suelen preguntarme.</h2>
+
+    <div class="faq">
+      <details>
+        <summary>¿Qué nivel necesito?</summary>
+        <div class="a">
+          <p>
+            B1 o B2, y que ya uses inglés en el trabajo. Si todavía no trabajas en inglés,
+            esto no te va a servir todavía: el entrenamiento se apoya en situaciones que ya
+            estás viviendo.
+          </p>
+          <p>
+            Y si tu inglés ya fluye sin esfuerzo, tampoco. Está construido sobre lo que se
+            traba una y otra vez en B1–B2.
+          </p>
+        </div>
+      </details>
+      <details>
+        <summary>¿En cuánto tiempo lo hago?</summary>
+        <div class="a">
+          <p>
+            Una hora, de una sentada. Está pensado para que lo puedas ver el domingo y usarlo
+            el lunes.
+          </p>
+          <p>
+            Después el bot queda disponible para siempre, que es donde realmente se construye
+            la automaticidad.
+          </p>
+        </div>
+      </details>
+      <details>
+        <summary>¿Esto es un pedacito de AT WORK?</summary>
+        <div class="a">
+          <p>
+            No. Es una situación resuelta a fondo. AT WORK es el sistema completo: cinco
+            meses, sesiones 1:1 conmigo, tu material real, las tres herramientas del método.
+          </p>
+          <p>
+            Sin Guion resuelve el momento que más me nombran. Si después quieres el sistema
+            entero, lo que pagaste acá se descuenta.
+          </p>
+        </div>
+      </details>
+      <details>
+        <summary>¿Puedo practicar contigo?</summary>
+        <div class="a">
+          <p>
+            Sí, pero solo si compraste el entrenamiento. Adentro vas a encontrar la opción de
+            agendar una sesión de role play 1:1 conmigo, con tu reunión real.
+          </p>
+          <p>
+            No la ofrezco por fuera. Trabajo con pocas alumnas a la vez y esos lugares son
+            para quienes ya están entrenando con el método.
+          </p>
+        </div>
+      </details>
+      <details>
+        <summary>¿Trabajas mi acento?</summary>
+        <div class="a">
+          <p>
+            No, y no hace falta. Trabajo tu inteligibilidad, que no es lo mismo. El objetivo
+            es que te entiendan sin esfuerzo.
+          </p>
+          <p>Tu acento no es el problema. Nunca lo fue.</p>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ── flor ──────────────────────────────────────────────── -->
+<section class="band-ink">
+  <div class="wrap">
+    <div class="bio">
+      <img src="../at-work/img/flor-cafe.webp" alt="Flor Pérsico" loading="lazy">
+      <div>
+        <span class="eyebrow">Quién te entrena</span>
+        <h2 class="section-title">No enseño inglés. Intervengo tu comunicación.</h2>
+        <div class="body lede">
+          <p>
+            Trabajo con mujeres profesionales que ya saben inglés y que, aun así, salen de sus
+            reuniones con la sensación de haber sonado como una versión más chica de sí mismas.
+          </p>
+          <p>
+            <strong>Ese hueco entre lo que piensas y lo que logras decir bajo presión es lo
+            único que me interesa cerrar.</strong>
+          </p>
+          <p>
+            Mis alumnas son managers, gerentas y directoras de operaciones, IT, finanzas, HR y
+            compliance, en México, Colombia, Perú, Costa Rica, Paraguay y Argentina. Y el
+            momento que más me nombran, de lejos, es este: la pregunta que no vieron venir.
+          </p>
+          <p>Por eso este entrenamiento existe.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── cierre ────────────────────────────────────────────── -->
+<section>
+  <div class="wrap narrow" style="text-align:center">
+    <h2 class="section-title">Tu próxima reunión puede ser distinta.</h2>
+    <p class="lede" style="margin:0 auto 34px">
+      No hace falta esperar cinco meses. Una hora, y el lunes ya tienes qué hacer con la
+      pregunta que no preparaste.
+    </p>
+    <!-- data-pago -->
+    <a class="btn btn-primary" data-pago href="https://ig.me/m/ysi_speakenglish">
+      Quiero el entrenamiento · USD 47 →
+    </a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap fwrap">
+    <span>Professional English for leadership, clarity and presence.</span>
+    <span><a href="mailto:florenciapersico@breakingbarriers.site">florenciapersico@breakingbarriers.site</a></span>
+    <span>© 2026 Flor Pérsico</span>
+  </div>
+</footer>
+
+<div class="sticky">
+  <div class="inner">
+    <span class="txt"><strong>Sin Guion</strong> — 60 minutos, cuatro movimientos, tu bot de práctica.</span>
+    <a class="btn" href="#comprar">Quiero el entrenamiento · USD 47</a>
+  </div>
+</div>
+
+</body>
+</html>
