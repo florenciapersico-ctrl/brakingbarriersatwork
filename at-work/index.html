@@ -207,6 +207,8 @@
     margin-bottom: 8px;
   }
   .win p { font-size: 15.5px; color: var(--muted); }
+  .win .k .arrow { color: var(--terracota); font-style: normal; }
+  @media (min-width: 760px) { .win.wide { grid-column: 1 / -1; } }
 
   /* ── diagnóstico ───────────────────────────────────────── */
   .diagnosis h2 {
@@ -247,6 +249,51 @@
     color: var(--brown);
     border-top: 1px solid var(--line-soft);
   }
+
+  .cycle {
+    list-style: none; display: flex; flex-wrap: wrap; gap: 10px;
+    margin-top: 34px;
+  }
+  .cycle li {
+    display: flex; align-items: baseline; gap: 8px;
+    background: var(--sand); border: 1px solid var(--line-soft); border-radius: 2px;
+    padding: 12px 16px;
+    font-size: 14.5px; font-weight: 600; color: var(--ink);
+  }
+  .cycle .n {
+    font-family: var(--display); font-size: 12.5px; color: var(--terracota);
+    font-variant-numeric: tabular-nums;
+  }
+  .pillars { display: grid; gap: 18px; margin-top: 38px; }
+  @media (min-width: 900px) { .pillars { grid-template-columns: repeat(4, 1fr); align-items: stretch; } }
+  .pillar {
+    background: var(--cream-warm); border: 1px solid var(--line-soft); border-radius: 3px;
+    padding: 26px 24px;
+  }
+  .pillar h4 { font-size: 20px; margin-bottom: 14px; }
+  .pillar ul { list-style: none; display: grid; gap: 9px; }
+  .pillar li {
+    position: relative; padding-left: 18px;
+    font-size: 14.5px; line-height: 1.5; color: var(--muted);
+  }
+  .pillar li::before {
+    content: '→'; position: absolute; left: 0; top: 0;
+    color: var(--terracota); font-size: 13px;
+  }
+  .pillar.core {
+    background: var(--terracota); border-color: var(--terracota);
+    display: flex; flex-direction: column; justify-content: center; text-align: center;
+  }
+  .pillar.core .core-mark {
+    font-family: var(--display); font-size: 22px; line-height: 1.15;
+    font-weight: 600; color: var(--ink); letter-spacing: .01em;
+  }
+  .pillar.core p { margin-top: 12px; font-size: 14px; line-height: 1.5; color: rgba(63, 30, 13, .78); }
+  .claim {
+    margin-top: 22px; text-align: center;
+    font-family: var(--display); font-size: clamp(20px, 2.6vw, 25px); color: var(--brown);
+  }
+  .tools-lead { font-size: clamp(22px, 3vw, 28px); margin: 54px 0 14px; }
 
   /* ── roadmap ───────────────────────────────────────────── */
   .stages { margin-top: 48px; display: grid; gap: 0; }
@@ -529,10 +576,10 @@
       <div>
       <h1>Sabes lo que quieres decir. En inglés sale <em>una versión más simple.</em></h1>
       <p class="sub">
-        No es falta de idioma: lo estudiaste durante años, lo lees, trabajas en inglés
-        todos los días. Es que bajo presión traduces en la cabeza, pierdes palabras y
-        repites los mismos errores de siempre — y lo que llega no representa el nivel
-        profesional que tienes.
+        Lo estudiaste durante años, lo lees, trabajas en inglés todos los días. Pero
+        cuando hay que producir en el momento traduces en la cabeza, pierdes palabras
+        y repites los mismos errores de siempre — y lo que llega no representa a la
+        profesional que ya eres.
       </p>
       </div>
       <figure class="heroshot">
@@ -558,8 +605,11 @@
           <li>Cuando hay que dar indicaciones después de una llamada te quedas callada por miedo a equivocarte — y minutos después mandas por mail lo que no te animaste a decir en la reunión.</li>
           <li>La noche anterior a una reunión importante te cuesta dormirte pensando si vas a poder decir lo que realmente quieres decir.</li>
           <li>Escribes bien cuando tienes tiempo de revisar. En vivo, con alguien esperando, no te sale ni la mitad de eso.</li>
+          <li>Preparas de más: escribes antes lo que vas a decir, ensayas, dependes de un guion. Y cuando la conversación se sale de ese guion te quedas sin piso.</li>
+          <li>Cuando presentas terminas leyendo la slide en voz alta, en vez de explicar lo que sabes perfectamente que dice ahí.</li>
+          <li>Evitas ciertas palabras porque no estás segura de cómo se pronuncian, y terminas eligiendo la que te sale, no la que querías.</li>
           <li>Sabes que el inglés te está frenando la carrera. No porque no lo sepas: porque en las conversaciones que deciden cosas termina hablando otra persona por ti.</li>
-          <li>Empezaste un rol nuevo, o tu empresa se volvió global, y de golpe las reuniones son en inglés. Nunca entrenaste estas situaciones y se nota desde la primera.</li>
+          <li>Entraste a un rol internacional, o tu empresa se volvió global, y de golpe tu jefe, tu equipo o tus clientes son extranjeros. Nunca entrenaste estas situaciones y se nota desde la primera.</li>
         </ul>
       </div>
 
@@ -587,31 +637,39 @@
   <div class="wrap">
     <span class="eyebrow">Qué vas a lograr</span>
     <h2 class="section-title">En cinco meses, esto<br>deja de ser una excepción.</h2>
+    <p class="lede">
+      Siete cambios concretos. No son estados de ánimo: son cosas que empiezas a
+      hacer —o que dejas de evitar— en tu trabajo real.
+    </p>
 
     <div class="wins">
       <div class="win">
-        <div class="k">Recuperas más rápido lo que ya sabías decir.</div>
-        <p>Menos tiempo armando la frase por dentro, más veces llegando a decirla antes de que otro diga algo más simple.</p>
+        <div class="k">De evitar <span class="arrow">→</span> a participar</div>
+        <p>Intervienes en las reuniones, opinas, discutes un punto y entras en conversaciones que antes dejabas pasar.</p>
       </div>
       <div class="win">
-        <div class="k">Respondes lo que no viste venir.</div>
-        <p>Con una respuesta clara — no la primera frase que se te ocurre para salir del paso.</p>
+        <div class="k">De saber inglés <span class="arrow">→</span> a poder usarlo</div>
+        <p>Dejas de depender de frases memorizadas y de estructuras que reconoces pero no aparecen. Lo que ya sabes empieza a llegarte cuando lo necesitas.</p>
       </div>
       <div class="win">
-        <div class="k">Dices «no estoy de acuerdo» ahí.</div>
-        <p>En la reunión, en el momento en que lo piensas. No en el mail que mandas después.</p>
+        <div class="k">De hablar como salga <span class="arrow">→</span> a construir con estructura</div>
+        <p>Ordenas la idea, pones primero lo importante y se entiende a la primera. Y en vez de leer la presentación, la explicas.</p>
       </div>
       <div class="win">
-        <div class="k">Te presentas en dos frases.</div>
-        <p>Y sostienes la charla antes de que empiece la reunión, sin esperar a que hable otra persona.</p>
+        <div class="k">De quedarte bloqueada <span class="arrow">→</span> a sostener la interacción</div>
+        <p>Sigues hablando aunque no tengas todo preparado, aunque llegue una pregunta que no viste venir, aunque no te salga una palabra o te equivoques.</p>
       </div>
       <div class="win">
-        <div class="k">Entiendes más cuando hablan rápido.</div>
-        <p>Y cuando algo se te escapa, pides que lo repitan sin que eso te cueste los dos minutos siguientes.</p>
+        <div class="k">De práctica genérica <span class="arrow">→</span> a entrenamiento con propósito</div>
+        <p>Usas tus propias situaciones de trabajo para detectar qué te está frenando hoy, y practicas eso — no lo que toca en la unidad 7.</p>
       </div>
       <div class="win">
-        <div class="k">Sales pensando «dije lo que quería decir».</div>
-        <p>En vez de repasar todo el camino a casa lo que te quedaste pensando y no dijiste.</p>
+        <div class="k">De depender de tu profesora <span class="arrow">→</span> a saber cómo seguir</div>
+        <p>Sabes qué mirar, qué practicar, con qué herramienta, cómo volver a intentarlo y cómo llevarlo a tu próxima reunión.</p>
+      </div>
+      <div class="win wide">
+        <div class="k">De esquivar por miedo a tu pronunciación <span class="arrow">→</span> a entender y hacerte entender</div>
+        <p>Entiendes mejor el inglés hablado real —el rápido, el encadenado, el de los nativos— y te siguen sin esfuerzo cuando hablas. Sin perseguir un acento perfecto, que nunca fue el objetivo.</p>
       </div>
     </div>
   </div>
@@ -621,22 +679,24 @@
 <section class="band-ink diagnosis">
   <div class="wrap">
     <span class="eyebrow">Real talk</span>
-    <h2>El problema no son los nervios. Es la falta de <em>instancias de práctica reales.</em></h2>
+    <h2>El problema no es que te falte inglés. Es que nunca entrenaste <em>cómo usar el que ya tienes</em> bajo presión.</h2>
     <div class="body">
       <p>
-        Estudiaste años. Lees documentación técnica sin despeinarte. Escribes bien
-        cuando tienes tiempo de revisar. Y sin embargo, cuando la conversación se sale
-        del guion, tu inglés se queda dos pasos atrás de tu pensamiento.
+        Estudiaste años. Hiciste cursos, business english, clases particulares. Eso
+        construyó algo real: lees documentación técnica sin despeinarte, escribes bien
+        cuando tienes tiempo de revisar, y reconoces la estructura correcta apenas la ves.
       </p>
       <p>
-        Eso no se arregla con más gramática. Se arregla practicando exactamente la
-        situación que te traba, con tu material real, hasta que la respuesta te salga
-        sin construirla.
+        Pero construir conocimiento y poder recuperarlo en el momento son dos cosas
+        distintas, y casi nadie entrena la segunda. Nadie te enseñó a agarrar tu reunión
+        del martes y convertirla en material de entrenamiento: ver qué te frenó ahí
+        exactamente, entender por qué, y practicar eso hasta que te salga sin construirlo.
       </p>
       <p>
-        <strong>Por eso AT WORK no es un curso.</strong> No abrimos un libro: abrimos el
-        transcript de tu reunión del martes. Y entrenas con un sistema que sigue siendo
-        tuyo cuando el programa termina.
+        <strong>Eso es lo que hacemos acá.</strong> Sí trabajamos lenguaje, gramática
+        funcional, pronunciación y listening — pero siempre entrando por tu producción
+        real, no por el índice de un libro. Y sales con un sistema de entrenamiento que
+        sigue siendo tuyo cuando el programa termina.
       </p>
     </div>
   </div>
@@ -646,10 +706,64 @@
 <section>
   <div class="wrap">
     <span class="eyebrow">El método</span>
-    <h2 class="section-title">Tres herramientas.<br>Y un bot para cada una.</h2>
+    <h2 class="section-title">Delivery Method&trade;</h2>
     <p class="lede">
-      Las tres trabajan sobre lo mismo: tu producción real. Y las tres vienen con un
-      bot configurado con tu contexto, para que puedas entrenar entre sesiones sin
+      Una sola lógica, repetida cada semana: tu trabajo real entra, y sale convertido
+      en entrenamiento. No practicas situaciones de manual — practicas la reunión que
+      tienes el jueves.
+    </p>
+
+    <div class="pillars">
+      <article class="pillar core">
+        <div class="core-mark">Delivery<br>Method&trade;</div>
+        <p>Las tres capas trabajan sobre lo mismo: lo que de verdad te pasa en el trabajo.</p>
+      </article>
+      <article class="pillar">
+        <h4>Práctica autónoma</h4>
+        <ul>
+          <li>Narrative Flow, para entender y corregir tus errores</li>
+          <li>Color Method, para activar el lenguaje que ya reconoces</li>
+          <li>Role Play, para entrenar la situación antes de que ocurra</li>
+          <li>Disponible cuando puedas, con tu material real</li>
+        </ul>
+      </article>
+      <article class="pillar">
+        <h4>Coaching 1:1</h4>
+        <ul>
+          <li>Tu sesión semanal de 60 minutos conmigo</li>
+          <li>Weekly Report, que leo antes de vernos</li>
+          <li>Claridad sobre qué priorizar y por qué</li>
+          <li>Feedback sobre tu producción, no sobre un ejercicio</li>
+        </ul>
+      </article>
+      <article class="pillar">
+        <h4>Road map guiado</h4>
+        <ul>
+          <li>Lead Yourself First</li>
+          <li>Activate Your English</li>
+          <li>Communicate in Real Time</li>
+          <li>Polish Your English</li>
+          <li>Understand &amp; Be Understood</li>
+        </ul>
+      </article>
+    </div>
+
+    <p class="claim">Autonomía, no dependencia.</p>
+
+    <ol class="cycle" aria-label="Ciclo del Delivery Method">
+      <li><span class="n">01</span> Situación real</li>
+      <li><span class="n">02</span> Produces</li>
+      <li><span class="n">03</span> Analizamos</li>
+      <li><span class="n">04</span> Afinamos</li>
+      <li><span class="n">05</span> Practicas</li>
+      <li><span class="n">06</span> Retry</li>
+      <li><span class="n">07</span> Aplicas</li>
+    </ol>
+
+    <h3 class="tools-lead">Tres herramientas dentro del método. Y un bot para cada una.</h3>
+    <p class="lede">
+      Cada herramienta resuelve una parte distinta del problema, y cada una viene con
+      un bot configurado con tu contexto, para que puedas entrenar entre sesiones sin
       depender de que yo esté del otro lado.
     </p>
 
@@ -657,30 +771,32 @@
       <article class="tool">
         <span class="idx">01</span>
         <h3>Narrative Flow</h3>
-        <div class="kicker">Corrección en contexto</div>
-        <p>Corregimos sobre tus emails y tus reuniones reales, no sobre ejercicios armados para practicar.</p>
-        <p>Vas a saber exactamente qué errores dices en automático aunque te los hayan corregido mil veces, y cuáles son porque nadie te explicó la regla todavía.</p>
-        <p>Cada corrección viene con la explicación puntual que te falta, y practicas hasta que te sale sin pensarlo.</p>
+        <div class="kicker">De dónde viene el error</div>
+        <p>No todos los errores son el mismo error, y por eso no todos se arreglan igual. Sobre tus mails y tus reuniones reales separamos tres cosas distintas:</p>
+        <p><strong>Knowledge gap:</strong> nadie te explicó esa regla todavía.<br>
+           <strong>Gap de automatización:</strong> la sabes, pero en automático te sale mal desde hace años.<br>
+           <strong>Construction gap:</strong> tienes las piezas, pero no llegas a armar la frase en el momento.</p>
+        <p>Recién cuando sabemos cuál de las tres es, sabemos cómo entrenarla.</p>
         <div class="botline">Bot de práctica incluido</div>
       </article>
 
       <article class="tool">
         <span class="idx">02</span>
         <h3>Color Method</h3>
-        <div class="kicker">Activación de vocabulario</div>
-        <p>No memorizas listas: activas el vocabulario que ya usas en tu rubro, pero en inglés.</p>
-        <p>Eliges las cinco o diez palabras que más te sirven esta semana y las practicas hasta decirlas sin buscarlas en tu cabeza.</p>
-        <p>No avanzamos a vocabulario nuevo hasta que el anterior te sale solo. El problema nunca fue no conocer palabras: fue no poder usarlas en el momento.</p>
+        <div class="kicker">De reconocer a usar</div>
+        <p>El problema nunca fue no conocer palabras: fue no poder usarlas en el momento. Esto mueve el lenguaje de «lo reconozco» a «me sale».</p>
+        <p>Tres pasos: <strong>Discover</strong> — encontrarlo en tu propio contexto. <strong>Understand</strong> — entender cómo y cuándo se usa de verdad. <strong>Use</strong> — producirlo hasta que no tengas que buscarlo.</p>
+        <p>Trabajamos chunks, collocations y lenguaje de alto valor para tu rubro. No listas infinitas, y no avanzamos hasta que lo anterior te salga solo.</p>
         <div class="botline">Bot de práctica incluido</div>
       </article>
 
       <article class="tool">
         <span class="idx">03</span>
-        <h3>Role Play</h3>
-        <div class="kicker">El simulador de vuelo</div>
-        <p>Practicas tu próxima reunión real — con tu jefe, sobre tu proyecto — antes de que pase de verdad.</p>
-        <p>La primera vez hablas sin que nadie te corte. Recién en la segunda vuelta te doy el feedback puntual.</p>
-        <p>Esa segunda vez siempre sale mejor. Y ahí es donde se construye la confianza real, no leyendo teoría.</p>
+        <h3>Role Play Method</h3>
+        <div class="kicker">Ensayo con presión real</div>
+        <p>Entrenas tus situaciones futuras y las que se repiten: con tu jefe, sobre tu proyecto, antes de que pasen de verdad.</p>
+        <p>Contexto, primer intento sin que nadie te corte, presión progresiva, feedback puntual y <strong>retry</strong>. Esa segunda vuelta siempre sale mejor, y ahí es donde se construye la seguridad real.</p>
+        <p>No memorizas un speech. Entrenas poder sostener la conversación cuando se desvía.</p>
         <div class="botline">Bot de práctica incluido</div>
       </article>
     </div>
@@ -701,48 +817,49 @@
 
       <article class="stage">
         <div class="label">
-          <span class="tag">Onboarding</span>
-          <h3>Start &amp; Diagnose</h3>
+          <span class="tag">Etapa 01</span>
+          <h3>Lead Yourself First</h3>
         </div>
         <div>
-          <p class="txt">Antes de la primera clase quiero saber exactamente dónde estás.
-          No con un test: con tu producción real. Me cuentas cómo son tus reuniones, con
-          quién hablas, en qué momentos se te complica y qué cosas directamente evitas
-          decir.</p>
-          <p class="txt">Con eso armamos tu punto de partida y dejamos configurado tu
-          sistema de entrenamiento, con tu material y no con ejemplos de manual. Cuando
-          arrancamos ya sabes qué vamos a hacer, en qué orden, y qué te toca poner a ti.</p>
+          <p class="txt">Antes de empezar con el idioma, empezamos por el proceso. Me
+          cuentas cómo son tus reuniones, con quién hablas, en qué momentos se te
+          complica y qué cosas directamente evitas decir. Con eso definimos tu punto de
+          partida — no con un test, con tu producción real.</p>
+          <p class="txt">Y acordamos cómo vas a atravesar el programa: con acción,
+          exposición progresiva, responsabilidad sobre tu práctica y evidencia de
+          avance que puedas ver. Cuando arrancamos ya sabes qué vamos a hacer, en qué
+          orden, y qué te toca poner a ti.</p>
           <div class="hito">
             <span class="lbl">Al terminar esta etapa</span>
-            <span class="q">«Sé desde dónde parto, cómo es el recorrido del programa, y tengo listo lo que necesito para entrenar.»</span>
+            <span class="q">«Sé desde dónde parto, entiendo cómo es el recorrido y qué me toca hacer a mí para avanzar.»</span>
           </div>
         </div>
       </article>
 
       <article class="stage">
         <div class="label">
-          <span class="tag">Módulo 1</span>
-          <h3>Automatize Your English</h3>
+          <span class="tag">Etapa 02</span>
+          <h3>Activate Your English</h3>
         </div>
         <div>
           <p class="txt">El inglés que ya sabes está ahí, guardado. Lo lees, lo entiendes,
-          lo reconoces cuando lo escuchas — pero no aparece cuando lo necesitas. Este
-          módulo existe para sacarlo de ahí.</p>
-          <p class="txt">Te enseño a entrenar con tu propio material. Separamos los errores
-          que repites en automático de los que nunca te explicaron bien, movemos tu
-          vocabulario profesional de «lo reconozco» a «me sale», y ensayas tus reuniones
-          antes de que ocurran. Sales de este módulo con tu método de práctica funcionando
-          — y ese método sigue siendo tuyo cuando el programa termina.</p>
+          lo reconoces cuando lo escuchas — pero no aparece cuando lo necesitas. Esta
+          etapa existe para sacarlo de ahí.</p>
+          <p class="txt">Aprendes a convertir tus situaciones reales de trabajo en
+          práctica, usando las tres herramientas: Role Play para ensayar lo que viene,
+          Narrative Flow para entender de dónde vienen tus errores, y Color Method para
+          mover tu vocabulario profesional de «lo reconozco» a «me sale». Sales de acá
+          con tu método de entrenamiento funcionando.</p>
           <div class="hito">
             <span class="lbl">Al terminar esta etapa</span>
-            <span class="q">«Sé cómo entrenar con mis situaciones reales de trabajo para desenvolverme cada día mejor en ellas.»</span>
+            <span class="q">«Sé cómo usar mis situaciones reales de trabajo para entrenar, y tengo las herramientas para hacerlo sola.»</span>
           </div>
         </div>
       </article>
 
       <article class="stage">
         <div class="label">
-          <span class="tag">Módulo 2</span>
+          <span class="tag">Etapa 03</span>
           <h3>Communicate in Real Time</h3>
         </div>
         <div>
@@ -750,56 +867,55 @@
           del guion. Ahí aparece la pregunta que no viste venir, la palabra que no llega, la
           interrupción que te desarma. Nadie entrena eso — y es exactamente lo que tu
           trabajo te está pidiendo.</p>
-          <p class="txt">Trabajamos cuatro habilidades por separado: seguir hablando cuando
-          la palabra no aparece, ordenar rápido lo que quieres decir, retomar el hilo sin
-          quedarte pegada al error, y manejar preguntas e interrupciones sin depender de un
-          guion. Después las aplicas en ocho situaciones reales de trabajo: presentarte ante
-          un equipo nuevo, dar un update, explicar un problema, disentir, responder lo
-          inesperado, presentar delante de quien decide.</p>
+          <p class="txt">Trabajamos cómo construir el mensaje, cómo ordenarlo rápido para
+          que se entienda a la primera, cómo adaptarlo cuando la conversación cambia de
+          dirección, y cómo sostenerlo cuando no tienes todo preparado. Después lo aplicas
+          en situaciones reales: presentarte ante un equipo nuevo, dar un update, explicar
+          un problema, disentir, responder lo inesperado, presentar delante de quien decide.</p>
           <div class="hito">
             <span class="lbl">Al terminar esta etapa</span>
-            <span class="q">«Puedo organizar y sostener mi mensaje en tiempo real. Sé qué hacer cuando no recuerdo una palabra, cuando necesito ordenar una idea, cuando noto que no fui clara o cuando la conversación cambia de dirección.»</span>
+            <span class="q">«Puedo construir y sostener mi mensaje en tiempo real. Sé qué hacer cuando no recuerdo una palabra, cuando necesito ordenar una idea, cuando noto que no fui clara o cuando la conversación cambia de dirección.»</span>
           </div>
         </div>
       </article>
 
       <article class="stage">
         <div class="label">
-          <span class="tag">Módulo 3</span>
-          <h3>Build Your Language System</h3>
+          <span class="tag">Etapa 04</span>
+          <h3>Polish Your English</h3>
         </div>
         <div>
-          <p class="txt">A veces lo que te frena no es la fluidez: es la estructura. Te
+          <p class="txt">A veces lo que te frena no es la fluidez: es la precisión. Te
           enseñaron gramática en pedazos, aislada, durante años. Por eso armas cada frase
-          por partes, revisando por dentro si ese tiempo verbal va o no va, mientras la conversación sigue sin ti.</p>
-          <p class="txt">Aquí vas a entender cómo funciona el idioma de verdad, con los
-          sistemas que se repiten una y otra vez en tu trabajo. No toda la gramática de tu
-          nivel: solo la que aparece en tus reuniones y en tus mails, explicada de una vez
-          y bien.</p>
-          <p class="shift">Vas a dejar de dudar cómo preguntarle algo a tu jefa
-          mientras ella todavía está hablando.</p>
+          por partes, revisando por dentro si ese tiempo verbal va o no va, mientras la
+          conversación sigue sin ti.</p>
+          <p class="txt">Acá trabajamos los patrones que realmente están interfiriendo con
+          tu claridad — los que aparecen una y otra vez en tus reuniones y en tus mails,
+          explicados de una vez y bien. No es un syllabus enciclopédico de todo B1–B2: es
+          lo tuyo, lo que te está costando de verdad.</p>
           <div class="hito">
             <span class="lbl">Al terminar esta etapa</span>
-            <span class="q">«Entiendo y puedo aplicar los sistemas lingüísticos que aparecen repetidamente en mi comunicación laboral.»</span>
+            <span class="q">«Entiendo y puedo aplicar los patrones del idioma que más aparecen en mi comunicación laboral, y noto la diferencia en cómo me expreso.»</span>
           </div>
         </div>
       </article>
 
       <article class="stage">
         <div class="label">
-          <span class="tag">Módulo 4</span>
+          <span class="tag">Etapa 05</span>
           <h3>Understand &amp; Be Understood</h3>
         </div>
         <div>
           <p class="txt">A tus colegas latinos los entiendes sin esfuerzo. Y de pronto habla
           un nativo, encadena las palabras, y se te va la mitad de lo que dijo. No es tu
           oído: es que ese inglés no suena como el que escuchas todos los días en tu equipo.</p>
-          <p class="txt">Trabajamos las dos direcciones: entender el inglés real —el que se
-          habla rápido y conectado— y que a ti te sigan sin esfuerzo. El objetivo es que te
-          entiendan, no que pierdas tu acento. Tu acento nunca fue el problema.</p>
+          <p class="txt">Trabajamos las dos direcciones: comprensión del inglés hablado real
+          —el rápido, el conectado— y pronunciación orientada a inteligibilidad, para que a
+          ti te sigan sin esfuerzo. El objetivo es que te entiendan, no que pierdas tu
+          acento. Tu acento nunca fue el problema.</p>
           <div class="hito">
             <span class="lbl">Al terminar esta etapa</span>
-            <span class="q">«Entiendo mejor por qué el inglés real suena como suena y sé cómo entrenar mi oído y mi producción.»</span>
+            <span class="q">«Entiendo mejor el inglés hablado real, me hago entender con más claridad, y sé cómo seguir entrenando mi oído y mi producción.»</span>
           </div>
         </div>
       </article>
@@ -817,23 +933,23 @@
     <div class="week">
       <div class="weekitem">
         <h4>Antes de arrancar, te conozco a fondo</h4>
-        <p>En qué está tu inglés hoy, qué te falta, y reunimos tu material real — tus reuniones, tus transcripts — para configurar tus bots con tu contexto, no con ejemplos genéricos.</p>
+        <p>En qué está tu inglés hoy, qué te falta, y reunimos tu material real — tus reuniones, tus presentaciones, tus transcripts — para configurar tus bots con tu contexto, no con ejemplos genéricos.</p>
       </div>
       <div class="weekitem">
-        <h4>Una sesión 1:1 por semana, en horario fijo</h4>
-        <p>Diagnóstico, aplicación, producción, role play, feedback y segundo intento. El resto de tus prácticas las acomodas tú, cuando te queda mejor.</p>
+        <h4>Una sesión 1:1 de 60 minutos por semana</h4>
+        <p>Conmigo, en horario fijo: diagnóstico, aplicación, producción, role play, feedback, corrección y retry. Y cómo llevar eso a tu situación real de trabajo.</p>
+      </div>
+      <div class="weekitem">
+        <h4>La plataforma absorbe lo repetible</h4>
+        <p>Los cinco módulos grabados y las bibliotecas de práctica están ahí para consultar cuando los necesites. Así la sesión conmigo queda libre para lo tuyo, lo que no se puede grabar.</p>
       </div>
       <div class="weekitem">
         <h4>Un weekly report por semana</h4>
         <p>Cómo entrenaste, tus wins, dónde estás trabada. Yo lo leo antes de nuestra sesión, así no perdemos tiempo poniéndonos al día.</p>
       </div>
       <div class="weekitem">
-        <h4>Cuarenta minutos, tres veces por semana</h4>
-        <p>No hace falta entrenar horas. Con eso alcanza, si es sostenido y con el sistema puesto.</p>
-      </div>
-      <div class="weekitem">
-        <h4>El método sigue siendo tuyo después</h4>
-        <p>Una vez configurados tus bots, tienes una forma de practicar que no depende de mí ni de que el programa siga activo.</p>
+        <h4>Bloques cortos, varias veces por semana</h4>
+        <p>La recomendación es entrenar en bloques cortos y sostenidos. Como referencia: unas tres prácticas de alrededor de cuarenta minutos. Las acomodas tú, cuando te queda mejor.</p>
       </div>
       <div class="weekitem">
         <h4>No estás sola con la parte difícil</h4>
@@ -893,7 +1009,7 @@
         <div class="sig">Flor Pérsico</div>
         <div class="sigrole">Creadora del método Breaking Barriers</div>
         <ul>
-          <li>Trabajo con pocas alumnas a la vez: el programa se arma sobre el material de cada una</li>
+          <li>Trabajo con un número limitado de alumnas: el programa se arma sobre el material de cada una</li>
           <li>Alumnas en México, Colombia, Perú, Costa Rica y Argentina</li>
           <li>Managers, gerentas y directoras de operaciones, IT, finanzas, HR y compliance</li>
           <li>Trabajo sobre transcripts reales de clase, no sobre material de manual</li>
@@ -916,8 +1032,13 @@
           tu entrenamiento.
         </p>
         <p>
-          Y por eso trabajo con pocas alumnas a la vez. Un programa que se construye
-          sobre tu material no se puede dar en escala.
+          Trabajo con lenguaje, gramática funcional, pronunciación y listening — todo
+          eso está adentro. Lo que cambia es por dónde entramos: no por el índice de un
+          libro, sino por lo que te está pasando a ti en el trabajo.
+        </p>
+        <p>
+          Y trabajo con un número limitado de alumnas a la vez, porque necesito conocer
+          tu contexto y seguir de cerca cómo estás aplicando el método.
         </p>
       </div>
     </div>
@@ -934,8 +1055,17 @@
       <details>
         <summary>¿Cuánto tiempo necesito por semana?</summary>
         <div class="answer">
-          <p>Una sesión conmigo, en horario fijo, más unos cuarenta minutos de práctica autónoma tres veces por semana.</p>
-          <p>No hace falta más. Pero tampoco funciona con menos: el método se apoya en la repetición corta y sostenida, no en sesiones largas y espaciadas.</p>
+          <p>Una sesión de 60 minutos conmigo, en horario fijo, más tu práctica autónoma.</p>
+          <p>La recomendación es entrenar en bloques cortos varias veces por semana — como referencia, unas tres prácticas de alrededor de cuarenta minutos. El método se apoya en la repetición corta y sostenida, no en sesiones largas y espaciadas.</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>¿En qué se diferencia de una profesora particular de inglés?</summary>
+        <div class="answer">
+          <p>Una clase particular adapta el contenido a ti: llegas, se trabaja lo que surja ese día, te corrigen. Eso está bien, y acá también pasa — pero es el piso, no la diferencia.</p>
+          <p>La diferencia es que hay un sistema completo detrás: un road map de cinco etapas con un orden pensado, una metodología —el Delivery Method™— para convertir tu trabajo real en entrenamiento, tres herramientas con sus bots, bibliotecas de práctica, y un weekly report donde yo veo cómo vas entre sesión y sesión.</p>
+          <p>En cada momento sabes en qué etapa estás, qué viene después y para qué sirve. Y cuando el programa termina, ese sistema de entrenamiento sigue siendo tuyo.</p>
         </div>
       </details>
 
@@ -949,18 +1079,26 @@
       </details>
 
       <details>
-        <summary>¿En qué se diferencia de una clase particular?</summary>
+        <summary>¿Trabajamos gramática y pronunciación, o solo conversación?</summary>
         <div class="answer">
-          <p>Una clase particular es una hora suelta: llegas, se trabaja lo que surja ese día, y la semana siguiente se empieza otra vez de cero. Aquí también adaptamos todo a tu nivel y a tu industria — eso es lo mínimo — pero además hay un programa completo detrás.</p>
-          <p>Un recorrido con un orden pensado, cinco etapas, materiales y guías para consultar, y tres herramientas de práctica con sus bots. En cada momento sabes en qué etapa estás, qué viene después y para qué sirve. No son clases sueltas: es un método con un paso a paso.</p>
-          <p>Y cuando el programa termina, ese sistema de entrenamiento sigue siendo tuyo.</p>
+          <p>Se trabajan las dos, y también listening y vocabulario. Hay una etapa entera dedicada a los patrones del idioma que están interfiriendo con tu claridad, y otra a comprensión del inglés hablado real y pronunciación.</p>
+          <p>Lo que no hacemos es recorrer un temario completo por si acaso. Trabajamos lo que aparece en tus reuniones y en tus mails, que es lo que te está frenando hoy.</p>
         </div>
       </details>
 
       <details>
-        <summary>¿Qué pasa si una semana no puedo?</summary>
+        <summary>¿Qué pasa si necesito reprogramar una sesión?</summary>
         <div class="answer">
-          <p>Se reprograma. Si aparece un viaje de trabajo o una temporada imposible, se conversa y se pausa: prefiero eso a que pagues un mes que no vas a poder aprovechar.</p>
+          <p>Se reprograma avisando con 24 horas de anticipación. Con menos de 24 horas la sesión puede darse por utilizada, salvo excepciones.</p>
+          <p>Y si aparece un viaje de trabajo o una temporada imposible, se conversa y se pausa: prefiero eso a que pagues un mes que no vas a poder aprovechar.</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>¿Qué pasa con el acceso cuando terminan los cinco meses?</summary>
+        <div class="answer">
+          <p>El programa grabado y las bibliotecas están disponibles durante los cinco meses.</p>
+          <p>Los bots se quedan contigo: funcionan sobre ChatGPT y ya están configurados con tu contexto, así que puedes seguir entrenando después.</p>
         </div>
       </details>
 
@@ -968,7 +1106,7 @@
         <summary>¿Voy a dejar de cometer errores?</summary>
         <div class="answer">
           <p>No. Y si alguien te promete eso, desconfía.</p>
-          <p>Lo que sí va a pasar es que vas a producir consistentemente como la profesional que ya eres: con errores que no te frenan, en vez de errores que te dejan en silencio.</p>
+          <p>Lo que sí va a pasar es que vas a producir con más consistencia como la profesional que ya eres: con errores que no te frenan, en vez de errores que te dejan en silencio.</p>
         </div>
       </details>
 
@@ -999,34 +1137,36 @@
 <section class="band-ink" id="pagar">
   <div class="wrap">
     <span class="eyebrow">La inversión</span>
-    <h2 class="section-title">Dos formas de pagarlo.</h2>
+    <h2 class="section-title">Cinco meses.<br>Cinco pagos.</h2>
 
     <div class="prices">
-      <a class="price" href="https://buy.stripe.com/00wbJ21pn9oJ1F70RQ8k813" target="_blank" rel="noopener noreferrer">
-        <div class="plan">En cuotas</div>
+      <a class="price best" href="https://buy.stripe.com/00wbJ21pn9oJ1F70RQ8k813" target="_blank" rel="noopener noreferrer">
+        <div class="plan">Precio de lanzamiento</div>
         <div class="amount">USD 250<small> /mes</small></div>
-        <div class="terms">Cinco cuotas mensuales, con tarjeta.</div>
-        <span class="pay">Pagar con tarjeta →</span>
-      </a>
-      <a class="price best" href="https://buy.stripe.com/fZu14o9VT1Wh6Zrasq8k80Z" target="_blank" rel="noopener noreferrer">
-        <span class="flag">Mejor valor</span>
-        <div class="plan">Pago único</div>
-        <div class="amount">USD 1.111</div>
-        <div class="terms">Un solo pago, con tarjeta.</div>
+        <div class="terms">Cinco pagos mensuales automáticos, con tarjeta. Total: USD 1.250.</div>
         <span class="pay">Pagar con tarjeta →</span>
       </a>
     </div>
+    <!-- Link de Stripe del pago único (USD 1.111), guardado por si se reactiva:
+         https://buy.stripe.com/fZu14o9VT1Wh6Zrasq8k80Z -->
 
     <div class="incl">
       <h3>Los cinco meses incluyen</h3>
       <ul class="includes">
-        <li><strong>Una sesión 1:1 semanal conmigo</strong> <span>— diagnóstico, aplicación, producción, role play, feedback y segundo intento.</span></li>
-        <li><strong>Las tres herramientas del método</strong> <span>— Narrative Flow, Color Method y Role Play, cada una con su bot de práctica configurado con tu contexto.</span></li>
-        <li><strong>Onboarding + 4 módulos grabados</strong> <span>— Automatize, Communicate in Real Time, Build Your Language System y Understand &amp; Be Understood.</span></li>
-        <li><strong>Workplace Practice Library</strong> <span>— ocho guías de situaciones reales con vocabulario, expresiones y role play.</span></li>
-        <li><strong>Banco de precisión y pronunciación</strong> <span>— para cuando te trabas con algo puntual, en el momento en que lo necesitas.</span></li>
+        <li><strong>Una sesión 1:1 de 60 minutos por semana conmigo</strong> <span>— diagnóstico, aplicación, producción, role play, feedback, corrección, retry y cómo llevarlo a tu trabajo real.</span></li>
+        <li><strong>El Delivery Method™</strong> <span>— el sistema para convertir tus reuniones, presentaciones y conversaciones reales en material de entrenamiento.</span></li>
+        <li><strong>Las tres herramientas, con su bot</strong> <span>— Narrative Flow, Color Method y Role Play Method, cada una con un bot configurado con tu contexto.</span></li>
+        <li><strong>Plataforma con los cinco módulos grabados</strong> <span>— Lead Yourself First, Activate Your English, Communicate in Real Time, Polish Your English y Understand &amp; Be Understood.</span></li>
+        <li><strong>Workplace Practice Library</strong> <span>— guías de situaciones reales de trabajo, con vocabulario, expresiones y role play.</span></li>
+        <li><strong>Precision Library</strong> <span>— para cuando te trabas con algo puntual, en el momento en que lo necesitas.</span></li>
+        <li><strong>Listening &amp; Pronunciation Practice Library</strong> <span>— para entrenar el inglés hablado real y tu inteligibilidad.</span></li>
+        <li><strong>Weekly Report</strong> <span>— tu registro de la semana, que yo leo antes de cada sesión.</span></li>
         <li><strong>WhatsApp entre semana</strong> <span>— para lo puntual que no puede esperar a la sesión.</span></li>
       </ul>
+      <p class="seats">
+        Los bots se quedan contigo: funcionan sobre ChatGPT, así que puedes seguir
+        entrenando cuando el programa termina.
+      </p>
     </div>
   </div>
 </section>
