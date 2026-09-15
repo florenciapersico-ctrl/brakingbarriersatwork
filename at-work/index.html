@@ -267,6 +267,31 @@
   .videoquote .name { font-family: var(--display); font-size: 19px; }
   .videoquote .role { font-size: 14px; color: var(--muted); }
 
+  .pullquote {
+    margin-top: 44px; padding: 26px 0 0;
+    border-top: 1px solid var(--line);
+    max-width: 680px;
+  }
+  .pullquote p {
+    font-family: var(--display); font-size: clamp(19px, 2.4vw, 23px);
+    line-height: 1.38; font-style: italic;
+  }
+  .pullquote cite {
+    display: block; margin-top: 14px; font-style: normal;
+    font-size: 12px; font-weight: 700; letter-spacing: .16em;
+    text-transform: uppercase; color: var(--brown);
+  }
+  .pullquote.on-ink { border-color: var(--on-ink-line); }
+  .pullquote.on-ink p { color: var(--on-ink); }
+  .pullquote.on-ink cite { color: var(--terracota); }
+
+  .videoquote blockquote {
+    margin-top: 18px;
+    font-family: var(--display); font-size: clamp(18px, 2.2vw, 21px);
+    line-height: 1.4; font-style: italic;
+  }
+  .videoquote .attr { margin-top: 14px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px; }
+
   /* ── logros ────────────────────────────────────────────── */
   .wins { display: grid; gap: 1px; background: var(--line); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin-top: 40px; }
   @media (min-width: 760px) { .wins { grid-template-columns: 1fr 1fr; } }
@@ -706,6 +731,13 @@
         propio trabajo en entrenamiento.</strong>
       </p>
     </div>
+
+    <blockquote class="pullquote on-ink">
+      <p>«Ya no es el tradicional de "tengo que aprenderme esta oración" y luego no sé
+      cómo usarla cuando estoy en la oficina hablando con mi jefe. Eso, para mí, ha sido
+      totalmente diferente a lo que yo había trabajado.»</p>
+      <cite>Sol</cite>
+    </blockquote>
   </div>
 </section>
 
@@ -881,6 +913,12 @@
         <p>Mejoras tu comprensión del inglés hablado real y tu inteligibilidad, sin perseguir un acento perfecto.</p>
       </div>
     </div>
+
+    <blockquote class="pullquote">
+      <p>«Mi mismo jefe me dice: "Sol, ya empiezas a ser más participativa. Antes como
+      que no te gustaba discutir en inglés, y ahorita ya empiezas a discutir más."»</p>
+      <cite>Sol</cite>
+    </blockquote>
   </div>
 </section>
 
@@ -899,8 +937,16 @@
                 referrerpolicy="strict-origin-when-cross-origin"></iframe>
       </div>
       <figcaption>
-        <span class="name">Sol</span>
-        <span class="role">Cuenta su experiencia en el programa</span>
+        <blockquote>
+          «Yo tenía miedo de solo saludar a mi jefe en inglés. Hoy ya hablo, ya digo,
+          ya explico, ya me paro enfrente de una presentación y digo las cosas como
+          las pienso y expreso mi punto de vista. Cosa que no hacía antes, por miedo,
+          por inseguridad, por creer que nunca me iban a entender.»
+        </blockquote>
+        <div class="attr">
+          <span class="name">Sol</span>
+          <span class="role">Cuenta su experiencia en el programa</span>
+        </div>
       </figcaption>
     </figure>
 
