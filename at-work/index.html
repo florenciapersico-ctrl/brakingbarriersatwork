@@ -265,6 +265,29 @@
   .win .k .arrow { color: var(--terracota); font-style: normal; }
   @media (min-width: 760px) { .win.wide { grid-column: 1 / -1; } }
 
+  .win .stage-tag {
+    display: inline-block; margin-bottom: 10px;
+    font-size: 10.5px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase;
+    color: var(--brown); background: rgba(198, 140, 108, .2);
+    padding: 4px 9px; border-radius: 2px;
+  }
+  .delivers { margin-top: 20px; }
+  .delivers .lbl {
+    display: block; font-size: 10.5px; font-weight: 700;
+    letter-spacing: .16em; text-transform: uppercase; color: var(--brown);
+    margin-bottom: 10px;
+  }
+  .delivers ul { list-style: none; display: grid; gap: 7px; }
+  .delivers li {
+    font-size: 14.5px; line-height: 1.4; color: var(--ink);
+    padding-left: 15px; position: relative;
+  }
+  .delivers li::before {
+    content: ''; position: absolute; left: 0; top: .62em;
+    width: 8px; height: 1.5px; background: var(--terracota);
+  }
+  .delivers .arrow { color: var(--terracota); }
+
   /* ── diagnóstico ───────────────────────────────────────── */
   .diagnosis h2 {
     font-size: clamp(30px, 5.4vw, 52px);
@@ -319,57 +342,31 @@
     font-family: var(--display); font-size: 12.5px; color: var(--terracota);
     font-variant-numeric: tabular-nums;
   }
-  /* móvil: tarjetas apiladas */
-  .venn { display: grid; gap: 16px; margin-top: 38px; }
-  .venn .v-circle, .venn .v-core {
-    background: var(--cream-warm); border: 1px solid var(--line-soft);
-    border-radius: 3px; padding: 24px 22px;
+  .pillars { display: grid; gap: 18px; margin-top: 38px; }
+  @media (min-width: 900px) { .pillars { grid-template-columns: repeat(4, 1fr); align-items: stretch; } }
+  .pillar {
+    background: var(--cream-warm); border: 1px solid var(--line-soft); border-radius: 3px;
+    padding: 26px 24px;
   }
-  .venn h4 { font-size: 19px; margin-bottom: 12px; }
-  .venn ul { list-style: none; display: grid; gap: 8px; }
-  .venn li {
-    position: relative; padding-left: 17px;
-    font-size: 14px; line-height: 1.45; color: var(--muted);
+  .pillar h4 { font-size: 20px; margin-bottom: 14px; }
+  .pillar ul { list-style: none; display: grid; gap: 9px; }
+  .pillar li {
+    position: relative; padding-left: 18px;
+    font-size: 14.5px; line-height: 1.5; color: var(--muted);
   }
-  .venn li::before { content: '→'; position: absolute; left: 0; top: 0; color: var(--terracota); font-size: 12px; }
-  .venn .v-core {
+  .pillar li::before {
+    content: '→'; position: absolute; left: 0; top: 0;
+    color: var(--terracota); font-size: 13px;
+  }
+  .pillar.core {
     background: var(--terracota); border-color: var(--terracota);
-    font-family: var(--display); font-size: 21px; line-height: 1.15;
-    font-weight: 600; color: var(--ink); text-align: center;
-    display: grid; place-items: center;
+    display: flex; flex-direction: column; justify-content: center; text-align: center;
   }
-
-  /* desktop: los tres círculos que se cruzan */
-  @media (min-width: 900px) {
-    .venn {
-      display: block; position: relative;
-      max-width: 760px; margin: 44px auto 0;
-      aspect-ratio: 1 / .97;
-    }
-    .venn .v-circle {
-      position: absolute; width: 55%; aspect-ratio: 1;
-      border-radius: 50%; padding: 0;
-      background: rgba(251, 242, 208, .66);
-      border: 1px solid rgba(198, 140, 108, .3);
-      display: flex; justify-content: center;
-    }
-    .venn .inner { width: 74%; }
-    .c1 { left: 0;    top: 3%;  align-items: flex-start; }
-    .c2 { left: 45%;  top: 5%;  align-items: flex-start; }
-    .c3 { left: 22.5%; top: 38%; align-items: flex-end; }
-    .c1 .inner, .c2 .inner { padding-top: 16%; }
-    .c3 .inner { padding-bottom: 14%; }
-    .venn h4 { font-size: 20px; text-align: center; margin-bottom: 14px; }
-    .venn li { font-size: 12.5px; gap: 6px; }
-    .venn ul { gap: 6px; }
-    .venn .v-core {
-      position: absolute; z-index: 3;
-      left: 50%; top: 47%; transform: translate(-50%, -50%);
-      width: 23%; aspect-ratio: 1; border-radius: 50%; padding: 0;
-      font-size: 19px;
-    }
+  .pillar.core .core-mark {
+    font-family: var(--display); font-size: 22px; line-height: 1.15;
+    font-weight: 600; color: var(--ink); letter-spacing: .01em;
   }
-
+  .pillar.core p { margin-top: 12px; font-size: 14px; line-height: 1.5; color: rgba(63, 30, 13, .78); }
   .claim {
     margin-top: 22px; text-align: center;
     font-family: var(--display); font-size: clamp(20px, 2.6vw, 25px); color: var(--brown);
@@ -735,44 +732,38 @@
 
     <p class="flowline">Tu trabajo real <span>→</span> práctica autónoma <span>→</span> coaching de comunicación <span>→</span> aplicación real</p>
 
-    <div class="venn">
-      <div class="v-core"><span>Delivery<br>Method&trade;</span></div>
-
-      <article class="v-circle c1">
-        <div class="inner">
-          <h4>Práctica autónoma</h4>
-          <ul>
-            <li>Narrative Flow para corregir errores</li>
-            <li>Color Method para claridad y registro</li>
-            <li>Role Play para entrenar antes de que ocurra</li>
-            <li>Disponible cuando puedas</li>
-            <li>Con tu material real</li>
-          </ul>
-        </div>
+    <div class="pillars">
+      <article class="pillar core">
+        <div class="core-mark">Delivery<br>Method&trade;</div>
+        <p>Las tres piezas trabajan sobre lo mismo: lo que de verdad te pasa en el trabajo.</p>
       </article>
-
-      <article class="v-circle c2">
-        <div class="inner">
-          <h4>Coaching estratégico 1:1</h4>
-          <ul>
-            <li>Weekly Report</li>
-            <li>Sesión 1:1</li>
-            <li>Claridad y guía estratégica</li>
-          </ul>
-        </div>
+      <article class="pillar">
+        <h4>Práctica autónoma</h4>
+        <ul>
+          <li>Narrative Flow, para entender y corregir tus errores</li>
+          <li>Color Method, para activar el lenguaje que ya reconoces</li>
+          <li>Role Play, para entrenar la situación antes de que ocurra</li>
+          <li>Disponible cuando puedas, con tu material real</li>
+        </ul>
       </article>
-
-      <article class="v-circle c3">
-        <div class="inner">
-          <h4>Road map guiado</h4>
-          <ul>
-            <li>Lead Yourself First</li>
-            <li>Activate Your English</li>
-            <li>Communicate in Real Time</li>
-            <li>Polish Your English</li>
-            <li>Understand &amp; Be Understood</li>
-          </ul>
-        </div>
+      <article class="pillar">
+        <h4>Coaching estratégico 1:1</h4>
+        <ul>
+          <li>Tu sesión semanal de 60 minutos conmigo</li>
+          <li>Weekly Report, que leo antes de vernos</li>
+          <li>Claridad sobre qué priorizar y por qué</li>
+          <li>Feedback sobre tu producción, no sobre un ejercicio</li>
+        </ul>
+      </article>
+      <article class="pillar">
+        <h4>Road map guiado</h4>
+        <ul>
+          <li>Lead Yourself First</li>
+          <li>Activate Your English</li>
+          <li>Communicate in Real Time</li>
+          <li>Polish Your English</li>
+          <li>Understand &amp; Be Understood</li>
+        </ul>
       </article>
     </div>
 
@@ -849,33 +840,44 @@
   <div class="wrap">
     <span class="eyebrow">Qué cambia en ti</span>
     <h2 class="section-title">No medimos progreso por cuántas clases viste.<br>Lo medimos por lo que empiezas a poder hacer.</h2>
+    <p class="lede">
+      Siete cambios concretos. Cada uno se trabaja en una etapa puntual del road
+      map — la que dice el rótulo — y más abajo vas a ver esa etapa en detalle.
+    </p>
 
     <div class="wins">
       <div class="win">
+        <span class="stage-tag">Etapa 03</span>
         <div class="k">De evitar <span class="arrow">→</span> a participar</div>
         <p>Intervienes, opinas y abordas conversaciones que antes evitabas.</p>
       </div>
       <div class="win">
+        <span class="stage-tag">Etapa 02</span>
         <div class="k">De saber inglés <span class="arrow">→</span> a poder usarlo</div>
         <p>Recuperas y aplicas lo que ya sabes en situaciones reales, en vez de depender de frases memorizadas.</p>
       </div>
       <div class="win">
+        <span class="stage-tag">Etapa 04</span>
         <div class="k">De hablar «como salga» <span class="arrow">→</span> a construir con estructura</div>
         <p>Ordenas ideas, priorizas lo importante y te expresas con mayor claridad. Y en vez de leer la presentación, la explicas.</p>
       </div>
       <div class="win">
+        <span class="stage-tag">Etapa 03</span>
         <div class="k">De quedarte bloqueada <span class="arrow">→</span> a sostener la interacción</div>
         <p>Reformulas, continúas y respondes aunque no tengas todo preparado, aunque no te salga una palabra o te equivoques.</p>
       </div>
       <div class="win">
+        <span class="stage-tag">Etapa 01</span>
         <div class="k">De práctica genérica <span class="arrow">→</span> a entrenamiento con propósito</div>
         <p>Usas situaciones reales para detectar qué trabajar y cómo practicarlo.</p>
       </div>
       <div class="win">
+        <span class="stage-tag">Etapa 02</span>
         <div class="k">De depender de tu profesora <span class="arrow">→</span> a saber cómo seguir</div>
         <p>Aprendes qué observar, qué entrenar, qué herramienta usar y cómo llevarlo a tu trabajo.</p>
       </div>
       <div class="win wide">
+        <span class="stage-tag">Etapa 05</span>
         <div class="k">De evitar hablar por miedo a tu pronunciación <span class="arrow">→</span> a comprender y hacerte entender</div>
         <p>Mejoras tu comprensión del inglés hablado real y tu inteligibilidad, sin perseguir un acento perfecto.</p>
       </div>
@@ -958,6 +960,12 @@
         <div class="label"><span class="tag">Etapa 01</span><h3>Lead Yourself First</h3></div>
         <div>
           <p class="txt">Entiendes dónde estás, qué te está frenando y cómo vas a trabajar durante los próximos cinco meses. Tu punto de partida no sale de un test: sale de tu producción real.</p>
+          <div class="delivers">
+            <span class="lbl">Lo que cambia en esta etapa</span>
+            <ul>
+            <li>De práctica genérica <span class="arrow">&rarr;</span> a entrenamiento con propósito</li>
+            </ul>
+          </div>
           <div class="hito">
             <span class="lbl">Al terminar esta etapa</span>
             <span class="q">«Sé desde dónde parto, entiendo cómo es el recorrido y qué me toca hacer a mí para avanzar.»</span>
@@ -969,6 +977,13 @@
         <div class="label"><span class="tag">Etapa 02</span><h3>Activate Your English</h3></div>
         <div>
           <p class="txt">Aprendes a convertir tu contexto y tus situaciones reales en práctica deliberada, con las tres herramientas del método. El inglés que ya sabes deja de estar guardado.</p>
+          <div class="delivers">
+            <span class="lbl">Lo que cambia en esta etapa</span>
+            <ul>
+            <li>De saber inglés <span class="arrow">&rarr;</span> a poder usarlo</li>
+            <li>De depender de tu profesora <span class="arrow">&rarr;</span> a saber cómo seguir</li>
+            </ul>
+          </div>
           <div class="hito">
             <span class="lbl">Al terminar esta etapa</span>
             <span class="q">«Sé cómo usar mis situaciones reales de trabajo para entrenar, y tengo las herramientas para hacerlo sola.»</span>
@@ -980,6 +995,13 @@
         <div class="label"><span class="tag">Etapa 03</span><h3>Communicate in Real Time</h3></div>
         <div>
           <p class="txt">Aprendes a construir, organizar y sostener mensajes cuando no existe un guion: la pregunta que no viste venir, la palabra que no llega, la interrupción que te desarma.</p>
+          <div class="delivers">
+            <span class="lbl">Lo que cambia en esta etapa</span>
+            <ul>
+            <li>De evitar <span class="arrow">&rarr;</span> a participar</li>
+            <li>De quedarte bloqueada <span class="arrow">&rarr;</span> a sostener la interacción</li>
+            </ul>
+          </div>
           <div class="hito">
             <span class="lbl">Al terminar esta etapa</span>
             <span class="q">«Puedo construir y sostener mi mensaje en tiempo real, aunque la conversación cambie de dirección.»</span>
@@ -991,6 +1013,12 @@
         <div class="label"><span class="tag">Etapa 04</span><h3>Polish Your English</h3></div>
         <div>
           <p class="txt">Trabajas los patrones del inglés que realmente afectan tu claridad y tu precisión. No un syllabus enciclopédico: lo que aparece una y otra vez en tus reuniones y en tus mails.</p>
+          <div class="delivers">
+            <span class="lbl">Lo que cambia en esta etapa</span>
+            <ul>
+            <li>De hablar «como salga» <span class="arrow">&rarr;</span> a construir con estructura</li>
+            </ul>
+          </div>
           <div class="hito">
             <span class="lbl">Al terminar esta etapa</span>
             <span class="q">«Entiendo y aplico los patrones que más aparecen en mi comunicación laboral, y noto la diferencia.»</span>
@@ -1002,6 +1030,12 @@
         <div class="label"><span class="tag">Etapa 05</span><h3>Understand &amp; Be Understood</h3></div>
         <div>
           <p class="txt">Mejoras tu comprensión del inglés hablado real —el rápido, el conectado— y tu pronunciación orientada a inteligibilidad. El objetivo es que te entiendan, no que pierdas tu acento.</p>
+          <div class="delivers">
+            <span class="lbl">Lo que cambia en esta etapa</span>
+            <ul>
+            <li>De evitar hablar por miedo a tu pronunciación <span class="arrow">&rarr;</span> a comprender y hacerte entender</li>
+            </ul>
+          </div>
           <div class="hito">
             <span class="lbl">Al terminar esta etapa</span>
             <span class="q">«Entiendo mejor el inglés hablado real, me hago entender con más claridad, y sé cómo seguir entrenando.»</span>
