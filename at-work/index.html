@@ -265,29 +265,6 @@
   .win .k .arrow { color: var(--terracota); font-style: normal; }
   @media (min-width: 760px) { .win.wide { grid-column: 1 / -1; } }
 
-  .win .stage-tag {
-    display: inline-block; margin-bottom: 10px;
-    font-size: 10.5px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase;
-    color: var(--brown); background: rgba(198, 140, 108, .2);
-    padding: 4px 9px; border-radius: 2px;
-  }
-  .delivers { margin-top: 20px; }
-  .delivers .lbl {
-    display: block; font-size: 10.5px; font-weight: 700;
-    letter-spacing: .16em; text-transform: uppercase; color: var(--brown);
-    margin-bottom: 10px;
-  }
-  .delivers ul { list-style: none; display: grid; gap: 7px; }
-  .delivers li {
-    font-size: 14.5px; line-height: 1.4; color: var(--ink);
-    padding-left: 15px; position: relative;
-  }
-  .delivers li::before {
-    content: ''; position: absolute; left: 0; top: .62em;
-    width: 8px; height: 1.5px; background: var(--terracota);
-  }
-  .delivers .arrow { color: var(--terracota); }
-
   /* ── diagnóstico ───────────────────────────────────────── */
   .diagnosis h2 {
     font-size: clamp(30px, 5.4vw, 52px);
@@ -372,51 +349,6 @@
     font-family: var(--display); font-size: clamp(20px, 2.6vw, 25px); color: var(--brown);
   }
   .tools-lead { font-size: clamp(22px, 3vw, 28px); margin: 54px 0 14px; }
-
-  /* ── roadmap ───────────────────────────────────────────── */
-  .stages { margin-top: 48px; display: grid; gap: 0; }
-  .stage {
-    display: grid; grid-template-columns: 1fr; gap: 18px;
-    padding: 38px 0;
-    border-top: 1px solid var(--line);
-  }
-  .stage:last-child { border-bottom: 1px solid var(--line); }
-  @media (min-width: 860px) {
-    .stage { grid-template-columns: 250px 1fr; gap: 48px; }
-  }
-  .stage .label { }
-  .stage .tag {
-    font-size: 10.5px; font-weight: 700; letter-spacing: .18em;
-    text-transform: uppercase; color: var(--terracota);
-    display: block; margin-bottom: 10px;
-  }
-  .stage h3 { font-size: 27px; line-height: 1.12; }
-  .stage .fn { font-size: 16px; color: var(--muted); max-width: var(--measure); }
-  .stage ul { list-style: none; margin-top: 18px; display: grid; gap: 9px; }
-  .stage ul li { font-size: 15px; padding-left: 20px; position: relative; color: var(--ink); }
-  .stage ul li::before {
-    content: ''; position: absolute; left: 0; top: .68em;
-    width: 9px; height: 1.5px; background: var(--terracota); opacity: .8;
-  }
-  .stage.two-col ul { grid-template-columns: 1fr; }
-  @media (min-width: 620px) { .stage.two-col ul { grid-template-columns: 1fr 1fr; gap: 9px 26px; } }
-
-  .hito {
-    margin-top: 24px;
-    border-left: 2px solid var(--terracota);
-    padding: 4px 0 4px 20px;
-  }
-  .hito .lbl {
-    font-size: 10px; font-weight: 700; letter-spacing: .18em;
-    text-transform: uppercase; color: var(--brown);
-    display: block; margin-bottom: 6px;
-  }
-  .hito q, .hito .q {
-    font-family: var(--display); font-style: italic;
-    font-size: 19px; line-height: 1.42; color: var(--ink);
-    quotes: none;
-    display: block;
-  }
 
   /* ── guides ────────────────────────────────────────────── */
   .guides { display: grid; gap: 1px; background: var(--line); margin-top: 38px; border: 1px solid var(--line); border-radius: 3px; overflow: hidden; }
@@ -847,38 +779,31 @@
 
     <div class="wins">
       <div class="win">
-        <span class="stage-tag">Etapa 03</span>
-        <div class="k">De evitar <span class="arrow">→</span> a participar</div>
+                <div class="k">De evitar <span class="arrow">→</span> a participar</div>
         <p>Intervienes, opinas y abordas conversaciones que antes evitabas.</p>
       </div>
       <div class="win">
-        <span class="stage-tag">Etapa 02</span>
-        <div class="k">De saber inglés <span class="arrow">→</span> a poder usarlo</div>
+                <div class="k">De saber inglés <span class="arrow">→</span> a poder usarlo</div>
         <p>Recuperas y aplicas lo que ya sabes en situaciones reales, en vez de depender de frases memorizadas.</p>
       </div>
       <div class="win">
-        <span class="stage-tag">Etapa 04</span>
-        <div class="k">De hablar «como salga» <span class="arrow">→</span> a construir con estructura</div>
+                <div class="k">De hablar «como salga» <span class="arrow">→</span> a construir con estructura</div>
         <p>Ordenas ideas, priorizas lo importante y te expresas con mayor claridad. Y en vez de leer la presentación, la explicas.</p>
       </div>
       <div class="win">
-        <span class="stage-tag">Etapa 03</span>
-        <div class="k">De quedarte bloqueada <span class="arrow">→</span> a sostener la interacción</div>
+                <div class="k">De quedarte bloqueada <span class="arrow">→</span> a sostener la interacción</div>
         <p>Reformulas, continúas y respondes aunque no tengas todo preparado, aunque no te salga una palabra o te equivoques.</p>
       </div>
       <div class="win">
-        <span class="stage-tag">Etapa 01</span>
-        <div class="k">De práctica genérica <span class="arrow">→</span> a entrenamiento con propósito</div>
+                <div class="k">De práctica genérica <span class="arrow">→</span> a entrenamiento con propósito</div>
         <p>Usas situaciones reales para detectar qué trabajar y cómo practicarlo.</p>
       </div>
       <div class="win">
-        <span class="stage-tag">Etapa 02</span>
-        <div class="k">De depender de tu profesora <span class="arrow">→</span> a saber cómo seguir</div>
+                <div class="k">De depender de tu profesora <span class="arrow">→</span> a saber cómo seguir</div>
         <p>Aprendes qué observar, qué entrenar, qué herramienta usar y cómo llevarlo a tu trabajo.</p>
       </div>
       <div class="win wide">
-        <span class="stage-tag">Etapa 05</span>
-        <div class="k">De evitar hablar por miedo a tu pronunciación <span class="arrow">→</span> a comprender y hacerte entender</div>
+                <div class="k">De evitar hablar por miedo a tu pronunciación <span class="arrow">→</span> a comprender y hacerte entender</div>
         <p>Mejoras tu comprensión del inglés hablado real y tu inteligibilidad, sin perseguir un acento perfecto.</p>
       </div>
     </div>
@@ -943,103 +868,6 @@
         <div class="attr">
           <span class="name">Maribel</span>
           <span class="role">Procurement Manager · México</span>
-        </div>
-      </article>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════ 9 · ROADMAP ═══════════════ -->
-<section class="band-warm">
-  <div class="wrap">
-    <span class="eyebrow">El road map</span>
-    <h2 class="section-title">Cinco etapas.<br>Y siempre sabes en cuál estás.</h2>
-
-    <div class="stages">
-      <article class="stage">
-        <div class="label"><span class="tag">Etapa 01</span><h3>Lead Yourself First</h3></div>
-        <div>
-          <p class="txt">Entiendes dónde estás, qué te está frenando y cómo vas a trabajar durante los próximos cinco meses. Tu punto de partida no sale de un test: sale de tu producción real.</p>
-          <div class="delivers">
-            <span class="lbl">Lo que cambia en esta etapa</span>
-            <ul>
-            <li>De práctica genérica <span class="arrow">&rarr;</span> a entrenamiento con propósito</li>
-            </ul>
-          </div>
-          <div class="hito">
-            <span class="lbl">Al terminar esta etapa</span>
-            <span class="q">«Sé desde dónde parto, entiendo cómo es el recorrido y qué me toca hacer a mí para avanzar.»</span>
-          </div>
-        </div>
-      </article>
-
-      <article class="stage">
-        <div class="label"><span class="tag">Etapa 02</span><h3>Activate Your English</h3></div>
-        <div>
-          <p class="txt">Aprendes a convertir tu contexto y tus situaciones reales en práctica deliberada, con las tres herramientas del método. El inglés que ya sabes deja de estar guardado.</p>
-          <div class="delivers">
-            <span class="lbl">Lo que cambia en esta etapa</span>
-            <ul>
-            <li>De saber inglés <span class="arrow">&rarr;</span> a poder usarlo</li>
-            <li>De depender de tu profesora <span class="arrow">&rarr;</span> a saber cómo seguir</li>
-            </ul>
-          </div>
-          <div class="hito">
-            <span class="lbl">Al terminar esta etapa</span>
-            <span class="q">«Sé cómo usar mis situaciones reales de trabajo para entrenar, y tengo las herramientas para hacerlo sola.»</span>
-          </div>
-        </div>
-      </article>
-
-      <article class="stage">
-        <div class="label"><span class="tag">Etapa 03</span><h3>Communicate in Real Time</h3></div>
-        <div>
-          <p class="txt">Aprendes a construir, organizar y sostener mensajes cuando no existe un guion: la pregunta que no viste venir, la palabra que no llega, la interrupción que te desarma.</p>
-          <div class="delivers">
-            <span class="lbl">Lo que cambia en esta etapa</span>
-            <ul>
-            <li>De evitar <span class="arrow">&rarr;</span> a participar</li>
-            <li>De quedarte bloqueada <span class="arrow">&rarr;</span> a sostener la interacción</li>
-            </ul>
-          </div>
-          <div class="hito">
-            <span class="lbl">Al terminar esta etapa</span>
-            <span class="q">«Puedo construir y sostener mi mensaje en tiempo real, aunque la conversación cambie de dirección.»</span>
-          </div>
-        </div>
-      </article>
-
-      <article class="stage">
-        <div class="label"><span class="tag">Etapa 04</span><h3>Polish Your English</h3></div>
-        <div>
-          <p class="txt">Trabajas los patrones del inglés que realmente afectan tu claridad y tu precisión. No un syllabus enciclopédico: lo que aparece una y otra vez en tus reuniones y en tus mails.</p>
-          <div class="delivers">
-            <span class="lbl">Lo que cambia en esta etapa</span>
-            <ul>
-            <li>De hablar «como salga» <span class="arrow">&rarr;</span> a construir con estructura</li>
-            </ul>
-          </div>
-          <div class="hito">
-            <span class="lbl">Al terminar esta etapa</span>
-            <span class="q">«Entiendo y aplico los patrones que más aparecen en mi comunicación laboral, y noto la diferencia.»</span>
-          </div>
-        </div>
-      </article>
-
-      <article class="stage">
-        <div class="label"><span class="tag">Etapa 05</span><h3>Understand &amp; Be Understood</h3></div>
-        <div>
-          <p class="txt">Mejoras tu comprensión del inglés hablado real —el rápido, el conectado— y tu pronunciación orientada a inteligibilidad. El objetivo es que te entiendan, no que pierdas tu acento.</p>
-          <div class="delivers">
-            <span class="lbl">Lo que cambia en esta etapa</span>
-            <ul>
-            <li>De evitar hablar por miedo a tu pronunciación <span class="arrow">&rarr;</span> a comprender y hacerte entender</li>
-            </ul>
-          </div>
-          <div class="hito">
-            <span class="lbl">Al terminar esta etapa</span>
-            <span class="q">«Entiendo mejor el inglés hablado real, me hago entender con más claridad, y sé cómo seguir entrenando.»</span>
-          </div>
         </div>
       </article>
     </div>
