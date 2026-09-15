@@ -476,7 +476,6 @@
   .price.best:hover { background: rgba(198, 140, 108, .16); }
   #pagar { scroll-margin-top: 0; }
   #pagar .section-title { margin-bottom: 28px; }
-  @media (min-width: 760px) { .prices { grid-template-columns: 1fr 1fr; gap: 20px; } }
   .incl { margin-top: 46px; padding-top: 34px; border-top: 1px solid var(--on-ink-line); }
   .incl h3 { font-size: 20px; margin-bottom: 20px; color: var(--on-ink); }
   @media (min-width: 900px) { .incl .includes { columns: 2; column-gap: 48px; } .incl .includes li { break-inside: avoid; } }
@@ -547,6 +546,26 @@
   .faq details[open] summary::after { content: '–'; }
   .faq .answer { padding: 0 0 26px; max-width: var(--measure); color: var(--muted); font-size: 16px; }
   .faq .answer p + p { margin-top: 12px; }
+
+  /* el bloque del pago, centrado y contenido */
+  .pay-section { text-align: center; }
+  .pay-section .eyebrow,
+  .pay-section .section-title { text-align: center; }
+  .pay-section .lede { margin-left: auto; margin-right: auto; text-align: center; }
+  .pay-section .prices { max-width: 540px; margin: 34px auto 0; }
+  .pay-section .price .amount { white-space: nowrap; }
+  .pay-section .price { text-align: left; }
+
+  /* faq: que el encabezado no quede indentado sin motivo */
+  .faq-head { text-align: center; }
+  .faq details[open] {
+    background: rgba(198, 140, 108, .07);
+    border-radius: 3px;
+  }
+  .faq details[open] summary,
+  .faq details[open] .answer { padding-left: 18px; padding-right: 18px; }
+  .faq details[open] summary { padding-right: 46px; }
+  .faq summary:hover { color: var(--brown); }
 
   /* ── cierre ────────────────────────────────────────────── */
   .closing { text-align: center; }
@@ -984,7 +1003,7 @@
 </section>
 
 <!-- ═══════════════ 15 · INVERSIÓN ═══════════════ -->
-<section class="band-ink" id="pagar">
+<section class="band-ink pay-section" id="pagar">
   <div class="wrap">
     <span class="eyebrow">La inversión</span>
     <h2 class="section-title">Breaking Barriers at Work<br>Cinco meses.</h2>
@@ -1006,11 +1025,12 @@
 <!-- ═══════════════ 16 · FAQ ═══════════════ -->
 <section>
   <div class="wrap narrow">
-    <span class="eyebrow">Preguntas</span>
+    <div class="faq-head"><span class="eyebrow">Preguntas</span>
     <h2 class="section-title">Lo que suelen preguntarme.</h2>
+    </div>
 
     <div class="faq">
-      <details>
+      <details open>
         <summary>¿Necesito tener un nivel específico?</summary>
         <div class="answer">
           <p>Sí, aproximadamente B1–B2. Lo vemos antes de que pagues nada, y no lo evalúo por tu puesto ni por lo que creas de tu inglés: lo evalúo por tu producción real.</p>
