@@ -195,21 +195,66 @@
   /* ── barra fija ────────────────────────────────────────── */
   .topnav {
     position: sticky; top: 0; z-index: 50;
+    /* ancla del panel desplegable */
+    isolation: isolate;
     background: var(--ink);
     transition: background .25s ease, box-shadow .25s ease, border-color .25s ease;
     border-bottom: 1px solid transparent;
   }
   .navrow {
-    display: flex; align-items: center; gap: 28px;
-    height: 68px;
+    display: flex; align-items: center; gap: 18px;
+    height: 68px; position: relative;
   }
+  @media (min-width: 900px) { .navrow { gap: 28px; } }
   .navlogo { display: flex; align-items: center; flex: none; }
   .navlogo img { display: block; width: 116px; height: auto; }
+  /* celular: panel que baja al tocar el botón */
   .navlinks {
-    display: none; gap: 26px; margin-left: auto;
-    font-family: var(--ui); font-size: var(--t-sm); font-weight: 500;
+    position: absolute; left: 0; right: 0; top: 100%;
+    display: grid; gap: 2px;
+    background: var(--ink);
+    border-bottom: 1px solid var(--on-ink-line);
+    padding: 8px 24px 20px;
+    font-family: var(--ui); font-size: var(--t-md); font-weight: 500;
+    max-height: 0; overflow: hidden; opacity: 0;
+    transition: max-height .28s ease, opacity .2s ease, padding .28s ease;
+    pointer-events: none;
   }
-  @media (min-width: 900px) { .navlinks { display: flex; } }
+  .navlinks.open { max-height: 420px; opacity: 1; pointer-events: auto; }
+  .navlinks a { padding: 14px 0; border-bottom: 1px solid rgba(244,234,223,.12); }
+  .navlinks .menu-cta {
+    margin-top: 16px; justify-content: center; border-bottom: 0;
+  }
+
+  .burger {
+    margin-left: auto; width: 42px; height: 42px; flex: none;
+    display: grid; place-content: center; gap: 5px;
+    background: transparent; border: 0; cursor: pointer; padding: 0;
+  }
+  .burger span {
+    display: block; width: 21px; height: 2px; border-radius: 2px;
+    background: var(--on-ink);
+    transition: transform .25s ease, opacity .2s ease, background .25s ease;
+  }
+  .burger[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .burger[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+  .burger[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .topnav.stuck .burger span { background: var(--ink); }
+  .nav-cta { display: none; }
+
+  /* desktop: la barra de siempre */
+  @media (min-width: 900px) {
+    .burger { display: none; }
+    .navlinks .menu-cta { display: none; }
+    .nav-cta { display: inline-flex; }
+    .navlinks {
+      position: static; display: flex; gap: 26px; margin-left: auto;
+      background: transparent; border: 0; padding: 0;
+      max-height: none; overflow: visible; opacity: 1; pointer-events: auto;
+      font-size: var(--t-sm);
+    }
+    .navlinks a { padding: 4px 0; border-bottom: 0; }
+  }
   .navlinks a {
     text-decoration: none; color: var(--on-ink-soft);
     transition: color .18s ease;
@@ -222,8 +267,7 @@
   }
   .navlinks a:hover { color: var(--on-ink); }
   .navlinks a:hover::after { right: 0; }
-  .topnav .btn-sm {
-    margin-left: auto; padding: 11px 22px; font-size: var(--t-xs);
+  .topnav .btn-sm { padding: 11px 22px; font-size: var(--t-xs);
     border-radius: 999px;
   }
   @media (min-width: 900px) { .topnav .btn-sm { margin-left: 0; } }
@@ -719,14 +763,18 @@
     <a class="navlogo" href="#top" aria-label="Breaking Barriers at Work">
       <img src="img/logo.webp" alt="" width="705" height="287">
     </a>
-    <div class="navlinks">
+    <div class="navlinks" id="navlinks">
       <a href="#metodo">El método</a>
       <a href="#herramientas">Herramientas</a>
       <a href="#testimonios">Testimonios</a>
       <a href="#flor">Sobre Flor</a>
       <a href="#faq">FAQ</a>
+      <a class="btn btn-primary btn-sm menu-cta" href="#pagar">Quiero entrar</a>
     </div>
-    <a class="btn btn-primary btn-sm" href="#pagar">Quiero entrar</a>
+    <a class="btn btn-primary btn-sm nav-cta" href="#pagar">Quiero entrar</a>
+    <button class="burger" id="burger" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="navlinks">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </nav>
 
@@ -1281,6 +1329,25 @@
     target.focus({ preventScroll: true });
   });
 
+
+  // El menú de celular.
+  var burger = document.getElementById('burger');
+  var panel = document.getElementById('navlinks');
+  if (burger && panel) {
+    burger.addEventListener('click', function () {
+      var abierto = panel.classList.toggle('open');
+      burger.setAttribute('aria-expanded', abierto ? 'true' : 'false');
+      burger.setAttribute('aria-label', abierto ? 'Cerrar menú' : 'Abrir menú');
+    });
+    // al elegir una sección, el panel se cierra
+    panel.addEventListener('click', function (e) {
+      if (e.target.closest('a')) {
+        panel.classList.remove('open');
+        burger.setAttribute('aria-expanded', 'false');
+        burger.setAttribute('aria-label', 'Abrir menú');
+      }
+    });
+  }
 
   // La barra se vuelve sólida recién cuando el hero queda atrás.
   var nav = document.getElementById('topnav');
