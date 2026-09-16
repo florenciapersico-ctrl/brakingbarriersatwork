@@ -222,9 +222,6 @@
   }
   .navlinks.open { max-height: 420px; opacity: 1; pointer-events: auto; }
   .navlinks a { padding: 14px 0; border-bottom: 1px solid rgba(244,234,223,.12); }
-  .navlinks .menu-cta {
-    margin-top: 16px; justify-content: center; border-bottom: 0;
-  }
 
   .burger {
     margin-left: auto; width: 42px; height: 42px; flex: none;
@@ -240,13 +237,11 @@
   .burger[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
   .burger[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
   .topnav.stuck .burger span { background: var(--ink); }
-  .nav-cta { display: none; }
+
 
   /* desktop: la barra de siempre */
   @media (min-width: 900px) {
     .burger { display: none; }
-    .navlinks .menu-cta { display: none; }
-    .nav-cta { display: inline-flex; }
     .navlinks {
       position: static; display: flex; gap: 26px; margin-left: auto;
       background: transparent; border: 0; padding: 0;
@@ -267,10 +262,23 @@
   }
   .navlinks a:hover { color: var(--on-ink); }
   .navlinks a:hover::after { right: 0; }
-  .topnav .btn-sm { padding: 11px 22px; font-size: var(--t-xs);
-    border-radius: 999px;
+  .topnav .btn-sm {
+    margin-left: auto; flex: none;
+    padding: 11px 16px; font-size: var(--t-xs);
+    border-radius: 999px; white-space: nowrap; letter-spacing: .07em;
   }
-  @media (min-width: 900px) { .topnav .btn-sm { margin-left: 0; } }
+  /* la barra no es .hero ni .band-ink, asi que el boton necesita su propio color */
+  .topnav .btn-primary { background: var(--terracota); color: var(--ink); }
+  .topnav .btn-primary:hover { background: var(--terracota-lt); }
+  .topnav.stuck .btn-primary { background: var(--ink); color: var(--cream); }
+  .topnav.stuck .btn-primary:hover { background: var(--terracota); color: var(--ink); }
+  @media (min-width: 900px) {
+    .topnav .btn-sm { margin-left: 0; padding: 11px 22px; letter-spacing: .12em; }
+  }
+  @media (max-width: 899px) {
+    .navlogo img { width: 92px; }
+    .navrow { gap: 10px; }
+  }
 
   /* al bajar del hero la barra se vuelve sólida */
   .topnav.stuck {
@@ -792,7 +800,6 @@
       <a href="#flor">Sobre Flor</a>
       <a href="#faq">FAQ</a>
       <a href="#pagar">Inversión</a>
-      <a class="btn btn-primary btn-sm menu-cta" href="#pagar">Quiero entrar</a>
     </div>
     <a class="btn btn-primary btn-sm nav-cta" href="#pagar">Quiero entrar</a>
     <button class="burger" id="burger" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="navlinks">
