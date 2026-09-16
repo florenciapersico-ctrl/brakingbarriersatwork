@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://braking-barriers.vercel.app/sitemap.xml
