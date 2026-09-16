@@ -1349,10 +1349,8 @@
 (function () {
   'use strict';
 
-  // El visor de artifacts inyecta un <base href>, y con eso un href="#aplicar"
-  // resuelve contra la base en vez de contra la página: el navegador intenta
-  // irse a otra URL en lugar de bajar hasta la sección. Movemos el scroll a
-  // mano, así el botón funciona tanto aquí como en el sitio propio.
+  // Movemos el scroll de los enlaces internos a mano: así el menú funciona
+  // igual servido desde Vercel, desde GitHub Pages o abierto como archivo.
   var smooth = !window.matchMedia || !matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   document.addEventListener('click', function (e) {
