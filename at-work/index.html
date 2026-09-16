@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Breaking Barriers at Work</title>
 <meta name="description" content="Programa premium 1:1 de 5 meses para profesionales hispanohablantes B1–B2 que ya trabajan en inglés. Deja de sobrevivir con todo memorizado y responde lo que no viste venir.">
-<meta name="theme-color" content="#3F1E0D">
+<meta name="theme-color" content="#15110F">
 <meta property="og:title" content="Breaking Barriers at Work">
 <meta property="og:description" content="Tu inglés no es el techo. La falta de práctica real, sí. Programa 1:1 de 5 meses con Flor Pérsico.">
 <meta property="og:type" content="website">
@@ -22,7 +22,7 @@
 <link rel="apple-touch-icon" href="img/tilde.webp">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400;1,600&family=Inter:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,400&display=swap">
 <style>
   /* ══════════════════════════════════════════════════════════
      Breaking Barriers at Work — landing
@@ -33,22 +33,25 @@
      ══════════════════════════════════════════════════════════ */
 
   :root {
-    --cream:       #F9F5EE;
-    --cream-warm:  #FBF2D0;
-    --sand:        #EDE5CC;
-    --ink:         #3F1E0D;
-    --brown:       #895325;
-    --terracota:   #C68C6C;
-    --terracota-lt:#D7A184;
-    --muted:       #7B6A58;
-    --line:        rgba(63, 30, 13, .14);
-    --line-soft:   rgba(63, 30, 13, .08);
-    --on-ink:      #F4EADF;
-    --on-ink-soft: rgba(244, 234, 223, .62);
-    --on-ink-line: rgba(198, 140, 108, .28);
+    /* Papel neutro, no crema. La crema cálida + serif + terracota es la
+       firma visual más reconocible de una página generada por IA. */
+    --cream:       #FFFFFF;   /* papel */
+    --cream-warm:  #FAFAF9;   /* banda clara 1 */
+    --sand:        #F2F1EF;   /* banda clara 2, gris neutro */
+    --ink:         #15110F;   /* casi negro, no marrón */
+    --brown:       #8A4526;   /* acento oscuro, para rótulos */
+    --terracota:   #B4532A;   /* acento, más saturado y menos decorativo */
+    --terracota-lt:#D2714A;
+    --muted:       #5C5550;   /* gris cálido legible, no marrón claro */
+    --line:        rgba(21, 17, 15, .13);
+    --line-soft:   rgba(21, 17, 15, .07);
+    --on-ink:      #F4F1EE;
+    --on-ink-soft: rgba(244, 241, 238, .66);
+    --on-ink-line: rgba(180, 83, 42, .34);
 
-    --display: 'Crimson Pro', Georgia, 'Times New Roman', serif;
-    --body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    --display: 'Archivo', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --body: 'Newsreader', Georgia, 'Times New Roman', serif;
+    --ui: 'Archivo', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
 
     --wrap: 1080px;
     --measure: 62ch;
@@ -65,13 +68,13 @@
     background: var(--cream);
     color: var(--ink);
     font-family: var(--body);
-    font-size: 17px;
-    line-height: 1.62;
+    font-size: 18px;
+    line-height: 1.66;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
 
-  h1, h2, h3, h4 { font-family: var(--display); font-weight: 600; line-height: 1.08; text-wrap: balance; letter-spacing: -.01em; }
+  h1, h2, h3, h4 { font-family: var(--display); font-weight: 700; line-height: 1.06; text-wrap: balance; letter-spacing: -.028em; }
   p { text-wrap: pretty; }
   a { color: inherit; }
   strong { font-weight: 600; }
@@ -90,6 +93,7 @@
   .band-warm { background: var(--cream-warm); }
 
   .eyebrow {
+    font-family: var(--ui);
     display: block;
     font-size: 11px; font-weight: 700;
     letter-spacing: .22em; text-transform: uppercase;
@@ -106,6 +110,7 @@
 
   /* ── botones ───────────────────────────────────────────── */
   .btn {
+    font-family: var(--ui);
     display: inline-flex; align-items: center; gap: 10px;
     font-family: var(--body);
     font-size: 13px; font-weight: 700;
@@ -202,6 +207,7 @@
   .hero .sub.sub-tight { margin-top: 16px; }
   .hero .btn { margin-top: 30px; }
   .qualify {
+    font-family: var(--ui);
     margin-top: 16px; font-size: 13.5px; letter-spacing: .02em;
     color: var(--on-ink-soft);
   }
@@ -310,6 +316,7 @@
     margin-top: 34px;
   }
   .cycle li {
+    font-family: var(--ui);
     display: flex; align-items: baseline; gap: 8px;
     background: var(--sand); border: 1px solid var(--line-soft); border-radius: 2px;
     padding: 12px 16px;
@@ -538,6 +545,7 @@
   }
   .faq summary::-webkit-details-marker { display: none; }
   .faq summary::after {
+    font-family: var(--ui);
     content: '+'; position: absolute; right: 4px; top: 22px;
     font-family: var(--body); font-size: 22px; font-weight: 400;
     color: var(--terracota); line-height: 1;
