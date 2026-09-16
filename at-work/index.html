@@ -580,6 +580,22 @@
   .bio .text p { max-width: var(--measure); }
   .bio .text p + p { margin-top: 18px; }
 
+  .cierre-bio {
+    margin-top: 26px; padding-top: 24px;
+    border-top: 1px solid var(--line);
+    font-family: var(--display); font-size: clamp(19px, 2.4vw, 23px);
+    line-height: 1.38; color: var(--ink);
+  }
+  .bio .plate ul { list-style: none; margin-top: 24px; display: grid; gap: 12px; }
+  .bio .plate li {
+    font-size: var(--t-sm); color: var(--muted);
+    padding-left: 18px; position: relative; line-height: 1.45;
+  }
+  .bio .plate li::before {
+    content: ''; position: absolute; left: 0; top: .66em;
+    width: 8px; height: 1.5px; background: var(--terracota);
+  }
+
   /* ── oferta ────────────────────────────────────────────── */
   .offer-grid { display: grid; gap: 40px; margin-top: 44px; }
   @media (min-width: 900px) { .offer-grid { grid-template-columns: 1.15fr 1fr; gap: 60px; align-items: start; } }
@@ -1142,31 +1158,55 @@
         <img class="bioshot" src="img/flor-cafe.webp" alt="Flor Pérsico" width="410" height="566" loading="lazy">
         <div class="sig">Flor Pérsico</div>
         <div class="sigrole">Creadora del método Breaking Barriers</div>
+        <ul>
+          <li>Traductora pública. Más de 18 años enseñando inglés</li>
+          <li>Formación y experiencia en Madrid y Londres</li>
+          <li>Alumnas en México, Colombia, Perú, Costa Rica y Argentina</li>
+          <li>Managers, gerentas y directoras de operaciones, IT, finanzas, HR y compliance</li>
+          <li>Trabajo sobre transcripts reales de clase, no sobre material de manual</li>
+        </ul>
       </div>
 
       <div class="text">
         <span class="eyebrow">Quién te acompaña</span>
-        <h2 class="section-title" style="font-size:clamp(28px,4.4vw,40px)">Por qué trabajo así.</h2>
+        <h2 class="section-title" style="font-size:clamp(28px,4.4vw,40px)">El inglés siempre fue<br><em>mi lugar seguro.</em></h2>
         <p>
-          Durante años vi profesionales que sabían mucho más inglés del que podían
-          mostrar cuando estaban bajo presión. El problema no era simplemente aprender
-          más: era no saber cómo transformar su trabajo real en práctica, distinguir
-          qué las estaba frenando y volver a entrenarlo.
+          Desde muy joven fue mucho más que una materia. Fue curiosidad, libertad y
+          confianza: un lugar donde podía expresarme, descubrir otras formas de ver
+          el mundo y sentir que se abrían posibilidades.
         </p>
         <p>
-          Por eso construí Breaking Barriers at Work.
+          Esa conexión me llevó a recibirme de traductora pública, a vivir Madrid y
+          Londres, y a dedicar más de dieciocho años a enseñar inglés. Sobre todo, me
+          llevó a acompañar a mujeres inteligentes, preparadas, con una carrera enorme
+          detrás.
         </p>
         <p>
-          Trabajo con lenguaje, gramática funcional, pronunciación y listening — todo
-          eso está adentro. Lo que cambia es por dónde entramos: no por el índice de un
-          libro, sino por lo que te está pasando a ti en el trabajo.
+          Y con el tiempo empecé a ver algo que se repetía: mujeres que sabían inglés,
+          pero que al entrar en una reunión, presentar una idea o recibir una pregunta
+          inesperada <em>dejaban de sonar como las profesionales que eran.</em>
         </p>
         <p>
-          Y trabajo con un número limitado de alumnas, porque necesito conocer tu
-          contexto y seguir de cerca cómo estás aplicando el método.
+          No les faltaba capacidad. Tampoco necesitaban empezar de cero. Necesitaban
+          aprender a llegar al inglés que ya tenían cuando había presión, ordenar mejor
+          lo que querían decir, y entrenar con las situaciones reales de su trabajo.
+        </p>
+        <p>
+          <strong>Por eso creé AT WORK.</strong> Porque sé lo que es tener la idea clara
+          en la cabeza y no poder decirla como la pensaste. Y porque ninguna mujer
+          debería sentirse menos preparada, menos inteligente o menos profesional por
+          estar hablando en otro idioma.
+        </p>
+        <p>
+          Mi trabajo no es solamente enseñar inglés. Es ayudarte a encontrar tu voz en
+          inglés y a ocupar tu lugar como la profesional que ya eres.
+        </p>
+        <p class="cierre-bio">
+          Quiero que el inglés también sea tu lugar seguro. No porque no te equivoques,
+          sino porque vas a saber que tienes los recursos para comunicarte, resolver lo
+          inesperado y seguir adelante aunque no te salga la frase perfecta.
         </p>
       </div>
-    </div>
   </div>
 </section>
 
