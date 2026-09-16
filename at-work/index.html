@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Breaking Barriers at Work</title>
 <meta name="description" content="Programa premium 1:1 de 5 meses para profesionales hispanohablantes B1–B2 que ya trabajan en inglés. Deja de sobrevivir con todo memorizado y responde lo que no viste venir.">
-<meta name="theme-color" content="#15110F">
+<meta name="theme-color" content="#3F1E0D">
 <meta property="og:title" content="Breaking Barriers at Work">
 <meta property="og:description" content="Tu inglés no es el techo. La falta de práctica real, sí. Programa 1:1 de 5 meses con Flor Pérsico.">
 <meta property="og:type" content="website">
@@ -22,7 +22,7 @@
 <link rel="apple-touch-icon" href="img/tilde.webp">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400;1,600&family=Inter:wght@400;500;600;700&display=swap">
 <style>
   /* ══════════════════════════════════════════════════════════
      Breaking Barriers at Work — landing
@@ -33,25 +33,24 @@
      ══════════════════════════════════════════════════════════ */
 
   :root {
-    /* Papel neutro, no crema. La crema cálida + serif + terracota es la
-       firma visual más reconocible de una página generada por IA. */
-    --cream:       #FFFFFF;   /* papel */
-    --cream-warm:  #FAFAF9;   /* banda clara 1 */
-    --sand:        #F2F1EF;   /* banda clara 2, gris neutro */
-    --ink:         #15110F;   /* casi negro, no marrón */
-    --brown:       #8A4526;   /* acento oscuro, para rótulos */
-    --terracota:   #B4532A;   /* acento, más saturado y menos decorativo */
-    --terracota-lt:#D2714A;
-    --muted:       #5C5550;   /* gris cálido legible, no marrón claro */
-    --line:        rgba(21, 17, 15, .13);
-    --line-soft:   rgba(21, 17, 15, .07);
-    --on-ink:      #F4F1EE;
-    --on-ink-soft: rgba(244, 241, 238, .66);
-    --on-ink-line: rgba(180, 83, 42, .34);
+    /* Paleta y tipografías de la marca de Flor. */
+    --cream:       #F9F5EE;
+    --cream-warm:  #FBF2D0;
+    --sand:        #EDE5CC;
+    --ink:         #3F1E0D;
+    --brown:       #895325;
+    --terracota:   #C68C6C;
+    --terracota-lt:#D7A184;
+    --muted:       #7B6A58;
+    --line:        rgba(63, 30, 13, .14);
+    --line-soft:   rgba(63, 30, 13, .08);
+    --on-ink:      #F4EADF;
+    --on-ink-soft: rgba(244, 234, 223, .62);
+    --on-ink-line: rgba(198, 140, 108, .28);
 
-    --display: 'Archivo', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    --body: 'Newsreader', Georgia, 'Times New Roman', serif;
-    --ui: 'Archivo', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    --display: 'Crimson Pro', Georgia, 'Times New Roman', serif;
+    --body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    --ui: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
 
     --wrap: 1080px;
     --measure: 62ch;
@@ -68,13 +67,13 @@
     background: var(--cream);
     color: var(--ink);
     font-family: var(--body);
-    font-size: 18px;
-    line-height: 1.66;
+    font-size: 17px;
+    line-height: 1.62;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
 
-  h1, h2, h3, h4 { font-family: var(--display); font-weight: 700; line-height: 1.06; text-wrap: balance; letter-spacing: -.028em; }
+  h1, h2, h3, h4 { font-family: var(--display); font-weight: 600; line-height: 1.08; text-wrap: balance; letter-spacing: -.012em; }
   p { text-wrap: pretty; }
   a { color: inherit; }
   strong { font-weight: 600; }
@@ -116,7 +115,7 @@
     font-size: 13px; font-weight: 700;
     letter-spacing: .12em; text-transform: uppercase;
     padding: 18px 34px;
-    border: 0; border-radius: 2px;
+    border: 0; border-radius: 999px;
     text-decoration: none;
     transition: background .2s ease, color .2s ease, transform .12s ease;
   }
@@ -130,16 +129,121 @@
   .btn-ghost { border: 1.5px solid var(--brown); color: var(--brown); background: transparent; }
   .btn-ghost:hover { background: rgba(137, 83, 37, .08); }
 
+  /* ══ MOVIMIENTO ══════════════════════════════════════════
+     Regla que no se rompe: todo nace visible. La animación sólo
+     corre si el navegador la soporta y el JS la enciende, así
+     nada queda en blanco esperando a un observador. */
+
+  @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+  @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+
+  /* entrada del hero, una sola vez, escalonada */
+  .js .hero .brandbar    { animation: fade .5s ease .05s both; }
+  .js .hero h1           { animation: rise .7s cubic-bezier(.2,.7,.3,1) .12s both; }
+  .js .hero .sub         { animation: rise .7s cubic-bezier(.2,.7,.3,1) .22s both; }
+  .js .hero .sub-tight   { animation: rise .7s cubic-bezier(.2,.7,.3,1) .3s both; }
+  .js .hero .btn         { animation: rise .7s cubic-bezier(.2,.7,.3,1) .38s both; }
+  .js .hero .qualify     { animation: fade .6s ease .5s both; }
+  .js .hero .heroshot    { animation: rise .9s cubic-bezier(.2,.7,.3,1) .18s both; }
+
+  /* revelado al scroll: sólo se esconde lo que el JS marcó */
+  .js [data-reveal] { opacity: 0; transform: translateY(16px); }
+  .js [data-reveal].seen {
+    opacity: 1; transform: none;
+    transition: opacity .6s ease, transform .6s cubic-bezier(.2,.7,.3,1);
+  }
+  .js .wins [data-reveal].seen,
+  .js .tools [data-reveal].seen,
+  .js .layers [data-reveal].seen,
+  .js .quotes [data-reveal].seen,
+  .js .pillars [data-reveal].seen { transition-delay: var(--d, 0ms); }
+
+  /* micro-interacciones */
+  .btn { will-change: transform; }
+  .btn:hover { transform: translateY(-1px); }
+  .btn:active { transform: translateY(1px); }
+  .price:hover { transform: translateY(-2px); }
+  .tool, .layer, .quote, .pillar { transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease; }
+  .tool:hover, .layer:hover, .quote:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(63, 30, 13, .07);
+    border-color: rgba(198, 140, 108, .45);
+  }
+  .faq details { transition: background .2s ease; }
+  .faq summary::after { transition: transform .25s ease, color .2s ease; }
+  .faq details[open] summary::after { transform: rotate(180deg); }
+  .win { transition: background .25s ease; }
+  .win:hover { background: var(--cream-warm); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .js .hero .brandbar, .js .hero h1, .js .hero .sub, .js .hero .sub-tight,
+    .js .hero .btn, .js .hero .qualify, .js .hero .heroshot { animation: none; }
+    .js [data-reveal] { opacity: 1; transform: none; }
+    .btn:hover, .price:hover, .tool:hover, .layer:hover, .quote:hover { transform: none; }
+  }
+
+  /* ── barra fija ────────────────────────────────────────── */
+  .topnav {
+    position: sticky; top: 0; z-index: 50;
+    background: var(--ink);
+    transition: background .25s ease, box-shadow .25s ease, border-color .25s ease;
+    border-bottom: 1px solid transparent;
+  }
+  .navrow {
+    display: flex; align-items: center; gap: 28px;
+    height: 68px;
+  }
+  .navlogo { display: flex; align-items: center; flex: none; }
+  .navlogo img { display: block; width: 116px; height: auto; }
+  .navlinks {
+    display: none; gap: 26px; margin-left: auto;
+    font-family: var(--ui); font-size: 14px; font-weight: 500;
+  }
+  @media (min-width: 900px) { .navlinks { display: flex; } }
+  .navlinks a {
+    text-decoration: none; color: var(--on-ink-soft);
+    transition: color .18s ease;
+    position: relative; padding: 4px 0;
+  }
+  .navlinks a::after {
+    content: ''; position: absolute; left: 0; right: 100%; bottom: 0;
+    height: 1.5px; background: var(--terracota);
+    transition: right .22s ease;
+  }
+  .navlinks a:hover { color: var(--on-ink); }
+  .navlinks a:hover::after { right: 0; }
+  .topnav .btn-sm {
+    margin-left: auto; padding: 11px 22px; font-size: 11.5px;
+    border-radius: 999px;
+  }
+  @media (min-width: 900px) { .topnav .btn-sm { margin-left: 0; } }
+
+  /* al bajar del hero la barra se vuelve sólida */
+  .topnav.stuck {
+    background: rgba(249, 245, 238, .92);
+    backdrop-filter: saturate(140%) blur(10px);
+    -webkit-backdrop-filter: saturate(140%) blur(10px);
+    border-bottom-color: var(--line);
+    box-shadow: 0 1px 24px rgba(63, 30, 13, .08);
+  }
+  .topnav.stuck .navlinks a { color: var(--muted); }
+  .topnav.stuck .navlinks a:hover { color: var(--ink); }
+  .topnav.stuck .navlogo img { filter: brightness(.32) saturate(1.5); }
+  .topnav.stuck .btn-primary { background: var(--ink); color: #fff; }
+  .topnav.stuck .btn-primary:hover { background: var(--terracota); }
+
+  section[id] { scroll-margin-top: 72px; }
+
   /* ── hero ──────────────────────────────────────────────── */
   header.hero {
     background: var(--ink);
     color: var(--on-ink);
-    padding: 34px 0 0;
+    padding: 10px 0 0;
   }
   .brandbar {
-    display: flex; align-items: baseline; justify-content: space-between;
+    display: flex; align-items: baseline; justify-content: flex-end;
     gap: 20px; flex-wrap: wrap;
-    padding-bottom: 46px;
+    padding-bottom: 30px;
   }
   .brandmark {
     font-family: var(--display); font-size: 19px; letter-spacing: .01em;
@@ -599,10 +703,25 @@
 </head>
 <body>
 <!-- ═══════════════ 1 · HERO ═══════════════ -->
-<header class="hero">
+<nav class="topnav" id="topnav">
+  <div class="wrap navrow">
+    <a class="navlogo" href="#top" aria-label="Breaking Barriers at Work">
+      <img src="img/logo.webp" alt="" width="705" height="287">
+    </a>
+    <div class="navlinks">
+      <a href="#metodo">El método</a>
+      <a href="#herramientas">Herramientas</a>
+      <a href="#testimonios">Testimonios</a>
+      <a href="#flor">Sobre Flor</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <a class="btn btn-primary btn-sm" href="#pagar">Quiero entrar</a>
+  </div>
+</nav>
+
+<header class="hero" id="top">
   <div class="wrap">
     <div class="brandbar">
-      <img class="brandlogo" src="img/logo.webp" alt="Breaking Barriers at Work" width="705" height="287">
       <div class="who">Flor Pérsico · Programa 1:1</div>
     </div>
 
@@ -677,7 +796,7 @@
 </section>
 
 <!-- ═══════════════ 4 · DELIVERY METHOD ═══════════════ -->
-<section>
+<section id="metodo">
   <div class="wrap">
     <span class="eyebrow">Tu nuevo modelo</span>
     <h2 class="section-title">Delivery Method&trade;</h2>
@@ -762,7 +881,7 @@
 </section>
 
 <!-- ═══════════════ 6 · HERRAMIENTAS ═══════════════ -->
-<section>
+<section id="herramientas">
   <div class="wrap">
     <span class="eyebrow">Tus herramientas</span>
     <h2 class="section-title">Tres herramientas propias.<br>Y un bot para cada una.</h2>
@@ -837,7 +956,7 @@
 </section>
 
 <!-- ═══════════════ 8 · TESTIMONIOS ═══════════════ -->
-<section>
+<section id="testimonios">
   <div class="wrap">
     <span class="eyebrow">Lo que dicen ellas</span>
     <h2 class="section-title">Con sus palabras.<br>Sin editar.</h2>
@@ -957,7 +1076,7 @@
 </section>
 
 <!-- ═══════════════ 13 · POR QUÉ TRABAJO ASÍ ═══════════════ -->
-<section>
+<section id="flor">
   <div class="wrap">
     <div class="bio">
       <div class="plate">
@@ -1031,7 +1150,7 @@
 </section>
 
 <!-- ═══════════════ 16 · FAQ ═══════════════ -->
-<section>
+<section id="faq">
   <div class="wrap narrow">
     <div class="faq-head"><span class="eyebrow">Preguntas</span>
     <h2 class="section-title">Lo que suelen preguntarme.</h2>
@@ -1151,6 +1270,52 @@
     target.focus({ preventScroll: true });
   });
 
+
+  // La barra se vuelve sólida recién cuando el hero queda atrás.
+  var nav = document.getElementById('topnav');
+  var hero = document.getElementById('top');
+  if (nav && hero && 'IntersectionObserver' in window) {
+    new IntersectionObserver(function (entries) {
+      nav.classList.toggle('stuck', !entries[0].isIntersecting);
+    }, { rootMargin: '-68px 0px 0px 0px', threshold: 0 }).observe(hero);
+  }
+
+  // El movimiento se enciende desde JS: sin JS la página se ve entera.
+  var root = document.documentElement;
+  var quieto = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if ('IntersectionObserver' in window && !quieto) {
+    root.classList.add('js');
+
+    var grupos = ['.wins .win', '.tools .tool', '.layers .layer', '.quotes .quote',
+                  '.pillars .pillar', '.mirror li', '.cycle li', '.faq details'];
+    grupos.forEach(function (sel) {
+      var previo = null, i = 0;
+      document.querySelectorAll(sel).forEach(function (el) {
+        var padre = el.parentNode;
+        if (padre !== previo) { previo = padre; i = 0; }
+        el.setAttribute('data-reveal', '');
+        el.style.setProperty('--d', Math.min(i, 6) * 70 + 'ms');
+        i++;
+      });
+    });
+    document.querySelectorAll('section > .wrap > .eyebrow, section .section-title, section > .wrap > .lede, .punch, .claim, .videoquote, .bio, .split-even')
+      .forEach(function (el) { el.setAttribute('data-reveal', ''); });
+
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('seen'); io.unobserve(e.target); }
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: .08 });
+    document.querySelectorAll('[data-reveal]').forEach(function (el) { io.observe(el); });
+
+    // Red de seguridad: si algo no llegó a verse en 3s, se muestra igual.
+    setTimeout(function () {
+      document.querySelectorAll('[data-reveal]:not(.seen)').forEach(function (el) {
+        var r = el.getBoundingClientRect();
+        if (r.top < innerHeight) el.classList.add('seen');
+      });
+    }, 3000);
+  }
 })();
 </script>
 </body>
