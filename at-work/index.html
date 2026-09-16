@@ -651,6 +651,12 @@
     transition: border-color .18s ease, background .18s ease, transform .12s ease; }
   .price:hover { border-color: var(--terracota); background: rgba(198, 140, 108, .1); }
   .price:active { transform: translateY(1px); }
+  .price .cuotas {
+    margin-top: 14px; padding-top: 14px;
+    border-top: 1px solid var(--on-ink-line);
+    font-size: var(--t-base); color: var(--on-ink);
+  }
+  .price .cuotas strong { color: var(--terracota); font-weight: 600; }
   .price .pay { display: inline-block; margin-top: 16px;
     font-size: var(--t-xs); font-weight: 700; letter-spacing: .11em;
     text-transform: uppercase; color: var(--terracota); }
@@ -1247,8 +1253,9 @@
     <div class="prices">
       <a class="price best" href="https://buy.stripe.com/00wbJ21pn9oJ1F70RQ8k813" target="_blank" rel="noopener noreferrer">
         <div class="plan">Precio de lanzamiento</div>
-        <div class="amount">USD 250<small> /mes</small></div>
-        <div class="terms">Cinco pagos mensuales automáticos vía Stripe. Total: USD 1.250.</div>
+        <div class="amount">USD 1.250</div>
+        <div class="terms">Programa completo de cinco meses.</div>
+        <div class="cuotas">En 5 cuotas mensuales de <strong>USD 250</strong>, automáticas vía Stripe.</div>
         <span class="pay">Quiero entrar →</span>
       </a>
     </div>
