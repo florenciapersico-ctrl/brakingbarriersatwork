@@ -790,86 +790,26 @@
   footer .fname { font-family: var(--display); font-size: var(--t-md); color: var(--on-ink); }
   footer a { color: var(--terracota); text-decoration: none; }
   footer a:hover { text-decoration: underline; }
-  /* ── aceptación de términos antes del pago ─────────────── */
-  .modal[hidden] { display: none; }
-  .modal {
-    position: fixed; inset: 0; z-index: 90;
-    display: grid; place-items: center; padding: 20px;
+  /* ── el siguiente paso ─────────────────────────────────── */
+  .pasos {
+    list-style: none; display: grid; gap: 14px;
+    margin: 34px auto 32px; padding: 0;
+    max-width: 520px; text-align: left;
   }
-  .modal-fondo {
-    position: absolute; inset: 0;
-    background: rgba(63, 30, 13, .62);
-    backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px);
-    opacity: 0; transition: opacity .18s ease;
+  .pasos li {
+    display: flex; gap: 14px; align-items: baseline;
+    font-size: var(--t-md); line-height: 1.5; color: var(--on-ink);
+    padding-bottom: 14px; border-bottom: 1px solid var(--on-ink-line);
   }
-  .modal.abierto .modal-fondo { opacity: 1; }
-  .modal-caja {
-    position: relative;
-    width: min(560px, 100%); max-height: min(88vh, 740px);
-    display: flex; flex-direction: column;
-    background: var(--cream);
-    border: 1px solid var(--line); border-radius: 6px;
-    box-shadow: 0 24px 70px rgba(63, 30, 13, .32);
-    padding: 30px 28px 26px;
-    opacity: 0; transform: translateY(10px) scale(.985);
-    transition: opacity .2s ease, transform .2s ease;
+  .pasos li:last-child { border-bottom: 0; padding-bottom: 0; }
+  .pasos .n {
+    font-family: var(--ui); font-size: var(--t-xs); font-weight: 700;
+    letter-spacing: .14em; color: var(--terracota); flex: none;
   }
-  .modal.abierto .modal-caja { opacity: 1; transform: none; }
-  .modal-x {
-    position: absolute; top: 8px; right: 10px;
-    background: none; border: 0; cursor: pointer;
-    font-size: 26px; line-height: 1; color: var(--muted);
-    padding: 6px 9px; border-radius: 4px;
-  }
-  .modal-x:hover { color: var(--ink); background: var(--sand); }
-  .modal-caja .eyebrow { margin-bottom: 10px; }
-  .modal-caja h2 {
-    font-family: var(--display); font-weight: 600;
-    font-size: var(--t-2xl); line-height: 1.12; color: var(--ink);
-    margin: 0 0 8px; letter-spacing: -.01em; padding-right: 28px;
-  }
-  .modal-intro { font-size: var(--t-base); color: var(--muted); margin: 0 0 16px; }
-  .modal-cuerpo {
-    overflow-y: auto; -webkit-overflow-scrolling: touch;
-    border-top: 1px solid var(--line-soft);
-    border-bottom: 1px solid var(--line-soft);
-    padding: 16px 2px; margin-bottom: 16px;
-  }
-  .modal-cuerpo:focus-visible { outline: 2px solid var(--terracota); outline-offset: 2px; }
-  .modal-cuerpo dl { margin: 0; }
-  .modal-cuerpo dt {
-    font-family: var(--ui); font-weight: 700; font-size: var(--t-sm);
-    color: var(--ink); margin-bottom: 3px;
-  }
-  .modal-cuerpo dd {
-    margin: 0 0 14px; font-size: var(--t-base);
-    line-height: 1.55; color: var(--muted);
-  }
-  .modal-cuerpo a, .modal-check a { color: var(--brown); }
-  .modal-full { font-size: var(--t-sm); margin: 4px 0 0; }
-  .modal-check {
-    display: flex; gap: 11px; align-items: flex-start;
-    font-size: var(--t-base); line-height: 1.5; color: var(--ink);
-    cursor: pointer; margin-bottom: 18px;
-    padding: 4px; border-radius: 4px;
-    transition: background .2s ease;
-  }
-  .modal-check input {
-    width: 19px; height: 19px; flex: none; margin-top: 2px;
-    accent-color: var(--brown); cursor: pointer;
-  }
-  .modal-check.pide { background: rgba(198, 140, 108, .18); }
-  .modal-check.pide input { outline: 2px solid var(--brown); outline-offset: 3px; }
-  .modal-ir { display: flex; width: 100%; justify-content: center; }
-  .modal-ir[aria-disabled="true"] { opacity: .42; }
-  .modal-nota { font-size: var(--t-xs); color: var(--muted); text-align: center; margin: 10px 0 0; }
-  body.modal-abierto { overflow: hidden; }
+  .pasos strong { color: var(--terracota); font-weight: 700; letter-spacing: .04em; }
+  .cta-ig { margin: 0 auto; }
   @media (max-width: 480px) {
-    .modal { padding: 12px; }
-    .modal-caja { padding: 26px 20px 22px; max-height: 93vh; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .modal-fondo, .modal-caja { transition: none; }
+    .cta-ig { width: 100%; justify-content: center; text-align: center; padding-left: 18px; padding-right: 18px; }
   }
 </style>
 </head>
@@ -888,7 +828,7 @@
       <a href="#faq">FAQ</a>
       <a href="#pagar">Quiero ingresar</a>
     </div>
-    <a class="btn btn-primary btn-sm nav-cta" href="#pagar">Inscribirme</a>
+    <a class="btn btn-primary btn-sm nav-cta" href="#pagar">Hablar con Flor</a>
     <button class="burger" id="burger" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="navlinks">
       <span></span><span></span><span></span>
     </button>
@@ -1267,7 +1207,8 @@
           <li>Formación en health coaching — porque buena parte de lo que traba no es idioma</li>
           <li>Formación y experiencia en Madrid y Londres</li>
           <li>Alumnas en México, Colombia, Perú, Costa Rica, Argentina, España y Estados Unidos</li>
-          <li>Managers, gerentas y directoras de operaciones, IT, finanzas, HR, compliance y laboratorios</li>
+          <li>Managers, gerentas y directoras de operaciones, IT, finanzas, recursos humanos y compliance</li>
+          <li>En farmacéuticas y laboratorios, empresas de tecnología y software, y banca, finanzas y consultoría</li>
           <li>Trabajo sobre transcripts reales de clase, no sobre material de manual</li>
         </ul>
       </div>
@@ -1340,25 +1281,25 @@
   </div>
 </section>
 
-<!-- ═══════════════ 15 · PARA INGRESAR ═══════════════ -->
+<!-- ═══════════════ 15 · EL SIGUIENTE PASO ═══════════════ -->
 <section class="band-ink pay-section" id="pagar">
   <div class="wrap">
-    <span class="eyebrow">Para ingresar</span>
-    <h2 class="section-title">Breaking Barriers at Work<br>Cinco meses.</h2>
-    <p class="lede">Incluye todo el programa más el acompañamiento 1:1 semanal.</p>
-
-    <div class="prices">
-      <a class="price best" data-pago href="https://buy.stripe.com/00wbJ21pn9oJ1F70RQ8k813" target="_blank" rel="noopener noreferrer">
-        <div class="plan">Precio de lanzamiento</div>
-        <div class="amount">USD 1.250</div>
-        <div class="terms">Programa completo de cinco meses.</div>
-        <div class="cuotas">En 5 cuotas mensuales de <strong>USD 250</strong>, automáticas vía Stripe.</div>
-        <span class="pay">Quiero ingresar →</span>
-      </a>
-    </div>
-    <p class="legal">
-      Al inscribirte aceptás los <a href="terminos/">términos y condiciones</a>.
+    <span class="eyebrow">El siguiente paso</span>
+    <h2 class="section-title">Si te reconociste<br>en todo esto.</h2>
+    <p class="lede">
+      Antes de entrar hablamos. Quiero saber en qué trabajás, qué situaciones te
+      cuestan y en qué momento estás, porque no todas las que me escriben están
+      listas para este programa — y prefiero decírtelo antes.
     </p>
+
+    <ol class="pasos">
+      <li><span class="n">01</span><span>Me escribís la palabra <strong>LISTA</strong> por Instagram.</span></li>
+      <li><span class="n">02</span><span>Te hago algunas preguntas y coordinamos una llamada.</span></li>
+      <li><span class="n">03</span><span>Si el programa es para vos, te cuento cómo entrar.</span></li>
+    </ol>
+
+    <a class="btn btn-primary cta-ig" href="https://ig.me/m/ysi_speakenglish" target="_blank" rel="noopener noreferrer">Escribirme LISTA por Instagram →</a>
+    <p class="legal">Sin compromiso. Si veo que no es tu momento, te lo digo.</p>
   </div>
 </section>
 
@@ -1418,7 +1359,7 @@
       <details>
         <summary>¿Sirve si mi profesión es muy específica?</summary>
         <div class="answer">
-          <p>Sí, porque la práctica se construye con tu propio contexto y tu material de trabajo. Trabajo con managers y directoras de operaciones, IT, finanzas, HR y compliance, y el método se arma sobre lo que cada una trae.</p>
+          <p>Sí, porque la práctica se construye con tu propio contexto y tu material de trabajo. Trabajo con managers y directoras de operaciones, IT, finanzas, recursos humanos y compliance —en farmacéuticas, laboratorios, tecnología, banca y consultoría— y el método se arma sobre lo que cada una trae.</p>
         </div>
       </details>
 
@@ -1442,7 +1383,7 @@
       explicas, presentas y te desenvuelves en inglés, usando las situaciones que
       realmente enfrentas en tu trabajo.
     </p>
-    <a class="btn btn-primary" href="#pagar">Quiero ingresar al programa →</a>
+    <a class="btn btn-primary" href="https://ig.me/m/ysi_speakenglish" target="_blank" rel="noopener noreferrer">Escribirme LISTA por Instagram →</a>
   </div>
 </section>
 
@@ -1460,51 +1401,6 @@
   </div>
 </footer>
 
-<!-- ═══════════════ aceptación de términos antes del pago ═══════════════ -->
-<div class="modal" id="modal-terminos" hidden>
-  <div class="modal-fondo" data-cerrar></div>
-  <div class="modal-caja" role="dialog" aria-modal="true" aria-labelledby="modal-titulo">
-    <button class="modal-x" type="button" data-cerrar aria-label="Cerrar">&times;</button>
-    <span class="eyebrow">Antes de pagar</span>
-    <h2 id="modal-titulo">Cómo trabajamos juntas</h2>
-    <p class="modal-intro">El acuerdo entre las dos, en siete puntos. No hay letra chica.</p>
-
-    <div class="modal-cuerpo" tabindex="0">
-      <dl>
-        <dt>Qué incluye</dt>
-        <dd>Cinco meses de programa individual: una sesión de 60 minutos por semana en horario fijo, las tres herramientas del método configuradas con tu contexto, las bibliotecas de práctica y tu Weekly Report.</dd>
-
-        <dt>Lo que pongo yo</dt>
-        <dd>Cada sesión preparada con tu material real, tu Weekly Report leído y devuelto, disponibilidad por WhatsApp entre sesiones, y la verdad sobre dónde estás aunque no sea lo que querés escuchar.</dd>
-
-        <dt>Lo que ponés vos</dt>
-        <dd>Hacer el Weekly Report cada semana, aplicar el método en tu trabajo entre sesiones, traer material real, pedir ayuda cuando algo no se entiende y avisar cuando no podés.</dd>
-
-        <dt>Precio</dt>
-        <dd>USD 1.250 en total, en cinco cuotas mensuales de USD 250 con débito automático vía Stripe. La primera se cobra al inscribirte.</dd>
-
-        <dt>Por qué son los cinco meses enteros</dt>
-        <dd>Es lo que tarda en instalarse el cambio, y los primeros dos meses son los más incómodos. El pago en cuotas es una facilidad, no una suscripción cancelable: las cinco cuotas se deben completas. Y una vez empezado no hay reembolsos — por eso hablamos de tu nivel y tu momento antes de que pagues.</dd>
-
-        <dt>Si necesitás mover o pausar</dt>
-        <dd>Reprogramás avisando con 24 horas, sin explicaciones. Con menos aviso la sesión se considera dada. Y podés pausar el programa: los cobros siguen su calendario, pero las sesiones quedan guardadas para recuperarlas.</dd>
-
-        <dt>Compartir tu proceso</dt>
-        <dd>Muchas llegan acá porque vieron a otra animarse. Por eso autorizás a usar tu nombre y tu imagen para compartir tus wins y tu caso de éxito, sin exponer información confidencial ni datos sensibles. Podés dar marcha atrás cuando quieras.</dd>
-
-      </dl>
-      <p class="modal-full"><a href="terminos/" target="_blank" rel="noopener noreferrer">Leer el acuerdo completo</a> — se abre en otra pestaña.</p>
-    </div>
-
-    <label class="modal-check" id="modal-check">
-      <input type="checkbox" id="acepto">
-      <span>Leí y acepto los <a href="terminos/" target="_blank" rel="noopener noreferrer">términos y condiciones</a>.</span>
-    </label>
-
-    <a class="btn btn-primary modal-ir" id="ir-a-pagar" href="#" target="_blank" rel="noopener noreferrer" aria-disabled="true">Ir al pago →</a>
-    <p class="modal-nota">Te lleva a Stripe, en una pestaña nueva.</p>
-  </div>
-</div>
 
 <script>
 (function () {
@@ -1592,79 +1488,6 @@
         if (r.top < innerHeight) el.classList.add('seen');
       });
     }, 3000);
-  }
-  // Antes de ir a Stripe hay que leer y aceptar los términos.
-  // Sin JS el enlace sigue yendo directo al pago: nada queda trabado.
-  var modal = document.getElementById('modal-terminos');
-  var caja = modal && modal.querySelector('.modal-caja');
-  var check = document.getElementById('acepto');
-  var fila = document.getElementById('modal-check');
-  var irAPagar = document.getElementById('ir-a-pagar');
-  if (modal && caja && check && irAPagar) {
-    var quienAbrio = null, timerCerrar = null;
-    var foco = 'a[href], button, input, [tabindex]:not([tabindex="-1"])';
-
-    function marcarBoton() {
-      irAPagar.setAttribute('aria-disabled', check.checked ? 'false' : 'true');
-      if (check.checked) fila.classList.remove('pide');
-    }
-
-    function abrir(destino, disparador) {
-      clearTimeout(timerCerrar);
-      quienAbrio = disparador || null;
-      irAPagar.href = destino;
-      check.checked = false;
-      fila.classList.remove('pide');
-      marcarBoton();
-      modal.hidden = false;
-      document.body.classList.add('modal-abierto');
-      requestAnimationFrame(function () { modal.classList.add('abierto'); });
-      modal.querySelector('.modal-cuerpo').scrollTop = 0;
-      caja.querySelector('.modal-x').focus();
-    }
-
-    function cerrar() {
-      modal.classList.remove('abierto');
-      document.body.classList.remove('modal-abierto');
-      timerCerrar = setTimeout(function () { modal.hidden = true; }, 200);
-      if (quienAbrio) { quienAbrio.focus(); quienAbrio = null; }
-    }
-
-    document.querySelectorAll('[data-pago]').forEach(function (el) {
-      el.addEventListener('click', function (e) {
-        e.preventDefault();
-        abrir(el.href, el);
-      });
-    });
-
-    check.addEventListener('change', marcarBoton);
-
-    irAPagar.addEventListener('click', function (e) {
-      if (!check.checked) {
-        e.preventDefault();
-        fila.classList.add('pide');
-        check.focus();
-        return;
-      }
-      cerrar();
-    });
-
-    modal.addEventListener('click', function (e) {
-      if (e.target.hasAttribute('data-cerrar')) cerrar();
-    });
-
-    document.addEventListener('keydown', function (e) {
-      if (modal.hidden) return;
-      if (e.key === 'Escape') { cerrar(); return; }
-      if (e.key !== 'Tab') return;
-      var lista = Array.prototype.filter.call(caja.querySelectorAll(foco), function (el) {
-        return el.offsetParent !== null && !el.disabled;
-      });
-      if (!lista.length) return;
-      var primero = lista[0], ultimo = lista[lista.length - 1];
-      if (e.shiftKey && document.activeElement === primero) { e.preventDefault(); ultimo.focus(); }
-      else if (!e.shiftKey && document.activeElement === ultimo) { e.preventDefault(); primero.focus(); }
-    });
   }
 
 })();
