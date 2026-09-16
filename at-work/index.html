@@ -609,6 +609,7 @@
   .includes li span { color: var(--on-ink-soft); }
 
   .prices { display: grid; gap: 16px; }
+  @media (min-width: 780px) { .prices { grid-template-columns: 1fr 1fr; gap: 20px; } }
   .price {
     border: 1px solid var(--on-ink-line);
     border-radius: 4px;
@@ -741,7 +742,7 @@
   .pay-section .eyebrow,
   .pay-section .section-title { text-align: center; }
   .pay-section .lede { margin-left: auto; margin-right: auto; text-align: center; }
-  .pay-section .prices { max-width: 540px; margin: 34px auto 0; }
+  .pay-section .prices { max-width: 760px; margin: 34px auto 0; }
   .pay-section .price .amount { white-space: nowrap; }
   .pay-section .price { text-align: left; }
 
@@ -1248,19 +1249,26 @@
   <div class="wrap">
     <span class="eyebrow">La inversión</span>
     <h2 class="section-title">Breaking Barriers at Work<br>Cinco meses.</h2>
-    <p class="lede">Incluye todo el programa más el acompañamiento 1:1 semanal.</p>
+    <p class="lede">Incluye todo el programa más el acompañamiento 1:1 semanal.<br>El total es el mismo en las dos formas: elegís cómo te queda mejor.</p>
 
     <div class="prices">
       <a class="price best" href="https://buy.stripe.com/00wbJ21pn9oJ1F70RQ8k813" target="_blank" rel="noopener noreferrer">
-        <div class="plan">Precio de lanzamiento</div>
+        <span class="flag">La más elegida</span>
+        <div class="plan">En cuotas</div>
+        <div class="amount">USD 250<small> /mes</small></div>
+        <div class="terms">Cinco cuotas mensuales automáticas vía Stripe.</div>
+        <div class="cuotas">Total del programa: <strong>USD 1.250</strong></div>
+        <span class="pay">Quiero entrar →</span>
+      </a>
+
+      <a class="price" href="https://buy.stripe.com/7sYaEY5FD9oJ97z7ge8k81m" target="_blank" rel="noopener noreferrer">
+        <div class="plan">Pago único</div>
         <div class="amount">USD 1.250</div>
-        <div class="terms">Programa completo de cinco meses.</div>
-        <div class="cuotas">En 5 cuotas mensuales de <strong>USD 250</strong>, automáticas vía Stripe.</div>
+        <div class="terms">Un solo pago, con tarjeta.</div>
+        <div class="cuotas">El mismo total, de una sola vez.</div>
         <span class="pay">Quiero entrar →</span>
       </a>
     </div>
-    <!-- Link de Stripe del pago único (USD 1.111), guardado por si se reactiva:
-         https://buy.stripe.com/fZu14o9VT1Wh6Zrasq8k80Z -->
   </div>
 </section>
 
