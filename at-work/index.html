@@ -790,6 +790,87 @@
   footer .fname { font-family: var(--display); font-size: var(--t-md); color: var(--on-ink); }
   footer a { color: var(--terracota); text-decoration: none; }
   footer a:hover { text-decoration: underline; }
+  /* ── aceptación de términos antes del pago ─────────────── */
+  .modal[hidden] { display: none; }
+  .modal {
+    position: fixed; inset: 0; z-index: 90;
+    display: grid; place-items: center; padding: 20px;
+  }
+  .modal-fondo {
+    position: absolute; inset: 0;
+    background: rgba(63, 30, 13, .62);
+    backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px);
+    opacity: 0; transition: opacity .18s ease;
+  }
+  .modal.abierto .modal-fondo { opacity: 1; }
+  .modal-caja {
+    position: relative;
+    width: min(560px, 100%); max-height: min(88vh, 740px);
+    display: flex; flex-direction: column;
+    background: var(--cream);
+    border: 1px solid var(--line); border-radius: 6px;
+    box-shadow: 0 24px 70px rgba(63, 30, 13, .32);
+    padding: 30px 28px 26px;
+    opacity: 0; transform: translateY(10px) scale(.985);
+    transition: opacity .2s ease, transform .2s ease;
+  }
+  .modal.abierto .modal-caja { opacity: 1; transform: none; }
+  .modal-x {
+    position: absolute; top: 8px; right: 10px;
+    background: none; border: 0; cursor: pointer;
+    font-size: 26px; line-height: 1; color: var(--muted);
+    padding: 6px 9px; border-radius: 4px;
+  }
+  .modal-x:hover { color: var(--ink); background: var(--sand); }
+  .modal-caja .eyebrow { margin-bottom: 10px; }
+  .modal-caja h2 {
+    font-family: var(--display); font-weight: 600;
+    font-size: var(--t-2xl); line-height: 1.12; color: var(--ink);
+    margin: 0 0 8px; letter-spacing: -.01em; padding-right: 28px;
+  }
+  .modal-intro { font-size: var(--t-base); color: var(--muted); margin: 0 0 16px; }
+  .modal-cuerpo {
+    overflow-y: auto; -webkit-overflow-scrolling: touch;
+    border-top: 1px solid var(--line-soft);
+    border-bottom: 1px solid var(--line-soft);
+    padding: 16px 2px; margin-bottom: 16px;
+  }
+  .modal-cuerpo:focus-visible { outline: 2px solid var(--terracota); outline-offset: 2px; }
+  .modal-cuerpo dl { margin: 0; }
+  .modal-cuerpo dt {
+    font-family: var(--ui); font-weight: 700; font-size: var(--t-sm);
+    color: var(--ink); margin-bottom: 3px;
+  }
+  .modal-cuerpo dd {
+    margin: 0 0 14px; font-size: var(--t-base);
+    line-height: 1.55; color: var(--muted);
+  }
+  .modal-cuerpo a, .modal-check a { color: var(--brown); }
+  .modal-full { font-size: var(--t-sm); margin: 4px 0 0; }
+  .modal-check {
+    display: flex; gap: 11px; align-items: flex-start;
+    font-size: var(--t-base); line-height: 1.5; color: var(--ink);
+    cursor: pointer; margin-bottom: 18px;
+    padding: 4px; border-radius: 4px;
+    transition: background .2s ease;
+  }
+  .modal-check input {
+    width: 19px; height: 19px; flex: none; margin-top: 2px;
+    accent-color: var(--brown); cursor: pointer;
+  }
+  .modal-check.pide { background: rgba(198, 140, 108, .18); }
+  .modal-check.pide input { outline: 2px solid var(--brown); outline-offset: 3px; }
+  .modal-ir { display: flex; width: 100%; justify-content: center; }
+  .modal-ir[aria-disabled="true"] { opacity: .42; }
+  .modal-nota { font-size: var(--t-xs); color: var(--muted); text-align: center; margin: 10px 0 0; }
+  body.modal-abierto { overflow: hidden; }
+  @media (max-width: 480px) {
+    .modal { padding: 12px; }
+    .modal-caja { padding: 26px 20px 22px; max-height: 93vh; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .modal-fondo, .modal-caja { transition: none; }
+  }
 </style>
 </head>
 <body>
@@ -1264,7 +1345,7 @@
     <p class="lede">Incluye todo el programa más el acompañamiento 1:1 semanal.</p>
 
     <div class="prices">
-      <a class="price best" href="https://buy.stripe.com/00wbJ21pn9oJ1F70RQ8k813" target="_blank" rel="noopener noreferrer">
+      <a class="price best" data-pago href="https://buy.stripe.com/00wbJ21pn9oJ1F70RQ8k813" target="_blank" rel="noopener noreferrer">
         <div class="plan">Precio de lanzamiento</div>
         <div class="amount">USD 1.250</div>
         <div class="terms">Programa completo de cinco meses.</div>
@@ -1376,6 +1457,51 @@
   </div>
 </footer>
 
+<!-- ═══════════════ aceptación de términos antes del pago ═══════════════ -->
+<div class="modal" id="modal-terminos" hidden>
+  <div class="modal-fondo" data-cerrar></div>
+  <div class="modal-caja" role="dialog" aria-modal="true" aria-labelledby="modal-titulo">
+    <button class="modal-x" type="button" data-cerrar aria-label="Cerrar">&times;</button>
+    <span class="eyebrow">Antes de pagar</span>
+    <h2 id="modal-titulo">Términos y condiciones</h2>
+    <p class="modal-intro">Lo importante en siete puntos. No hay letra chica.</p>
+
+    <div class="modal-cuerpo" tabindex="0">
+      <dl>
+        <dt>Qué contratás</dt>
+        <dd>Cinco meses de programa individual: una sesión de 60 minutos por semana, las tres herramientas del método configuradas con tu contexto, acceso a las bibliotecas de práctica y Weekly Report.</dd>
+
+        <dt>Precio</dt>
+        <dd>USD 1.250 en total, en cinco cuotas mensuales de USD 250 con débito automático vía Stripe. La primera se cobra al inscribirte.</dd>
+
+        <dt>Compromiso de pago</dt>
+        <dd>Contratás el programa completo. El pago en cuotas es una facilidad de financiación, no una suscripción cancelable: las cinco cuotas se deben en su totalidad, más allá de cuántas sesiones uses.</dd>
+
+        <dt>Sin reembolsos</dt>
+        <dd>Una vez iniciado el programa no hay reembolsos, ni totales ni parciales. Por eso evalúo el nivel y el encaje antes: si no es para vos, te lo digo antes de que pagues.</dd>
+
+        <dt>Reprogramar una sesión</dt>
+        <dd>Avisando con al menos 24 horas se reagenda según disponibilidad. Con menos aviso la sesión se considera usada y no se recupera, salvo fuerza mayor.</dd>
+
+        <dt>Pausas</dt>
+        <dd>Podés pausar el programa avisando con anticipación. Durante la pausa los cobros siguen su calendario y las sesiones no tomadas quedan para recuperar a la vuelta.</dd>
+
+        <dt>Qué no se promete</dt>
+        <dd>No se garantiza un nivel determinado, la eliminación de errores, una certificación, un ascenso ni ningún resultado económico. Los resultados dependen también de tu práctica entre sesiones.</dd>
+      </dl>
+      <p class="modal-full"><a href="terminos/" target="_blank" rel="noopener noreferrer">Leer los términos completos</a> — se abren en otra pestaña.</p>
+    </div>
+
+    <label class="modal-check" id="modal-check">
+      <input type="checkbox" id="acepto">
+      <span>Leí y acepto los <a href="terminos/" target="_blank" rel="noopener noreferrer">términos y condiciones</a>.</span>
+    </label>
+
+    <a class="btn btn-primary modal-ir" id="ir-a-pagar" href="#" target="_blank" rel="noopener noreferrer" aria-disabled="true">Ir al pago →</a>
+    <p class="modal-nota">Te lleva a Stripe, en una pestaña nueva.</p>
+  </div>
+</div>
+
 <script>
 (function () {
   'use strict';
@@ -1463,6 +1589,80 @@
       });
     }, 3000);
   }
+  // Antes de ir a Stripe hay que leer y aceptar los términos.
+  // Sin JS el enlace sigue yendo directo al pago: nada queda trabado.
+  var modal = document.getElementById('modal-terminos');
+  var caja = modal && modal.querySelector('.modal-caja');
+  var check = document.getElementById('acepto');
+  var fila = document.getElementById('modal-check');
+  var irAPagar = document.getElementById('ir-a-pagar');
+  if (modal && caja && check && irAPagar) {
+    var quienAbrio = null, timerCerrar = null;
+    var foco = 'a[href], button, input, [tabindex]:not([tabindex="-1"])';
+
+    function marcarBoton() {
+      irAPagar.setAttribute('aria-disabled', check.checked ? 'false' : 'true');
+      if (check.checked) fila.classList.remove('pide');
+    }
+
+    function abrir(destino, disparador) {
+      clearTimeout(timerCerrar);
+      quienAbrio = disparador || null;
+      irAPagar.href = destino;
+      check.checked = false;
+      fila.classList.remove('pide');
+      marcarBoton();
+      modal.hidden = false;
+      document.body.classList.add('modal-abierto');
+      requestAnimationFrame(function () { modal.classList.add('abierto'); });
+      modal.querySelector('.modal-cuerpo').scrollTop = 0;
+      caja.querySelector('.modal-x').focus();
+    }
+
+    function cerrar() {
+      modal.classList.remove('abierto');
+      document.body.classList.remove('modal-abierto');
+      timerCerrar = setTimeout(function () { modal.hidden = true; }, 200);
+      if (quienAbrio) { quienAbrio.focus(); quienAbrio = null; }
+    }
+
+    document.querySelectorAll('[data-pago]').forEach(function (el) {
+      el.addEventListener('click', function (e) {
+        e.preventDefault();
+        abrir(el.href, el);
+      });
+    });
+
+    check.addEventListener('change', marcarBoton);
+
+    irAPagar.addEventListener('click', function (e) {
+      if (!check.checked) {
+        e.preventDefault();
+        fila.classList.add('pide');
+        check.focus();
+        return;
+      }
+      cerrar();
+    });
+
+    modal.addEventListener('click', function (e) {
+      if (e.target.hasAttribute('data-cerrar')) cerrar();
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (modal.hidden) return;
+      if (e.key === 'Escape') { cerrar(); return; }
+      if (e.key !== 'Tab') return;
+      var lista = Array.prototype.filter.call(caja.querySelectorAll(foco), function (el) {
+        return el.offsetParent !== null && !el.disabled;
+      });
+      if (!lista.length) return;
+      var primero = lista[0], ultimo = lista[lista.length - 1];
+      if (e.shiftKey && document.activeElement === primero) { e.preventDefault(); ultimo.focus(); }
+      else if (!e.shiftKey && document.activeElement === ultimo) { e.preventDefault(); primero.focus(); }
+    });
+  }
+
 })();
 </script>
 </body>
