@@ -163,3 +163,73 @@ reactivo. Si queda para el viernes a la tarde no pasa.
   no vas a copiarles el negocio, vas a ver cómo explican un mecanismo.
 - Seguir a alguien que te deja peor. Si un referente te hace cuestionar todo cada vez
   que publica, no es referente tuyo. Dejá de consumirlo.
+
+---
+
+# El mapa, cerrado (septiembre 2026)
+
+Esto ya está hecho. No lo rehagas: actualizalo en tres meses y nada más.
+
+## Capa 1 — Competencia directa en español
+
+Existe. Es numerosa y está fragmentada: ninguna es dueña de la categoría, ninguna
+tiene motor de YouTube.
+
+| Quién | Posicionamiento | Tamaño aprox. |
+|---|---|---|
+| Sofia Sandoval | Profesionales que ya saben inglés y quieren demostrar su nivel real. Training diario de 9 min + programa en vivo de 6 semanas | ~15k IG |
+| Nacho Felei | Inglés empresarial, profesionales ocupados, superar el miedo, 12 semanas | ~15k IG |
+| Natalia Gil | Coach de inglés **para mujeres**, método propio "Speech Ease", +100 alumnas | ~6k IG |
+| Sonia English Coach | Profesionales, seguridad y claridad, 10+ años en Business English | ~4k IG |
+| Victoria Kutdusova / Claudia Silva | Inglés para profesionales | chicas |
+| Sonia Aguilera | Inglés ejecutivo, "ascensos bloqueados" | web |
+| Lauri Prada / Paloma García / Nexuss / Tu Voz Americana | Desbloqueo, coaching de idiomas, 1:1 premium | chicas |
+
+La más cercana en tesis es **Sofia Sandoval**. Vale leerle la oferta entera.
+
+## Capa 2 — Las academias que se llevan el presupuesto
+
+Vaughan (40 años, formó ejecutivos en España), Open English Business, goFLUENT,
+Speexx, EF, IH Colombia, BusinessEnglish2Go. Cuando la empresa paga la
+capacitación, va acá. No competís en mensaje: competís en resultado.
+
+## Capa 3 — Los programas de liderazgo femenino
+
+Proyecto Promociona / Esade y similares: autoconfianza, **visibilidad**, marca
+personal, poder e influencia. No enseñan inglés, pero le venden a tu clienta la
+misma transformación y usan tu vocabulario. Compiten por el mismo presupuesto.
+
+## Capa 4 — Lo que más te gana: que no haga nada
+
+Seguir preparando el guion antes de cada reunión y aguantar. Contra esto perdés la
+mayoría de las ventas. Todo tu contenido debería estar diseñado para ganarle a esto,
+no a las de la capa 1.
+
+---
+
+# Los referentes, elegidos
+
+No son competencia. Son de quién copiás la **estructura**. Tres, y ninguna más.
+
+**1. Hadar Shemesh — estructura de negocio y motor de contenido.**
+Es de pronunciación, no de inglés profesional. No importa: de ella no copiás tema,
+copiás armado.
+- Vende una **creencia**, no una técnica: "no tenés que ser nativa para tener un
+  inglés excelente". Es un permiso, no una promesa de resultado.
+- Escalera de gratis que segmenta por temperatura: quiz de nivel, plan de 14 días,
+  masterclass, primera semana del curso, lista de las 50 palabras.
+- Un producto insignia repetido durante años (New Sound), no uno nuevo por trimestre.
+- Lección semanal que no se detiene nunca. Todo lo demás cuelga de ahí.
+
+**2. Annemarie Fowler (Speak Confident English) — avatar y mensaje.**
+Mujeres profesionales no nativas. Fluency School™, 8 semanas, corriendo desde 2016.
+1M de suscriptores en YouTube, lección gratis todos los miércoles. Promesa: hablar
+como pensás, sin traducir, sin dudar y sin pedir disculpas.
+
+**3. Sofia Sandoval + Nacho Felei — a vigilar, no a modelar.**
+Mirás qué venden y a qué precio, una vez por trimestre. Nada más.
+
+## La regla que evita volver a perder días en esto
+
+Si te encontrás buscando "una igual a mí pero grande", pará: no existe, y por eso hay
+lugar. El referente se elige por **cómo está construido**, nunca por qué vende.
