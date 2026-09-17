@@ -1,5 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /oferta/
 Disallow: /pago/
 
 Sitemap: https://braking-barriers.vercel.app/sitemap.xml
