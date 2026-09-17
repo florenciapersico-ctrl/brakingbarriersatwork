@@ -967,6 +967,45 @@
     background: var(--cream-warm); border-radius: 4px;
     font-size: var(--t-base); color: var(--muted); max-width: var(--measure);
   }
+  /* qué incluye */
+  .doc dl.incluye dt { font-size: var(--t-base); }
+  .doc dl.incluye dd { margin-bottom: 20px; }
+
+  /* cómo trabajamos */
+  .flujo { list-style: none; counter-reset: none; display: grid; gap: 0; margin: 16px 0 14px; padding: 0; max-width: var(--measure); }
+  .flujo li {
+    display: flex; gap: 16px; align-items: baseline;
+    padding: 14px 0 14px 0; border-bottom: 1px solid var(--line-soft);
+  }
+  .flujo li::before { content: none; display: none; }
+  .flujo li:last-child { border-bottom: 0; }
+  .flujo .n {
+    font-family: var(--ui); font-size: var(--t-xs); font-weight: 700;
+    letter-spacing: .1em; color: var(--terracota); flex: none;
+    min-width: 14px;
+  }
+  .flujo strong { color: var(--ink); }
+  .doc .remate {
+    font-family: var(--display); font-size: var(--t-lg); font-style: italic;
+    color: var(--brown); margin: 14px 0 0;
+  }
+
+  /* road map */
+  .doc dl.roadmap { margin-top: 18px; }
+  .doc dl.roadmap dt {
+    font-family: var(--display); font-weight: 600; font-size: var(--t-xl);
+    letter-spacing: -.01em; color: var(--ink);
+    margin: 22px 0 6px; padding-top: 18px;
+    border-top: 1px solid var(--line-soft);
+    display: flex; gap: 12px; align-items: baseline;
+  }
+  .doc dl.roadmap dt:first-of-type { border-top: 0; padding-top: 0; margin-top: 8px; }
+  .doc dl.roadmap .m {
+    font-family: var(--ui); font-size: var(--t-xs); font-weight: 700;
+    letter-spacing: .14em; color: var(--terracota); flex: none;
+  }
+  .doc dl.roadmap dd { margin-bottom: 0; }
+
   @media (max-width: 480px) {
     .box-precio { padding: 26px 20px 22px; }
     .doc .cta-pago { padding-left: 16px; padding-right: 16px; }
@@ -988,52 +1027,97 @@
     <p>El material de práctica son tus propias situaciones de trabajo. No ejercicios armados para practicar.</p>
 
     <h2>Qué incluye</h2>
-    <ul>
-      <li><strong>Una sesión individual de 60 minutos por semana</strong> conmigo, en un horario fijo que acordamos, durante los cinco meses.</li>
-      <li><strong>Las tres herramientas del método</strong>, cada una con su bot de IA configurado con tu contexto.</li>
-      <li><strong>Tu Weekly Report</strong> semanal, que leo antes de cada sesión.</li>
-      <li><strong>Acceso al programa grabado y a las bibliotecas de práctica</strong> durante los cinco meses.</li>
-      <li><strong>Contacto por WhatsApp</strong> para consultas puntuales entre sesiones.</li>
-      <li><strong>El road map de cinco etapas</strong>, con el diagnóstico y la aplicación armados sobre tu caso.</li>
-    </ul>
-    <p>No hay costos extra. Los bots funcionan sobre ChatGPT y quedan en tu poder cuando el programa termina.</p>
+    <dl class="incluye">
+      <dt>1 sesión privada de 60 minutos por semana conmigo, durante los cinco meses</dt>
+      <dd>Usamos ese espacio para diagnóstico, producción espontánea, aplicación sobre situaciones reales de tu trabajo, role play, feedback, corrección, retry y definición del siguiente foco de entrenamiento.</dd>
 
-    <h2>Cómo funciona el método</h2>
-    <p>El Delivery Method™ trabaja en tres niveles al mismo tiempo:</p>
-    <dl>
-      <dt>01 · Material y producción</dt>
-      <dd>Trabajamos con tus reuniones, presentaciones, conversaciones y proyectos reales.</dd>
-      <dt>02 · Diagnóstico y corrección</dt>
-      <dd>No todos los errores significan lo mismo. Detectamos qué está frenando la comunicación y elegimos cómo entrenarlo.</dd>
-      <dt>03 · Comunicación y aplicación</dt>
-      <dd>Lo practicado tiene que volver a aparecer en tu trabajo real. Si no llega ahí, no sirvió.</dd>
+      <dt>AT WORK Roadmap + Training</dt>
+      <dd>Clases breves y prácticas organizadas en <strong>Lead Yourself First → Activate Your English → Communicate in Real Time → Polish Your English → Understand &amp; Be Understood</strong>. El roadmap desarrolla las capacidades centrales del programa y te enseña a entrenarlas de forma cada vez más autónoma.</dd>
+
+      <dt>Personalized Practice System</dt>
+      <dd>My Professional Context + Role Play + Narrative Flow + Color Method, para transformar situaciones reales de tu trabajo en práctica personalizada.</dd>
+
+      <dt>Workplace Practice Library</dt>
+      <dd>8 Workplace Guides para entrenar situaciones laborales concretas según lo que necesites trabajar. No tenés que seguirlas en orden ni completar toda la biblioteca.</dd>
+
+      <dt>Weekly Report + Progress Tracking</dt>
+      <dd>Cada semana hacemos seguimiento de tu práctica, tus situaciones reales, tus dificultades y la evidencia de progreso, para definir el próximo foco de entrenamiento.</dd>
+
+      <dt>Worksheets + Application Resources</dt>
+      <dd>Error Radar, mapas, ejercicios de aplicación, guías y otros recursos cuando son necesarios para aplicar una herramienta o trabajar un patrón específico.</dd>
+
+      <dt>Contacto por WhatsApp</dt>
+      <dd>Para consultas puntuales entre sesiones.</dd>
     </dl>
+    <p><strong>No hay costos extra.</strong></p>
 
-    <h2>Tus tres herramientas</h2>
+    <h2>Cómo trabajamos</h2>
+    <p>El trabajo siempre parte de situaciones reales.</p>
+    <ol class="flujo">
+      <li>
+        <span class="n">1</span>
+        <span><strong>Traés una situación de tu trabajo.</strong> Una reunión, presentación, conversación, problema, update o interacción que necesitás resolver.</span>
+      </li>
+      <li>
+        <span class="n">2</span>
+        <span><strong>Producís.</strong> Primero vemos qué podés hacer hoy con el inglés que ya tenés.</span>
+      </li>
+      <li>
+        <span class="n">3</span>
+        <span><strong>Diagnosticamos.</strong> Detectamos qué está interfiriendo: lenguaje que no aparece, estructuras poco estables, dificultad para organizar el mensaje, pronunciación, comprensión o manejo de la interacción.</span>
+      </li>
+      <li>
+        <span class="n">4</span>
+        <span><strong>Entrenamos lo necesario.</strong> Usamos las herramientas, trainings y recursos que correspondan a ese gap.</span>
+      </li>
+      <li>
+        <span class="n">5</span>
+        <span><strong>Hacés retry.</strong> Volvés a producir, con feedback y práctica focalizada.</span>
+      </li>
+      <li>
+        <span class="n">6</span>
+        <span><strong>Lo llevás a tu trabajo real.</strong> Porque lo trabajado tiene que aparecer fuera de la clase.</span>
+      </li>
+    </ol>
+    <p class="remate">Si no llega a tu comunicación real, todavía no terminamos de entrenarlo.</p>
+
+    <h2>Tu Personalized Practice System</h2>
+    <p>Durante el programa aprendés a transformar situaciones reales de tu trabajo en práctica deliberada, usando cuatro herramientas:</p>
     <dl>
+      <dt>My Professional Context</dt>
+      <dd>Tu rol, responsabilidades, proyectos, stakeholders, vocabulario y situaciones reales se convierten en la base de tu práctica.</dd>
+      <dt>Role Play</dt>
+      <dd>Simulás situaciones futuras o recurrentes para practicar sin depender de memorizar respuestas.</dd>
       <dt>Narrative Flow</dt>
-      <dd>Dejás de repetir los errores que arrastrás hace años.</dd>
+      <dd>Usamos tu propia producción para detectar qué está interfiriendo y decidir qué necesitás entrenar.</dd>
       <dt>Color Method</dt>
-      <dd>El vocabulario que ya reconocés empieza a salirte cuando lo necesitás.</dd>
-      <dt>Role Play Method</dt>
-      <dd>Llegás a tu próxima reunión real habiéndola entrenado antes.</dd>
+      <dd>Trabajás lenguaje relevante para pasar de reconocerlo a poder recuperarlo y usarlo.</dd>
     </dl>
-    <p>Cada una viene con un bot de IA que personalizás con tu material, para practicar cuando te queda mejor.</p>
+    <p>No se trata de acumular ejercicios. Se trata de aprender a generar práctica a partir de lo que realmente necesitás comunicar.</p>
 
     <h2>El road map de los cinco meses</h2>
-    <ol class="etapas">
-      <li>Lead Yourself First</li>
-      <li>Activate Your English</li>
-      <li>Communicate in Real Time</li>
-      <li>Polish Your English</li>
-      <li>Understand &amp; Be Understood</li>
-    </ol>
-    <p>El road map es común a todas. El diagnóstico y la aplicación son tuyos: no recibís el mismo programa aplicado igual que a todas.</p>
+    <p>El road map es común a todas. El diagnóstico, la práctica y la aplicación se personalizan según tu caso.</p>
+    <dl class="roadmap">
+      <dt>Lead Yourself First</dt>
+      <dd>Comprendés el proceso, establecés tu punto de partida y aprendés cómo atravesar AT WORK con responsabilidad, acción, exposición progresiva y evidencia de progreso.</dd>
+
+      <dt><span class="m">M1</span>Activate Your English</dt>
+      <dd>Completás tu contexto profesional, configurás tus herramientas y aprendés a convertir situaciones reales de trabajo en práctica deliberada mediante Role Play, Narrative Flow y Color Method.</dd>
+
+      <dt><span class="m">M2</span>Communicate in Real Time</dt>
+      <dd>Desarrollás habilidades para construir, organizar, adaptar y sostener mensajes cuando la comunicación no sigue un guion.</dd>
+
+      <dt><span class="m">M3</span>Polish Your English</dt>
+      <dd>Estabilizás los patrones lingüísticos que realmente interfieren con tu precisión y tu claridad. El contenido se prescribe según diagnóstico.</dd>
+
+      <dt><span class="m">M4</span>Understand &amp; Be Understood</dt>
+      <dd>Comprendés mejor el inglés hablado real y trabajás pronunciación, ritmo e inteligibilidad para producir un mensaje fácil de entender.</dd>
+    </dl>
 
     <h2>Cómo es cada semana</h2>
     <dl>
       <dt>01 · Tu práctica autónoma</dt>
-      <dd>Bots, Delivery Method™ y material real de tu trabajo. La acomodás vos, cuando te queda mejor.</dd>
+      <dd>Roadmap, Personalized Practice System y situaciones reales de tu trabajo. La práctica la acomodás vos durante la semana, según el foco que definimos juntas.</dd>
       <dt>02 · Tu Weekly Report</dt>
       <dd>Me mostrás qué pasó, qué practicaste, dónde te trabaste y qué situación necesitás resolver. Lo leo antes de vernos.</dd>
       <dt>03 · Tu sesión estratégica 1:1</dt>
@@ -1122,7 +1206,7 @@
     <div class="modal-cuerpo" tabindex="0">
       <dl>
         <dt>Qué incluye</dt>
-        <dd>Cinco meses de programa individual: una sesión de 60 minutos por semana en horario fijo, las tres herramientas del método configuradas con tu contexto, las bibliotecas de práctica y tu Weekly Report.</dd>
+        <dd>Cinco meses de programa individual: una sesión privada de 60 minutos por semana, acceso al AT WORK Roadmap + Training, tu Personalized Practice System, la Workplace Practice Library, Weekly Report + Progress Tracking, recursos de aplicación y contacto por WhatsApp entre sesiones.</dd>
 
         <dt>Lo que pongo yo</dt>
         <dd>Cada sesión preparada con tu material real, tu Weekly Report leído y devuelto, disponibilidad por WhatsApp entre sesiones, y la verdad sobre dónde estás aunque no sea lo que querés escuchar.</dd>
@@ -1134,7 +1218,7 @@
         <dd>USD 1.250 en total, en cinco cuotas mensuales de USD 250 con débito automático vía Stripe. La primera se cobra al inscribirte.</dd>
 
         <dt>Por qué son los cinco meses enteros</dt>
-        <dd>Es lo que tarda en instalarse el cambio, y los primeros dos meses son los más incómodos. El pago en cuotas es una facilidad, no una suscripción cancelable: las cinco cuotas se deben completas. Y una vez empezado no hay reembolsos — por eso hablamos de tu nivel y tu momento antes de que pagues.</dd>
+        <dd>Los cinco meses forman parte de un mismo proceso: primero construimos tu sistema de práctica y después desarrollamos, aplicamos y estabilizamos las capacidades que necesitás en tu comunicación profesional. Por eso el pago en cuotas es una facilidad de pago y no una suscripción mensual cancelable: las cinco cuotas se deben completas. Y una vez empezado no hay reembolsos — por eso hablamos de tu nivel y tu momento antes de que pagues.</dd>
 
         <dt>Si necesitás mover o pausar</dt>
         <dd>Reprogramás avisando con 24 horas, sin explicaciones. Con menos aviso la sesión se considera dada. Y podés pausar el programa: los cobros siguen su calendario, pero las sesiones quedan guardadas para recuperarlas.</dd>
