@@ -2,8 +2,8 @@
 
 Se copia una por alumna, a `00 Starting Point Record.md` dentro de su carpeta.
 
-Se llena dos veces: **la columna izquierda después de la sesión 1**, la derecha **en
-la última semana**. Nunca se toca la izquierda después de la sesión 1, aunque te
+Se llena dos veces: **la columna izquierda después de la sesión 1**, la derecha **a los
+30 días del final**, antes de la conversación de continuidad. Nunca se toca la izquierda después de la sesión 1, aunque te
 parezca que exagerabas o que te quedaste corta. Ahí está el valor: es lo que ella no
 va a poder recordar sola.
 
@@ -21,7 +21,7 @@ audio, situación de un weekly report.
 - **Fecha de fin prevista:**
 - **Baseline:** `03 Baseline/` → link al archivo
 - **Consigna del baseline usada:** *(se repite idéntica al final)*
-- **Producción final:** `06 Cierre/` → link al archivo
+- **Producción de revisión:** `06 Review/` → link al archivo
 
 ---
 
@@ -43,7 +43,7 @@ audio, situación de un weekly report.
 
 ## Las ocho filas
 
-| | Al empezar *(sesión 1)* | Hoy *(última semana)* |
+| | Al empezar *(sesión 1)* | Hoy *(revisión, −30 días)* |
 |---|---|---|
 | **1. Situación que la bloquea** | | |
 | **2. Patrones de error recurrentes** | | |
@@ -56,37 +56,64 @@ audio, situación de un weekly report.
 
 ---
 
-## Revisión interna (se completa a los 30 días del final)
+## Revisión interna (−30 días, antes de hablar con ella)
 
 **1. ¿Qué cambió que se pueda demostrar?** *(con evidencia)*
 
 >
 
-**2. ¿Qué quedó abierto?**
+**2. ¿Qué todavía limita su comunicación?**
 
 >
 
-**3. ¿Hay un nivel siguiente lógico, o AT WORK ya hizo su trabajo?**
+**3. ¿Cuáles son sus desafíos profesionales de los próximos meses?**
 
 >
 
-**Decisión:** cierre limpio / continuidad con objetivo nuevo / mantenimiento
-
-**Si hay continuidad, el objetivo en una frase:**
+**4. ¿Qué acompañamiento necesita para eso — semanal, periódico, ninguno?**
 
 >
+
+**5. ¿Seguir conmigo tiene sentido real, o ya puede sola?**
+
+>
+
+**6. Si sigue, ¿cuál es el objetivo nuevo, en una frase?**
+
+>
+
+**Recomendación** *(se escribe antes de la conversación y es vinculante: cambiarla
+exige un argumento nuevo y escrito, no el clima de la charla)*:
+
+- [ ] CONTINUE AT WORK — otra etapa, objetivo nuevo
+- [ ] AT WORK CONTINUITY — mantenimiento, menor intensidad
+- [ ] COMPLETE AT WORK — cierre
 
 ---
 
-## Cierre
+## La conversación (−21 a −14 días)
+
+- **Fecha:**
+- **Lo que ella dijo que se le viene en el trabajo:**
+
+>
+
+- **Decisión:** CONTINUE / CONTINUITY / COMPLETE · **o fecha de decisión:**
+- **Si continúa:** objetivo de la etapa nueva, fecha de inicio, precio, forma de pago
+- **Enviado por escrito el:**
+
+---
+
+## Si completa
 
 - **Fecha de la última sesión:**
 - **Fecha de cierre registrada:**
-- **Motivo:** fin de programa / cierre anticipado / baja / pausa vencida
+- **Motivo:** completó / cierre anticipado / baja / pausa vencida
 - **Testimonio pedido:** sí / no · **recibido:** sí / no
 - **Resumen final enviado:**
 - **Accesos comunicados:**
 - **Estado actualizado en `rutina` y en el CRM:**
 - **Carpeta archivada:**
-- **Reactivación:** qué la traería de vuelta, y cuándo volver a escribirle
+- **Reactivación:** qué la traería de vuelta, y cuándo escribirle
 - **Referidas:** a quién mencionó
+- **Mensaje de los 90 días enviado el:**

@@ -61,63 +61,104 @@ Una vez. Sin culpa, y preguntando por la fricción, no por la voluntad.
 
 ---
 
-## 4 · La conversación de los 14 días
+## 4 · Aviso de la grabación — 45 días antes
 
-Esto **no es un mensaje**: es cómo se abre la sesión. El encuadre:
-
-> [Nombre], estamos entrando en la última etapa de AT WORK. Tu última sesión sería el
-> [fecha].
+> [Nombre], en las próximas semanas te voy a pedir que vuelvas a grabar la misma
+> consigna del primer día. No te digo qué día todavía, a propósito: quiero que salga
+> como te salga, sin que la prepares.
 >
-> En estas semanas vamos a hacer dos cosas. Una es revisar todo lo que cambió desde tu
-> punto de partida — te voy a pedir que vuelvas a grabar la misma consigna del primer
-> día, y las vamos a escuchar juntas. La otra es definir cómo vas a seguir entrenando
-> sola, que es lo que vinimos a construir desde el principio.
-
-Y después, según la decisión de la revisión interna:
-
-**Si es cierre limpio:**
-
-> Lo que veníamos a resolver está resuelto. No te voy a ofrecer que sigas por seguir:
-> si en algún momento aparece algo nuevo, sabes dónde encontrarme, y vas a volver
-> sabiendo entrenar.
-
-**Si hay continuidad:**
-
-> Veo un siguiente nivel concreto para ti, y es distinto de lo que hicimos hasta acá:
-> [el objetivo, en una frase]. No hace falta que lo decidas hoy. Lo hablamos el
-> [fecha de decisión], con el Progress Review sobre la mesa.
+> Te aviso ahora para que no te agarre de sorpresa, y porque quiero que sepas para qué
+> es: vamos a escuchar las dos juntas y a ver qué cambió.
 
 ---
 
-## 5 · Antes de la última semana
+## 5 · Progress & Next Level Conversation — 21 a 14 días antes
 
-> [Nombre], esta semana vuelves a grabar. Misma consigna del primer día, mismas
-> condiciones: sin prepararla, sin guion, una sola toma.
->
-> Te lo aviso ahora y no antes a propósito. Si la preparas, comparamos preparación; y
-> lo que quiero mostrarte es otra cosa.
+Esto **no es un mensaje**: es cómo se abre la sesión.
+
+> [Nombre], estamos entrando en la última parte de esta etapa de AT WORK. Quiero que
+> revisemos cuánto cambió desde que empezaste, qué todavía necesitamos seguir
+> desarrollando, y cuál tendría sentido que sea tu próximo nivel.
+
+Orden de la sesión, y el orden es el mecanismo:
+
+- [ ] **Where you started** — escuchar el baseline entero, las dos.
+- [ ] **What changed** — la tabla, fila por fila, con su prueba.
+- [ ] **What still needs work** — sin suavizarlo.
+- [ ] **What your next professional challenges are** — que hable ella. Qué se le viene
+      en el trabajo en los próximos seis meses.
+- [ ] **What support you need next** — recién acá, las opciones.
+
+Si las opciones aparecen antes que la evidencia, es una oferta. Si aparecen después de
+que ella nombró lo que le falta y lo que se le viene, es una conclusión.
 
 ---
 
-## 6 · La última sesión — AT WORK Final Review
+## 6 · Si la recomendación es CONTINUE — se manda escrito el mismo día
+
+> [Nombre], te dejo por escrito lo que hablamos.
+>
+> Dónde estás hoy: [dos o tres líneas del Progress Review, con la prueba].
+>
+> Lo que veo como tu siguiente nivel: [el objetivo, en una frase]. Es distinto de lo
+> que hicimos estos cinco meses: [en qué es distinto].
+>
+> Sería otra etapa completa, con la misma estructura — sesión semanal, weekly report,
+> plataforma y bots. Empieza el [fecha], son [X] meses, [precio] [forma de pago].
+>
+> Te adjunto tu Progress Review completo, sigas o no. Es tuyo.
+>
+> No hace falta que lo decidas hoy. Quedamos en que lo hablamos el [fecha de decisión].
+
+---
+
+## 7 · Si la recomendación es CONTINUITY (mantenimiento)
+
+> [Nombre], lo que veo es esto: ya sabés entrenar sola. Lo que te sirve ahora no es una
+> sesión por semana — es no perder el ritmo y tener dónde traer lo que aparezca.
+>
+> Para eso existe AT WORK Continuity: dos sesiones por mes, la plataforma y las
+> libraries, un weekly report más liviano, y una revisión de progreso mensual. Menos
+> intensidad, misma estructura. [Precio] [forma de pago].
+>
+> Si en algún momento se te viene algo grande — un puesto nuevo, una entrevista, un
+> proyecto regional — volvemos al ritmo semanal el tiempo que haga falta.
+
+---
+
+## 8 · Si la recomendación es COMPLETE
+
+> [Nombre], voy a ser honesta con vos: lo que veníamos a resolver está resuelto. No te
+> voy a ofrecer que sigas por seguir.
+>
+> Tu última sesión sería el [fecha], y no va a ser una clase: vamos a cerrar el proceso
+> completo — qué cambió, qué te queda por trabajar sola, y cómo entrenás de acá en
+> adelante sin mí.
+>
+> Y si más adelante aparece algo nuevo, sabés dónde encontrarme. Vas a volver sabiendo
+> entrenar, que es distinto de volver a empezar.
+
+---
+
+## 9 · La última sesión — AT WORK Final Review
 
 Checklist para vos, no para mandar:
 
-- [ ] Escuchar el baseline entero, las dos juntas.
-- [ ] Recorrer la tabla fila por fila, con la prueba de cada una.
+- [ ] What changed — la tabla, con lo que pasó estas últimas semanas.
 - [ ] Qué puede hacer hoy, en términos de su trabajo.
 - [ ] Qué sigue sin resolver, dicho sin suavizar.
 - [ ] Sus patrones recurrentes, con nombre.
 - [ ] Su sistema de práctica: qué bot, para qué, con qué frecuencia.
 - [ ] Sus próximos 90 días: tres cosas, no diez.
-- [ ] La pregunta: *cuando mañana aparezca una situación nueva en inglés, ¿sabes cómo
+- [ ] Los dos audios, otra vez, uno al lado del otro.
+- [ ] La pregunta: *cuando mañana aparezca una situación nueva en inglés, ¿sabés cómo
       entrenarla sin depender de mí?*
 
 ---
 
-## 7 · Pedido de testimonio — dentro de las 48 h
+## 10 · Pedido de testimonio — dentro de las 48 h
 
-Tres preguntas concretas. "¿Me dejas un testimonio?" produce párrafos genéricos; esto
+Tres preguntas concretas. "¿Me dejás un testimonio?" produce párrafos genéricos; esto
 produce frases que se pueden usar.
 
 > [Nombre], quiero pedirte algo mientras lo tienes fresco.
@@ -135,9 +176,7 @@ produce frases que se pueden usar.
 
 ---
 
-## 8 · Resumen final y accesos
-
-Va por escrito, con la tabla de accesos completa y fechas concretas.
+## 11 · Resumen final y accesos
 
 > [Nombre], acá te dejo todo junto.
 >
@@ -152,16 +191,17 @@ Va por escrito, con la tabla de accesos completa y fechas concretas.
 > - Tus tres bots se quedan contigo. Funcionan sobre ChatGPT y siguen configurados con
 >   tu contexto: puedes seguir entrenando exactamente igual que hasta ahora.
 > - La plataforma y las libraries: [definir — hasta cuándo].
-> - Tu carpeta con todo tu material: [definir — se la compartes o no].
-> - El weekly report y el WhatsApp entre semana terminan con nuestra última sesión.
->   La puerta no se cierra; lo que termina es el seguimiento semanal.
+> - Tu carpeta con todo tu material: [definir].
+> - El weekly report y el WhatsApp entre semana terminan con nuestra última sesión. La
+>   puerta no se cierra; lo que termina es el seguimiento semanal.
+> - Si más adelante quieres volver: [definir — condición de ex-alumna].
 >
 > Gracias por el material que trajiste estos cinco meses. [Una línea concreta sobre
 > ella — algo que efectivamente pasó, no una frase de cierre.]
 
 ---
 
-## 9 · Día 90
+## 12 · Día 90
 
 Un mensaje. Sin oferta, sin promoción, sin link.
 
@@ -170,7 +210,7 @@ Un mensaje. Sin oferta, sin promoción, sin link.
 
 ---
 
-## 10 · Silencio — segundo contacto
+## 13 · Silencio — segundo contacto
 
 > [Nombre], veo que no estás pudiendo sostener el ritmo. No es un reproche: pasa, y
 > casi siempre es el momento, no las ganas.
@@ -182,7 +222,7 @@ Un mensaje. Sin oferta, sin promoción, sin link.
 
 ---
 
-## 11 · Pausa sin fecha
+## 14 · Pausa sin fecha
 
 > [Nombre], para pausarlo necesito que le pongamos fecha de vuelta. Sin fecha no es una
 > pausa, y prefiero ser honesta: se convierte en un cierre que ninguna de las dos dijo
@@ -192,7 +232,7 @@ Un mensaje. Sin oferta, sin promoción, sin link.
 
 ---
 
-## 12 · Referidas — el día del cierre
+## 15 · Referidas — el día del cierre
 
 En la última sesión, hablado, después del Final Review:
 
