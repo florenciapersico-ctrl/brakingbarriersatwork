@@ -516,7 +516,7 @@
     <div class="card">
       <span class="overline">Plata y continuidad</span>
       <h3 style="margin-bottom:4px">Qué te toca esta semana</h3>
-      <p class="muted" style="margin-bottom:14px;font-size:12.5px">Sale de las fechas de tus alumnas. Si no ves nada acá, cargá sus datos en Gente.</p>
+      <p class="muted" style="margin-bottom:14px;font-size:12.5px">Sale de las fechas de tus alumnas: cobros y los pasos del ciclo, de la bienvenida al cierre. No hay nada que agendar a mano.</p>
       <div id="moneySummary"></div>
       <div id="alertList" style="margin-top:6px"></div>
     </div>
@@ -595,7 +595,7 @@
         <div><span class="overline">Radar</span><h3>Tus alumnas</h3></div>
         <button class="btn btn-dark btn-sm" id="btnAddStudent">+ Alumna</button>
       </div>
-      <p class="muted" style="margin-bottom:6px;font-size:12.5px">La que deja de hablar es la que se va. Tocá el punto para cambiar su estado.</p>
+      <p class="muted" style="margin-bottom:6px;font-size:12.5px">La que deja de hablar es la que se va. Tocá el punto para cambiar su estado, y "Ciclo" para ver en qué punto del proceso está.</p>
       <div class="legend">
         <span><i class="dot d-encendida"></i> Encendida</span>
         <span><i class="dot d-tibia"></i> Tibia</span>
@@ -796,6 +796,22 @@
     </div>
     <div class="field"><label class="f">Link de pago</label><input type="text" id="sPayLink" placeholder="Se copia de un toque cuando toca cobrar"></div>
     <button class="btn btn-dark full" id="btnSaveStudent" style="margin-top:20px">Guardar</button>
+  </div>
+</div>
+
+<div class="modal" id="mCycle">
+  <div class="scrim" data-close></div>
+  <div class="sheet">
+    <button class="sheet-close" data-close>×</button>
+    <span class="overline">El ciclo de una alumna</span>
+    <h2 id="cyTitle">—</h2>
+    <p class="muted" id="cySub" style="margin-top:6px">—</p>
+    <div class="sep"></div>
+    <span class="overline">La decisión</span>
+    <p class="muted" style="margin:6px 0 10px;font-size:12.5px">Se escribe antes de la conversación, no después. Elegirla acá cambia los pasos que siguen.</p>
+    <div class="chips" id="cyDecision"></div>
+    <div class="sep"></div>
+    <div id="cySteps"></div>
   </div>
 </div>
 
@@ -1255,6 +1271,148 @@
     return 'Activa';
   }
 
+  // ═══════════════════ EL CICLO ═══════════════════
+  // Onboarding → transformación → últimos 30 días → decisión → continuidad o cierre.
+  // Cada paso cuelga de una fecha que ya está cargada (inicio o fin): la app
+  // calcula sola cuándo toca cada cosa. Nada se agenda a mano.
+  //
+  //   anchor 'start' → días DESPUÉS de la fecha de inicio
+  //   anchor 'end'   → días RESPECTO de la fecha de fin (negativo = antes)
+  //   branch         → el paso sólo aparece si la decisión fue ésa
+  var CYCLE = [
+    // — Entrada —
+    { id: 'onb-alta', ph: 'onb', a: 'start', d: 0, t: 'Bienvenida y alta', sub: 'Carpeta, plataforma, horario fijo. Hoy es el día de más entusiasmo de todo el programa.', msg: 'bienvenida' },
+    { id: 'onb-base', ph: 'onb', a: 'start', d: 1, t: 'Pedir el material y el baseline', sub: 'La consigna se guarda: en cinco meses se repite igual.', msg: 'baseline' },
+    { id: 'onb-prep', ph: 'onb', a: 'start', d: 5, t: 'Bots configurados e hipótesis de diagnóstico', sub: 'Escrita antes de verla. Si la pensás en vivo, la sesión 1 se te va en pensar.' },
+    { id: 'onb-s1', ph: 'onb', a: 'start', d: 7, t: 'Sesión 1 · Start & Diagnose', sub: 'Punto de partida, baseline, devolución del diagnóstico, acuerdo de entrenamiento.' },
+    { id: 'onb-ficha', ph: 'onb', a: 'start', d: 8, t: 'Starting Point Record completo', sub: 'Y se lo mandás. Que sepa que existe y que en cinco meses se vuelve a llenar.' },
+    { id: 'onb-rep', ph: 'onb', a: 'start', d: 14, t: 'Primer weekly report', sub: 'Es el sensor de todo lo demás. Si no llega, se arregla la fricción, no la voluntad.', msg: 'report' },
+    { id: 'onb-real', ph: 'onb', a: 'start', d: 21, t: 'Primera situación real entrenada antes de que ocurra', sub: 'Es el momento en que el método deja de ser una explicación.' },
+    { id: 'onb-chk', ph: 'onb', a: 'start', d: 30, t: 'Check de entrada', sub: '¿Usa los bots sola? ¿El horario se sostiene? ¿El ritmo es real o declarativo?' },
+    // — Últimos 30 días —
+    { id: 'nl-aviso', ph: 'nl', a: 'end', d: -45, t: 'Avisarle que vuelve a grabar', sub: 'Sin decirle qué día. Si se prepara, comparás preparación, no capacidad.', msg: 'aviso' },
+    { id: 'nl-grab', ph: 'nl', a: 'end', d: -35, t: 'Pedirle la grabación de revisión', sub: 'Misma consigna del día uno, una sola toma.', msg: 'grabacion' },
+    { id: 'nl-rev', ph: 'nl', a: 'end', d: -30, t: 'Revisión interna y segunda columna de la ficha', sub: 'Escuchá el baseline ANTES que la grabación nueva. Cada fila con su prueba.' },
+    { id: 'nl-reco', ph: 'nl', a: 'end', d: -28, t: 'Escribir la recomendación', sub: 'Antes de hablar con ella, y vinculante: cambiarla exige un argumento nuevo y escrito.' },
+    { id: 'nl-conv', ph: 'nl', a: 'end', d: -21, t: 'Progress & Next Level Conversation', sub: 'Evidencia primero, opciones después. Ese orden es el mecanismo.', msg: 'conversacion' },
+    { id: 'nl-dec', ph: 'nl', a: 'end', d: -14, t: 'Decisión registrada y enviada por escrito', sub: 'Sin fecha de decisión, se resuelve sola por abandono.', msg: 'decision' },
+    // — Si sigue —
+    { id: 'con-fechas', ph: 'con', a: 'end', d: -7, t: 'Actualizar fechas, monto y cobro', sub: 'Etapa nueva en la ficha: fin nuevo, precio nuevo, día de cobro.', branch: ['continue', 'continuity'] },
+    { id: 'con-ficha', ph: 'con', a: 'end', d: 0, t: 'Abrir la ficha de la etapa nueva', sub: 'Su Progress Review es el punto de partida de lo que viene. Y baseline nuevo.', branch: ['continue', 'continuity'] },
+    // — Si completa —
+    { id: 'cmp-final', ph: 'cmp', a: 'end', d: 0, t: 'AT WORK Final Review', sub: 'No es una clase. Los dos audios, uno al lado del otro.', branch: ['complete'] },
+    { id: 'cmp-testi', ph: 'cmp', a: 'end', d: 2, t: 'Pedir el testimonio', sub: 'Tres preguntas concretas, mientras tiene el before y el after en la cabeza.', msg: 'testimonio', branch: ['complete'] },
+    { id: 'cmp-res', ph: 'cmp', a: 'end', d: 3, t: 'Resumen final y accesos', sub: 'Qué conserva, qué termina y cuándo. Con fechas, no en general.', msg: 'resumen', branch: ['complete'] },
+    { id: 'cmp-arch', ph: 'cmp', a: 'end', d: 4, t: 'Cerrar el registro', sub: 'Estado, CRM, carpeta archivada (no borrada), fecha de cierre, nota de reactivación.', branch: ['complete'] },
+    { id: 'cmp-90', ph: 'cmp', a: 'end', d: 90, t: 'Mensaje de los 90 días', sub: 'Sin oferta. Por la situación concreta que quedó abierta.', msg: 'dia90', branch: ['complete'] }
+  ];
+
+  var PHASES = [
+    { id: 'onb', label: 'Entrada · Start & Diagnose' },
+    { id: 'nl', label: 'Últimos 30 días · Progress Review' },
+    { id: 'con', label: 'Si sigue' },
+    { id: 'cmp', label: 'Si completa' }
+  ];
+
+  var DECISIONS = [
+    { id: 'continue', label: 'CONTINUE', sub: 'Otra etapa, objetivo nuevo' },
+    { id: 'continuity', label: 'CONTINUITY', sub: 'Mantenimiento, menos intensidad' },
+    { id: 'complete', label: 'COMPLETE', sub: 'Cierre' }
+  ];
+  function decisionLabel(id) {
+    for (var i = 0; i < DECISIONS.length; i++) if (DECISIONS[i].id === id) return DECISIONS[i].label;
+    return null;
+  }
+
+  // Los mensajes salen de at-work/proceso/plantillas.md, en versión corta para
+  // WhatsApp. {n} es el nombre; {f} la fecha que corresponda.
+  var MSG = {
+    bienvenida: 'Hola {n}, ya está confirmado tu lugar en AT WORK. Antes de nuestra primera sesión necesito tres cosas, y con eso preparo todo lo que vamos a usar estos meses:\n\n1. El cuestionario de contexto profesional.\n2. Material real tuyo: un mail que hayas escrito esta semana, el transcript de una reunión, una presentación. Lo que más incómodo te resulte mandarme es lo que mejor nos va a servir.\n3. Una grabación de tres a cinco minutos; te mando la consigna aparte.\n\nY necesito que cerremos tu horario fijo semanal. ¿Te funciona [día] a las [hora]?',
+    baseline: 'Grábate hablando entre tres y cinco minutos sobre una situación real de tu trabajo: explica un proyecto en el que estás, qué problema tiene y qué vas a hacer.\n\nSin guion, sin escribirlo antes, sin repetir la toma. Una sola vez, aunque salga mal. Sobre todo si sale mal: eso es lo que necesito escuchar. No es una prueba y no la va a escuchar nadie más que yo. Es tu punto de partida, y en unos meses vas a volver a escucharla.',
+    report: '{n}, no me llegó tu weekly report de esta semana. No es un reclamo: lo leo antes de vernos y es lo que hace que la sesión arranque donde estás y no poniéndonos al día.\n\n¿Qué te está costando del formato? Si es largo, lo acortamos. Si es el momento de la semana, lo cambiamos. Prefiero tres líneas todas las semanas que una página una vez al mes.',
+    aviso: '{n}, en las próximas semanas te voy a pedir que vuelvas a grabar la misma consigna del primer día. No te digo qué día todavía, a propósito: quiero que salga como te salga, sin que la prepares.\n\nTe aviso ahora para que no te agarre de sorpresa, y porque quiero que sepas para qué es: vamos a escuchar las dos juntas y a ver qué cambió.',
+    grabacion: '{n}, es esta semana. Misma consigna del primer día, mismas condiciones: sin prepararla, sin guion, una sola toma. Mandámela cuando la tengas.',
+    conversacion: '[Es cómo se abre la sesión, no un mensaje]\n\n{n}, estamos entrando en la última parte de esta etapa de AT WORK. Quiero que revisemos cuánto cambió desde que empezaste, qué todavía necesitamos seguir desarrollando, y cuál tendría sentido que sea tu próximo nivel.\n\nOrden: where you started (escuchar el baseline) → what changed (la tabla, con su prueba) → what still needs work → qué desafíos se te vienen en el trabajo → qué acompañamiento necesitás para eso. Las opciones, recién al final.',
+    decision: '{n}, te dejo por escrito lo que hablamos.\n\nDónde estás hoy: [dos o tres líneas del Progress Review, con la prueba].\n\nLo que veo como tu siguiente nivel: [el objetivo, en una frase]. Es distinto de lo que hicimos hasta acá: [en qué].\n\n[Si CONTINUE] Sería otra etapa completa, con la misma estructura. Empieza el [fecha], son [X] meses, [precio].\n[Si CONTINUITY] Dos sesiones por mes, plataforma y libraries, weekly report más liviano y revisión mensual. [precio].\n[Si COMPLETE] Lo que veníamos a resolver está resuelto. No te voy a ofrecer que sigas por seguir.\n\nTe adjunto tu Progress Review completo, sigas o no. Es tuyo.',
+    testimonio: '{n}, quiero pedirte algo mientras lo tienes fresco. No necesito un testimonio armado: solo que me contestes estas tres, en audio o escrito, como te salga.\n\n1. ¿Qué era lo que te pasaba antes de empezar? Lo más concreto que puedas: una situación, no una sensación.\n2. ¿Cuál fue el momento en que dijiste "ah, esto está funcionando"?\n3. ¿Qué haces hoy en tu trabajo que hace unos meses no hacías?\n\nSi después quieres que lo use en algún lado, te pregunto antes y decides con qué nombre y con cuánto detalle.',
+    resumen: '{n}, acá te dejo todo junto.\n\nDónde empezaste y dónde estás: adjunto tu Progress Review, con las dos grabaciones.\nTu sistema de práctica: [qué bot, para qué, con qué frecuencia].\nTus próximos 90 días: [las tres cosas].\n\nSobre los accesos:\n- Tus tres bots se quedan contigo. Corren sobre ChatGPT y siguen configurados con tu contexto.\n- La plataforma y las libraries: [hasta cuándo].\n- Tu carpeta con todo tu material: [definir].\n- El weekly report y el WhatsApp entre semana terminan con nuestra última sesión. La puerta no se cierra; lo que termina es el seguimiento semanal.\n\nGracias por el material que trajiste. [Una línea concreta sobre ella, algo que efectivamente pasó.]',
+    dia90: '{n}, me quedé pensando en [la situación concreta que quedó abierta en la última sesión]. ¿Cómo te fue?'
+  };
+  function msgText(key, s) {
+    var t = MSG[key] || '';
+    return t.replace(/\{n\}/g, (s.name || '').split(' ')[0]);
+  }
+
+  // ── Motor ──────────────────────────────────────────────
+  function stepDue(s, st) {
+    var base = st.a === 'start' ? s.startDate : s.endDate;
+    if (!base) return null;
+    var d = fromIso(base);
+    d.setDate(d.getDate() + st.d);
+    return d;
+  }
+  function stepsFor(s) {
+    return CYCLE.filter(function (st) {
+      if (st.a === 'start' && !s.startDate) return false;
+      if (st.a === 'end' && !s.endDate) return false;
+      if (!st.branch) return true;
+      return s.decision && st.branch.indexOf(s.decision) >= 0;
+    });
+  }
+  function stepDone(s, st) { return !!(s.cycle && s.cycle[st.id]); }
+  function markStep(s, st, on) {
+    if (!s.cycle) s.cycle = {};
+    if (on) s.cycle[st.id] = today();
+    else delete s.cycle[st.id];
+  }
+  // Un paso que venció hace más de tres semanas ya no es una tarea: es historia.
+  // Sin esto, una alumna que va por el mes cuatro arrancaría con ocho avisos de
+  // su onboarding de marzo, y la lista de avisos se vuelve ilegible.
+  var GRACIA = 21;
+  function stepStale(s, st) {
+    if (stepDone(s, st)) return false;
+    var due = stepDue(s, st);
+    return !!due && Math.round((fromIso(today()) - due) / 864e5) > GRACIA;
+  }
+  // El paso pendiente más viejo que todavía está a tiempo: uno por alumna, para
+  // que la lista se pueda leer.
+  function nextStep(s) {
+    var todayD = fromIso(today());
+    var best = null, bestD = null;
+    stepsFor(s).forEach(function (st) {
+      if (stepDone(s, st) || stepStale(s, st)) return;
+      var due = stepDue(s, st);
+      if (!due) return;
+      if (best === null || due < bestD) { best = st; bestD = due; }
+    });
+    if (!best) return null;
+    return { step: best, due: bestD, days: Math.round((bestD - todayD) / 864e5) };
+  }
+  function daysToEnd(s) {
+    if (!s.endDate) return null;
+    return Math.round((fromIso(s.endDate) - fromIso(today())) / 864e5);
+  }
+  function cyclePhase(s) {
+    if (!s.endDate) return null;
+    var d = daysToEnd(s);
+    if (s.decision === 'complete') return d > 0 ? 'Cierra en ' + d + ' días' : 'Completada';
+    if (s.decision) return decisionLabel(s.decision);
+    if (d < 0) return 'Terminó sin decisión';
+    if (d <= 45) return 'Últimos 30 · sin decisión';
+    if (s.startDate && daysSince(s.startDate) !== null && daysSince(s.startDate) <= 30) return 'Entrada';
+    return null;
+  }
+  // Mientras el ciclo la tiene en juego: desde que empieza hasta 95 días
+  // después del final, que es lo que dura el rastro del cierre.
+  function inCycle(s) {
+    if (s.estado === 'esperando') return false;
+    if (s.endDate) {
+      var d = Math.round((fromIso(today()) - fromIso(s.endDate)) / 864e5);
+      if (d > 95) return false;
+    }
+    return !!(s.startDate || s.endDate);
+  }
+
   // Suma sólo las que falten, comparando por nombre: nunca pisa lo que ya editaste.
   function importRoster() {
     var have = {};
@@ -1333,6 +1491,14 @@
       if (!DB.routines.daily) DB.routines.daily = {};
       if (!DB.routines.weekly) DB.routines.weekly = {};
       if (!DB.production || typeof DB.production !== 'object') DB.production = {};
+      // El ciclo guarda qué pasos ya hiciste. La versión vieja sólo sabía si
+      // habías hablado de continuidad: eso se traduce a su paso equivalente.
+      (DB.students || []).forEach(function (st) {
+        if (!st.cycle || typeof st.cycle !== 'object') st.cycle = {};
+        if (st.renewTalked && st.renewTalked === st.endDate && !st.cycle['nl-conv']) {
+          st.cycle['nl-conv'] = st.renewTalked;
+        }
+      });
     } catch (e) { /* arranca limpio */ }
   }
 
@@ -1913,15 +2079,27 @@
         }
       }
 
-      if (s.endDate) {
-        var end = fromIso(s.endDate);
-        var d2 = Math.round((end - todayD) / 864e5);
-        if (d2 >= 0 && d2 <= 45 && s.renewTalked !== s.endDate) {
+      // El ciclo: se avisa el paso pendiente más viejo, desde cinco días antes
+      // de que toque. Uno por alumna, para que la lista se pueda leer.
+      if (inCycle(s)) {
+        var dEnd = daysToEnd(s);
+        var nx = nextStep(s);
+        // Una alumna cuyo programa terminó sin decisión registrada es el
+        // fantasma del roster: ocupa un cupo y nadie sabe si sigue.
+        if (dEnd !== null && dEnd < 0 && !s.decision) {
           out.push({
-            kind: 'fin', s: s, urgent: d2 <= 21, order: d2,
-            title: 'Termina el programa de ' + s.name,
-            sub: (d2 === 0 ? 'Termina hoy' : 'En ' + d2 + ' día' + (d2 === 1 ? '' : 's') + ' · ' + end.getDate() + ' de ' + MONTHS[end.getMonth()])
-              + ' — hablá de continuidad ahora, no la última semana'
+            kind: 'sinDecision', s: s, urgent: true, order: dEnd,
+            title: 'El ciclo de ' + s.name + ' quedó abierto',
+            sub: 'Terminó hace ' + Math.abs(dEnd) + ' días y no quedó registrada la decisión — abrí su ciclo y cerrala'
+          });
+        } else if (nx && nx.days <= 5) {
+          var cuando = nx.days < 0
+            ? 'Venció hace ' + Math.abs(nx.days) + ' día' + (Math.abs(nx.days) === 1 ? '' : 's')
+            : (nx.days === 0 ? 'Es hoy' : 'En ' + nx.days + ' día' + (nx.days === 1 ? '' : 's'));
+          out.push({
+            kind: 'ciclo', s: s, step: nx.step, urgent: nx.days <= 0, order: nx.days - 0.5,
+            title: nx.step.t + ' · ' + s.name,
+            sub: cuando + ' · ' + nx.due.getDate() + ' de ' + MONTHS[nx.due.getMonth()] + ' — ' + nx.step.sub
           });
         }
       }
@@ -2003,7 +2181,7 @@
       var e = el('div', 'empty');
       e.appendChild(el('span', 'moon', '✧'));
       e.appendChild(el('div', '', DB.students.length
-        ? 'Nada pendiente de cobro ni de continuidad. Disfrutalo.'
+        ? 'Nada pendiente de cobro ni del ciclo. Disfrutalo.'
         : 'Cargá a tus alumnas con su día de cobro y su fecha de fin, y esto se llena solo.'));
       box.appendChild(e);
       return;
@@ -2038,13 +2216,24 @@
           toast(a.s.name + ' cobrada este mes.');
         });
         acts.appendChild(ok);
-      } else if (a.kind === 'fin') {
-        var talked = el('button', 'cycle warm', 'Ya hablamos');
-        talked.addEventListener('click', function () {
-          a.s.renewTalked = a.s.endDate;
-          save(); renderTrabajo(); renderTabBadge();
+      } else if (a.kind === 'sinDecision') {
+        var ver = el('button', 'cycle warm', 'Abrir');
+        ver.addEventListener('click', function () { openCycle(a.s.id); });
+        acts.appendChild(ver);
+      } else if (a.kind === 'ciclo') {
+        if (a.step.msg) {
+          var cm = el('button', 'cycle', 'Mensaje');
+          cm.title = 'Copiar el mensaje ya armado';
+          cm.addEventListener('click', function () { copyText(msgText(a.step.msg, a.s)); });
+          acts.appendChild(cm);
+        }
+        var hecho = el('button', 'cycle warm', 'Hecho');
+        hecho.addEventListener('click', function () {
+          markStep(a.s, a.step, true);
+          save(); renderAll();
+          toast(a.step.t + ': hecho.');
         });
-        acts.appendChild(talked);
+        acts.appendChild(hecho);
       } else {
         var seen = el('button', 'cycle', 'Revisado');
         seen.addEventListener('click', function () {
@@ -2078,12 +2267,12 @@
       ta.style.cssText = 'position:fixed;opacity:0';
       document.body.appendChild(ta);
       ta.select();
-      try { document.execCommand('copy'); toast('Link copiado.'); }
-      catch (e) { toast('No se pudo copiar. El link es: ' + txt); }
+      try { document.execCommand('copy'); toast('Copiado.'); }
+      catch (e) { toast('No se pudo copiar.'); }
       document.body.removeChild(ta);
     }
     if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(txt).then(function () { toast('Link copiado.'); }, fallback);
+      navigator.clipboard.writeText(txt).then(function () { toast('Copiado.'); }, fallback);
     } else { fallback(); }
   }
 
@@ -2328,6 +2517,120 @@
     if (!s) setTimeout(function () { $('#sName').focus(); }, 120);
   }
 
+  var cyId = null, cyOpenPhase = {};
+  function openCycle(id) {
+    cyId = id;
+    cyOpenPhase = {};
+    renderCycle();
+    openModal('#mCycle');
+  }
+  function renderCycle() {
+    var s = findStudent(cyId);
+    if (!s) return;
+    $('#cyTitle').textContent = s.name;
+    var ph = cyclePhase(s);
+    var partes = [];
+    if (s.startDate) partes.push(programLabel(s).toLowerCase());
+    if (s.endDate) {
+      var d = Math.round((fromIso(s.endDate) - fromIso(today())) / 864e5);
+      partes.push(d >= 0 ? 'termina en ' + d + ' días' : 'terminó hace ' + Math.abs(d) + ' días');
+    }
+    if (ph) partes.push(ph.toLowerCase());
+    $('#cySub').textContent = partes.length
+      ? partes.join(' · ')
+      : 'Cargale fecha de inicio y de fin y el ciclo se arma solo.';
+
+    var dec = $('#cyDecision');
+    dec.innerHTML = '';
+    DECISIONS.forEach(function (o) {
+      var b = el('button', 'chip' + (s.decision === o.id ? ' on' : ''), o.label);
+      b.title = o.sub;
+      b.addEventListener('click', function () {
+        s.decision = (s.decision === o.id) ? null : o.id;
+        save(); renderCycle(); renderAll();
+      });
+      dec.appendChild(b);
+    });
+
+    var box = $('#cySteps');
+    box.innerHTML = '';
+    var steps = stepsFor(s);
+    if (!steps.length) {
+      var e = el('div', 'empty');
+      e.appendChild(el('span', 'moon', '✧'));
+      e.appendChild(el('div', '', 'Sin fechas no hay ciclo. Ponele fecha de inicio y de fin en su ficha.'));
+      box.appendChild(e);
+      return;
+    }
+    PHASES.forEach(function (f) {
+      var mine = steps.filter(function (st) { return st.ph === f.id; });
+      if (!mine.length) return;
+      var hd = el('span', 'overline', f.label);
+      hd.style.cssText = 'display:block;margin:18px 0 4px';
+      box.appendChild(hd);
+
+      // Una alumna que ya va por el mes tres empezó antes de que existiera el
+      // ciclo: su entrada entera quedó atrás y no tiene sentido leerla paso a
+      // paso. Se resume en una línea, y se abre si la querés ver.
+      var todaAtras = mine.length > 2 && mine.every(function (st) { return stepStale(s, st); });
+      if (todaAtras && !cyOpenPhase[f.id]) {
+        var res = el('div', 'between');
+        res.style.cssText = 'padding:10px 0;border-bottom:1px solid var(--line);gap:12px';
+        res.appendChild(el('div', 'care-sub', mine.length + ' pasos que quedaron atrás — esta etapa pasó antes de que el ciclo existiera'));
+        var ver = el('button', 'cycle', 'Ver');
+        ver.addEventListener('click', function () { cyOpenPhase[f.id] = true; renderCycle(); });
+        res.appendChild(ver);
+        box.appendChild(res);
+        return;
+      }
+
+      mine.forEach(function (st) {
+        var due = stepDue(s, st);
+        var hecho = stepDone(s, st);
+        var row = el('div', 'stu');
+        row.style.alignItems = 'flex-start';
+
+        var mark = el('button', 'dot ' + (hecho ? 'd-encendida' : 'd-tibia'));
+        mark.style.marginTop = '4px';
+        mark.title = hecho ? 'Marcarlo como pendiente' : 'Marcarlo como hecho';
+        mark.addEventListener('click', function () {
+          markStep(s, st, !hecho);
+          save(); renderCycle(); renderAll();
+        });
+        row.appendChild(mark);
+
+        var body = el('div', 'stu-body');
+        var nm = el('div', 'stu-name', st.t);
+        if (hecho) nm.style.opacity = '.5';
+        body.appendChild(nm);
+        var meta = el('div', 't-meta');
+        var dias = Math.round((due - fromIso(today())) / 864e5);
+        var viejo = stepStale(s, st);
+        var cuando = hecho
+          ? 'Hecho el ' + fromIso(s.cycle[st.id]).getDate() + '/' + (fromIso(s.cycle[st.id]).getMonth() + 1)
+          : due.getDate() + ' de ' + MONTHS[due.getMonth()];
+        meta.appendChild(el('span', 'pill' + (!hecho && !viejo && dias <= 0 ? ' w-pesado' : ''), cuando));
+        if (viejo) meta.appendChild(el('span', 'pill', 'Quedó atrás'));
+        body.appendChild(meta);
+        var sub = el('div', 'care-sub', st.sub);
+        sub.style.marginTop = '6px';
+        if (hecho) sub.style.opacity = '.5';
+        body.appendChild(sub);
+        row.appendChild(body);
+
+        if (st.msg) {
+          var acts = el('div', 't-actions');
+          var cp = el('button', 'cycle', 'Mensaje');
+          cp.title = 'Copiar el mensaje ya armado';
+          cp.addEventListener('click', function () { copyText(msgText(st.msg, s)); });
+          acts.appendChild(cp);
+          row.appendChild(acts);
+        }
+        box.appendChild(row);
+      });
+    });
+  }
+
   function renderFriends() {
     var list = $('#friendList');
     list.innerHTML = '';
@@ -2420,6 +2723,8 @@
       if (s.startDate) meta.appendChild(el('span', 'pill', programLabel(s)));
       if (s.fee) meta.appendChild(el('span', 'pill w-medio', fmtMoney(s.fee, s.cur)));
       if (s.stage && stageLabel(s.stage)) meta.appendChild(el('span', 'pill', stageLabel(s.stage)));
+      var fase = cyclePhase(s);
+      if (fase) meta.appendChild(el('span', 'pill ' + (s.decision ? 'w-ligero' : 'w-medio'), fase));
       if (!s.startDate && !s.endDate) meta.appendChild(el('span', 'pill w-pesado', 'Faltan fechas'));
       body.appendChild(meta);
       if (s.note) {
@@ -2430,6 +2735,12 @@
       row.appendChild(body);
 
       var acts = el('div', 't-actions');
+      if (inCycle(s)) {
+        var cy = el('button', 'cycle', 'Ciclo');
+        cy.title = 'Ver en qué punto del ciclo está y qué le toca';
+        cy.addEventListener('click', function () { openCycle(s.id); });
+        acts.appendChild(cy);
+      }
       if (s.temp !== 'encendida') {
         var ping = el('button', 'cycle', 'Tocar');
         ping.title = 'Crear tarea de contacto para hoy';

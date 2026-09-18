@@ -4,7 +4,7 @@
    para tener siempre la última versión, caché como respaldo cuando no hay
    internet. Los datos de la usuaria viven en localStorage, no acá. */
 
-const CACHE = 'founder-routine-v1';
+const CACHE = 'founder-routine-v2';
 const SHELL = [
   './',
   './index.html',
