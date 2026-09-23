@@ -316,6 +316,25 @@ async function build(deck, outFile) {
     if (d.callout) await callout(s, BOTTOM - cH, cH, d.callout);
   };
 
+  // Transformación de una etapa: DE → A + qué trabajamos. {weeks, from, to, work:[..], note?}
+  L.fromto = async (s, d) => {
+    s.addText(d.weeks, { x: RX, y: TOP, w: RW, h: 0.35, margin: 0, isTextBox: true, fontFace: BODY, fontSize: 11.5, bold: true, charSpacing: 2, color: C.terra });
+    const y = TOP + 0.5, h = 2.05, gap = 0.55, w = (RW - gap) / 2;
+    card(s, RX, y, w, h, C.card);
+    card(s, RX + w + gap, y, w, h, C.brown);
+    s.addText([{ text: "DE", options: { bold: true, fontSize: 11, charSpacing: 3, color: C.terra, breakLine: true } }, { text: d.from, options: { fontSize: 16, italic: true, color: C.ink } }],
+      { x: RX + 0.35, y, w: w - 0.7, h, margin: 0, valign: "middle", isTextBox: true, fontFace: TITLE, paraSpaceAfter: 6 });
+    s.addText([{ text: "A", options: { bold: true, fontSize: 11, charSpacing: 3, color: C.sand, breakLine: true } }, { text: d.to, options: { fontSize: 16, bold: true, color: C.cream } }],
+      { x: RX + w + gap + 0.35, y, w: w - 0.7, h, margin: 0, valign: "middle", isTextBox: true, fontFace: TITLE, paraSpaceAfter: 6 });
+    await circleIcon(s, "FaArrowRight", RX + w + gap / 2 - 0.25, y + h / 2 - 0.25, 0.5, C.terra, C.card);
+    const y2 = y + h + 0.3, h2 = BOTTOM - y2;
+    card(s, RX, y2, RW, h2, C.tint);
+    s.addText(d.workLabel || "QUÉ VAMOS A TRABAJAR", { x: RX + 0.4, y: y2 + 0.25, w: RW - 0.8, h: 0.3, margin: 0, isTextBox: true, fontFace: BODY, fontSize: 11, bold: true, charSpacing: 2, color: C.brown });
+    s.addText(d.work.map((t, j) => ({ text: t, options: { bullet: { indent: 15 }, breakLine: j < d.work.length - 1 } })), {
+      x: RX + 0.4, y: y2 + 0.65, w: RW - 0.8, h: h2 - 0.8, margin: 0, valign: "top", isTextBox: true, fontFace: BODY, fontSize: d.size || 14.5, color: C.ink, paraSpaceAfter: 5,
+    });
+  };
+
   // Número o dato grande. {label, big, bigSmall?, sub, callout?, foot?}
   L.stat = async (s, d) => {
     const h = 2.9;

@@ -3,7 +3,7 @@ module.exports = {
   slides: [
     { type: "cover", sub: "Cuatro espacios, cada uno con una función específica",
       pointsLabel: "LOS CUATRO ESPACIOS",
-      points: [["FaBookOpen", "Skool"], ["FaWhatsapp", "Comunidad de WhatsApp"], ["FaGoogleDrive", "Tu carpeta personal de Drive"], ["FaVideo", "Nuestras sesiones 1:1"]],
+      points: [["FaBookOpen", "Skool"], ["FaWhatsapp", "AT WORK Community"], ["FaGoogleDrive", "Tu carpeta personal de Drive"], ["FaVideo", "Nuestras sesiones 1:1"]],
       notes: `Durante AT WORK vas a usar cuatro espacios distintos. Cada uno tiene una función específica y quiero que desde el principio sepas dónde hacer cada cosa para que tu proceso sea simple y ordenado.` },
 
     { type: "grid", title: "Skool", sub: "Tu biblioteca de entrenamiento", cols: 3,
@@ -17,10 +17,10 @@ module.exports = {
 
 No necesitas recorrerlo todo de golpe. Más adelante te voy a explicar cómo avanzar por el programa y dónde poner el foco en cada etapa.` },
 
-    { type: "chips", title: "Comunidad de WhatsApp", sub: "El espacio vivo entre sesiones", cols: 2,
+    { type: "chips", title: "AT WORK Community", sub: "Nuestra comunidad de WhatsApp: el espacio vivo entre sesiones", cols: 2,
       items: [["FaHand", "Presentarte"], ["FaChartLine", "Compartir avances"], ["FaCircleQuestion", "Hacer preguntas"], ["FaComments", "Pedir feedback cuando corresponda"], ["FaUsers", "Conectar con otras alumnas"], ["FaUserGroup", "Encontrar compañeras de práctica"]],
       callout: { icon: "FaHeart", body: "No todo tiene que quedar en conversaciones privadas conmigo. Muchas dudas y aprendizajes pueden servirle también a otra persona que está atravesando un desafío parecido.", h: 1.5 },
-      notes: `La comunidad de WhatsApp es el espacio vivo entre sesiones.
+      notes: `AT WORK Community, nuestra comunidad de WhatsApp, es el espacio vivo entre sesiones.
 
 Ahí vas a poder presentarte, compartir avances, hacer preguntas, pedir feedback cuando corresponda, conectar con otras alumnas y encontrar compañeras de práctica.
 
@@ -73,12 +73,12 @@ Y si necesitamos trabajar algo en profundidad, sesión 1:1.` },
 
     { type: "close", title: "Tu siguiente paso", sub: "En las próximas clases te muestro cómo recorrer el programa y usar estos espacios",
       items: [
-        { icon: "FaWhatsapp", text: [{ text: "Asegúrate de tener acceso a la " }, { text: "comunidad", options: { bold: true } }] },
+        { icon: "FaWhatsapp", text: [{ text: "Asegúrate de tener acceso a " }, { text: "AT\u00A0WORK Community", options: { bold: true } }] },
         { icon: "FaGoogleDrive", text: [{ text: "Asegúrate de tener acceso a tu " }, { text: "carpeta personal", options: { bold: true } }] },
         { icon: "FaEnvelope", text: [{ text: "Confirma que recibes los " }, { text: "emails de AT WORK", options: { bold: true } }, { text: ": revisa bandeja de entrada, Spam y Promociones" }] },
         { icon: "FaShieldHalved", text: "Si encuentras uno ahí, marca el remitente como seguro o agrégalo a tus contactos" },
       ],
-      notes: `Tu siguiente paso es asegurarte de tener acceso a la comunidad y a tu carpeta personal.
+      notes: `Tu siguiente paso es asegurarte de tener acceso a AT WORK Community y a tu carpeta personal.
 
 Y antes de seguir, confirma también que estás recibiendo correctamente los emails de AT WORK. Revisa tu bandeja de entrada, Spam y Promociones. Si encuentras un email ahí, marca el remitente como seguro o agrégalo a tus contactos para no perder avisos importantes.
 

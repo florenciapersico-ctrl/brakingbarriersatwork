@@ -30,6 +30,7 @@ Si alguno de estos puntos todavía falta, complétalo antes de avanzar.` },
         [{ text: "Haberte unido a " }, { text: "AT WORK Community", options: { bold: true } }],
         "Haberte unido a todos los canales",
         [{ text: "Haberte presentado en " }, { text: "Connect & Share", options: { bold: true } }],
+        "Recibir correctamente los emails de AT WORK (revisa también Spam y Promociones)",
       ],
       callout: { icon: "FaHashtag", style: "dark", head: "Los canales", body: "Announcements · Weekly Reports · Wins · Questions & Support · Connect & Share", h: 1.5, size: 16 },
       notes: `Ahora revisemos la comunidad.
@@ -37,6 +38,8 @@ Si alguno de estos puntos todavía falta, complétalo antes de avanzar.` },
 A esta altura ya deberías haberte unido a AT WORK Community y también a todos sus canales: Announcements, Weekly Reports, Wins, Questions & Support y Connect & Share.
 
 Y dentro de Connect & Share, deberías haber hecho tu presentación para que el resto de la comunidad pueda conocerte.
+
+Confirma también que estás recibiendo correctamente los emails de AT WORK. Revisa Spam y Promociones y, si encuentras alguno ahí, marca el remitente como seguro o agrégalo a tus contactos.
 
 La idea es que desde el principio sepas dónde compartir cada cosa y puedas usar la comunidad como parte real de tu proceso, no como un espacio que simplemente está ahí.` },
 
@@ -47,7 +50,7 @@ La idea es que desde el principio sepas dónde compartir cada cosa y puedas usar
         "Haber reservado tus bloques semanales de práctica",
         "Saber dónde y cómo pedir feedback",
         "Tener claro cómo funciona el Weekly Report y dónde guardarlo",
-        [{ text: "Tener claro tu " }, { text: "foco inicial", options: { bold: true } }],
+        [{ text: "Tener claro tu " }, { text: "foco inicial", options: { bold: true } }, { text: ", que surge de tu Starting Point" }],
       ],
       notes: `Después, revisa que tengas armado tu sistema de trabajo.
 
@@ -55,7 +58,7 @@ Deberías haber abierto y ubicado tu carpeta personal de AT WORK, subido entre t
 
 También quiero que tengas claro dónde y cómo pedir feedback, cómo funciona tu Weekly Report y dónde vas a guardarlo cada semana.
 
-Y, sobre todo, que tengas claro cuál es tu foco inicial. No necesitas tener todo resuelto ni saber exactamente qué vas a trabajar durante los próximos cinco meses. Para eso está el proceso. Pero sí quiero que empieces sabiendo desde dónde partes y cuál es la prioridad ahora.` },
+Y, sobre todo, que tengas claro cuál es tu foco inicial. No necesitas tener todo resuelto ni saber exactamente qué vas a trabajar durante los próximos cinco meses. Para eso está el proceso. Pero sí quiero que empieces sabiendo desde dónde partes y cuál es la prioridad ahora. Ese foco inicial surge de tu Starting Point: lo definimos a partir de tu punto de partida.` },
 
     { type: "close", title: "Último paso", sub: "Cuando todo esté listo, tu onboarding está completo",
       items: [

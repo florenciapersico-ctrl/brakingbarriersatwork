@@ -11,25 +11,28 @@ Tu trabajo real no aparece en ese orden. Una semana puedes necesitar organizar m
 
 Entonces vamos a tener un foco principal en cada etapa, pero vamos a trabajar lo que tu comunicación real necesite cuando aparezca.` },
 
-    { type: "steps", title: "Tu ritmo de referencia", sub: "Una guía de foco, no una cárcel curricular", size: 15.5,
+    { type: "steps", title: "Tu ritmo de referencia", sub: "Una guía de foco, no una cárcel curricular", size: 14.5,
       items: [
-        { text: "Semana 1", desc: "Instalar el sistema y completar el onboarding" },
-        { text: "Activate Your English", desc: "Convertir situaciones reales en práctica útil" },
-        { text: "Communicate in Real Time", desc: "Organizar, responder, recuperar el hilo e ir al punto sin depender de un guion" },
-        { text: "Polish Your English", desc: "Trabajar los patrones de precisión que venimos detectando" },
-        { text: "Cierre", desc: "Integrar, reforzar áreas pendientes y mirar el proceso completo antes del review final" },
+        { text: "Semana 1 · Onboarding", desc: "Tu sistema de trabajo queda instalado" },
+        { text: "Semanas 2–4 · Activate Your English", desc: "Conviertes situaciones reales en práctica y activas el inglés que ya tienes" },
+        { text: "Semanas 5–10 · Communicate in Real Time", desc: "Organizas y sostienes mensajes claros en tiempo real, sin depender de un guion" },
+        { text: "Semanas 11–16 · Polish Your English", desc: "Estabilizas los patrones que limitan tu claridad y precisión" },
+        { text: "Semanas 17–19 · Understand & Be Understood", desc: "Entiendes mejor el inglés hablado y te haces entender con más facilidad" },
+        { text: "Semana 20 · Review final e integración", desc: "Integras todo, comparas con tu Starting Point y defines tu siguiente nivel" },
       ],
       notes: `Como guía general, este va a ser tu ritmo de referencia.
 
 La primera semana es para instalar el sistema y completar el onboarding.
 
-Después vamos a poner el foco en Activate Your English, porque primero necesitas aprender a convertir situaciones reales en práctica útil.
+De la semana 2 a la 4 vamos a poner el foco en Activate Your English, porque primero necesitas aprender a convertir situaciones reales en práctica útil y activar el inglés que ya tienes.
 
-Luego vamos a pasar a Communicate in Real Time, donde entrenamos cómo organizar, responder, recuperar el hilo, ir al punto y seguir comunicándote cuando no puedes depender de un guion.
+De la semana 5 a la 10 vamos a pasar a Communicate in Real Time, donde entrenamos cómo organizar, responder, recuperar el hilo, ir al punto y seguir comunicándote cuando no puedes depender de un guion.
 
-Más adelante vamos a dedicar un bloque más sistemático a Polish Your English, para trabajar los patrones de precisión que venimos detectando.
+De la semana 11 a la 16 vamos a dedicar un bloque más sistemático a Polish Your English, para estabilizar los patrones de precisión que venimos detectando.
 
-Y hacia el final vamos a integrar, reforzar áreas pendientes y mirar el proceso completo antes del review final.
+De la semana 17 a la 19 el foco principal va a ser Understand & Be Understood: entender mejor el inglés hablado y hacerte entender con más facilidad.
+
+Y en la semana 20 hacemos el review final e integración: comparamos con tu Starting Point, miramos el proceso completo y definimos tu siguiente nivel.
 
 Pero esto es una guía de foco, no una cárcel curricular.` },
 

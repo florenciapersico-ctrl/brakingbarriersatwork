@@ -54,7 +54,7 @@ Y si un día llegas un poquito más tarde, no pasa nada: trabajamos con el tiemp
 Obviamente, si soy yo quien necesita mover una sesión, la reprogramamos sin problema.`,
 `También quiero que sepas que durante AT WORK no estás sola entre una sesión y la siguiente.
 
-Si te surge una duda, quieres compartir algo, necesitas feedback o simplemente quieres contarme una situación que pasó en tu trabajo, puedes hacerlo dentro de la comunidad de WhatsApp.
+Si te surge una duda, quieres compartir algo, necesitas feedback o simplemente quieres contarme una situación que pasó en tu trabajo, puedes hacerlo dentro de AT WORK Community, nuestra comunidad de WhatsApp.
 
 La comunidad va a ser nuestro espacio principal de comunicación durante el programa. Ahí puedes compartir prácticas, hacer preguntas, pedirme feedback, contar un avance o algo que aprendiste durante la semana.
 
@@ -232,7 +232,7 @@ Y después sigue con la próxima clase, donde te voy a mostrar cómo se organiza
     chrome(s, 4);
     leftTitle(s, "No estás sola entre sesiones", "Dónde llevar cada cosa, para que todo sea simple, cercano y ordenado", 2);
     const cols = [
-      ["FaWhatsapp", "Comunidad de WhatsApp", "nuestro espacio principal", C.brown, ["hacer preguntas", "compartir prácticas", "pedirme feedback", "contar un avance o algo que aprendiste", "contarme algo que pasó en tu trabajo"]],
+      ["FaWhatsapp", "AT WORK Community", "en WhatsApp · nuestro espacio principal", C.brown, ["hacer preguntas", "compartir prácticas", "pedirme feedback", "contar un avance o algo que aprendiste", "contarme algo que pasó en tu trabajo"]],
       ["FaLock", "Mensaje privado", "escríbeme directamente", C.terra, ["temas administrativos", "algo que prefieres mantener en privado"]],
       ["FaVideo", "Sesión 1:1", "para trabajarlo bien", C.dark, ["situaciones que necesitan más contexto, análisis o trabajo en profundidad"]],
     ];

@@ -1,9 +1,9 @@
 module.exports = {
-  num: "12", code: "ONB 12", title: "Comunidad AT WORK + Cómo pedir feedback", file: "ONB12_Comunidad_AT_WORK_y_feedback.pptx",
+  num: "12", code: "ONB 12", title: "AT WORK Community + Cómo pedir feedback", file: "ONB12_Comunidad_AT_WORK_y_feedback.pptx",
   slides: [
     { type: "cover", sub: "Parte del acompañamiento entre una sesión y la siguiente",
       points: [["FaWhatsapp", "Para qué usar la comunidad"], ["FaHand", "Qué significa participar"], ["FaComments", "Cómo pedir feedback"], ["FaLock", "Qué va por privado o a la sesión"]],
-      notes: `Quiero mostrarte ahora cómo vamos a usar la Comunidad AT WORK durante estos cinco meses, porque este espacio no está pensado solamente para recibir información. Es parte del acompañamiento que vas a tener entre una sesión y la siguiente.
+      notes: `Quiero mostrarte ahora cómo vamos a usar AT WORK Community durante estos cinco meses, porque este espacio no está pensado solamente para recibir información. Es parte del acompañamiento que vas a tener entre una sesión y la siguiente.
 
 La idea es que no tengas que guardar todas tus dudas, prácticas o situaciones hasta nuestra próxima clase. Quiero que tengas un lugar donde puedas traer lo que va apareciendo en tu semana y seguir avanzando mientras el proceso está ocurriendo.` },
 
