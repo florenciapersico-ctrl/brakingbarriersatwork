@@ -18,7 +18,7 @@ Entonces vamos a tener un foco principal en cada etapa, pero vamos a trabajar lo
         { text: "Semanas 5–10 · Communicate in Real Time", desc: "Organizas y sostienes mensajes claros en tiempo real, sin depender de un guion" },
         { text: "Semanas 11–16 · Polish Your English", desc: "Estabilizas los patrones que limitan tu claridad y precisión" },
         { text: "Semanas 17–19 · Understand & Be Understood", desc: "Entiendes mejor el inglés hablado y te haces entender con más facilidad" },
-        { text: "Semana 20 · Review final e integración", desc: "Integras todo, comparas con tu Starting Point y defines tu siguiente nivel" },
+        { text: "Semana 20 · Review final / integración", desc: "Integras todo, comparas con tu Starting Point y defines tu siguiente nivel" },
       ],
       notes: `Como guía general, este va a ser tu ritmo de referencia.
 

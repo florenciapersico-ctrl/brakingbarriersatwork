@@ -17,7 +17,7 @@ Tu carpeta personal va a ser la memoria de tu proceso durante estos cinco meses.
         { text: "02 · MATERIAL REAL DE MI TRABAJO", desc: "Presentaciones, emails, transcripciones, capturas y documentos (anonimizados)" },
         { text: "03 · MATERIALES DE SESIONES", desc: "Lo que vamos usando y creando juntas en nuestras clases" },
         { text: "04 · MIS PRÁCTICAS", desc: "Producciones, intentos, audios, textos, ejercicios y retries" },
-        { text: "05 · MI PROGRESO", desc: "Cada Weekly Report que completes durante el programa" },
+        { text: "05 · MI PROGRESO", desc: "Tus Weekly Reports y tu Progress Tracker: dónde estás en el recorrido" },
       ],
       notes: `Vas a encontrar cinco carpetas principales: Mi Contexto Profesional, Material Real de Mi Trabajo, Materiales de Sesiones, Mis Prácticas y Mi Progreso.
 
@@ -48,6 +48,8 @@ Y esta carpeta es especialmente importante: 05 · MI PROGRESO.
 Acá quiero que guardes cada Weekly Report que completes durante el programa.
 
 Aunque después compartas un win, una duda o algo del reporte por WhatsApp, el Weekly Report completo queda guardado acá.
+
+Y acá también vas a encontrar tu Progress Tracker. El Weekly Report es tu reflexión de cada semana; el Progress Tracker es la foto del recorrido completo: en qué etapa estás, qué skill estás entrenando, qué evidencia fuiste acumulando, qué hitos ya lograste y cuál es el próximo. Lo vamos a ir actualizando juntas, en general al cierre de nuestras sesiones.
 
 ¿Por qué? Porque al final de estos cinco meses quiero que podamos mirar hacia atrás y ver tu proceso completo: qué te costaba al principio, qué situaciones se repetían, qué empezaste a hacer distinto y qué evidencia concreta tenemos de lo que avanzaste.
 
