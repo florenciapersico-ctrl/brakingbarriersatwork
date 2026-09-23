@@ -19,7 +19,7 @@ S = [
   res="Termina la sesión con el sistema configurado, su Starting Point revisado, un objetivo profesional observable y 2–3 situaciones reales de alto impacto elegidas.",
   ev="Starting Point completo (autoevaluación + audio o video de 2–3 min) · objetivo escrito en una frase · lista de 2–3 situaciones reales · horario 1:1 agendado.",
   foco="instalar tu sistema de trabajo y definir desde dónde partes", puede="empezar el Módulo 1 sabiendo cuál es tu prioridad",
-  micro=["El recorrido en 6 etapas, con el recurso «Tu recorrido AT WORK».",
+  micro=["El recorrido completo de 20 semanas: onboarding + las 4 etapas del método + offboarding, con el recurso «Tu recorrido AT WORK».",
          "El ciclo de cada semana: situación real → producir → diagnóstico → entrenar → retry → aplicar.",
          "Qué va en cada espacio (Skool, AT WORK Community, Drive, sesión 1:1) y cómo funciona el Weekly Report."],
   app="Escuchan juntas un fragmento de su audio del Starting Point y detectas los primeros patrones (comunicación, precisión, pronunciación, listening). Con eso definen su objetivo en conducta observable y eligen las situaciones que serán su campo de entrenamiento. Ej.: Belén, el onboarding de un proveedor nuevo; Sol, el status de su proyecto; Virginia, el update al CEO.",
@@ -417,7 +417,21 @@ for i, (a, b) in enumerate(steps):
     run(c0.paragraphs[0], f"{i+1} · {a}", bold=True, size=10, color=BROWN); run(c1.paragraphs[0], b, size=10)
 widths(t, [5, 11.6])
 para()
-box("Si una alumna todavía no tiene autonomía en una habilidad, la sesión siguiente introduce igual la nueva, y la pendiente sigue como track transversal. Así nadie queda sin pasar por una habilidad esencial y el recorrido no se corre.", lab="REGLA")
+box("Si una alumna todavía no tiene autonomía en una habilidad, la sesión siguiente introduce igual la nueva y la pendiente queda como carry-over, trabajada de forma transversal. Así nadie queda sin pasar por una habilidad esencial y el calendario no se corre.", lab="REGLA DE AVANCE")
+box("Se avanza salvo que el gap anterior impida materialmente trabajar la habilidad siguiente. Ejemplo: si todavía no logra un primer intento espontáneo mínimamente funcional, no se da por recorrida Activate solo porque llegó la semana 5. En ese caso se repite el foco de la sesión anterior, con la misma evidencia como meta, y se deja registrado el motivo.", lab="EXCEPCIÓN")
+
+label("Sesión recorrida no es lo mismo que skill consolidada")
+para("Que una sesión esté completada significa que la alumna pasó por esa habilidad, no que la domina. Por eso cada sesión se registra con cuatro datos separados:")
+reg = [("Estado de la sesión", "Pending / Completed"),
+       ("Estado de la skill", "Introduced (la vio y la probó) · In Progress (aparece con ayuda o de forma irregular) · Stable (la evidencia observable aparece en producción espontánea, sin ayuda, en al menos dos ocasiones)"),
+       ("Evidencia", "Qué observaste: una frase concreta, no una opinión."),
+       ("Carry-over", "Sí / No. Si es «sí», qué se arrastra a las próximas sesiones como foco transversal.")]
+t = doc.add_table(rows=len(reg), cols=2); borders(t)
+for i, (a, b) in enumerate(reg):
+    c0, c1 = t.cell(i, 0), t.cell(i, 1); shade(c0, TINT)
+    run(c0.paragraphs[0], a, bold=True, size=9.5, color=BROWN); run(c1.paragraphs[0], b, size=9.5)
+widths(t, [4.2, 12.4])
+para()
 
 label("Mapa general")
 etapas = [("Semana 1", "Onboarding", "Sesión 1"), ("Semanas 2–4", "Activate Your English", "Sesiones 2–4 · hito en la 4"),
@@ -476,6 +490,10 @@ for i, (a, b) in enumerate(TRACKS):
     c0, c1 = t.cell(i, 0), t.cell(i, 1); shade(c0, TINT)
     run(c0.paragraphs[0], a, bold=True, size=9.5, color=BROWN); run(c1.paragraphs[0], b, size=9.5)
 widths(t, [4.2, 12.4])
+p = para(); p.paragraph_format.space_before = Pt(14); run(p, "Cómo se va a ver en Notion", bold=True, size=16, color=BROWN, font=TITLE)
+para("Master Delivery Map: 20 registros estándar, uno por sesión, con lo fijo (etapa, Core Skill, resultado, evidencia, microenseñanza).")
+para("Student Delivery Tracker: cada alumna tiene sus 20 sesiones, relacionadas con el Master Map, con estado de la sesión, estado de la skill, evidencia y carry-over. La vista por alumna muestra, por ejemplo:")
+box("Belén — 8/20 · Etapa actual: Communicate in Real Time · Última completada: S8 Gain Time + Repair & Continue · Skill: In Progress · Carry-over: recuperar el hilo · Próxima: S9 Manage the Interaction")
 p = para(); p.paragraph_format.space_before = Pt(14); run(p, "Criterio de calidad final", bold=True, size=16, color=BROWN, font=TITLE)
 para("Una alumna que completa las 20 sesiones atravesó el método completo aunque no haya visto todos los videos. La plataforma acelera y profundiza; las sesiones 1:1 garantizan la transformación.")
 
