@@ -22,7 +22,7 @@ const BODY = "Open Sans";
 const BRAND = "BREAKING BARRIERS · AT WORK";
 
 // Zona de cámara (abajo a la izquierda) SIEMPRE libre: x < 4.3", y > 4.2"
-const RX = 4.8, RW = 12.63 - 4.8, TOP = 1.25;
+const RX = 4.8, RW = 12.63 - 4.8, TOP = 1.4;
 
 const img = (f) => "image/png;base64," + fs.readFileSync(f).toString("base64");
 async function icon(name, color, size = 256) {
@@ -113,10 +113,9 @@ Y después sigue con la próxima clase, donde te voy a mostrar cómo se organiza
   // Encabezado común: marca a la izquierda, endoso + número a la derecha (nada abajo a la izquierda)
   const chrome = (s, num, bg = C.cream, fg = C.terra, fg2 = C.muted) => {
     s.background = { color: bg };
-    s.addText(BRAND, {
-      x: 0.7, y: 0.42, w: 5, h: 0.3, margin: 0, isTextBox: true,
-      fontFace: BODY, fontSize: 10.5, bold: true, charSpacing: 3, color: fg,
-    });
+    // Logo Breaking Barriers at work (versión café sobre fondos claros, según la guía)
+    const logo = bg === C.terra ? "logo_dark.png" : "logo_brown.png";
+    s.addImage({ data: img(logo), x: 0.7, y: 0.3, w: 1.3, h: 1.3 * 335 / 734, altText: "Breaking Barriers at work" });
     s.addText([
       { text: "by Flor Pérsico", options: { italic: true, fontFace: TITLE } },
       { text: "   ·   " + String(num).padStart(2, "0") + " / " + String(TOTAL).padStart(2, "0"), options: { fontFace: BODY } },
@@ -125,11 +124,11 @@ Y después sigue con la próxima clase, donde te voy a mostrar cómo se organiza
 
   const leftTitle = (s, title, sub, lines, tc = C.brown, sc = C.muted) => {
     s.addText(title, {
-      x: 0.7, y: 1.2, w: 3.75, h: 1.95, margin: 0, valign: "top", isTextBox: true,
+      x: 0.7, y: 1.4, w: 3.75, h: 1.95, margin: 0, valign: "top", isTextBox: true,
       fontFace: TITLE, fontSize: 34, bold: true, color: tc, lineSpacingMultiple: 0.92,
     });
     if (sub) s.addText(sub, {
-      x: 0.7, y: 1.2 + lines * 0.57 + 0.3, w: 3.6, h: 0.8, margin: 0, valign: "top", isTextBox: true,
+      x: 0.7, y: 1.4 + lines * 0.57 + 0.3, w: 3.6, h: 0.8, margin: 0, valign: "top", isTextBox: true,
       fontFace: TITLE, italic: true, fontSize: 16, color: sc,
     });
   };
