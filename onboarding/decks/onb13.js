@@ -3,75 +3,75 @@ module.exports = {
   slides: [
     { type: "cover", sub: "Checklist final: tu sistema de trabajo, listo",
       pointsLabel: "REVISAMOS JUNTAS",
-      points: [["FaFileSignature", "Onboarding y Acuerdo de Trabajo"], ["FaWhatsapp", "Comunidad y emails"], ["FaGoogleDrive", "Tu Drive y tus materiales"], ["FaCalendarWeek", "Tu práctica y tu foco"]],
-      notes: `Antes de pasar al Módulo 1, quiero que hagamos una última revisión rápida.
+      points: [["FaFileSignature", "Tu onboarding"], ["FaWhatsapp", "Tu comunidad"], ["FaGoogleDrive", "Tu sistema de trabajo"], ["FaCalendarCheck", "Último paso"]],
+      notes: `Antes de empezar el Módulo 1, quiero que hagamos una última revisión juntas.
 
-Esta primera semana no era para avanzar rápido ni para consumir contenido. Era para dejar instalado tu sistema de trabajo dentro de AT WORK.
+Esta primera semana no era para avanzar rápido ni para consumir contenido. Era para dejar armado tu sistema de trabajo dentro de AT WORK y asegurarnos de que sabes exactamente cómo moverte dentro del programa.
 
-Así que antes de seguir, revisa este checklist conmigo.` },
+Así que antes de seguir, quiero que revises este checklist conmigo. No se trata solo de haber visto los videos: se trata de haber completado las acciones que te van a permitir empezar el proceso con claridad, organización y un punto de partida real.` },
 
-    { type: "checklist", title: "Checklist · Primeros pasos", sub: "Si alguno falta, resuélvelo antes de avanzar", size: 15,
+    { type: "checklist", title: "Tu onboarding", sub: "Si alguno de estos puntos falta, complétalo antes de avanzar", size: 16,
       items: [
-        "Viste todo el onboarding",
-        [{ text: "Firmaste tu Acuerdo de Trabajo y lo subiste a " }, { text: "01 · MI CONTEXTO PROFESIONAL", options: { bold: true } }],
-        "Entraste a la Comunidad AT WORK y te uniste a sus canales",
-        "Ya te presentaste",
-        "Recibes correctamente los emails de AT WORK (revisa también Spam y Promociones)",
+        "Haber visto todo el onboarding con atención",
+        [{ text: "Haber firmado el " }, { text: "Acuerdo de Trabajo", options: { bold: true } }, { text: " y haberlo subido a tu carpeta personal de AT WORK" }],
+        [{ text: "Haber completado tu " }, { text: "Starting Point", options: { bold: true } }, { text: ": autoevaluación inicial + audio o video espontáneo de 2–3 minutos" }],
       ],
-      notes: `Primero, confirma que ya viste todo el onboarding.
+      callout: { icon: "FaFlagCheckered", head: "Tu Starting Point es tu punto de partida", body: "Registra cómo estás hoy para que después podamos comparar tu progreso con evidencia real.", h: 1.5 },
+      notes: `Primero, revisa que hayas completado bien tu onboarding.
 
-Que firmaste tu Acuerdo de Trabajo y lo subiste a 01 · MI CONTEXTO PROFESIONAL dentro de tu Drive.
+Quiero que confirmes que viste todas las clases con atención, que firmaste tu Acuerdo de Trabajo y lo subiste a tu carpeta personal de AT WORK.
 
-Que entraste a la Comunidad AT WORK y te uniste a sus canales.
+También deberías haber completado tu Starting Point. Ese es tu punto de partida: incluye tu autoevaluación inicial y una producción espontánea en audio o video para que podamos registrar cómo estás hoy y después comparar tu progreso con evidencia real.
 
-Que ya te presentaste.
+Si alguno de estos puntos todavía falta, complétalo antes de avanzar.` },
 
-Y que confirmaste que estás recibiendo correctamente los emails de AT WORK. Revisa también Spam y Promociones. Si encontraste alguno ahí, marca el remitente como seguro o agrégalo a tus contactos.
-
-Si alguno de estos puntos falta, resuélvelo antes de avanzar.` },
-
-    { type: "checklist", title: "Checklist · Tu sistema", sub: "No tiene que estar perfecto, pero sí armado", cols: 2, size: 13.5,
+    { type: "checklist", title: "Tu comunidad", sub: "Para que la uses como parte real de tu proceso", size: 16,
       items: [
-        "¿Abriste tu carpeta personal de AT WORK?",
-        "¿Completaste tu Starting Point?",
-        "¿Subiste entre tres y cinco materiales reales de tu trabajo?",
-        "¿Reservaste tus bloques semanales de práctica?",
-        "¿Sabes dónde pedir feedback y qué incluir?",
-        "¿Sabes que cada semana completas tu Weekly Report y lo guardas en tu Drive?",
-        "¿Tienes claro tu foco actual?",
+        [{ text: "Haberte unido a " }, { text: "AT WORK Community", options: { bold: true } }],
+        "Haberte unido a todos los canales",
+        [{ text: "Haberte presentado en " }, { text: "Connect & Share", options: { bold: true } }],
       ],
-      notes: `Ahora revisa la parte operativa del proceso.
+      callout: { icon: "FaHashtag", style: "dark", head: "Los canales", body: "Announcements · Weekly Reports · Wins · Questions & Support · Connect & Share", h: 1.5, size: 16 },
+      notes: `Ahora revisemos la comunidad.
 
-¿Abriste tu carpeta personal de AT WORK?
+A esta altura ya deberías haberte unido a AT WORK Community y también a todos sus canales: Announcements, Weekly Reports, Wins, Questions & Support y Connect & Share.
 
-¿Completaste tu Starting Point?
+Y dentro de Connect & Share, deberías haber hecho tu presentación para que el resto de la comunidad pueda conocerte.
 
-¿Subiste entre tres y cinco materiales reales de tu trabajo?
+La idea es que desde el principio sepas dónde compartir cada cosa y puedas usar la comunidad como parte real de tu proceso, no como un espacio que simplemente está ahí.` },
 
-¿Reservaste en tu calendario tus bloques semanales de práctica?
-
-¿Sabes dónde pedir feedback y qué información incluir cuando lo pides?
-
-¿Entendiste que cada semana vas a completar tu Weekly Report y guardarlo en tu Drive?
-
-¿Tienes claro cuál es tu foco actual?
-
-No necesito que todo esté perfecto. Pero sí quiero que este sistema esté armado, porque después nos permite concentrarnos en lo importante: entrenar tu inglés y tu comunicación.` },
-
-    { type: "close", title: "Ya puedes empezar el Módulo 1", sub: "Activate Your English",
+    { type: "checklist", title: "Tu sistema de trabajo", sub: "No necesitas tenerlo todo resuelto, pero sí saber desde dónde partes", cols: 2, size: 14,
       items: [
-        { icon: "FaCrosshairs", text: [{ text: "Sigue el foco de cada semana", options: { bold: true } }, { text: ": no necesitas hacer todo de golpe" }] },
-        { icon: "FaCalendarWeek", text: [{ text: "Usa tu Weekly System", options: { bold: true } }] },
-        { icon: "FaBriefcase", text: [{ text: "Trae tu trabajo real", options: { bold: true } }, { text: " al proceso" }] },
-        { icon: "FaHandHoldingHeart", text: [{ text: "Pide ayuda", options: { bold: true } }, { text: " cuando la necesites" }] },
+        "Haber abierto y ubicado tu carpeta personal de AT WORK",
+        "Haber subido 3–5 materiales reales de tu trabajo",
+        "Haber reservado tus bloques semanales de práctica",
+        "Saber dónde y cómo pedir feedback",
+        "Tener claro cómo funciona el Weekly Report y dónde guardarlo",
+        [{ text: "Tener claro tu " }, { text: "foco inicial", options: { bold: true } }],
       ],
-      note: "No marques esta clase como completada hasta terminar todo el checklist. Cuando esté listo, tu onboarding está completo.",
-      notes: `Si todo esto está listo, ya puedes empezar el Módulo 1: Activate Your English.
+      notes: `Después, revisa que tengas armado tu sistema de trabajo.
 
-A partir de ahora no necesitas hacer todo de golpe. Sigue el foco de cada semana, usa tu Weekly System, trae tu trabajo real al proceso y pide ayuda cuando la necesites.
+Deberías haber abierto y ubicado tu carpeta personal de AT WORK, subido entre tres y cinco materiales reales de tu trabajo y reservado en tu calendario tus bloques semanales de práctica.
 
-No marques esta clase como completada hasta que hayas terminado todos los puntos del checklist.
+También quiero que tengas claro dónde y cómo pedir feedback, cómo funciona tu Weekly Report y dónde vas a guardarlo cada semana.
 
-Cuando eso esté listo, tu onboarding está completo.` },
+Y, sobre todo, que tengas claro cuál es tu foco inicial. No necesitas tener todo resuelto ni saber exactamente qué vas a trabajar durante los próximos cinco meses. Para eso está el proceso. Pero sí quiero que empieces sabiendo desde dónde partes y cuál es la prioridad ahora.` },
+
+    { type: "close", title: "Último paso", sub: "Cuando todo esté listo, tu onboarding está completo",
+      items: [
+        { icon: "FaCalendarCheck", text: [{ text: "Escríbeme para definir y agendar tu horario recurrente de sesiones 1:1", options: { bold: true } }] },
+        { icon: "FaCrosshairs", text: [{ text: "Después, empieza el Módulo 1: " }, { text: "sigue el foco de cada semana", options: { bold: true } }, { text: " y usa tu Weekly System" }] },
+        { icon: "FaHandHoldingHeart", text: [{ text: "Trae tu trabajo real", options: { bold: true } }, { text: " al proceso y " }, { text: "pide ayuda", options: { bold: true } }, { text: " cuando la necesites" }] },
+      ],
+      note: "No avances al Módulo 1 ni marques esta clase como completada hasta haber terminado todos los puntos del checklist.",
+      notes: `Y queda un último paso.
+
+Cuando hayas completado todo lo anterior, escríbeme para que definamos y dejemos agendado tu horario recurrente de sesiones 1:1.
+
+No marques esta clase como completada hasta haber terminado todos los puntos del checklist.
+
+Cuando todo esto esté listo, tu onboarding está completo y ya puedes empezar el Módulo 1.
+
+A partir de ahí, no necesitas hacer todo de golpe. Sigue el foco de cada semana, usa tu Weekly System, trae tu trabajo real al proceso y pide ayuda cuando la necesites.` },
   ],
 };
