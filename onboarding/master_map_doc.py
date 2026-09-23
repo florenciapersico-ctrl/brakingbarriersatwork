@@ -62,7 +62,7 @@ S = [
   plat=[("M1.5 Color Method", G), ("M1.6 Your Complete Practice Cycle / Retry", D)],
   res="Mejora una segunda versión de su situación real, sin memorizar un guion, usando su Error Radar y 2–3 piezas de lenguaje nuevo.",
   ev="Versión 1 vs retry con al menos una mejora concreta que ella misma puede nombrar · 2–3 piezas de Active Language registradas.",
-  hito="Primer ciclo completo. Pregunta clave: ¿puede practicar sola entre sesiones? Si no, refuérzalo antes de avanzar a la etapa 2.",
+  hito="Primer ciclo completo. Pregunta clave: ¿puede practicar sola entre sesiones? Si no, queda como carry-over prioritario durante la etapa 2.",
   foco="cerrar tu primer ciclo completo de práctica", puede="practicar sola, con método, entre sesiones",
   micro=["Color Method: explorar lenguaje útil a partir de tu mensaje real, no coleccionar vocabulario. Pasarlo de reconocerlo a recuperarlo y usarlo.",
          "Elegir 2–3 piezas de Active Language que mejoren claridad, precisión o impacto, y practicarlas en más de una frase.",
@@ -417,13 +417,15 @@ for i, (a, b) in enumerate(steps):
     run(c0.paragraphs[0], f"{i+1} · {a}", bold=True, size=10, color=BROWN); run(c1.paragraphs[0], b, size=10)
 widths(t, [5, 11.6])
 para()
-box("Si una alumna todavía no tiene autonomía en una habilidad, la sesión siguiente introduce igual la nueva y la pendiente queda como carry-over, trabajada de forma transversal. Así nadie queda sin pasar por una habilidad esencial y el calendario no se corre.", lab="REGLA DE AVANCE")
-box("Se avanza salvo que el gap anterior impida materialmente trabajar la habilidad siguiente. Ejemplo: si todavía no logra un primer intento espontáneo mínimamente funcional, no se da por recorrida Activate solo porque llegó la semana 5. En ese caso se repite el foco de la sesión anterior, con la misma evidencia como meta, y se deja registrado el motivo.", lab="EXCEPCIÓN")
+box("El calendario no se mueve: las 20 sesiones mantienen su número y su etapa. Stable no es requisito para avanzar. El recorrido avanza y el aprendizaje tiene carry-over.", lab="REGLA DE AVANCE")
+box("Si la skill anterior dificulta significativamente la nueva, la sesión mantiene su número y su etapa, pero: la skill anterior sigue como foco prioritario (carry-over); la nueva se introduce en el nivel mínimo posible; se registra el estado real de ambas; y la pendiente sigue apareciendo de forma transversal en las sesiones siguientes.", lab="SI UNA SKILL BLOQUEA")
+box("Solo si el gap anterior hace materialmente imposible trabajar la nueva skill, esa sesión se dedica al gap bloqueante y la nueva queda como «Not yet introduced», para incorporarla en la siguiente oportunidad compatible. El calendario de 20 sesiones no cambia.", lab="CASO EXCEPCIONAL")
+para("Se evitan así dos extremos: «no dominó S4, entonces nunca llegamos a S5» y «llegó la semana 5, marco S4 completada aunque no pueda hacerlo».", italic=True, size=9.5, color=MUTED)
 
 label("Sesión recorrida no es lo mismo que skill consolidada")
 para("Que una sesión esté completada significa que la alumna pasó por esa habilidad, no que la domina. Por eso cada sesión se registra con cuatro datos separados:")
 reg = [("Estado de la sesión", "Pending / Completed"),
-       ("Estado de la skill", "Introduced (la vio y la probó) · In Progress (aparece con ayuda o de forma irregular) · Stable (la evidencia observable aparece en producción espontánea, sin ayuda, en al menos dos ocasiones)"),
+       ("Estado de la skill", "Not yet introduced (quedó pendiente por un gap bloqueante) · Introduced (la vio, la entendió y la probó) · In Progress (aparece con ayuda, prompting o de forma irregular) · Stable (aparece sola y de manera repetible: la evidencia observable aparece de forma espontánea, sin prompting ni ayuda directa, en al menos dos ocasiones separadas; idealmente una de ellas en una situación nueva, bajo presión o en una aplicación real de trabajo. Dos evidencias distintas, no dos repeticiones seguidas del mismo ejercicio)"),
        ("Evidencia", "Qué observaste: una frase concreta, no una opinión."),
        ("Carry-over", "Sí / No. Si es «sí», qué se arrastra a las próximas sesiones como foco transversal.")]
 t = doc.add_table(rows=len(reg), cols=2); borders(t)
