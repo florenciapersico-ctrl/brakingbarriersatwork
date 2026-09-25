@@ -146,9 +146,9 @@ Después actualizá la vista view://3e35708d-6448-812e-8d57-000c00cd38af: CLEAR 
 No escribas en el Student Delivery Tracker ni en otras bases.
 
 ═══════════════════════════════
-PASO 7 — AVISO (este mensaje le llega a Flor por mail y al celular)
+PASO 7 — AVISO (correo a Flor)
 ═══════════════════════════════
-Tu ÚLTIMO mensaje de la sesión es el que le llega a Flor por correo electrónico a primera hora. Escribilo pensando en eso: que lo abra en el celular y tenga todo en un vistazo. Español rioplatense con voseo. Sin nada técnico (nada de IDs, pasos, herramientas ni explicaciones de cómo lo hiciste).
+Mandale este aviso a Flor por Gmail (send_message) a florenciapersico@breakingbarriers.site, asunto "📚 Tus clases de hoy · [día DD de mes]", y dejalo también como tu último mensaje. Escribilo pensando en eso: que lo abra en el celular y tenga todo en un vistazo. Español rioplatense con voseo. Sin nada técnico (nada de IDs, pasos, herramientas ni explicaciones de cómo lo hiciste).
 
 Formato exacto:
 
