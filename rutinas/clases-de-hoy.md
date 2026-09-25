@@ -24,6 +24,8 @@ Si el evento ya tiene "CLASE LISTA · [fecha de hoy]" en la descripción, ya est
 Si la misma alumna aparece en dos horarios, o hay un evento puntual más nuevo con las mismas personas, manda el evento puntual más reciente. No prepares una recurrencia que Flor ya reprogramó; avisale.
 Si no hay clases para preparar, escribile UNA línea y terminá.
 
+CASO ESPECIAL — ALEJANDRA ROSSI, la decoradora (evento "alejandra deco", alejandra.rossi160@gmail.com): es una mujer mayor que NO sigue el programa AT WORK; aprende inglés para su vida (viajes, conversación, disfrutar). Para su clase NO uses el roadmap, la semana, la biblioteca por nivel de trabajo ni los bots. Armale una clase amena de 60 minutos a partir de lo que contó en sus últimas notas de Gemini: una conversación sobre algo de su vida (viajes, decoración, series, comida), 3 a 5 frases útiles, una práctica corta de una situación real de la vida (restaurante, tienda, hotel, charla con alguien nuevo), corrección suave de 2 o 3 errores suyos y un sonido de pronunciación sencillo. En la guía de Flor en Notion agregá 2 o 3 ideas alternativas por si la clase toma otro rumbo. Mismas reglas de privacidad.
+
 ═══════════════════════════════
 PASO 3 — DÓNDE ESTÁ CADA ALUMNA (todo desde Drive)
 ═══════════════════════════════
