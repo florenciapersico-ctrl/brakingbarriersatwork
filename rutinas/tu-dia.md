@@ -24,6 +24,7 @@ B — TU DÍA Y TUS CLASES
 Agenda de HOY, hora por hora, una línea por cosa (clases, bloques, reuniones, pausas). Ignorá "Recordatorio de Micropaso".
 Para cada clase: hora, alumna, foco en una línea y links que estén en "CLASE LISTA · [hoy]" de la descripción (Google Doc de la clase y guía de Notion). Si no dice CLASE LISTA de hoy, buscá su fila de hoy en la base Clases (collection://6edc592f-a786-4b01-aac8-1f462f058926). Si tampoco está: "no está preparada". No la prepares vos.
 Controles: una clase repetida en dos horarios o una recurrencia vieja que choca con un evento puntual más nuevo con las mismas alumnas → una línea en "Ojo".
+CONTENIDO DE HOY: filas de la base Contenido (collection://89bd6593-3e6d-4c2d-9363-c5be637f0741) con Fecha = hoy. Una línea por pieza: formato, hook y links (Canva y guion). Si es reel: "grabado el lunes, subilo hoy con esta descripción" + la descripción lista para copiar. Si no hay nada para hoy, no pongas la sección.
 Si hoy hay una DISCOVERY CALL (título con "Discovery", "llamada", "consulta" o invitada que no es alumna), agregá debajo de su hora "Prep: llega 1 hora antes por separado" (la prepara otra tarea).
 
 ═══════════════════════════════

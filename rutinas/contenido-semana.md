@@ -53,7 +53,16 @@ Chequeo final de cada pieza: ¿empieza en una escena y no en una definición? ¿
 ═══════════════════════════════
 a) Google Doc en Drive, carpeta "CONTENIDO SEMANAL" (creala en Mi unidad si no existe): "Contenido · Semana del [DD MMM]". HTML → Google Doc. Arriba: "Tu bloque de grabación del lunes" = lista de lo que se graba en orden, con los hooks grandes para leer de un vistazo. Después cada pieza completa. Al final: las 3 conclusiones del paso 1.
 b) Notion, base Contenido (collection://89bd6593-3e6d-4c2d-9363-c5be637f0741): una fila por pieza con Pieza (título corto), Fecha (el día de publicación), Estado "Planificado", Formato, Cuenta "@ysi_speakenglish", Hook/escena, CTA, Notas = link al Google Doc. En el cuerpo de la página, la sección "## Caption" con el caption final (la rutina de publicación la lee de ahí). No completes las propiedades de marcos viejos (Categoría Nadia, Subtipo, Finmark, Territorio). No borres ni edites filas viejas.
-c) Canva (opcional, si funciona): para cada carrusel, generá un diseño a partir del brand template "template at work" (EAHST4KGYjA, 4:5) con el texto de cada lámina, y poné el link en "Link Canva". Si no se puede autocompletar, no insistas: el texto ya está en el doc.
+c) Canva (OBLIGATORIO: Flor no tiene tiempo de diseñar; esto lo hacés vos). Todo va a la carpeta "CONTENIDO · Sistema Ann" (FAHWP0RYYXU, https://www.canva.com/folder/FAHWP0RYYXU):
+   - Carruseles → subcarpeta "Carruseles" (FAHWP1L4a-g). Por cada carrusel: creá el diseño desde el brand template "template at work" (EAHST4KGYjA, 4:5; no tiene campos de autofill), editá el texto de cada lámina con edit-design (o, si no se puede, generate-design con el kit de marca "FLOR PERSICO" kAHBmoBo-p4 en formato 4:5), nombralo "[DD MMM] · Carrusel · [título corto]" y movelo a la subcarpeta.
+   - Stories → subcarpeta "Stories" (FAHWP2qII78), desde el template "historia sencilla" (EAHLvRLN16w). Mismo criterio de nombre.
+   - Portada de cada reel → subcarpeta "Portadas de reels" (FAHWP6mY9ao), con el hook en pantalla, estética simple con el rostro de Flor si hay foto en el kit (NADA de portadas marrones estructuradas).
+   - Poné el link de cada diseño en "Link Canva" de su fila de Notion.
+   - Si un diseño falla, reintentá una vez con otro método; si sigue fallando, dejá el texto lámina por lámina en el doc y decilo en una línea del correo. Nunca publiques nada.
+
+d) MANTENER TODO AL DÍA (antes de crear lo nuevo):
+   - Base Contenido: por cada post publicado en Instagram los últimos 7 días (Windsor), buscá su fila (por fecha y primeras palabras del caption). Si existe → Estado "Publicado" y "Link publicado". Si no existe → creala ya como "Publicado" con Formato, Fecha, Cuenta y link. Así Notion refleja lo que realmente salió.
+   - Filas "Planificado" con fecha de hace más de 7 días que no se publicaron → Estado "Descartado" y en Notas "No publicado — limpieza automática [fecha]". Nunca borres filas.
 
 ═══════════════════════════════
 7 — CORREO A FLOR
