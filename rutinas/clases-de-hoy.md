@@ -33,16 +33,16 @@ b) Sus últimas clases REALES: las notas de Gemini. SIEMPRE EL ÚLTIMO DOCUMENTO
    - Buscá directo en Drive con search_files, sin confiar en registros de asistencia ni en listas: title contains 'Notas de Gemini' (y también 'Notes by Gemini' y 'Transcript') combinado con el nombre, el apodo de la alumna o el título del evento de calendario (ej.: "lauri class", "Emely 17 horas", "gaby", "vir class"). Probá más de una variante del nombre.
    - Listá TODOS los resultados, ordenalos por la fecha que figura en el título (y por createdTime) y quedate con el más reciente anterior a hoy. Antes de seguir, confirmá: "¿hay algún documento de esta alumna con fecha más nueva que este?". Si lo hay, usá ese.
    - Leé completas (read_file_content) LAS DOS ÚLTIMAS. Los documentos traen resumen y, muchas veces, la transcripción: leé la transcripción, no solo el resumen. Si el doc más reciente está vacío o casi vacío (menos de ~2 KB, pasa cuando la grabación se cortó), decilo y usá el anterior.
-   - En la guía de Flor dejá escrito qué documento usaste, con fecha y link.
-   Si no hay notas ni grabación de una clase, esa clase NO se considera dada: no construyas continuidad sobre ella. Decí cuánto hace de la última clase verificable (si hace más de 2 semanas, la clase arranca con re-entrada).
+   - En la guía de Flor (Notion) dejá escrito qué documento usaste, con fecha y link.
+   Si no hay notas ni grabación de una clase, esa clase NO se considera dada: no construyas continuidad sobre ella. Decí cuánto hace de la última clase verificable (si hace más de 3 semanas, la clase arranca con 5 minutos de re-entrada: qué pasó, qué cambió).
 
 c) De esas notas sacá, con evidencia literal (nunca inventes patrones: si no está en el transcript, no va):
    - qué se trabajó y qué producto real hicieron (email, presentación, reunión, explicación);
    - 5 a 8 ERRORES REALES que la alumna dijo, citando la frase tal como la dijo y su versión corregida (ej.: "related with" → "related to"; "a distributor that are going to" → "a distributor that is going to");
-   - clasificá cada error con las categorías de Narrative Flow del programa:
-       · KNOWLEDGE GAP: no conoce la regla o la estructura (falta de base). → alimenta la LANGUAGE CLINIC de hoy.
-       · AUTOMATION / FOSSILIZED GAP: conoce la regla (a veces lo dice o se corrige sola) pero bajo presión le sale mal. → se trabaja con repetición en Narrative Flow.
-       · CONSTRUCTION GAP: sabe las piezas pero no arma la oración (orden, oraciones largas que se caen). → se trabaja en la parte de Skill.
+   - solo errores de ELLA: no los de Flor ni los de un bot;
+   - clasificá cada error:
+       · FOSILIZADO: lo sabe (a veces lo dice o se corrige sola) pero bajo presión le sale mal. → práctica repetida en Narrative Flow.
+       · GAP DE BASE: no conoce la regla. → alimenta la LANGUAGE CLINIC de hoy.
    - palabras de su trabajo que pronunció mal o que le costaron (si el transcript lo muestra: Flor la corrigió, la repitió, no se entendió);
    - qué tarea o compromiso quedó para esta clase;
    - qué situación de trabajo tiene próxima (reunión, viaje, presentación, cliente);
@@ -70,14 +70,15 @@ Un Google Doc por alumna, creado con create_file de Google Drive: contenido en H
 LA CLASE TIENE 4 PARTES (equilibrada: no puede ser todo libre; en cada clase la alumna tiene que llevarse conocimiento nuevo, no solo práctica):
 
 1. NARRATIVE FLOW — sus errores reales de la clase anterior (≈12 min)
-   Tabla con sus errores literales (en rojo), la corrección (en verde) y una frase nueva para practicar ese mismo patrón. Ella primero identifica y corrige sola; después clasifica con Flor si es falta de base o algo que ya sabe y se le escapa. Si varios errores comparten una regla, cerrá la tabla con esa regla en una línea (ej.: "las preposiciones viajan en bloques fijos: related TO, depend ON, ask US FOR; no se traducen del español").
+   Tabla: | Oración completa | Error resaltado | Corrección | Tipo (Fossilized / Gap) |. Solo sus palabras, máximo 5 errores, los más importantes primero. Ella primero identifica y corrige sola; después clasifica con Flor. Si hay errores de gap, cerrá con: "→ Gap identificado: [tema]. Lo trabajamos en el Bloque 2." Si varios errores comparten una regla, cerrá la tabla con esa regla en una línea (ej.: "las preposiciones viajan en bloques fijos: related TO, depend ON, ask US FOR; no se traducen del español").
 
 2. LANGUAGE CLINIC — gramática o vocabulario que le falta (≈12 min)
    Elegí UN tema de la BIBLIOTECA DE TEMAS (al final de este mensaje), usando la tabla del NIVEL de la alumna (B1, B2 o C1; el nivel sale del tracker de pagos o, si no está, de lo que muestran sus transcripts). Cómo elegirlo:
-   - Primero, los gaps del transcript: si un error de KNOWLEDGE GAP coincide con la columna "Cuándo prescribir" de algún tema, ese tema sube al tope, aunque esté más abajo en la lista (o sea de otro nivel, si es claramente lo que necesita).
+   - Primero, los gaps del transcript: si un error de GAP DE BASE coincide con la columna "Cuándo prescribir" de algún tema, ese tema sube al tope, aunque esté más abajo en la lista (o sea de otro nivel, si es claramente lo que necesita).
    - Si no hay gaps nuevos, el siguiente tema de la tabla de su nivel que no figure como Done en su Registro de progreso, en el orden de la tabla.
    - Ajustá al nivel: B1 → forma y uso básico con mucho andamiaje; B2 → contraste, matices y uso bajo presión; C1 → registro, precisión y matices.
-   Contenido: explicación corta y clara (3 a 5 líneas, con una tabla o esquema si ayuda), usando SUS frases como ejemplo; 4 a 6 ítems de práctica controlada con oraciones de su trabajo; 1 consigna de producción libre corta donde tenga que usar la estructura.
+   Nunca un tema genérico inventado: siempre sale del transcript o de la biblioteca en orden.
+   Contenido: título con el tema concreto (ej.: "Prepositions in fixed blocks"); la regla en máximo 3 líneas de inglés simple; 2 o 3 ejemplos con sus palabras reales del transcript; 3 a 5 frases para practicar en voz alta conectadas a su trabajo; 1 consigna corta de producción libre.
 
 3. SKILL — la habilidad del roadmap de esta semana (≈23 min, es el corazón de la clase)
    El framework del training de la semana (PASO 1), bajado a su trabajo en 4 o 5 pasos o preguntas guía. Después, aplicación sobre SU situación real: primer intento → modelo corto → retry → presión progresiva con role play (Flor hace del interlocutor real: jefe, cliente, equipo técnico, líder global). Dos escenarios concretos sacados de lo que ella contó en los transcripts o en el weekly report. Si trae algo urgente del trabajo, ese pasa a ser el escenario.
@@ -86,39 +87,28 @@ LA CLASE TIENE 4 PARTES (equilibrada: no puede ser todo libre; en cada clase la 
    Un solo foco, que sale de una mezcla de dos fuentes:
    - Lo que apareció en clase: palabras técnicas de su trabajo o sonidos que le salieron mal en el transcript.
    - Si no apareció nada en clase: la tabla PRONUNCIACIÓN de la BIBLIOTECA DE TEMAS (sonidos difíciles para hispanohablantes, con palabras frecuentes en AT WORK), eligiendo el siguiente que no figure como visto en su Registro de progreso. También cuentan los temas de pronunciación de la tabla de su nivel (connected speech, stress, weak forms).
-   Contenido: el sonido o patrón, 5 a 8 palabras o chunks DE SU TRABAJO para practicarlo, y una frase suya para decirla con ese foco.
+   Contenido: 1 patrón o hasta 3 palabras, de dónde viene (transcript o biblioteca), y una instrucción concreta: "Say this sentence out loud 5 times: ___" con una frase de su trabajo.
    No repitas un foco que su Registro de progreso marque como visto, salvo que siga apareciendo mal.
 
-El documento tiene dos partes, separadas con un salto de página:
-
-PARTE 1 — GUÍA DE FLOR (español rioplatense con voseo; que se lea en 2 minutos)
-- Documento base: qué notas de Gemini usaste (fecha + link). Si había otra más nueva vacía, decilo.
-- Semana del roadmap: Week N · training · foco. Carry-over, si hay.
-- Dónde quedó: 2 o 3 líneas con evidencia real de la última clase.
-- Lo que trae: tarea pendiente, weekly report, situación próxima de su trabajo.
-- Objetivo de hoy: UNA cosa observable que tiene que poder hacer al final.
-- Plan (60 min): Apertura 5' (¿qué trae? + tarea) → Narrative Flow 12' → Language Clinic 12' → Skill 23' → Pronunciación 8'. Para cada parte, una o dos líneas de qué hacer y por qué (ej.: "Language Clinic: past simple vs present, porque dijo 'we already have a couple of meetings' para algo que ya pasó: es falta de base, no descuido").
-- Si va muy bien / si le cuesta: una línea cada una.
-- Ojo: solo si hace falta.
-
-PARTE 2 — HOJA DE LA ALUMNA (en inglés, lo que ella ve en pantalla)
-- Today's goal.
-- 1 · Narrative Flow: la tabla de errores → corrección → frase para practicar, y la regla que los une.
-- 2 · Language Clinic: la explicación corta, la práctica controlada y la consigna de producción.
-- 3 · Skill: el framework, los dos escenarios, un modelo de 5 a 8 líneas para mostrar DESPUÉS del primer intento, 5 o 6 useful phrases, y espacios vacíos "My first version", "My new version", "Corrections".
-- 4 · Pronunciation: el sonido o patrón, las palabras de su trabajo, la frase.
-- Between sessions: qué training de la plataforma mirar (el del roadmap), qué practicar de la Language Clinic y del sonido, y qué traer a la próxima clase. Máximo 5 líneas.
-Branding simple: título en azul oscuro, subtítulos con color, tablas prolijas, errores en rojo y correcciones en verde. Nada de diagnóstico ni evaluación en la Parte 2.
+EL GOOGLE DOC ES PARA LA ALUMNA (en inglés). Tu guía va en Notion (PASO 6).
+Contenido del doc:
+- Today's goal (una línea).
+- Block 1 · Narrative Flow: la tabla de errores y la línea de gap.
+- Block 2 · Language Clinic: tema, regla, ejemplos con sus palabras, frases para practicar, consigna.
+- Block 3 · Skill: nombre de la habilidad del roadmap; la situación del role play (quién es ella, quién hace Flor, qué tienen que resolver) para dos escenarios; 4 o 5 guiding questions; un modelo de máximo 5 líneas para mostrar DESPUÉS del primer intento; 4 o 5 useful phrases; espacios vacíos "My first version", "My new version", "Corrections".
+- Block 4 · Pronunciation.
+- Al final, EN ESPAÑOL: "Tarea:" en 2 líneas como máximo: qué training de la plataforma mira, qué practica (con el bot o sola) y qué trae a la próxima clase.
+Branding AT WORK: marrón #82552E (títulos), terracota #C68C6C (subtítulos y bordes de tabla), crema #FFF8E7 (fondos de encabezados de tabla), tipografía Open Sans. Errores en rojo y correcciones en verde dentro de la tabla. Nada de diagnóstico ni notas para Flor en el doc.
 
 Si ya existe para esa alumna y esa fecha un doc anterior, renombralo con el prefijo "[versión anterior — no usar]". No lo borres.
-No compartas el doc con la alumna: la Parte 1 es solo para Flor. Flor lo proyecta o copia la Parte 2.
+No lo compartas con la alumna: Flor decide si se lo comparte.
 
 ═══════════════════════════════
 PASO 4 bis — REGISTRO DE PROGRESO (Drive)
 ═══════════════════════════════
 En "AT WORK · [Nombre] · Registro de progreso" (en su carpeta; si no existe, crealo con create_file, HTML → Google Doc) agregá arriba de todo una entrada con fecha:
 - Clase del [fecha] (preparada): Week N · Language Clinic: [nivel] #[número] [tema] → Done · Pronunciación: [foco] → Done.
-- Gaps detectados en las notas del [fecha de la última clase]: knowledge / fossilized / construction, con 1 ejemplo literal cada uno.
+- Errores detectados en las notas del [fecha de la última clase]: gap de base / fosilizado, con 1 ejemplo literal cada uno.
 - Gaps que siguen abiertos de entradas anteriores (si volvieron a aparecer).
 Así la próxima clase sabe qué ya se vio y qué sigue abierto. No borres entradas anteriores. Si no podés editar el doc existente, creá uno nuevo con la entrada y avisale a Flor.
 
@@ -129,13 +119,26 @@ Actualizá la descripción del evento, sin notificar a los invitados (notificati
 
 CLASE LISTA · [DD MMM AAAA]
 [Nombre] · AT WORK 1:1 · Week [N] · [training]
-Clase: [link al Google Doc]
+Hoja de la alumna: [link al Google Doc]
+Tu página: [link a la página de Notion]
 Objetivo: [una línea]
 
 ═══════════════════════════════
-PASO 6 — NOTION (solo para dejar el link)
+PASO 6 — NOTION (tu guía + el link a la clase)
 ═══════════════════════════════
-En la base Clases de Notion (collection://6edc592f-a786-4b01-aac8-1f462f058926) creá una fila por clase: Clase ("[Nombre] · [DD MMM]"), Alumna (relación, si encontrás su página; si no, dejalo vacío y avisale), Fecha con hora, Tema ("Week N · [training] · [situación]"), Estado "Preparada", Documento (link al Google Doc), Calendar (link al evento). En el cuerpo de la página poné solo el objetivo en una línea y el link al Google Doc.
+En la base Clases de Notion (collection://6edc592f-a786-4b01-aac8-1f462f058926) creá una fila por clase: Clase ("[Nombre] · [DD MMM]"), Alumna (relación, si encontrás su página; si no, dejalo vacío y avisale), Fecha con hora, Tema ("Week N · [training] · [situación]"), Estado "Preparada", Documento (link al Google Doc), Calendar (link al evento).
+El CUERPO de la página es la guía de Flor: lo que lee antes de clase. Máximo ~300 palabras, español rioplatense con voseo. Exactamente:
+**Semana del roadmap:** Week N · [habilidad] · [situación real]. Cómo lo calculaste, en una línea.
+**Última clase verificada:** fecha + link a las notas de Gemini (o "sin evidencia"). Si había una más nueva vacía, decilo.
+**Objetivo de hoy:** una sola cosa observable.
+**Para arrancar:** la pregunta de apertura ("¿Qué tenés esta semana que tengas que decir o escribir en inglés?") + tarea o weekly report a revisar.
+**Bloque 1 — Narrative Flow:** 2 o 3 errores clave, con su tipo.
+**Bloque 2 — Language Clinic:** tema + de dónde viene (gap del transcript, o biblioteca [nivel] posición X).
+**Bloque 3 — Skill:** habilidad + el role play en una línea.
+**Bloque 4 — Pronunciación:** patrón o palabras.
+**Si va muy bien / si le cuesta:** una línea cada una.
+**Ojo:** solo si hace falta (re-entrada, nivel más bajo, weekly report que no apareció).
+**Clase:** link al Google Doc.
 Si ya hay una fila de esa alumna para hoy, actualizala en vez de duplicarla.
 Después actualizá la vista view://3e35708d-6448-812e-8d57-000c00cd38af: CLEAR FILTER; FILTER "Fecha" >= "AAAA-MM-DD" (hoy).
 No escribas en el Student Delivery Tracker ni en otras bases.
@@ -149,9 +152,10 @@ Formato exacto:
 
 Tus clases de hoy · [día DD de mes]
 
-[hora] · [Alumna] · Week [N] · [training]
+[hora] · [Alumna] · Week [N] · [habilidad]
 Objetivo: [una línea]
 Clase: [link al Google Doc]
+Tu guía: [link a la página de Notion]
 
 (una entrada por clase, en orden de horario)
 
