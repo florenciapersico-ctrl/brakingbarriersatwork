@@ -14,7 +14,8 @@ PASO 1 — QUÉ CLASES TERMINARON
 Leé el Google Calendar principal de Flor ("BREAKING BARRIERS CON LUCIA!") desde las 00:00 de HOY (hora de Buenos Aires) hasta ahora. Quedate con las clases 1:1 AT WORK (y las clases de dos alumnas juntas) que YA TERMINARON. No son clases: discovery calls, entrevistas de venta, reuniones internas, eventos personales, bloqueos de agenda.
 Descartá las que en la descripción ya tienen "RESUMEN ENVIADO · [fecha de hoy]".
 EXCLUSIONES (decisión de Flor):
-- Alejandra (eventos "alejandra class", "alejandra deco" o con Alejandra como invitada): NO se le manda resumen por ahora. Salteala sin marcar nada.
+- Alejandra Rossi, la decoradora (evento "alejandra deco", alejandra.rossi160@gmail.com): NO se le manda resumen por ahora. Salteala sin marcar nada.
+- Alejandra Santos (evento "alejandra class", alejandrasantos80@gmail.com) es alumna AT WORK como las demás: SÍ recibe su resumen.
 CLASES DE DOS ALUMNAS (Lina Aguilar y Corina "Cori" Moreyra, evento "cori and lina"): el correo va SIEMPRE a las dos, aunque se haya conectado una sola. En ese caso, decí al principio quién estuvo en la clase ("Hoy estuvo Cori; Lina, esto es lo que vimos para que lo tengas") y los errores son solo de la que habló.
 Si no queda ninguna, terminá con UNA línea: "No hay clases nuevas para resumir." (Así Flor no recibe nada relevante.)
 
