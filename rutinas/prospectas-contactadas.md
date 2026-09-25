@@ -1,6 +1,6 @@
 # Prospectas ya contactadas (campaña de reactivación, septiembre 2026)
 
-Flor les escribió a TODAS las personas de esta lista con los "Mensajes listos para pegar" (45 prospectas de Instagram). Resultado: 1 sola discovery call (Mafe Hernández), que dijo que sí y no pagó.
+Flor les escribió a TODAS las personas de esta lista con los "Mensajes listos para pegar" (45 prospectas de Instagram). Resultado: 1 sola discovery call (Mafe Hernández), que dijo que sí y después respondió que no tiene el dinero por ahora (25/09).
 
 REGLAS
 - Nunca vuelvas a proponer a nadie de esta lista como prospecta para contactar (ni con otro mensaje, ni "por las dudas"). Compará por usuario de Instagram y por nombre.
@@ -50,7 +50,7 @@ REGLAS
 | Diana Marcela Gutierrez | @dgutierreza86 | Se quejo del bot automatico - dejo telefono - RECUPERAR | Contactada, sin respuesta registrada |
 | Adri Contreras | @adris_contrerasc | PREGUNTO COMO INSCRIBIRSE y el horario le quedaba - RECUPERAR | Contactada, sin respuesta registrada |
 | Adriana Meza | @adrianameza1478 | Dijo "me resuena" pero tenia dudas por el costo - RECUPERAR | Contactada, sin respuesta registrada |
-| Mafe Hernandez | @mafehgrau | PREGUNTO COMO ACCEDER - quedo en horarios - RECUPERAR | Tuvo discovery call el 23/09 y dijo que sí ("apenas haga el pago te lo hago saber por Instagram"); no pagó ni volvió a aparecer. Va por ventas del día, no por prospección. |
+| Mafe Hernandez | @mafehgrau | Discovery call 23/09: dijo que sí | 25/09: respondió el seguimiento: NO por ahora, no tiene el dinero. Venta cerrada como "no". No insistir. Único contacto permitido: recordarle a Flor el 25/11/2026 si quiere retomarla con un mensaje de nutrición (sin vender). |
 | Yoss Venegas Ceciliano | @yoss_v_c | IBA A PAGAR y pospuso - nunca se retomo - RECUPERAR | Contactada, sin respuesta registrada |
 | Leslie Ortegon | @lesliee_ortegon | Solo automaticos - RECUPERAR | Contactada, sin respuesta registrada |
 | Natalia Echeverri Tamayo | @naryrockeet | Se quejo de la demora y de la landing confusa - RECUPERAR con cuidado | Contactada, sin respuesta registrada |

@@ -36,7 +36,7 @@ C — VENTAS (lunes a sábado; el domingo salteala)
    - No respondió al último mensaje de Flor en más de 3 días → segundo y último seguimiento, pregunta simple de sí/no. Ya hubo dos sin respuesta → "dejar la puerta abierta" y no insistir.
    - Pagó → va a la parte D (onboarding).
 4. Prospectas: NUNCA propongas a nadie de rutinas/prospectas-contactadas.md. Si alguna de esa lista escribió por su cuenta (Gmail o lo que veas), sí avisá acá.
-5. Estado ya conocido (25/09): Mafe Hernández (Cartagena, Colombia, trato de tú) dijo que sí el 23/09 y no pagó; su traba fue la transferencia internacional. Si sigue sin pagar, va acá.
+5. Mafe Hernández: cerrada como "no por ahora, no tiene el dinero" (25/09). NO la pongas en ventas. Solo el 25/11/2026 agregá una línea: "Hoy se cumplen 2 meses del no de Mafe: ¿querés retomarla con un mensaje sin vender?" con un borrador corto en tú.
 Si no hay ninguna acción, esta sección no aparece.
 
 ═══════════════════════════════
