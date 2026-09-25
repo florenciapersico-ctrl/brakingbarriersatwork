@@ -93,19 +93,21 @@ REGLAS FIJAS
 ═══════════════════════════════
 CASO ESPECIAL ALEJANDRA ROSSI (la decoradora)
 ═══════════════════════════════
-Quién es: una mujer mayor, decoradora, que NO está en el programa AT WORK como las demás: no usa inglés para el trabajo ni sigue el roadmap, los bots ni la plataforma. Viene a clase por su vida: viajes, conversaciones, disfrutar el idioma. Flor no siempre sabe qué darle, así que este correo es sobre todo una ayuda para Flor.
+Quién es: una mujer mayor, decoradora, que NO está en el programa AT WORK (no usa inglés para el trabajo ni sigue el roadmap, los bots ni la plataforma). El objetivo sí es que mejore su inglés de verdad, y necesita más gramática y base que las demás. Flor no siempre sabe qué darle, así que este correo es sobre todo una ayuda para Flor.
 
 Con su clase terminada y con notas de Gemini (mismas reglas del PASO 2 y de PRIVACIDAD), mandá UN correo:
 - Para: SOLO florenciapersico@breakingbarriers.site. NUNCA a Alejandra, ni en copia.
 - Asunto: "Alejandra (deco) · tu clase del [día] [DD/MM] + tarea para reenviarle"
 - Cuerpo, en español rioplatense con voseo, dirigido a Flor:
   1. "Qué hicieron hoy": 3 o 4 líneas, solo de inglés (temas de conversación, situaciones, lo que le costó y lo que le salió bien, con 2 o 3 frases literales suyas corregidas).
-  2. "Ideas para la próxima clase": 2 o 3 ideas concretas y amenas para una mujer adulta que aprende por gusto (ej.: pedir en un restaurante en un viaje, contar un proyecto de decoración con sus colores y materiales, charlar sobre una serie o una película, describir fotos de un viaje, hablar con un vendedor en una tienda de diseño), elegidas según lo que ella contó en clase. Nada de reuniones, jefes, updates, emails de trabajo, bots ni plataforma.
+  1 bis. "Gramática que necesita": qué error de base apareció hoy y qué tema de la tabla B1 de la BIBLIOTECA DE TEMAS conviene trabajar la próxima clase (o seguir con el siguiente en orden si no hubo gaps nuevos), en una o dos líneas.
+  2. "Ideas para la próxima clase": 2 o 3 ideas concretas para una mujer adulta que aprende por gusto, donde practique ese tema de gramática (ej.: pedir en un restaurante en un viaje, contar un proyecto de decoración con sus colores y materiales, charlar sobre una serie o una película, describir fotos de un viaje, hablar con un vendedor en una tienda de diseño), elegidas según lo que ella contó en clase. Nada de reuniones, jefes, updates, emails de trabajo, bots ni plataforma.
   3. Una línea gris separadora y "Borrador para reenviarle a Alejandra (alejandra.rossi160@gmail.com)":
      Un mensaje corto, cálido y simple, escrito para ella ("Hola Ale!"), con:
      - lo lindo que salió en clase, en una línea;
      - 3 a 5 frases útiles de la clase, en inglés, con su traducción;
-     - UNA tarea liviana y disfrutable para la semana, de 10 a 15 minutos, pensada para su vida y sus gustos. Por ejemplo: grabar un audio de 1 minuto contándole a Flor un lugar que le gustó; mirar 10 minutos de un video de YouTube de decoración o de viajes en inglés con subtítulos y anotar 3 palabras nuevas; escribir 4 o 5 oraciones describiendo un ambiente que decoró; leer en voz alta una receta en inglés. Nada técnico, nada de gramática pesada.
+     - una mini explicación de la gramática trabajada en clase (2 o 3 líneas, en español, con 2 ejemplos) y 5 oraciones cortas para completar o transformar, sobre temas de su vida;
+     - UNA tarea liviana y disfrutable para la semana, de 10 a 15 minutos, pensada para su vida y sus gustos, que use esa gramática. Por ejemplo: grabar un audio de 1 minuto contándole a Flor un lugar que le gustó; mirar 10 minutos de un video de YouTube de decoración o de viajes en inglés con subtítulos y anotar 3 palabras nuevas; escribir 4 o 5 oraciones describiendo un ambiente que decoró; leer en voz alta una receta en inglés. Nada técnico, nada de gramática pesada.
      - firma "Flor".
 - Estilo: el mismo del correo de las demás (Open Sans/Arial, títulos #82552E, recuadros crema #FFF8E7 con borde #C68C6C). El borrador para Alejandra va en un recuadro para que Flor lo copie fácil.
 - En Notion: si existe una fila de su clase de hoy en la base Clases, agregá al final "## Resumen de la clase · [DD MMM]" con los puntos 1 y 2. Si no existe, no crees nada.
