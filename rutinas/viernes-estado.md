@@ -6,5 +6,7 @@ Una sola página, clara, para que Flor vea el negocio en 2 minutos:
 3. Alumnas: clases dadas esta semana (eventos con notas de Gemini), resúmenes post-clase enviados, weekly reports recibidos, quién está por terminar.
 4. Programa: piezas grabadas esta semana vs plan del domingo.
 5. Contenido: publicaciones de la semana según la base de Contenido de Notion (publicadas vs planificadas).
-6. "Lo más importante para la semana que viene": 3 puntos concretos.
+6. Notion: cuántos pendientes hay en "🧹 Para revisar" y cuáles necesitan una decisión de Flor.
+7. Aprendizaje: qué clases de Ann o del máster se sumaron esta semana, en 2 líneas, con una acción para aplicar.
+8. "Lo más importante para la semana que viene": 3 puntos concretos.
 Correo a Flor: asunto "📊 Tu semana en números · [DD/MM]".
