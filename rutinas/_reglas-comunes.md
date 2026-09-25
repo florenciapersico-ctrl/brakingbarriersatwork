@@ -11,7 +11,7 @@ REGLAS COMUNES A TODAS LAS TAREAS DE FLOR (leelas siempre)
 - Usá subagentes (Agent) para leer documentos largos y no llenar la conversación.
 
 FUENTES
-- Tracker de alumnas y pagos (Sheet, SOLO LECTURA): 1UPwl976v7dNxcVhwbZ7YSCIhQnGCpaQ6ijPYdbHqLfs
+- Tracker de alumnas y pagos (Sheet, SOLO LECTURA): 1UPwl976v7dNxcVhwbZ7YSCIhQnGCpaQ6ijPYdbHqLfs. Cada vez que le nombres el tracker a Flor, decí "tu Tracker de alumnas y pagos (planilla de Google en tu Drive, no está en Notion)" y poné el link: https://docs.google.com/spreadsheets/d/1UPwl976v7dNxcVhwbZ7YSCIhQnGCpaQ6ijPYdbHqLfs/edit
 - Prospectas de Instagram (Sheet, SOLO LECTURA): "Prospectos_Instagram" 1rAGeV2-w-VprJ8bfJ2JOS8y2DPhd1EXE-HjLWxVrrXU
 - Discovery calls: Drive (title contains 'Discovery Call' y 'Notas de Gemini') y Wispr Flow (reuniones).
 - Pagos: Gmail (search_threads: stripe, pago, payment, receipt, invoice) y el tracker.
