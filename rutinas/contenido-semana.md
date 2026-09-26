@@ -77,3 +77,5 @@ Nada técnico.
 Plan general: https://app.notion.com/p/3e75708d644881daaacac3b822343012 (Plan de contenido · Ecosistema Circular de Ann, 90 días). Respetá la fase del mes en curso.
 
 PRUEBA SOCIAL (obligatorio, ver sección 11 del sistema): de los 5 reels, 2 son de prueba; de los 2 carruseles, 1 es historia de alumna. Buscá micro wins de la semana en las notas de Gemini y, si una alumna tuvo un gran win, dejá en el correo el mensaje para pedirle testimonio (plantilla en "⭐ Banco de prueba social" en Notion). Incluí 1 pieza personal de Flor (sección 12).
+
+MATERIAL DE FLOR EN CANVA: usá sus fotos y videos de la carpeta "Fotos y videos de Flor" (FAHWUkBhong) para portadas, stories y carruseles (rotalas, no repitas la misma foto dos semanas seguidas). Antes de diseñar, mirá la carpeta "Referencias de diseño que me gustan" (FAHWUkZ8SXE) y copiá esa estética (no el contenido).
