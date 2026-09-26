@@ -19,7 +19,7 @@ Métrica que importa: INBOUND (gente que escribe "quiero trabajar con vos"), med
 
 ## 2. Lo que Flor cree y defiende (Mundo · Creencias · Prueba)
 - Doctrina: "Saber inglés y poder usarlo bajo demanda no son la misma habilidad."
-- Categoría: entrenadora de comunicación profesional en inglés. Nunca "profesora", nunca "curso" ni "programa" a secas: es un método con nombre (AT WORK Delivery Method™; mecanismo Produce → Diagnose → Train → Retry → Transfer).
+- Categoría: entrenadora de comunicación profesional en inglés. Nunca "profesora", nunca "curso" ni "programa" a secas: es un método con nombre (Delivery Method™ — siempre con este nombre exacto; mecanismo Produce → Diagnose → Train → Retry → Transfer).
 - Villanos (4 V de Ann: Visión, Valores, Villanos, Vicios): "estudiar más" como respuesta a todo; las academias de PDF de gramática; preparar el speech perfecto con ChatGPT y quedar pegada al guion; la clase "personalizada" que no es un entrenamiento. Opinar sin tibieza: "el hate es señal".
 - Diferencial: "Tu trabajo real de esta semana es el programa." Se entrena con SUS reuniones, SUS mails, SU jefe.
 - Prueba: casos reales (Brenda, Gaby, Sol, Belén, Virginia, Lina, Adriana; testimonios en video en Drive). Siempre con permiso y sin nada personal. NUNCA Maribel.
