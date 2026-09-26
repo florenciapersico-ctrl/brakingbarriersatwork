@@ -95,7 +95,6 @@ Flor lo confirmó: su contenido que más funciona son los videos de alumnas, los
 - Nunca Maribel.
 - Permisos confirmados por Flor (26/09): BELEM autorizó (nombre, testimonio y material; ya se publicó contenido suyo). LUZ CAÑAS pidió que NO se use nada suyo: excluida de todo contenido, ni siquiera anonimizada.
 
-- Permisos confirmados por Flor (26/09): BELEM autorizó (nombre, testimonio y material; ya se publicó contenido suyo). LUZ CAÑAS pidió que NO se use nada suyo: excluida de todo contenido, ni siquiera anonimizada.
 
 ## 12. Que se vea quién es Flor (el 20% personal, sin repetirse)
 - Rotar ángulos cada semana; prohibido repetir el mismo hook de fondo ("sabés inglés pero en la reunión…") más de 1 vez por semana.
