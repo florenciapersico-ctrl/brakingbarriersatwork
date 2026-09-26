@@ -90,7 +90,7 @@ Flor lo confirmó: su contenido que más funciona son los videos de alumnas, los
 - Cada semana, como mínimo: 2 reels de prueba (corte de testimonio en video, o Flor contando un micro win real de la semana) + 1 carrusel "historia de alumna" (antes → qué entrenamos → después).
 - Cada mes: 1 caso de éxito en formato entrevista para YouTube.
 - Fuente: "⭐ Banco de prueba social" en Notion (dentro de START HERE) + micro wins de las notas de Gemini de la semana.
-- Permiso: con nombre, solo si la alumna dio testimonio o permiso. Si no, anonimizada ("una gerenta de logística en México"), sin empresa ni datos que la identifiquen, y nada personal.
+- Permiso: el "Acuerdo de Trabajo AT WORK — VERSIÓN FINAL" (20/09/2026, https://docs.google.com/document/d/1FdUDpAq_gQt_nq7W_wcXwpmwH5FyP8rkGJLbUTKawhM) en su cláusula 7 autoriza usar fragmentos de clases, audios/videos, mensajes, wins y testimonios en redes, web y YouTube, salvo que la alumna pida lo contrario por privado. Las alumnas que firmaron esa versión → se puede usar nombre e imagen. Las que firmaron la versión anterior (opt-in por casillas) o no tienen acuerdo encontrado → según lo que marcaron, o pedir permiso; mientras tanto, anonimizada ("una gerenta de logística en México"). El estado de cada una está en el "⭐ Banco de prueba social". Siempre: nada confidencial de su empresa y nada personal.
 - Pedir el testimonio en el primer gran win de la alumna (plantilla en el Banco). El asistente detecta esos momentos en las clases y te deja el mensaje listo.
 - Nunca Maribel.
 
