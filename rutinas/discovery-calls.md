@@ -11,8 +11,8 @@ Si en esta corrida no hay nada para hacer (ni prep ni seguimiento), terminá con
 1 — PREP (llamadas que empiezan en los próximos 30 a 120 minutos, sin "PREP LISTA")
 ═══════════════════════════════
 Averiguá quién es con todo lo que haya, sin inventar:
-- Planilla "Prospectos_Instagram" (1rAGeV2-w-VprJ8bfJ2JOS8y2DPhd1EXE-HjLWxVrrXU, SOLO LECTURA): buscala por nombre, usuario o mail. Qué dijo, en qué etapa quedó, prioridad.
-- rutinas/prospectas-contactadas.md: si está, qué nota le puso Flor.
+- La base "🎯 Prospectas" de Notion (collection://0656269b-b1ea-4ded-a1dd-733dccdbcc94, https://app.notion.com/p/50d3c9ffb9ef4b03a37bda5256c90138): buscala por nombre o usuario. Qué dijo, en qué etapa quedó, prioridad, nota de Flor.
+- la base "🎯 Prospectas" de Notion (collection://0656269b-b1ea-4ded-a1dd-733dccdbcc94, https://app.notion.com/p/50d3c9ffb9ef4b03a37bda5256c90138) (Reactivación sep-26 = Sí o Resultado distinto de "Sin contactar" = ya contactada): si está, qué nota le puso Flor.
 - Gmail: hilos con su mail o nombre (formularios, respuestas).
 - Drive: notas de Gemini de llamadas anteriores con ella.
 Armá el prep (máximo 200 palabras, se lee en 1 minuto):
@@ -35,5 +35,5 @@ Con las notas:
 - Qué la frena o qué quedó pendiente (pago, horario, consulta con alguien).
 - Mensaje de seguimiento listo para copiar (WhatsApp o Instagram), en SU trato (tú / vos según su país y cómo habló), que retome su objetivo con sus palabras y resuelva la traba concreta. Si dijo que sí: cómo pagar paso a paso con "[link de pago]". Si lo piensa: una pregunta simple. Si dijo que no: agradecer y dejar la puerta abierta.
 - Chequeo de números: si en la llamada se mencionó un precio distinto de la oferta vigente, avisalo arriba para que Flor lo aclare.
-Mandalo por Gmail a Flor: asunto "📞 Seguimiento · [Nombre] · [cómo terminó]". Marcá el evento "SEGUIMIENTO LISTO · [fecha]".
+Mandalo por Gmail a Flor: asunto "📞 Seguimiento · [Nombre] · [cómo terminó]". Marcá el evento "SEGUIMIENTO LISTO · [fecha]". Actualizá su fila en la base "🎯 Prospectas" de Notion (collection://0656269b-b1ea-4ded-a1dd-733dccdbcc94, https://app.notion.com/p/50d3c9ffb9ef4b03a37bda5256c90138) (Resultado "Llamada" o el que corresponda, Próximo paso, Fecha próximo contacto); si no existe, creala.
 Nunca le escribas a la prospecta. Nada personal o sensible en el correo.

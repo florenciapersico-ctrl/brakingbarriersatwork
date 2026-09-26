@@ -1,5 +1,5 @@
 TAREA: "Tu día" — el único correo de la mañana de Flor (todos los días, 7:00 Buenos Aires).
-Leé primero rutinas/_reglas-comunes.md y rutinas/prospectas-contactadas.md (en esta misma rama). Las reglas comunes mandan siempre.
+Leé primero rutinas/_reglas-comunes.md y la base "🎯 Prospectas" de Notion (collection://0656269b-b1ea-4ded-a1dd-733dccdbcc94, https://app.notion.com/p/50d3c9ffb9ef4b03a37bda5256c90138) (Reactivación sep-26 = Sí o Resultado distinto de "Sin contactar" = ya contactada) (en esta misma rama). Las reglas comunes mandan siempre.
 
 Este correo reemplaza a varios avisos sueltos: la agenda del día, ventas del día, cobros, onboarding, bandeja de entrada y tareas dictadas por voz. Flor lo abre en el celular: tiene que entender su día en 1 minuto.
 
@@ -38,7 +38,7 @@ C — VENTAS (lunes a sábado; el domingo salteala)
    - Dijo que sí y no pagó en más de 48 h → seguimiento corto listo para copiar, que retome lo que ELLA dijo que quería lograr y resuelva la traba concreta (ej.: cómo pagar desde su país). Sin inventar links: "[link de pago]".
    - No respondió al último mensaje de Flor en más de 3 días → segundo y último seguimiento, pregunta simple de sí/no. Ya hubo dos sin respuesta → "dejar la puerta abierta" y no insistir.
    - Pagó → va a la parte D (onboarding).
-4. Prospectas: NUNCA propongas a nadie de rutinas/prospectas-contactadas.md. Si alguna de esa lista escribió por su cuenta (Gmail o lo que veas), sí avisá acá.
+4. Prospectas: NUNCA propongas a nadie de la base "🎯 Prospectas" de Notion (collection://0656269b-b1ea-4ded-a1dd-733dccdbcc94, https://app.notion.com/p/50d3c9ffb9ef4b03a37bda5256c90138) (Reactivación sep-26 = Sí o Resultado distinto de "Sin contactar" = ya contactada). Si alguna de esa lista escribió por su cuenta (Gmail o lo que veas), sí avisá acá.
 5. Mafe Hernández: cerrada como "no por ahora, no tiene el dinero" (25/09). NO la pongas en ventas. Solo el 25/11/2026 agregá una línea: "Hoy se cumplen 2 meses del no de Mafe: ¿querés retomarla con un mensaje sin vender?" con un borrador corto en tú.
 Si no hay ninguna acción, esta sección no aparece.
 
