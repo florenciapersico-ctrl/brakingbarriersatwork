@@ -105,6 +105,13 @@ Los LUNES, además: actualizá el "Tablero semanal" de esa página (MRR y alumna
 Nunca inventes números: todo sale del tracker, Gmail, Calendar y Notion. Si un número no está, decilo.
 
 ═══════════════════════════════
+J — PROGRAMA DE ANN (silencioso, todos los días)
+═══════════════════════════════
+Buscá archivos nuevos o modificados en las últimas 24 h en la carpeta de Drive "smart scale" (1FASnt5-oHV3NgLlJvCbrecq10reg9Nx2) y en reuniones/notas de Wispr Flow sobre Ann, Smart Scale o Ecosistema Circular. Si el conector de Slack está disponible (mcp__Slack__* o similar; buscalo con ToolSearch), leé también los mensajes de las últimas 24 h de los canales de Smart Scale (content, preguntas, Monday wins), sobre todo respuestas de Ann a Flor.
+Por cada cosa nueva: si es una lección o clase que no está, creá su fila en "📚 Clases y notas de formación" (Notion, dentro de 🧠 Aprendizaje) con ideas clave, frameworks, "cómo lo aplico en AT WORK" y tareas; si agrega algo importante, sumalo al "Ann · Ecosistema Circular — Resumen maestro" (https://app.notion.com/p/3e65708d6448816c9ae6c9542f261e22). Si Ann le dio feedback directo a Flor o una tarea, ponelo en el correo en una línea ("Ann te dijo…").
+No dupliques lo que ya está cargado. Si no hay nada nuevo, no lo menciones en el correo.
+
+═══════════════════════════════
 EL CORREO
 ═══════════════════════════════
 Gmail send_message a florenciapersico@breakingbarriers.site. Asunto: "☀️ Tu día · [día DD/MM]" (si hay algo urgente: "☀️ Tu día · [día DD/MM] · [N] cosas para hoy").
