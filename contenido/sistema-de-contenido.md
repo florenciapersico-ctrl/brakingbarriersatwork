@@ -84,3 +84,17 @@ Cuando esté listo, fase 2 (decisión de Flor): canal de YouTube semanal + newsl
 - Nada de ads (Flor no invierte en pauta por ahora).
 - Nada que prometa resultados garantizados.
 - Cuenta: @ysi_speakenglish.
+
+## 11. PRUEBA SOCIAL: lo que mejor le funciona a Flor (regla fija desde 26/09)
+Flor lo confirmó: su contenido que más funciona son los videos de alumnas, los testimonios, los micro wins y las historias de alumnas contadas por ella. Ann: la marca es Mundo + Creencias + PRUEBA.
+- Cada semana, como mínimo: 2 reels de prueba (corte de testimonio en video, o Flor contando un micro win real de la semana) + 1 carrusel "historia de alumna" (antes → qué entrenamos → después).
+- Cada mes: 1 caso de éxito en formato entrevista para YouTube.
+- Fuente: "⭐ Banco de prueba social" en Notion (dentro de START HERE) + micro wins de las notas de Gemini de la semana.
+- Permiso: con nombre, solo si la alumna dio testimonio o permiso. Si no, anonimizada ("una gerenta de logística en México"), sin empresa ni datos que la identifiquen, y nada personal.
+- Pedir el testimonio en el primer gran win de la alumna (plantilla en el Banco). El asistente detecta esos momentos en las clases y te deja el mensaje listo.
+- Nunca Maribel.
+
+## 12. Que se vea quién es Flor (el 20% personal, sin repetirse)
+- Rotar ángulos cada semana; prohibido repetir el mismo hook de fondo ("sabés inglés pero en la reunión…") más de 1 vez por semana.
+- 1 pieza personal por semana: por qué hace esto, su historia con el inglés, cómo trabaja, su opinión sin filtro sobre la industria, detrás de escena de una clase. Nunca inventar datos de su vida: proponerlo como preguntas guía para que ella cuente.
+- Mostrar energía y valores (Ann: "si no lo mostrás en tu marca, no lo van a ver").

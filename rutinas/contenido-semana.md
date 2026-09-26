@@ -75,3 +75,5 @@ Gmail a florenciapersico@breakingbarriers.site, asunto "🎬 Tu contenido de la 
 Nada técnico.
 
 Plan general: https://app.notion.com/p/3e75708d644881daaacac3b822343012 (Plan de contenido · Ecosistema Circular de Ann, 90 días). Respetá la fase del mes en curso.
+
+PRUEBA SOCIAL (obligatorio, ver sección 11 del sistema): de los 5 reels, 2 son de prueba; de los 2 carruseles, 1 es historia de alumna. Buscá micro wins de la semana en las notas de Gemini y, si una alumna tuvo un gran win, dejá en el correo el mensaje para pedirle testimonio (plantilla en "⭐ Banco de prueba social" en Notion). Incluí 1 pieza personal de Flor (sección 12).
