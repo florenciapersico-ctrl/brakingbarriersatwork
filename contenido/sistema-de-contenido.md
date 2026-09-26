@@ -94,6 +94,7 @@ Flor lo confirmó: su contenido que más funciona son los videos de alumnas, los
 - Pedir el testimonio en el primer gran win de la alumna (plantilla en el Banco). El asistente detecta esos momentos en las clases y te deja el mensaje listo.
 - Nunca Maribel.
 - Permisos confirmados por Flor (26/09): BELEM autorizó (nombre, testimonio y material; ya se publicó contenido suyo). LUZ CAÑAS pidió que NO se use nada suyo: excluida de todo contenido, ni siquiera anonimizada.
+- Ex alumnas (ya terminaron el programa): Moni/Mónica (Tesla) terminó el 07/09/2026, Isis también. Sus testimonios viejos SÍ se pueden usar, pero siempre contados en pasado y como ex alumnas ("cuando Moni hizo AT WORK…"), nunca como si estuvieran cursando hoy. El estado de cada alumna sale del tracker (hoja Alumnas = activas; hoja Histórico = terminadas o de baja).
 
 
 ## 12. Que se vea quién es Flor (el 20% personal, sin repetirse)
