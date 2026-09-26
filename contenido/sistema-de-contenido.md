@@ -109,3 +109,4 @@ Referencias que le gustan (plantillas Pro de Canva, estilo creadora editorial):
 - **Toque editorial**: frase en serif con palabras clave en itálica dentro de un recuadro blanco sobre una foto.
 - Variante "post de Instagram" (marco con íconos de like/comentario/guardar) para testimonios.
 - Siempre fotos de Flor (carpeta "Fotos y videos de Flor" y sus Uploads), nada de stock corporativo ni portadas marrones.
+- **Estilo favorito confirmado (26/09) — "tarjeta + stickers"**: foto de Flor de fondo en todas las láminas; tarjeta central crema con borde fino marrón oscuro y texto en tipografía display condensada en MAYÚSCULAS marrón; etiquetas tipo pastilla verde lima con borde marrón, levemente inclinadas ("4 preguntas", "tip #1"); stickers (asterisco verde, corazón rosa con contorno); handle @ysi_speakenglish en pastilla rosa abajo al centro; cierre "GUARDALO" con flecha lima. Paleta: lima, rosa, crema, marrón oscuro. Este es el estilo por defecto de los carruseles.
