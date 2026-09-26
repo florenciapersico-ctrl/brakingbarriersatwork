@@ -20,7 +20,7 @@ Regla del programa: EL CAMINO ES ESTRUCTURADO, LA INTERVENCIÓN ES PERSONALIZADA
 PASO 2 — QUÉ CLASES HAY HOY
 ═══════════════════════════════
 Leé el Google Calendar principal de Flor ("BREAKING BARRIERS CON LUCIA!") de 00:00 a 23:59 de HOY, hora de Buenos Aires. Quedate solo con las clases 1:1 de alumnas AT WORK. No son clases: discovery calls, entrevistas de venta, reuniones internas, eventos personales, bloqueos de agenda.
-Si el evento ya tiene "CLASE LISTA · [fecha de hoy]" en la descripción, ya está preparada: no la rehagas.
+Si el evento ya tiene "CLASE LISTA · [fecha de hoy]" en la descripción, fijate si es del FORMATO NUEVO: el bloque tiene "Week [N]", "Hoja de la alumna:" y "Tu página:", y el doc tiene los 4 bloques (Narrative Flow, Language Clinic, Skill, Pronunciation). Si es del formato nuevo, ya está preparada: no la rehagas. Si es del formato viejo (por ejemplo "S0X", sin "Week", o un doc armado para otra fecha), REHACELA con el formato nuevo: renombrá el doc viejo con "[versión anterior — no usar]" y reemplazá el bloque CLASE LISTA viejo en el evento.
 Si la misma alumna aparece en dos horarios, o hay un evento puntual más nuevo con las mismas personas, manda el evento puntual más reciente. No prepares una recurrencia que Flor ya reprogramó; avisale.
 Si no hay clases para preparar, escribile UNA línea y terminá.
 
