@@ -42,7 +42,7 @@ A) 5 INSIGHT REELS (lunes a viernes), 45–120 s, para grabar SIN prompter. Cada
    - 3 bullets de lo que Flor tiene que decir (no un guion para leer) + la frase de cierre.
    - Descripción/caption completa (primera línea = gancho; cierre = GPS: qué hacer si quiere trabajar con Flor). CTA a DM "LISTA" solo en 1 o 2 piezas de conversión.
    - De dónde salió (clase, discovery, Ann, métricas) en una línea.
-B) 1 VIDEO ANCLA de 8–12 min (storytelling, 80 % cambio de creencia / 20 % técnica): título, la historia que abre, 4–5 momentos (bullets), la creencia que rompe, cierre. Más 2–3 momentos marcados para recortar como clips.
+B) 1 VIDEO DE YOUTUBE (el video ancla) de 8–12 min — se publica en el canal de YouTube de Flor cada semana. Incluí: 3 opciones de título (curiosidad + específico, <60 caracteres), texto de miniatura (3–5 palabras) e idea de imagen, los primeros 30 segundos escritos, la descripción de YouTube con marcadores de tiempo y el CTA a LISTA por Instagram. Además,  (storytelling, 80 % cambio de creencia / 20 % técnica): título, la historia que abre, 4–5 momentos (bullets), la creencia que rompe, cierre. Más 2–3 momentos marcados para recortar como clips.
 C) 2 CARRUSELES prácticos y guardables: lámina por lámina (7–9 láminas): portada con hook (escena o error), el error real → la versión que funciona → la frase lista para usar → lámina final "guardalo para tu próxima reunión". Caption completa.
 D) STORIES para 2 días: secuencia de 4–6 historias por día (encuesta/pregunta que abre conversación; el otro día, CTA a DM).
 E) 1 PIEZA CASO (autoridad): un antes/después de alumna SOLO si hay testimonio o permiso ya dado (buscalo en Drive: testimonios, weekly reports con permiso). Si no hay permiso claro, hacela como momento de clase anonimizado y decilo.
@@ -73,3 +73,5 @@ Gmail a florenciapersico@breakingbarriers.site, asunto "🎬 Tu contenido de la 
 - Link al Google Doc y a la vista de Contenido en Notion.
 - Si algo no se pudo (Windsor, Canva), una línea.
 Nada técnico.
+
+Plan general: https://app.notion.com/p/3e75708d644881daaacac3b822343012 (Plan de contenido · Ecosistema Circular de Ann, 90 días). Respetá la fase del mes en curso.
