@@ -93,6 +93,7 @@ Flor lo confirmó: su contenido que más funciona son los videos de alumnas, los
 - Permiso: el "Acuerdo de Trabajo AT WORK — VERSIÓN FINAL" (20/09/2026, https://docs.google.com/document/d/1FdUDpAq_gQt_nq7W_wcXwpmwH5FyP8rkGJLbUTKawhM) en su cláusula 7 autoriza usar fragmentos de clases, audios/videos, mensajes, wins y testimonios en redes, web y YouTube, salvo que la alumna pida lo contrario por privado. Las alumnas que firmaron esa versión → se puede usar nombre e imagen. Las que firmaron la versión anterior (opt-in por casillas) o no tienen acuerdo encontrado → según lo que marcaron, o pedir permiso; mientras tanto, anonimizada ("una gerenta de logística en México"). El estado de cada una está en el "⭐ Banco de prueba social". Siempre: nada confidencial de su empresa y nada personal.
 - Pedir el testimonio en el primer gran win de la alumna (plantilla en el Banco). El asistente detecta esos momentos en las clases y te deja el mensaje listo.
 - Nunca Maribel.
+- Permisos confirmados por Flor (26/09): BELEM autorizó (nombre, testimonio y material; ya se publicó contenido suyo). LUZ CAÑAS pidió que NO se use nada suyo: excluida de todo contenido, ni siquiera anonimizada.
 
 ## 12. Que se vea quién es Flor (el 20% personal, sin repetirse)
 - Rotar ángulos cada semana; prohibido repetir el mismo hook de fondo ("sabés inglés pero en la reunión…") más de 1 vez por semana.

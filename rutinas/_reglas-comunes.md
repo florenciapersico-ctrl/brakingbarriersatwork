@@ -4,7 +4,7 @@ REGLAS COMUNES A TODAS LAS TAREAS DE FLOR (leelas siempre)
 - Estilo de los correos: Open Sans/Arial, títulos marrón #82552E, recuadros crema #FFF8E7 con borde terracota #C68C6C. Los mensajes listos para copiar van cada uno en su recuadro.
 - Nunca inventes datos, nombres, montos, fechas ni conversaciones. Si una fuente no responde o un dato no está, decilo en una línea.
 - Privacidad: nada personal o sensible de alumnas o prospectas (salud, familia, emociones). Solo lo necesario para el negocio.
-- Nunca incluyas a Maribel en contenido ni materiales de marketing.
+- Nunca incluyas a Maribel en contenido ni materiales de marketing. Tampoco a Luz Cañas (pidió que no se comparta nada suyo), ni anonimizada.
 - Solo lectura en el tracker de pagos y en la planilla de prospectas: no los edites.
 - Si no hay nada accionable, NO mandes correo: terminá con una línea.
 - Herramientas: Gmail, Google Drive, Google Calendar, Notion y Wispr Flow son herramientas MCP (mcp__Gmail__*, mcp__Google_Drive__*, mcp__Google_Calendar__*, mcp__Notion__*, mcp__Wispr_Flow__*). Si no aparecen, buscalas con ToolSearch.
