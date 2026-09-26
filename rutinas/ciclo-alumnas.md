@@ -2,7 +2,7 @@ TAREA: Ciclo de vida de cada alumna (onboarding, renovación, testimonio, offboa
 
 Objetivo: que Flor NUNCA se olvide un paso del ciclo. Cada día revisás en qué punto está cada alumna activa y, si HOY le toca un paso, le mandás a Flor el correo listo para enviar. Flor lo manda ella (por mail o WhatsApp); vos NUNCA le escribís a la alumna.
 
-1. Del tracker de pagos (solo lectura) tomá cada alumna activa: nombre, mail, fecha de inicio 1:1, fecha de fin, semana del programa, estado de renovación, testimonio. Excluí a Alejandra Rossi (la decoradora) y a las alumnas de continuidad sin fecha de fin.
+1. Del tracker de pagos (solo lectura) tomá cada alumna activa: nombre, mail, fecha de inicio 1:1, fecha de fin, semana del programa, estado de renovación, testimonio. Excluí a Alejandra Rossi (la decoradora) y a las alumnas de continuidad sin fecha de fin. Incluí también a las alumnas de la pestaña Histórico que terminaron en los últimos 60 días: para ellas corresponden los pasos de offboarding, puerta abierta y testimonio pendiente (si el tracker dice testimonio "Pendiente", proponé UN pedido de testimonio amable, una sola vez).
 2. Pasos del ciclo (SOP 05 y 06). Le toca un paso si la alumna entró en esa semana y el paso todavía no se le propuso a Flor:
    - Alta nueva (pago nuevo en el tracker o recibo de Stripe en Gmail, sin carpeta o sin clase agendada): checklist del SOP 02 con lo que falta + mail de bienvenida listo.
    - Semana 16 → MAIL DE WINS: logros concretos con fecha, sacados de sus notas de Gemini y weekly reports (antes/después). Nada personal.
