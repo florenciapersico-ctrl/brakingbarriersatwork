@@ -101,3 +101,11 @@ Flor lo confirmó: su contenido que más funciona son los videos de alumnas, los
 - Rotar ángulos cada semana; prohibido repetir el mismo hook de fondo ("sabés inglés pero en la reunión…") más de 1 vez por semana.
 - 1 pieza personal por semana: por qué hace esto, su historia con el inglés, cómo trabaja, su opinión sin filtro sobre la industria, detrás de escena de una clase. Nunca inventar datos de su vida: proponerlo como preguntas guía para que ella cuente.
 - Mostrar energía y valores (Ann: "si no lo mostrás en tu marca, no lo van a ver").
+
+## 13. Estilo visual (elegido por Flor el 26/09)
+Referencias que le gustan (plantillas Pro de Canva, estilo creadora editorial):
+- **Portadas con su foto real a sangre completa** y el texto encima en sans bold grande (a veces en mayúsculas), con UNA palabra clave resaltada con un recuadro de color detrás (amarillo lima o crema). Handle @ysi_speakenglish chico arriba, puntitos de paginación, bajada chica abajo.
+- **Láminas de texto**: fondo crema liso, título grande en sans negro, una frase resaltada con marcador amarillo lima, mucho aire, un iconito negro (estrella) en una esquina, handle chico abajo.
+- **Toque editorial**: frase en serif con palabras clave en itálica dentro de un recuadro blanco sobre una foto.
+- Variante "post de Instagram" (marco con íconos de like/comentario/guardar) para testimonios.
+- Siempre fotos de Flor (carpeta "Fotos y videos de Flor" y sus Uploads), nada de stock corporativo ni portadas marrones.
