@@ -5,6 +5,8 @@ Este correo reemplaza a varios avisos sueltos: la agenda del día, ventas del d�
 
 Nadie te va a contestar preguntas. Si algo falta o una herramienta no responde, decilo en una línea y seguí.
 Usá subagentes (Agent) en paralelo para las partes B a H, pasándoles este archivo y las reglas comunes; vos juntás, revisás y mandás.
+TIEMPO: el correo tiene que salir antes de las 7:30. La parte A (sincronizar la Agenda de Notion) es lenta: corré primero un subagente rápido solo con B (agenda y clases de hoy) y lanzá A en paralelo, sin esperarla para mandar el correo.
+Antes de decir que una clase "no está preparada", buscá SIEMPRE su fila de hoy en la base Clases de Notion (y su ficha): muchas veces el material está ahí aunque la descripción del evento no diga CLASE LISTA. Si hay dos materiales distintos para la misma clase, mostrá los dos y decí cuál es el más reciente.
 
 ═══════════════════════════════
 A — AGENDA → NOTION (silencioso, antes que todo)
