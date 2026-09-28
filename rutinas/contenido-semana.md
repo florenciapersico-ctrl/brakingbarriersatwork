@@ -65,12 +65,22 @@ d) MANTENER TODO AL DÍA (antes de crear lo nuevo):
    - Filas "Planificado" con fecha de hace más de 7 días que no se publicaron → Estado "Descartado" y en Notas "No publicado — limpieza automática [fecha]". Nunca borres filas.
 
 ═══════════════════════════════
+6b — PLAN DE GRABACIÓN AT WORK (reemplaza al correo "Qué grabar esta semana")
+═══════════════════════════════
+Con un subagente:
+1. Estado real del programa: cruzá la base AT WORK de Notion con Drive ("AT WORK 2026 FINAL", 19QZ3S6LQKH7A8aIMqWMkV8BYFyP7PdBX: videos .mp4 finales, prompters, decks, worksheets). Clasificá cada pieza: con video final / con guion+deck listo para grabar / solo guion / nada. Si una pieza tiene video nuevo en Drive y en Notion no figura como grabada, avisalo (no edites Notion).
+2. Bloques de grabación de la semana en Google Calendar (títulos con "GRABACION", "GRABACIÓN" o "grabar") y cuánto tiempo hay, descontando clases que se superpongan.
+3. Plan por bloque, en este orden de prioridad: a) lo que la alumna nueva ve primero (onboarding que falte); b) cerrar Módulo 1 y 2; c) Módulo 3 y 4. ≈ 20–30 min por pieza corta. Para cada pieza: nombre, links al prompter y al deck, y qué falta preparar. Separá qué bloque es para AT WORK y cuál para los reels/YouTube de la semana.
+4. Si no hay bloques agendados, decilo arriba y sugerí 2 horarios mirando huecos (sin crear eventos).
+
+═══════════════════════════════
 7 — CORREO A FLOR
 ═══════════════════════════════
 Gmail a florenciapersico@breakingbarriers.site, asunto "🎬 Tu contenido de la semana · [DD/MM]". Estilo de las reglas comunes. Corto:
 - 3 conclusiones de la semana pasada (una línea cada una).
 - "Mañana grabás:" los 5 hooks elegidos + el video ancla, en una línea cada uno.
 - Link al Google Doc y a la vista de Contenido en Notion.
+- "🎥 AT WORK esta semana": progreso total (X de Y piezas con video), la meta de la semana en una línea y el plan por bloque de grabación (paso 6b), más "lo que ya grabaste y falta marcar".
 - Si algo no se pudo (Windsor, Canva), una línea.
 Nada técnico.
 
