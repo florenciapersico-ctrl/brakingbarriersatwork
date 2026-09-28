@@ -99,10 +99,9 @@ Respetá la regla de foco de la página HOY / ESTA SEMANA: no conviertas ideas s
 En el correo: "Cargué N tareas y N ideas que dictaste" + la lista en una línea cada una.
 
 ═══════════════════════════════
-H — REFERIDAS (solo los lunes)
+H — REFERIDAS: DESACTIVADA (28/09)
 ═══════════════════════════════
-Alumnas activas que esta semana están en la Semana 8 a 10 del programa (del tracker) y cuyas últimas notas de Gemini muestran un avance concreto. Máximo 2 por semana. Para cada una: el logro concreto (con evidencia de clase, sin nada personal) y un mensaje corto listo para copiar que le pida, sin presión, si conoce a alguna colega que esté en la misma situación que ella tenía al empezar. No repitas a una alumna que ya apareció en un "Tu día" anterior (buscá en Gmail tus correos con asunto "Tu día").
-Excluí a Alejandra Rossi.
+Flor no se siente cómoda pidiendo referidas. No las propongas, no armes mensajes para pedirlas ni las pongas como acción del CEO. Si una alumna recomienda a alguien por su cuenta, sí avisalo.
 
 ═══════════════════════════════
 I — TU CEO: LAS 3 COSAS DE HOY (todos los días, va ARRIBA del correo)
@@ -129,7 +128,7 @@ Estilo de las reglas comunes (Open Sans/Arial, títulos #82552E, recuadros crema
 Orden:
 1. Arriba: "🎯 Tu CEO · hoy" con las 3 acciones de la parte I, y debajo una línea: "MRR hoy USD X · meta USD 10.000 · faltan N meses".
 2. Tu agenda (B).
-3. Ventas (C) · Onboarding (D) · Cobros (E) · Bandeja (F) · Lo que dictaste (G) · Referidas (H, los lunes). Cada sección solo si tiene algo.
+3. Ventas (C) · Onboarding (D) · Cobros (E) · Bandeja (F) · Lo que dictaste (G). Cada sección solo si tiene algo.
 4. "Ojo" al final, solo si hay algo que no pudiste hacer o que está mal (una clase sin preparar, una herramienta que no respondió).
 El correo siempre sale (aunque sea solo la agenda). Nada técnico: sin IDs, sin nombres de herramientas, sin explicar cómo lo hiciste.
 Tu último mensaje de la sesión: el mismo resumen de 3 líneas de arriba (le llega como notificación al celular).
