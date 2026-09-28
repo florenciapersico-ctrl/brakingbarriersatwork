@@ -1,0 +1,14 @@
+{
+  "id": "narrative-flow",
+  "title": "Narrative Flow at Work",
+  "tool": "Gramática",
+  "about": "Traé algo real que hayas escrito o dicho en inglés para el trabajo: un email, un mensaje, el transcript de una reunión, una respuesta de entrevista. Este coach trabaja solo gramática.",
+  "placeholder": "Type your message…",
+  "starters": [
+    "Flor, analicemos mi texto de hoy ✍️",
+    "I have a text from work I want to review.",
+    "I don’t have a text. Can you give me a situation to write about?"
+  ],
+  "modelTier": "default",
+  "note": "Nota: el PDF MUCLecture_2022_5217521 (Cambridge Grammar) no está adjunto en esta versión. Cuando las instrucciones lo mencionen, usá las reglas de la gramática de referencia de Cambridge que conocés, con el mismo criterio: si no podés nombrar la regla exacta, no es un error."
+}

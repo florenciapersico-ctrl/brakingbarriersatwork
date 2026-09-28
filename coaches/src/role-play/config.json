@@ -1,0 +1,14 @@
+{
+  "id": "role-play",
+  "title": "Role Play at Work",
+  "tool": "Simulación",
+  "about": "Tu espacio seguro para ensayar situaciones reales de tu trabajo en inglés. Sin juicios y sin interrupciones: vos hablás, y cada vez sale mejor.",
+  "placeholder": "Type your message…",
+  "starters": [
+    "I have a meeting this week I want to practice.",
+    "I want to practice a job interview.",
+    "I have a presentation coming up — help me prepare."
+  ],
+  "modelTier": "quick",
+  "speak": true
+}

@@ -1,0 +1,13 @@
+{
+  "id": "color-method",
+  "title": "Color Method at Work",
+  "tool": "Vocabulario",
+  "about": "Tu coach de vocabulario profesional. Detectamos, clasificamos y activamos expresiones profesionales en inglés, para pasar tu vocabulario del estado pasivo al activo.",
+  "placeholder": "Type your message…",
+  "starters": [
+    "Tengo un texto de mi trabajo para analizar",
+    "No tengo texto hoy — generame algo para practicar",
+    "Quiero repasar el vocabulario de la semana pasada"
+  ],
+  "modelTier": "default"
+}

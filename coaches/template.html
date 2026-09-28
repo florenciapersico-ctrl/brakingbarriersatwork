@@ -1,0 +1,367 @@
+<title>__TITLE__</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,500;0,600;1,400&family=Inter:wght@400;500;600&display=swap">
+<style>
+/* Layout: una pantalla de chat. Header arriba, conversación con scroll, caja de texto abajo. Paleta y tipos de Breaking Barriers at Work. */
+:root {
+  --bg: #F9F5EE;
+  --surface: #FFFFFF;
+  --sand: #EDE5CC;
+  --ink: #3F1E0D;
+  --brown: #895325;
+  --accent: #C68C6C;
+  --muted: #7B6A58;
+  --line: #E4D9C4;
+  --me-bg: #3F1E0D;
+  --me-fg: #F4EADF;
+  --danger: #A23B2A;
+  --display: "Crimson Pro", Georgia, "Times New Roman", serif;
+  --body: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #1E130C; --surface: #2A1B11; --sand: #3A2718; --ink: #F4EADF; --brown: #D7A184;
+    --accent: #D7A184; --muted: #B5A08A; --line: #45301F; --me-bg: #D7A184; --me-fg: #1E130C; --danger: #E08472;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #1E130C; --surface: #2A1B11; --sand: #3A2718; --ink: #F4EADF; --brown: #D7A184;
+  --accent: #D7A184; --muted: #B5A08A; --line: #45301F; --me-bg: #D7A184; --me-fg: #1E130C; --danger: #E08472;
+  color-scheme: dark;
+}
+html, body { height: 100%; }
+body {
+  background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 15px; line-height: 1.5;
+  display: flex; flex-direction: column;
+}
+.top {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 14px 16px 12px; border-bottom: 1px solid var(--line); background: var(--bg);
+}
+.brand { min-width: 0; }
+.brand small {
+  display: block; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted);
+}
+.brand h1 { margin: 0; font-family: var(--display); font-weight: 600; font-size: 24px; line-height: 1.1; text-wrap: balance; }
+.ghost {
+  flex: none; font: 500 13px var(--body); color: var(--brown); background: none;
+  border: 1px solid var(--line); border-radius: 999px; padding: 7px 12px; cursor: pointer;
+}
+.ghost:hover { border-color: var(--accent); }
+#log { flex: 1; overflow-y: auto; padding: 20px 16px 8px; }
+.wrap { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; }
+.intro { display: flex; flex-direction: column; gap: 12px; padding-bottom: 6px; }
+.intro p { margin: 0; font-family: var(--display); font-size: 19px; line-height: 1.4; max-width: 60ch; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  font: 500 13px var(--body); color: var(--ink); background: var(--surface);
+  border: 1px solid var(--line); border-radius: 999px; padding: 8px 13px; cursor: pointer; text-align: left;
+}
+.chip:hover { border-color: var(--accent); }
+.msg { min-width: 0; overflow-wrap: anywhere; }
+.me {
+  align-self: flex-end; max-width: 86%; padding: 10px 14px; border-radius: 16px; border-bottom-right-radius: 4px;
+  background: var(--me-bg); color: var(--me-fg); white-space: pre-wrap;
+}
+.coach {
+  align-self: stretch; padding: 12px 14px; border-radius: 16px; border-top-left-radius: 4px;
+  background: var(--surface); border: 1px solid var(--line);
+}
+.coach > .body > :first-child { margin-top: 0; }
+.coach > .body > :last-child { margin-bottom: 0; }
+.coach p, .coach ul, .coach ol { margin: 0 0 10px; }
+.coach ul, .coach ol { padding-left: 22px; }
+.coach h1, .coach h2, .coach h3, .coach h4 { font-family: var(--display); font-weight: 600; margin: 14px 0 6px; line-height: 1.2; }
+.coach h1 { font-size: 22px; } .coach h2 { font-size: 20px; } .coach h3, .coach h4 { font-size: 18px; }
+.coach strong { font-weight: 600; }
+.coach blockquote { margin: 0 0 10px; padding: 4px 12px; border-left: 3px solid var(--accent); color: var(--muted); }
+.coach code { font-size: 13px; background: var(--sand); padding: 1px 5px; border-radius: 4px; }
+.coach pre { background: var(--sand); padding: 10px 12px; border-radius: 8px; overflow-x: auto; white-space: pre-wrap; }
+.coach pre code { background: none; padding: 0; }
+.coach hr { border: none; border-top: 1px solid var(--line); margin: 12px 0; }
+.table { overflow-x: auto; margin: 0 0 10px; }
+.coach table { border-collapse: collapse; min-width: 100%; font-size: 14px; }
+.coach th, .coach td { border: 1px solid var(--line); padding: 7px 9px; text-align: left; vertical-align: top; }
+.coach th { background: var(--sand); font-weight: 600; }
+.coach td:empty::after { content: "\00a0"; }
+.tools { display: flex; gap: 14px; margin-top: 8px; }
+.tools button {
+  font: 500 12px var(--body); color: var(--muted); background: none; border: none; padding: 2px 0; cursor: pointer;
+}
+.tools button:hover { color: var(--brown); }
+.thinking { color: var(--muted); font-style: italic; margin: 0; }
+.notice {
+  font-size: 14px; color: var(--danger); border: 1px solid var(--line); background: var(--surface);
+  border-radius: 12px; padding: 10px 12px;
+  display: flex; gap: 10px; align-items: center; justify-content: space-between; flex-wrap: wrap;
+}
+form {
+  border-top: 1px solid var(--line); background: var(--bg);
+  padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px));
+}
+.row { max-width: 720px; margin: 0 auto; display: flex; gap: 8px; align-items: flex-end; }
+textarea {
+  flex: 1; min-width: 0; resize: none; font: 15px/1.45 var(--body); color: var(--ink);
+  background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 10px 12px; max-height: 160px;
+}
+textarea:focus { outline: 2px solid var(--accent); outline-offset: 0; border-color: transparent; }
+.send {
+  flex: none; font: 600 14px var(--body); color: var(--me-fg); background: var(--me-bg);
+  border: none; border-radius: 14px; padding: 11px 16px; cursor: pointer;
+}
+button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.hint { max-width: 720px; margin: 6px auto 0; font-size: 12px; color: var(--muted); }
+@media (prefers-reduced-motion: no-preference) { .msg { animation: in .18s ease-out; } }
+@keyframes in { from { opacity: .4; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+</style>
+
+<header class="top">
+  <div class="brand">
+    <small id="eyebrow">Breaking Barriers at Work</small>
+    <h1 id="name">__TITLE__</h1>
+  </div>
+  <button class="ghost" id="reset" type="button">Nueva sesión</button>
+</header>
+
+<main id="log" aria-live="polite">
+  <div class="wrap" id="wrap">
+    <div class="intro">
+      <p id="about"></p>
+      <div class="chips" id="chips"></div>
+    </div>
+  </div>
+</main>
+
+<form id="form" autocomplete="off">
+  <div class="row">
+    <textarea id="box" rows="1" aria-label="Tu mensaje"></textarea>
+    <button class="send" id="send" type="submit">Enviar</button>
+  </div>
+  <p class="hint">Cada mensaje usa tu propia cuenta de Claude. Tu conversación queda guardada solo en este dispositivo.</p>
+</form>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.6/purify.min.js"></script>
+<script>
+const COACH = __COACH__;
+
+// ── Estado ─────────────────────────────────────────────────────────────────
+const KEY = "bbaw-coach:" + COACH.id;
+const MAX_TURNS = 60;
+let turns = [];
+try { turns = JSON.parse(localStorage.getItem(KEY) || "[]"); } catch { turns = []; }
+if (!Array.isArray(turns)) turns = [];
+
+const $ = (id) => document.getElementById(id);
+const wrap = $("wrap"), log = $("log"), box = $("box"), send = $("send"), form = $("form"), chips = $("chips");
+const intro = wrap.querySelector(".intro");
+let samplePromise = window.claude?.use ? window.claude.use("sample") : Promise.resolve(null);
+let ctl = null;
+let busy = false;
+
+$("eyebrow").textContent = "Breaking Barriers at Work · " + COACH.tool;
+$("about").textContent = COACH.about;
+box.placeholder = COACH.placeholder;
+
+function save() {
+  try { localStorage.setItem(KEY, JSON.stringify(turns.slice(-MAX_TURNS))); } catch {}
+}
+
+// ── Render ─────────────────────────────────────────────────────────────────
+function md(text) {
+  if (window.marked && window.DOMPurify) {
+    const html = DOMPurify.sanitize(marked.parse(text, { gfm: true, breaks: true }));
+    return html.replace(/<table>/g, '<div class="table"><table>').replace(/<\/table>/g, "</table></div>");
+  }
+  const d = document.createElement("div");
+  d.textContent = text;
+  return '<p style="white-space:pre-wrap">' + d.innerHTML + "</p>";
+}
+
+function coachBubble() {
+  const el = document.createElement("div");
+  el.className = "msg coach";
+  el.innerHTML = '<div class="body"></div>';
+  wrap.appendChild(el);
+  return el;
+}
+function setCoach(el, text) { el.querySelector(".body").innerHTML = md(text); }
+
+function addTools(el, text) {
+  const t = document.createElement("div");
+  t.className = "tools";
+  const copy = document.createElement("button");
+  copy.type = "button"; copy.textContent = "Copiar";
+  copy.onclick = async () => {
+    try { await navigator.clipboard.writeText(text); copy.textContent = "Copiado"; }
+    catch {
+      const r = document.createRange(); r.selectNodeContents(el.querySelector(".body"));
+      const s = getSelection(); s.removeAllRanges(); s.addRange(r);
+      copy.textContent = "Seleccionado: copialo";
+    }
+    setTimeout(() => { copy.textContent = "Copiar"; }, 2000);
+  };
+  t.appendChild(copy);
+  if (COACH.speak && "speechSynthesis" in window) {
+    const b = document.createElement("button");
+    b.type = "button"; b.textContent = "Escuchar";
+    b.onclick = () => {
+      try {
+        speechSynthesis.cancel();
+        const u = new SpeechSynthesisUtterance(text.replace(/[*_#>|`]/g, ""));
+        u.lang = "en-US"; u.rate = 0.95;
+        speechSynthesis.speak(u);
+      } catch {}
+    };
+    t.appendChild(b);
+  }
+  el.appendChild(t);
+}
+
+function userBubble(text) {
+  const el = document.createElement("div");
+  el.className = "msg me";
+  el.textContent = text;
+  wrap.appendChild(el);
+}
+
+function scrollDown() { log.scrollTop = log.scrollHeight; }
+
+function renderAll() {
+  wrap.querySelectorAll(".msg, .notice").forEach((n) => n.remove());
+  chips.hidden = turns.length > 0;
+  for (const t of turns) {
+    if (t.role === "user") userBubble(t.content);
+    else { const el = coachBubble(); setCoach(el, t.content); addTools(el, t.content); }
+  }
+  scrollDown();
+}
+
+function renderChips() {
+  chips.innerHTML = "";
+  for (const s of COACH.starters) {
+    const c = document.createElement("button");
+    c.type = "button"; c.className = "chip"; c.textContent = s;
+    c.onclick = () => { box.value = s; submit(); };
+    chips.appendChild(c);
+  }
+}
+
+function notice(message, retry) {
+  wrap.querySelectorAll(".notice").forEach((n) => n.remove());
+  const n = document.createElement("div");
+  n.className = "notice";
+  const span = document.createElement("span");
+  span.textContent = message;
+  n.appendChild(span);
+  if (retry) {
+    const b = document.createElement("button");
+    b.type = "button"; b.className = "ghost"; b.textContent = "Reintentar";
+    b.onclick = () => { n.remove(); ask(); };
+    n.appendChild(b);
+  }
+  wrap.appendChild(n);
+  scrollDown();
+}
+
+const ERRORS = {
+  not_granted: "Para practicar, el coach necesita permiso para usar tu cuenta de Claude. Recargá la página y tocá Permitir.",
+  sampling_disabled: "Tu cuenta de Claude no permite usar este coach. Probá con otra cuenta.",
+  rate_limited: "Llegaste al límite de mensajes de tu cuenta de Claude por ahora. Probá de nuevo más tarde.",
+  session_expired: "Tu sesión de Claude se cerró. Iniciá sesión de nuevo y recargá la página.",
+  refused: "El coach no pudo responder a ese mensaje. Probá decirlo de otra forma.",
+  empty_completion: "El coach no pudo responder a ese mensaje. Probá decirlo de otra forma.",
+  prompt_too_large: "La sesión es muy larga. Tocá Nueva sesión para seguir practicando.",
+};
+const PERMANENT = new Set(["not_granted", "sampling_disabled", "not_declared", "capability_disabled", "capability_removed"]);
+
+function setBusy(on) {
+  busy = on;
+  send.textContent = on ? "Detener" : "Enviar";
+  box.disabled = on;
+}
+
+// ── Conversación ───────────────────────────────────────────────────────────
+async function ask() {
+  const sample = await samplePromise;
+  if (!sample) {
+    notice("Abrí este enlace en claude.ai con tu cuenta iniciada para poder practicar.");
+    return;
+  }
+  const history = turns.slice(-MAX_TURNS);
+  while (history.length && history[0].role !== "user") history.shift();
+  const input = [{ role: "user", content: COACH.instructions }, ...history];
+
+  const el = coachBubble();
+  el.querySelector(".body").innerHTML = '<p class="thinking">Pensando…</p>';
+  scrollDown();
+  ctl = new AbortController();
+  setBusy(true);
+  try {
+    const { text } = await sample(input, {
+      cache: false,
+      modelTier: COACH.modelTier,
+      signal: ctl.signal,
+      onText: ({ text }) => { setCoach(el, text); scrollDown(); },
+    });
+    setCoach(el, text);
+    addTools(el, text);
+    turns.push({ role: "assistant", content: text });
+    save();
+  } catch (e) {
+    const code = e && e.code;
+    if (e && e.text && code !== "refused") {
+      setCoach(el, e.text);
+      addTools(el, e.text);
+      turns.push({ role: "assistant", content: e.text });
+      save();
+    } else {
+      el.remove();
+    }
+    if (code === "cancelled") { /* la alumna tocó Detener */ }
+    else if (PERMANENT.has(code)) { notice(ERRORS[code] || ERRORS.sampling_disabled); samplePromise = Promise.resolve(null); }
+    else if (ERRORS[code]) notice(ERRORS[code], code === "rate_limited" && !(e && e.text));
+    else notice("Se cortó la conexión con Claude.", !(e && e.text));
+  } finally {
+    setBusy(false);
+    ctl = null;
+  }
+}
+
+function submit() {
+  const text = box.value.trim();
+  if (!text || busy) return;
+  wrap.querySelectorAll(".notice").forEach((n) => n.remove());
+  chips.hidden = true;
+  turns.push({ role: "user", content: text });
+  save();
+  userBubble(text);
+  box.value = ""; grow();
+  scrollDown();
+  ask();
+}
+
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+  if (busy) { ctl?.abort(); return; }
+  submit();
+});
+box.addEventListener("keydown", (e) => {
+  if (e.key === "Enter" && !e.shiftKey && !e.isComposing && window.matchMedia("(hover: hover)").matches) {
+    e.preventDefault(); form.requestSubmit();
+  }
+});
+function grow() { box.style.height = "auto"; box.style.height = Math.min(box.scrollHeight, 160) + "px"; }
+box.addEventListener("input", grow);
+
+$("reset").onclick = () => {
+  if (busy) ctl?.abort();
+  turns = []; save();
+  try { speechSynthesis.cancel(); } catch {}
+  renderAll();
+};
+
+renderChips();
+renderAll();
+</script>
