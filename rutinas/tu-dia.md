@@ -70,6 +70,16 @@ Mostrá solo: cuotas que vencen en los próximos 5 días y cuotas vencidas sin p
 Si no hay nada, esta sección no aparece. Nunca inventes montos: usá los del tracker.
 
 ═══════════════════════════════
+E2 — PAGOS MENSUALES EN NOTION (lo mantenés vos, todos los días, en silencio)
+═══════════════════════════════
+Base "💳 Pagos mensuales" de Notion (buscala por nombre en Notion; si todavía no existe, salteá esta parte): una fila por alumna por mes. Es la "columna mensual" de cobros: Flor NO tiene que cargar los pagos a mano.
+- Cada mail nuevo de Stripe (o comprobante de transferencia) de las últimas 72 h: buscá la fila de esa alumna y ese mes → Estado "✅ Pagado", Monto cobrado, Moneda, Fecha de pago, Medio, Comprobante (link al mail). Si el monto no coincide con el esperado, dejalo en Notas y avisalo en una línea en Cobros. Si no existe la fila, creala. Nunca dupliques.
+- El día 1 de cada mes (o la primera corrida del mes): creá las filas del mes para todas las alumnas activas del tracker (Estado "⏳ Pendiente", Vence y Monto esperado del tracker). Alumnas nuevas del mes (parte D) también.
+- Filas "⏳ Pendiente" con Vence de hace más de 3 días y sin pago → "⚠️ Vencido" y van a la parte E con su recordatorio.
+- Una alumna que terminó el programa ya no lleva filas nuevas.
+En el correo, los pagos que entraron se muestran en una línea ("✅ Corina USD 149 · ✅ Laura Manzano USD 250 — ya los anoté en tus Pagos mensuales") con el link a la base. El recordatorio del tracker queda SOLO para lo que no es un pago mensual: alumna nueva (fila nueva), renovación (nueva fecha de fin) o un dato del tracker que esté mal.
+
+═══════════════════════════════
 F — BANDEJA DE ENTRADA
 ═══════════════════════════════
 Gmail de las últimas 24 h (los lunes, desde el viernes), bandeja principal. Ignorá newsletters, notificaciones automáticas, promociones, recibos ya cubiertos en C/D/E y los correos que mandan las tareas automáticas a Flor.
