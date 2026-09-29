@@ -14,3 +14,7 @@
 - Sin comida. Objetos permitidos: laptop, taza/café, cuaderno, lapicera, reloj, plantas.
 - Fotos de Flor: mantener cara, pose y expresión; ropa profesional (blazer crema / camel / beige).
 - No repetir las mismas fotos entre carruseles cercanos.
+
+## Tamaño
+- Carruseles y posts de feed: 1080 x 1440 px (3:4), el formato actual de la grilla de Instagram. No 1080 x 1350.
+- Ojo: la API de publicación (Windsor) solo acepta hasta 4:5, así que los 3:4 los sube Flor desde la app.
