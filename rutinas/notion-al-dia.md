@@ -4,6 +4,14 @@ Acá SÍ escribís en Notion, pero con cuidado: solo actualizás datos que confi
 1. CLASES DE HOY (base Clases, collection://6edc592f-a786-4b01-aac8-1f462f058926):
    - Por cada clase de hoy del calendario de Flor: si hay notas de Gemini de la clase → Estado "Dada" (o el valor equivalente que tenga la propiedad); si no hay notas y el evento pasó → dejala como está y anotala en "Para revisar".
    - Si la clase no tiene fila, creala (Clase "[Nombre] · [DD MMM]", Fecha, Calendar).
+1 bis. ASISTENCIA (todas las noches, obligatorio). En la base Clases, cada clase de HOY tiene que terminar con la propiedad "Asistencia" completa y una "Nota de asistencia" corta (sin nada personal):
+   - "Presente": hay notas de Gemini, transcript o grabación de hoy con la alumna hablando (aunque la clase no haya tenido práctica para resumen).
+   - "Reprogramada": el evento se movió a otra fecha (la instancia de hoy tiene otra fecha/hora, o la descripción dice MOVIDA / movida al…). Nota: "movida al [día DD/MM HH:MM]". Si la clase se da otro día, esa otra fecha tiene su propia fila.
+   - "Cancelada": el evento de hoy fue cancelado/borrado, o Flor lo marcó como cancelado.
+   - "Ausente": Flor lo dijo (en el chat, en el evento o en Notion) o la grabación muestra que la alumna no se conectó.
+   - "Sin confirmar": el evento pasó y no hay evidencia (sin notas, sin grabación, sin aviso). Anotalo también en "Para revisar" con "¿Se dio la clase de [Nombre] [DD/MM]?".
+   Si Flor ya cargó un valor a mano, NO lo pises. Si una clase de días anteriores quedó "Sin confirmar" y ahora hay evidencia (o Flor respondió en Para revisar), corregila.
+   Si la clase no tiene fila en Clases, creala (Clase "[Nombre] · [DD MMM]", Alumna, Fecha, Calendar) y cargale la asistencia. Clases grupales o de Alejandra Rossi también cuentan.
 2. ALUMNAS (base Alumnas: https://app.notion.com/p/e52dc5e636284f709a29e4c4889f7e99):
    - Para cada alumna con clase dada hoy: actualizá "Última sesión" (fecha de hoy) y "Sesiones dadas" (+1, o recontá por notas de Gemini si el campo estaba vacío).
    - Fechas de inicio, fin, montos y estados de pago: SOLO copiá del tracker de pagos (Sheet 1UPwl976v7dNxcVhwbZ7YSCIhQnGCpaQ6ijPYdbHqLfs) si en Notion están vacíos. Si Notion y el tracker dicen cosas distintas, no pises: "Para revisar".
