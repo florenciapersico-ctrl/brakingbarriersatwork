@@ -5,10 +5,26 @@ Este archivo manda sobre cualquier otro marco de contenido anterior (categorías
 Fuentes (leelas si necesitás más detalle; no las contradigas):
 - Resumen maestro de Ann (Notion): https://app.notion.com/p/3e65708d6448816c9ae6c9542f261e22 y las clases en "📚 Clases y notas de formación".
 - Blueprint de marca auténtica de Flor (23/09): https://drive.google.com/file/d/1IpfN60UO2cr5vlsnYi-Z9RYt5ReSYCfV/view
-- Clienta ideal "Belén" (12/09): https://docs.google.com/document/d/160vsWqMaOKXWZSM-eOn8s1qatOrp3g2WNQ0zSkoQbbM
-- 01 Estrategia de marca: https://docs.google.com/document/d/1PQBUHV1-ojz0Yo_N4aes1uVAMn4khduQHiFlmHyQES4
-- 5 P / Delivery Method™: https://docs.google.com/document/d/1wxkBA50jO2OoioncjofRy-7OjsBHbdDFXmssianvbV0
-- Propiedad intelectual: https://docs.google.com/document/d/1pC_l6QVtNsYr8sSQLQm-GA8zn6pfSaoRA3zaE44Ge70
+- **BASE DE MARCA OFICIAL (29/09, manda sobre las versiones anteriores)** — carpeta de Drive https://drive.google.com/drive/folders/1exCvcTnR7Z1cRGBFDinOG-Kkj8JyuS48 :
+  - 01 · Propiedad intelectual · V2: https://docs.google.com/document/d/1-6cxIRiGEwFuCSaGwyE1w3x1x1P3Rj2jPzL0--VHTGU
+  - 02 · Las 5 P · V2: https://docs.google.com/document/d/1s4D03Zt3qEGLiJAr9HOHQnxoAzq0_q8TfUTO7DAlwuA
+  - 03 · Documento de Oferta · V3 (el más nuevo; la V2 queda como archivo): https://docs.google.com/document/d/1FkxIcodLWk1RVKOp1fQ607zVCuQDSQyvhpiXOld5zaI
+  - 04 · DM Setting Flow · V2: https://docs.google.com/document/d/1UfRRE9b5YaZz2ln34TaTw2_fuwxKddNV8SUDaRz0tW8
+  - 05 · Clienta ideal (Belén) · V2 — incluye el BANCO DE FRASES LITERALES para hooks: https://docs.google.com/document/d/1m8vx33N6YWWt5kDjFi4_oLQAcCido8t-XMVMBu2uRg0
+  Leé los 5 al principio de cada semana (con un subagente) y usá la versión más nueva que haya en la carpeta.
+- Versiones viejas (solo archivo): Belén 12/09 (160vsWqM…), 01 Estrategia de marca (1PQBUHV1…), 5 P viejo (1wxkBA50…), Propiedad intelectual vieja (1pC_l6QV…).
+
+## 0. Base de marca en una página (resumen de los docs oficiales del 29/09)
+- Promesa corta: "Ayudo a mujeres profesionales que ya trabajan en inglés a convertir el inglés que ya saben en comunicación clara, precisa y disponible en tiempo real. Para que su inglés refleje la profesional que ya son."
+- Persona: mujeres profesionales hispanohablantes, B1–B2, aprox. 35–50, seniority medio/alto, con nueva exposición internacional o un ascenso/rol nuevo en inglés.
+- Los 3 problemas: 1) sabe inglés pero no accede a él bajo presión; 2) su comunicación se desorganiza cuando la interacción es real (muchas veces no es "falta de inglés" sino construcción del mensaje); 3) lo que venía practicando no transfiere al trabajo (+ listening y pronunciación).
+- Villano/método viejo: academias, gramática de libro, Business English de PDF, "clases personalizadas" que son acceso a una profe y no un método.
+- Método: Delivery Method™. Ciclo oficial: Real Situation → Produce → Analyze → Upgrade → Practice → Retry → Apply. Herramientas: Narrative Flow™, Color Method™, Role Play Method™, Message Map™.
+- Hitos (útiles para casos y contenido): de evitar a participar · de saber inglés a poder usarlo · de hablar "como salga" a construir mensajes con estructura · de quedarse bloqueada a sostener la interacción · de práctica genérica a entrenamiento con propósito · de depender de una profesora a saber cómo seguir · de miedo a la pronunciación a hacerse entender.
+- Esencia: "No necesitás convertirte en otra profesional cuando hablás inglés. Necesitás lograr que el inglés que ya tenés refleje la profesional que ya sos."
+- **REGLA DE FLOR: se cuenta QUÉ hacemos, nunca CÓMO.** En contenido público se puede nombrar el método y sus herramientas, mostrar el antes/después y el resultado, y dar un tip práctico. NO se publican los procedimientos internos: los pasos de las herramientas (DUMP→MAP→SPEAK→CHECK, SITUATION→KEY MESSAGE→SUPPORT→ACTION, Detect→Understand→Practice→Retry, Discover→Understand→Use), los tipos de gap como diagnóstico, ni el ciclo del Delivery Method™ explicado paso a paso en una lámina.
+- Oferta: 5 meses, 1:1 semanal de 60 min, programa grabado, 4 coaches de IA, Weekly Report, comunidad de WhatsApp, hasta 20 alumnas. La inversión se dice en la llamada (nunca en contenido).
+- Plataformas: Instagram (corto) + YouTube (largo, planificado) + newsletter (planificado) + DMs (conversión). Offer doc para DMs: https://braking-barriers.vercel.app/
 
 ---
 
@@ -19,13 +35,13 @@ Métrica que importa: INBOUND (gente que escribe "quiero trabajar con vos"), med
 
 ## 2. Lo que Flor cree y defiende (Mundo · Creencias · Prueba)
 - Doctrina: "Saber inglés y poder usarlo bajo demanda no son la misma habilidad."
-- Categoría: entrenadora de comunicación profesional en inglés. Nunca "profesora", nunca "curso" ni "programa" a secas: es un método con nombre (Delivery Method™ — siempre con este nombre exacto; mecanismo Produce → Diagnose → Train → Retry → Transfer).
+- Categoría: entrenadora de comunicación profesional en inglés. Nunca "profesora", nunca "curso" ni "programa" a secas: es un método con nombre (Delivery Method™ — siempre con este nombre exacto; ciclo oficial Real Situation → Produce → Analyze → Upgrade → Practice → Retry → Apply; ver sección 0 y la regla de no revelar el cómo).
 - Villanos (4 V de Ann: Visión, Valores, Villanos, Vicios): "estudiar más" como respuesta a todo; las academias de PDF de gramática; preparar el speech perfecto con ChatGPT y quedar pegada al guion; la clase "personalizada" que no es un entrenamiento. Opinar sin tibieza: "el hate es señal".
 - Diferencial: "Tu trabajo real de esta semana es el programa." Se entrena con SUS reuniones, SUS mails, SU jefe.
 - Prueba: casos reales (Brenda, Gaby, Sol, Belén, Virginia, Lina, Adriana; testimonios en video en Drive). Siempre con permiso y sin nada personal. NUNCA Maribel.
 
 ## 3. A quién le hablamos (la escena, no la etiqueta)
-Belén: profesional hispanohablante, 28–45, B1–B2, en empresa internacional o con jefes/clientes en inglés. Ya probó academias y apps.
+Belén: profesional hispanohablante, aprox. 35–50, seniority medio/alto, B1–B2, en empresa internacional o con jefes/clientes en inglés. Ya probó academias y apps.
 Regla de Ann: "El cargo define a quién le vendés. La escena es lo que ponés en el contenido." ¿Qué está viviendo un martes a las 7 de la tarde?
 Escenas que ya sabemos que son reales (salen de tus clases y discovery calls):
 - La daily en inglés: va con el update armado y se pierde cuando le hacen una pregunta.
@@ -64,10 +80,11 @@ Cuando esté listo, fase 2 (decisión de Flor): canal de YouTube semanal + newsl
 - Pieza de conversión (1–2 por semana): "Si estás lista para entrenar tu inglés con tus reuniones reales, escribime LISTA por DM." (palabra clave de "listo" de Ann: es para las que ya están listas, no para un lead magnet).
 - Stories: CTA a DM solo en fase de invitación.
 - Carruseles: CTA a guardar/compartir en la última lámina ("guardalo para tu próxima reunión").
+- Palabra DIAGNÓSTICO: la usa Flor en sus carruseles para mandar el ejercicio de diagnóstico (lead magnet). LISTA queda para las piezas de conversión directa. Nunca las dos en la misma pieza.
 
 ## 8. Voz
 - Flor hablando a UNA lectora, como coach. Directa, cálida, con humor y opinión.
-- Trato: el que Flor usa en sus captions recientes (mayoritariamente voseo: "pensás", "necesitás"). Nunca mezclar tú y vos en una misma pieza.
+- Trato (Flor, 29/09): los CAPTIONS van siempre en tú, sin voseo (tienes, quieres, prueba, escríbeme). En las láminas Flor a veces usa tú a propósito junto con voseo: es intencional, no corregirlo ni marcarlo como error.
 - Nada de estética estructurada tipo "portada marrón con título" (Ann: "borralos"). "Los mejores Instagrams ahora son naturales." Rostro de Flor, texto simple en pantalla.
 - Frases crudas de las alumnas (sin traducir, sin datos que las identifiquen) valen oro para hooks.
 
@@ -117,5 +134,10 @@ Referencias que le gustan (plantillas Pro de Canva, estilo creadora editorial):
 - **Plantilla maestra hecha por Flor (26/09):** Canva DAHWUiZQqx4 — carrusel "Seguro me bloqueo": fotos reales de Flor a sangre (café, escritorio, ring light), capa oscura, texto crema en serif, una frase clave en negrita, historia que se lee lámina a lámina. ESTE es el estilo que ella aprobó. Método para diseñar: DUPLICAR un diseño maestro de Flor (copy-design) y cambiar textos y fotos con edit-design; así se conservan sus tipografías (las herramientas no pueden elegir fuentes nuevas ni desenfocar). El texto JUSTIFICADO con espacios amplios entre palabras es un recurso de estilo elegido a propósito por Flor (tendencia actual): respetarlo, no corregirlo. Con el tiempo, sumar más maestros hechos por ella (collage, revista) y rotarlos.
 
 ## 14. Música y publicación (26/09)
-- La publicación automática (Windsor/API de Instagram) NO permite agregar música al publicar. PERO Instagram sí deja agregarla después: Editar el post → Añadir música (confirmado por Flor el 26/09 en un carrusel). Entonces: el asistente puede publicar el carrusel aprobado y en el mismo momento avisarle a Flor "publicado, agregale la música editando" con 2–3 opciones instrumentales.
+- La publicación automática (Windsor/API de Instagram) NO permite agregar música al publicar. PERO Instagram sí deja agregarla después: Editar el post → Añadir música (confirmado por Flor el 26/09 en un carrusel). Cuando se publique (siempre con las reglas de la sección 15), avisarle a Flor "agregale la música editando" con 2–3 opciones instrumentales.
 - Música: siempre instrumental, sin letra (piano suave, lo-fi, coffee jazz). Ej.: "Comptine d'un autre été" (Yann Tiersen), "Nuvole Bianche" (Einaudi), "River Flows in You" (Yiruma).
+
+## 15. Reglas de Flor del 29/09 (fotos, tamaño y publicación)
+- FOTOS: siempre con estética profesional. Si la foto original es casual, se edita con IA (Canva generate-image con la foto como referencia): mismo objeto o misma cara/pose, pero en oficina, coworking o home office luminoso, luz natural, tonos crema/beige/marrón cálido, madera clara, plantas. Con Flor: blazer crema, camel o beige. SIN COMIDA en las fotos (laptop, taza, cuaderno, reloj y plantas sí). No repetir fotos entre carruseles cercanos. Flor aprobó este estilo: "generame siempre imágenes así".
+- TAMAÑO: carruseles y posts de feed en 1080 × 1440 px (3:4), el formato actual de la grilla. No 1080 × 1350.
+- PUBLICACIÓN: el asistente publica SOLO si Flor escribe "publicalo" para ESA pieza, sin cambios pendientes ("sí, pero cambiá X" NO es autorización). Un solo intento: aunque tarde o dé error/timeout, NUNCA se reintenta (el 29/09 un reintento publicó dos veces el mismo carrusel). Después del intento, Flor revisa su perfil. Los posts 3:4 los sube Flor desde la app (la API solo acepta hasta 4:5). Por defecto: el asistente deja todo listo en Canva + el caption en el chat y Flor publica.
