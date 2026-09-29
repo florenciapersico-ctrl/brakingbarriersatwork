@@ -20,4 +20,5 @@
 - Ojo: la API de publicación (Windsor) solo acepta hasta 4:5, así que los 3:4 los sube Flor desde la app.
 
 ## Tono
-- Flor usa "tú" a propósito en partes del texto (mezcla con voseo). No corregirlo ni marcarlo como error.
+- Flor usa "tú" a propósito. No corregirlo ni marcarlo como error.
+- Captions (copy) siempre SIN voseo: todo en tú (tienes, quieres, prueba, escríbeme).
