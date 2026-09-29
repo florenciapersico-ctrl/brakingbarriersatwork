@@ -1,0 +1,133 @@
+<title>Breaking Barriers Práctica</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&display=swap">
+<style>
+/* Layout: una columna angosta, como una app en el móvil. Encabezado, cómo empezar, los 4 coaches, el circuito recomendado. */
+:root {
+  --bg: #F9F5EE;
+  --surface: #FFFFFF;
+  --sand: #EDE5CC;
+  --ink: #3F1E0D;
+  --brown: #895325;
+  --accent: #C68C6C;
+  --muted: #7B6A58;
+  --line: #E4D9C4;
+  --on-ink: #F4EADF;
+  --display: "Crimson Pro", Georgia, "Times New Roman", serif;
+  --body: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #1E130C; --surface: #2A1B11; --sand: #3A2718; --ink: #F4EADF; --brown: #D7A184;
+    --accent: #D7A184; --muted: #B5A08A; --line: #45301F; --on-ink: #1E130C;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #1E130C; --surface: #2A1B11; --sand: #3A2718; --ink: #F4EADF; --brown: #D7A184;
+  --accent: #D7A184; --muted: #B5A08A; --line: #45301F; --on-ink: #1E130C;
+  color-scheme: dark;
+}
+body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 15px; line-height: 1.55; }
+.page { max-width: 560px; margin: 0 auto; padding: 28px 16px 48px; display: flex; flex-direction: column; gap: 32px; }
+header { display: flex; flex-direction: column; gap: 8px; }
+.eyebrow { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin: 0; }
+h1 { font-family: var(--display); font-weight: 600; font-size: 38px; line-height: 1.05; margin: 0; text-wrap: balance; }
+h1 em { font-weight: 500; color: var(--brown); }
+.lede { margin: 0; color: var(--muted); max-width: 46ch; }
+h2 { font-family: var(--display); font-weight: 600; font-size: 22px; margin: 0 0 12px; }
+section { min-width: 0; }
+
+.steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; counter-reset: s; }
+.steps li { display: grid; grid-template-columns: 28px 1fr; gap: 10px; align-items: start; counter-increment: s; }
+.steps li::before {
+  content: counter(s); width: 28px; height: 28px; border-radius: 50%; background: var(--sand); color: var(--brown);
+  font: 600 13px/28px var(--body); text-align: center;
+}
+.steps b { font-weight: 600; }
+.steps small { display: block; color: var(--muted); font-size: 13px; margin-top: 2px; }
+
+.coaches { display: flex; flex-direction: column; gap: 12px; }
+.coach {
+  display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; align-items: center;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 16px;
+  color: inherit; text-decoration: none;
+}
+.coach:hover { border-color: var(--accent); }
+.coach:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.tag { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--brown); font-weight: 600; }
+.coach h3 { grid-column: 1; margin: 0; font-family: var(--display); font-weight: 600; font-size: 22px; line-height: 1.15; }
+.coach p { grid-column: 1; margin: 0; color: var(--muted); font-size: 14px; }
+.go {
+  grid-column: 2; grid-row: 1 / span 3; align-self: center;
+  font: 600 13px var(--body); color: var(--on-ink); background: var(--ink); border-radius: 999px; padding: 8px 14px; white-space: nowrap;
+}
+
+.flow { background: var(--sand); border-radius: 16px; padding: 16px; }
+.flow p { margin: 0 0 10px; }
+.chain { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; font-weight: 600; margin: 0 0 10px; }
+.chain span[aria-hidden] { color: var(--brown); font-weight: 400; }
+.flow .note { margin: 0; font-size: 13px; color: var(--muted); }
+
+footer { font-size: 12px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 16px; }
+footer p { margin: 0 0 6px; }
+</style>
+
+<div class="page">
+  <header>
+    <p class="eyebrow">She Breaks Limits · Breaking Barriers at Work</p>
+    <h1>Tu espacio de <em>práctica</em></h1>
+    <p class="lede">Los coaches del método, en un solo lugar. Practicá 2 o 3 veces por semana, con material real de tu trabajo.</p>
+  </header>
+
+  <section aria-labelledby="start">
+    <h2 id="start">Antes de empezar</h2>
+    <ol class="steps">
+      <li><div><b>Iniciá sesión en Claude.</b><small>Si no tenés cuenta, creá una gratis en claude.ai. Los coaches usan tu cuenta.</small></div></li>
+      <li><div><b>Abrí un coach y tocá Permitir.</b><small>Claude te lo pregunta una sola vez por coach.</small></div></li>
+      <li><div><b>Guardá esta página en tu celular.</b><small>iPhone: Compartir → Añadir a pantalla de inicio. Android: menú ⋮ → Añadir a pantalla de inicio.</small></div></li>
+    </ol>
+  </section>
+
+  <section aria-labelledby="coaches">
+    <h2 id="coaches">Tus coaches</h2>
+    <div class="coaches">
+      <a class="coach" href="https://claude.ai/artifact/NUsmKufsVpoP7bCcwAXrVT" target="_blank" rel="noopener">
+        <span class="tag">Simulación</span>
+        <h3>Role Play at Work</h3>
+        <p>Ensayá tu próxima reunión, entrevista o presentación antes de que pase.</p>
+        <span class="go">Abrir</span>
+      </a>
+      <a class="coach" href="https://claude.ai/artifact/XgsDo619gwFYgvQ6M39epr" target="_blank" rel="noopener">
+        <span class="tag">Vocabulario</span>
+        <h3>Color Method at Work</h3>
+        <p>Pasá tus expresiones profesionales de "la entiendo" a "la uso".</p>
+        <span class="go">Abrir</span>
+      </a>
+      <a class="coach" href="https://claude.ai/artifact/1moJCW661jk4h6QauSs9hG" target="_blank" rel="noopener">
+        <span class="tag">Gramática</span>
+        <h3>Narrative Flow at Work</h3>
+        <p>Traé un email o un transcript y encontrá vos misma tus errores, uno por uno.</p>
+        <span class="go">Abrir</span>
+      </a>
+      <a class="coach" href="https://claude.ai/artifact/S4GpX2vR8NHPmzVMdyNe4G" target="_blank" rel="noopener">
+        <span class="tag">Coach general</span>
+        <h3>Flor English Coach</h3>
+        <p>Lección del día, shadowing, situaciones reales y tu mentalidad con el idioma.</p>
+        <span class="go">Abrir</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="flow" aria-labelledby="circuit">
+    <h2 id="circuit">El circuito</h2>
+    <p>Los coaches trabajan juntos. Una semana típica:</p>
+    <p class="chain"><span>Role Play</span><span aria-hidden="true">→</span><span>Color Method</span><span aria-hidden="true">→</span><span>Narrative Flow</span></p>
+    <p class="note">Al terminar un Role Play, copiá la conversación y llevala a Color Method para el vocabulario y a Narrative Flow para la gramática. Cada respuesta tiene un botón Copiar.</p>
+  </section>
+
+  <footer>
+    <p>Tu conversación con cada coach queda guardada solo en tu dispositivo. Con Nueva sesión empezás de cero.</p>
+    <p>Breaking Barriers Method · Flor Pérsico</p>
+  </footer>
+</div>

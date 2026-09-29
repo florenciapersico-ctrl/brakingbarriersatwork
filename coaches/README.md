@@ -2,6 +2,8 @@
 
 Los bots del Breaking Barriers Method, como páginas de Claude. Cada alumna los usa con su propia cuenta de Claude.
 
+Página de inicio para las alumnas: https://claude.ai/artifact/5T1MfqyeU5QvF7WzL7iWwW (`practica.html`)
+
 | Coach | Enlace |
 |---|---|
 | Narrative Flow at Work | https://claude.ai/artifact/1moJCW661jk4h6QauSs9hG |
