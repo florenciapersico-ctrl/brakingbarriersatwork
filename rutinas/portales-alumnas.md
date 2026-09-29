@@ -14,7 +14,7 @@ FORMATO (igual al ejemplo https://app.notion.com/p/3ea5708d644881768544d38a79ef1
 6. 📌 Post-it: tabla "Lo que dijo / Cómo se dice / Por qué" con sus errores REALES de todas las clases (de transcripciones y resúmenes), sin duplicados, los más recientes arriba.
 7. 📨 Resúmenes de clase: un toggle por CADA clase desde que empezó (más reciente arriba): qué trabajaron, estructura, versión final si hubo, tarea. Sin notas → "Sin notas de esa clase".
 8. 🎬 Biblioteca: módulo actual con link a la plataforma (https://academy.breakingbarriers.site/communities/groups/breaking-barriers-at-work/home, nunca con token).
-9. 📁 Links: su carpeta de Drive, su ficha, su registro de progreso (si existe), link a la plantilla del weekly report (ver _reglas-comunes.md) y WhatsApp "(link pendiente)" hasta que Flor lo pase.
+9. 📁 Links: su carpeta de Drive, su ficha, su registro de progreso (si existe), link a la plantilla del weekly report (ver _reglas-comunes.md) y WhatsApp de Flor (https://wa.me/5491144101209). Si un portal todavía dice "(link pendiente)", reemplazalo.
 10. 📊 Asistencia: tabla de todas sus clases (de la base Clases, propiedad Asistencia).
 11. Callout gris final: "🔒 Solo para Flor · se actualiza solo dos veces por día".
 
