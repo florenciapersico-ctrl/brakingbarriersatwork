@@ -1,0 +1,15 @@
+{
+  "id": "flor-english-coach",
+  "title": "Flor English Coach",
+  "tool": "Coach general",
+  "about": "Tu coach de inglés y mentalidad. Elegí una lección del día, practicá pronunciación con shadowing, ensayá situaciones reales o trabajá tus bloqueos con el idioma.",
+  "placeholder": "Type your message…",
+  "starters": [
+    "Your Daily Barrier Lesson 🚀",
+    "Let’s Practice with Shadowing 🎤",
+    "Practice with Real Scenarios 🎭",
+    "Let Me Be Your Coach 🧠✨"
+  ],
+  "modelTier": "default",
+  "speak": true
+}

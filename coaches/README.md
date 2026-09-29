@@ -7,6 +7,7 @@ Los bots del Breaking Barriers Method, como páginas de Claude. Cada alumna los 
 | Narrative Flow at Work | https://claude.ai/artifact/1moJCW661jk4h6QauSs9hG |
 | Color Method at Work | https://claude.ai/artifact/XgsDo619gwFYgvQ6M39epr |
 | Role Play at Work | https://claude.ai/artifact/NUsmKufsVpoP7bCcwAXrVT |
+| Flor English Coach | https://claude.ai/artifact/S4GpX2vR8NHPmzVMdyNe4G |
 
 ## Cómo cambiar un coach
 
