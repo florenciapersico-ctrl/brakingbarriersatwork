@@ -18,3 +18,6 @@
 ## Tamaño
 - Carruseles y posts de feed: 1080 x 1440 px (3:4), el formato actual de la grilla de Instagram. No 1080 x 1350.
 - Ojo: la API de publicación (Windsor) solo acepta hasta 4:5, así que los 3:4 los sube Flor desde la app.
+
+## Tono
+- Flor usa "tú" a propósito en partes del texto (mezcla con voseo). No corregirlo ni marcarlo como error.
