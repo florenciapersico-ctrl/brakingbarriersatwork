@@ -169,6 +169,8 @@ Tu guía: [link a la página de Notion]
 
 Centro de Clases en Notion: https://app.notion.com/p/3e35708d644881c8a384ee034b168095
 
+Asistencia de ayer: (una línea, de la base Clases, propiedad "Asistencia" de las clases de ayer) "[N] presentes · [nombres reprogramadas] · Sin confirmar: [nombres]". Si hay "Sin confirmar", agregá: "Respondeme este correo con quién vino y lo cargo". Si ayer no hubo clases, omitila.
+
 Para tener en cuenta: (solo si corresponde, máximo 3 líneas: alumna sin carpeta, sin notas de Gemini, weekly report que no apareció, algo que no pudiste hacer)
 
 Si hoy no hay clases: "Hoy no tenés clases AT WORK para preparar." y nada más.
