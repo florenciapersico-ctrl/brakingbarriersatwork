@@ -18,3 +18,7 @@ FUENTES
 - Alumnas: carpetas en Drive "VIP STUDENTS 2026" (1EKSntEU0pkzws27TxeovcAI1yz58ykTv), notas de Gemini de sus clases, weekly reports en sus carpetas.
 - Programa: base AT WORK de Notion (https://app.notion.com/p/9a7507089bec45bda1bbbfc39346bb79) y Drive "AT WORK 2026 FINAL" (19QZ3S6LQKH7A8aIMqWMkV8BYFyP7PdBX); master de onboarding https://docs.google.com/document/d/1uCam_vUTZ2fTGGReU3Vh3HsX_GCyy0mAtHna5oIHZvQ/edit
 - Oferta: USD 250/mes × 5 meses (1 clase semanal) o USD 444/mes (2 semanales); pago completo USD 1.250. Meta: sostener USD 3.000/mes y reponer cupos.
+
+NOVEDADES CONFIRMADAS POR FLOR (mandan sobre el tracker hasta que el tracker lo refleje)
+- 28/09/2026 · Belem RENOVÓ: USD 444/mes, 2 clases semanales. No proponer más recordatorios de renovación ni cupo; tratarla como alumna activa en su nuevo ciclo.
+- 28/09/2026 · Alumna NUEVA: Gisela (México → "tú"), recomendada por Belem. USD 444/mes, 2 clases semanales. Discovery/primera reunión: "gisela meet" 28/09 16:06. Corresponde onboarding.
