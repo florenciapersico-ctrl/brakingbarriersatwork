@@ -22,3 +22,4 @@ FUENTES
 NOVEDADES CONFIRMADAS POR FLOR (mandan sobre el tracker hasta que el tracker lo refleje)
 - 28/09/2026 · Belem RENOVÓ: USD 444/mes, 2 clases semanales. No proponer más recordatorios de renovación ni cupo; tratarla como alumna activa en su nuevo ciclo.
 - 28/09/2026 · Alumna NUEVA: Gisela (México → "tú"), recomendada por Belem. USD 444/mes, 2 clases semanales. Discovery/primera reunión: "gisela meet" 28/09 16:06. Corresponde onboarding.
+- CARPETA DE ALUMNA NUEVA: siempre copiar la estructura del template de Flor "📁 TEMPLATE — CARPETA PERSONAL ALUMNA" (Drive id 1VGJI_SzdYhdVXZXT_Q4EtcKnjtKDtt4j): 01 · MI CONTEXTO PROFESIONAL (Starting Point, rol, Acuerdo de Trabajo, CV) · 02 · MATERIAL REAL DE MI TRABAJO · 03 · MATERIALES DE SESIONES (acá van las hojas de clase) · 04 · MIS PRÁCTICAS · 05 · MI PROGRESO (weekly reports). No inventar otros nombres.
