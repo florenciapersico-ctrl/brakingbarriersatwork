@@ -22,3 +22,4 @@
 ## Tono
 - Flor usa "tú" a propósito. No corregirlo ni marcarlo como error.
 - Captions (copy) siempre SIN voseo: todo en tú (tienes, quieres, prueba, escríbeme).
+- Nunca sacarle los anteojos a Flor en una foto editada con IA: los ojos inventados no son los suyos. Si tiene anteojos, se quedan.
