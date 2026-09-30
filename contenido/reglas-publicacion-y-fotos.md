@@ -23,3 +23,5 @@
 - Flor usa "tú" a propósito. No corregirlo ni marcarlo como error.
 - Captions (copy) siempre SIN voseo: todo en tú (tienes, quieres, prueba, escríbeme).
 - Nunca sacarle los anteojos a Flor en una foto editada con IA: los ojos inventados no son los suyos. Si tiene anteojos, se quedan.
+Para cambiar el fondo o la ropa de Flor, no regenerar la foto con IA: la IA le cambia la cara aunque se le pasen fotos de referencia. Recortar su figura real (quitar fondo) y ponerla sobre un fondo de oficina. Su cara no se toca.
+No volver a usar: MAHWqoOywLg y MAHWq3LoatE (cara equivocada), MAHWqjWQYgE (sin anteojos), MAHWqrw3Vxc y MAHWqdXaa-w (no le gustan).
