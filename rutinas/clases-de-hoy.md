@@ -70,6 +70,12 @@ g) EN QUÉ SEMANA DEL ROADMAP ESTÁ:
    - Si las notas muestran que ya está trabajando algo de una semana más adelante, respetá lo que pasa en clase y decilo.
    Dejá escrito cómo lo calculaste en una línea ("Semana 8 · empezó el 04/08 · carry-over: Build Clear Sentences").
 
+h) VENTANA DE RENOVACIÓN (desde el 01/10/2026). Si a la alumna le quedan 10 semanas o menos de clases y su Renovación no está Confirmada, o si su página de Notion tiene la sección "🎯 Fase 2", la clase de hoy tiene que darle un LOGRO VISIBLE sobre su próximo desafío real (el de su "🎯 Fase 2" o, si no existe, el que aparezca en su weekly report o en las notas de Gemini: presentación, viaje, rol nuevo, reunión con VPs, entrevistas). En ese caso:
+   - El Bloque 3 (Skill) usa ESE desafío como escenario principal, con la habilidad del roadmap aplicada a él. Si el evento real es antes de su próxima clase, la clase es un ensayo completo (estructura → primer intento → preguntas difíciles → retry).
+   - En la guía de Notion agregá la línea **Logro de hoy (para su Fase 2):** qué tiene que poder hacer al final de la clase, observable, y cómo lo va a notar ella.
+   - Si la descripción del evento ya tiene un bloque "⭐ ANTES DE ARRANCAR LA CLASE", conservalo ARRIBA de todo y poné el bloque CLASE LISTA debajo.
+   La información sigue saliendo de Drive (regla de fuentes); la sección "🎯 Fase 2" de Notion es la única excepción permitida, porque la arma la rutina del ciclo a partir de Drive.
+
 ═══════════════════════════════
 PASO 4 — LA CLASE (Google Doc en la carpeta de la alumna)
 ═══════════════════════════════
@@ -123,7 +129,7 @@ Así la próxima clase sabe qué ya se vio y qué sigue abierto. No borres entra
 ═══════════════════════════════
 PASO 5 — CALENDARIO
 ═══════════════════════════════
-Actualizá la descripción del evento, sin notificar a los invitados (notificationLevel NONE), agregando al principio y conservando lo que ya tenía:
+Actualizá la descripción del evento, sin notificar a los invitados (notificationLevel NONE), agregando al principio y conservando lo que ya tenía (si hay un bloque "⭐ ANTES DE ARRANCAR LA CLASE", ese queda primero y el CLASE LISTA va justo debajo):
 
 CLASE LISTA · [DD MMM AAAA]
 [Nombre] · AT WORK 1:1 · Week [N] · [training]

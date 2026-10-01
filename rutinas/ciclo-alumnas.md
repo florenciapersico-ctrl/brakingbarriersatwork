@@ -1,19 +1,38 @@
-TAREA: Ciclo de vida de cada alumna (onboarding, renovación, testimonio, offboarding). Leé primero _reglas-comunes.md y los SOP 02, 05 y 06 de la SOP Library de Notion (página "📚 SOP Library" dentro de "🏠 START HERE — Breaking Barriers"; base "SOPs" https://app.notion.com/p/030009b9fc4a4a0485407d955a146352).
+TAREA: Ciclo de vida de cada alumna, orientado a la RENOVACIÓN. Leé primero _reglas-comunes.md y los SOP 02, 05 y 06 de la SOP Library de Notion (página "📚 SOP Library" dentro de "🏠 START HERE — Breaking Barriers"; base "SOPs" https://app.notion.com/p/030009b9fc4a4a0485407d955a146352). Donde este archivo y los SOP no coincidan, manda este archivo (cambio de enfoque del 01/10/2026).
 
-Objetivo: que Flor NUNCA se olvide un paso del ciclo. Cada día revisás en qué punto está cada alumna activa y, si HOY le toca un paso, le mandás a Flor el correo listo para enviar. Flor lo manda ella (por mail o WhatsApp); vos NUNCA le escribís a la alumna.
+Objetivo: que cada alumna que termina quiera seguir. El final del programa NO se anuncia como un cierre: se presenta como el paso a la FASE 2, con objetivos concretos y alcanzables atados a lo que ella tiene que enfrentar en su trabajo. El offboarding existe solo para la alumna que ya dijo que no. Flor NUNCA se olvida un paso; vos NUNCA le escribís a la alumna (Flor manda todo).
 
-1. Del tracker de pagos (solo lectura) tomá cada alumna activa: nombre, mail, fecha de inicio 1:1, fecha de fin, semana del programa, estado de renovación, testimonio. Excluí a Alejandra Rossi (la decoradora) y a las alumnas de continuidad sin fecha de fin. Incluí también a las alumnas de la pestaña Histórico que terminaron en los últimos 60 días: para ellas corresponden los pasos de offboarding, puerta abierta y testimonio pendiente (si el tracker dice testimonio "Pendiente", proponé UN pedido de testimonio amable, una sola vez).
-2. Pasos del ciclo (SOP 05 y 06). Le toca un paso si la alumna entró en esa semana y el paso todavía no se le propuso a Flor:
-   - Alta nueva (pago nuevo en el tracker o recibo de Stripe en Gmail, sin carpeta o sin clase agendada): checklist del SOP 02 con lo que falta + mail de bienvenida listo.
-   - Semana 16 → MAIL DE WINS: logros concretos con fecha, sacados de sus notas de Gemini y weekly reports (antes/después). Nada personal.
-   - Semana 17 → FECHAS DE CIERRE + PEDIDO DE TESTIMONIO: cuándo es su última sesión y cuándo se cierra el acceso; pedirle que escuche su primer audio; pedir testimonio (audio o video de 1 minuto). Si el testimonio ya figura hecho o hay un video "TESTIMONIO [nombre]" en Drive, no pedirlo.
-   - Semana 18 → SEGUNDA GRABACIÓN: pedirle que grabe la misma situación del primer audio para comparar.
-   - Semana 19 → PROPUESTA DE EXTENSIÓN / CONFIRMACIÓN DE CUPO: "¿querés continuar y reservar tu cupo?", con fecha límite para responder. La conversación se da en clase; el mensaje abre el tema.
-   - Semana 20 o faltan 7 días o menos para el fin y la renovación sigue sin confirmar → RECORDATORIO URGENTE a Flor con un segundo mensaje para la alumna.
-   - Terminó sin renovar → OFFBOARDING (SOP 06): mail de despedida (qué conserva, qué se cierra y cuándo) + checklist (cerrar accesos, GHL, Stripe, mover fila a Histórico, testimonio resuelto).
-   - 14 días después del fin sin renovar → MAIL DE PUERTA ABIERTA.
-   - Renovó → mensaje de bienvenida a la segunda etapa y recordatorio de actualizar el tracker.
-   Si una alumna se atrasó y le tocaban varios pasos juntos (por ejemplo, está en la semana 20 y no se hizo nada), no mandes todos: proponé la versión condensada que tiene sentido ahora (wins + confirmación de cupo + testimonio en un solo mensaje).
-3. Para no repetir: antes de proponer un paso, buscá en Gmail (in:sent o in:inbox, asunto que empiece con "🔁 Ciclo ·" + nombre de la alumna) si ya se lo propusiste. También cuenta como ya propuesto cualquier correo a Flor con el nombre de la alumna y "wins", "cupo", "renov", "testimonio" o "despedida" en el asunto (por ejemplo, "✍️ Belem · mensaje de wins + confirmación de cupo"). Si ya está, no lo repitas; si pasaron 5 días y la alumna no confirmó la renovación (según el tracker), mandá UN recordatorio más.
-4. Un correo a Flor POR ALUMNA y paso, asunto: "🔁 Ciclo · [Nombre] · [paso] (semana N)". Contenido: en qué punto está (1 línea), qué hacer hoy, el mensaje listo en dos versiones (WhatsApp corta y mail completo), en el trato que Flor usa con ella ("tú" para no argentinas, voseo para argentinas), y el checklist del paso.
-5. Si hoy no le toca nada a nadie, no mandes correo.
+1. Fuentes por alumna:
+   - Tracker de pagos (Sheet, solo lectura) y base Alumnas de Notion (collection://59d40821-721b-4597-9b86-4b856c800e87): nombre, mail, inicio 1:1, fin previsto, último/próximo pago, Estado financiero, Renovación, Testimonio. Si no coinciden, manda lo más reciente; si hay duda, decilo.
+   - Lo que pasa de verdad: notas de Gemini y weekly reports en Drive (como en clases-de-hoy.md, PASO 3 b y d). De ahí salen los WINS (con su frase literal y fecha) y su PRÓXIMO DESAFÍO REAL (presentación, viaje, rol nuevo, reunión recurrente con VPs, entrevistas).
+   - Su página de Notion: sección "🎯 Fase 2" si ya existe.
+   Excluí a Alejandra Rossi (la decoradora) y a las alumnas de continuidad sin fecha de fin (Gra, Corina, Ester). Incluí a Emely (ver _reglas-comunes).
+   Semanas que le quedan = semanas desde hoy hasta su fin de CLASES (no de pagos). Si sus cuotas terminan antes que las clases (ej.: Brenda paga hasta el 19-oct y tiene clases hasta el 3-dic), la propuesta tiene que estar hecha ANTES de su último cobro.
+
+2. Pasos (le toca uno si entró en esa ventana y todavía no se le propuso a Flor):
+   A) Faltan 10 a 8 semanas → CONVERSACIÓN DE PROGRESO en la próxima clase (10 minutos antes de la clase normal), sin hablar de precio:
+      1. "¿Cómo te sentís con tu inglés hoy comparado con cuando empezamos?"
+      2. "¿Hay situaciones en el trabajo donde todavía sentís que te trabás?"
+      3. "¿Qué te gustaría lograr en los próximos meses?"
+      Cargalo ARRIBA de la descripción de su próxima clase en Google Calendar (notificationLevel NONE, conservando lo que ya tenga), con el título "⭐ ANTES DE ARRANCAR LA CLASE · 10 MIN DE CONVERSACIÓN DE PROGRESO", las 3 preguntas en el trato de esa alumna y una línea para Flor: "si en la 2 o la 3 nombra algo concreto, ahí está la puerta; anotalo en Notion". Mandá el correo a Flor con lo mismo.
+   B) Faltan 8 a 6 semanas → PROPUESTA FASE 2. Armala y dejala escrita en su página de Notion, sección "🎯 Fase 2" (si ya existe, actualizala):
+      - Lo que logró (3 wins con su frase literal y fecha, de weekly reports y notas de Gemini).
+      - Su próximo desafío real (con fuente).
+      - 3 OBJETIVOS para los próximos 3 meses: cada uno atado a una situación real, con una META OBSERVABLE (ej.: "responder 3 preguntas inesperadas de los VPs en 2–3 oraciones y volver a su mensaje", "un update de incidente en 60 segundos", "3 reuniones defendiendo una postura sin script"). Alcanzables: nada que dependa de terceros.
+      - Opciones: A) 3 meses, 1 clase semanal, USD 250/mes · B) 3 meses intensivo, 2 clases semanales, USD 444/mes. Recomendá una con una línea de por qué.
+      - La frase de apertura para Flor, usando las palabras de la alumna.
+      Correo a Flor con la propuesta y el mensaje listo. La conversación se da EN CLASE; el mensaje la abre o la confirma por escrito después.
+      Antes de proponer, la próxima clase tiene que darle un LOGRO sobre ese desafío (clases-de-hoy.md lo hace): si el desafío real cae dentro de su programa actual (una presentación, un viaje), la propuesta se hace en la clase SIGUIENTE a ese evento, con el resultado en la mano.
+   C) Faltan 6 a 4 semanas → MAIL DE WINS + FASE 2: antes/después concreto (su primer audio o primera clase vs. ahora) y cierra con la invitación a la Fase 2. Nunca con "fechas de cierre".
+   D) Faltan 4 a 2 semanas y la Renovación sigue sin confirmar → SEGUIMIENTO: un mensaje corto, sin presión, con fecha para confirmar el cupo. Si pasaron 5 días sin respuesta, UN recordatorio más a Flor.
+   E) RENOVÓ (Notion Renovación = Confirmada, o pago nuevo en Stripe) → bienvenida a la Fase 2 con sus 3 objetivos + pedido de testimonio (ahora sí: audio o video de 1 minuto sobre lo que cambió) + recordatorio a Flor de actualizar Notion/tracker (duración, fin, cuota, día de cobro) y de crear/ajustar la suscripción de Stripe.
+   F) DIJO QUE NO (Notion Renovación = No renueva, o Flor lo confirmó) → recién ahí OFFBOARDING (SOP 06): despedida (qué conserva, qué se cierra y cuándo), testimonio si está pendiente, checklist (accesos, GHL, Stripe, mover fila a Histórico). 14 días después: MAIL DE PUERTA ABIERTA.
+   Alumna atrasada (le tocaban varios pasos): una sola propuesta condensada (wins + Fase 2) en vez de todos.
+
+3. Pagos: si la alumna tiene Estado financiero "Vencido", el tema del pago va en un mensaje APARTE (para resolver esa misma semana) y nunca dentro de la conversación de progreso ni de la Fase 2.
+
+4. Para no repetir: antes de proponer, buscá en Gmail (asunto que empiece con "🔁 Ciclo ·" + nombre) si ya se lo propusiste. También cuenta como ya propuesto cualquier correo a Flor con el nombre y "wins", "cupo", "renov", "Fase 2", "progreso", "testimonio" o "despedida" en el asunto, y un bloque "⭐ ANTES DE ARRANCAR" ya cargado en su próxima clase.
+
+5. Un correo a Flor POR ALUMNA y paso: "🔁 Ciclo · [Nombre] · [paso] ([N] semanas para el fin)". Contenido: en qué punto está (1 línea), qué hacer hoy, el mensaje listo en dos versiones (WhatsApp corta y mail completo) en el trato que Flor usa con ella ("tú" para no argentinas, voseo para argentinas), y el link a su sección "🎯 Fase 2" en Notion.
+
+6. Si hoy no le toca nada a nadie, no mandes correo.

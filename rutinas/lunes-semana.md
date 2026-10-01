@@ -3,7 +3,7 @@ TAREA: Correo de los lunes · renovaciones, prospectas y weekly reports. Leé pr
 A) RENOVACIONES (del tracker + notas de Gemini):
 - Alumnas activas cuya fecha de fin esté dentro de los próximos 45 días (o semana 16 o más del programa). Para cada una: fecha de fin, semana, estado de renovación.
 - Mini informe de progreso con evidencia de sus clases (notas de Gemini): qué no podía hacer al empezar y qué hace ahora, 3 logros concretos con fecha. Nada personal.
-- Qué hacer esta semana según el SOP 05 (semana 16: mail de wins; 17: fechas y testimonio; 18: segunda grabación; 19: propuesta de extensión; 20: decisión). Si ya se pasó un paso, decilo.
+- Qué hacer esta semana según el ciclo de RENOVACIÓN de ciclo-alumnas.md (faltan 10–8 semanas: conversación de progreso; 8–6: propuesta Fase 2 con 3 objetivos; 6–4: mail de wins + Fase 2; 4–2: seguimiento; offboarding SOLO si dijo que no). Si ya se pasó un paso, decilo. Si tiene sección "🎯 Fase 2" en Notion, mostrá sus 3 objetivos y cuál avanzó esta semana.
 - Un borrador del mensaje o mail que corresponde esta semana, listo para copiar.
 - Excluí a Alejandra Rossi (la decoradora) de la lógica de renovación de AT WORK; si está por terminar, solo mencionala.
 

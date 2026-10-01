@@ -39,3 +39,16 @@ NOVEDADES CONFIRMADAS POR FLOR (mandan sobre el tracker hasta que el tracker lo 
   · Alejandra Santos → "ALE at work" (1zi2r3AFYZy2W4p5Ds8dm8jTo3gt6lvEx), weekly en "Weekly Reports" (1jqK0Ibq7C5RcjF5id8KYlYr8-n-Wlhrv). La 1PrZhEtK24oQZ0YRhK_4Nyr3Qep78qWdc es de seguimiento docente.
   · Laura Manzano → carpeta "laura manzano" (10IyareS…) NO está compartida con su mail (solo entra por link); su "weekly reports" (1veHnK-mJ0IgXZMO0MOZCdBnjhaEDkXkb) sí.
 - ACCESO: VIP STUDENTS 2026 y AT WORK 2026 FINAL están "cualquiera con el link = editor" y FLOR PERSICO 2026 "= lector". Flor las va a pasar a Restringido. Nunca compartas nada "con cualquiera con el link"; siempre por mail.
+- 01/10/2026 · CAMBIO DE ENFOQUE · RENOVACIÓN: el objetivo del cierre de programa es que renueven. Ver ciclo-alumnas.md (Fase 2 de 3 meses: A USD 250/mes 1 clase semanal · B USD 444/mes 2 clases semanales; 3 objetivos con meta observable atados a un desafío real). Offboarding solo si la alumna dijo que no. El pago vencido se resuelve en un mensaje aparte, nunca mezclado con la conversación de progreso.
+- 01/10/2026 · PAGOS VERIFICADOS EN STRIPE (fuente: Stripe vía Windsor.ai, conector "stripe"; la base Alumnas de Notion ya tiene Estado financiero, Último pago y Próximo pago al día):
+  · Luz Cañas y Alejandra Santos: el cobro de septiembre NO entró (Luz desde el 20-sep, Alejandra desde el 17-sep). Flor ya les escribió el 01/10.
+  · Brenda Mariscal: plan de 5 cuotas; pagó 4 (19-jun a 19-sep). La 5ª y última es el 19-oct; después NO paga más y sigue en clase hasta el 3-dic (fin de programa). Su propuesta de Fase 2 tiene que salir antes del 19-oct o justo después.
+  · Lina: pasó a pago MENSUAL USD 250 (desde el 08-sep).
+  · Lourdes: pago completo USD 1.250 verificado (07-ago). Arranca el 09-oct.
+  · Virginia y Alejandra Rossi pagan por TRANSFERENCIA a Flor a principio de mes (no pasan por Stripe).
+  · Corina paga USD 149 y Ester EUR 120 (no lo que dice el tracker).
+- 01/10/2026 · ALEJANDRA SANTOS: no está desconectada. Mandó weekly la semana del 21/09 (win: le explicó su agente de IA al equipo de IT) y Flor le respondió el 30/09. Canceló la clase del 24/09 (sin reagendar) y no completó el weekly del 28/09. Con ella primero RECONECTAR (próxima clase 08/10), la Fase 2 se habla a fines de octubre.
+- 01/10/2026 · SOL: su weekly del 17/09 (Word, en su carpeta Weekly Reports) dice que quiere SEGUIR con los ejercicios actuales ("rompen el esquema normal… para mí son un reto"); NO pidió un formato distinto. Flor le respondió el 01/10. Viaja a Alemania el 14/10 (proyecto Gulf) y presenta inventario a los VPs todos los meses.
+- 01/10/2026 · LUZ: presentación con una VP alrededor del 12–16/10; las clases del 02/10 y 09/10 son para prepararla. La Fase 2 se propone en la clase siguiente a la presentación.
+- 01/10/2026 · GABY: va a entrevistar candidatos para el Command Center CALA de Marriott (nuevo rol); escribió su presentación del programa en el weekly del 28/09.
+- 01/10/2026 · EMELY: conversación de progreso cargada en su clase del 05/10 (20:00). No volver a proponerla.
