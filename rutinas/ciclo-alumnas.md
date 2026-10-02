@@ -8,7 +8,7 @@ Objetivo: que cada alumna que termina quiera seguir. El final del programa NO se
    - Tracker de pagos (Sheet, solo lectura) y base Alumnas de Notion (collection://59d40821-721b-4597-9b86-4b856c800e87): nombre, mail, inicio 1:1, fin previsto, último/próximo pago, Estado financiero, Renovación, Testimonio. Si no coinciden, manda lo más reciente; si hay duda, decilo.
    - Lo que pasa de verdad: notas de Gemini y weekly reports en Drive (como en clases-de-hoy.md, PASO 3 b y d). De ahí salen los WINS (con su frase literal y fecha) y su PRÓXIMO DESAFÍO REAL (presentación, viaje, rol nuevo, reunión recurrente con VPs, entrevistas).
    - Su página de Notion: sección "🎯 Fase 2" si ya existe.
-   Excluí a Alejandra Rossi (la decoradora) y a las alumnas de continuidad sin fecha de fin (Gra, Corina, Ester, Lina). Incluí a Emely (ver _reglas-comunes).
+   Excluí a Alejandra Rossi (la decoradora) y a las alumnas de continuidad sin fecha de fin (Gra, Corina, Ester). Incluí a Emely (ver _reglas-comunes).
    Semanas que le quedan = semanas desde hoy hasta su fin de CLASES (no de pagos). Si sus cuotas terminan antes que las clases (ej.: Brenda paga hasta el 19-oct y tiene clases hasta el 3-dic), la propuesta tiene que estar hecha ANTES de su último cobro.
 
 2. Pasos (le toca uno si entró en esa ventana y todavía no se le propuso a Flor):
