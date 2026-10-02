@@ -52,3 +52,4 @@ NOVEDADES CONFIRMADAS POR FLOR (mandan sobre el tracker hasta que el tracker lo 
 - 01/10/2026 · LUZ: presentación con una VP alrededor del 12–16/10; las clases del 02/10 y 09/10 son para prepararla. La Fase 2 se propone en la clase siguiente a la presentación.
 - 01/10/2026 · GABY: va a entrevistar candidatos para el Command Center CALA de Marriott (nuevo rol); escribió su presentación del programa en el weekly del 28/09.
 - 01/10/2026 · EMELY: conversación de progreso cargada en su clase del 05/10 (20:00). No volver a proponerla.
+- 02/10/2026 · ADRIANA ELLENBERG (neuróloga, aedri@hotmail.com): RENOVÓ. Vuelve el viernes 09/10, viernes 14:00–15:00 ART (evento recurrente con Meet). Ya tiene video testimonio: no pedirlo de nuevo. Precio/duración/día de cobro: pendiente de Flor. Desde el 09/10 la GRABACIÓN 2 de los viernes quedó partida en 12:30–14:00 y 15:00–16:00.
