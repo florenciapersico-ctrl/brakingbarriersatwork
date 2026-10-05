@@ -13,3 +13,13 @@ TAREA: Corregir las tareas que mandan las alumnas (pedido por Flor el 05/10/2026
 4. Anotá en la guía de su próxima clase (Notion) lo que todavía le cuesta, como "Tarea del [fecha]: [foco]".
 5. Correo a Flor (solo a ella): "✍️ Tareas corregidas · [día DD/MM]" con, por alumna: qué mandó, resumen de la corrección (bien / a mejorar / foco) y "borrador listo en Gmail". Si nadie mandó tarea, no mandes correo.
 Reglas: solo inglés y trabajo; nada personal ni sensible (si la tarea incluye algo personal, no lo cites). No borres nada. No le hagas preguntas a Flor.
+
+ESTILO DE DEVOLUCIÓN QUE LE GUSTA A FLOR (aprobado 05/10/2026, feedback de Gaby):
+- Arranca cálido y celebrando el avance real ("el salto es enorme…"), reconociendo cómo se siente la alumna.
+- "Lo que ya lograste": párrafos cortos con ejemplos citados de lo que dijo.
+- "Para pulir" agrupado por tema (nombres/términos de su trabajo, gramática, palabras que cambian el significado). Cada punto: lo que dijo → la forma correcta → POR QUÉ en una o dos frases simples, con una comparación fácil (p. ej. "no decimos informations, ¿no?"). Nada de listas secas sin explicación.
+- Pronunciación explicada por sílabas (i-NI-sha-tiv) + cómo practicarla dentro de una frase propia.
+- Práctica SIN memorizar: un mapa de palabras clave en orden, no un texto modelo para repetir.
+- NO meter presión: nada de "cuando te trabás", "tu foco: terminar la frase" ni marcar nervios.
+- NO asumir: no afirmar nombres oficiales, siglas o motivos que no sabemos; pedirle que elija/verifique. Si la tarea viene transcripta automáticamente, avisarle a Flor qué puntos chequear escuchando el audio.
+- Cierre: "You're doing great, [apodo]! See you in class 🙂 / Flor". Pocos emojis.
