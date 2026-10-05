@@ -87,6 +87,8 @@ h) VENTANA DE RENOVACIÓN (desde el 01/10/2026). Si a la alumna le quedan 10 sem
 ═══════════════════════════════
 PASO 4 — LA CLASE (Google Doc en la carpeta de la alumna)
 ═══════════════════════════════
+REGLA FIJA (Flor, 05/10/2026): La hoja SIEMPRE va en CLASES/[mes en minúscula] de la alumna (crear la carpeta del mes si no existe). Nunca suelta en CLASES, en la carpeta del mes anterior ni en la raíz. Clase grupal Lina + Cori: va en la carpeta del mes dentro de la carpeta del grupo "clases lina y cori- grupal".
+
 Un Google Doc por alumna, creado con create_file de Google Drive: contenido en HTML, contentMimeType "text/html", mimeType de Google Doc, parentId = la subcarpeta del MES dentro de su carpeta de clases. Carpeta de clases: "03 · MATERIALES DE SESIONES" si la alumna tiene la estructura nueva (01–05), si no su subcarpeta CLASES (o equivalente). Adentro, una subcarpeta por mes en español, en minúsculas como la que creó Flor ("septiembre", "octubre"…; si ya existe con otra forma de escribir, usá esa): usá la del mes de la clase y, si no existe, creala (no crees duplicados: buscá primero). Si la alumna no tiene carpeta de clases, su carpeta. Nombre: "AT WORK · [Nombre] · [DD MMM AAAA] · Week [N] · [título corto]".
 
 LA CLASE TIENE 4 PARTES (equilibrada: no puede ser todo libre; en cada clase la alumna tiene que llevarse conocimiento nuevo, no solo práctica):
