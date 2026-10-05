@@ -506,6 +506,18 @@
     border-radius: 3px; margin-bottom: 22px;
   }
 
+  /* Tira de fotos de marca: tres retratos 3:4 en fila, también en móvil. */
+  .photostrip {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 10px; margin: 48px 0 0;
+  }
+  @media (min-width: 760px) { .photostrip { gap: 18px; } }
+  .photostrip img {
+    display: block; width: 100%; height: auto; aspect-ratio: 3 / 4;
+    object-fit: cover; border-radius: 3px;
+  }
+  .closing .photostrip { margin: 0 auto 44px; max-width: 620px; }
+
   .stage .txt { font-size: 15.5px; color: var(--muted); max-width: var(--measure); }
   .stage .txt + .txt { margin-top: 12px; }
   .stage .shift {
@@ -956,6 +968,11 @@
         <p>Muchos bloqueos no son de inglés: son perfeccionismo, autoexigencia, miedo a la exposición. Tienes tu espacio en el weekly report para contármelo, y estoy a un mensaje de WhatsApp si necesitas algo puntual entre semana.</p>
       </div>
     </div>
+    <div class="photostrip">
+      <img src="img/marca/videollamada.webp" alt="Laptop con una videollamada abierta sobre un escritorio de madera" width="900" height="1200" loading="lazy">
+      <img src="img/marca/cuaderno-cafe.webp" alt="Cuaderno con un mapa de ideas junto a un café" width="900" height="1200" loading="lazy">
+      <img src="img/marca/laptop-ciudad.webp" alt="Laptop abierta junto a una ventana con vista a la ciudad" width="900" height="1200" loading="lazy">
+    </div>
   </div>
 </section>
 
@@ -1124,6 +1141,11 @@
 <!-- ═══════════════ CIERRE ═══════════════ -->
 <section class="band-sand closing">
   <div class="wrap narrow">
+    <div class="photostrip">
+      <img src="img/marca/flor-sonrisa.webp" alt="Flor Pérsico con blazer camel en su oficina" width="900" height="1200" loading="lazy">
+      <img src="img/marca/mesa-dos-cafes.webp" alt="Mesa con dos cafés y cuadernos, lista para una sesión" width="900" height="1200" loading="lazy">
+      <img src="img/marca/flor-blazer-crema.webp" alt="Flor Pérsico con blazer crema" width="900" height="1200" loading="lazy">
+    </div>
     <h2>Tu próxima reunión puede ser <em>distinta.</em></h2>
     <p class="lede">
       No hace falta esperar cinco meses para empezar: desde la primera semana
