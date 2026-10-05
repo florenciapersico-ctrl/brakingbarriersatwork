@@ -59,7 +59,7 @@ PASO 4 — EL CORREO (Gmail, send_message)
 ═══════════════════════════════
 PASO 5 — EL RESUMEN EN NOTION
 ═══════════════════════════════
-En la base Clases de Notion (collection://6edc592f-a786-4b01-aac8-1f462f058926) buscá la fila de esa alumna para hoy (la creó la preparación de la mañana; el link suele estar en la descripción del evento como "Tu página:"). Si no existe, creá una fila: Clase ("[Nombre] · [DD MMM]"), Fecha con hora, Calendar (link al evento).
+En la base Clases de Notion (collection://6edc592f-a786-4b01-aac8-1f462f058926) buscá la fila de esa alumna para hoy (la creó la preparación de la mañana; buscala en la base por alumna y fecha). Si no existe, creá una fila: Clase ("[Nombre] · [DD MMM]"), Fecha con hora, Calendar (link al evento).
 Agregá AL FINAL del cuerpo de la página (sin borrar la guía que ya está) una sección:
 ## Resumen de la clase · [DD MMM]
 - Notas de Gemini: [link]
