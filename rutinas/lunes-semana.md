@@ -25,4 +25,9 @@ C) WEEKLY REPORTS (una copia fechada por alumna, cada lunes):
    Reglas: nada más que eso (nada de lo que pasó en clase, nada personal, nada de pagos). Sin CC. Sin portal ni links internos de Flor. Si no tiene la copia creada o no tiene permiso de edición, NO le mandes y avisale a Flor. Nunca a Alejandra Rossi ni a alumnas "Confirmada" que todavía no empezaron ni a las que terminaron. Buscá antes en enviados que no le hayas mandado ya el de esta semana (no dupliques).
 5. En el correo a Flor, sección C: a quiénes se les mandó el recordatorio (con el link de cada una), a quién no y por qué, y quién no completó el de la semana pasada.
 
+D) MENSAJE PARA LA COMUNIDAD DE WHATSAPP (pedido por Flor el 05/10/2026):
+- Cada lunes, mandale a Flor un correo aparte "💬 Mensaje para la comunidad de WhatsApp · lunes [DD/MM]" con un mensaje listo para copiar y pegar en la comunidad de alumnas: invitarlas a completar su weekly report de la semana (que ya les llegó por mail) y a compartir su WIN de la semana pasada en el grupo, en inglés aunque sea una frase.
+- Voz de Flor: cálido, corto, mezcla inglés-español, emojis, firmado "Flor". En "ustedes" (sirve para argentinas y no argentinas). Variá el texto cada semana (no repetir el mismo saludo ni la misma pregunta de win).
+- Nunca nombres a ninguna alumna ni cuentes nada de sus clases, pagos o vida personal. Sin links internos ni con "?token=".
+
 Correo a Flor: asunto "📅 Tu semana · [DD/MM] · renovaciones, prospectas y reports". Arriba de todo, un resumen de 3 líneas (cuántas renovaciones, cuántas prospectas, cuántos reports faltan). Después las 3 secciones.
