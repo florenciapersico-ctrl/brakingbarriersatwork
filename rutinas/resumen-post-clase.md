@@ -35,6 +35,7 @@ PASO 3 — QUÉ SACAR DE LA TRANSCRIPCIÓN (todo literal, nada inventado)
 - 4 a 6 errores de ELLA (nunca de Flor) que se corrigieron en clase: frase tal como la dijo → cómo va → por qué, en pocas palabras. Priorizá los que Flor corrigió explícitamente o marcó para el post-it.
 - La TAREA que Flor le dio al final de la clase, tal como la dio. Si Flor no dio tarea, no inventes una: poné "Seguí practicando [lo trabajado] antes de la próxima clase."
 - Alguna frase de ánimo o de feedback que Flor le haya dicho de verdad (opcional; solo si está en la transcripción).
+- Nunca le digas a la alumna que "ya usa bien" o "ya domina" algo si en la transcripción solo lo dijo leyendo de la pantalla o repitiendo después del modelo. En ese caso: "en el ejercicio te salió bien; el próximo paso es que te salga hablando sola".
 
 ═══════════════════════════════
 PASO 4 — EL CORREO (Gmail, send_message)

@@ -66,9 +66,17 @@ f) Rol, industria y fecha de inicio: Google Sheet "Alumnas_y_Pagos_-2026_Tracker
 
 g) EN QUÉ SEMANA DEL ROADMAP ESTÁ:
    - Semana base = semanas completas desde su fecha de inicio + 1 (máximo 20). Si no hay fecha de inicio, contá las clases reales con notas de Gemini desde que empezó AT WORK.
-   - Ajuste por evidencia: si en las últimas notas se nota que la habilidad de la semana anterior no se trabajó o claramente no está (ej.: todavía no organiza el mensaje), esa habilidad pasa como carry-over dentro de la clase de hoy, pero el recorrido avanza igual.
+   - Esta semana es solo la PROPUESTA del calendario. La que manda es el CONTROL DE NIVEL (PASO 3 bis): si la habilidad de la semana queda a 2 escalones o más de lo que la alumna hace sola, NO avanza; se trabaja la habilidad de su escalón actual o del siguiente. El recorrido avanza cuando ella avanza, no cuando pasa la semana.
    - Si las notas muestran que ya está trabajando algo de una semana más adelante, respetá lo que pasa en clase y decilo.
-   Dejá escrito cómo lo calculaste en una línea ("Semana 8 · empezó el 04/08 · carry-over: Build Clear Sentences").
+   Dejá escrito cómo lo calculaste en una línea ("Semana 8 por calendario · escalón 2 · se trabaja Build Clear Sentences").
+
+PASO 3 bis — CONTROL DE NIVEL (obligatorio, antes de armar la clase)
+Leé /home/user/brakingbarriersatwork/.claude/skills/control-de-nivel/SKILL.md y referencias/escalera.md (en la misma carpeta) y aplicalos con lo que juntaste en el PASO 3:
+   - Separá lo que la alumna dijo SOLA de lo que leyó de la pantalla o repitió después del modelo (Paso 2 de la skill). Solo lo dicho SOLA prueba que lo usa.
+   - Ubicala en su escalón (1 a 5) con 1 o 2 citas SOLA con fecha.
+   - Cada bloque de la clase que vas a armar tiene que estar en su escalón o uno más, nunca dos. Si la semana del roadmap, la Language Clinic o el role play quedan más arriba, bajalos (la tabla de la escalera dice qué training corresponde).
+   - Un tema del Registro de progreso marcado "Done" sin 2 usos SOLA en clases distintas vuelve a "en práctica" y puede volver a la clase.
+   - Resultado: ✅ (la semana del roadmap le queda bien) o ⚠️ (la ajustaste: qué cambiaste y por qué, en una línea). Va en la guía de Notion (PASO 6) y en el correo a Flor (PASO 7).
 
 h) VENTANA DE RENOVACIÓN (desde el 01/10/2026). Si a la alumna le quedan 10 semanas o menos de clases y su Renovación no está Confirmada, o si su página de Notion tiene la sección "🎯 Fase 2", la clase de hoy tiene que darle un LOGRO VISIBLE sobre su próximo desafío real (el de su "🎯 Fase 2" o, si no existe, el que aparezca en su weekly report o en las notas de Gemini: presentación, viaje, rol nuevo, reunión con VPs, entrevistas). En ese caso:
    - El Bloque 3 (Skill) usa ESE desafío como escenario principal, con la habilidad del roadmap aplicada a él. Si el evento real es antes de su próxima clase, la clase es un ensayo completo (estructura → primer intento → preguntas difíciles → retry).
@@ -121,7 +129,8 @@ No lo compartas con la alumna: Flor decide si se lo comparte.
 PASO 4 bis — REGISTRO DE PROGRESO (Drive)
 ═══════════════════════════════
 En "AT WORK · [Nombre] · Registro de progreso" (en su carpeta; si no existe, crealo con create_file, HTML → Google Doc) agregá arriba de todo una entrada con fecha:
-- Clase del [fecha] (preparada): Week N · Language Clinic: [nivel] #[número] [tema] → Done · Pronunciación: [foco] → Done.
+- Clase del [fecha] (preparada): Week N · Escalón [n] · Language Clinic: [nivel] #[número] [tema] → Visto · Pronunciación: [foco] → Visto.
+  "Visto" = se trabajó en clase. "Done" solo cuando aparece bien dicho SOLA (no leído, no repetido después del modelo) en las notas de Gemini de 2 clases distintas; en ese caso escribí "→ Done" con las 2 citas y fechas. Nunca pongas "Done" en una clase que todavía no se dio.
 - Errores detectados en las notas del [fecha de la última clase]: gap de base / fosilizado, con 1 ejemplo literal cada uno.
 - Gaps que siguen abiertos de entradas anteriores (si volvieron a aparecer).
 Así la próxima clase sabe qué ya se vio y qué sigue abierto. No borres entradas anteriores. Si no podés editar el doc existente, creá uno nuevo con la entrada y avisale a Flor.
@@ -145,6 +154,7 @@ En la base Clases de Notion (collection://6edc592f-a786-4b01-aac8-1f462f058926) 
 El CUERPO de la página es la guía de Flor: lo que lee antes de clase. Máximo ~300 palabras, español rioplatense con voseo. Exactamente:
 **Semana del roadmap:** Week N · [habilidad] · [situación real]. Cómo lo calculaste, en una línea.
 **Última clase verificada:** fecha + link a las notas de Gemini (o "sin evidencia"). Si había una más nueva vacía, decilo.
+**Control de nivel:** ✅ o ⚠️ · escalón [n] · 1 cita SOLA con fecha · si ajustaste, qué bajaste y por qué (una línea). Si hay algo que no pudiste decidir con la evidencia, máximo 2 puntos "Para que mires vos".
 **Objetivo de hoy:** una sola cosa observable.
 **Para arrancar:** la pregunta de apertura ("¿Qué tenés esta semana que tengas que decir o escribir en inglés?") + tarea o weekly report a revisar.
 **Bloque 1 — Narrative Flow:** 2 o 3 errores clave, con su tipo.
@@ -168,6 +178,7 @@ Formato exacto:
 Tus clases de hoy · [día DD de mes]
 
 [hora] · [Alumna] · Week [N] · [habilidad]
+Nivel: ✅ le queda bien | ⚠️ ajustado: [qué bajaste, en pocas palabras]
 Objetivo: [una línea]
 Clase: [link al Google Doc]
 Tu guía: [link a la página de Notion]
