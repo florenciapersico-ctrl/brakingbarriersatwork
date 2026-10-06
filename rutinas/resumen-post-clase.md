@@ -11,8 +11,8 @@ Herramientas: Google Calendar, Google Drive, Gmail y Notion están como herramie
 ═══════════════════════════════
 PASO 1 — QUÉ CLASES TERMINARON
 ═══════════════════════════════
-Leé el Google Calendar principal de Flor ("BREAKING BARRIERS CON LUCIA!") desde las 00:00 de HOY (hora de Buenos Aires) hasta ahora. Quedate con las clases 1:1 AT WORK (y las clases de dos alumnas juntas) que YA TERMINARON. No son clases: discovery calls, entrevistas de venta, reuniones internas, eventos personales, bloqueos de agenda.
-Descartá las que en la descripción ya tienen "RESUMEN ENVIADO · [fecha de hoy]".
+Leé el Google Calendar principal de Flor ("BREAKING BARRIERS CON LUCIA!") desde las 00:00 de HACE 3 DÍAS (hora de Buenos Aires) hasta ahora (red de seguridad, 06/10/2026: si una corrida falló o las notas tardaron, la clase se recupera en la siguiente). Nunca antes del 06/10/2026: las clases anteriores sin resumen (Gra 03/10, Lina 01/10) las decide Flor, no las mandes solo. La fecha es SIEMPRE la de Buenos Aires: entre las 21:00 y las 23:59 en UTC ya es el día siguiente; no te confundas. Quedate con las clases 1:1 AT WORK (y las clases de dos alumnas juntas) que YA TERMINARON. No son clases: discovery calls, entrevistas de venta, reuniones internas, eventos personales, bloqueos de agenda.
+Descartá las que en la descripción ya tienen "RESUMEN ENVIADO" con la fecha DE ESA CLASE (en cualquier formato: 05/10 o 05 OCT 2026). Antes de mandar, buscá también en enviados de Gmail "Resumen de tu clase · [día] [DD/MM]" para esa alumna: si ya salió, no lo mandes de nuevo (solo marcá el evento si falta la marca). En el asunto va el día y la fecha DE LA CLASE, no la de hoy.
 EXCLUSIONES (decisión de Flor):
 - Alejandra Rossi, la decoradora (evento "alejandra deco", alejandra.rossi160@gmail.com): a ella NUNCA se le escribe. Su clase sigue el CASO ESPECIAL ALEJANDRA ROSSI (al final de este archivo): el correo va SOLO a Flor.
 - Alejandra Santos (evento "alejandra class", alejandrasantos80@gmail.com) es alumna AT WORK como las demás: SÍ recibe su resumen.
@@ -22,7 +22,7 @@ Si no queda ninguna, terminá con UNA línea: "No hay clases nuevas para resumir
 ═══════════════════════════════
 PASO 2 — LAS NOTAS DE GEMINI DE ESA CLASE
 ═══════════════════════════════
-Por cada clase: buscá en Drive las notas de Gemini de ESA clase de HOY (search_files con title contains 'Notas de Gemini' o 'Notes by Gemini' + el título del evento, o el adjunto "Notes by Gemini" del evento). Tienen que ser de hoy y del horario de la clase.
+Por cada clase: buscá en Drive las notas de Gemini de ESA clase (de su fecha) (search_files con title contains 'Notas de Gemini' o 'Notes by Gemini' + el título del evento, o el adjunto "Notes by Gemini" del evento). Tienen que ser de la fecha y del horario de esa clase.
 - Si todavía no aparecen, o el doc está vacío o casi vacío (menos de ~2 KB: Gemini todavía lo está generando), NO hagas nada con esa clase: la próxima corrida lo va a reintentar.
 - Si pasaron más de 4 horas desde que terminó la clase y sigue sin notas, marcá el evento con "RESUMEN ENVIADO · [fecha] · sin notas de Gemini, no se mandó" y avisale a Flor en el mensaje final.
 Leé la TRANSCRIPCIÓN completa (no solo el resumen de Gemini). Si read_file_content trunca, usá download_file_content.

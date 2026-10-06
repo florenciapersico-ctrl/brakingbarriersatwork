@@ -11,13 +11,13 @@ PARA QUÉ: Flor no tiene tiempo de abrir los weekly reports. Vos los leés todos
    - 🗓️ Foco y cómo va a practicar esta semana (03 + 04: qué, cuándo, con qué material real).
    - Link al documento.
    Usá sus palabras cuando importan (entre comillas), no inventes nada. Privacidad: solo inglés y trabajo; si escribió algo personal (salud, familia, emociones), no lo copies: como mucho "mencionó algo personal, mirálo vos si querés" SOLO si afecta la clase.
-3. Además, dejá el resumen visible donde se usa: en su portal (sección 📝 Weekly report) y en la guía de su próxima clase en Notion si ya existe (línea "Weekly report [fecha]: …"). La preparación de clases ya lo lee de Drive.
+3. Además, dejá el resumen en la guía de su próxima clase en Notion si ya existe (línea "Weekly report [fecha]: …"). NO escribas en los portales ("🌿 Portal · …"): su único dueño es la rutina de portales, que lee los weekly de Drive sola (06/10/2026: las dos rutinas editaban el mismo portal a la vez y las escrituras fallaban). La preparación de clases ya lo lee de Drive.
 4. CORREO A FLOR (send_message a florenciapersico@breakingbarriers.site), asunto "📝 Weekly reports de hoy · [día DD/MM]":
    - Arriba: "Completaron: [nombres] · Te piden algo: [nombres]" (si alguien te pide algo, que se vea en la primera línea).
    - Un bloque por alumna con el resumen del punto 2, las que piden algo primero.
    - Al final una línea: "Todavía no lo completaron esta semana: [nombres]" (desde el miércoles; lunes y martes omitila).
    - Si hoy nadie completó uno nuevo, NO mandes correo.
-   - Debajo del resumen de cada alumna, un recuadro "✉️ Respuesta sugerida (ya está en tus borradores)" con el texto completo del borrador del punto 5, para que Flor lo lea ahí y lo mande desde Borradores. Si no se pudo crear el borrador (no encontraste su mail con certeza), decilo en una línea.
+   - Debajo del resumen de cada alumna, un recuadro "✉️ Respuesta sugerida (ya está en tus borradores)" con el texto completo del borrador del punto 5, para que Flor lo lea ahí y lo mande desde Borradores. Si no se pudo crear el borrador (no encontraste su mail con certeza, o la herramienta lo bloqueó), decilo en una línea: el texto completo ya queda en el recuadro para que Flor lo copie. No reintentes ni busques otra vía.
    Sin nada técnico (ni IDs ni pasos). Nunca le envíes nada a la alumna.
 5. BORRADOR DE RESPUESTA A CADA ALUMNA (pedido de Flor, 30/09/2026). Por cada weekly nuevo, escribí un correo de respuesta para esa alumna, con la voz de Flor, y dejalo como BORRADOR en Gmail (mcp__Gmail__create_draft). NUNCA lo envíes: lo revisa y lo manda Flor.
    - Para: el mail de la alumna (de los invitados de sus clases en Google Calendar o de su ficha). Si no lo encontrás con certeza, no crees el borrador.

@@ -94,6 +94,7 @@ Un Google Doc por alumna, creado con create_file de Google Drive: contenido en H
 LA CLASE TIENE 4 PARTES (equilibrada: no puede ser todo libre; en cada clase la alumna tiene que llevarse conocimiento nuevo, no solo práctica):
 
 1. NARRATIVE FLOW — sus errores reales de la clase anterior (≈12 min)
+   REGLA DURA (06/10/2026, pasó con Emely el 05/10: se repitieron las frases y el tema del 30/09): las frases salen de las notas de Gemini de su ÚLTIMA clase dada (la más reciente con notas, no la anterior). Antes de cerrar la hoja, abrí la hoja de su clase anterior y compará: ninguna frase del Bloque 1 ni el tema del Bloque 2 pueden repetirse, salvo que lo marques "Repaso: …" porque en la última clase volvió a salir mal (con la cita). Si la última clase no tiene notas todavía, usá la anterior pero con frases que NO estén en la hoja previa, y avisale a Flor en "Para tener en cuenta".
    Tabla: | Oración completa | Error resaltado | Corrección | Tipo (Fossilized / Gap) |. Solo sus palabras, máximo 5 errores, los más importantes primero. Ella primero identifica y corrige sola; después clasifica con Flor. Si hay errores de gap, cerrá con: "→ Gap identificado: [tema]. Lo trabajamos en el Bloque 2." Si varios errores comparten una regla, cerrá la tabla con esa regla en una línea (ej.: "las preposiciones viajan en bloques fijos: related TO, depend ON, ask US FOR; no se traducen del español").
 
 2. LANGUAGE CLINIC — gramática o vocabulario que le falta (≈12 min)
