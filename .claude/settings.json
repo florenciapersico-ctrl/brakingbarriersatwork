@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash",
+      "Read",
+      "Write",
+      "Edit",
+      "Glob",
+      "Grep",
+      "Skill",
+      "mcp__Notion",
+      "mcp__Canva",
+      "mcp__Google_Drive",
+      "mcp__Google_Docs",
+      "mcp__Google_Calendar",
+      "mcp__Gmail__search_threads",
+      "mcp__Gmail__get_thread",
+      "mcp__Gmail__get_message",
+      "mcp__Wispr_Flow"
+    ]
+  }
+}
