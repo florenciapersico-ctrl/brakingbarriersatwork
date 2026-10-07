@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Tu práctica · AT WORK</title>
+<meta name="description" content="Tu espacio de práctica de Breaking Barriers at Work: tus coaches de inglés para el trabajo, con el método de Flor Pérsico.">
+<meta name="theme-color" content="#3F1E0D">
+<meta name="robots" content="noindex">
+<meta property="og:title" content="Tu práctica · AT WORK">
+<meta property="og:description" content="Tus coaches de Breaking Barriers at Work, con el método de Flor Pérsico. Tócalo y empieza a practicar.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://florenciapersico-ctrl.github.io/brakingbarriersatwork/coach/">
+<meta property="og:site_name" content="Breaking Barriers at Work">
+<meta property="og:image" content="https://florenciapersico-ctrl.github.io/brakingbarriersatwork/at-work/img/og-at-work.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://florenciapersico-ctrl.github.io/brakingbarriersatwork/at-work/img/og-at-work.png">
+<meta name="apple-mobile-web-app-title" content="AT WORK">
+<link rel="icon" type="image/webp" href="../at-work/img/tilde.webp">
+<link rel="apple-touch-icon" href="../at-work/img/tilde.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&display=swap">
+<style>
+  /* Página de entrada a los coaches: la alumna toca un link con la marca de Flor
+     y desde acá abre sus coaches en Claude. Misma paleta y tipos que la landing de AT WORK. */
+  :root {
+    --cream: #F9F5EE;
+    --sand: #EDE5CC;
+    --ink: #3F1E0D;
+    --brown: #895325;
+    --terracota: #C68C6C;
+    --muted: #7B6A58;
+    --line: rgba(63, 30, 13, .14);
+    --on-ink: #F4EADF;
+    --on-ink-soft: rgba(244, 234, 223, .7);
+    --display: 'Crimson Pro', Georgia, 'Times New Roman', serif;
+    --body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  }
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    background: var(--cream); color: var(--ink); font: 16px/1.55 var(--body);
+    -webkit-font-smoothing: antialiased;
+    padding: env(safe-area-inset-top, 0) 0 env(safe-area-inset-bottom, 0);
+  }
+  a { color: inherit; }
+  :focus-visible { outline: 2px solid var(--terracota); outline-offset: 3px; }
+  .wrap { max-width: 640px; margin: 0 auto; padding: 0 20px; }
+
+  header { padding: 22px 0 0; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .logo { height: 34px; width: auto; display: block; }
+  .tag { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
+
+  .hero { display: flex; align-items: center; gap: 18px; padding: 34px 0 26px; }
+  .hero img { width: 84px; height: 84px; border-radius: 50%; object-fit: cover; flex: none; border: 3px solid #fff; box-shadow: 0 6px 18px rgba(63, 30, 13, .14); }
+  h1 { font-family: var(--display); font-weight: 600; font-size: clamp(32px, 8vw, 44px); line-height: 1.05; letter-spacing: -.01em; }
+  h1 em { font-weight: 500; color: var(--brown); }
+  .lead { font-size: 16px; color: var(--muted); margin: 0 0 26px; max-width: 52ch; }
+
+  .cards { display: grid; gap: 14px; }
+  .card { border-radius: 20px; padding: 22px 20px 20px; text-decoration: none; display: block; transition: transform .15s ease, box-shadow .15s ease; }
+  .card:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(63, 30, 13, .14); }
+  .card.main { background: var(--ink); color: var(--on-ink); }
+  .card.alt { background: #fff; border: 1px solid var(--line); }
+  .kicker { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; font-weight: 600; }
+  .main .kicker { color: var(--terracota); }
+  .alt .kicker { color: var(--brown); }
+  .card h2 { font-family: var(--display); font-weight: 600; font-size: 27px; line-height: 1.12; margin: 6px 0 8px; }
+  .card p { font-size: 15px; }
+  .main p { color: var(--on-ink-soft); }
+  .alt p { color: var(--muted); }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0 0; padding: 0; list-style: none; }
+  .chips li { font-size: 12.5px; border: 1px solid var(--line); border-radius: 999px; padding: 4px 10px; background: var(--cream); }
+  .go { display: inline-flex; align-items: center; gap: 8px; margin-top: 16px; font-weight: 600; font-size: 15px; border-radius: 999px; padding: 11px 18px; }
+  .main .go { background: var(--terracota); color: var(--ink); }
+  .alt .go { background: var(--ink); color: var(--on-ink); }
+  .go svg { width: 16px; height: 16px; }
+
+  section.box { margin: 30px 0 0; padding: 22px 20px; border-radius: 20px; background: var(--sand); }
+  .box h3 { font-family: var(--display); font-weight: 600; font-size: 23px; line-height: 1.15; margin: 0 0 14px; }
+  ol.steps { list-style: none; counter-reset: s; display: grid; gap: 12px; }
+  ol.steps li { counter-increment: s; display: grid; grid-template-columns: 30px 1fr; gap: 10px; align-items: start; font-size: 15px; }
+  ol.steps li::before { content: counter(s); width: 30px; height: 30px; border-radius: 50%; background: var(--ink); color: var(--on-ink); display: grid; place-items: center; font: 600 14px var(--body); }
+  ol.steps b { font-weight: 600; }
+  .save p { font-size: 15px; }
+  .save p + p { margin-top: 8px; }
+  .save [data-os] { display: none; }
+  .save.os-ios [data-os="ios"], .save.os-android [data-os="android"], .save.os-desktop [data-os="desktop"] { display: block; }
+
+  footer { padding: 30px 0 40px; font-size: 13.5px; color: var(--muted); text-align: center; }
+  footer a { font-weight: 600; color: var(--brown); }
+  @media (prefers-reduced-motion: reduce) { .card { transition: none; } .card:hover { transform: none; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <img class="logo" src="../at-work/img/logo.webp" alt="Breaking Barriers at Work">
+    <span class="tag">Tu práctica</span>
+  </header>
+
+  <div class="hero">
+    <img src="../at-work/img/flor-laptop.webp" alt="Flor Pérsico">
+    <h1>Hola, Fluent Queen. <em>¿Qué practicamos hoy?</em></h1>
+  </div>
+  <p class="lead">Este es tu espacio de práctica de AT WORK. Trae una situación real de tu semana: una reunión, una presentación, un mail. Tus coaches trabajan con el método de Flor.</p>
+
+  <main class="cards">
+    <a class="card main" href="https://claude.ai/artifact/6mfNAGdhVfDv8ByMbFnhph">
+      <span class="kicker">Empieza por aquí</span>
+      <h2>Tu práctica de la semana</h2>
+      <p>Lo haces como te sale, vemos dónde se rompió, entrenas solo eso y lo vuelves a intentar. Todo en una sesión.</p>
+      <span class="go">Empezar mi práctica <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+    </a>
+    <a class="card alt" href="https://claude.ai/artifact/6dZ11vhhbVdbcbcaQyRzS8">
+      <span class="kicker">Herramientas por separado</span>
+      <h2>Tus coaches</h2>
+      <p>Para trabajar una sola cosa: ensayar, corregir gramática, subir el nivel de tus expresiones o tu pronunciación.</p>
+      <ul class="chips">
+        <li>Role Play</li><li>Narrative Flow</li><li>Color Method</li><li>Flor Coach</li>
+      </ul>
+      <span class="go">Abrir mis coaches <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+    </a>
+  </main>
+
+  <section class="box" aria-labelledby="first">
+    <h3 id="first">La primera vez</h3>
+    <ol class="steps">
+      <li><span><b>Entra con tu cuenta de Claude.</b> Si no tienes, créala gratis con tu mail en claude.ai.</span></li>
+      <li><span>Te va a aparecer un aviso que dice <b>“Este artefacto usa conectores”</b>. Deja prendido <b>“Usar Claude”</b> y toca <b>Continuar</b>. Es normal: así tu coach te puede responder.</span></li>
+      <li><span><b>¿Prefieres hablar?</b> Toca el micrófono 🎙️ del coach para activar el modo conversación, y dicta con el micrófono de tu teclado. Tu coach te responde en voz alta.</span></li>
+    </ol>
+  </section>
+
+  <section class="box save" id="save" aria-labelledby="savet">
+    <h3 id="savet">Tenla siempre a mano</h3>
+    <div data-os="ios">
+      <p>Abre esta página en <b>Safari</b>, toca el botón de compartir <b>(el cuadrado con la flecha)</b> y elige <b>“Agregar a inicio”</b>.</p>
+      <p>Te queda un ícono en el celular, como una app.</p>
+    </div>
+    <div data-os="android">
+      <p>Abre esta página en <b>Chrome</b>, toca los <b>tres puntitos</b> de arriba a la derecha y elige <b>“Agregar a la pantalla principal”</b>.</p>
+      <p>Te queda un ícono en el celular, como una app.</p>
+    </div>
+    <div data-os="desktop">
+      <p>Guárdala en favoritos: <b>Ctrl + D</b> en Windows o <b>Cmd + D</b> en Mac.</p>
+      <p>Para la voz más humana en Windows, ábrela en <b>Microsoft Edge</b>.</p>
+    </div>
+  </section>
+
+  <footer>
+    ¿Algo no funciona? Escríbele a Flor por WhatsApp.<br>
+    Breaking Barriers at Work · Flor Pérsico
+  </footer>
+</div>
+<script>
+  // Muestra los pasos para guardar la página según el dispositivo
+  (function () {
+    var ua = navigator.userAgent, os = "desktop";
+    if (/iPhone|iPad|iPod/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1)) os = "ios";
+    else if (/Android/.test(ua)) os = "android";
+    document.getElementById("save").classList.add("os-" + os);
+  })();
+</script>
+</body>
+</html>
