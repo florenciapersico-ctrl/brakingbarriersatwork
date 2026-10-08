@@ -79,3 +79,4 @@ Las alumnas son invitadas a sus eventos y pueden leer la descripción. Ahí NUNC
 
 ## AGENDA FIJA DE FLOR (08/10/2026)
 - PÁDEL: miércoles 9:30–11:30 y jueves 9:30–12:00 (hora BA). Los martes ya NO hay pádel (Flor lo cambió solo para los martes). Ninguna rutina propone clases, grabaciones ni tareas en esos horarios.
+- PRIORIDAD #1 DE FLOR (08/10/2026): TERMINAR DE GRABAR EL PROGRAMA AT WORK. Plan: Notion "🎬 Terminar de grabar AT WORK · plan al 23/10" (https://app.notion.com/p/3f35708d644881d69cefcc6246c12ab8). Al 08/10: 19/55 piezas con video. Toda rutina que reescriba la página "✅ HOY / ESTA SEMANA" CONSERVA arriba de todo el callout "🎬 Prioridad #1: terminar de grabar el programa" con el link al plan, y no agenda nada encima de los bloques de grabación.
