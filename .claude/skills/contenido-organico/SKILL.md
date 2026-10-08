@@ -30,6 +30,15 @@ seguir esa lógica. Para el negocio, la oferta y la clienta ideal, usá
 7. **Mostrar la intensidad de Flor, no esconderla.** Usá "la Eminem" para lo que le da
    vergüenza. Nada solemne ni guionado.
 
+## Partí de sus palabras, no de una plantilla
+
+Lo que más suena a Flor es lo que ella dicta. Antes de escribir una pieza, pedile un
+audio o un dictado de 1–2 minutos sobre el tema y armá la pieza con sus frases,
+ordenadas y sin pulirle la voz. Fuentes que ya funcionaron: lo que pasa en sus clases
+(alumnas reales, con permiso), lo que le pasa a ella (su intensidad, el examen de
+Cambridge a su marido) y sus opiniones fuertes. Priorizá formatos con su cara antes
+que carruseles con fotos de stock: el mejor hook es su cara.
+
 ## Cómo medir (dáselo cuando pregunte por vistas)
 
 - Vistas sanas por historia ≈ seguidores ÷ 20 (5%). Hoy está por debajo: prioridad
