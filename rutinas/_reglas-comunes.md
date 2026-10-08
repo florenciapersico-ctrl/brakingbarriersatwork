@@ -75,3 +75,6 @@ Las alumnas son invitadas a sus eventos y pueden leer la descripción. Ahí NUNC
 - SI LA CORRIDA SE CORTA o algo queda a medias: anotalo en rutinas/_pendientes.md con commit y push; la próxima corrida de esa rutina lo lee primero, lo termina (verificando que no esté ya hecho) y borra la línea.
 - Las rutinas por clase (resúmenes) miran los últimos 3 días, no solo hoy, sin duplicar envíos (buscá en enviados antes).
 - PENDIENTES DEL DÍA (links de la semana, corridas cortadas, cosas temporales) NO van en este archivo: van en rutinas/_pendientes.md. Leelo siempre después de este.
+
+## AGENDA FIJA DE FLOR (08/10/2026)
+- PÁDEL: miércoles 9:30–11:30 y jueves 9:30–12:00 (hora BA). Los martes ya NO hay pádel (Flor lo cambió solo para los martes). Ninguna rutina propone clases, grabaciones ni tareas en esos horarios.
