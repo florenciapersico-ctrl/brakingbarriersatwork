@@ -57,7 +57,7 @@ separado (ver la sección 6).
 | 1 oferta presentada por día | Por DM, a quien muestre una situación concreta |
 | Regla de los 100 | No juzgues el formato antes de los 100 cortos |
 | Mezcla de contenido | 40 % crecimiento · 40 % conversión · 20 % personal |
-| 80 % modelado de referentes | Hooks de Hadar / Christina / All Ears en Viral Finder (2 h por semana) |
+| 80 % modelado de referentes | Hooks de Annemarie / Hadar / Annie en Viral Finder (ver `referentes.md`) (2 h por semana) |
 
 **Palabras clave (una sola por función):** `AT WORK` para la oferta (es la que ya usás
 en los posts) y `SOS` para el lead magnet. ✏️ Si preferís `LISTA`, cambiala en todos

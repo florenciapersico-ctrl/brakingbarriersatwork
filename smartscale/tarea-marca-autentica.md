@@ -101,24 +101,22 @@ Criterio de Ann: que le hablen **exactamente a tu ICP 1** (profesional no nativa
 trabaja en inglés), que estén 3–4 pasos adelante y que no sean gigantes genéricos.
 Pueden ser de EE. UU.: lo que funciona allá funciona para LATAM.
 
-1. **Hadar Shemesh** — The Accent's Way (@hadar.accentsway). No nativa, le habla a
-   profesionales no nativos sobre claridad y confianza al hablar. Es tu ICP casi exacto.
-2. **Christina Rebuffet** — Speak Better Business English. Inglés de negocios para
-   profesionales que ya trabajan en inglés: reuniones, presentaciones, small talk.
-3. **All Ears English** (Lindsay McMahon) — "connection, not perfection", con mucho
-   contenido de inglés laboral. Buen banco de hooks.
+Lista completa, con el test para validarlos: `referentes.md`.
 
-Suplente: **Vinh Giang** (comunicación bajo presión). Es más grande y le habla a todo el
-mundo: tomale solo hooks, no el mensaje.
+1. **Annemarie Fowler** — Speak Confident English (@speakconfidentenglish). Le habla a
+   mujeres profesionales no nativas que se ponen nerviosas al hablar en reuniones, y
+   vende con "mandame READY por DM". Es la más parecida a tu negocio.
+2. **Hadar Shemesh** — The Accent's Way (@hadar.accentsway). No nativa, le habla a
+   profesionales no nativos sobre claridad y confianza al hablar.
+3. **Speak With Annie** — mismo mensaje que el tuyo: "no es tu nivel, es la práctica bajo
+   presión". ✏️ Confirmar su Instagram.
 
-✏️ Antes de cerrar la lista: abrí cada perfil en Viral Finder y leé los comentarios de
-sus 5 posts top. Si los que comentan no son profesionales que trabajan en inglés, ese
-creador no va (Ann: un referente equivocado te arruina la calificación de los leads).
+✏️ Antes de cerrar la lista, pasales el test de comentarios de `referentes.md`.
 
 **Para pegar en el formulario:**
-> Hadar Shemesh (The Accent's Way), Christina Rebuffet (Speak Better Business English)
-> y All Ears English (Lindsay McMahon). Los tres le hablan a profesionales no nativos que
-> ya usan el inglés en su trabajo.
+> Annemarie Fowler (Speak Confident English), Hadar Shemesh (The Accent's Way) y Speak
+> With Annie. Las tres le hablan a profesionales no nativas que ya usan el inglés en su
+> trabajo y quieren hablar con confianza en reuniones.
 
 ---
 
