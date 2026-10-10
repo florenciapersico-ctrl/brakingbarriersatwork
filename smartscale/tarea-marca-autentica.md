@@ -21,9 +21,6 @@ completar vos**: es tuyo y no lo puedo inventar.
 
 ### Pasiones
 - La comunicación bajo presión: ver a una profesional brillante animarse a hablar.
-- ⚽ **Racing.** Es oro para el 20 % personal: identidad, pasión, ritual, sufrimiento
-  compartido. Un post tipo "lo que Racing me enseñó sobre bancarse la presión" conecta
-  con tu tema sin forzarlo.
 - ✏️ Hobbies, viajes, deporte, música, lectura…
 
 ### Creencias / opiniones (tu "contra qué peleo")
@@ -50,7 +47,7 @@ completar vos**: es tuyo y no lo puedo inventar.
   y humano, justo lo que pide Ann.
 - ✏️ Café, mate, series, salir…
 
-**Idea de photo dump para el finde:** Racing + uñas + café de trabajo + 1 captura de
+**Idea de photo dump para el finde:** uñas + café de trabajo + 1 captura de
 mensaje de alumna. Lifestyle mezclado con testimonio, como hace Ann.
 
 ---
