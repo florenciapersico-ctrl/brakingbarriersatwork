@@ -7,5 +7,4 @@ Cada rutina revisa acá si hay algo suyo, lo termina (verificando antes que no e
 ## Corridas cortadas / a medias
 - RESÚMENES Gra 03/10 y Lina 01/10: Flor decidió NO mandarlos (06/10). No volver a proponerlos.
 - 08/10 · CICLO: SOL — conversación de progreso no hecha (03/10). Cuando confirme la clase de recuperación (21 o 26/10), cargar las preguntas en ese evento y como Bloque 0 en la hoja (tú).
-- 08/10 · GISELA reprogramó: la clase del jueves 08/10 15:00 pasó al LUNES 12/10 15:00 (mismo evento). NO se dio el 08/10: no hay resumen del 08/10. El 12/10 la prep de las 3am NO rehace la hoja: reutiliza la del 08/10 (1QQ3K5mhehMD42JD7rnHY2ATzNYiB6yMVVGsevcDaBy4), solo cambia la fecha del bloque CLASE LISTA a 12 Oct 2026 y verifica que no haya notas de Gemini más nuevas que las del 06/10. Portal: próxima clase = 12/10.
 - 08/10 · ALE SANTOS: notas de Gemini del 08/10 VACÍAS (transcripción cortada a los 12 min, sin texto). NO mandar resumen hasta que Flor diga qué pasó en la clase. No reintentar cada hora.
