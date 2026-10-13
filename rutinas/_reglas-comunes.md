@@ -6,6 +6,7 @@ REGLAS COMUNES A TODAS LAS TAREAS DE FLOR (leelas siempre)
 - Privacidad: nada personal o sensible de alumnas o prospectas (salud, familia, emociones). Solo lo necesario para el negocio.
 - Nunca incluyas a Maribel en contenido ni materiales de marketing. Tampoco a Luz Cañas (pidió que no se comparta nada suyo), ni anonimizada.
 - El tracker de alumnas y pagos ahora vive en Notion (desde el 29/09) y lo mantiene el asistente. La planilla vieja de Google queda como ARCHIVO de solo lectura: no la edites. La base de Prospectas de Notion también se actualiza.
+- Feedback de weekly report y tarea: una sola vez, final. Nunca pedir que rehaga, regrabe o reenvíe la tarea ni asignar mini-tareas para la clase. Flor da el feedback y después las ve en la clase. El borrador de feedback dice qué salió bien, las correcciones con su explicación y, como mucho, un tip. Nada de "regrabalo", "mandámelo de nuevo", "traelo a clase", "lo vemos en clase" sobre la tarea ni prácticas para días puntuales ("miércoles: ...", "viernes: ..."). Un cierre neutro como "¡Nos vemos en la clase!" está bien.
 - Si no hay nada accionable, NO mandes correo: terminá con una línea.
 - Herramientas: Gmail, Google Drive, Google Calendar, Notion y Wispr Flow son herramientas MCP (mcp__Gmail__*, mcp__Google_Drive__*, mcp__Google_Calendar__*, mcp__Notion__*, mcp__Wispr_Flow__*). Si no aparecen, buscalas con ToolSearch.
 - Usá subagentes (Agent) para leer documentos largos y no llenar la conversación.

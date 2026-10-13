@@ -83,6 +83,7 @@ F — BANDEJA DE ENTRADA
 Gmail de las últimas 24 h (los lunes, desde el viernes), bandeja principal. Ignorá newsletters, notificaciones automáticas, promociones, recibos ya cubiertos en C/D/E y los correos que mandan las tareas automáticas a Flor.
 Clasificá en: URGENTE (hoy), RESPONDER (esta semana), LEER DESPUÉS.
 Para cada URGENTE y RESPONDER que necesite respuesta escrita: creá un BORRADOR en Gmail (create_draft, en el mismo hilo) con la respuesta en el tono y trato de Flor. NUNCA envíes nada.
+Si es un weekly report o una tarea de una alumna: Feedback de weekly report y tarea: una sola vez, final. Nunca pedir que rehaga, regrabe o reenvíe la tarea ni asignar mini-tareas para la clase. Flor da el feedback y después las ve en la clase. (ver _reglas-comunes.md).
 En el correo: una línea por mail (de quién, sobre qué, "borrador listo" si lo dejaste). LEER DESPUÉS: solo la cantidad.
 Nada personal o sensible en el resumen: si un mail es personal, solo "1 mail personal para mirar".
 
