@@ -1,3 +1,5 @@
+CAMBIO DE FLOR (13/10/2026), MANDA SOBRE TODO LO DE ABAJO: esta rutina hace SOLO el resumen para Flor. NO crea ningún borrador para alumnas: se saltea el punto 5 y el recuadro "✉️ Respuesta sugerida" del punto 4. Las respuestas a weekly reports y tareas las arma una sola rutina en otra conversación ("💬 Feedback de alumnas", rutinas/feedback-alumnas.md en la rama claude/hopeful-maxwell-asxs94). En el correo, al final de cada alumna, poné solo: "La respuesta la arma la rutina de feedback."
+
 TAREA: Revisión DIARIA de weekly reports + correo a Flor con lo importante. Leé primero _reglas-comunes.md.
 
 PARA QUÉ: Flor no tiene tiempo de abrir los weekly reports. Vos los leés todos los días y le contás lo importante de cada uno, para que no tenga que abrirlos.
