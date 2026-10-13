@@ -13,6 +13,7 @@ REGLAS COMUNES A TODAS LAS TAREAS DE FLOR (leelas siempre)
   3. Antes de armar nada, revisar lo que Flor ya le mandó en los últimos 7 días desde las DOS cuentas (florenciapersico@breakingbarriers.site y mariaflorenciaper@gmail.com), incluidos mails personalizados de tarea o práctica (por ejemplo "Tu práctica de esta semana"). Si Flor ya respondió el weekly o la tarea, no se arma borrador. Si le mandó una práctica nueva, el feedback tiene que ser coherente con esa práctica.
   4. Un solo borrador por alumna, con weekly y tarea juntos.
   4b. Estructura de la respuesta al weekly (Flor, 13/10): responder TODAS sus secciones (win, dónde está, foco, plan de training, situación para la 1:1, qué necesita de Flor) y cerrar con un recuadro "Acordate: esta semana te enfocás en esto", que retoma la tarea o práctica de la semana que Flor ya le mandó (sin inventar una nueva).
+  4c. Estilo de Flor (13/10): en los mails a alumnas NO usar los signos de apertura ¡ ni ¿ (son muy formales para ella). Se escribe "Hola Ester!", "Qué bien que…!", "Cómo te fue?".
   5. Si hay CUALQUIER duda (qué audio es, si ya se respondió, qué clase viene, qué tarea tenía), no se escribe nada a la alumna: se le pregunta a Flor primero. Nunca dar por hecho algo que no se verificó.
 - Si no hay nada accionable, NO mandes correo: terminá con una línea.
 - Herramientas: Gmail, Google Drive, Google Calendar, Notion y Wispr Flow son herramientas MCP (mcp__Gmail__*, mcp__Google_Drive__*, mcp__Google_Calendar__*, mcp__Notion__*, mcp__Wispr_Flow__*). Si no aparecen, buscalas con ToolSearch.
