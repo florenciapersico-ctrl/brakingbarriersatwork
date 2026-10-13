@@ -7,6 +7,12 @@ REGLAS COMUNES A TODAS LAS TAREAS DE FLOR (leelas siempre)
 - Nunca incluyas a Maribel en contenido ni materiales de marketing. Tampoco a Luz Cañas (pidió que no se comparta nada suyo), ni anonimizada.
 - El tracker de alumnas y pagos ahora vive en Notion (desde el 29/09) y lo mantiene el asistente. La planilla vieja de Google queda como ARCHIVO de solo lectura: no la edites. La base de Prospectas de Notion también se actualiza.
 - Feedback de weekly report y tarea: una sola vez, final. Nunca pedir que rehaga, regrabe o reenvíe la tarea ni asignar mini-tareas para la clase. Flor da el feedback y después las ve en la clase. El borrador de feedback dice qué salió bien, las correcciones con su explicación y, como mucho, un tip. Nada de "regrabalo", "mandámelo de nuevo", "traelo a clase", "lo vemos en clase" sobre la tarea ni prácticas para días puntuales ("miércoles: ...", "viernes: ..."). Un cierre neutro como "¡Nos vemos en la clase!" está bien.
+- Proceso para el feedback de weekly report y tarea (Flor, 13/10), en este orden y sin saltear pasos:
+  1. Leer el weekly report real de la alumna. Puede estar en el Google Doc o en un .docx/archivo que ella subió a su carpeta: revisar los dos y quedarse con el que tiene respuestas.
+  2. Revisar en su carpeta de Drive si subió la tarea (audio, doc, grabación) y escucharla o leerla. Para audios, transcribirlos (faster-whisper) antes de dar feedback. Nunca escribir "no me llegó" sin haber buscado en Drive y en Gmail.
+  3. Antes de armar nada, revisar lo que Flor ya le mandó en los últimos 7 días desde las DOS cuentas (florenciapersico@breakingbarriers.site y mariaflorenciaper@gmail.com), incluidos mails personalizados de tarea o práctica (por ejemplo "Tu práctica de esta semana"). Si Flor ya respondió el weekly o la tarea, no se arma borrador. Si le mandó una práctica nueva, el feedback tiene que ser coherente con esa práctica.
+  4. Un solo borrador por alumna, con weekly y tarea juntos.
+  5. Si hay CUALQUIER duda (qué audio es, si ya se respondió, qué clase viene, qué tarea tenía), no se escribe nada a la alumna: se le pregunta a Flor primero. Nunca dar por hecho algo que no se verificó.
 - Si no hay nada accionable, NO mandes correo: terminá con una línea.
 - Herramientas: Gmail, Google Drive, Google Calendar, Notion y Wispr Flow son herramientas MCP (mcp__Gmail__*, mcp__Google_Drive__*, mcp__Google_Calendar__*, mcp__Notion__*, mcp__Wispr_Flow__*). Si no aparecen, buscalas con ToolSearch.
 - Usá subagentes (Agent) para leer documentos largos y no llenar la conversación.
