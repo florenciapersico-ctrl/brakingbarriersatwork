@@ -10,3 +10,4 @@ Cada rutina revisa acá si hay algo suyo, lo termina (verificando antes que no e
 - RESÚMENES Gra 03/10 y Lina 01/10: Flor decidió NO mandarlos (06/10). No volver a proponerlos.
 - 08/10 · CICLO: SOL — conversación de progreso no hecha (03/10). Cuando confirme la clase de recuperación (21 o 26/10), cargar las preguntas en ese evento y como Bloque 0 en la hoja (tú).
 - 08/10 · ALE SANTOS: notas de Gemini del 08/10 VACÍAS (transcripción cortada a los 12 min, sin texto). NO mandar resumen hasta que Flor diga qué pasó en la clase. No reintentar cada hora.
+- 13/10 · LINA Y CORI (grupal 20:00): transcripción de Gemini cortada a 1:25 (solo el saludo); hay resumen de Gemini (verbo→sustantivo, adjetivos -ed/-ing, tic-tac-toe) pero sin frases literales ni correcciones ni tarea. NO se mandó resumen ni se marcó el evento: esperar a que Flor diga qué hacer. No reintentar cada hora.
