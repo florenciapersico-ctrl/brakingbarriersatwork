@@ -32,3 +32,6 @@ Notice · Practice (con respuestas que expliquen el porqué) · Apply to Your Wo
 | M3.08 Word Families | LIBRARY | Foco en qué función necesita la palabra en la frase. *Hard/hardly* y *-ed/-ing* pasan a microlecciones. Los sufijos son pistas, no garantías. |
 
 **Prioridad de grabación:** primero el CORE pendiente (Verb Patterns, Stop Translating, Nouns/Articles, Relative Clauses). Las LIBRARY se graban después, cuando haya demanda.
+
+## ⚠️ Decisión de Flor (15/10): el material grabado NO nombra "labs"
+El formato grupal todavía no está definido: podría haber Q&A, fonética, gramática, revisión de reuniones o presentaciones. Hoy las alumnas tienen clases 1:1. Por eso, en videos, prompters y worksheets va **"tu próxima sesión" / "your next session"**, y la sección F de las worksheets se llama **"Para tu próxima sesión"**. No se promete ningún formato grupal. Role Play y Retry se quedan.
