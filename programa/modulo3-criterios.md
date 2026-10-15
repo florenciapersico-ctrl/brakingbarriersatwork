@@ -33,5 +33,20 @@ Notice · Practice (con respuestas que expliquen el porqué) · Apply to Your Wo
 
 **Prioridad de grabación:** primero el CORE pendiente (Verb Patterns, Stop Translating, Nouns/Articles, Relative Clauses). Las LIBRARY se graban después, cuando haya demanda.
 
-## ⚠️ Decisión de Flor (15/10): el material grabado NO nombra "labs"
-El formato grupal todavía no está definido: podría haber Q&A, fonética, gramática, revisión de reuniones o presentaciones. Hoy las alumnas tienen clases 1:1. Por eso, en videos, prompters y worksheets va **"tu próxima sesión" / "your next session"**, y la sección F de las worksheets se llama **"Para tu próxima sesión"**. No se promete ningún formato grupal. Role Play y Retry se quedan.
+## ⚠️ Decisión de Flor (15/10): el contenido grabado no depende del formato de acompañamiento
+El contenido grabado (explicaciones, ejemplos, worksheets, práctica autónoma, autoevaluación) es **permanente**. El acompañamiento es **flexible**: hoy son sesiones 1:1, y más adelante podría haber encuentros grupales de Q&A, pronunciación, análisis de reuniones o presentaciones.
+**Regla:** videos, prompters y worksheets NO nombran ninguna modalidad: ni "lab", ni "tu sesión", ni "encuentro grupal", ni "Weekly Report", ni carpetas de Drive de la alumna.
+
+| Evitar | Usar |
+|---|---|
+| «Traé esto al lab / a tu sesión» | «Guardá esta actividad para revisarla y recibir feedback» |
+| «En nuestro encuentro vamos a practicar esto» | «Ahora vas a aplicar lo aprendido a una situación real de tu trabajo» |
+| «Compartí tu resultado en tu sesión» | «Identificá qué te resultó fácil y qué necesitás seguir practicando» |
+| «Lo corregimos entre todas» | «Revisá tu primera versión y hacé un segundo intento» |
+
+**Cada clase cierra con tres acciones:**
+1. **Apply it:** frases o un mensaje sobre tu trabajo.
+2. **Practice it:** en voz alta o en Role Play.
+3. **Review it:** Retry y Personal Error Radar.
+
+La sección F de las worksheets se llama "Review it".
