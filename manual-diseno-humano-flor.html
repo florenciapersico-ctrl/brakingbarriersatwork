@@ -1,0 +1,801 @@
+<title>Manual de Usuario de Flor</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Figtree:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: a field manual for one person. Sticky index on the left (top on phones), long reading column, spec plates and black/red activation tables borrowed from the bodygraph itself. */
+:root{
+  --bg:#F2F1F5; --paper:#FFFFFF; --ink:#1C1A2B; --muted:#5D5A70; --line:#DCD9E6;
+  --accent:#2F4FA2;          /* azul tinta: lo definido, lo tuyo */
+  --accent-soft:#E3E8F6;
+  --design:#B3283F;          /* rojo: Diseño, inconsciente */
+  --design-soft:#F7E2E6;
+  --gold:#8A6A12; --gold-soft:#F5EDD6;
+  --f-display:"Young Serif", Georgia, "Times New Roman", serif;
+  --f-body:"Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono:"JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#14131C; --paper:#1D1C28; --ink:#ECEAF4; --muted:#A6A3B8; --line:#33313F;
+  --accent:#8EA7F0; --accent-soft:#252C46; --design:#F08A9B; --design-soft:#3A2129;
+  --gold:#E2C26A; --gold-soft:#332B17; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#14131C; --paper:#1D1C28; --ink:#ECEAF4; --muted:#A6A3B8; --line:#33313F;
+  --accent:#8EA7F0; --accent-soft:#252C46; --design:#F08A9B; --design-soft:#3A2129;
+  --gold:#E2C26A; --gold-soft:#332B17; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.62}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));padding-block:32px 80px;display:grid;grid-template-columns:230px minmax(0,1fr);gap:56px}
+@media (max-width:900px){.wrap{grid-template-columns:minmax(0,1fr);gap:24px}}
+
+nav.toc{position:sticky;top:calc(env(safe-area-inset-top, 0px) + 24px);align-self:start;font-size:14px}
+nav.toc .lbl{font-family:var(--f-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+nav.toc ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px;counter-reset:t}
+nav.toc a{display:flex;gap:10px;padding:5px 8px;border-radius:6px;color:var(--ink);text-decoration:none}
+nav.toc a span{font-family:var(--f-mono);color:var(--muted);font-size:12px;min-width:20px;padding-top:2px}
+nav.toc a:hover,nav.toc a:focus-visible{background:var(--accent-soft);outline:none}
+@media (max-width:900px){
+  nav.toc{position:static}
+  nav.toc ol{flex-direction:row;flex-wrap:wrap;gap:6px}
+  nav.toc a{border:1px solid var(--line);background:var(--paper);padding:4px 10px;font-size:13px}
+  nav.toc a span{display:none}
+}
+
+main{min-width:0}
+h1,h2,h3{font-family:var(--f-display);font-weight:400;text-wrap:balance;line-height:1.15;margin:0}
+h1{font-size:clamp(40px,6vw,68px);letter-spacing:-.01em}
+h2{font-size:clamp(28px,3.4vw,38px)}
+h3{font-size:22px;margin-top:8px}
+p{margin:0;max-width:66ch}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.lead{font-size:20px;color:var(--muted);max-width:60ch}
+.stack{display:flex;flex-direction:column;gap:16px}
+section{padding-block:56px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:22px;scroll-margin-top:16px}
+section:first-of-type{border-top:0;padding-top:8px}
+ul.clean{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:8px;max-width:66ch}
+ul.clean li::marker{color:var(--accent)}
+strong{font-weight:600}
+em.q{font-style:italic;color:var(--muted)}
+.mono{font-family:var(--f-mono)}
+
+/* hero */
+.hero{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:40px;align-items:start}
+@media (max-width:760px){.hero{grid-template-columns:minmax(0,1fr)}}
+.plate{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:18px 20px;font-size:14px}
+.plate dl{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:0}
+.plate dt{font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding-top:3px}
+.plate dd{margin:0;font-weight:600}
+.plate .ttl{font-family:var(--f-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:12px;display:flex;justify-content:space-between}
+
+/* key cards */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:18px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.card .k{font-family:var(--f-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.card .v{font-family:var(--f-display);font-size:22px;line-height:1.2}
+.card p{font-size:15px;color:var(--muted)}
+
+.callout{border-left:3px solid var(--accent);background:var(--accent-soft);padding:16px 20px;border-radius:0 8px 8px 0;max-width:72ch}
+.callout.red{border-color:var(--design);background:var(--design-soft)}
+.callout.gold{border-color:var(--gold);background:var(--gold-soft)}
+.callout p+p{margin-top:8px}
+blockquote{margin:0;font-family:var(--f-display);font-size:24px;line-height:1.3;max-width:34ch;color:var(--ink)}
+blockquote cite{display:block;font-family:var(--f-mono);font-style:normal;font-size:12px;color:var(--muted);margin-top:8px;letter-spacing:.06em}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:640px){.two{grid-template-columns:1fr}}
+.col h4{font-family:var(--f-mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;margin:0 0 10px;font-weight:600}
+.col.on h4{color:var(--accent)} .col.off h4{color:var(--design)}
+
+/* tables */
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--paper)}
+table{border-collapse:collapse;width:100%;font-size:15px;min-width:560px}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600}
+tr:last-child td{border-bottom:0}
+td.g{font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap;font-weight:600}
+td.g.p{color:var(--ink)} td.g.d{color:var(--design)}
+
+/* centers */
+.centers{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.center{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:18px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.center header{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.center h3{margin:0;font-size:21px}
+.pill{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:99px;white-space:nowrap}
+.pill.def{background:var(--accent);color:var(--paper)}
+.pill.open{border:1px solid var(--muted);color:var(--muted)}
+.center .gates{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+.center .nq{font-size:14px;background:var(--bg);border-radius:6px;padding:10px 12px;color:var(--muted)}
+.center .nq b{color:var(--ink);font-weight:600;display:block;font-size:11px;font-family:var(--f-mono);letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px}
+.center p{font-size:15.5px}
+
+/* timeline */
+.tl{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--paper)}
+@media (max-width:700px){.tl{grid-template-columns:1fr}}
+.tl > div{padding:18px;display:flex;flex-direction:column;gap:8px;border-right:1px solid var(--line)}
+.tl > div:last-child{border-right:0}
+@media (max-width:700px){.tl > div{border-right:0;border-bottom:1px solid var(--line)}.tl > div:last-child{border-bottom:0}}
+.tl .now{background:var(--accent-soft)}
+.tl .yrs{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+.tl .tag{font-family:var(--f-mono);font-size:11px;color:var(--accent);letter-spacing:.1em;text-transform:uppercase}
+.tl p{font-size:15px}
+
+/* bodygraph */
+.bg-wrap{display:grid;grid-template-columns:260px minmax(0,1fr);gap:32px;align-items:center}
+@media (max-width:700px){.bg-wrap{grid-template-columns:minmax(0,1fr)}}
+.bg-wrap svg{width:100%;max-width:260px;height:auto;margin:0 auto;display:block}
+.c-def{fill:var(--accent);stroke:var(--accent)}
+.c-open{fill:var(--paper);stroke:var(--muted)}
+.ch-def{stroke:var(--accent);stroke-width:7;stroke-linecap:round}
+.ch-ghost{stroke:var(--line);stroke-width:3;stroke-linecap:round}
+.bg-lbl{font-family:var(--f-mono);font-size:10px;fill:var(--muted)}
+.bg-lbl.on{fill:var(--paper)}
+
+/* journal */
+.journal{background:var(--paper);border:1px dashed var(--muted);border-radius:10px;padding:18px;display:flex;flex-direction:column;gap:12px}
+.journal .k{font-family:var(--f-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.journal label{font-weight:600;font-size:15.5px;display:block;margin-bottom:6px}
+.journal textarea{width:100%;min-height:76px;resize:vertical;font:inherit;font-size:15px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px 12px}
+.journal textarea:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.journal .note{font-size:12.5px;color:var(--muted)}
+
+.steps{counter-reset:s;display:flex;flex-direction:column;gap:12px;margin:0;padding:0;list-style:none;max-width:68ch}
+.steps li{counter-increment:s;display:grid;grid-template-columns:34px 1fr;gap:12px;align-items:start}
+.steps li::before{content:counter(s);font-family:var(--f-mono);font-weight:600;width:30px;height:30px;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center;font-size:13px}
+
+.gk{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.gk .card .spec{display:grid;grid-template-columns:auto 1fr;gap:2px 10px;font-size:14px}
+.gk .card .spec span:nth-child(odd){font-family:var(--f-mono);font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;padding-top:2px}
+.gk .sh{color:var(--design)} .gk .gi{color:var(--accent)} .gk .si{color:var(--gold)}
+
+footer{margin-top:24px;padding-top:24px;border-top:1px solid var(--line);font-size:13.5px;color:var(--muted);display:flex;flex-direction:column;gap:8px}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+</style>
+
+<div class="wrap">
+<nav class="toc" aria-label="Índice">
+  <div class="lbl">Índice</div>
+  <ol>
+    <li><a href="#inicio"><span>00</span>Ficha técnica</a></li>
+    <li><a href="#aura"><span>01</span>Tu energía y tu aura</a></li>
+    <li><a href="#decidir"><span>02</span>Cómo decidir</a></li>
+    <li><a href="#centros"><span>03</span>Tus 9 centros</a></li>
+    <li><a href="#perfil"><span>04</span>Perfil 4/6</a></li>
+    <li><a href="#canales"><span>05</span>Canales y talentos</a></li>
+    <li><a href="#puertas"><span>06</span>Tus 26 puertas</a></li>
+    <li><a href="#cruz"><span>07</span>Cruz y propósito</a></li>
+    <li><a href="#genekeys"><span>08</span>Gene Keys</a></li>
+    <li><a href="#mente"><span>09</span>Mente y valor propio</a></li>
+    <li><a href="#cuerpo"><span>10</span>Comida, cuerpo, descanso</a></li>
+    <li><a href="#trabajo"><span>11</span>Tu diseño en el negocio</a></li>
+    <li><a href="#relaciones"><span>12</span>Relaciones</a></li>
+    <li><a href="#diario"><span>13</span>Práctica diaria</a></li>
+  </ol>
+</nav>
+
+<main>
+
+<!-- 00 -->
+<section id="inicio">
+  <div class="hero">
+    <div class="stack">
+      <div class="eyebrow">Manual de usuario · Edición octubre 2026</div>
+      <h1>María Florencia Pérsico</h1>
+      <p class="lead">Cómo funcionás, qué te desgasta, qué te ordena y qué viniste a hacer. Escrito a partir de tu lectura con Rafa (HD by Rafa), los documentos de su escuela que tenés en Drive y tu carta calculada completa.</p>
+      <blockquote>“No despertamos a nuestra cruz, despertamos en ella.”<cite>DOCUMENTO CRUCES DE ENCARNACIÓN</cite></blockquote>
+    </div>
+    <aside class="plate" aria-label="Ficha técnica">
+      <div class="ttl"><span>Ficha técnica</span><span>MFP · 1987</span></div>
+      <dl>
+        <dt>Nacimiento</dt><dd>02·04·1987 · 14:45<br>Buenos Aires</dd>
+        <dt>Tipo</dt><dd>Manifestadora</dd>
+        <dt>Estrategia</dt><dd>Informar</dd>
+        <dt>Autoridad</dt><dd>Esplénica (Bazo)</dd>
+        <dt>Perfil</dt><dd>4/6 · Oportunista / Modelo de conducta</dd>
+        <dt>Definición</dt><dd>Simple (todo conectado)</dd>
+        <dt>Firma</dt><dd>Paz</dd>
+        <dt>No-ser</dt><dd>Rabia</dd>
+        <dt>Cruz</dt><dd>Ángulo Derecho de la Tensión · 21/48 | 38/39</dd>
+        <dt>Definidos</dt><dd>Garganta · Corazón · Bazo</dd>
+        <dt>Abiertos</dt><dd>Cabeza · Ajna · G · Plexo Solar · Sacro · Raíz</dd>
+      </dl>
+    </aside>
+  </div>
+
+  <div class="bg-wrap">
+    <svg viewBox="0 0 300 470" role="img" aria-label="Tu bodygraph simplificado: Garganta, Corazón y Bazo definidos, unidos por los canales 20-57 y 26-44">
+      <!-- ghost channels -->
+      <line class="ch-ghost" x1="150" y1="60" x2="150" y2="105"/>
+      <line class="ch-ghost" x1="150" y1="135" x2="150" y2="160"/>
+      <line class="ch-ghost" x1="150" y1="200" x2="150" y2="232"/>
+      <line class="ch-ghost" x1="150" y1="285" x2="150" y2="320"/>
+      <line class="ch-ghost" x1="150" y1="365" x2="150" y2="395"/>
+      <line class="ch-ghost" x1="175" y1="190" x2="245" y2="305"/>
+      <line class="ch-ghost" x1="165" y1="270" x2="200" y2="262"/>
+      <line class="ch-ghost" x1="62" y1="330" x2="125" y2="340"/>
+      <line class="ch-ghost" x1="238" y1="330" x2="175" y2="340"/>
+      <line class="ch-ghost" x1="62" y1="345" x2="125" y2="410"/>
+      <line class="ch-ghost" x1="238" y1="345" x2="175" y2="410"/>
+      <!-- defined channels -->
+      <line class="ch-def" x1="128" y1="190" x2="55" y2="300"/>
+      <line class="ch-def" x1="205" y1="255" x2="70" y2="312"/>
+      <!-- centers -->
+      <polygon class="c-open" points="150,18 185,62 115,62" stroke-width="2"/>
+      <text class="bg-lbl" x="150" y="54" text-anchor="middle">cabeza</text>
+      <polygon class="c-open" points="115,100 185,100 150,140" stroke-width="2"/>
+      <text class="bg-lbl" x="150" y="115" text-anchor="middle">ajna</text>
+      <rect class="c-def" x="122" y="160" width="56" height="44" rx="4" stroke-width="2"/>
+      <text class="bg-lbl on" x="150" y="186" text-anchor="middle">garganta</text>
+      <polygon class="c-open" points="150,230 182,262 150,294 118,262" stroke-width="2"/>
+      <text class="bg-lbl" x="150" y="266" text-anchor="middle">G</text>
+      <polygon class="c-def" points="200,248 232,268 196,280" stroke-width="2"/>
+      <text class="bg-lbl" x="236" y="248" text-anchor="middle">corazón</text>
+      <polygon class="c-def" points="22,290 78,325 22,360" stroke-width="2"/>
+      <text class="bg-lbl on" x="40" y="329" text-anchor="middle">bazo</text>
+      <polygon class="c-open" points="278,290 222,325 278,360" stroke-width="2"/>
+      <text class="bg-lbl" x="262" y="329" text-anchor="middle">plexo</text>
+      <rect class="c-open" x="122" y="320" width="56" height="48" rx="4" stroke-width="2"/>
+      <text class="bg-lbl" x="150" y="348" text-anchor="middle">sacro</text>
+      <rect class="c-open" x="122" y="395" width="56" height="48" rx="4" stroke-width="2"/>
+      <text class="bg-lbl" x="150" y="423" text-anchor="middle">raíz</text>
+      <text class="bg-lbl" x="70" y="240" text-anchor="middle">20–57</text>
+      <text class="bg-lbl" x="128" y="300" text-anchor="middle">26–44</text>
+    </svg>
+    <div class="stack">
+      <h3>Tu circuito en un vistazo</h3>
+      <p>Tu energía sale del <strong>Corazón</strong> (voluntad), pasa por el <strong>Bazo</strong> (instinto) y llega a la <strong>Garganta</strong> (acción y palabra). Ese recorrido continuo de un motor hasta la Garganta, con el Sacro abierto, es lo que te hace Manifestadora.</p>
+      <p>Traducido: <strong>cuando querés algo y tu instinto dice que sí, lo podés decir y hacer en el acto.</strong> No necesitás que nadie te invite ni te pregunte. Lo único que te pide tu diseño es que avises antes.</p>
+      <p>Seis de tus nueve centros están abiertos. Ahí absorbés y amplificás la energía de los demás. Ahí está tu mayor sabiduría y también tu mayor fuente de confusión.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 01 -->
+<section id="aura">
+  <div class="eyebrow">01 · Tipo</div>
+  <h2>Tu energía y tu aura: Manifestadora</h2>
+  <p>Sos parte de menos del 10% de la población. Tu función entre los tipos es la de <strong>iniciar</strong>. Así lo dice el material de Rafa: “los Manifestadores inician las cosas, los Proyectores guían el proceso, los Generadores proveen la energía para realizarlo y los Reflectores les dicen si está yendo bien.”</p>
+
+  <div class="grid">
+    <div class="card"><div class="k">Aura</div><div class="v">Cerrada y que empuja</div><p>Tu campo “literalmente empuja su energía hacia fuera”. La gente siente tu impacto antes de que hables.</p></div>
+    <div class="card"><div class="k">Estrategia</div><div class="v">Informar</div><p>Después de decidir y antes de actuar. También cuando dejás de hacer algo.</p></div>
+    <div class="card"><div class="k">Cuando estás alineada</div><div class="v">Paz</div><p>“Un espacio sin resistencia”: hacer lo que querés, cuando querés, con calma por dentro.</p></div>
+    <div class="card"><div class="k">Cuando no</div><div class="v">Rabia</div><p>Como enojo y rebeldía, o al revés, como pasividad y acomodarte a lo que quieren los demás.</p></div>
+  </div>
+
+  <h3>Cómo te perciben (y por qué)</h3>
+  <ul class="clean">
+    <li>Tu aura no “abraza” ni se deja penetrar. Te admiran y a la vez te temen un poco. Muchas veces la gente no sabe qué estás pensando ni qué vas a hacer, y eso genera resistencia <em>antes</em> de que digas una palabra.</li>
+    <li>El material lo explica así: “la mayoría de la confusión entre los tipos se establece energéticamente, muy por debajo de nuestro nivel de consciencia, antes incluso de que se haya iniciado la comunicación verbal.”</li>
+    <li>Sentís que los demás son lentos, preferís hacer las cosas vos y te sale ser “un lobo solitario en medio de la manada”.</li>
+    <li>Te sorprende de verdad descubrir que tenés impacto en los otros. Darte cuenta de eso es, según el texto, “el primer paso para liberar todo tu poder iniciador”.</li>
+  </ul>
+
+  <h3>La paradoja de la Manifestadora</h3>
+  <div class="callout">
+    <p><strong>Iniciás sola, pero no sostenés sola.</strong> “Mi impulso de iniciar necesita el apoyo de los demás cuando se trata de poner en práctica las cosas. Sin este apoyo no puedo tener éxito a largo plazo.”</p>
+    <p>Tu receta, según el manual: “conseguir el apoyo de los demás hacia mis propias manifestaciones”, con sensibilidad hacia tu entorno.</p>
+  </div>
+
+  <h3>Informar, en serio</h3>
+  <ol class="steps">
+    <li><div><strong>Decidís con tu Bazo.</strong> No con la mente ni para sacarte de encima una presión.</div></li>
+    <li><div><strong>Hacés la lista de afectados.</strong> El documento lo propone así: escribir los nombres de las personas a las que puede afectar tu decisión. “Generalmente verán que no están aislados y que sus decisiones tienen impacto.”</div></li>
+    <li><div><strong>Avisás corto.</strong> No es pedir permiso, es mostrar respeto. “Voy a la tienda y vuelvo enseguida.” “A partir de enero cambio los precios.” “Este mes no doy clases los viernes.”</div></li>
+    <li><div><strong>Actuás.</strong> Con la resistencia ya disuelta: “informar desvanece el miedo y fortalece la confianza”.</div></li>
+  </ol>
+
+  <div class="callout red">
+    <p><strong>El ejemplo que trae el material.</strong> Una Manifestadora ve a media mañana una salida de su empleo sin futuro. Arma las cosas, deja la renuncia en el buzón del jefe y se va. Resultado: caos. El jefe se queda sin ayuda, los compañeros se preguntan qué hicieron mal y la familia se preocupa. Con un aviso, “podría haber tenido el apoyo necesario para llevar a cabo su nueva visión en paz”.</p>
+  </div>
+
+  <h3>Los miedos que te frenan a informar</h3>
+  <p>Son textuales del documento. Marcá los que reconocés:</p>
+  <ul class="clean">
+    <li>Miedo a molestar a alguien.</li>
+    <li>Miedo a que informar provoque una confrontación.</li>
+    <li>Miedo a que, si avisás, alguien trate de controlarte.</li>
+    <li>Miedo a encontrar resistencia o rechazo.</li>
+    <li>Miedo a tu propia rabia.</li>
+  </ul>
+
+  <h3>Cuando vivís desde el no-ser</h3>
+  <ul class="clean">
+    <li>Te sentís “víctima del control y el castigo”, restringida, impotente. Frase típica: “¡La vida es muy injusta!”</li>
+    <li>Fingís no ser poderosa y te comportás como una Generadora: esperás en vez de iniciar y respondés a lo que quieren otros.</li>
+    <li>Trabajás de forma “impulsiva y obsesiva, pero acabás consiguiendo muy poco”. Resultado: agotamiento e ineficacia.</li>
+    <li>La rabia dirigida hacia adentro puede convertirse en depresión o desesperanza.</li>
+  </ul>
+
+  <div class="callout gold">
+    <p><strong>Un filtro clave para vos.</strong> El documento dice: “Si sentís un afán exagerado de actuar o implementar tu idea, por lo general ese impulso no viene de tu autoridad, sino del condicionamiento amplificado de un centro abierto que se expresa a través de tu mente.” Con seis centros abiertos, esa urgencia casi siempre viene de afuera. El instinto del Bazo es tranquilo. La urgencia, en cambio, es presión.</p>
+  </div>
+
+  <div class="journal" data-j="aura">
+    <div class="k">Para escribir</div>
+    <div><label for="j-aura-1">¿Qué decisión tomaste en los últimos meses sin avisar? ¿Qué resistencia apareció después?</label><textarea id="j-aura-1"></textarea></div>
+    <div><label for="j-aura-2">¿Cómo se ve tu rabia: hacia afuera (enojo, rebeldía) o hacia adentro (acomodarte, apagarte)?</label><textarea id="j-aura-2"></textarea></div>
+    <div><label for="j-aura-3">¿Qué te enseñaron de chica sobre pedir permiso? El material dice que a los niños Manifestadores, cuando piden permiso con buenos modales, “por lo general se les deja hacer lo que quieran”.</label><textarea id="j-aura-3"></textarea></div>
+    <p class="note">Lo que escribas se guarda solo en este navegador.</p>
+  </div>
+</section>
+
+<!-- 02 -->
+<section id="decidir">
+  <div class="eyebrow">02 · Autoridad</div>
+  <h2>Cómo decidir: tu Bazo</h2>
+  <p>Tenés el Bazo definido y el Sacro y el Plexo Solar abiertos. Eso hace que tu autoridad sea esplénica: la más antigua, la más rápida y la más silenciosa de todas.</p>
+  <blockquote>“La voz del Bazo habla suavemente y no se repite.”<cite>020300 · AUTORIDAD ESPLÉNICA</cite></blockquote>
+
+  <div class="two">
+    <div class="card col on"><h4>Cómo suena tu Bazo</h4>
+      <ul class="clean">
+        <li>Una resonancia o un reconocimiento inmediato con algo o alguien.</li>
+        <li>Un saber tranquilo, en el cuerpo, en el momento.</li>
+        <li>Un “esto no me huele bien” (tu canal 26-44 trabaja literalmente con el olfato).</li>
+        <li>A veces, un “oír el futuro”: la intuición está ligada al oído.</li>
+        <li>Llega una sola vez. “El Bazo nunca repite su primera alarma.”</li>
+      </ul></div>
+    <div class="card col off"><h4>Lo que NO es tu Bazo</h4>
+      <ul class="clean">
+        <li>Las listas de pros y contras de tu mente (tu Ajna está abierta).</li>
+        <li>La emoción del momento, buena o mala (tu Plexo está abierto: muchas veces esa emoción ni siquiera es tuya).</li>
+        <li>La urgencia de “tengo que hacerlo ya” (tu Raíz está abierta).</li>
+        <li>“Dale, que es una oportunidad” dicho por otra persona.</li>
+        <li>Lo que decidiste el mes pasado. Tu Bazo vive en el ahora.</li>
+      </ul></div>
+  </div>
+
+  <h3>Las reglas de tu autoridad</h3>
+  <ul class="clean">
+    <li><strong>Decidí en el momento.</strong> “Si esperás, el momento y la información se han ido.”</li>
+    <li><strong>Lo correcto cambia.</strong> “El Bazo no es consciente del futuro”: algo que hoy es sí puede ser no en diez minutos, en una hora o mañana. Volvé a chequear antes de cada paso.</li>
+    <li><strong>No dejes que te convenzan.</strong> “No permitas que tu mente, o las necesidades emocionales, deseos o presiones de otros, te induzcan a cuestionar o invalidar los mensajes de tu Centro del Bazo.”</li>
+    <li><strong>Animate a corregir.</strong> La autoridad pide “la habilidad de actuar si es necesario y corregir, no importa cuáles sean las consecuencias”.</li>
+    <li><strong>Entendés después.</strong> “La perspectiva mayor de una experiencia solo se puede comprender mirando atrás.” No le pidas razones a tu instinto.</li>
+  </ul>
+
+  <div class="callout gold">
+    <p><strong>Por qué te cuesta escucharlo.</strong> El Bazo es el más débil de los tres centros de conciencia. El Ajna tiene el doble de fuerza y el Plexo Solar el doble que el Ajna. “Las voces del no-ser de los Centros Ajna y del Plexo Solar pueden eclipsar con facilidad las pequeñas y calladas alertas.” Vos tenés los dos abiertos, así que el ruido de afuera tapa tu instinto con facilidad. Por eso necesitás silencio y momentos a solas para oírlo.</p>
+  </div>
+
+  <h3>Tu secuencia completa de decisión</h3>
+  <ol class="steps">
+    <li><div><strong>Golpe esplénico.</strong> Un sí o un no inmediato, en el cuerpo.</div></li>
+    <li><div><strong>Chequeo de presión.</strong> ¿Esto es instinto o es urgencia, culpa, emoción ajena o “debería”?</div></li>
+    <li><div><strong>Informar.</strong> Un aviso corto a quienes les toca.</div></li>
+    <li><div><strong>Actuar.</strong> Sin esperar a sentirte segura del todo. El instinto es la seguridad.</div></li>
+  </ol>
+
+  <p>Una frase de Ra Uru Hu que cierra el documento: <strong>“Considerá que el cuerpo es la solución, no el problema.”</strong></p>
+
+  <div class="journal" data-j="decidir">
+    <div class="k">Diario de corazonadas (el documento lo sugiere)</div>
+    <div><label for="j-dec-1">Una corazonada que ignoraste y qué pasó después:</label><textarea id="j-dec-1"></textarea></div>
+    <div><label for="j-dec-2">Una corazonada que seguiste sin poder explicarla, y qué te mostró con el tiempo:</label><textarea id="j-dec-2"></textarea></div>
+    <div><label for="j-dec-3">¿Dónde, con quién o haciendo qué escuchás mejor tu instinto?</label><textarea id="j-dec-3"></textarea></div>
+  </div>
+</section>
+
+<!-- 03 -->
+<section id="centros">
+  <div class="eyebrow">03 · Centros</div>
+  <h2>Tus 9 centros: qué es tuyo y qué es prestado</h2>
+  <p>Lo definido es fijo y confiable: es tuyo. Lo abierto es receptivo: ahí tomás la energía de quien tengas cerca y la amplificás. No conviene decidir desde lo abierto, pero es donde, con el tiempo, más sabiduría juntás sobre los demás.</p>
+
+  <div class="centers">
+    <article class="center">
+      <header><h3>Garganta</h3><span class="pill def">Definido</span></header>
+      <div class="gates">Puertas 20 · 8</div>
+      <p>Expresión y acción consistentes. Estás muy segura de lo que decís, sabés convencer y te es fácil hacerte oír. Tu Garganta se conecta con un motor, así que tus palabras se convierten en hechos.</p>
+      <p class="nq"><b>Sombra</b>No tener en cuenta el contexto, interrumpir y ocupar demasiado espacio. Tu Puerta 20 habla en el ahora: elegí el momento y no vas a necesitar repetir.</p>
+    </article>
+    <article class="center">
+      <header><h3>Corazón / Ego</h3><span class="pill def">Definido</span></header>
+      <div class="gates">Puertas 21 · 26 · 51</div>
+      <p>Fuerza de voluntad confiable. Podés comprometerte y cumplir. La gente reconoce que hacés una contribución decidida. Te mueven el dinero, los recursos y el valor material. Es tu motor.</p>
+      <p class="nq"><b>Sombra</b>Querer que todo se haga a tu manera y no reconocer lo que aportan los demás. El riesgo: “tener que hacer las cosas yo sola”. Tu Corazón necesita descanso entre esfuerzos. Comprometete y después recuperate.</p>
+    </article>
+    <article class="center">
+      <header><h3>Bazo</h3><span class="pill def">Definido · Autoridad</span></header>
+      <div class="gates">Puertas 57 · 44 · 48</div>
+      <p>Instinto, intuición, gusto y sistema inmune. Proyectás un bienestar que otros envidian y les transmitís seguridad. Es tu fuente de “alegría y risa, espontaneidad y audacia”.</p>
+      <p class="nq"><b>Ojo con la salud</b>“Tienden a dar por hecho que están sanas.” Hacete chequeos regulares, porque tu Bazo “tan trabajador” puede tapar problemas. Si te enfermás, curate del todo antes de volver a tu ritmo. Además, la gente se te puede pegar por la seguridad que irradiás.</p>
+    </article>
+    <article class="center">
+      <header><h3>Cabeza</h3><span class="pill open">Abierto</span></header>
+      <div class="gates">Puerta colgante 63 (duda)</div>
+      <p>Absorbés la presión mental de los demás: sus preguntas, sus dudas, sus problemas por resolver. Tu Puerta 63 trae la duda lógica: “¿y si no funciona?”.</p>
+      <p class="nq"><b>Pregunta trampa</b>«¿En qué debería estar pensando?» · «Tengo que encontrarle el sentido a esto.» · «¿Quién tiene las respuestas?»</p>
+      <p><strong>Sabiduría:</strong> distinguir quién te inspira y quién te confunde. Dejar que la duda pase porque, como dice el texto, “saben que pasará”. Si no liberás esa presión, pueden aparecer dolores de cabeza.</p>
+    </article>
+    <article class="center">
+      <header><h3>Ajna</h3><span class="pill open">Abierto</span></header>
+      <div class="gates">Puertas colgantes 17 · 11</div>
+      <p>Mente receptiva con un potencial casi ilimitado: aprendés rapidísimo lo que te interesa y sabés evaluar los conceptos de otros. Tu 17 da opiniones y ve patrones a futuro. Tu 11 trae ideas, en cantidad.</p>
+      <p class="nq"><b>Pregunta trampa</b>«Tengo que estar segura.» · «Tengo que demostrar que soy inteligente.» · «Me cuesta reducir un concepto: quiero mostrar el cuadro completo.»</p>
+      <p><strong>Sabiduría:</strong> no hace falta tener una sola forma fija de pensar. Tu mente es para enseñar, organizar y compartir, no para decidir.</p>
+    </article>
+    <article class="center">
+      <header><h3>G · Identidad</h3><span class="pill open">Totalmente abierto</span></header>
+      <div class="gates">Sin puertas activas</div>
+      <p>Tu centro de dirección y amor está completamente abierto, sin ninguna puerta. Sos muy sensible a los lugares y a la identidad de las personas que te rodean. Te transformás según el entorno.</p>
+      <p class="nq"><b>Pregunta trampa</b>«¿Quién soy? ¿Hacia dónde voy?» · «Necesito que alguien me ame para saber quién soy.» · Pegarte rápido a alguien que parece saber el camino.</p>
+      <p><strong>Sabiduría:</strong> <strong>el lugar correcto trae a la gente correcta.</strong> Si un espacio no se siente bien (una casa, una oficina, una comunidad, una ciudad), no es un detalle: es información. Tu dirección no la buscás: aparece cuando estás en el entorno correcto.</p>
+    </article>
+    <article class="center">
+      <header><h3>Plexo Solar</h3><span class="pill open">Abierto</span></header>
+      <div class="gates">Puertas colgantes 37 · 36 · 22</div>
+      <p>Empatía aguda: “ninguna emoción permanece oculta para vos”. Si otra persona se siente bien, vos te sentís MUY bien. Si se siente mal, vos MUY mal. Sos espejo de cómo se sienten los demás.</p>
+      <p class="nq"><b>Pregunta trampa</b>«Mejor no decir eso, porque puede que moleste.» · «Mejor ser simpática y sonreír, para caer bien.» · «Me da miedo decirle la verdad porque no quiero herirla.»</p>
+      <p><strong>Sabiduría:</strong> ser un “barómetro de la salud emocional de los demás”. Si de pronto te sentís incómoda, podés salir de la habitación hasta que vuelva la calma. Necesitás un rato a solas cada día para soltar lo absorbido. Y nunca decidas desde la emoción.</p>
+    </article>
+    <article class="center">
+      <header><h3>Sacro</h3><span class="pill open">Abierto</span></header>
+      <div class="gates">Puertas colgantes 5 · 14</div>
+      <p>No tenés energía de trabajo sostenida. Podés tener una “fuerza sobrehumana a corto plazo” y coordinar muy bien el trabajo de otros, pero no estás hecha para jornadas largas ni constantes.</p>
+      <p class="nq"><b>Pregunta trampa</b>«¿Cuándo es suficiente?» · «Un poco más y paro.» · Seguir con el ritmo de las personas Generadoras de tu alrededor.</p>
+      <p><strong>Sabiduría:</strong> saber cuándo alcanza. Andá a la cama antes de estar agotada. El documento lo indica así: acostarte “hasta una hora antes de cuando te gustaría dormirte”, para que el aura suelte la energía que no es tuya. “El retiro y la regeneración son tus fuentes de juventud.”</p>
+    </article>
+    <article class="center">
+      <header><h3>Raíz</h3><span class="pill open">Abierto</span></header>
+      <div class="gates">Puertas colgantes 38 · 39 · 58</div>
+      <p>Absorbés el estrés del entorno y lo vivís como prisa. Sin presión externa sos tranquila y te relajás fácil. Esa calma no es pereza: es tu estado natural.</p>
+      <p class="nq"><b>Pregunta trampa</b>«Tengo que darme prisa y terminar esto.» · «Tengo que empezar algo nuevo ahora.» · «¿Dónde está mi propósito?» (38) · «¿Dónde está mi pasión?» (39)</p>
+      <p><strong>Sabiduría:</strong> “reconocer qué presión te pertenece y cuál no”. La naturaleza te funciona como amortiguador del estrés. Y tus dos puertas de la cruz (38 y 39) están acá, así que tu propósito tiene que ver con la presión. Lo vas a ver en la sección 07.</p>
+    </article>
+  </div>
+
+  <div class="journal" data-j="centros">
+    <div class="k">Para escribir</div>
+    <div><label for="j-cen-1">De las preguntas trampa de arriba, ¿cuál te suena más? ¿Qué decisión tomaste desde ahí?</label><textarea id="j-cen-1"></textarea></div>
+    <div><label for="j-cen-2">¿Qué lugares (casas, barrios, oficinas, ciudades) te hicieron sentir “en tu lugar”? ¿Qué tenían en común?</label><textarea id="j-cen-2"></textarea></div>
+  </div>
+</section>
+
+<!-- 04 -->
+<section id="perfil">
+  <div class="eyebrow">04 · Perfil</div>
+  <h2>4/6: Oportunista / Modelo de conducta</h2>
+  <p>El perfil es “la vestimenta de tu propósito”. Puede quedarte incómodo si lo resistís o sentirse “como tu piel natural” si lo abrazás. La línea 4 es consciente (lo que sabés de vos). La 6 es inconsciente (lo que los demás ven en vos).</p>
+  <p>La imagen de la casa: la línea 4 es “el segundo piso”, la base de las relaciones. La línea 6 es “el tejado, con una buena vista de la casa siguiente, el resto del vecindario y aún más lejos”.</p>
+
+  <div class="two">
+    <div class="card"><div class="k">Línea 4 · Consciente</div><div class="v">La Oportunista</div>
+      <ul class="clean">
+        <li>Tu calidad de vida “está en proporción directa con la calidad de tu red de amistades y asociados”.</li>
+        <li>Influís en quienes ya conocés. “Los extraños no son correctos para ella más allá de como contactos casuales.”</li>
+        <li>Las personas son tus decisiones más grandes. Ra lo dice así: «las personas son las mayores decisiones e inversiones que hacen en su vida».</li>
+        <li>Tu red correcta “ya está ahí”: la encontrás con tu estrategia, no la fabricás.</li>
+        <li>Te cansa la gente y necesitás retirarte para recargarte.</li>
+        <li>Cambiás de red o de relación de forma segura, con algo nuevo ya armado. Saltar al vacío te desestabiliza.</li>
+      </ul></div>
+    <div class="card"><div class="k">Línea 6 · Inconsciente</div><div class="v">La Modelo de conducta</div>
+      <ul class="clean">
+        <li>Mirás la vida desde el tejado: perspectiva, objetividad y visión de futuro.</li>
+        <li>A veces parecés distante o desinteresada.</li>
+        <li>Te cuesta muchísimo tolerar la hipocresía. Sos profundamente confiada.</li>
+        <li>Buscás un alma gemela, que en general aparece hacia el final de la Fase 2.</li>
+        <li>Ra lo describe así: «Cada ser de línea 6 es portador de la magia del futuro, de la magia que es posible para un ser humano».</li>
+      </ul></div>
+  </div>
+
+  <h3>Tus tres fases de vida (hoy tenés 39)</h3>
+  <div class="tl">
+    <div><div class="yrs">0 a ~30 años · hasta ~2017</div><div class="tag">Fase 1 · Prueba y error</div><h3>Vivir como una línea 3</h3><p>Hacer y romper vínculos y chocar con las cosas. Puede dejar desilusión y algo de pesimismo antes de los 30. En el 4/6 hay una tensión: la 4 quiere estabilidad y la 3 quiere probar.</p></div>
+    <div class="now"><div class="yrs">~30 a ~50 años · 2017 a ~2037</div><div class="tag">Fase 2 · Estás acá</div><h3>Subir al tejado</h3><p>Sanar, reflexionar, observar qué funciona de verdad y elegir vocación, pareja y red. Te empiezan a reconocer por tu sabiduría. Convertís la experiencia subjetiva en sabiduría objetiva y afianzás familia, carrera y una red de confianza.</p></div>
+    <div><div class="yrs">~50 años en adelante · desde ~2037</div><div class="tag">Fase 3 · Modelo</div><h3>Bajar del tejado</h3><p>Volver a involucrarte siendo vos, con optimismo. Ser ejemplo de “lo que es ser únicamente tú misma, en vez de ser definida por el mundo que te rodea”. Puede traer cambios radicales: tu autoridad será clave.</p></div>
+  </div>
+
+  <div class="callout">
+    <p><strong>Lo que viene ahora: 2027 a 2037.</strong> Entre la Oposición de Urano (alrededor de los 40) y el Retorno de Quirón (alrededor de los 50), el material habla de un «nuevo dinamismo», una reorientación. Para vos empieza el año que viene. Ojo con medirte con el reloj de los demás: los seres de 9 centros “nos desarrollamos lentamente”.</p>
+  </div>
+
+  <h3>Tu tensión interna</h3>
+  <p>Hay una “tensión natural entre tu anhelo consciente de conexión y relaciones de calidad y tu deseo inconsciente de mantenerte apartada”. Sos un “mirón curioso” en los márgenes del grupo que espera el momento de aportar una nueva perspectiva. “No estás interesada en que los demás te cambien a vos.” Si sentís resistencia, te vas a ir con quienes estén receptivos. Y el tiempo sola “es refrescante e importante para vos”.</p>
+
+  <div class="callout red">
+    <p><strong>Sombras del 4/6.</strong> Invertir energía en relaciones que no devuelven nada y terminar con desilusión, tristeza y fatiga. “Mirar los toros desde la barrera”, cuando el material dice: “necesitamos que se lancen al ruedo y compartan sus agudas observaciones”. Y si alguien rompe tu confianza, “el corazón cálido puede volverse frío”.</p>
+  </div>
+
+  <div class="journal" data-j="perfil">
+    <div class="k">Para escribir</div>
+    <div><label for="j-per-1">Mirando tu Fase 1 (hasta los 30): ¿qué aprendiste a fuerza de chocarte?</label><textarea id="j-per-1"></textarea></div>
+    <div><label for="j-per-2">¿Quiénes son hoy las 10 personas de tu red que más te nutren? ¿Y cuáles te consumen sin devolver?</label><textarea id="j-per-2"></textarea></div>
+    <div><label for="j-per-3">¿En qué tema ya sos un modelo para otras, aunque no lo digas?</label><textarea id="j-per-3"></textarea></div>
+  </div>
+</section>
+
+<!-- 05 -->
+<section id="canales">
+  <div class="eyebrow">05 · Canales</div>
+  <h2>Tus dos talentos fijos</h2>
+  <p>Tus canales son tus “especializaciones”: energía que está siempre disponible y no depende de nadie. Tenés dos, y los dos pasan por el Bazo. Tu instinto está en el centro de todo lo que hacés bien.</p>
+
+  <div class="two">
+    <div class="card">
+      <div class="k">Canal 20-57 · Bazo → Garganta · Circuito del Saber</div>
+      <div class="v">La Chispa Cerebral</div>
+      <p style="color:var(--ink)">“Aquí es donde el entendimiento intuitivo tiene su voz más clara en el momento presente.” Su frase: «Sé que estoy viva ahora».</p>
+      <ul class="clean" style="font-size:15.5px">
+        <li>Pensás sobre la marcha. Tus “arrebatos verbales de pura intuición llegan al fondo de una situación mucho más rápido que quienes te rodean”.</li>
+        <li>Tenés una aguda conciencia acústica. Oís lo que no se dice.</li>
+        <li>“Sos alguien que simplemente sabe qué hacer sin tener que pensarlo.”</li>
+        <li>Su función profunda es despertar en otros su propia inteligencia instintiva. Es exactamente lo que hacés en una sesión de role play.</li>
+        <li><strong>Sombra:</strong> si ignorás el impulso, el momento pasa y lo lamentás. Te cuesta escuchar lo que otros “saben” y no te gusta que te digan qué hacer. Del otro lado está el miedo al futuro.</li>
+        <li><strong>Relación especial:</strong> la gente con la Puerta 28 te ayuda a animarte a decir tus verdades.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="k">Canal 26-44 · Corazón → Bazo · Circuito del Ego (Tribal)</div>
+      <div class="v">Rendición · La Transmisora</div>
+      <p style="color:var(--ink)">“El capitalista involucrado en el arte creativo de la empresa.” Es el único enlace directo entre el Corazón y el Bazo, y una de las grandes redes de salud del cuerpo.</p>
+      <ul class="clean" style="font-size:15.5px">
+        <li>Tenés el don de evaluar a las personas y asociarlas con productos, trabajos e ideas. Sabés quién sirve para qué.</li>
+        <li>Usás la memoria de lo que funcionó antes (44) y la voluntad de vender (26). Adaptás el mensaje a cada público.</li>
+        <li>“No eres alguien diseñado para trabajar ocho horas al día en una oficina, pero lograrás más resultados en un periodo comprimido que la mayoría en un día entero.”</li>
+        <li><strong>Regla de oro:</strong> “si algo acerca de una persona o un proyecto no te huele bien, no te involucres.”</li>
+        <li><strong>Timing:</strong> funciona mejor “cuando el mercado o tu tribu reconocen tus dones y te piden que te promociones en su nombre”.</li>
+        <li><strong>Sombra:</strong> el equilibrio fino entre manipular y crear valor real.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout gold">
+    <p><strong>Un dato que puede confundir.</strong> En los documentos de Rafa, los dos canales figuran como “Proyectados”. Eso describe el tipo de canal, no tu tipo. Vos seguís siendo Manifestadora. Lo que agrega ese dato: tus dos talentos brillan más cuando hay receptividad o reconocimiento del otro lado.</p>
+  </div>
+</section>
+
+<!-- 06 -->
+<section id="puertas">
+  <div class="eyebrow">06 · Puertas</div>
+  <h2>Tus 26 activaciones</h2>
+  <p>Cada planeta activa una puerta (el número) y una línea (después del punto). <span style="color:var(--ink)"><strong>Negro = Personalidad</strong></span>: lo que sabés de vos. <span style="color:var(--design)"><strong>Rojo = Diseño</strong></span>: lo que está en tu cuerpo y ven los demás. Son las mismas que en tu manual de Rafa, más todas las que no tenía la presentación.</p>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Planeta</th><th>Personalidad</th><th>Diseño</th><th>Qué aporta</th></tr></thead>
+      <tbody>
+        <tr><td>☉ Sol</td><td class="g p">21.4</td><td class="g d">38.6</td><td><strong>21</strong>: autoridad y control de recursos, y la estrategia que nace de la claridad. <strong>38</strong>: luchar solo por lo que tiene sentido, aunque te malinterpreten. El Sol es tu luz principal.</td></tr>
+        <tr><td>⊕ Tierra</td><td class="g p">48.4</td><td class="g d">39.6</td><td><strong>48</strong>: profundidad y reestructurar a largo plazo. <strong>39</strong>: provocar el espíritu de los demás y resolver problemas en la práctica. La Tierra es lo que te ancla.</td></tr>
+        <tr><td>☊ Nodo Norte</td><td class="g p">21.3</td><td class="g d">51.2</td><td>El entorno y el camino de tu segunda mitad de vida. <strong>51</strong>: el shock, el coraje y ser la primera en atreverse.</td></tr>
+        <tr><td>☋ Nodo Sur</td><td class="g p">48.3</td><td class="g d">57.2</td><td>El entorno de tu primera mitad de vida. <strong>57</strong>: la intuición afinada que oye la verdad.</td></tr>
+        <tr><td>☽ Luna</td><td class="g p">20.3</td><td class="g d">36.3</td><td>Lo que te impulsa. <strong>20</strong>: estar presente, decir lo que es ahora. <strong>36</strong>: buscar experiencias nuevas e intensas y atravesar crisis.</td></tr>
+        <tr><td>☿ Mercurio</td><td class="g p">63.5</td><td class="g d">38.1</td><td>Lo que comunicás. <strong>63</strong>: la duda lógica que cuestiona para encontrar la verdad. <strong>38.1</strong>: pelear contra lo que está mal hecho.</td></tr>
+        <tr><td>♀ Venus</td><td class="g p">37.1</td><td class="g d">14.4</td><td>Tus valores. <strong>37</strong>: la amistad, la familia, el trato justo y la ternura. <strong>14</strong>: el poder de generar recursos y prosperidad.</td></tr>
+        <tr><td>♂ Marte</td><td class="g p">8.4</td><td class="g d">36.6</td><td>Por donde madurás. <strong>8</strong>: tu contribución con estilo propio, ser ejemplo. <strong>36.6</strong>: la crisis como maestra.</td></tr>
+        <tr><td>♃ Júpiter</td><td class="g p">17.4</td><td class="g d">22.2</td><td>Tu ley y tu protección. <strong>17</strong>: ver el futuro y organizar opiniones en sistemas. <strong>22</strong>: la gracia, el encanto social y el escuchar.</td></tr>
+        <tr><td>♄ Saturno</td><td class="g p">26.5</td><td class="g d">5.5</td><td>Tu disciplina. <strong>26</strong>: la venta y el arte de transmitir. <strong>5</strong>: los ritmos fijos y los hábitos.</td></tr>
+        <tr><td>♅ Urano</td><td class="g p">11.5</td><td class="g d">11.2</td><td>Lo que te hace distinta. <strong>11</strong> por partida doble: ideas, ideales e imágenes para enseñar y contar historias.</td></tr>
+        <tr><td>♆ Neptuno</td><td class="g p">58.5</td><td class="g d">58.3</td><td>Lo que se revela con el tiempo. <strong>58</strong> doble: la alegría de corregir y mejorar las cosas.</td></tr>
+        <tr><td>♇ Plutón</td><td class="g p">44.2</td><td class="g d">44.3</td><td>Tu transformación profunda. <strong>44</strong> doble: el olfato para el talento ajeno y la memoria de patrones.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Puertas que se repiten (y por eso pesan más)</h3>
+  <div class="grid">
+    <div class="card"><div class="k">Puerta 11 · ×2</div><div class="v">Ideas</div><p>Una mente llena de imágenes, ideales y posibilidades. Ideal para enseñar con historias. No todas las ideas son para hacer: muchas son para compartir.</p></div>
+    <div class="card"><div class="k">Puerta 58 · ×2</div><div class="v">Vitalidad para corregir</div><p>La alegría de ver lo que se puede mejorar. Es la energía de una profesora que corrige para que el otro crezca. Como tu Raíz está abierta, esto aparece sobre todo con otras personas.</p></div>
+    <div class="card"><div class="k">Puerta 44 · ×3</div><div class="v">Olfato</div><p>Plutón doble y además parte de tu canal. Reconocés el potencial de una persona apenas la ves. Su miedo: “que las cuentas del pasado acaben pasándote factura”.</p></div>
+    <div class="card"><div class="k">Puerta 36 · ×2</div><div class="v">Crisis</div><p>Tu Luna y tu Marte de Diseño. Experiencia, intensidad y atravesar lo desconocido. Es el corazón de tu secuencia de Venus en Gene Keys (sección 08).</p></div>
+    <div class="card"><div class="k">Puertas 21 y 48 · ×2</div><div class="v">Control y profundidad</div><p>Tu Sol y tu Tierra se repiten en los Nodos. Tu misión y tu camino de vida hablan del mismo tema.</p></div>
+    <div class="card"><div class="k">Puerta 38 · ×2</div><div class="v">La luchadora</div><p>Sol y Mercurio de Diseño. Pelear por lo que tiene sentido es una de las cosas más visibles en vos.</p></div>
+  </div>
+
+  <h3>Los tres miedos de tu Bazo</h3>
+  <p>“Cada puerta del Bazo representa un miedo primario por la supervivencia.” La conciencia se forma cada vez que enfrentás uno de esos miedos y lo atravesás.</p>
+  <div class="grid">
+    <div class="card"><div class="k">Puerta 57 · Claridad intuitiva</div><div class="v">Miedo al futuro</div><p>“Miedo a lo que pueda traer el futuro, que hace que te refrenes.”</p></div>
+    <div class="card"><div class="k">Puerta 44 · Estar alerta</div><div class="v">Miedo al pasado</div><p>“Miedo a que las cuentas abiertas del pasado acaben pasándote factura.”</p></div>
+    <div class="card"><div class="k">Puerta 48 · Profundidad</div><div class="v">Miedo a no ser suficiente</div><p>“Miedo a no tener la suficiente profundidad, o estar buscando la profundidad para librarse del miedo.”</p></div>
+  </div>
+</section>
+
+<!-- 07 -->
+<section id="cruz">
+  <div class="eyebrow">07 · Propósito</div>
+  <h2>Cruz de Ángulo Derecho de la Tensión</h2>
+  <p>Tus cuatro puertas principales son 21, 48, 38 y 39. El manual la describe como la cruz de “personas que de manera natural establecen límites y a las que les gusta tener el control de su entorno y de quienes están en él. Pueden ser buenas controlando o supervisando situaciones”. Al ser de Ángulo Derecho, tu destino es personal: estás acá “para resolver tu propia vida”, y quienes se cruzan con vos pueden detonar experiencias pero no cambian tu rumbo.</p>
+  <p>Fijate que dos de tus cuatro puertas (38 y 39) están en la Raíz, que es un centro de <em>presión</em>, y que tu Raíz está abierta. La “tensión” de tu cruz es literal: venís a trabajar con la presión, la propia y la de los demás, para que algo se mueva.</p>
+
+  <div class="grid">
+    <div class="card"><div class="k">☉ Sol Personalidad · 21.4 · Tu misión</div><div class="v">La autoridad</div><p>“Estoy destinada a ser una figura de autoridad en el mundo.” Entendés las leyes del dinero y sos más feliz cuando te dan la responsabilidad de un equipo. Te sale bien la acción estratégica que nace de la claridad. Tu sombra es el alarde de poder que “ataca molinos de viento”.</p></div>
+    <div class="card"><div class="k">⊕ Tierra Personalidad · 48.4 · Tu ancla</div><div class="v">El ingenio</div><p>“No necesito más preparación. Siempre estoy lista en este preciso momento.” Tus recursos aparecen justo cuando los necesitás. Te enraizás aceptando la incertidumbre y reestructurando a largo plazo.</p></div>
+    <div class="card"><div class="k">☉ Sol Diseño · 38.6 · Tu carisma</div><div class="v">El honor</div><p>Lo que los demás ven en vos aunque no lo sepas: tenacidad e integridad. Moverte físicamente y empujar tus límites es el secreto de tu salud. Tu sombra es pelear por malentendidos y generar más malentendidos.</p></div>
+    <div class="card"><div class="k">⊕ Tierra Diseño · 39.6 · Tu propósito oculto</div><div class="v">La chispa</div><p>“Crear chispas donde quiera que vaya. Movilizar lo estancado.” Sabés resolver problemas en la práctica. La señal de que vas bien es sentirte viva y entusiasmada. Tu sombra es provocar para el propio ego.</p></div>
+  </div>
+
+  <div class="callout">
+    <p><strong>Tu cruz en una frase:</strong> ejercer autoridad (21) desde recursos que ya tenés (48), defendiendo lo que vale la pena (38) para encender a otros y sacarlos de donde están estancados (39).</p>
+    <p>Es casi la descripción de tu trabajo: ayudar a profesionales trabadas en su inglés a <em>animarse</em> a hablar bajo presión.</p>
+  </div>
+</section>
+
+<!-- 08 -->
+<section id="genekeys">
+  <div class="eyebrow">08 · Gene Keys</div>
+  <h2>Tus secuencias de Gene Keys</h2>
+  <p>Los textos sobre tus puertas del Sol que tiene tu manual de Rafa (“Estoy destinada a ser una figura de autoridad…”, “el 48º Don de la Ingeniosidad”) vienen del sistema Gene Keys, que lee cada puerta en tres niveles: <span style="color:var(--design)">sombra</span>, <span style="color:var(--accent)">don</span> y <span style="color:var(--gold)">siddhi</span> (su máxima expresión). Estas son tus tres secuencias, calculadas con tu carta.</p>
+
+  <h3>Secuencia de Activación: tu genio</h3>
+  <div class="gk">
+    <div class="card"><div class="k">Life's Work · 21</div><div class="spec"><span>Sombra</span><b class="sh">Control</b><span>Don</span><b class="gi">Autoridad</b><span>Siddhi</span><b class="si">Valor</b></div></div>
+    <div class="card"><div class="k">Evolución · 48</div><div class="spec"><span>Sombra</span><b class="sh">Insuficiencia</b><span>Don</span><b class="gi">Ingenio</b><span>Siddhi</span><b class="si">Sabiduría</b></div></div>
+    <div class="card"><div class="k">Radiancia · 38</div><div class="spec"><span>Sombra</span><b class="sh">Lucha</b><span>Don</span><b class="gi">Perseverancia</b><span>Siddhi</span><b class="si">Honor</b></div></div>
+    <div class="card"><div class="k">Propósito · 39</div><div class="spec"><span>Sombra</span><b class="sh">Provocación</b><span>Don</span><b class="gi">Dinamismo</b><span>Siddhi</span><b class="si">Liberación</b></div></div>
+  </div>
+
+  <h3>Secuencia de Venus: tu corazón y tus vínculos</h3>
+  <div class="gk">
+    <div class="card"><div class="k">Atracción · 36</div><div class="spec"><span>Sombra</span><b class="sh">Turbulencia</b><span>Don</span><b class="gi">Humanidad</b><span>Siddhi</span><b class="si">Compasión</b></div><p>El tipo de personas y situaciones que atraés: intensas y transformadoras.</p></div>
+    <div class="card"><div class="k">IQ · 37</div><div class="spec"><span>Sombra</span><b class="sh">Debilidad</b><span>Don</span><b class="gi">Igualdad</b><span>Siddhi</span><b class="si">Ternura</b></div><p>Tu mente madura con el trato justo y el cuidado.</p></div>
+    <div class="card"><div class="k">EQ · 8</div><div class="spec"><span>Sombra</span><b class="sh">Mediocridad</b><span>Don</span><b class="gi">Estilo</b><span>Siddhi</span><b class="si">Exquisitez</b></div><p>Tu inteligencia emocional crece cuando te animás a ser original.</p></div>
+    <div class="card"><div class="k">SQ · 14</div><div class="spec"><span>Sombra</span><b class="sh">Compromiso (ceder)</b><span>Don</span><b class="gi">Competencia</b><span>Siddhi</span><b class="si">Abundancia</b></div><p>Tu inteligencia espiritual: hacer lo que amás sin conformarte.</p></div>
+    <div class="card"><div class="k">Núcleo · 36</div><div class="spec"><span>Sombra</span><b class="sh">Turbulencia</b><span>Don</span><b class="gi">Humanidad</b><span>Siddhi</span><b class="si">Compasión</b></div><p>Tu herida central se repite con tu Atracción: aprender a habitar la crisis sin huir de ella.</p></div>
+  </div>
+
+  <h3>Secuencia de la Perla: tu prosperidad</h3>
+  <div class="gk">
+    <div class="card"><div class="k">Vocación · 36</div><div class="spec"><span>Sombra</span><b class="sh">Turbulencia</b><span>Don</span><b class="gi">Humanidad</b><span>Siddhi</span><b class="si">Compasión</b></div><p>Tu trabajo florece acompañando a otros a través de sus momentos de cambio.</p></div>
+    <div class="card"><div class="k">Cultura · 22</div><div class="spec"><span>Sombra</span><b class="sh">Deshonra</b><span>Don</span><b class="gi">Gentileza</b><span>Siddhi</span><b class="si">Gracia</b></div><p>Tu forma de trabajar con otros: con gracia y calidez.</p></div>
+    <div class="card"><div class="k">Perla · 17</div><div class="spec"><span>Sombra</span><b class="sh">Opinión</b><span>Don</span><b class="gi">Visión de futuro</b><span>Siddhi</span><b class="si">Omnisciencia</b></div><p>Tu prosperidad llega cuando pasás de opinar a ver hacia dónde va algo.</p></div>
+    <div class="card"><div class="k">Marca · 21</div><div class="spec"><span>Sombra</span><b class="sh">Control</b><span>Don</span><b class="gi">Autoridad</b><span>Siddhi</span><b class="si">Valor</b></div><p>Tu marca personal es tu autoridad. Comparte puerta con tu Life's Work.</p></div>
+  </div>
+  <p class="eyebrow" style="text-transform:none;letter-spacing:.02em">Las secuencias de Venus y Perla las calculé yo con tu carta; no están en el material de Rafa. Si querés profundizar, el libro de Richard Rudd tiene un capítulo por cada puerta.</p>
+</section>
+
+<!-- 09 -->
+<section id="mente">
+  <div class="eyebrow">09 · Mente y valor propio</div>
+  <h2>Dejar de demostrar, de complacer, de apurarte</h2>
+  <p>Tus patrones de “tengo que” salen de tus centros abiertos y de las sombras de tus puertas. Estos son los cinco más probables en tu carta, con su salida.</p>
+
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Patrón</th><th>De dónde viene</th><th>La salida</th></tr></thead>
+      <tbody>
+        <tr><td><strong>“Necesito prepararme más”</strong> (otra formación, otra certificación)</td><td>Puerta 48 · miedo a no ser suficiente</td><td>“No necesito más preparación. Mis recursos aparecen cuando comienzo.” Empezá y dejá que el conocimiento aparezca en la acción.</td></tr>
+        <tr><td><strong>“Tengo que demostrar que soy inteligente”</strong></td><td>Ajna abierto</td><td>Tu valor no está en tener certeza. Tu mente es para enseñar, no para probar nada.</td></tr>
+        <tr><td><strong>“Mejor no digo nada, no quiero problemas”</strong></td><td>Plexo Solar abierto</td><td>“En el otro lado del miedo está la libertad para ser nosotros mismos.” Con tu autoridad, la confrontación real es más fácil de lo que imaginás.</td></tr>
+        <tr><td><strong>“Tengo que terminar esto ya”</strong></td><td>Raíz abierta</td><td>Preguntate de quién es esa presión. Respirá, alejate y decidí desde el Bazo, no desde la adrenalina.</td></tr>
+        <tr><td><strong>“Lo hago yo, es más rápido”</strong></td><td>Aura Manifestadora y Corazón definido</td><td>Iniciá vos, pero sumá apoyo. Informar convierte tu velocidad en un equipo en vez de una “lucha solitaria acompañada de mucha resistencia”.</td></tr>
+        <tr><td><strong>“¿Quién soy? ¿Es esto lo mío?”</strong></td><td>G totalmente abierto</td><td>No lo pienses: cambiá de entorno. La identidad aparece en el lugar y con la gente correcta.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout gold">
+    <p><strong>Corrección a tu manual.</strong> La afirmación de la sección de Perfil dice “guiada por mis emociones hacia decisiones claras”. No es tu diseño: tu Plexo Solar está abierto y tu autoridad es el Bazo. Te propongo esta versión:</p>
+    <p><em>“Soy una mujer auténtica y consciente, guiada por mi instinto en el momento presente. Confío en lo que mi cuerpo sabe antes que mi mente. Elijo con cuidado mi red, inspiro desde el ejemplo y enciendo en otras el coraje de hablar.”</em></p>
+  </div>
+
+  <div class="journal" data-j="mente">
+    <div class="k">Para escribir</div>
+    <div><label for="j-men-1">¿Qué estás postergando hasta “estar lista”?</label><textarea id="j-men-1"></textarea></div>
+    <div><label for="j-men-2">¿Qué verdad te estás guardando para no generar conflicto?</label><textarea id="j-men-2"></textarea></div>
+  </div>
+</section>
+
+<!-- 10 -->
+<section id="cuerpo">
+  <div class="eyebrow">10 · Cuerpo</div>
+  <h2>Comida, movimiento y descanso</h2>
+  <p>Esta parte combina lo que dice tu manual (Sacro abierto, Puerta 38, Bazo definido) con tus <strong>variables</strong>, que calculé a partir del color y el tono de tus Soles y Nodos. Las variables son la capa más fina del sistema y dependen mucho de la hora exacta de nacimiento, así que tomalas como un experimento para observar, no como una regla.</p>
+
+  <div class="grid">
+    <div class="card"><div class="k">Digestión · Sol Diseño color 2, tono 5</div><div class="v">Gusto, versión “cerrada”</div><p>Tu cuerpo elige por el gusto. Funcionás mejor con un repertorio acotado de comidas que te sientan bien que probando de todo. Si algo no te gusta, es información. Comé sin mezclar demasiados sabores y prestá atención a lo que tu paladar rechaza.</p></div>
+    <div class="card"><div class="k">Entorno · Nodo Diseño color 2</div><div class="v">Mercados</div><p>Te nutren los lugares con intercambio y movimiento: gente, conversación, ofertas, comercio. Con tu G totalmente abierto, el lugar es medicina. Un espacio con vida y variedad te ordena más que el aislamiento total.</p></div>
+    <div class="card"><div class="k">Motivación · Sol Personalidad color 1</div><div class="v">Miedo → alerta</div><p>Tu motor de fondo es el miedo, en su versión sana: anticiparte, estar alerta, cuidar lo que importa. Es coherente con tu autoridad esplénica. Si te mueve el pánico, está en sombra. Si te mueve la prevención, está alineado.</p></div>
+    <div class="card"><div class="k">Perspectiva · Nodo Personalidad color 1</div><div class="v">Supervivencia</div><p>Ves enseguida qué es sostenible y qué no, qué funciona y qué va a caerse. Es una mirada muy útil para negocios y para detectar riesgos.</p></div>
+  </div>
+  <p style="font-size:15px;color:var(--muted)">Además, tus cuatro flechas apuntan a la derecha: una forma de funcionar receptiva, que absorbe el panorama completo en vez de enfocarse en un solo punto. Te sirve más observar y dejar que llegue la información que forzar foco y control.</p>
+
+  <h3>Movimiento</h3>
+  <ul class="clean">
+    <li>“El secreto de mi salud yace en la actividad física. Necesito mover mi cuerpo y empujar mis límites físicos regularmente. Sin este esfuerzo, todo mi ser simplemente se agotará.” (Sol de Diseño, 38)</li>
+    <li>Con el Sacro abierto, buscá intensidad en bloques cortos, no maratones diarias. Mucho esfuerzo y después recuperación real.</li>
+    <li>La naturaleza te descomprime la Raíz abierta: caminar al aire libre te sirve más que el gimnasio cuando estás estresada.</li>
+  </ul>
+
+  <h3>Descanso</h3>
+  <ul class="clean">
+    <li>Andá a la cama antes de estar agotada, y acostate o relajate hasta una hora antes de cuando querés dormirte.</li>
+    <li>Si podés, dormí sola o con tu propio espacio: tu aura necesita soltar lo que absorbió.</li>
+    <li>Reservá un rato a solas cada día para limpiar el condicionamiento emocional de tu Plexo abierto.</li>
+    <li>La línea 4 necesita retirarse de la gente para recargarse. No es antipatía: es mantenimiento.</li>
+  </ul>
+
+  <h3>Salud</h3>
+  <ul class="clean">
+    <li>Hacete chequeos regulares: tu Bazo definido te hace sentir sana aunque no siempre lo estés.</li>
+    <li>Después de enfermarte, recuperate del todo antes de volver a tu ritmo.</li>
+    <li>Si sentís presión mental sostenida, prestale atención a los dolores de cabeza (Cabeza abierta).</li>
+    <li>Tu Puerta 26 se asocia con el timo y el sistema inmune: tu salud y tu forma de trabajar están conectadas. Cuando vendés algo en lo que no creés, tu cuerpo lo paga.</li>
+  </ul>
+</section>
+
+<!-- 11 -->
+<section id="trabajo">
+  <div class="eyebrow">11 · Trabajo</div>
+  <h2>Tu diseño en Breaking Barriers at Work</h2>
+  <p>Esto lo armé cruzando tu carta con cómo funciona tu negocio. Es mi lectura aplicada, no texto de Rafa.</p>
+
+  <div class="grid">
+    <div class="card"><div class="k">Lanzamientos</div><div class="v">Informá antes de lanzar</div><p>Para una Manifestadora, la secuencia de pre-lanzamiento (“en dos semanas abro AT WORK”) es literalmente su estrategia. Anunciá, después abrí. Así baja la resistencia de tu audiencia.</p></div>
+    <div class="card"><div class="k">Ventas · Línea 4 + 26-44</div><div class="v">Ventas en caliente</div><p>Tu don es vender a tu tribu, no a desconocidos. Referidas, ex alumnas, testimonios y comunidad convierten mejor que el tráfico frío. Los anuncios funcionan mejor para llevar gente a tu red (contenido, lives, lista) que para vender en frío.</p></div>
+    <div class="card"><div class="k">Promoción · 26-44</div><div class="v">Esperá el pedido</div><p>Tu canal brilla “cuando la tribu te pide que te promociones”. Los casos de Mónica, Isis o Betiana son tu tribu hablando por vos. Muestralos.</p></div>
+    <div class="card"><div class="k">Agenda · Sacro abierto</div><div class="v">Trabajo comprimido</div><p>Nada de 8 horas fijas. Agrupá sesiones en bloques intensos y después cortá. Grabá contenido en tandas. “Lograrás más en un periodo comprimido que la mayoría en un día entero.”</p></div>
+    <div class="card"><div class="k">Enseñanza · 20-57</div><div class="v">En vivo, sin guion</div><p>Tus mejores correcciones salen en el momento. El role play, las sesiones en vivo y el feedback espontáneo son tu zona de genio. Pensar todo de antemano te apaga.</p></div>
+    <div class="card"><div class="k">Equipo · Corazón + 21</div><div class="v">Dirigí y delegá</div><p>Sos más feliz con un equipo a cargo. Iniciá y delegá la ejecución sostenida (Sacro abierto) en gente con energía para sostenerla. Pagá bien: “hay que pagar a todos los miembros del equipo”.</p></div>
+    <div class="card"><div class="k">Precios · 21 + 26</div><div class="v">Cobrá lo justo para vos</div><p>“Pedirás lo que te parezca justo para ti, y esto debe incluir un equilibrio sano entre descanso y trabajo.” Entendés el dinero: confiá en eso.</p></div>
+    <div class="card"><div class="k">Filtro · Bazo</div><div class="v">Si no huele bien, no</div><p>Alianzas, clientas, colaboraciones: si algo no te cierra en el primer encuentro, no lo racionalices.</p></div>
+    <div class="card"><div class="k">Contenido · 11, 17, 38</div><div class="v">Opinión con historia</div><p>Ideas (11), visión de futuro (17) y pelear por lo que importa (38). Tu “Opinión picante” del manual de contenido es tu diseño en estado puro.</p></div>
+  </div>
+</section>
+
+<!-- 12 -->
+<section id="relaciones">
+  <div class="eyebrow">12 · Vínculos</div>
+  <h2>Relaciones</h2>
+  <ul class="clean">
+    <li>Podés dar “gran amor y devoción a tu familia”, aunque la pareja no te resulte fácil: tu aura no se deja conocer rápido.</li>
+    <li><strong>En lo romántico te toca iniciar.</strong> Si alguien te gusta, “es adecuado que des el primer paso” y digas lo que sentís. Eso te expone al rechazo, y es parte del diseño.</li>
+    <li>Tu independencia se lee como “no molestar”, y no es así. Decilo en voz alta.</li>
+    <li>Las relaciones pacíficas se sostienen con modales e información: “Voy a la tienda y vuelvo enseguida.” Si no avisás, después llega el interrogatorio.</li>
+    <li>Como 4/6, las relaciones llevan tiempo y energía. Cada una importa. Pueden pasar años antes de que una relación traiga una oportunidad, y está bien.</li>
+    <li>Las personas con Bazo abierto se van a sentir seguras con vos y se pueden apegar. Cuidá cuánta responsabilidad asumís por ellas.</li>
+  </ul>
+
+  <div class="callout">
+    <p><strong>Para compartir con tu gente: cómo tratar con Flor.</strong></p>
+    <p>No le digas qué hacer. No le preguntes como a una Generadora ni la invites como a una Proyectora. <strong>Informale:</strong> “Vamos a tomar un café.” Ella decidirá en el momento. Y avisale tus planes también: se siente honrada y respetada cuando la incluís.</p>
+  </div>
+</section>
+
+<!-- 13 -->
+<section id="diario">
+  <div class="eyebrow">13 · Práctica</div>
+  <h2>Tu experimento diario</h2>
+  <p>El diseño no se entiende leyendo: se comprueba viviéndolo. Probá esto durante 30 días.</p>
+  <ol class="steps">
+    <li><div><strong>Mañana:</strong> antes de mirar el teléfono, preguntale a tu cuerpo “¿qué quiero hoy?” y anotá lo primero que aparece, sin editarlo.</div></li>
+    <li><div><strong>Antes de cada decisión:</strong> golpe esplénico, chequeo de presión, aviso, acción.</div></li>
+    <li><div><strong>Una vez por día:</strong> informá algo que normalmente harías sin avisar.</div></li>
+    <li><div><strong>Tarde:</strong> mové el cuerpo con intensidad un rato corto, mejor al aire libre.</div></li>
+    <li><div><strong>Noche:</strong> tiempo a solas, a la cama antes de estar agotada y anotá una corazonada del día.</div></li>
+    <li><div><strong>Semanal:</strong> revisá tu red. ¿Con quién invertiste energía? ¿Volvió algo?</div></li>
+  </ol>
+
+  <div class="journal" data-j="diario">
+    <div class="k">Bitácora</div>
+    <div><label for="j-dia-1">Esta semana sentí paz cuando…</label><textarea id="j-dia-1"></textarea></div>
+    <div><label for="j-dia-2">Esta semana sentí rabia cuando… (¿qué no informé?)</label><textarea id="j-dia-2"></textarea></div>
+    <div><label for="j-dia-3">Una presión que no era mía y cómo la reconocí:</label><textarea id="j-dia-3"></textarea></div>
+    <p class="note">Lo que escribas se guarda solo en este navegador.</p>
+  </div>
+
+  <footer>
+    <p><strong>Fuentes:</strong> “MFP - Manual de Usuario Avatar” y los documentos de HD by Rafa en tu Drive: Tipo Manifestador, Autoridad esplénica, Centros Bazo, Raíz, Plexo Solar y Cabeza, Perfil 4/6, canales 20-57 y 26-44, y Cruces de Encarnación. Las activaciones de todos los planetas, las variables y las secuencias de Gene Keys las calculé con tu fecha, hora y lugar de nacimiento. El Sol, la Tierra y los canales coinciden con tu manual.</p>
+    <p>El material de Rafa no tiene documentos específicos de Ajna, G y Sacro, ni texto propio de tu cruz. Esas partes salen de tu manual y del sistema general.</p>
+    <p>El Diseño Humano es una herramienta de autoconocimiento, no una ciencia. Usalo como un espejo para observarte, no como una regla.</p>
+  </footer>
+</section>
+
+</main>
+</div>
+
+<script>
+(function(){
+  var KEY='manual-flor-journal';
+  var data={};
+  try{data=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){data={};}
+  document.querySelectorAll('.journal textarea').forEach(function(t){
+    if(data[t.id]) t.value=data[t.id];
+    t.addEventListener('input',function(){
+      data[t.id]=t.value;
+      try{localStorage.setItem(KEY,JSON.stringify(data));}catch(e){}
+    });
+  });
+})();
+</script>

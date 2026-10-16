@@ -1,0 +1,172 @@
+<title>Flor en Simple</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: a pocket card deck. One column, big type, each rule = one card you can read in 5 seconds. */
+:root{
+  --bg:#F2F1F5; --paper:#FFFFFF; --ink:#1C1A2B; --muted:#5D5A70; --line:#DCD9E6;
+  --accent:#2F4FA2; --accent-soft:#E3E8F6;
+  --go:#1E7A4F; --go-soft:#DFF1E7; --stop:#B3283F; --stop-soft:#F7E2E6;
+  --f-display:"Young Serif", Georgia, serif;
+  --f-body:"Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono:"JetBrains Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#14131C; --paper:#1D1C28; --ink:#ECEAF4; --muted:#A6A3B8; --line:#33313F;
+  --accent:#8EA7F0; --accent-soft:#252C46; --go:#6FD3A1; --go-soft:#173326; --stop:#F08A9B; --stop-soft:#3A2129; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#14131C; --paper:#1D1C28; --ink:#ECEAF4; --muted:#A6A3B8; --line:#33313F;
+  --accent:#8EA7F0; --accent-soft:#252C46; --go:#6FD3A1; --go-soft:#173326; --stop:#F08A9B; --stop-soft:#3A2129; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:18px;line-height:1.55}
+.wrap{max-width:760px;margin:0 auto;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));padding-block:40px 80px;display:flex;flex-direction:column;gap:48px}
+h1,h2{font-family:var(--f-display);font-weight:400;line-height:1.15;margin:0;text-wrap:balance}
+h1{font-size:clamp(38px,7vw,58px)}
+h2{font-size:clamp(26px,4.5vw,34px)}
+p{margin:0}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.block{display:flex;flex-direction:column;gap:16px}
+.big{font-family:var(--f-display);font-size:clamp(22px,3.6vw,28px);line-height:1.3;background:var(--accent-soft);border-radius:12px;padding:22px 24px}
+.rules{display:flex;flex-direction:column;gap:10px;list-style:none;margin:0;padding:0;counter-reset:r}
+.rules li{counter-increment:r;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:16px 18px;display:grid;grid-template-columns:40px 1fr;gap:14px;align-items:start}
+.rules li::before{content:counter(r);font-family:var(--f-mono);font-weight:500;color:var(--accent);font-size:22px;line-height:1.2}
+.rules b{display:block;font-size:19px;margin-bottom:2px}
+.rules span{color:var(--muted);font-size:16px}
+.light{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:560px){.light{grid-template-columns:1fr}}
+.light > div{border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:8px}
+.light .go{background:var(--go-soft)} .light .stop{background:var(--stop-soft)}
+.light h3{margin:0;font-size:14px;font-family:var(--f-mono);letter-spacing:.1em;text-transform:uppercase}
+.light .go h3{color:var(--go)} .light .stop h3{color:var(--stop)}
+.light ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:16.5px}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+@media (max-width:640px){.steps{grid-template-columns:1fr 1fr}}
+.steps div{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:6px}
+.steps .n{font-family:var(--f-mono);font-size:12px;color:var(--accent);letter-spacing:.1em}
+.steps b{font-size:18px}
+.steps span{font-size:15px;color:var(--muted)}
+.phr{display:flex;flex-direction:column;gap:10px}
+.phr div{background:var(--paper);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:12px 16px;font-size:17px}
+.phr i{color:var(--muted);font-style:normal;font-size:14px;display:block;margin-top:2px}
+.day{display:flex;flex-direction:column;gap:0;background:var(--paper);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.day div{display:grid;grid-template-columns:110px 1fr;gap:14px;padding:14px 18px;border-bottom:1px solid var(--line)}
+.day div:last-child{border-bottom:0}
+.day .t{font-family:var(--f-mono);font-size:13px;color:var(--accent);padding-top:3px}
+.check{display:flex;flex-direction:column;gap:8px}
+.check label{display:flex;gap:12px;align-items:flex-start;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:12px 14px;cursor:pointer;font-size:17px}
+.check input{width:20px;height:20px;margin-top:3px;accent-color:var(--accent);flex:none}
+.check input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.note{font-size:14px;color:var(--muted)}
+a{color:var(--accent)}
+</style>
+
+<div class="wrap">
+
+<header class="block">
+  <div class="eyebrow">Tu diseño en simple · para leer en 5 minutos</div>
+  <h1>Flor en Simple</h1>
+  <p class="big">Sos de las que <strong>empiezan</strong> las cosas. Tu cuerpo sabe antes que tu cabeza. Avisá antes de actuar, descansá antes de agotarte y rodeate de la gente correcta.</p>
+</header>
+
+<section class="block">
+  <div class="eyebrow">Lo esencial</div>
+  <h2>Tus 10 reglas de uso</h2>
+  <ol class="rules">
+    <li><div><b>Hacé caso a tu primera sensación.</b><span>Ese “sí” o “no” instantáneo en el cuerpo es tu brújula. Llega una sola vez y no da explicaciones.</span></div></li>
+    <li><div><b>Avisá antes de hacer.</b><span>No es pedir permiso, es contar lo que vas a hacer. Así nadie se resiste.</span></div></li>
+    <li><div><b>Si hay apuro, frená.</b><span>La urgencia casi nunca es tuya: es presión que absorbés de otros.</span></div></li>
+    <li><div><b>No decidas cuando estás emocionada ni angustiada.</b><span>Muchas veces esa emoción es de otra persona y vos la sentís el doble.</span></div></li>
+    <li><div><b>No necesitás prepararte más.</b><span>Los recursos aparecen cuando empezás. Otra certificación no te va a dar más seguridad.</span></div></li>
+    <li><div><b>Trabajá en bloques cortos e intensos.</b><span>Rendís muchísimo en poco tiempo. Las jornadas largas te funden.</span></div></li>
+    <li><div><b>Andá a dormir antes de estar agotada.</b><span>Acostate una hora antes de cuando querés dormirte, y si podés, con tu propio espacio.</span></div></li>
+    <li><div><b>Cuidá tu red como tu mayor tesoro.</b><span>Tus oportunidades llegan por gente que ya te conoce, no por desconocidos.</span></div></li>
+    <li><div><b>Si algo no te huele bien, no.</b><span>Personas, proyectos, alianzas. No lo racionalices.</span></div></li>
+    <li><div><b>Mové el cuerpo fuerte y salí a la naturaleza.</b><span>Tu salud depende de empujar el cuerpo un poco y de bajar el estrés afuera.</span></div></li>
+  </ol>
+</section>
+
+<section class="block">
+  <div class="eyebrow">Cómo saber si vas bien</div>
+  <h2>Tu semáforo</h2>
+  <div class="light">
+    <div class="go"><h3>Vas bien si sentís</h3>
+      <ul><li>Paz, calma por dentro</li><li>Las cosas fluyen sin pelear</li><li>Te sentís viva y entusiasmada</li><li>La gente te apoya</li><li>Tenés energía y también ganas de descansar</li></ul></div>
+    <div class="stop"><h3>Algo falla si sentís</h3>
+      <ul><li>Rabia, o ganas de mandar todo al diablo</li><li>“La vida es injusta”, “nadie me deja”</li><li>Apuro constante</li><li>Que hacés todo sola y nadie ayuda</li><li>Agotamiento, o complacer para no generar problemas</li></ul></div>
+  </div>
+  <p class="note">Si estás en rojo, preguntate: <strong>¿qué no avisé?</strong> y <strong>¿qué presión no es mía?</strong></p>
+</section>
+
+<section class="block">
+  <div class="eyebrow">Antes de cada decisión</div>
+  <h2>4 pasos para decidir</h2>
+  <div class="steps">
+    <div><span class="n">PASO 1</span><b>Sentí</b><span>¿Qué dice el cuerpo ahora? ¿Sí o no?</span></div>
+    <div><span class="n">PASO 2</span><b>Filtrá</b><span>¿Es instinto o es apuro, culpa o miedo?</span></div>
+    <div><span class="n">PASO 3</span><b>Avisá</b><span>Una frase a quien le afecte.</span></div>
+    <div><span class="n">PASO 4</span><b>Hacé</b><span>Sin esperar a estar 100% segura.</span></div>
+  </div>
+</section>
+
+<section class="block">
+  <div class="eyebrow">Para copiar y usar</div>
+  <h2>Frases para avisar</h2>
+  <div class="phr">
+    <div>“Te cuento que decidí…”<i>Con tu pareja o tu familia, antes de un cambio.</i></div>
+    <div>“A partir del mes que viene voy a…”<i>Con alumnas: precios, horarios, programas nuevos.</i></div>
+    <div>“Hoy necesito estar sola un rato, no es con vos.”<i>Cuando necesitás recargarte.</i></div>
+    <div>“Esto lo arranco yo; ¿quién se suma para sostenerlo?”<i>Con tu equipo.</i></div>
+    <div>“En dos semanas abro inscripciones.”<i>Con tu audiencia, antes de cada lanzamiento.</i></div>
+  </div>
+</section>
+
+<section class="block">
+  <div class="eyebrow">Un día alineado</div>
+  <h2>Tu día ideal</h2>
+  <div class="day">
+    <div><span class="t">Al despertar</span><span>Antes del celular: “¿qué quiero hoy?”. Anotá lo primero que aparezca.</span></div>
+    <div><span class="t">Mañana</span><span>Un bloque intenso de trabajo: clases, grabaciones o ventas.</span></div>
+    <div><span class="t">Mediodía</span><span>Movimiento fuerte y corto, mejor al aire libre.</span></div>
+    <div><span class="t">Tarde</span><span>Un segundo bloque o tareas livianas. Delegá lo repetitivo.</span></div>
+    <div><span class="t">Noche</span><span>Un rato sola. Acostate antes de estar agotada.</span></div>
+  </div>
+</section>
+
+<section class="block">
+  <div class="eyebrow">En tu negocio</div>
+  <h2>5 reglas para Breaking Barriers</h2>
+  <ol class="rules">
+    <li><div><b>Anunciá antes de lanzar.</b><span>El pre-lanzamiento es tu estrategia.</span></div></li>
+    <li><div><b>Vendé a tu comunidad.</b><span>Referidas, ex alumnas y testimonios antes que tráfico frío.</span></div></li>
+    <li><div><b>Mostrá a tus alumnas.</b><span>Cuando tu gente habla por vos, tu talento de venta se activa.</span></div></li>
+    <li><div><b>Enseñá en vivo.</b><span>Tus mejores correcciones salen sin guion.</span></div></li>
+    <li><div><b>Vos empezás, el equipo sostiene.</b><span>Delegá la ejecución diaria.</span></div></li>
+  </ol>
+</section>
+
+<section class="block">
+  <div class="eyebrow">Cada domingo</div>
+  <h2>Chequeo semanal</h2>
+  <div class="check">
+    <label><input type="checkbox" id="c1"> Avisé antes de cada decisión importante.</label>
+    <label><input type="checkbox" id="c2"> Seguí al menos una corazonada.</label>
+    <label><input type="checkbox" id="c3"> Frené cuando sentí apuro.</label>
+    <label><input type="checkbox" id="c4"> Descansé antes de agotarme.</label>
+    <label><input type="checkbox" id="c5"> Moví el cuerpo y salí afuera.</label>
+    <label><input type="checkbox" id="c6"> Invertí tiempo en gente que me nutre.</label>
+    <label><input type="checkbox" id="c7"> Dije una verdad aunque me incomodara.</label>
+  </div>
+  <p class="note">Los tildes se guardan solo en este navegador. La explicación completa de cada regla está en tu <a href="https://claude.ai/artifact/3x58wwiFEUYqnPeA27mAKu" target="_blank" rel="noopener">Manual de Usuario completo</a>.</p>
+</section>
+
+</div>
+<script>
+(function(){
+  var K='flor-simple-check',d={};
+  try{d=JSON.parse(localStorage.getItem(K)||'{}')||{};}catch(e){}
+  document.querySelectorAll('.check input').forEach(function(c){
+    c.checked=!!d[c.id];
+    c.addEventListener('change',function(){d[c.id]=c.checked;try{localStorage.setItem(K,JSON.stringify(d));}catch(e){}});
+  });
+})();
+</script>
