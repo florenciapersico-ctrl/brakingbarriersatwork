@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>AT WORK · Carrusel · Te bloqueaste igual</title>
+<link rel="stylesheet" href="fonts/fonts.css">
+<style>
+/*
+  AT WORK · Breaking Barriers at Work
+  Carrusel 9 placas · 1880 × 1440 px
+  Branding: paleta y tipografías de at-work/ (Crimson Pro + Inter), logo, comillas y tilde de marca.
+  Editable: cambiá textos directamente en cada <section>. Colores y tipografías en :root.
+*/
+:root{
+  --ink:#3F1E0D;          /* marrón tinta (fondo oscuro / texto) */
+  --brown:#895325;        /* marrón (acento sobre claro) */
+  --terracota:#C68C6C;
+  --terracota-lt:#D7A184; /* acento sobre oscuro */
+  --cream:#F9F5EE;        /* fondo claro */
+  --sand:#EDE5CC;         /* fondo arena */
+  --muted:#7B6A58;
+  --on-ink:#F4EADF;
+  --on-ink-soft:rgba(244,234,223,.72);
+  --on-ink-line:rgba(198,140,108,.35);
+  --serif:'Crimson Pro', Georgia, serif;
+  --sans:'Inter', system-ui, sans-serif;
+  --m:100px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#888;font-family:var(--sans);-webkit-font-smoothing:antialiased}
+.slide{
+  width:1080px;height:1440px;position:relative;overflow:hidden;
+  padding:0 var(--m);display:flex;flex-direction:column;margin:0 auto 40px;
+}
+.dark{background:var(--ink);color:var(--on-ink)}
+.light{background:var(--cream);color:var(--ink)}
+.sand{background:var(--sand);color:var(--ink)}
+
+/* cabecera y pie */
+.top,.foot{display:flex;justify-content:space-between;align-items:center;
+  font:600 23px/1 var(--sans);letter-spacing:.3em;text-transform:uppercase}
+.top{height:150px;flex:none}
+.foot{height:150px;flex:none;letter-spacing:.22em;font-weight:500;font-size:21px}
+.top .n{font-weight:500;letter-spacing:.18em;opacity:.75}
+.dark .top,.dark .foot{color:var(--terracota-lt)}
+.light .top,.light .foot,.sand .top,.sand .foot{color:var(--brown)}
+.arrow{display:inline-block;width:64px;height:1.5px;background:currentColor;position:relative}
+.arrow:after{content:"";position:absolute;right:0;top:-6px;width:12px;height:12px;border-top:1.5px solid currentColor;border-right:1.5px solid currentColor;transform:rotate(45deg)}
+.logo{display:block;height:auto}
+.body{flex:1;display:flex;flex-direction:column;justify-content:center}
+em{font-style:italic}
+.acc-d{color:var(--terracota-lt)}
+.acc-l{color:var(--brown)}
+
+/* ---------- 01 PORTADA ---------- */
+.s1 .lead{font:400 96px/1.02 var(--serif);letter-spacing:-.012em}
+.s1 .mid{font:400 44px/1.3 var(--sans);color:var(--on-ink-soft);margin-top:80px}
+.s1 .cut{display:flex;align-items:center;gap:18px;margin:66px 0 58px}
+.s1 .cut i{display:block;height:2px;background:var(--terracota)}
+.s1 .big{font:600 150px/.92 var(--serif);letter-spacing:-.03em}
+.s1 .foot .logo{width:230px}
+
+/* ---------- 02 PENSAMIENTOS ---------- */
+.s2 h2{font:400 80px/1.06 var(--serif);letter-spacing:-.012em;max-width:840px}
+.s2 .thoughts{margin-top:92px;display:flex;flex-direction:column;gap:56px}
+.s2 .t{font:italic 400 56px/1.18 var(--serif);border-left:2px solid var(--terracota);padding-left:40px}
+.s2 .t:nth-child(2){margin-left:70px}
+.s2 .t:nth-child(3){margin-left:140px}
+
+/* ---------- 03 PREGUNTAS ---------- */
+.s3 .intro{font:500 31px/1.4 var(--sans);letter-spacing:.01em;color:var(--muted)}
+.s3 .q1{font:400 66px/1.12 var(--serif);color:var(--muted);margin-top:56px;max-width:780px}
+.s3 .or{height:1.5px;background:var(--terracota);margin:72px 0 56px}
+.s3 .q2{font:600 92px/1.02 var(--serif);letter-spacing:-.02em}
+
+/* ---------- 04 REALIDAD ---------- */
+.s4 .intro{font:400 64px/1.12 var(--serif);letter-spacing:-.008em}
+.s4 .list{margin-top:76px;border-top:1.5px solid var(--on-ink-line)}
+.s4 .row{display:flex;align-items:baseline;gap:40px;padding:34px 0;border-bottom:1.5px solid var(--on-ink-line)}
+.s4 .row b{font:500 24px/1 var(--sans);letter-spacing:.18em;color:var(--terracota-lt);width:44px;flex:none}
+.s4 .row span{font:400 43px/1.2 var(--sans);letter-spacing:-.01em}
+.s4 .close{margin-top:72px;font:italic 500 68px/1.08 var(--serif);color:var(--terracota-lt)}
+
+/* ---------- 05 REVELACIÓN ---------- */
+.s5{padding:0}
+.s5 .upper{background:var(--cream);color:var(--ink);padding:0 var(--m) 74px;flex:none}
+.s5 .upper .top{color:var(--brown)}
+.s5 .upper .pre{font:500 31px/1.4 var(--sans);color:var(--brown);letter-spacing:.01em;margin-bottom:38px}
+.s5 .upper p.c{font:400 58px/1.16 var(--serif)}
+.s5 .lower{background:var(--ink);color:var(--on-ink);flex:1;padding:0 var(--m);display:flex;flex-direction:column}
+.s5 .lower .foot{color:var(--terracota-lt)}
+.s5 .reveal{font:600 168px/.92 var(--serif);letter-spacing:-.03em}
+.s5 .reveal em{color:var(--terracota-lt);font-weight:500}
+
+/* ---------- 06 IDENTIDAD ---------- */
+.s6 .intro{font:400 66px/1.08 var(--serif);letter-spacing:-.008em;max-width:860px}
+.s6 .acts{margin-top:64px;font:400 46px/1.5 var(--sans);letter-spacing:-.01em}
+.s6 .acts div{display:flex;gap:26px;align-items:baseline}
+.s6 .acts div:before{content:"";flex:none;width:28px;height:1.5px;background:var(--terracota);transform:translateY(-12px)}
+.s6 .final{margin-top:76px;padding-top:44px;border-top:2px solid var(--ink);font:600 104px/.96 var(--serif);letter-spacing:-.025em}
+.s6 .final em{color:var(--brown);font-weight:500}
+
+/* ---------- 07 COMPORTAMIENTO ---------- */
+.s7 .intro{font:400 62px/1.1 var(--serif);letter-spacing:-.008em}
+.s7 .say{font:500 31px/1.4 var(--sans);color:var(--brown);letter-spacing:.01em;margin:46px 0 28px}
+.s7 .q{background:var(--cream);padding:28px 36px;margin-bottom:16px;font:italic 400 48px/1.16 var(--serif);display:flex;gap:28px;align-items:center}
+.s7 .q img{width:46px;height:46px;flex:none}
+.s7 .even{margin-top:42px;font:600 56px/1.1 var(--serif);letter-spacing:-.01em}
+.s7 .even span{display:block}
+.s7 .even span+span{color:var(--brown)}
+
+/* ---------- 08 FRASE CENTRAL ---------- */
+.s8 .mark{width:96px;height:auto;display:block}
+.s8 .a{font:500 90px/1.0 var(--serif);letter-spacing:-.02em;margin-top:48px}
+.s8 .b{font:400 52px/1.2 var(--serif);color:var(--on-ink-soft);margin-top:52px;max-width:860px}
+.s8 .c{margin-top:62px;font:italic 600 80px/1 var(--serif);color:var(--terracota-lt);letter-spacing:-.015em}
+.s8 .foot .logo{width:230px}
+
+/* ---------- 09 CIERRE ---------- */
+.s9 .a{font:600 86px/1.0 var(--serif);letter-spacing:-.02em}
+.s9 .b{font:400 52px/1.18 var(--serif);margin-top:44px}
+.s9 .b em{color:var(--brown)}
+.s9 .c{font:400 52px/1.18 var(--serif);margin-top:30px}
+.s9 .cta{margin-top:68px;background:var(--ink);color:var(--on-ink);padding:58px 64px 50px}
+.s9 .cta p{font:500 58px/1.1 var(--serif);letter-spacing:-.01em}
+.s9 .cta p em{color:var(--terracota-lt)}
+.s9 .cta .brand{margin-top:40px;padding-top:34px;border-top:1.5px solid var(--on-ink-line);display:flex;justify-content:space-between;align-items:flex-end}
+.s9 .cta .brand .logo{width:210px}
+.s9 .cta .brand span{font:600 21px/1 var(--sans);letter-spacing:.26em;text-transform:uppercase;color:var(--terracota-lt)}
+
+/* ===== Versión 1880 × 1440 ===== */
+:root{--m:170px}
+.slide{width:1880px}
+.top,.foot{font-size:26px}
+.body{max-width:1540px}
+/* 01 */
+.s1 .lead{font-size:110px;max-width:1300px}
+.s1 .mid{font-size:48px;margin-top:64px}
+.s1 .cut{margin:64px 0 56px}
+.s1 .cut i:first-child{width:980px!important}
+.s1 .big{font-size:250px;line-height:.88}
+/* 02 */
+.s2 .body{display:grid;grid-template-columns:600px 1fr;column-gap:120px;align-items:center}
+.s2 h2{font-size:96px}
+.s2 .thoughts{margin-top:0;gap:60px}
+.s2 .t{font-size:64px}
+/* 03 */
+.s3 .body{display:grid;grid-template-columns:520px 1fr;column-gap:120px;align-items:start;align-content:center}
+.s3 .intro{grid-column:1/3;margin-bottom:56px}
+.s3 .q1{grid-column:1;margin:0;font-size:68px}
+.s3 .or{display:none}
+.s3 .q2{grid-column:2;font-size:104px;border-left:2px solid var(--terracota);padding-left:80px}
+/* 04 */
+.s4 .body{display:grid;grid-template-columns:1fr 1fr;column-gap:120px;align-items:center}
+.s4 .intro{font-size:72px}
+.s4 .list{margin-top:0}
+.s4 .row span{font-size:46px}
+.s4 .close{grid-column:1/3;font-size:80px;margin-top:90px}
+/* 05 */
+.s5 .upper p.c{font-size:64px;max-width:1450px}
+.s5 .reveal{font-size:210px}
+/* 06 */
+.s6 .body{display:grid;grid-template-columns:1fr 1fr;column-gap:120px;align-items:center}
+.s6 .intro{font-size:84px}
+.s6 .acts{margin-top:0;font-size:52px}
+.s6 .final{grid-column:1/3;font-size:150px;margin-top:80px}
+/* 07 */
+.s7 .body{display:grid;grid-template-columns:560px 1fr;column-gap:110px;align-items:center}
+.s7 .left{grid-column:1}
+.s7 .right{grid-column:2}
+.s7 .intro{font-size:72px}
+.s7 .q{font-size:54px}
+.s7 .even{font-size:66px}
+/* 08 */
+.s8 .body{display:grid;grid-template-columns:150px 1fr;column-gap:40px;align-content:center}
+.s8 .mark{width:120px;grid-row:1/4;margin-top:20px}
+.s8 .a{font-size:118px;margin-top:0}
+.s8 .b{font-size:60px;max-width:1300px}
+.s8 .c{font-size:96px}
+/* 09 */
+.s9 .body{display:grid;grid-template-columns:1fr 1.15fr;column-gap:110px;align-items:center}
+.s9 .left{grid-column:1}
+.s9 .a{font-size:96px}
+.s9 .b,.s9 .c{font-size:56px}
+.s9 .cta{margin-top:0}
+.s9 .cta p{font-size:72px}
+.s9 .cta{padding:70px 72px 60px}
+.s9 .cta .brand span{white-space:nowrap;font-size:22px}
+</style>
+</head>
+<body>
+
+<!-- 01 · PORTADA -->
+<section class="slide dark s1" id="s1">
+  <div class="top"><span>At Work</span><span class="n">01 / 09</span></div>
+  <div class="body">
+    <p class="lead">Practicaste tu presentación en inglés <em class="acc-d">cinco veces.</em></p>
+    <p class="mid">Y cuando tu jefa te interrumpió…</p>
+    <div class="cut"><i style="width:380px"></i><i style="width:46px"></i><i style="width:12px"></i></div>
+    <p class="big">Te bloqueaste<br>igual.</p>
+  </div>
+  <div class="foot"><img class="logo" src="img/logo.webp" alt="Breaking Barriers at Work"><span class="arrow"></span></div>
+</section>
+
+<!-- 02 · IDENTIFICACIÓN -->
+<section class="slide light s2" id="s2">
+  <div class="top"><span>At Work</span><span class="n">02 / 09</span></div>
+  <div class="body">
+    <h2>Y lo peor es lo que pensaste <em class="acc-l">después.</em></h2>
+    <div class="thoughts">
+      <p class="t">«No puedo creer que todavía me pase&nbsp;esto».</p>
+      <p class="t">«Con todos los años que llevo estudiando inglés…».</p>
+      <p class="t">«Tendría que haberlo hecho&nbsp;mucho mejor».</p>
+    </div>
+  </div>
+  <div class="foot"><span></span><span class="arrow"></span></div>
+</section>
+
+<!-- 03 · PREGUNTA -->
+<section class="slide sand s3" id="s3">
+  <div class="top"><span>At Work</span><span class="n">03 / 09</span></div>
+  <div class="body">
+    <p class="intro">Pero quiero que te hagas una pregunta.</p>
+    <p class="q1">¿Estabas preparándote para tener una reunión?</p>
+    <div class="or"></div>
+    <p class="q2">¿O estabas preparándote para decir todo lo que habías <em class="acc-l">ensayado</em> sin que nadie te interrumpiera?</p>
+  </div>
+  <div class="foot"><span></span><span class="arrow"></span></div>
+</section>
+
+<!-- 04 · REALIDAD DEL TRABAJO -->
+<section class="slide dark s4" id="s4">
+  <div class="top"><span>At Work</span><span class="n">04 / 09</span></div>
+  <div class="body">
+    <p class="intro">Porque en el trabajo las reuniones no funcionan como los exámenes orales del colegio.</p>
+    <div class="list">
+      <div class="row"><b>01</b><span>Tu jefa puede interrumpirte.</span></div>
+      <div class="row"><b>02</b><span>Puede no estar de acuerdo.</span></div>
+      <div class="row"><b>03</b><span>Puede pedirte cambios en el momento.</span></div>
+    </div>
+    <p class="close">Y vos tenés que poder responder, aunque nada de eso estuviera en tu guion.</p>
+  </div>
+  <div class="foot"><span></span><span class="arrow"></span></div>
+</section>
+
+<!-- 05 · REVELACIÓN -->
+<section class="slide s5" id="s5">
+  <div class="upper">
+    <div class="top"><span>At Work</span><span class="n">05 / 09</span></div>
+    <p class="pre">Pero hay algo todavía más importante.</p>
+    <p class="c">Si cada vez que te trabás, cometés un error o no encontrás una palabra pensás que tu inglés es un desastre…</p>
+  </div>
+  <div class="lower">
+    <div class="body"><p class="reveal">Seguís evaluándote <em>como una alumna.</em></p></div>
+    <div class="foot"><span></span><span class="arrow"></span></div>
+  </div>
+</section>
+
+<!-- 06 · CAMBIO DE IDENTIDAD -->
+<section class="slide light s6" id="s6">
+  <div class="top"><span>At Work</span><span class="n">06 / 09</span></div>
+  <div class="body">
+    <p class="intro">Y vos ya no estás ahí para que te pongan una nota.</p>
+    <div class="acts">
+      <div>Estás ahí para presentar propuestas.</div>
+      <div>Explicar decisiones.</div>
+      <div>Hacer preguntas.</div>
+      <div>Defender tus ideas.</div>
+      <div>Resolver problemas.</div>
+    </div>
+    <p class="final">Estás ahí <em>como profesional.</em></p>
+  </div>
+  <div class="foot"><span></span><span class="arrow"></span></div>
+</section>
+
+<!-- 07 · NUEVO COMPORTAMIENTO -->
+<section class="slide sand s7" id="s7">
+  <div class="top"><span>At Work</span><span class="n">07 / 09</span></div>
+  <div class="body">
+    <div class="left"><p class="intro">Una profesional no es alguien que siempre tiene la respuesta perfecta.</p>
+    <p class="say">Es alguien que puede decir:</p></div><div class="right">
+    <p class="q"><img src="img/tilde.webp" alt=""><span>«No entendí, ¿me lo repetís?».</span></p>
+    <p class="q"><img src="img/tilde.webp" alt=""><span>«Dame los cambios y te envío una nueva versión».</span></p>
+    <p class="q"><img src="img/tilde.webp" alt=""><span>«Dejame explicar por qué lo propuse&nbsp;así».</span></p>
+    <p class="even"><span>Incluso en inglés.</span><span>Incluso si se equivoca.</span></p></div>
+  </div>
+  <div class="foot"><span></span><span class="arrow"></span></div>
+</section>
+
+<!-- 08 · FRASE CENTRAL -->
+<section class="slide dark s8" id="s8">
+  <div class="top"><span>At Work</span><span class="n">08 / 09</span></div>
+  <div class="body">
+    <img class="mark" src="img/comillas-terracota.png" alt="">
+    <p class="a">Tu confianza no puede depender de que todo salga como lo ensayaste.</p>
+    <p class="b">Tiene que empezar a construirse sobre tu capacidad de resolver cuando las cosas no salen como esperabas.</p>
+    <p class="c">Y eso también se entrena.</p>
+  </div>
+  <div class="foot"><img class="logo" src="img/logo.webp" alt="Breaking Barriers at Work"><span class="arrow"></span></div>
+</section>
+
+<!-- 09 · CIERRE Y CTA -->
+<section class="slide light s9" id="s9">
+  <div class="top"><span>At Work</span><span class="n">09 / 09</span></div>
+  <div class="body">
+    <div class="left"><p class="a">No necesitás dejar de estudiar inglés.</p>
+    <p class="b">Necesitás dejar de sentir que cada reunión es <em>un examen que tenés que aprobar.</em></p>
+    <p class="c">Y empezar a entrenar tu inglés para las situaciones reales de tu trabajo.</p></div>
+    <div class="cta">
+      <p>Seguime para aprender a usar tu inglés <em>como la profesional que ya&nbsp;sos.</em></p>
+      <div class="brand"><span>AT WORK · Breaking Barriers at Work</span></div>
+    </div>
+  </div>
+  <div class="foot"><span></span><span></span></div>
+</section>
+
+</body>
+</html>
