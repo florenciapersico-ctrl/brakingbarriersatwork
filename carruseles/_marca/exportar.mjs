@@ -7,7 +7,7 @@ fs.mkdirSync(path.join(dir, 'png'), { recursive: true });
 const b = await chromium.launch(); const p = await b.newPage({ viewport: { width: 1200, height: 1500 } });
 await p.goto('file://' + path.join(dir, 'index.html')); await p.evaluate(() => document.fonts.ready);
 const problemas = await p.evaluate(() => [...document.querySelectorAll('.slide')].flatMap(s =>
-  [...s.querySelectorAll('.body')].filter(b => b.scrollHeight > b.clientHeight + 1).map(b => s.id + ' desborda ' + (b.scrollHeight - b.clientHeight) + 'px')));
+  [...s.querySelectorAll('.body')].filter(b => { const r = b.getBoundingClientRect(); return b.scrollHeight > b.clientHeight + 1 || [...b.querySelectorAll('*')].some(e => e.getBoundingClientRect().bottom > r.bottom + 1); }).map(b => s.id + ' desborda ' + (b.scrollHeight - b.clientHeight) + 'px')));
 const n = await p.locator('.slide').count();
 for (let i = 1; i <= n; i++) await p.locator('#s' + i).screenshot({ path: path.join(dir, 'png', `AT-WORK_${slug}_${String(i).padStart(2, '0')}.png`) });
 await b.close();
