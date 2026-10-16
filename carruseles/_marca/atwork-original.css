@@ -1,0 +1,111 @@
+/*
+  AT WORK · Breaking Barriers at Work — sistema de placas para carruseles
+  1080 × 1440 px (3:4). Paleta y tipografías de at-work/ (Crimson Pro + Inter).
+  Cada <section class="slide ..."> es una placa. Fondos: .dark .light .sand, o .split.
+*/
+@import url("fonts/fonts.css");
+:root{
+  --ink:#3F1E0D; --brown:#895325; --terracota:#C68C6C; --terracota-lt:#D7A184;
+  --cream:#F9F5EE; --sand:#EDE5CC; --muted:#7B6A58;
+  --on-ink:#F4EADF; --on-ink-soft:rgba(244,234,223,.74); --on-ink-line:rgba(198,140,108,.35);
+  --line:rgba(63,30,13,.18);
+  --serif:'Crimson Pro', Georgia, serif; --sans:'Inter', system-ui, sans-serif;
+  --m:100px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#888;font-family:var(--sans);-webkit-font-smoothing:antialiased}
+.slide{width:1080px;height:1440px;position:relative;overflow:hidden;padding:0 var(--m);
+  display:flex;flex-direction:column;margin:0 auto 40px}
+.dark{background:var(--ink);color:var(--on-ink)}
+.light{background:var(--cream);color:var(--ink)}
+.sand{background:var(--sand);color:var(--ink)}
+
+/* acentos: <em> toma el color de acento según el fondo */
+em{font-style:italic}
+.dark em,.lower em{color:var(--terracota-lt)}
+.light em,.sand em,.upper em{color:var(--brown)}
+.soft{color:var(--muted)} .dark .soft,.lower .soft{color:var(--on-ink-soft)}
+
+/* cabecera y pie */
+.top,.foot{display:flex;justify-content:space-between;align-items:center;
+  font:600 23px/1 var(--sans);letter-spacing:.3em;text-transform:uppercase;flex:none}
+.top{height:150px} .foot{height:150px}
+.top .n{font-weight:500;letter-spacing:.18em;opacity:.75}
+.dark .top,.dark .foot,.lower .foot{color:var(--terracota-lt)}
+.light .top,.light .foot,.sand .top,.sand .foot,.upper .top{color:var(--brown)}
+.arrow{display:inline-block;width:64px;height:1.5px;background:currentColor;position:relative}
+.arrow:after{content:"";position:absolute;right:0;top:-6px;width:12px;height:12px;
+  border-top:1.5px solid currentColor;border-right:1.5px solid currentColor;transform:rotate(45deg)}
+.logo{display:block;width:230px;height:auto}
+.body{flex:1;display:flex;flex-direction:column;justify-content:center}
+
+/* tipografía */
+.k{font:500 31px/1.4 var(--sans);letter-spacing:.01em;color:var(--brown)}
+.dark .k,.lower .k{color:var(--terracota-lt)}
+.s1{font:400 62px/1.14 var(--serif);letter-spacing:-.006em}      /* serif texto */
+.s2{font:400 76px/1.08 var(--serif);letter-spacing:-.01em}       /* serif medio */
+.b1{font:600 86px/1.02 var(--serif);letter-spacing:-.018em}      /* serif fuerte */
+.b2{font:600 112px/.98 var(--serif);letter-spacing:-.025em}      /* titular */
+.b3{font:600 150px/.92 var(--serif);letter-spacing:-.03em}       /* protagonista */
+.it{font-style:italic}
+.p{font:400 44px/1.32 var(--sans);letter-spacing:-.01em}
+.w5{font-weight:500}
+.mt1{margin-top:28px} .mt2{margin-top:52px} .mt3{margin-top:80px} .mt4{margin-top:110px}
+.mw{max-width:860px}
+
+/* línea cortada (interrupción) */
+.cut{display:flex;align-items:center;gap:18px;margin:64px 0 58px}
+.cut i{display:block;height:2px;background:var(--terracota)}
+.cut i:nth-child(1){width:380px} .cut i:nth-child(2){width:46px} .cut i:nth-child(3){width:12px}
+.rule{height:1.5px;background:var(--terracota);opacity:.8;margin:60px 0}
+
+/* filas con número o sin número */
+.rows{border-top:1.5px solid var(--line)}
+.dark .rows,.dark .rows .r{border-color:var(--on-ink-line)}
+.rows .r{display:flex;align-items:baseline;gap:36px;padding:30px 0;border-bottom:1.5px solid var(--line)}
+.rows .r b{font:500 24px/1 var(--sans);letter-spacing:.18em;width:44px;flex:none;color:var(--brown)}
+.dark .rows .r b{color:var(--terracota-lt)}
+.rows .r span{font:400 46px/1.22 var(--sans);letter-spacing:-.01em}
+.rows.serif .r span{font:400 58px/1.12 var(--serif);letter-spacing:0}
+
+/* pensamientos internos escalonados */
+.thoughts{display:flex;flex-direction:column;gap:50px}
+.thoughts p{font:italic 400 56px/1.18 var(--serif);border-left:2px solid var(--terracota);padding-left:40px}
+.thoughts.stagger p:nth-child(2){margin-left:70px}
+.thoughts.stagger p:nth-child(3){margin-left:140px}
+
+/* tarjetas con tilde de marca */
+.cards .c{display:flex;gap:28px;align-items:center;padding:28px 36px;margin-bottom:16px;
+  font:400 50px/1.16 var(--serif);background:var(--cream)}
+.light .cards .c{background:var(--sand)}
+.dark .cards .c{background:rgba(244,234,223,.07)}
+.cards .c img{width:46px;height:46px;flex:none}
+.cards .c b{font:600 30px/1 var(--sans);letter-spacing:.12em;color:var(--brown);flex:none;width:46px;text-align:center}
+.dark .cards .c b{color:var(--terracota-lt)}
+.cards.strong .c{font-weight:600}
+
+/* frase en inglés */
+.en{background:var(--ink);color:var(--on-ink);padding:64px 64px 56px}
+.en .lbl{font:600 22px/1 var(--sans);letter-spacing:.3em;color:var(--terracota-lt);margin-bottom:34px}
+.en .q{font:italic 500 64px/1.12 var(--serif)}
+.en + .tr{font:400 38px/1.4 var(--sans);color:var(--muted);margin-top:40px;padding-left:24px;border-left:2px solid var(--terracota)}
+
+/* hecho vs interpretación */
+.fact{border:2px solid var(--ink);padding:36px 40px;font:500 46px/1.25 var(--sans)}
+.interp{border:2px dashed var(--terracota);padding:36px 40px;font:italic 400 54px/1.18 var(--serif)}
+
+/* placa dividida: revelación */
+.slide.split{padding:0}
+.split .upper{background:var(--cream);color:var(--ink);padding:0 var(--m) 72px;flex:none}
+.split .lower{background:var(--ink);color:var(--on-ink);flex:1;padding:0 var(--m);display:flex;flex-direction:column}
+
+/* comillas de marca */
+.mark{width:96px;height:auto;display:block;margin-bottom:44px}
+
+/* CTA */
+.cta{background:var(--ink);color:var(--on-ink);padding:56px 64px 50px}
+.cta p{font:500 56px/1.1 var(--serif);letter-spacing:-.01em}
+.cta .brand{margin-top:38px;padding-top:32px;border-top:1.5px solid var(--on-ink-line);
+  font:600 21px/1 var(--sans);letter-spacing:.26em;text-transform:uppercase;color:var(--terracota-lt)}
+.dark .cta{background:var(--cream);color:var(--ink)}
+.dark .cta .brand{color:var(--brown);border-color:var(--line)}
