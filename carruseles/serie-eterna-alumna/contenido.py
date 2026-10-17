@@ -88,7 +88,7 @@ CARRUSELES = {
                        "Cómo retomar la conversación si te trabaste."])),
     ("light", h("La confianza no es saber que todo va a salir como lo planeaste.") + HR
              + acc("Es saber que, si no sale como esperabas, tenés recursos para resolverlo."), "logo"),
-    ("light", h("No necesitás memorizar conversaciones perfectas.") + HR
+    ("light", h("No necesitás memorizar conversaciones perfectas.", "m") + HR
               + acc("Necesitás entrenar conversaciones reales.", "b") + cierre(), "nada"),
 ]),
 
