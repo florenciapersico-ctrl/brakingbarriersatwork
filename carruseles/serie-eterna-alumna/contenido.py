@@ -14,6 +14,7 @@ from pathlib import Path
 AQUI = Path(__file__).parent
 IMG = "../../_marca/img"
 LOGO = f'<img class="logo" src="{IMG}/logo.webp" alt="Breaking Barriers at Work">'
+LOGO_OSCURO = f'<img class="logo" src="{IMG}/logo-oscuro.png" alt="Breaking Barriers at Work">'
 HR = '<div class="hr"></div>'
 
 
@@ -69,7 +70,7 @@ def ancho(html_, px=700):
 CARRUSELES = {
 # ─────────────────────────────────────────────────────────────── 1
 "c1-tu-confianza": ("Tu confianza está puesta en el lugar equivocado", [
-    ("dark", h("Tu problema no es que te falte confianza para hablar inglés.") + HR
+    ("light", h("Tu problema no es que te falte confianza para hablar inglés.") + HR
              + acc("Es que estás poniendo tu confianza en el lugar equivocado."), "logo"),
     ("light", h("Te sentís segura cuando preparaste todo.") + HR
               + lista(["Cuando sabés exactamente qué vas a decir.",
@@ -93,7 +94,7 @@ CARRUSELES = {
 
 # ─────────────────────────────────────────────────────────────── 2
 "c2-no-tenes-que-resolver-todo": ("No tenés que resolver todo en el momento", [
-    ("dark", h("Que tu jefa te pida algo en inglés") + HR
+    ("light", h("Que tu jefa te pida algo en inglés") + HR
              + acc("no significa que tengas que resolverlo todo en ese instante."), "logo"),
     ("light", h("Estás presentando una propuesta.", "m")
               + t("Tu jefa te interrumpe y empieza a pedirte cambios.", "soft mt1") + HR
@@ -122,7 +123,7 @@ CARRUSELES = {
 
 # ─────────────────────────────────────────────────────────────── 3
 "c3-nunca-avanzas": ("¿Por qué sentís que nunca avanzás en inglés?", [
-    ("dark", h("Llevás años mejorando tu inglés.") + HR
+    ("light", h("Llevás años mejorando tu inglés.") + HR
              + acc("Pero seguís sintiendo que nunca es suficiente."), "logo"),
     ("light", marcas(["Hoy entendés reuniones que antes te costaban muchísimo.",
                       "Usás expresiones que antes no conocías.",
@@ -152,7 +153,7 @@ CARRUSELES = {
 
 # ─────────────────────────────────────────────────────────────── 4
 "c4-lo-que-tu-jefa-piensa": ("No sabés lo que tu jefa está pensando", [
-    ("dark", h("Tu jefa te corrigió en una reunión en inglés.") + HR
+    ("light", h("Tu jefa te corrigió en una reunión en inglés.") + HR
              + acc("Y vos ya estabas pensando que se arrepentía de haberte contratado."), "logo"),
     ("light", lineas(["Te interrumpió.", "Te pidió que cambiaras algo.", "No sonrió como siempre."])
               + k("Y tu cabeza empezó:", "mt3") + '<div class="mt1"></div>'
@@ -178,7 +179,7 @@ CARRUSELES = {
 
 # ─────────────────────────────────────────────────────────────── 5
 "c5-quien-te-dijo-que-no-estas-lista": ("¿Quién te dijo que todavía no estás lista?", [
-    ("dark", h("Tenés experiencia.<br>Tenés ideas.<br>Tenés un trabajo internacional.", "m")
+    ("light", h("Tenés experiencia.<br>Tenés ideas.<br>Tenés un trabajo internacional.", "m")
              + t("Pero cuando hablás inglés…", "soft mt2") + HR
              + acc("Seguís sintiéndote una alumna.", "b"), "logo"),
     ("light", lineas(["Esperás a estar segura antes de hablar.", "Traducís mentalmente cada frase.",
@@ -225,7 +226,8 @@ def placa(i, total, spec):
         estilo = f' style="background-image:url({IMG}/foto-{nombre}.jpg)"'
         if tipo == "foto-oscura":
             body = "body up"
-    izq = LOGO if pie == "logo" else "<span></span>"
+    claro = fondo in ("light", "sand") or fondo.startswith("foto-clara")
+    izq = (LOGO_OSCURO if claro else LOGO) if pie == "logo" else "<span></span>"
     der = "<span></span>" if (i == total or pie == "nada") else '<span class="arrow"></span>'
     return (f'<section class="slide {clase}" id="s{i}"{estilo}>{top}<div class="{body}">{cuerpo}</div>'
             f'<div class="foot">{izq}{der}</div></section>')
