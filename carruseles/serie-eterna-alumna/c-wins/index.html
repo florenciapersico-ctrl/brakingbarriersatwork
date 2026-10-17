@@ -27,15 +27,18 @@ body{background:#777}
 .gap{height:52px} .gap.s{height:30px}
 .cta{font:700 52px/1.15 'Open Sans',sans-serif;color:var(--cream);letter-spacing:-.02em}
 .sign{font:italic 600 40px/1 'Crimson Pro',serif;color:var(--soft);margin-top:34px}
+.cover{justify-content:flex-end;padding-bottom:150px}
+.bleed{position:absolute;left:0;right:0;top:0;height:780px;background-size:1080px auto;background-position:center top}
+.bleed:after{content:"";position:absolute;left:0;right:0;bottom:0;height:260px;background:linear-gradient(180deg,rgba(138,90,52,0),#8A5A34)}
+.cover > p{position:relative}
+.pill.big{font-size:80px;padding:34px 40px 40px;max-width:960px;box-shadow:0 18px 50px rgba(0,0,0,.25)}
 </style>
 </head><body>
 
-<section class="slide" id="s1">
-  <p class="top">Te aviso antes de que me escribas.</p>
-  <div class="gap s"></div>
-  <div class="photo" style="background-image:url(img/flor-1.jpg)"></div>
-  <div class="gap s"></div>
-  <p class="pill">No trabajes conmigo si no quieres que te pase esto.</p>
+<section class="slide cover" id="s1">
+  <div class="bleed" style="background-image:url(img/flor-1.jpg)"></div>
+  <p class="pill big">No trabajes conmigo<br>si no quieres<br>que te pase esto.</p>
+  <p class="top" style="margin-top:44px">Te aviso antes de que me escribas 👇</p>
 </section>
 
 <section class="slide" id="s2">
