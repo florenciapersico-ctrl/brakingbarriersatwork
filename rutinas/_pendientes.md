@@ -4,6 +4,7 @@ Cada rutina revisa acá si hay algo suyo, lo termina (verificando antes que no e
 ## Links de la semana
 
 ## Corridas cortadas / a medias
+- 16/10 · BRENDA (1:1 19:00): sin notas de Gemini después de 4 h (ni en Drive ni adjuntas al evento). Evento marcado "RESUMEN ENVIADO · 16 OCT 2026 · sin notas de Gemini, no se mandó". No se mandó resumen: esperar a que Flor diga qué pasó en la clase (tampoco se sabe si se hizo la conversación de progreso). No reintentar.
 - 17/10 · CICLO: LUZ — conversación de progreso HECHA el 16/10 (en notas de Gemini: más confianza, sin script, menos nervios antes de presentar; le falta que los tiempos verbales le salgan naturales en conversación). Próximo desafío: presentación del mar 20/10 sobre la visita de Jamie y Amelia (5–10 min). Propuesta Fase 2 en la clase SIGUIENTE a esa presentación (el 23/10 no hay clase → vie 30/10, ~7 semanas): armarla en la corrida del 26–29/10 con el resultado del 20/10.
 - 15/10 · LAURA GONZÁLEZ (1:1 16:00): sin notas de Gemini después de 4 h (el evento solo tiene adjuntas las del 02/07). Evento marcado "RESUMEN ENVIADO · 15 OCT 2026 · sin notas de Gemini, no se mandó". No se mandó resumen: esperar a que Flor diga qué pasó en la clase. No reintentar.
 - 15/10 · ALE SANTOS (1:1 18:30): la transcripción de Gemini solo es legible los primeros 8 min (charla sobre una reunión, 2-3 correcciones sueltas); después es texto ilegible ("Foreign!") hasta el min 45. Se marcó "sin práctica, no se mandó" y en Notion "Sin resumen". Si Flor cuenta qué trabajaron, armar el resumen con eso.
