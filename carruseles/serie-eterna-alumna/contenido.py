@@ -75,26 +75,26 @@ CARRUSELES = {
     ("light", h("Te sentís segura cuando preparaste todo.") + HR
               + lista(["Cuando sabés exactamente qué vas a decir.",
                        "Cuando practicás las frases hasta que te salen fluidas."], "big")),
-    ("foto-oscura:escritorio", t("Pero alguien te hace una pregunta que no esperabas.") + '<div class="mt2"></div>'
+    ("light", t("Pero alguien te hace una pregunta que no esperabas.") + '<div class="mt2"></div>'
               + lineas(["Te interrumpe.", "Te pide que expliques algo de otra manera."])
               + acc("Y toda esa seguridad desaparece.", "mt2")),
     ("light", '<p class="x">¿Por qué?</p>' + HR
               + h("Porque tu confianza dependía de que la conversación saliera exactamente como la habías imaginado.", "m")),
-    ("dark", h("Pero en tu trabajo <em>no podés controlar</em>") + '<div class="mt3"></div>'
+    ("light", h("Pero en tu trabajo <em>no podés controlar</em>") + '<div class="mt3"></div>'
              + marcas(["todas las preguntas.", "todas las interrupciones.",
                        "ni cómo van a reaccionar los demás."])),
     ("light", h("Lo que sí podés entrenar es cómo responder cuando algo cambia.", "m") + HR
               + lista(["Cómo pedir tiempo.", "Cómo aclarar una idea.", "Cómo hacer una pregunta.",
                        "Cómo retomar la conversación si te trabaste."])),
-    ("dark", h("La confianza no es saber que todo va a salir como lo planeaste.") + HR
+    ("light", h("La confianza no es saber que todo va a salir como lo planeaste.") + HR
              + acc("Es saber que, si no sale como esperabas, tenés recursos para resolverlo."), "logo"),
-    ("foto-clara:claro", ancho(h("No necesitás memorizar conversaciones perfectas.", "m") + HR
-              + acc("Necesitás entrenar conversaciones reales.", "b") + cierre()), "nada"),
+    ("light", h("No necesitás memorizar conversaciones perfectas.") + HR
+              + acc("Necesitás entrenar conversaciones reales.", "b") + cierre(), "nada"),
 ]),
 
 # ─────────────────────────────────────────────────────────────── 2
 "c2-no-tenes-que-resolver-todo": ("No tenés que resolver todo en el momento", [
-    ("light", h("Que tu jefa te pida algo en inglés") + HR
+    ("dark", h("Que tu jefa te pida algo en inglés") + HR
              + acc("no significa que tengas que resolverlo todo en ese instante."), "logo"),
     ("light", h("Estás presentando una propuesta.", "m")
               + t("Tu jefa te interrumpe y empieza a pedirte cambios.", "soft mt1") + HR
@@ -123,7 +123,7 @@ CARRUSELES = {
 
 # ─────────────────────────────────────────────────────────────── 3
 "c3-nunca-avanzas": ("¿Por qué sentís que nunca avanzás en inglés?", [
-    ("light", h("Llevás años mejorando tu inglés.") + HR
+    ("dark", h("Llevás años mejorando tu inglés.") + HR
              + acc("Pero seguís sintiendo que nunca es suficiente."), "logo"),
     ("light", marcas(["Hoy entendés reuniones que antes te costaban muchísimo.",
                       "Usás expresiones que antes no conocías.",
@@ -153,7 +153,7 @@ CARRUSELES = {
 
 # ─────────────────────────────────────────────────────────────── 4
 "c4-lo-que-tu-jefa-piensa": ("No sabés lo que tu jefa está pensando", [
-    ("light", h("Tu jefa te corrigió en una reunión en inglés.") + HR
+    ("dark", h("Tu jefa te corrigió en una reunión en inglés.") + HR
              + acc("Y vos ya estabas pensando que se arrepentía de haberte contratado."), "logo"),
     ("light", lineas(["Te interrumpió.", "Te pidió que cambiaras algo.", "No sonrió como siempre."])
               + k("Y tu cabeza empezó:", "mt3") + '<div class="mt1"></div>'
@@ -179,7 +179,7 @@ CARRUSELES = {
 
 # ─────────────────────────────────────────────────────────────── 5
 "c5-quien-te-dijo-que-no-estas-lista": ("¿Quién te dijo que todavía no estás lista?", [
-    ("light", h("Tenés experiencia.<br>Tenés ideas.<br>Tenés un trabajo internacional.", "m")
+    ("dark", h("Tenés experiencia.<br>Tenés ideas.<br>Tenés un trabajo internacional.", "m")
              + t("Pero cuando hablás inglés…", "soft mt2") + HR
              + acc("Seguís sintiéndote una alumna.", "b"), "logo"),
     ("light", lineas(["Esperás a estar segura antes de hablar.", "Traducís mentalmente cada frase.",
