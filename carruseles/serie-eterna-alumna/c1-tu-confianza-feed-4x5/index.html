@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8">
+<title>AT WORK · Carrusel 1 · estilo feed</title>
+<link rel="stylesheet" href="../../_marca/fonts/fonts.css">
+<link rel="stylesheet" href="../../_marca/fonts/opensans.css">
+<style>
+/* Estilo «feed»: el que mejor funcionó en la cuenta. Fondo marrón casi negro, texto amarillo manteca,
+   frases en Open Sans liviana y la frase clave en Open Sans negrita. Algunas placas con foto oscurecida. */
+:root{--bg:#2A221E;--soft:#D8CE9C;--strong:#F0E6AE;--white:#FFFFFF;--stroke:#C68C6C}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#777}
+.slide{width:1080px;height:1350px;margin:0 auto 40px;position:relative;overflow:hidden;background:var(--bg);
+  display:flex;flex-direction:column;justify-content:center;padding:0 120px}
+.photo{background-size:cover;background-position:center}
+.photo:before{content:"";position:absolute;inset:0;background:rgba(30,22,17,.66)}
+.photo > *{position:relative}
+.low{justify-content:flex-end;padding-bottom:150px}
+.low:before{background:linear-gradient(180deg,rgba(30,22,17,.35) 0%,rgba(30,22,17,.55) 35%,rgba(30,22,17,.86) 60%,rgba(30,22,17,.9) 100%)}
+.l{font:400 60px/1.2 'Open Sans',sans-serif;letter-spacing:-.025em;color:var(--soft)}
+.b{font:700 82px/1.07 'Open Sans',sans-serif;letter-spacing:-.01em;color:var(--strong)}
+.b.s{font-size:68px}
+.gap{height:56px} .gap.s{height:30px}
+/* portada */
+.cover{justify-content:flex-end;padding-bottom:90px;background-size:cover;background-position:center}
+.cover:before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(25,12,5,.10) 0%,rgba(25,12,5,.05) 30%,rgba(25,12,5,.60) 48%,rgba(25,12,5,.92) 62%,rgba(25,12,5,.95) 100%)}
+.cover > *{position:relative}
+.cover .t{font:700 94px/.97 'Crimson Pro',serif;letter-spacing:-.02em;color:var(--strong)}
+.cover .s{font:700 48px/1.12 'Open Sans',sans-serif;letter-spacing:-.02em;color:var(--white);margin-top:22px}
+.cover svg{display:block;width:430px;height:30px;margin:30px 0 0 auto}
+</style>
+</head><body>
+
+<section class="slide cover" id="s1" style="background-image:url(../../_marca/img/foto-flor-cafe-2.jpg)">
+  <p class="t">Tu problema no es que te falte confianza para hablar inglés.</p>
+  <p class="s">Es que estás poniendo tu confianza en el lugar equivocado.</p>
+  <svg viewBox="0 0 430 30" aria-hidden="true"><path d="M6 18 C 120 8, 300 6, 424 12" stroke="#C68C6C" stroke-width="7" fill="none" stroke-linecap="round"/><path d="M40 25 C 160 17, 290 17, 400 21" stroke="#C68C6C" stroke-width="4" fill="none" stroke-linecap="round" opacity=".8"/></svg>
+</section>
+
+<section class="slide" id="s2">
+  <p class="l">Te sentís segura cuando preparaste todo.</p>
+  <div class="gap"></div>
+  <p class="l">Cuando sabés exactamente qué vas a decir.</p>
+  <div class="gap"></div>
+  <p class="b">Cuando practicás las frases hasta que te salen fluidas.</p>
+</section>
+
+<section class="slide photo low" id="s3" style="background-image:url(../../_marca/img/foto-flor-calle.jpg)">
+  <p class="l">Pero alguien te hace una pregunta que no esperabas.</p>
+  <div class="gap"></div>
+  <p class="l">Te interrumpe.<br>Te pide que expliques algo de otra manera.</p>
+  <div class="gap"></div>
+  <p class="b">Y toda esa seguridad desaparece.</p>
+</section>
+
+<section class="slide" id="s4">
+  <p class="b">¿Por qué?</p>
+  <div class="gap"></div>
+  <p class="l">Porque tu confianza dependía de que la conversación saliera exactamente como la habías imaginado.</p>
+</section>
+
+<section class="slide" id="s5">
+  <p class="b">Pero en tu trabajo no podés controlar</p>
+  <div class="gap"></div>
+  <p class="l">todas las preguntas.<br>todas las interrupciones.<br>ni cómo van a reaccionar los demás.</p>
+</section>
+
+<section class="slide" id="s6">
+  <p class="b s">Lo que sí podés entrenar es cómo responder cuando algo cambia.</p>
+  <div class="gap"></div>
+  <p class="l">Cómo pedir tiempo.<br>Cómo aclarar una idea.<br>Cómo hacer una pregunta.<br>Cómo retomar la conversación si te trabaste.</p>
+</section>
+
+<section class="slide" id="s7">
+  <p class="l">La confianza no es saber que todo va a salir como lo planeaste.</p>
+  <div class="gap"></div>
+  <p class="b">Es saber que, si no sale como esperabas, tenés recursos para resolverlo.</p>
+</section>
+
+<section class="slide photo low" id="s8" style="background-image:url(../../_marca/img/foto-flor-calle-2.jpg)">
+  <p class="b s">No necesitás memorizar conversaciones perfectas.</p>
+  <div class="gap s"></div>
+  <p class="l">Necesitás entrenar conversaciones reales.</p>
+  <div class="gap s"></div>
+  <p class="b s" style="font-size:56px">Seguime para aprender a usar tu inglés en el trabajo.</p>
+</section>
+
+</body></html>
