@@ -4,6 +4,7 @@ Cada rutina revisa acá si hay algo suyo, lo termina (verificando antes que no e
 ## Links de la semana
 
 ## Corridas cortadas / a medias
+- 19/10 · LUNES-SEMANA: weekly 19/10 creados y linkeados. Falta el link en el portal de Laura Manzano (no coincidió el texto; su copia la creó ella: https://docs.google.com/document/d/1LPm1SlGBdu-JR5WkbFd3Xc3xA5v7EzjOelNnYG_RmIs/edit). Recordatorios a alumnas NO enviados esta semana (Flor los manda). GRA SE DIO DE BAJA (Flor, 19/10): no incluirla en ninguna lista; su copia del 19/10 (12vpmZAjt2j3m_snTk-DDM-m8TbSggsM4dkUTUDhOKqg) quedó creada antes del aviso, no se le mandó nada; no borrar.
 - 19/10 · GRA DADA DE BAJA (Flor, 19/10): la próxima corrida de notion-al-dia cambia el Estado de su ficha en Notion a "Baja" (solo el estado, sin borrar nada) y borra esta línea. Si en el calendario quedan clases futuras de Gra, avisarle a Flor en el correo que corresponda; NO borrar ni cancelar eventos.
 - 18/10 · CICLO: BRENDA — en las notas de Gemini del 17/10 (Carta Porte) NO aparece la conversación de progreso. Sigue cargada en el evento del jue 22/10 19:00 (correo de ciclo ya mandado el 17/10: no repetir). Si aparece en las notas del 22/10, armar la Fase 2 condensada (su última cuota es el 19/10) y borrar esta línea.
 - 17/10 · SOL (12:30–13:30, Flor figuraba "rechazado" en el evento): sin notas de Gemini después de 4 h. Evento marcado "RESUMEN ENVIADO · 17 OCT 2026 · sin notas de Gemini, no se mandó". No se mandó resumen: esperar a que Flor diga si la clase se dio. No reintentar.
