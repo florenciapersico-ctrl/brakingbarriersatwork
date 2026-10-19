@@ -1,0 +1,98 @@
+# 🎬 Contenido diario listo para subir (desde el 20/10/2026)
+
+Pedido de Flor (19/10): «que lo dejes listo todos los días, me lo subas a Notion donde hacemos el seguimiento y me lo envíes por mail ese día, todo listo para que yo lo suba». Esta rutina reemplaza a «🎬 Contenido de mañana listo · sistema de Ann (05:52)».
+
+Hay dos tareas programadas que usan este manual:
+
+- **Producción (05:52, hora de Buenos Aires):** deja lista la pieza de **MAÑANA**.
+- **Mail (07:30):** le manda a Flor la pieza de **HOY**, que ya quedó lista el día anterior.
+
+Flor no está mirando cuando corren: no le hagas preguntas en el chat. Lo que necesites de ella va en el mail del día, en una sección «Necesito de vos», con voseo porque le hablás a Flor. El contenido va siempre con TÚ.
+
+## Reglas que no se rompen
+
+1. **Nunca publiques nada** en Instagram ni en ningún lado. Flor sube todo ella. Tampoco le escribas a alumnas ni a prospectas, y no borres nada.
+2. **No inventes.** Cada dato, historia, cifra, cargo o resultado tiene que salir de una fuente real:
+   - las capturas de las alumnas
+   - los documentos de Flor (`/docs` del repo y Notion)
+   - las páginas «Banco de momentos de clase», «Qué me funcionó» y la base Banco de Ideas
+   - las notas de clase en Notion
+
+   Si un título resume una captura, tiene que decir exactamente lo que dice la captura. Flor ya corrigió esto varias veces: «Sol no pasó de…», «no es que te pidan el contacto, me recomiendan solas». Ante la duda, usá las palabras de la alumna.
+3. **Nombres de alumnas.** Solo Belem (autorizó), Sol y Lina (ya publicadas con nombre). Las demás van como «una alumna». En las capturas, desenfocá el nombre de WhatsApp y recortá la foto de perfil. Nunca Maribel, nunca Luz Cañas. Nada de salud ni datos personales.
+4. **Voz.** Español neutro con TÚ en placas y copy (tienes, quieres, escríbeme), nunca voseo. Frases cortas, una idea por placa, que suene a Flor hablándole a una profesional, sin jerga de marketing.
+5. **Ann:** 20 % hook que ya funcionó, 80 % insight real de Flor. Tomá los hooks de las referentes de «Mis referentes» o de los posts de Ann que Flor mandó. El hook «10 razones por las cuales NO deberías trabajar conmigo» ya se usó.
+6. **CTA.** Solo 2 veces por semana va el de venta, en las filas con Matadolor «Invitando»: «envíame un DM con la palabra READY» (lo eligió Flor el 17/10). El resto de los días el CTA es de crecimiento: comentar, guardar, mandárselo a alguien o seguirla. Si el post tiene un giro tipo hook, la última placa tiene que cerrarlo: Flor lo pidió con el «Ups, perdón… ese hook era para llamar tu atención».
+7. **Feed variado.** No repitas en dos días seguidos ni el fondo, ni el estilo, ni la foto. Antes de elegir, mirá qué se usó en los últimos 3 días en `carruseles/registro.md`.
+8. **Fotos.** Solo fotos reales de Flor, nunca de IA. Las que ya se usaron en el feed están en `carruseles/registro.md`, y no se repiten. Si la pieza necesita una foto y no hay una sin usar, hacé la versión tipográfica o con capturas y anotá en «Necesito de vos» qué foto conviene que mande.
+
+## Fuentes que tenés que leer
+
+- **Este repo:**
+  - `docs/` (Tu mundo · 9 pilares, Nivel 4 · Piezas listas)
+  - `carruseles/registro.md` (qué se publicó, con qué estilo y qué foto)
+  - los carruseles de `carruseles/serie-eterna-alumna/` como modelo de calidad
+- **Notion:**
+  - CONTENIDO: https://app.notion.com/p/3e35708d644881e4a4ead23570764c5b (reglas de estilo y publicación)
+  - Smart Creator: `collection://fc35708d-6448-83bf-9a3e-07edd62e7e62`. Es el calendario: Name, Date Posted, Status, Tipo De Post, Matadolor.
+  - Banco de momentos de clase: https://app.notion.com/p/3f15708d644881b2a8fec24504b005b0
+  - YouTube · miniserie: https://app.notion.com/p/3fc5708d644881ff9e59f1235455aa8c
+  - Notas de clase y portales de las alumnas de los últimos 7 días, solo para buscar momentos reales; anonimizá siempre.
+
+## Tarea 1 · Producción (05:52) · la pieza de MAÑANA
+
+1. Preparación:
+   ```
+   cd /home/user/brakingbarriersatwork 2>/dev/null || git clone https://github.com/florenciapersico-ctrl/brakingbarriersatwork /home/user/brakingbarriersatwork && cd /home/user/brakingbarriersatwork
+   git fetch origin carrusel-bloqueo-reunion && git checkout carrusel-bloqueo-reunion && git pull origin carrusel-bloqueo-reunion
+   ```
+2. Buscá en Smart Creator las filas con Date Posted = mañana (hora de Buenos Aires). Saltá las que ya tienen el callout «🟢 Listo para subir».
+3. Para cada fila, según su tipo:
+   - **Instagram** (Carousel, o Video formato corto sin grabar, que se convierte en carrusel). Armá el carrusel completo:
+     - **Carpeta:** `carruseles/diario/AAAA-MM-DD-<slug>/` con `index.html`, una `<section class="slide" id="sN">` por placa, de 1080 × 1440.
+     - **Diseño:** usá las fuentes y la paleta de `carruseles/_marca` y copiá el estilo de uno de los modelos aprobados. Rotalos según la regla 7:
+       - `serie-eterna-alumna/c-wins`: marrón caramelo con pastillas crema y capturas. El preferido de Flor para los wins.
+       - `serie-eterna-alumna/c-micro-momentos`: papel claro, tipográfico, con checklist.
+       - `serie-eterna-alumna/c1-tu-confianza-feed`: oscuro con texto manteca y fotos.
+       - `serie-eterna-alumna/c-no-era-el-ingles`: oliva, cambio de creencia.
+       - Portada estilo Ann: foto de fondo con el hook en blanco y una flecha a mano.
+     - **Estructura:** sigue el modelo de carrusel de CONTENIDO, con un hook de dos líneas que da vuelta la creencia, una escena real, el desarrollo y un cierre que resume en una idea. Entre 7 y 12 placas, poco texto en cada una.
+     - **Exportar:** `carruseles/_marca/exportar.sh "$PWD/carruseles/diario/<carpeta>"`, siempre con ruta absoluta. Tiene que decir «N placas OK», sin desbordes.
+     - **Revisar:** mirá la `vista-general.png` con Read y corregí cualquier texto cortado, superposición o captura mal recortada antes de seguir.
+     - **Caption:** `caption.txt` en la voz de Flor, con el CTA según la regla 6 y 3 hashtags (#InglésProfesional #InglésParaElTrabajo #ATWORK).
+     - **Empaquetar:** carpeta `LISTO-PARA-SUBIR/` con las PNG y el caption, más el zip `AT-WORK_<fecha>_LISTO.zip`.
+   - **Email:** escribí el mail completo y listo para enviar (asunto + cuerpo) en la página de la fila. Si la fila ya tiene un borrador, mejoralo sin borrar lo de Flor.
+   - **YouTube:** no inventes temas. El kit enlaza al guion del episodio en la página YouTube · miniserie y recuerda grabar hablando sin leer.
+   - **Dump de fotos (domingo):** qué fotos de la semana elegir según las reglas de FOTOS de CONTENIDO, el orden y el copy listo. Las fotos las pone Flor.
+4. Commit, con el formato de siempre, y `git push -u origin carrusel-bloqueo-reunion`. Si falla por la red, reintentá hasta 4 veces.
+5. Agregá una línea a `carruseles/registro.md` con fecha, tema, estilo y fondo, foto usada y CTA. Esto se commitea con lo anterior.
+6. Actualizá en Notion la página de la fila. Agregá arriba, sin borrar lo que escribió Flor:
+   - un callout «🟢 Listo para subir · <día dd/mm>»
+   - el link a la carpeta en GitHub: `https://github.com/florenciapersico-ctrl/brakingbarriersatwork/tree/carrusel-bloqueo-reunion/carruseles/diario/<carpeta>/LISTO-PARA-SUBIR`
+   - el link de descarga del zip: `https://github.com/florenciapersico-ctrl/brakingbarriersatwork/raw/carrusel-bloqueo-reunion/carruseles/diario/<carpeta>/AT-WORK_<fecha>_LISTO.zip`
+   - las imágenes de las placas en orden, como imágenes con la URL `https://raw.githubusercontent.com/florenciapersico-ctrl/brakingbarriersatwork/carrusel-bloqueo-reunion/<ruta del png>`
+   - el texto de cada placa
+   - el caption en un bloque de código para copiar
+
+   Status: «In progress», con `Tipo De Post` en Carousel cuando corresponda. Después de 7 días, Flor pasa la fila a Posted y pega el link.
+7. Calendario: si en Smart Creator quedan menos de 10 días cargados hacia adelante, creá las filas que faltan como propuesta. Cada día lleva una pieza de Instagram; los miércoles, un email; los sábados, el siguiente episodio de YouTube; y los domingos, el dump de fotos. Usá los temas de `docs/` (pilares 2, 6, 7, 8 y 9) sin repetir los del registro. Cada fila nueva lleva Status «Not started» y el cuerpo «🟡 Propuesta: aprobar o cambiar».
+8. En CONTENIDO, bajo «## ESTA SEMANA», reemplazá solo el callout 🎬 del día anterior por uno nuevo con la pieza de hoy y la de mañana, cada una con su link y su estado.
+9. Si algo falla (render, push, Notion), dejalo anotado para el mail y terminá igual con lo que sí quedó.
+
+Terminá en dos líneas: qué dejaste listo y qué falló.
+
+## Tarea 2 · Mail (07:30) · la pieza de HOY
+
+1. Buscá en Smart Creator las filas con Date Posted = hoy. Leé cada página: el callout «🟢 Listo para subir» tiene los links, las placas y el caption.
+2. Mandá UN mail con Gmail (`mcp__Gmail__send_message`, en htmlBody) a `florenciapersico@breakingbarriers.site`, con el asunto «📲 Para subir hoy · <día dd/mm> · <tema>». Contenido:
+   - Arriba, en una línea, qué subir hoy (carrusel de N placas) y si lleva CTA de venta.
+   - Un botón o link «⬇️ Descargar todo (zip)» y otro a la carpeta de GitHub.
+   - Las placas en orden, como `<img src="https://raw.githubusercontent.com/...png" width="270">`, en una grilla de 2 o 3 columnas.
+   - El caption completo, listo para copiar, en un bloque con fondo claro.
+   - Los otros kits del día, si hay (email listo para enviar, YouTube, dump de fotos), cada uno con su link a Notion.
+   - «Necesito de vos»: solo lo indispensable, en voseo (fotos que faltan, alguna autorización).
+   - Al pie, el link a la fila de Notion y a CONTENIDO.
+
+   No adjuntes archivos: usá los links, que pesan nada.
+3. Si la pieza de hoy NO está lista (no hay callout 🟢), producila en el momento siguiendo la Tarea 1 y mandá el mail apenas esté. Si no llegás, mandá el mail igual diciendo qué falta.
+4. Respondé solo con el id del mensaje enviado.
