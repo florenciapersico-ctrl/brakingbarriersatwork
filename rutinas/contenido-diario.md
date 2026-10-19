@@ -80,7 +80,7 @@ Los posts de venta (filas «Invitando») usan primero los wins que todavía no s
    - Usá la carpeta del mes: «📲 Contenido AT WORK · <Mes> <año>», en la raíz de Canva.
      - Octubre 2026: `FAHYft95JXE`.
      - Si el mes no tiene carpeta, creala con `mcp__Canva__create-folder` (parent `root`) y anotá su id acá.
-   - Adentro, creá la subcarpeta del día: «dd-mm · <tema>».
+   - Usá la subcarpeta del día que ya está creada en `carruseles/canva-carpetas.md` y marcala ✅ ahí. Si no existe, creala («dd-mm · <tema>») y anotala. Canva tiene un límite de creación: si falla, esperá un minuto y reintentá.
    - Subí cada PNG con `mcp__Canva__upload-asset-from-url`:
      - URL raw de GitHub, ya verificada con 200.
      - Nombre «dd-mm · placa NN», en orden.
