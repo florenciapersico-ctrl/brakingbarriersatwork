@@ -29,6 +29,9 @@ D) MENSAJE PARA LA COMUNIDAD DE WHATSAPP (pedido por Flor el 05/10/2026):
 - Cada lunes, mandale a Flor un correo aparte "💬 Mensajes para la comunidad de WhatsApp · lunes [DD/MM]" con DOS mensajes listos para copiar y pegar, uno por canal (así lo organizó Flor, 19/10/2026):
   1. Canal de WEEKLY REPORTS: avisarles que ya les llegó por mail el link a su weekly de esta semana y pedirles que, cuando lo completen o lo manden, avisen en ESE canal (un "done ✅" alcanza).
   2. Canal de WINS: invitarlas a compartir su win de la semana pasada en inglés, aunque sea una frase. Flor también comparte los suyos: dejale un espacio "[tu win de esta semana]" para que ponga el suyo, o proponé uno SOLO si sale de una fuente concreta del trabajo de Flor (por ejemplo, clases grabadas esa semana). Nunca uses wins de alumnas ni nada personal.
+  MODELO REAL DE FLOR (19/10/2026), corto y en su voz; seguí este tono y largo:
+  "Morning ladies!!
+  Recuerden que hoy toca completar su weekly report y compartir aquí en la comunidad sus wins ❤️‍🔥"
 - Voz de Flor: cálido, corto, mezcla inglés-español, emojis, firmado "Flor". En "ustedes" (sirve para argentinas y no argentinas). Variá el texto cada semana (no repetir el mismo saludo ni la misma pregunta de win).
 - Nunca nombres a ninguna alumna ni cuentes nada de sus clases, pagos o vida personal. Sin links internos ni con "?token=".
 
