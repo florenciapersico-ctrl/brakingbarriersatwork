@@ -26,6 +26,16 @@ Flor no está mirando cuando corren: no le hagas preguntas en el chat. Lo que ne
 7. **Feed variado.** No repitas en dos días seguidos ni el fondo, ni el estilo, ni la foto. Antes de elegir, mirá qué se usó en los últimos 3 días en `carruseles/registro.md`.
 8. **Fotos.** Solo fotos reales de Flor, nunca de IA. Las que ya se usaron en el feed están en `carruseles/registro.md`, y no se repiten. Si la pieza necesita una foto y no hay una sin usar, hacé la versión tipográfica o con capturas y anotá en «Necesito de vos» qué foto conviene que mande.
 
+## Wins de los lunes
+
+A las alumnas les llegan los wins los lunes, y Flor manda las capturas a esta conversación. Cuando lleguen:
+1. Recortá cada captura (sin la foto de perfil) y desenfocá el nombre.
+2. Guardalas en `carruseles/wins/AAAA-MM-DD/`.
+3. Anotá en `carruseles/wins/wins.md` lo que dice cada una, de forma textual.
+4. Hacé commit y push.
+
+Los posts de venta (filas «Invitando») usan primero los wins que todavía no se usaron, con títulos fieles a la captura. Si en la semana no entró ninguno nuevo, el post de venta usa otro tema real (caso de Belem, método) y en el mail va el pedido en «Necesito de vos».
+
 ## Fuentes que tenés que leer
 
 - **Este repo:**
