@@ -76,6 +76,16 @@ Los posts de venta (filas «Invitando») usan primero los wins que todavía no s
    - **Dump de fotos (domingo):** qué fotos de la semana elegir según las reglas de FOTOS de CONTENIDO, el orden y el copy listo. Las fotos las pone Flor.
 4. Commit, con el formato de siempre, y `git push -u origin carrusel-bloqueo-reunion`. Si falla por la red, reintentá hasta 4 veces.
 5. Agregá una línea a `carruseles/registro.md` con fecha, tema, estilo y fondo, foto usada y CTA. Esto se commitea con lo anterior.
+5b. **Carpeta en Canva:** Flor descarga las placas desde Canva y las sube desde ahí (lo pidió el 19/10). Pasos:
+   - Usá la carpeta del mes: «📲 Contenido AT WORK · <Mes> <año>», en la raíz de Canva.
+     - Octubre 2026: `FAHYft95JXE`.
+     - Si el mes no tiene carpeta, creala con `mcp__Canva__create-folder` (parent `root`) y anotá su id acá.
+   - Adentro, creá la subcarpeta del día: «dd-mm · <tema>».
+   - Subí cada PNG con `mcp__Canva__upload-asset-from-url`:
+     - URL raw de GitHub, ya verificada con 200.
+     - Nombre «dd-mm · placa NN», en orden.
+   - Movelas a la subcarpeta con `mcp__Canva__move-item-to-folder`.
+   - Poné el link de la subcarpeta (`https://www.canva.com/folder/<id>`) en el callout de Notion y en el mail, como primer botón: «📁 Abrir en Canva».
 6. Actualizá en Notion la página de la fila. Agregá arriba, sin borrar lo que escribió Flor:
    - un callout «🟢 Listo para subir · <día dd/mm>»
    - el link a la carpeta en GitHub: `https://github.com/florenciapersico-ctrl/brakingbarriersatwork/tree/carrusel-bloqueo-reunion/carruseles/diario/<carpeta>/LISTO-PARA-SUBIR`
@@ -105,7 +115,7 @@ Terminá en dos líneas: qué dejaste listo y qué falló.
 1. Buscá en Smart Creator las filas con Date Posted = hoy. Leé cada página: el callout «🟢 Listo para subir» tiene los links, las placas y el caption.
 2. Mandá UN mail con Gmail (`mcp__Gmail__send_message`, en htmlBody) a `florenciapersico@breakingbarriers.site`, con el asunto «📲 Para subir hoy · <día dd/mm> · <tema>». Contenido:
    - Arriba, en una línea, qué subir hoy (carrusel de N placas) y si lleva CTA de venta.
-   - Un botón o link «⬇️ Descargar todo (zip)» y otro a la carpeta de GitHub.
+   - Un botón «📁 Abrir en Canva», el primero: la carpeta del día con las placas para descargar. Después, un botón «⬇️ Descargar todo (zip)».
    - Las placas en orden, como `<img src="https://raw.githubusercontent.com/...png" width="270">`, en una grilla de 2 o 3 columnas.
    - El caption completo, listo para copiar, en un bloque con fondo claro.
    - Los otros kits del día, si hay (email listo para enviar, YouTube, dump de fotos), cada uno con su link a Notion.
