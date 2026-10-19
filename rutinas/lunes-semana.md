@@ -26,7 +26,9 @@ C) WEEKLY REPORTS (una copia fechada por alumna, cada lunes):
 5. En el correo a Flor, sección C: a quiénes se les mandó el recordatorio (con el link de cada una), a quién no y por qué, y quién no completó el de la semana pasada.
 
 D) MENSAJE PARA LA COMUNIDAD DE WHATSAPP (pedido por Flor el 05/10/2026):
-- Cada lunes, mandale a Flor un correo aparte "💬 Mensaje para la comunidad de WhatsApp · lunes [DD/MM]" con un mensaje listo para copiar y pegar en la comunidad de alumnas: invitarlas a completar su weekly report de la semana (que ya les llegó por mail) y a compartir su WIN de la semana pasada en el grupo, en inglés aunque sea una frase.
+- Cada lunes, mandale a Flor un correo aparte "💬 Mensajes para la comunidad de WhatsApp · lunes [DD/MM]" con DOS mensajes listos para copiar y pegar, uno por canal (así lo organizó Flor, 19/10/2026):
+  1. Canal de WEEKLY REPORTS: avisarles que ya les llegó por mail el link a su weekly de esta semana y pedirles que, cuando lo completen o lo manden, avisen en ESE canal (un "done ✅" alcanza).
+  2. Canal de WINS: invitarlas a compartir su win de la semana pasada en inglés, aunque sea una frase. Flor también comparte los suyos: dejale un espacio "[tu win de esta semana]" para que ponga el suyo, o proponé uno SOLO si sale de una fuente concreta del trabajo de Flor (por ejemplo, clases grabadas esa semana). Nunca uses wins de alumnas ni nada personal.
 - Voz de Flor: cálido, corto, mezcla inglés-español, emojis, firmado "Flor". En "ustedes" (sirve para argentinas y no argentinas). Variá el texto cada semana (no repetir el mismo saludo ni la misma pregunta de win).
 - Nunca nombres a ninguna alumna ni cuentes nada de sus clases, pagos o vida personal. Sin links internos ni con "?token=".
 
