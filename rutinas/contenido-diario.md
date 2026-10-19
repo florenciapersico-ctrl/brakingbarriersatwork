@@ -75,6 +75,15 @@ Flor no está mirando cuando corren: no le hagas preguntas en el chat. Lo que ne
    - el caption en un bloque de código para copiar
 
    Status: «In progress», con `Tipo De Post` en Carousel cuando corresponda. Después de 7 días, Flor pasa la fila a Posted y pega el link.
+   **Además, en la base Contenido** (`collection://89bd6593-3e6d-4c2d-9363-c5be637f0741`), que es la que lee la rutina «✅ HOY en Notion» de las 06:28, creá o actualizá una fila con:
+   - Pieza = «Carrusel — <tema>»
+   - Fecha = la del día de publicación
+   - Formato = Carrusel
+   - Estado = Listo
+   - Asset final = el link a la carpeta LISTO-PARA-SUBIR
+   - Notas = el link a la fila de Smart Creator
+
+   Así HOY muestra la pieza del día en lugar de «Falta el carrusel».
 7. Calendario: si en Smart Creator quedan menos de 10 días cargados hacia adelante, creá las filas que faltan como propuesta. Cada día lleva una pieza de Instagram; los miércoles, un email; los sábados, el siguiente episodio de YouTube; y los domingos, el dump de fotos. Usá los temas de `docs/` (pilares 2, 6, 7, 8 y 9) sin repetir los del registro. Cada fila nueva lleva Status «Not started» y el cuerpo «🟡 Propuesta: aprobar o cambiar».
 8. En CONTENIDO, bajo «## ESTA SEMANA», reemplazá solo el callout 🎬 del día anterior por uno nuevo con la pieza de hoy y la de mañana, cada una con su link y su estado.
 9. Si algo falla (render, push, Notion), dejalo anotado para el mail y terminá igual con lo que sí quedó.
