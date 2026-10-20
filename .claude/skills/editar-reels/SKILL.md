@@ -36,6 +36,14 @@ python3 $S/reel.py render <video> <carpeta> "¿Hook línea 1|línea 2?" "Texto c
 
 La salida es `<carpeta>/REEL_FINAL.mp4`, vertical 1080 × 1920 a 30 fps, en H.264 con audio AAC a −14 LUFS.
 
+## Versión con fondo de oficina (opcional)
+
+Flor la pidió el 20/10 («que parezca que estoy en una oficina»). Antes del render, corré `python3 $S/fondo.py <video> <carpeta>/fondo.mov` y después `reel.py render` sobre `fondo.mov`.
+
+- **Fondo:** su propio espacio de trabajo real, desenfocado: `fondo-oficina-plantas.png`, sacado de su foto del café de las plantas. Nunca uses fondos de IA ni de stock.
+- **Entregas:** mandá las dos versiones (fondo original y fondo de oficina) para que elija, salvo que ella ya haya dicho cuál quiere.
+- **Control:** revisá los bordes del pelo y las manos con un recorte ampliado.
+
 ## Antes de entregar
 
 - **Revisá los fotogramas** con Read en 3 o 4 momentos: que los subtítulos no tapen la boca, que el hook no tape la cara y que las comillas aparezcan bien.
