@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interview Prep · AT WORK</title>
+<meta name="description" content="Prepara tu entrevista en inglés con tu historia real. Propuesta AT WORK 1:1 con Flor Pérsico: simulacros semanales, Interview Prep Kit e Interview Me.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#3F1E0D">
+<meta property="og:title" content="Tu entrevista en inglés, preparada con tu historia real">
+<meta property="og:description" content="Propuesta AT WORK 1:1 con Flor Pérsico: simulacros semanales, Interview Prep Kit e Interview Me.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://florenciapersico-ctrl.github.io/brakingbarriersatwork/at-work/entrevista/">
+<meta property="og:site_name" content="Breaking Barriers at Work">
+<meta property="og:image" content="https://florenciapersico-ctrl.github.io/brakingbarriersatwork/at-work/img/og-at-work.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://florenciapersico-ctrl.github.io/brakingbarriersatwork/at-work/img/og-at-work.png">
+<link rel="icon" type="image/webp" href="../img/tilde.webp">
+<link rel="apple-touch-icon" href="../img/tilde.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400;1,600&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+  /* ══════════════════════════════════════════════════════════
+     Breaking Barriers at Work — landing
+     Paleta y tipografías tomadas del sitio actual de Flor.
+     Diseño de un solo mundo visual (crema cálida): no invierte
+     a oscuro, pero pinta cada color explícitamente para que
+     sostenga sobre cualquier fondo del visor.
+     ══════════════════════════════════════════════════════════ */
+
+  :root {
+    --cream:       #F9F5EE;
+    --cream-warm:  #FBF2D0;
+    --sand:        #EDE5CC;
+    --ink:         #3F1E0D;
+    --brown:       #895325;
+    --terracota:   #C68C6C;
+    --terracota-lt:#D7A184;
+    --muted:       #7B6A58;
+    --line:        rgba(63, 30, 13, .14);
+    --line-soft:   rgba(63, 30, 13, .08);
+    --on-ink:      #F4EADF;
+    --on-ink-soft: rgba(244, 234, 223, .62);
+    --on-ink-line: rgba(198, 140, 108, .28);
+
+    --display: 'Crimson Pro', Georgia, 'Times New Roman', serif;
+    --body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+
+    --wrap: 1080px;
+    --measure: 62ch;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; }
+  }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 17px;
+    line-height: 1.62;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1, h2, h3, h4 { font-family: var(--display); font-weight: 600; line-height: 1.08; text-wrap: balance; letter-spacing: -.01em; }
+  p { text-wrap: pretty; }
+  a { color: inherit; }
+  strong { font-weight: 600; }
+  em { font-style: italic; }
+
+  :focus-visible { outline: 2px solid var(--brown); outline-offset: 3px; border-radius: 2px; }
+
+  /* ── estructura ────────────────────────────────────────── */
+  .wrap { max-width: var(--wrap); margin: 0 auto; padding: 0 24px; }
+  .narrow { max-width: 760px; margin-left: auto; margin-right: auto; }
+
+  section { padding: 84px 0; }
+  section.tight { padding: 60px 0; }
+  .band-ink { background: var(--ink); color: var(--on-ink); }
+  .band-sand { background: var(--sand); }
+  .band-warm { background: var(--cream-warm); }
+
+  .eyebrow {
+    display: block;
+    font-size: 11px; font-weight: 700;
+    letter-spacing: .22em; text-transform: uppercase;
+    color: var(--brown);
+    margin-bottom: 18px;
+  }
+  .band-ink .eyebrow { color: var(--terracota); }
+
+  h2.section-title { font-size: clamp(30px, 5vw, 46px); margin-bottom: 16px; }
+  .lede { font-size: clamp(17px, 2vw, 19px); color: var(--muted); max-width: var(--measure); }
+  .band-ink .lede { color: var(--on-ink-soft); }
+
+  .rule { height: 1px; background: var(--line); border: 0; }
+
+  /* ── botones ───────────────────────────────────────────── */
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: var(--body);
+    font-size: 13px; font-weight: 700;
+    letter-spacing: .12em; text-transform: uppercase;
+    padding: 18px 34px;
+    border: 0; border-radius: 2px;
+    text-decoration: none;
+    transition: background .2s ease, color .2s ease, transform .12s ease;
+  }
+  .btn:active { transform: translateY(1px); }
+  .btn-primary { background: var(--ink); color: var(--cream); }
+  .btn-primary:hover { background: var(--brown); }
+  .band-ink .btn-primary,
+  .hero .btn-primary { background: var(--terracota); color: var(--ink); }
+  .band-ink .btn-primary:hover,
+  .hero .btn-primary:hover { background: var(--terracota-lt); }
+  .btn-ghost { border: 1.5px solid var(--brown); color: var(--brown); background: transparent; }
+  .btn-ghost:hover { background: rgba(137, 83, 37, .08); }
+
+  /* ── hero ──────────────────────────────────────────────── */
+  header.hero {
+    background: var(--ink);
+    color: var(--on-ink);
+    padding: 34px 0 0;
+  }
+  .brandbar {
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: 20px; flex-wrap: wrap;
+    padding-bottom: 46px;
+  }
+  .brandmark {
+    font-family: var(--display); font-size: 19px; letter-spacing: .01em;
+  }
+  .brandmark span { color: var(--terracota); }
+  .brandbar .who {
+    font-size: 11px; letter-spacing: .2em; text-transform: uppercase;
+    color: var(--on-ink-soft);
+  }
+
+  .hero-inner { padding-bottom: 76px; }
+  .hero h1 {
+    font-size: clamp(40px, 8vw, 82px);
+    line-height: .98;
+    letter-spacing: -.025em;
+    max-width: 15ch;
+  }
+  .hero h1 em { color: var(--terracota); font-style: italic; }
+  .hero .sub {
+    margin-top: 28px;
+    font-size: clamp(17px, 2.2vw, 21px);
+    color: var(--on-ink-soft);
+    max-width: 56ch;
+    line-height: 1.55;
+  }
+  .hero .cta-row { margin-top: 40px; display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+  .hero .cta-note { font-size: 13px; color: var(--on-ink-soft); }
+
+  @media (max-width: 620px) {
+      .fact:nth-child(2) { border-right: 0; }
+    .fact:nth-child(1), .fact:nth-child(2) { border-bottom: 1px solid var(--on-ink-line); }
+  }
+
+  /* ── listas de reconocimiento ──────────────────────────── */
+  .split { display: grid; grid-template-columns: 1fr; gap: 52px; }
+  @media (min-width: 900px) { .split { grid-template-columns: 1.25fr 1fr; gap: 64px; } }
+
+  ul.mirror { list-style: none; display: grid; gap: 20px; }
+  ul.mirror li {
+    padding-left: 30px; position: relative;
+    max-width: var(--measure);
+  }
+  ul.mirror li::before {
+    content: ''; position: absolute;
+    left: 0; top: .72em;
+    width: 16px; height: 1.5px; background: var(--terracota);
+  }
+  ul.no li::before { background: var(--muted); opacity: .5; }
+  ul.no li { color: var(--muted); }
+
+  .card-no {
+    background: var(--cream);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    padding: 30px 28px;
+  }
+  .card-no h3 { font-size: 22px; margin-bottom: 18px; }
+  .card-no .fineprint {
+    margin-top: 22px; padding-top: 20px;
+    border-top: 1px solid var(--line-soft);
+    font-size: 14.5px; color: var(--muted);
+  }
+
+  /* ── logros ────────────────────────────────────────────── */
+  .wins { display: grid; gap: 1px; background: var(--line); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin-top: 40px; }
+  @media (min-width: 760px) { .wins { grid-template-columns: 1fr 1fr; } }
+  .win { background: var(--cream); padding: 30px 28px; }
+  .win .k {
+    font-family: var(--display); font-size: 21px; line-height: 1.2;
+    margin-bottom: 8px;
+  }
+  .win p { font-size: 15.5px; color: var(--muted); }
+  .win .k .arrow { color: var(--terracota); font-style: normal; }
+  @media (min-width: 760px) { .win.wide { grid-column: 1 / -1; } }
+
+  /* ── diagnóstico ───────────────────────────────────────── */
+  .diagnosis h2 {
+    font-size: clamp(30px, 5.4vw, 52px);
+    max-width: 18ch;
+  }
+  .diagnosis h2 em { color: var(--terracota); font-style: italic; }
+  .diagnosis .body { margin-top: 30px; max-width: 58ch; color: var(--on-ink-soft); font-size: 17.5px; }
+  .diagnosis .body p + p { margin-top: 16px; }
+  .diagnosis .body strong { color: var(--on-ink); font-weight: 600; }
+
+  /* ── herramientas ──────────────────────────────────────── */
+  .tools { display: grid; gap: 28px; margin-top: 46px; }
+  @media (min-width: 900px) { .tools { grid-template-columns: repeat(3, 1fr); } }
+  .tool {
+    background: var(--cream);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    padding: 32px 28px 28px;
+    display: flex; flex-direction: column;
+  }
+  .tool .idx {
+    font-family: var(--display); font-size: 15px;
+    color: var(--terracota); letter-spacing: .08em;
+    margin-bottom: 14px; font-variant-numeric: tabular-nums;
+  }
+  .tool h3 { font-size: 26px; margin-bottom: 4px; }
+  .tool .kicker {
+    font-size: 11px; font-weight: 600; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--brown);
+    margin-bottom: 18px;
+  }
+  .tool p { font-size: 15.5px; color: var(--muted); }
+  .tool p + p { margin-top: 12px; }
+  .tool .botline {
+    margin-top: auto; padding-top: 22px;
+    font-size: 12.5px; font-weight: 600; letter-spacing: .04em;
+    color: var(--brown);
+    border-top: 1px solid var(--line-soft);
+  }
+
+  .cycle {
+    list-style: none; display: flex; flex-wrap: wrap; gap: 10px;
+    margin-top: 34px;
+  }
+  .cycle li {
+    display: flex; align-items: baseline; gap: 8px;
+    background: var(--sand); border: 1px solid var(--line-soft); border-radius: 2px;
+    padding: 12px 16px;
+    font-size: 14.5px; font-weight: 600; color: var(--ink);
+  }
+  .cycle .n {
+    font-family: var(--display); font-size: 12.5px; color: var(--terracota);
+    font-variant-numeric: tabular-nums;
+  }
+  .pillars { display: grid; gap: 18px; margin-top: 38px; }
+  @media (min-width: 900px) { .pillars { grid-template-columns: repeat(4, 1fr); align-items: stretch; } }
+  .pillar {
+    background: var(--cream-warm); border: 1px solid var(--line-soft); border-radius: 3px;
+    padding: 26px 24px;
+  }
+  .pillar h4 { font-size: 20px; margin-bottom: 14px; }
+  .pillar ul { list-style: none; display: grid; gap: 9px; }
+  .pillar li {
+    position: relative; padding-left: 18px;
+    font-size: 14.5px; line-height: 1.5; color: var(--muted);
+  }
+  .pillar li::before {
+    content: '→'; position: absolute; left: 0; top: 0;
+    color: var(--terracota); font-size: 13px;
+  }
+  .pillar.core {
+    background: var(--terracota); border-color: var(--terracota);
+    display: flex; flex-direction: column; justify-content: center; text-align: center;
+  }
+  .pillar.core .core-mark {
+    font-family: var(--display); font-size: 22px; line-height: 1.15;
+    font-weight: 600; color: var(--ink); letter-spacing: .01em;
+  }
+  .pillar.core p { margin-top: 12px; font-size: 14px; line-height: 1.5; color: rgba(63, 30, 13, .78); }
+  .claim {
+    margin-top: 22px; text-align: center;
+    font-family: var(--display); font-size: clamp(20px, 2.6vw, 25px); color: var(--brown);
+  }
+  .tools-lead { font-size: clamp(22px, 3vw, 28px); margin: 54px 0 14px; }
+
+  /* ── roadmap ───────────────────────────────────────────── */
+  .stages { margin-top: 48px; display: grid; gap: 0; }
+  .stage {
+    display: grid; grid-template-columns: 1fr; gap: 18px;
+    padding: 38px 0;
+    border-top: 1px solid var(--line);
+  }
+  .stage:last-child { border-bottom: 1px solid var(--line); }
+  @media (min-width: 860px) {
+    .stage { grid-template-columns: 250px 1fr; gap: 48px; }
+  }
+  .stage .label { }
+  .stage .tag {
+    font-size: 10.5px; font-weight: 700; letter-spacing: .18em;
+    text-transform: uppercase; color: var(--terracota);
+    display: block; margin-bottom: 10px;
+  }
+  .stage h3 { font-size: 27px; line-height: 1.12; }
+  .stage .fn { font-size: 16px; color: var(--muted); max-width: var(--measure); }
+  .stage ul { list-style: none; margin-top: 18px; display: grid; gap: 9px; }
+  .stage ul li { font-size: 15px; padding-left: 20px; position: relative; color: var(--ink); }
+  .stage ul li::before {
+    content: ''; position: absolute; left: 0; top: .68em;
+    width: 9px; height: 1.5px; background: var(--terracota); opacity: .8;
+  }
+  .stage.two-col ul { grid-template-columns: 1fr; }
+  @media (min-width: 620px) { .stage.two-col ul { grid-template-columns: 1fr 1fr; gap: 9px 26px; } }
+
+  .hito {
+    margin-top: 24px;
+    border-left: 2px solid var(--terracota);
+    padding: 4px 0 4px 20px;
+  }
+  .hito .lbl {
+    font-size: 10px; font-weight: 700; letter-spacing: .18em;
+    text-transform: uppercase; color: var(--brown);
+    display: block; margin-bottom: 6px;
+  }
+  .hito q, .hito .q {
+    font-family: var(--display); font-style: italic;
+    font-size: 19px; line-height: 1.42; color: var(--ink);
+    quotes: none;
+    display: block;
+  }
+
+  /* ── guides ────────────────────────────────────────────── */
+  .guides { display: grid; gap: 1px; background: var(--line); margin-top: 38px; border: 1px solid var(--line); border-radius: 3px; overflow: hidden; }
+  @media (min-width: 700px) { .guides { grid-template-columns: 1fr 1fr; } }
+  .guide { background: var(--cream); padding: 19px 22px; font-size: 15.5px; }
+  .guide .en { font-family: var(--display); font-size: 18px; }
+  .guide .es { display: block; font-size: 13.5px; color: var(--muted); margin-top: 3px; }
+
+  /* ── semana ────────────────────────────────────────────── */
+  .week { display: grid; gap: 26px; margin-top: 42px; }
+  @media (min-width: 800px) { .week { grid-template-columns: 1fr 1fr; gap: 30px 48px; } }
+  .weekitem { padding-left: 26px; position: relative; max-width: 54ch; }
+  .weekitem::before {
+    content: ''; position: absolute; left: 0; top: .55em;
+    width: 8px; height: 8px; border-radius: 50%;
+    border: 1.5px solid var(--terracota);
+  }
+  .weekitem h4 { font-family: var(--body); font-size: 15px; font-weight: 700; letter-spacing: .01em; margin-bottom: 5px; }
+  .weekitem p { font-size: 15px; color: var(--muted); }
+
+  /* ── testimonios ───────────────────────────────────────── */
+  .quotes { display: grid; gap: 24px; margin-top: 44px; }
+  @media (min-width: 900px) { .quotes { grid-template-columns: repeat(3, 1fr); } }
+  .quote {
+    background: var(--cream);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    padding: 30px 28px;
+    display: flex; flex-direction: column;
+  }
+  .quote p { font-size: 16px; line-height: 1.6; }
+  .quote p + p { margin-top: 13px; }
+  .quote .attr {
+    margin-top: auto; padding-top: 24px;
+    border-top: 1px solid var(--line-soft);
+  }
+  .quote .name { font-family: var(--display); font-size: 19px; display: block; }
+  .quote .role { font-size: 12.5px; color: var(--muted); letter-spacing: .02em; }
+
+  /* ── flor ──────────────────────────────────────────────── */
+  .bio { display: grid; gap: 34px; }
+  @media (min-width: 880px) { .bio { grid-template-columns: 1fr 1.35fr; gap: 60px; align-items: start; } }
+  .bio .plate {
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    background: var(--cream);
+    padding: 34px 30px;
+  }
+  .bio .plate .sig {
+    font-family: var(--display); font-style: italic;
+    font-size: 30px; line-height: 1.1;
+  }
+  .bio .plate .sigrole {
+    margin-top: 12px; font-size: 12px; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--brown); font-weight: 600;
+  }
+  .bio .plate ul { list-style: none; margin-top: 24px; display: grid; gap: 12px; }
+  .bio .plate li { font-size: 14.5px; color: var(--muted); padding-left: 18px; position: relative; }
+  .bio .plate li::before {
+    content: ''; position: absolute; left: 0; top: .68em;
+    width: 8px; height: 1.5px; background: var(--terracota);
+  }
+  .bio .text p { max-width: var(--measure); }
+  .bio .text p + p { margin-top: 18px; }
+
+  /* ── oferta ────────────────────────────────────────────── */
+  .offer-grid { display: grid; gap: 40px; margin-top: 44px; }
+  @media (min-width: 900px) { .offer-grid { grid-template-columns: 1.15fr 1fr; gap: 60px; align-items: start; } }
+
+  .includes { list-style: none; display: grid; gap: 15px; }
+  .includes li { padding-left: 30px; position: relative; font-size: 16px; color: var(--on-ink); }
+  .includes li::before {
+    content: ''; position: absolute; left: 0; top: .52em;
+    width: 15px; height: 1.5px; background: var(--terracota);
+  }
+  .includes li span { color: var(--on-ink-soft); }
+
+  .prices { display: grid; gap: 16px; }
+  .price {
+    border: 1px solid var(--on-ink-line);
+    border-radius: 3px;
+    padding: 26px 26px 24px;
+    position: relative;
+    display: block;
+    text-decoration: none;
+    color: var(--on-ink);
+    transition: border-color .18s ease, background .18s ease, transform .12s ease;
+  }
+  .price:hover { border-color: var(--terracota); background: rgba(198, 140, 108, .1); }
+  .price:active { transform: translateY(1px); }
+  .price.best { border-color: var(--terracota); background: rgba(198, 140, 108, .08); }
+  .price.best:hover { background: rgba(198, 140, 108, .16); }
+  .price .plan {
+    font-size: 11px; font-weight: 700; letter-spacing: .16em;
+    text-transform: uppercase; color: var(--terracota);
+  }
+  .price .amount {
+    font-family: var(--display); font-size: 46px; line-height: 1;
+    margin-top: 12px; font-variant-numeric: tabular-nums;
+  }
+  .price .amount small { font-size: 20px; opacity: .7; }
+  .price .terms { margin-top: 8px; font-size: 14px; color: var(--on-ink-soft); }
+  .price .flag {
+    position: absolute; top: -1px; right: 20px;
+    transform: translateY(-50%);
+    background: var(--terracota); color: var(--ink);
+    font-size: 10px; font-weight: 700; letter-spacing: .14em;
+    text-transform: uppercase; padding: 5px 10px; border-radius: 2px;
+  }
+  .seats {
+    margin-top: 26px; padding-top: 22px;
+    border-top: 1px solid var(--on-ink-line);
+    font-size: 14.5px; color: var(--on-ink-soft);
+  }
+  .seats strong { color: var(--terracota); font-weight: 600; }
+
+
+  .price { display: block; text-decoration: none; color: var(--on-ink);
+    transition: border-color .18s ease, background .18s ease, transform .12s ease; }
+  .price:hover { border-color: var(--terracota); background: rgba(198, 140, 108, .1); }
+  .price:active { transform: translateY(1px); }
+  .price .pay { display: inline-block; margin-top: 16px;
+    font-size: 11.5px; font-weight: 700; letter-spacing: .11em;
+    text-transform: uppercase; color: var(--terracota); }
+  .price:hover .pay { color: var(--terracota-lt); }
+  .price.best:hover { background: rgba(198, 140, 108, .16); }
+  #pagar { scroll-margin-top: 0; }
+  #pagar .section-title { margin-bottom: 28px; }
+  @media (min-width: 760px) { .prices { grid-template-columns: 1fr 1fr; gap: 20px; } }
+  .incl { margin-top: 46px; padding-top: 34px; border-top: 1px solid var(--on-ink-line); }
+  .incl h3 { font-size: 20px; margin-bottom: 20px; color: var(--on-ink); }
+  @media (min-width: 900px) { .incl .includes { columns: 2; column-gap: 48px; } .incl .includes li { break-inside: avoid; } }
+
+  .paytitle {
+    font-size: 22px; margin-bottom: 16px; color: var(--on-ink);
+    scroll-margin-top: 28px;
+  }
+
+  @media (max-width: 460px) {
+    .btn { font-size: 11.5px; letter-spacing: .07em; padding: 17px 20px; }
+  }
+
+  .brandlogo { display: block; width: 190px; height: auto; }
+  .footlogo { display: block; width: 170px; height: auto; margin-bottom: 4px; }
+
+  .hero-split { display: grid; gap: 40px; align-items: end; }
+  @media (min-width: 900px) {
+    .hero-split { grid-template-columns: 1.35fr .65fr; gap: 56px; }
+  }
+  .heroshot { margin: 0; align-self: end; }
+  .heroshot img {
+    display: block; width: 100%; max-width: 340px; height: auto;
+    border-radius: 3px;
+  }
+  @media (max-width: 899px) {
+    .heroshot { order: -1; }
+    .heroshot img { max-width: 260px; }
+  }
+
+  .tick { display: block; width: 46px; height: auto; margin-bottom: 20px; }
+  .qmark { display: block; width: 40px; height: auto; margin-bottom: 16px; }
+
+  .bioshot {
+    display: block; width: 100%; max-width: 320px; height: auto;
+    border-radius: 3px; margin-bottom: 22px;
+  }
+
+  .stage .txt { font-size: 15.5px; color: var(--muted); max-width: var(--measure); }
+  .stage .txt + .txt { margin-top: 12px; }
+  .stage .shift {
+    margin-top: 14px;
+    font-family: var(--display); font-style: italic;
+    font-size: 18px; line-height: 1.4; color: var(--brown);
+    max-width: var(--measure);
+  }
+
+  .inline-link { color: var(--terracota); text-decoration: underline; text-underline-offset: 3px; }
+  .inline-link:hover { color: var(--terracota-lt); }
+  .btn.full { display: flex; justify-content: center; width: 100%; margin-top: 20px; }
+
+
+  /* ── faq ───────────────────────────────────────────────── */
+  .faq { margin-top: 40px; border-top: 1px solid var(--line); }
+  .faq details { border-bottom: 1px solid var(--line); }
+  .faq summary {
+    list-style: none; cursor: pointer;
+    padding: 24px 40px 24px 0;
+    position: relative;
+    font-family: var(--display); font-size: 21px; line-height: 1.25;
+  }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after {
+    content: '+'; position: absolute; right: 4px; top: 22px;
+    font-family: var(--body); font-size: 22px; font-weight: 400;
+    color: var(--terracota); line-height: 1;
+    transition: transform .2s ease;
+  }
+  .faq details[open] summary::after { content: '–'; }
+  .faq .answer { padding: 0 0 26px; max-width: var(--measure); color: var(--muted); font-size: 16px; }
+  .faq .answer p + p { margin-top: 12px; }
+
+  /* ── cierre ────────────────────────────────────────────── */
+  .closing { text-align: center; }
+  .closing h2 {
+    font-size: clamp(32px, 6vw, 58px);
+    max-width: 17ch; margin: 0 auto 22px;
+  }
+  .closing h2 em { color: var(--terracota); font-style: italic; }
+  .closing .lede { margin: 0 auto 36px; text-align: center; }
+
+  footer {
+    background: var(--ink); color: var(--on-ink-soft);
+    padding: 46px 0;
+    font-size: 13.5px;
+  }
+  footer .foot {
+    display: flex; justify-content: space-between; gap: 18px; flex-wrap: wrap; align-items: baseline;
+  }
+  footer .fname { font-family: var(--display); font-size: 18px; color: var(--on-ink); }
+  footer a { color: var(--terracota); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<header class="hero">
+  <div class="wrap">
+    <div class="brandbar">
+      <img class="brandlogo" src="../img/logo.webp" alt="Breaking Barriers at Work" width="705" height="287">
+      <div class="who">Flor Pérsico · Propuesta 1:1</div>
+    </div>
+
+    <div class="hero-inner hero-split">
+      <div>
+      <h1>Tu entrevista en inglés, <em>preparada con tu historia real.</em></h1>
+      <p class="sub">
+        Tienes la experiencia y los resultados. Lo que falta es poder contarlos en
+        inglés sin leer, sostener la pregunta que no viste venir y cerrar la
+        entrevista con seguridad. Con un B1 se puede: lo entrenamos sobre tu CV,
+        tu puesto y las preguntas que te van a hacer.
+      </p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#pagar">Ver la propuesta →</a>
+        <span class="cta-note">Programa AT WORK 1:1 · 5 meses</span>
+      </div>
+      </div>
+      <figure class="heroshot">
+        <img src="../img/flor-laptop.webp" alt="Flor Pérsico" width="420" height="574" loading="eager">
+      </figure>
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════════ POR QUÉ AT WORK ═══════════════ -->
+<section>
+  <div class="wrap">
+    <div class="split">
+      <div>
+        <img class="tick" src="../img/tilde.webp" alt="" width="964" height="968" loading="lazy">
+        <span class="eyebrow">Por qué te propongo AT WORK</span>
+        <h2 class="section-title">Tu entrevista es tu<br>material de trabajo.</h2>
+        <p class="lede" style="margin-top:22px">
+          AT WORK está pensado para profesionales que ya usan el inglés en su trabajo:
+          entrenamos sobre sus reuniones reales. En tu caso, la situación real que tienes
+          enfrente es la entrevista. Entonces entrenamos eso, con el mismo método.
+        </p>
+        <ul class="mirror" style="margin-top:34px">
+          <li>Sabes lo que quieres decir de tu carrera, pero en inglés sale una versión más corta y más plana de lo que hiciste.</li>
+          <li>Te preparas las respuestas por escrito y cuando las dices suenan leídas, o se te van a mitad de camino.</li>
+          <li>Te da miedo la segunda pregunta: la de seguimiento, la que no está en ninguna lista.</li>
+          <li>Te quedas en blanco un segundo y sientes que ya perdiste la entrevista.</li>
+          <li>Dices números, fechas y resultados y no estás segura de que se entiendan (fourteen o forty).</li>
+          <li>Al final te preguntan «Do you have any questions for us?» y no sabes qué decir ni cómo preguntarlo.</li>
+        </ul>
+      </div>
+
+      <aside class="card-no">
+        <span class="eyebrow">Te lo digo antes</span>
+        <h3>Lo que sí y lo que no.</h3>
+        <ul class="mirror no">
+          <li>No te prometo que consigas el puesto: eso depende de muchas cosas que no controlamos.</li>
+          <li>No te prometo inglés sin errores. Con un B1 vas a cometer errores, y una entrevista se puede ganar igual.</li>
+          <li>No memorizamos un speech: memorizado se rompe con la primera pregunta distinta.</li>
+          <li>Si no practicas entre sesiones, no funciona.</li>
+        </ul>
+        <p class="fineprint">
+          Lo que sí: que llegues a la entrevista sabiendo qué contar, cómo ordenarlo,
+          y qué hacer cuando algo no sale. Yo te doy el plan y las herramientas;
+          la que entrena eres tú.
+        </p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ LOGROS ═══════════════ -->
+<section class="band-sand">
+  <div class="wrap">
+    <span class="eyebrow">Qué vas a poder hacer</span>
+    <h2 class="section-title">Cuando llegue el día,<br>esto ya lo entrenaste.</h2>
+    <p class="lede">
+      No son estados de ánimo: son respuestas concretas que vas a poder dar en voz alta,
+      sin leer, con tu inglés de hoy bien usado.
+    </p>
+    <div class="wins">
+      <div class="win">
+        <div class="k">«Tell me about yourself» <span class="arrow">→</span> en un minuto, sin leer</div>
+        <p>Una estructura simple (quién eres, tu trayectoria, tus resultados, qué buscas) armada con tus palabras, que puedes adaptar según quién te entrevista.</p>
+      </div>
+      <div class="win">
+        <div class="k">Tus logros <span class="arrow">→</span> contados con números</div>
+        <p>«Went from… to…», «increased by 12 %», «a team of about forty people». Tu impacto dicho de forma clara, y los números bien pronunciados.</p>
+      </div>
+      <div class="win">
+        <div class="k">«Why should we hire you?» <span class="arrow">→</span> con evidencia</div>
+        <p>Tu valor en una línea, la prueba, la conexión con esa empresa y un cierre. Sin sonar arrogante ni quedarte corta.</p>
+      </div>
+      <div class="win">
+        <div class="k">La pregunta de seguimiento <span class="arrow">→</span> sin reiniciar</div>
+        <p>Cuando te piden un ejemplo, un detalle o algo que no preparaste, sigues hablando desde lo que ya dijiste en vez de empezar de cero.</p>
+      </div>
+      <div class="win">
+        <div class="k">El blanco <span class="arrow">→</span> una pausa que controlas</div>
+        <p>Frases para ganar tiempo, pedir que repitan o reformular («Let me think for a second», «Just to make sure I understand…»). Un blanco deja de ser el final de la respuesta.</p>
+      </div>
+      <div class="win">
+        <div class="k">El cierre <span class="arrow">→</span> tus propias preguntas</div>
+        <p>Dos o tres preguntas inteligentes sobre el rol y el proceso, bien formuladas («Could you tell me what the next steps are?»), para terminar la entrevista con presencia.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ EL PLAN ═══════════════ -->
+<section>
+  <div class="wrap">
+    <span class="eyebrow">El plan</span>
+    <h2 class="section-title">Dos etapas.<br>Primero la entrevista.</h2>
+    <p class="lede">
+      Arrancamos por lo urgente. Y cuando la entrevista pasa, el entrenamiento no se
+      corta: sigues con el road map de AT WORK para llegar al trabajo nuevo hablando
+      con la misma seguridad.
+    </p>
+
+    <div class="stages">
+      <div class="stage">
+        <div class="label">
+          <span class="tag">Etapa 1 · hasta tu entrevista</span>
+          <h3>Interview Prep</h3>
+        </div>
+        <div>
+          <p class="txt">
+            En la primera reunión me cuentas a qué puesto aplicas, en qué empresa, y me
+            mandas tu CV y la descripción del puesto. Con eso armo tu
+            <strong>Interview Prep Kit</strong>: tu propio material, no uno genérico.
+            Cada sesión semanal es un simulacro sobre una parte de la entrevista, con
+            feedback, corrección y retry.
+          </p>
+          <ul>
+            <li>Simulacro 1 · Tell me about yourself: quién eres → trayectoria → resultados → qué buscas</li>
+            <li>Simulacro 2 · Tus resultados con números + Why should we hire you?</li>
+            <li>Simulacro 3 · Las preguntas del puesto: tu plan para los primeros 90 días, tu estilo de liderazgo, cómo tomas decisiones</li>
+            <li>Simulacro 4 · Preguntas de seguimiento y escenarios: sostener la conversación cuando se sale del guion</li>
+            <li>Simulacro 5 · Tus preguntas para cerrar la entrevista</li>
+            <li>Ensayo general antes de la fecha real</li>
+          </ul>
+          <p class="txt" style="margin-top:18px">
+            En cada simulacro anoto lo que dijiste y cómo se dice mejor. Esos errores
+            reales se convierten en la parte de gramática y pronunciación de la sesión
+            siguiente: trabajamos lo que a ti te sale mal, no un temario.
+          </p>
+          <div class="hito">
+            <span class="lbl">Al terminar esta etapa</span>
+            <span class="q">«Sé qué contar de mí, cómo ordenarlo y qué hacer cuando la pregunta no es la que preparé.»</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="stage">
+        <div class="label">
+          <span class="tag">Etapa 2 · después de la entrevista</span>
+          <h3>AT WORK</h3>
+        </div>
+        <div>
+          <p class="txt">
+            Sigues con tu sesión semanal y entras al road map completo del programa,
+            ahora sobre las situaciones de tu trabajo nuevo (o de tu próxima entrevista,
+            si el proceso se demora): presentarte ante el equipo, dar un update, explicar
+            un problema, entender a un nativo que habla rápido.
+          </p>
+          <ul class="two-col">
+            <li>Lead Yourself First</li>
+            <li>Activate Your English</li>
+            <li>Communicate in Real Time</li>
+            <li>Polish Your English</li>
+            <li>Understand &amp; Be Understood</li>
+          </ul>
+          <div class="hito">
+            <span class="lbl">Al terminar el programa</span>
+            <span class="q">«Tengo un sistema para seguir entrenando mi inglés con mis situaciones reales, sin depender de una profesora.»</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ KIT ═══════════════ -->
+<section class="band-warm">
+  <div class="wrap">
+    <span class="eyebrow">Tu material</span>
+    <h2 class="section-title">El Interview Prep Kit.</h2>
+    <p class="lede">
+      Ocho documentos armados con tu CV y el puesto al que aplicas. Los usamos en las
+      sesiones y los tienes para practicar sola.
+    </p>
+    <div class="guides">
+      <div class="guide"><span class="en">00 · Start Here</span><span class="es">Cómo usar el kit y en qué orden.</span></div>
+      <div class="guide"><span class="en">01 · My Story Bank</span><span class="es">Tus historias y logros, listos para adaptar a cualquier pregunta.</span></div>
+      <div class="guide"><span class="en">02 · Tell Me About Yourself</span><span class="es">Tu presentación, en tu inglés.</span></div>
+      <div class="guide"><span class="en">03 · Question Bank</span><span class="es">Las preguntas que te pueden hacer para ese puesto.</span></div>
+      <div class="guide"><span class="en">04 · Vocabulary &amp; Phrases</span><span class="es">El vocabulario de tu área para hablar de resultados.</span></div>
+      <div class="guide"><span class="en">05 · Pause &amp; Recover Toolkit</span><span class="es">Qué decir cuando te quedas en blanco o no entendiste.</span></div>
+      <div class="guide"><span class="en">06 · Questions to Ask Them</span><span class="es">Tus preguntas para el cierre.</span></div>
+      <div class="guide"><span class="en">07 · My 1-Page Cheat Sheet</span><span class="es">Todo lo importante en una hoja, para repasar antes de entrar.</span></div>
+      <div class="guide"><span class="en">08 · Practice with AI</span><span class="es">Cómo hacer simulacros sola entre sesiones.</span></div>
+      <div class="guide"><span class="en">+ Interview Me</span><span class="es">El módulo de entrevistas de la plataforma: story bank, presión de seguimiento, cómo contar impacto y retomar sin empezar de cero.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ SEMANA ═══════════════ -->
+<section>
+  <div class="wrap">
+    <span class="eyebrow">Cómo se vive por dentro</span>
+    <h2 class="section-title">Tu semana.</h2>
+    <div class="week">
+      <div class="weekitem">
+        <h4>Una sesión 1:1 de 60 minutos por semana conmigo</h4>
+        <p>En horario fijo. Simulacro, feedback, corrección y retry: la segunda vuelta siempre sale mejor, y ahí se construye la seguridad.</p>
+      </div>
+      <div class="weekitem">
+        <h4>Interview Me en la plataforma</h4>
+        <p>Las clases grabadas de entrevistas para ver cuando puedas, así la sesión conmigo queda libre para lo tuyo.</p>
+      </div>
+      <div class="weekitem">
+        <h4>Práctica entre sesiones, con tus coaches</h4>
+        <p>Bots configurados con tu contexto para ensayar la entrevista, corregir tus respuestas y practicar pronunciación. Como referencia: unas tres prácticas de alrededor de cuarenta minutos.</p>
+      </div>
+      <div class="weekitem">
+        <h4>Te grabas</h4>
+        <p>Me mandas tus respuestas grabadas y te devuelvo feedback antes de la sesión. Cuesta al principio, y es lo que más rápido te hace avanzar.</p>
+      </div>
+      <div class="weekitem">
+        <h4>Un weekly report</h4>
+        <p>Qué entrenaste, tus wins, dónde te trabaste y qué quieres practicar. Lo leo antes de vernos para no perder tiempo poniéndonos al día.</p>
+      </div>
+      <div class="weekitem">
+        <h4>WhatsApp entre semana</h4>
+        <p>Si te llega la fecha de la entrevista, una pregunta nueva o un mail que hay que contestar, me escribes.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ TESTIMONIO ═══════════════ -->
+<section class="band-sand">
+  <div class="wrap narrow">
+    <img class="qmark" src="../img/comillas.webp" alt="" width="40" height="40" loading="lazy">
+    <div class="hito" style="margin-top:0">
+      <span class="q">«I feel more comfortable and confident when I speak. I had my first interview in English —with Tesla— and I felt good. I could share my point of view and I felt comfortable and confident.»</span>
+    </div>
+    <p style="margin-top:18px;font-size:14px;color:var(--muted)"><strong style="color:var(--ink)">Moni</strong> · HR Professional · México · alumna de AT WORK</p>
+  </div>
+</section>
+
+<!-- ═══════════════ FLOR ═══════════════ -->
+<section class="band-warm">
+  <div class="wrap">
+    <div class="bio">
+      <div class="plate">
+        <img class="bioshot" src="../img/flor-cafe.webp" alt="Flor Pérsico" width="410" height="566" loading="lazy">
+        <div class="sig">Flor Pérsico</div>
+        <div class="sigrole">Creadora del método Breaking Barriers</div>
+        <ul>
+          <li>Alumnas en México, Colombia, Perú, Costa Rica y Argentina</li>
+          <li>Managers, gerentas y directoras de operaciones, IT, finanzas, HR y compliance</li>
+          <li>Preparo entrevistas en inglés para roles de liderazgo con el material real de cada alumna</li>
+        </ul>
+      </div>
+      <div class="text">
+        <span class="eyebrow">Quién te acompaña</span>
+        <h2 class="section-title" style="font-size:clamp(28px,4.4vw,40px)">No enseño inglés.<br>Intervengo tu comunicación.</h2>
+        <p>
+          Trabajo con mujeres profesionales que saben lo que valen y que, en inglés,
+          sienten que suenan como una versión más chica de sí mismas. En una entrevista
+          eso se nota más que en ningún otro lugar.
+        </p>
+        <p>
+          Por eso no te doy una lista de respuestas modelo para memorizar. Empezamos por
+          tu historia, la decimos en voz alta, vemos dónde se rompe y entrenamos eso
+          hasta que te salga. Gramática, vocabulario y pronunciación están adentro,
+          pero siempre entrando por lo que tú dijiste.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ FAQ ═══════════════ -->
+<section>
+  <div class="wrap narrow">
+    <span class="eyebrow">Antes de decidir</span>
+    <h2 class="section-title">Lo que suelen preguntarme.</h2>
+    <div class="faq">
+      <details>
+        <summary>¿Me alcanza con un B1?</summary>
+        <div class="answer">
+          <p>Sí. Con un B1 se puede tener una buena entrevista si la respuesta está bien ordenada, usa frases cortas y claras, y entrenaste qué hacer cuando algo no sale.</p>
+          <p>No vamos a sonar a C1 en cinco semanas. Vamos a hacer que tu B1 cuente bien lo que hiciste.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Todavía no trabajo en inglés. ¿Es para mí?</summary>
+        <div class="answer">
+          <p>En general AT WORK es para quien ya usa el inglés en su trabajo. Pero si estás buscando un puesto en inglés, la entrevista es tu situación real, y el método funciona igual: entrenamos sobre tu material, no sobre un libro. Ya lo hice así con otras alumnas.</p>
+        </div>
+      </details>
+      <details>
+        <summary>¿Y si mi entrevista es muy pronto?</summary>
+        <div class="answer">
+          <p>Me lo cuentas en la primera reunión y priorizamos: la primera sesión ya es un simulacro y lo más importante (tu presentación, tus logros y el cierre) va primero.</p>
+        </div>
+      </details>
+      <details>
+        <summary>¿Y si todavía no tengo fecha, o no me eligen?</summary>
+        <div class="answer">
+          <p>El programa sigue. Lo que entrenas —contar tu historia, sostener una pregunta difícil, recuperarte de un blanco— te sirve para la próxima entrevista y para el trabajo que venga. Por eso la propuesta es de cinco meses y no de unas pocas clases.</p>
+        </div>
+      </details>
+      <details>
+        <summary>¿Cuánto tiempo necesito por semana?</summary>
+        <div class="answer">
+          <p>Una sesión de 60 minutos conmigo, en horario fijo, más tu práctica: como referencia, unas tres prácticas de alrededor de cuarenta minutos. Antes de la entrevista, cuanto más te grabes, mejor.</p>
+        </div>
+      </details>
+      <details>
+        <summary>¿Qué pasa si necesito reprogramar una sesión?</summary>
+        <div class="answer">
+          <p>Se reprograma avisando con 24 horas de anticipación. Con menos de 24 horas la sesión puede darse por utilizada, salvo excepciones.</p>
+        </div>
+      </details>
+      <details>
+        <summary>¿Qué pasa con el acceso cuando terminan los cinco meses?</summary>
+        <div class="answer">
+          <p>El programa grabado y las bibliotecas están disponibles durante los cinco meses. Tu Interview Prep Kit y tus bots se quedan contigo.</p>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ CIERRE ═══════════════ -->
+<section class="band-sand closing">
+  <div class="wrap narrow">
+    <h2>Tu experiencia ya está. <em>Que se escuche en inglés.</em></h2>
+    <p class="lede">
+      Si quieres arrancar, reservas tu lugar con el primer pago y coordinamos la
+      reunión inicial para armar tu plan de entrevista.
+    </p>
+    <a class="btn btn-primary" href="#pagar">Quiero empezar →</a>
+  </div>
+</section>
+
+<!-- ═══════════════ OFERTA ═══════════════ -->
+<section class="band-ink" id="pagar">
+  <div class="wrap">
+    <span class="eyebrow">La inversión</span>
+    <h2 class="section-title">Cinco meses.<br>Cinco pagos.</h2>
+
+    <div class="prices">
+      <a class="price best" href="https://buy.stripe.com/00wbJ21pn9oJ1F70RQ8k813" target="_blank" rel="noopener noreferrer">
+        <div class="plan">AT WORK 1:1 · con Interview Prep</div>
+        <div class="amount">USD 250<small> /mes</small></div>
+        <div class="terms">Cinco pagos mensuales automáticos, con tarjeta. Total: USD 1.250.</div>
+        <span class="pay">Pagar con tarjeta →</span>
+      </a>
+      <a class="price" href="https://wa.me/5491144101209" target="_blank" rel="noopener noreferrer">
+        <div class="plan">¿Tienes dudas?</div>
+        <div class="amount" style="font-size:32px">Escríbeme</div>
+        <div class="terms">Te respondo por WhatsApp y vemos juntas si es para ti antes de que pagues nada.</div>
+        <span class="pay">Abrir WhatsApp →</span>
+      </a>
+    </div>
+
+    <div class="incl">
+      <h3>Los cinco meses incluyen</h3>
+      <ul class="includes">
+        <li><strong>Una sesión 1:1 de 60 minutos por semana conmigo</strong> <span>— simulacros de entrevista, feedback, corrección y retry; después, tus situaciones de trabajo reales.</span></li>
+        <li><strong>Tu Interview Prep Kit</strong> <span>— story bank, presentación, banco de preguntas, vocabulario, frases para recuperarte, preguntas de cierre y cheat sheet, armados con tu CV y el puesto.</span></li>
+        <li><strong>Interview Me</strong> <span>— el módulo de entrevistas de la plataforma.</span></li>
+        <li><strong>Feedback sobre tus grabaciones</strong> <span>— tus respuestas, corregidas antes de la sesión.</span></li>
+        <li><strong>Tus coaches de práctica</strong> <span>— Role Play, Narrative Flow, Color Method y pronunciación, configurados con tu contexto.</span></li>
+        <li><strong>Plataforma con los cinco módulos de AT WORK</strong> <span>— Lead Yourself First, Activate Your English, Communicate in Real Time, Polish Your English y Understand &amp; Be Understood.</span></li>
+        <li><strong>Bibliotecas de práctica</strong> <span>— Workplace Practice, Precision y Listening &amp; Pronunciation.</span></li>
+        <li><strong>Weekly Report</strong> <span>— tu registro de la semana, que leo antes de cada sesión.</span></li>
+        <li><strong>WhatsApp entre semana</strong> <span>— para lo puntual que no puede esperar a la sesión.</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <div>
+      <img class="footlogo" src="../img/logo.webp" alt="Breaking Barriers at Work" width="705" height="287">
+      <div style="margin-top:6px">Professional English for leadership, clarity and presence.</div>
+    </div>
+    <div style="text-align:right">
+      <div><a href="mailto:florenciapersico@breakingbarriers.site">florenciapersico@breakingbarriers.site</a></div>
+      <div style="margin-top:6px">© 2026 Flor Pérsico</div>
+    </div>
+  </div>
+</footer>
+
+
+<script>
+(function () {
+  'use strict';
+
+  // El visor de artifacts inyecta un <base href>, y con eso un href="#aplicar"
+  // resuelve contra la base en vez de contra la página: el navegador intenta
+  // irse a otra URL en lugar de bajar hasta la sección. Movemos el scroll a
+  // mano, así el botón funciona tanto aquí como en el sitio propio.
+  var smooth = !window.matchMedia || !matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest ? e.target.closest('a[href]') : null;
+    if (!a) return;
+    var raw = a.getAttribute('href') || '';
+    if (raw.charAt(0) !== '#' || raw.length < 2) return;
+    var target = document.getElementById(raw.slice(1));
+    if (!target) return;
+    e.preventDefault();
+    target.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'start' });
+    // Que el teclado siga la lectura donde quedó la vista.
+    target.setAttribute('tabindex', '-1');
+    target.focus({ preventScroll: true });
+  });
+
+})();
+</script>
+</body>
+</html>
