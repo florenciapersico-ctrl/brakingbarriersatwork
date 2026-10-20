@@ -89,179 +89,115 @@
   .tcard .rl { font-size:8.5pt; color:var(--muted); }
   .tcard .tag2 { display:inline-block; margin-top:3mm; font-size:7pt; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--terra); }
 </style>
+<style>
+  .big { font-family:var(--display); font-size:19pt; line-height:1.3; margin-top:9mm; max-width:150mm; }
+  .big em { font-style:italic; }
+  .pain { list-style:none; margin-top:6mm; display:grid; gap:3mm; }
+  .pain li { padding-left:7mm; position:relative; font-size:12pt; color:var(--on-ink-soft); max-width:110mm; }
+  .pain li::before { content:''; position:absolute; left:0; top:.65em; width:4mm; height:1.3px; background:var(--terra); }
+  .steps3 { display:grid; gap:0; margin-top:7mm; }
+  .s3 { display:grid; grid-template-columns:12mm 1fr; gap:4mm; padding:5mm 0; border-top:1px solid var(--line); }
+  .s3:last-child { border-bottom:1px solid var(--line); }
+  .s3 .n { font-family:var(--display); font-size:24pt; color:var(--terra); line-height:1; }
+  .s3 h3 { font-size:17pt; margin-bottom:1.5mm; }
+  .s3 .when { font-size:7.5pt; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--brown); margin-left:2mm; font-family:var(--body); }
+  .s3 p { font-size:11.5pt; color:var(--muted); }
+  .s3 .goal { margin-top:2mm; font-family:var(--display); font-style:italic; font-size:13pt; color:var(--ink); }
+  .inc2 { list-style:none; margin-top:5mm; display:grid; grid-template-columns:1fr 1fr; gap:3mm 8mm; }
+  .inc2 li { padding-left:6mm; position:relative; font-size:11pt; }
+  .inc2 li::before { content:'✓'; position:absolute; left:0; color:var(--terra); font-weight:700; }
+  .inc2 span { color:var(--muted); }
+  .tq3 { display:grid; gap:6mm; margin-top:5mm; }
+  .t3 { border-left:2px solid var(--terra); padding:1mm 0 1mm 5mm; }
+  .t3 .q { font-family:var(--display); font-style:italic; font-size:14pt; line-height:1.38; }
+  .t3 .a { font-size:9.5pt; color:var(--muted); margin-top:1.2mm; }
+  .price2 { margin-top:8mm; background:var(--ink); color:var(--on-ink); padding:7mm 8mm; display:flex; justify-content:space-between; align-items:center; gap:8mm; }
+  .price2 .plan { font-size:7.5pt; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--terra); }
+  .price2 .amt { font-family:var(--display); font-size:34pt; line-height:1; margin-top:2mm; }
+  .price2 .terms { font-size:9.5pt; color:var(--on-ink-soft); margin-top:2mm; }
+  .price2 a { color:var(--ink); background:var(--terra); text-decoration:none; font-size:8pt; font-weight:700; letter-spacing:.12em; text-transform:uppercase; padding:3.4mm 5mm; white-space:nowrap; }
+  .next { margin-top:6mm; font-size:11pt; color:var(--muted); }
+  .next b { color:var(--ink); }
+</style>
 </head>
 <body>
 
-<!-- 1 · PORTADA -->
+<!-- 1 · LA PROMESA -->
 <section class="page ink cover">
   <img class="logo" src="../../img/logo.webp" alt="Breaking Barriers at Work">
-  <div class="who">Propuesta personal · AT WORK 1:1</div>
-  <h1>Ada, de guardar búsquedas <em>a aplicar a ellas.</em></h1>
-  <p class="sub">Una propuesta para que entres a una entrevista en inglés sabiendo qué contar,
-    y puedas presentar tus ideas y tus proyectos con la misma seguridad que en español.</p>
-  <div class="meta">
-    <strong>Para:</strong> Ada · Directora de arte y creativa<br>
-    <strong>De:</strong> Flor Pérsico · Breaking Barriers at Work<br>
-    <strong>Fecha:</strong> octubre 2026
-  </div>
-  <img class="photo" src="../../img/flor-laptop.webp" alt="Flor Pérsico">
+  <div class="who">Propuesta para Ada</div>
+  <h1 style="margin-top:22mm">Ada, de guardar búsquedas <em>a aplicar a ellas.</em></h1>
+  <p class="big">Te ayudo a <em>pasar entrevistas en inglés</em> y a <em>presentar tus ideas y proyectos</em>
+    con seguridad, entrenando con tu CV, tu portfolio y las búsquedas de tu rubro.
+    Sin memorizar respuestas.</p>
+
+  <span class="eyebrow" style="margin-top:12mm">Lo que hoy te frena</span>
+  <ul class="pain">
+    <li>Tienes búsquedas guardadas y no aplicas porque no sabes si sostendrías la entrevista.</li>
+    <li>Sientes que te faltan cosas por saber, y eso te quita seguridad.</li>
+    <li>Tu trabajo es presentar ideas, y en inglés todavía no tienes las palabras.</li>
+  </ul>
+  <img class="photo" src="../../img/flor-laptop.webp" alt="Flor Pérsico" style="width:48mm;bottom:20mm">
+  <div class="foot"><span>Breaking Barriers at Work · Flor Pérsico</span><span>1</span></div>
 </section>
 
-<!-- 2 · LA TRANSFORMACIÓN -->
+<!-- 2 · EL CAMINO + QUÉ INCLUYE -->
 <section class="page">
-  <span class="eyebrow">Lo que me contaste</span>
-  <h2>Tu rubro se está exportando.<br>Tu inglés todavía no.</h2>
-  <p class="lede">Tienes la carrera, el portfolio y el criterio. Lo que falta no es talento: es
-    haber entrenado cómo contar todo eso en inglés, en voz alta, antes de que importe.
-    Esto es lo que cambia en cinco meses.</p>
-
-  <div class="ba">
-    <div class="hd">Hoy</div><div class="hd">En cinco meses</div>
-    <div>Tienes búsquedas guardadas y no aplicas.</div><div class="to">Aplicaste, y cada entrevista te sirve para la siguiente.</div>
-    <div>No sabes si estás en nivel para una entrevista.</div><div class="to">Sabes exactamente qué te alcanza y qué estás entrenando.</div>
-    <div>Si te llama un recruiter, te paralizas.</div><div class="to">Sostienes la llamada: small talk, tu experiencia, tus expectativas.</div>
-    <div>Describes tu trabajo con palabras simples.</div><div class="to">Presentas tu portfolio de brief a resultado, con vocabulario creativo.</div>
-    <div>Te quedas en blanco y sientes que perdiste.</div><div class="to">Tienes frases para pausar, pedir que repitan y retomar.</div>
-    <div>«Es animarse», pero no sabes con qué.</div><div class="to">Te animas porque ya lo dijiste antes, en los simulacros.</div>
+  <span class="eyebrow">Tu camino · 5 meses</span>
+  <h2>Tres pasos.</h2>
+  <div class="steps3">
+    <div class="s3"><div class="n">1</div><div>
+      <h3>Tu diagnóstico <span class="when">Semana 1</span></h3>
+      <p>Hablamos en inglés sobre tu trabajo y te digo con honestidad dónde estás: qué ya te alcanza y qué hay que entrenar.</p>
+      <div class="goal">«Sé si estoy en nivel y qué me falta.»</div>
+    </div></div>
+    <div class="s3"><div class="n">2</div><div>
+      <h3>Lista para aplicar <span class="when">Semanas 2 a 6</span></h3>
+      <p>Con tu CV, tu portfolio y tus búsquedas armo tu kit de entrevista. Cada semana hacemos un simulacro: tu presentación, tu portfolio, la llamada del recruiter, las preguntas difíciles.</p>
+      <div class="goal">«Sé qué contar de mí y de mis proyectos. Y apliqué.»</div>
+    </div></div>
+    <div class="s3"><div class="n">3</div><div>
+      <h3>Presenta tu trabajo <span class="when">Hasta el mes 5</span></h3>
+      <p>Cada entrevista real se convierte en material de clase. Y entrenamos lo que te va a pedir el trabajo: presentar un concepto, explicar una propuesta, dar y recibir feedback.</p>
+      <div class="goal">«Presento mis ideas en inglés y sé cómo seguir entrenando sola.»</div>
+    </div></div>
   </div>
 
-  <div class="promise">
-    <div class="q">«Puedo aplicar a cualquier búsqueda de mi rubro, sostener la entrevista y presentar mis ideas y mis proyectos en inglés.»</div>
-    <div class="s">Sin prometerte un puesto ni un inglés sin errores: con un B1 bien entrenado, una entrevista se puede ganar.</div>
-  </div>
-
-  <div class="quote">
-    <div class="q">«Siento que he ganado más confianza. Me has ayudado a entender que sí puedo, que solo tengo que arriesgarme más y hacerlo.»</div>
-    <div class="a">Lina · Ingeniera aeronáutica · Colombia · alumna de AT WORK</div>
-  </div>
-
+  <span class="eyebrow" style="margin-top:9mm">Qué incluye</span>
+  <ul class="inc2">
+    <li><b>1 sesión 1:1 por semana conmigo</b> <span>· 60 min</span></li>
+    <li><b>Interview Me</b> <span>· el módulo de entrevistas</span></li>
+    <li><b>Todo el programa AT WORK</b> <span>· grabado, 5 meses</span></li>
+    <li><b>Tu kit de entrevista</b> <span>· armado con tu CV y portfolio</span></li>
+    <li><b>4 coaches de práctica con IA</b> <span>· se quedan contigo</span></li>
+    <li><b>Feedback de tus grabaciones</b> <span>· antes de cada sesión</span></li>
+    <li><b>Weekly Report</b> <span>· te sigo semana a semana</span></li>
+    <li><b>WhatsApp</b> <span>· para lo urgente entre sesiones</span></li>
+  </ul>
   <div class="foot"><span>Breaking Barriers at Work · Propuesta para Ada</span><span>2</span></div>
 </section>
 
-<!-- 3 · EL PLAN -->
+<!-- 3 · PRUEBA + INVERSIÓN -->
 <section class="page">
-  <span class="eyebrow">Tu plan</span>
-  <h2>Dos etapas. Primero, poder aplicar.</h2>
-  <p class="lede">Arrancamos por lo que hoy te frena. Después, el programa completo sobre lo que
-    tu trabajo te va a pedir en inglés.</p>
-
-  <div class="stage">
-    <div><span class="tag">Etapa 1 · semanas 1 a 6</span><h3>Ready to Apply</h3></div>
-    <div>
-      <p><b style="color:var(--ink)">Primero respondemos tu pregunta.</b> En la primera sesión hablamos en inglés sobre tu
-        trabajo y te devuelvo un diagnóstico honesto: qué ya te alcanza y qué hay que entrenar.</p>
-      <p>Con tu CV, tu portfolio y dos o tres búsquedas guardadas armo tu Interview Prep Kit,
-        y cada sesión es un simulacro:</p>
-      <ol class="sims">
-        <li>La llamada del recruiter: small talk, presentación, disponibilidad y expectativas</li>
-        <li>«Tell me about yourself» como directora creativa</li>
-        <li>Portfolio walkthrough: tus proyectos de brief a resultado</li>
-        <li>Cómo trabajas: equipos, clientes, deadlines y feedback</li>
-        <li>Preguntas de seguimiento y lo que no viste venir</li>
-        <li>Tus preguntas para cerrar la entrevista</li>
-      </ol>
-      <div class="hito">«Sé dónde estoy, sé qué contar de mí y de mis proyectos, y apliqué.»</div>
-    </div>
+  <span class="eyebrow">Lo que pasa cuando entrenas</span>
+  <h2>Con sus palabras.</h2>
+  <div class="tq3">
+    <div class="t3"><div class="q">«Me llamaron esta mañana no programado desde UK, un talent recruiter para una posición global, y pude hacer desde small talk, hablar de mi trabajo actual y mi experiencia pasada. Me fue bien. Entendí casi todo y respondí todo (con errores) of course, ya me mandó un mail con los next steps.»</div><div class="a">Alumna de AT WORK · octubre 2026</div></div>
+    <div class="t3"><div class="q">«I had my first interview in English —with Tesla— and I felt good. I could share my point of view and I felt comfortable and confident.»</div><div class="a">Moni · HR Professional · México</div></div>
+    <div class="t3"><div class="q">«Siento que he ganado más confianza. Me has ayudado a entender que sí puedo, que solo tengo que arriesgarme más y hacerlo.»</div><div class="a">Lina · Ingeniera aeronáutica · Colombia</div></div>
   </div>
 
-  <div class="stage">
-    <div><span class="tag">Etapa 2 · hasta el mes 5</span><h3>Present Your Work</h3></div>
+  <div class="price2">
     <div>
-      <p>Cada entrevista real entra a la sesión como material. En paralelo recorremos el road map
-        de AT WORK sobre tu día a día: presentar un concepto, hacer un pitch, explicar una
-        propuesta a un cliente, dar y recibir feedback, entender a un nativo que habla rápido.</p>
-      <div class="chips"><span>Lead Yourself First</span><span>Activate Your English</span><span>Communicate in Real Time</span><span>Polish Your English</span><span>Understand &amp; Be Understood</span></div>
-      <div class="hito">«Presento mis ideas en inglés y sé cómo seguir entrenando sola.»</div>
-    </div>
-  </div>
-
-  <div class="stage">
-    <div><span class="tag">Cada semana</span><h3>Tu ritmo</h3></div>
-    <div>
-      <p>Una sesión 1:1 de 60 minutos conmigo en horario fijo · unas tres prácticas de 40 minutos
-        con Interview Me y tus coaches · tus respuestas grabadas, con mi feedback · un weekly report
-        que leo antes de vernos · WhatsApp para lo que no puede esperar.</p>
-    </div>
-  </div>
-
-  <div class="foot"><span>Breaking Barriers at Work · Propuesta para Ada</span><span>3</span></div>
-</section>
-
-<!-- 4 · TESTIMONIOS -->
-<section class="page" style="background:var(--warm)">
-  <span class="eyebrow">Lo que dicen ellas</span>
-  <h2>Lo que pasa cuando entrenas.</h2>
-  <p class="lede">Wins recientes de alumnas, con sus palabras. Profesionales que sabían inglés, pero no les salía cuando importaba.</p>
-  <div class="tq">
-    <div class="tcard">
-      <div>
-        <span class="win">Una llamada sorpresa desde UK</span>
-        <p>«Me llamaron esta mañana no programado desde UK, un talent recruiter para una posición global, y pude hacer desde small talk, hablar de mi trabajo actual y mi experiencia pasada. Me fue bien. Entendí casi todo y respondí todo (con errores) of course 😂, ya me mandó un mail con los next steps.»</p>
-      </div>
-      <div class="who"><span class="nm">Alumna de AT WORK</span><span class="rl">Octubre 2026</span><br><span class="tag2">Entrevista</span></div>
-    </div>
-    <div class="tcard">
-      <div>
-        <span class="win">De leer sus OKRs en español a reportarlos en inglés</span>
-        <p>Se presentó en una reunión real con el speech que ensayamos en role play. Al terminar, su jefe le dijo que había estado bien. Semanas después, sobre su update de OKRs: «Much better than the first time.»</p>
-      </div>
-      <div class="who"><span class="nm">Belem</span><span class="rl">Líder de un equipo de IA en un banco · México</span><br><span class="tag2">Reuniones</span></div>
-    </div>
-    <div class="tcard">
-      <div>
-        <span class="win">Su jefe le ofreció presentar por ella. Dijo que no.</span>
-        <p>«The meeting was good because I presented my part and I could understand all the meeting. My participation wasn't the best, but it was the first one.»</p>
-      </div>
-      <div class="who"><span class="nm">Alumna de AT WORK</span><span class="rl">Operaciones logísticas · México</span><br><span class="tag2">Primera reunión global</span></div>
-    </div>
-    <div class="tcard">
-      <div>
-        <span class="win">Su primera entrevista en inglés</span>
-        <p>«I had my first interview in English —with Tesla— and I felt good. I could share my point of view and I felt comfortable and confident.»</p>
-      </div>
-      <div class="who"><span class="nm">Moni</span><span class="rl">HR Professional · México · ex alumna</span><br><span class="tag2">Entrevista</span></div>
-    </div>
-  </div>
-  <div class="foot"><span>Breaking Barriers at Work · Propuesta para Ada</span><span>4</span></div>
-</section>
-
-<!-- 5 · INCLUYE + INVERSIÓN -->
-<section class="page ink">
-  <span class="eyebrow">Qué incluye</span>
-  <h2>Cinco meses. Todo el programa.</h2>
-
-  <ul class="inc">
-    <li><strong>20 sesiones 1:1 de 60 minutos</strong>Una por semana conmigo: diagnóstico, simulacros, feedback, corrección y retry.</li>
-    <li><strong>Tu Interview Prep Kit</strong>Project bank, presentación, banco de preguntas, vocabulario creativo, frases para recuperarte, preguntas de cierre y cheat sheet, armados con tu CV y tu portfolio.</li>
-    <li><strong>Interview Me</strong>El módulo de entrevistas de la plataforma.</li>
-    <li><strong>AT WORK completo</strong>Los cinco módulos grabados del road map.</li>
-    <li><strong>Bibliotecas de práctica</strong>Workplace Practice, Precision y Listening &amp; Pronunciation.</li>
-    <li><strong>Tus coaches de práctica</strong>Role Play, Narrative Flow, Color Method y pronunciación, configurados con tu contexto. Se quedan contigo.</li>
-    <li><strong>Feedback sobre tus grabaciones</strong>Tus respuestas corregidas antes de la sesión.</li>
-    <li><strong>Weekly Report + WhatsApp</strong>Te sigo de cerca entre sesión y sesión.</li>
-  </ul>
-
-  <div class="price">
-    <div>
-      <div class="plan">AT WORK 1:1 · con Interview Prep</div>
-      <div class="amt">USD 1.250<small> · 5 meses</small></div>
-      <div class="terms">Pago en cuotas: 5 cuotas mensuales de USD 250, automáticas, con tarjeta.</div>
+      <div class="plan">Inversión · AT WORK 1:1 + Interview Me</div>
+      <div class="amt">USD 1.250</div>
+      <div class="terms">o 5 cuotas mensuales de USD 250, con tarjeta</div>
     </div>
     <a href="https://buy.stripe.com/00wbJ21pn9oJ1F70RQ8k813">Reservar mi lugar →</a>
   </div>
-
-  <span class="eyebrow" style="margin-top:9mm">Próximos pasos</span>
-  <div class="steps">
-    <div><b>1 · Reservas</b>Con el primer pago, desde el botón de arriba.</div>
-    <div><b>2 · Me mandas</b>Tu CV, tu portfolio y 2 o 3 búsquedas que tengas guardadas.</div>
-    <div><b>3 · Primera sesión</b>Tu diagnóstico, tu plan y el primer simulacro.</div>
-  </div>
-
-  <p class="fine">Las sesiones se reprograman avisando con 24 h de anticipación. ¿Dudas? Escríbeme por
-    <a href="https://wa.me/5491144101209">WhatsApp</a> o a
-    <a href="mailto:florenciapersico@breakingbarriers.site">florenciapersico@breakingbarriers.site</a>.</p>
-
-  <div class="foot"><span>Breaking Barriers at Work · Flor Pérsico</span><span>5</span></div>
+  <p class="next"><b>Próximo paso:</b> reservas tu lugar, me mandas tu CV, tu portfolio y 2 o 3 búsquedas guardadas, y en la primera sesión te doy tu diagnóstico.
+    ¿Dudas? Escríbeme por <a href="https://wa.me/5491144101209" style="color:var(--brown)">WhatsApp</a>.</p>
+  <div class="foot"><span>Breaking Barriers at Work · Flor Pérsico</span><span>3</span></div>
 </section>
 
 </body>
