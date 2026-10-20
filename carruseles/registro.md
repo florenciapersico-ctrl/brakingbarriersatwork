@@ -15,3 +15,4 @@ Una línea por pieza: fecha · tema · estilo/fondo · foto usada · CTA. Lo lee
 - 17/10 · 10 razones por las cuales NO deberías trabajar conmigo (wins) · marrón caramelo + pastillas crema + capturas, portada estilo Ann · camina, blazer negro · READY por DM (venta)
 - 19/10 · Cosas que haces en las reuniones en inglés (micro-momentos) · papel claro tipográfico + checklist, 1 placa marrón oscuro · sin foto · comentar «cuántas tachaste» (crecimiento)
 - 20/10 · La pregunta que no esperabas · marrón oscuro #3F1E0D tipográfico, texto crema + terracota · sin foto · comentar «qué pregunta te da miedo» (crecimiento)
+- 21/10 · Estoy grabando todo AT WORK (detrás de escena) · arena #EDE5CC con visor de cámara REC, texto marrón + rojo · sin foto · comentar «qué situación querés que tenga su clase» (conexión)

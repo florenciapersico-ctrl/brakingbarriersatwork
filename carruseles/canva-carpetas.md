@@ -7,7 +7,7 @@ La rutina sube las placas de cada día a su carpeta. Si un día no tiene carpeta
 |---|---|---|
 | 19-10 | FAHYfk7A_Xs | ✅ 11 placas |
 | 20-10 | FAHYfvzZAok | ✅ 9 placas |
-| 21-10 | FAHYfmZ9nXI | |
+| 21-10 | FAHYfmZ9nXI | ✅ 9 placas |
 | 22-10 | FAHYfuLmEEU | |
 | 23-10 | FAHYfu-Wtoc | |
 | 24-10 | FAHYflTtqMo | |
