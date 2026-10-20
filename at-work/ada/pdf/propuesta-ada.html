@@ -109,15 +109,23 @@
   .inc2 span { color:var(--muted); }
   .tq3 { display:grid; gap:6mm; margin-top:5mm; }
   .t3 { border-left:2px solid var(--terra); padding:1mm 0 1mm 5mm; }
-  .t3 .q { font-family:var(--display); font-style:italic; font-size:14pt; line-height:1.38; }
+  .t3 .q { font-family:var(--display); font-style:italic; font-size:12pt; line-height:1.38; }
   .t3 .a { font-size:9.5pt; color:var(--muted); margin-top:1.2mm; }
-  .price2 { margin-top:8mm; background:var(--ink); color:var(--on-ink); padding:7mm 8mm; display:flex; justify-content:space-between; align-items:center; gap:8mm; }
+  .price2 { margin-top:6mm; background:var(--ink); color:var(--on-ink); padding:7mm 8mm; display:flex; justify-content:space-between; align-items:center; gap:8mm; }
   .price2 .plan { font-size:7.5pt; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--terra); }
   .price2 .amt { font-family:var(--display); font-size:34pt; line-height:1; margin-top:2mm; }
   .price2 .terms { font-size:9.5pt; color:var(--on-ink-soft); margin-top:2mm; }
   .price2 a { color:var(--ink); background:var(--terra); text-decoration:none; font-size:8pt; font-weight:700; letter-spacing:.12em; text-transform:uppercase; padding:3.4mm 5mm; white-space:nowrap; }
   .next { margin-top:6mm; font-size:11pt; color:var(--muted); }
   .next b { color:var(--ink); }
+  .case { margin-top:5mm; background:var(--warm); border:1px solid var(--line); padding:6mm 7mm; }
+  .case .hd { display:flex; justify-content:space-between; align-items:baseline; gap:6mm; }
+  .case h3 { font-size:17pt; }
+  .case .rl { font-size:9pt; color:var(--muted); }
+  .case .cols { display:grid; grid-template-columns:1fr 1fr 1fr; gap:5mm; margin-top:4mm; }
+  .case .cols b { display:block; font-size:7.5pt; letter-spacing:.16em; text-transform:uppercase; color:var(--terra); margin-bottom:1.5mm; }
+  .case .cols p { font-size:10pt; line-height:1.45; }
+  .case .q { margin-top:4mm; font-family:var(--display); font-style:italic; font-size:13pt; color:var(--brown); }
 </style>
 </head>
 <body>
@@ -179,12 +187,22 @@
 
 <!-- 3 · PRUEBA + INVERSIÓN -->
 <section class="page">
-  <span class="eyebrow">Lo que pasa cuando entrenas</span>
-  <h2>Con sus palabras.</h2>
-  <div class="tq3">
-    <div class="t3"><div class="q">«Me llamaron esta mañana no programado desde UK, un talent recruiter para una posición global, y pude hacer desde small talk, hablar de mi trabajo actual y mi experiencia pasada. Me fue bien. Entendí casi todo y respondí todo (con errores) of course, ya me mandó un mail con los next steps.»</div><div class="a">Alumna de AT WORK · octubre 2026</div></div>
+  <span class="eyebrow">Caso de éxito</span>
+  <h2>Lo que pasa cuando entrenas.</h2>
+  <div class="case">
+    <div class="hd"><h3>Belem</h3><span class="rl">Líder de un equipo de IA en un banco · México</span></div>
+    <div class="cols">
+      <div><b>Antes · mayo</b><p>Proyectaba sus OKRs en pantalla y los leía en español, «por no pronunciarlo en inglés». En las capacitaciones globales tenía ideas y prefería no hablar.</p></div>
+      <div><b>Qué entrenamos</b><p>Sus OKRs reales, semana a semana: su update, role play conmigo haciendo de su jefe, feedback, un mapa del mensaje y un segundo intento.</p></div>
+      <div><b>Después · septiembre</b><p>Se presentó en una reunión real con lo que ensayamos y su jefe le dijo que estuvo bien. Reporta sus OKRs en inglés. Y en la capacitación se animó a hablar y preguntar.</p></div>
+    </div>
+    <div class="q">«Much better than the first time.» — Belem, sobre su segundo intento</div>
+  </div>
+
+  <span class="eyebrow" style="margin-top:7mm">Y en entrevistas</span>
+  <div class="tq3" style="margin-top:2mm">
+    <div class="t3"><div class="q">«Me llamaron esta mañana no programado desde UK, un talent recruiter para una posición global, y pude hacer desde small talk, hablar de mi trabajo actual y mi experiencia pasada. Me fue bien. Respondí todo (con errores) of course, ya me mandó un mail con los next steps.»</div><div class="a">Alumna de AT WORK · octubre 2026</div></div>
     <div class="t3"><div class="q">«I had my first interview in English —with Tesla— and I felt good. I could share my point of view and I felt comfortable and confident.»</div><div class="a">Moni · HR Professional · México</div></div>
-    <div class="t3"><div class="q">«Siento que he ganado más confianza. Me has ayudado a entender que sí puedo, que solo tengo que arriesgarme más y hacerlo.»</div><div class="a">Lina · Ingeniera aeronáutica · Colombia</div></div>
   </div>
 
   <div class="price2">
