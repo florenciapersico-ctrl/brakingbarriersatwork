@@ -9,6 +9,36 @@ Hay dos tareas programadas que usan este manual:
 
 Flor no está mirando cuando corren: no le hagas preguntas en el chat. Lo que necesites de ella va en el mail del día, en una sección «Necesito de vos», con voseo porque le hablás a Flor. El contenido va siempre con TÚ.
 
+
+## Sistema de Ann (Flor lo recordó el 20/10: siempre manda sobre lo demás)
+
+- **No se crea contenido con IA.** Cada pieza es 20 % un hook de una referente que ya funcionó (página «Mis referentes») y 80 % un insight real de Flor: clases, alumnas, su historia o ventas. Si en una pieza no hay material real, no se arma: se anota «⚠️ Falta tu ejemplo real» en «Necesito de vos».
+- **Formato principal: el reel corto donde habla Flor.** Ann lo pide de lunes a viernes. Cada día de lunes a viernes va un kit de reel:
+  - hook de 0 a 5 segundos
+  - Stop → Stay → Story → Step
+  - guion para decir con sus palabras
+  - descripción y CTA
+  - story del día
+
+  El carrusel diseñado es el complemento visual del mismo tema. Flor elige: graba el reel, sube el carrusel o hace las dos cosas.
+- **Dump de fotos personal el domingo.** YouTube los sábados, con el siguiente episodio de la miniserie. Un email por semana.
+- **Mix cada 2 semanas:**
+  - 4 de crecimiento
+  - 4 de conversión
+  - 2 personales
+  - 2 videos de YouTube
+  - entre 2 y 4 emails
+
+  Los 5 Demand Triggers de la página Estrategia van rotando.
+- **CTA según la función:**
+  - deseo: «¿Qué te gustaría poder hacer…?»
+  - trigger: «¿También estás teniendo más responsabilidades…?»
+  - método: «Así trabajamos…»
+  - prueba + oferta: «READY por DM»
+- **Filtro de cada pieza:** ¿le habla a una mujer que YA trabaja en inglés? ¿Muestra algo concreto que ella quiere hacer? ¿Hay una situación profesional real? ¿Aparece una parte real del método? Si la podrían publicar 20 coaches de inglés igual, no pasa.
+- **Marketing de deseo, no de dolor:** mostrar la profesional que ella quiere ser, sin recordarle lo que hace mal.
+- **Performance a los 7 días:** se mide por DMs calificados, no por likes.
+
 ## Reglas que no se rompen
 
 1. **Nunca publiques nada** en Instagram ni en ningún lado. Flor sube todo ella. Tampoco le escribas a alumnas ni a prospectas, y no borres nada.
