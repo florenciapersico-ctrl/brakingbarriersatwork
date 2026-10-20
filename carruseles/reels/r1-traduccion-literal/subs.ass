@@ -1,0 +1,65 @@
+[Script Info]
+ScriptType: v4.00+
+PlayResX: 1080
+PlayResY: 1920
+WrapStyle: 2
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Cap,Crimson Pro SemiBold,80,&H00DFEAF4,&H0084A1D7,&H000D1E3F,&H000D1E3F,0,0,0,0,100,100,0,0,3,16,0,5,40,40,0,1
+Style: Top,Crimson Pro SemiBold,58,&H000D1E3F,&H000D1E3F,&H00EEF5F9,&H00EEF5F9,0,0,0,0,100,100,0,0,3,18,0,8,60,60,150,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:00:45.32,Top,,0,0,0,,{\an5\pos(540,1580)}¿Por qué tu inglés suena a traducción?
+Dialogue: 1,0:00:00.00,0:00:00.63,Cap,,0,0,0,,{\pos(540,880)}{\k15}Una {\k34}alumna {\k14}que
+Dialogue: 1,0:00:00.63,0:00:01.59,Cap,,0,0,0,,{\pos(540,880)}{\k38}trabaja {\k6}en {\k52}logística
+Dialogue: 1,0:00:01.59,0:00:02.55,Cap,,0,0,0,,{\pos(540,880)}{\k24}me {\k18}estaba {\k54}explicando
+Dialogue: 1,0:00:02.55,0:00:03.19,Cap,,0,0,0,,{\pos(540,880)}{\k12}un {\k26}proceso {\k26}que
+Dialogue: 1,0:00:03.19,0:00:03.83,Cap,,0,0,0,,{\pos(540,880)}{\k18}hace {\k28}todos {\k18}los
+Dialogue: 1,0:00:03.83,0:00:04.43,Cap,,0,0,0,,{\pos(540,880)}{\k20}días {\k31}y {\k8}de
+Dialogue: 1,0:00:04.43,0:00:05.17,Cap,,0,0,0,,{\pos(540,880)}{\k24}repente {\k26}me {\k24}dice
+Dialogue: 1,0:00:05.17,0:00:06.41,Cap,,0,0,0,,{\pos(540,880)}{\k42}{\i1}we{\i0} {\k42}{\i1}accept{\i0} {\k40}{\i1}the{\i0}
+Dialogue: 1,0:00:06.41,0:00:07.29,Cap,,0,0,0,,{\pos(540,880)}{\k30}{\i1}entrance{\i0} {\k44}{\i1}to{\i0} {\k14}{\i1}the{\i0}
+Dialogue: 1,0:00:07.29,0:00:08.06,Cap,,0,0,0,,{\pos(540,880)}{\k32}{\i1}driver{\i0} {\k31}y {\k14}si
+Dialogue: 1,0:00:08.06,0:00:08.92,Cap,,0,0,0,,{\pos(540,880)}{\k28}bien {\k22}se {\k36}entiende
+Dialogue: 1,0:00:08.92,0:00:09.68,Cap,,0,0,0,,{\pos(540,880)}{\k24}nos {\k20}damos {\k32}cuenta
+Dialogue: 1,0:00:09.68,0:00:10.06,Cap,,0,0,0,,{\pos(540,880)}{\k14}que {\k10}es {\k14}una
+Dialogue: 1,0:00:10.06,0:00:11.28,Cap,,0,0,0,,{\pos(540,880)}{\k48}traducción {\k40}literal {\k34}del
+Dialogue: 1,0:00:11.28,0:00:12.31,Cap,,0,0,0,,{\pos(540,880)}{\k38}español {\k45}porque {\k20}lo
+Dialogue: 1,0:00:12.31,0:00:13.21,Cap,,0,0,0,,{\pos(540,880)}{\k14}más {\k30}natural {\k46}sería
+Dialogue: 1,0:00:13.21,0:00:14.05,Cap,,0,0,0,,{\pos(540,880)}{\k34}decir {\k16}algo {\k34}como
+Dialogue: 1,0:00:14.05,0:00:14.88,Cap,,0,0,0,,{\pos(540,880)}{\k33}{\i1}we{\i0} {\k24}{\i1}allow{\i0} {\k26}{\i1}the{\i0}
+Dialogue: 1,0:00:14.88,0:00:15.68,Cap,,0,0,0,,{\pos(540,880)}{\k30}{\i1}driver{\i0} {\k28}{\i1}to{\i0} {\k22}{\i1}enter{\i0}
+Dialogue: 1,0:00:15.68,0:00:17.25,Cap,,0,0,0,,{\pos(540,880)}{\k30}{\i1}the{\i0} {\k50}{\i1}facility{\i0} {\k77}seguramente
+Dialogue: 1,0:00:17.25,0:00:18.07,Cap,,0,0,0,,{\pos(540,880)}{\k26}ya {\k8}te {\k48}sucedió
+Dialogue: 1,0:00:18.07,0:00:18.61,Cap,,0,0,0,,{\pos(540,880)}{\k16}de {\k14}haber {\k24}hecho
+Dialogue: 1,0:00:18.61,0:00:19.59,Cap,,0,0,0,,{\pos(540,880)}{\k26}mil {\k50}cursos {\k22}de
+Dialogue: 1,0:00:19.59,0:00:20.59,Cap,,0,0,0,,{\pos(540,880)}{\k12}haber {\k38}estudiado {\k50}gramática
+Dialogue: 1,0:00:20.59,0:00:21.33,Cap,,0,0,0,,{\pos(540,880)}{\k35}y {\k12}aún {\k26}así
+Dialogue: 1,0:00:21.33,0:00:22.01,Cap,,0,0,0,,{\pos(540,880)}{\k30}sentir {\k26}que {\k12}hay
+Dialogue: 1,0:00:22.01,0:00:22.83,Cap,,0,0,0,,{\pos(540,880)}{\k46}errores {\k22}que {\k14}no
+Dialogue: 1,0:00:22.83,0:00:23.35,Cap,,0,0,0,,{\pos(540,880)}{\k18}tienen {\k18}que {\k16}ver
+Dialogue: 1,0:00:23.35,0:00:24.13,Cap,,0,0,0,,{\pos(540,880)}{\k20}con {\k20}la {\k38}regla
+Dialogue: 1,0:00:24.13,0:00:24.87,Cap,,0,0,0,,{\pos(540,880)}{\k42}sino {\k20}con {\k12}que
+Dialogue: 1,0:00:24.87,0:00:25.49,Cap,,0,0,0,,{\pos(540,880)}{\k10}se {\k12}te {\k40}cuela
+Dialogue: 1,0:00:25.49,0:00:26.29,Cap,,0,0,0,,{\pos(540,880)}{\k28}este {\k40}patrón {\k12}del
+Dialogue: 1,0:00:26.29,0:00:27.77,Cap,,0,0,0,,{\pos(540,880)}{\k36}español {\k58}cuando {\k54}armas
+Dialogue: 1,0:00:27.77,0:00:28.47,Cap,,0,0,0,,{\pos(540,880)}{\k12}tu {\k24}frase {\k34}en
+Dialogue: 1,0:00:28.47,0:00:29.60,Cap,,0,0,0,,{\pos(540,880)}{\k22}inglés {\k38}cuando {\k54}logras
+Dialogue: 1,0:00:29.60,0:00:30.74,Cap,,0,0,0,,{\pos(540,880)}{\k50}detectar {\k22}esto {\k42}empezar
+Dialogue: 1,0:00:30.74,0:00:31.78,Cap,,0,0,0,,{\pos(540,880)}{\k20}a {\k64}trabajarlo {\k20}en
+Dialogue: 1,0:00:31.78,0:00:33.08,Cap,,0,0,0,,{\pos(540,880)}{\k12}tu {\k38}trabajo {\k80}aprenderte
+Dialogue: 1,0:00:33.08,0:00:34.42,Cap,,0,0,0,,{\pos(540,880)}{\k58}{\i1}chunks{\i0} {\k56}unidades {\k20}de
+Dialogue: 1,0:00:34.42,0:00:35.14,Cap,,0,0,0,,{\pos(540,880)}{\k34}sentido {\k28}en {\k10}vez
+Dialogue: 1,0:00:35.14,0:00:36.26,Cap,,0,0,0,,{\pos(540,880)}{\k14}de {\k34}palabras {\k64}sueltas
+Dialogue: 1,0:00:36.26,0:00:37.67,Cap,,0,0,0,,{\pos(540,880)}{\k57}empiezas {\k20}a {\k63}fluir
+Dialogue: 1,0:00:37.67,0:00:38.41,Cap,,0,0,0,,{\pos(540,880)}{\k32}y {\k20}a {\k22}poder
+Dialogue: 1,0:00:38.41,0:00:39.33,Cap,,0,0,0,,{\pos(540,880)}{\k52}comunicar {\k16}las {\k24}cosas
+Dialogue: 1,0:00:39.33,0:00:39.99,Cap,,0,0,0,,{\pos(540,880)}{\k32}con {\k12}la {\k22}misma
+Dialogue: 1,0:00:39.99,0:00:40.93,Cap,,0,0,0,,{\pos(540,880)}{\k64}naturalidad {\k22}que {\k8}en
+Dialogue: 1,0:00:40.93,0:00:41.70,Cap,,0,0,0,,{\pos(540,880)}{\k34}español {\k25}si {\k18}quieres
+Dialogue: 1,0:00:41.70,0:00:42.68,Cap,,0,0,0,,{\pos(540,880)}{\k24}saber {\k30}cómo {\k44}trabajar
+Dialogue: 1,0:00:42.68,0:00:44.24,Cap,,0,0,0,,{\pos(540,880)}{\k54}esto {\k68}comenta {\k34}AT
+Dialogue: 1,0:00:44.24,0:00:44.93,Cap,,0,0,0,,{\pos(540,880)}{\k32}WORK {\k25}y {\k12}te
+Dialogue: 1,0:00:44.93,0:00:45.32,Cap,,0,0,0,,{\pos(540,880)}{\k39}cuento
