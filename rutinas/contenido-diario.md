@@ -30,6 +30,7 @@ Flor no está mirando cuando corren: no le hagas preguntas en el chat. Lo que ne
    - **Tipográfico claro u oscuro.**
    - **Marrón con capturas:** solo para wins.
 
+   Flor (20/10): «está perfecto el estilo» del editorial. Es el estilo por defecto: CSS en `carruseles/diario/2026-10-21-estoy-grabando-at-work/index.html`. Los otros estilos son para variar de vez en cuando.
    Al menos 3 de cada 5 piezas llevan foto real. Las fotos disponibles están en `carruseles/registro.md`.
 9. **Fotos.** Solo fotos reales de Flor, nunca de IA. Las que ya se usaron en el feed están en `carruseles/registro.md`, y no se repiten. Si la pieza necesita una foto y no hay una sin usar, hacé la versión tipográfica o con capturas y anotá en «Necesito de vos» qué foto conviene que mande.
 

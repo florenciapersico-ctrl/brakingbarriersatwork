@@ -1,58 +1,68 @@
 <!doctype html><html lang="es"><head><meta charset="utf-8"><title>AT WORK · La pregunta que no esperabas</title>
 <link rel="stylesheet" href="../../_marca/fonts/fonts.css"><link rel="stylesheet" href="../../_marca/fonts/opensans.css">
 <style>
-:root{--bg:#3F1E0D;--cream:#F4EADF;--soft:rgba(244,234,223,.72);--terra:#D7A184}
+:root{--paper:#FAF8F4;--ink:#1F1A17;--terra:#B5704A;--red:#D2452F}
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#777}
-.slide{width:1080px;height:1440px;margin:0 auto 40px;position:relative;overflow:hidden;background:var(--bg);color:var(--cream);display:flex;flex-direction:column;padding:0 104px}
-.top{height:150px;flex:none;display:flex;justify-content:space-between;align-items:center;font:600 24px/1 'Inter',sans-serif;letter-spacing:.28em;color:var(--terra)}
-.body{flex:1;display:flex;flex-direction:column;justify-content:center;padding-bottom:150px}
-.h1{font:600 106px/1.04 'Crimson Pro',serif;letter-spacing:-.025em}
-.acc{font:italic 500 96px/1.05 'Crimson Pro',serif;color:var(--terra);margin-top:30px}
-.swipe{font:600 26px/1 'Inter',sans-serif;letter-spacing:.24em;color:var(--terra);margin-top:110px;text-transform:uppercase}
-.t{font:400 74px/1.16 'Crimson Pro',serif;letter-spacing:-.012em}
-.t em,.h2 em{font-style:italic;color:var(--terra)}
-.h2{font:600 92px/1.06 'Crimson Pro',serif;letter-spacing:-.02em;color:var(--terra)}
-.mt{margin-top:46px}
-.soft{color:var(--soft)}
-.kick{font:600 26px/1 'Inter',sans-serif;letter-spacing:.24em;text-transform:uppercase;color:var(--terra);margin-bottom:44px}
-.vs{display:flex;flex-direction:column;gap:18px;margin-top:50px}
-.vs .no{font:400 92px/1.05 'Crimson Pro',serif;color:var(--soft);text-decoration:line-through;text-decoration-thickness:4px;text-decoration-color:var(--terra)}
-.vs .o{font:italic 400 60px/1 'Crimson Pro',serif;color:var(--soft)}
-.vs .si{font:600 104px/1.02 'Crimson Pro',serif;color:var(--cream)}
-.stack p{font:500 64px/1.2 'Crimson Pro',serif;padding:22px 0;border-bottom:2px solid rgba(215,161,132,.4)}
-.flow p{font:500 64px/1.15 'Crimson Pro',serif}
-.flow b{color:var(--terra);font-weight:600}
+.slide{width:1080px;height:1440px;margin:0 auto 40px;position:relative;overflow:hidden;display:flex;flex-direction:column;padding:0 100px}
+.w{background:var(--paper);color:var(--ink)}
+.ph{background-size:cover;background-position:center;color:#fff}
+.ph:before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.45) 0%,rgba(0,0,0,0) 22%,rgba(0,0,0,0) 45%,rgba(0,0,0,.78) 78%,rgba(0,0,0,.88) 100%)}
+.veil:before{background:rgba(20,16,14,.68)}
+.slide>*{position:relative}
+.top{height:160px;flex:none;display:flex;justify-content:space-between;align-items:center;font:600 24px/1 'Inter',sans-serif;letter-spacing:.24em;text-transform:uppercase}
+.w .top{color:#8A7F76}
+.rec{display:flex;align-items:center;gap:14px;color:var(--red)}
+.ph .rec{color:#fff}
+.rec b{width:22px;height:22px;border-radius:50%;background:var(--red);display:block}
+.body{flex:1;display:flex;flex-direction:column;justify-content:center;padding-bottom:140px}
+.body.end{justify-content:flex-end;padding-bottom:120px}
+.h1{font:600 108px/1.02 'Crimson Pro',serif;letter-spacing:-.025em;text-shadow:0 2px 24px rgba(0,0,0,.35)}
+.acc{font:italic 500 78px/1.08 'Crimson Pro',serif;color:#F2C9A8;margin-top:26px}
+.acc.sm{font-size:66px;margin-top:14px}
+.h2{font:600 94px/1.05 'Crimson Pro',serif;letter-spacing:-.02em}
+.t{font:400 72px/1.16 'Crimson Pro',serif;letter-spacing:-.012em}
+.t em{font-style:italic;color:var(--terra)}
+.ph .t em{color:#F2C9A8}
+.mt{margin-top:44px}
+.kick{font:600 26px/1 'Inter',sans-serif;letter-spacing:.24em;text-transform:uppercase;color:var(--terra);margin-bottom:46px}
+.ph .kick{color:#F2C9A8}
+.list p{font:500 64px/1.2 'Crimson Pro',serif;padding:20px 0;border-bottom:2px solid rgba(255,255,255,.35)}
+.flow p{font:500 68px/1.15 'Crimson Pro',serif}
+.flow b{color:var(--terra);font-weight:700}
 .flow i{display:block;font:400 54px/1 'Inter',sans-serif;color:var(--terra);margin:20px 0 20px 6px;font-style:normal}
-.rule{width:120px;height:4px;background:var(--terra);margin-top:60px}
-.ask{font:700 44px/1.32 'Open Sans',sans-serif;letter-spacing:-.015em;margin-top:52px}
-.sign{font:italic 600 42px/1 'Crimson Pro',serif;color:var(--terra);margin-top:46px}
+.tags{display:flex;flex-wrap:wrap;gap:22px}
+.tags span{font:600 40px/1 'Inter',sans-serif;padding:24px 30px;border:3px solid var(--ink);border-radius:60px}
+.ask{font:700 42px/1.32 'Open Sans',sans-serif;letter-spacing:-.015em;margin-top:44px;max-width:860px}
+.close .body.end{padding-bottom:70px}.close .h2{font-size:82px}.close .acc.sm{font-size:56px}.close .ask{font-size:36px;margin-top:30px}
+.tag{color:inherit}.w .tag{color:#B5704A}.soft{color:#8A7F76;margin:10px 0}.strike{color:#A9A09A;text-decoration:line-through;text-decoration-color:#D2452F;text-decoration-thickness:5px}.list2 p{font:500 62px/1.2 'Crimson Pro',serif;padding:20px 0;border-bottom:2px solid rgba(31,26,23,.18)}
 </style></head><body>
-<section class="slide " id="s1">
-  <div class="top"><span>AT WORK</span><span></span></div>
-  <div class="body">
+<section class="slide ph" id="s1" style="background-image:url(img/foto-flor-calle-3.jpg);background-position:center 15%">
+  <div class="top"><span class="tag">AT WORK</span><span>Desliza →</span></div>
+  <div class="body end">
     <p class="h1">Memorizar tu presentación en inglés te sirve…</p>
-    <p class="acc big">hasta la primera pregunta.</p>
-    <p class="swipe">Desliza →</p>
+    <p class="acc">hasta la primera pregunta.</p>
   </div>
 </section>
-<section class="slide " id="s2">
-  <div class="top"><span>AT WORK</span><span>02</span></div>
+<section class="slide w" id="s2">
+  <div class="top"><span class="tag">AT WORK</span><span>02 / 09</span></div>
   <div class="body">
     <p class="t">Terminas tu parte.</p>
     <p class="t">Todo salió bien.</p>
     <p class="t mt">Y alguien pregunta algo<br><em>que no estaba en tus slides.</em></p>
   </div>
 </section>
-<section class="slide " id="s3">
-  <div class="top"><span>AT WORK</span><span>03</span></div>
+<section class="slide w" id="s3">
+  <div class="top"><span class="tag">AT WORK</span><span>03 / 09</span></div>
   <div class="body">
     <p class="t">Ahí se ve si practicaste</p>
-    <div class="vs"><span class="no">un speech</span><span class="o">o</span><span class="si">una conversación.</span></div>
+    <p class="h2 mt strike">un speech</p>
+    <p class="t soft">o</p>
+    <p class="h2">una conversación.</p>
   </div>
 </section>
-<section class="slide " id="s4">
-  <div class="top"><span>AT WORK</span><span>04</span></div>
+<section class="slide ph veil" id="s4" style="background-image:url(img/usina-salon-luz.jpg)">
+  <div class="top"><span class="tag">AT WORK</span><span>04 / 09</span></div>
   <div class="body">
     <p class="kick">Esta semana, en clase</p>
     <p class="t">Una alumna, manager, escribió sola el mail para su reunión anual.</p>
@@ -60,46 +70,44 @@ body{background:#777}
     <p class="t mt"><em>El mail lo tenía.</em></p>
   </div>
 </section>
-<section class="slide " id="s5">
-  <div class="top"><span>AT WORK</span><span>05</span></div>
+<section class="slide w" id="s5">
+  <div class="top"><span class="tag">AT WORK</span><span>05 / 09</span></div>
   <div class="body">
     <p class="t">Lo que le daba miedo era otra cosa:</p>
     <p class="h2 mt">la pregunta que no está en el documento.</p>
     <p class="t mt soft">Porque como manager, esperan que ella responda.</p>
   </div>
 </section>
-<section class="slide " id="s6">
-  <div class="top"><span>AT WORK</span><span>06</span></div>
+<section class="slide w" id="s6">
+  <div class="top"><span class="tag">AT WORK</span><span>06 / 09</span></div>
   <div class="body">
     <p class="t">Y en inglés se siente el doble.</p>
-    <div class="stack mt"><p>Escuchas la pregunta.</p><p>Buscas la respuesta.</p><p>Buscas las palabras.</p></div>
+    <div class="list2 mt"><p>Escuchas la pregunta.</p><p>Buscas la respuesta.</p><p>Buscas las palabras.</p></div>
     <p class="t mt"><em>Todo a la vez.</em></p>
   </div>
 </section>
-<section class="slide " id="s7">
-  <div class="top"><span>AT WORK</span><span>07</span></div>
+<section class="slide w" id="s7">
+  <div class="top"><span class="tag">AT WORK</span><span>07 / 09</span></div>
   <div class="body">
     <p class="t">Por eso no entrenamos el speech.</p>
     <div class="flow mt"><p>Te hago la pregunta incómoda.</p><i>↓</i><p>Respondes.</p><i>↓</i><p>Ajustamos.</p><i>↓</i><p>Te la vuelvo a hacer, <b>más difícil.</b></p></div>
   </div>
 </section>
-<section class="slide " id="s8">
-  <div class="top"><span>AT WORK</span><span>08</span></div>
+<section class="slide w" id="s8">
+  <div class="top"><span class="tag">AT WORK</span><span>08 / 09</span></div>
   <div class="body">
     <p class="t">Hasta que puedes escuchar,</p>
     <p class="t">pensar</p>
     <p class="t">y seguir.</p>
-    <p class="t mt"><em>Sin haberlo escrito antes.</em></p>
+    <p class="h2 mt">Sin haberlo escrito antes.</p>
   </div>
 </section>
-<section class="slide last" id="s9">
-  <div class="top"><span>AT WORK</span><span>09</span></div>
-  <div class="body">
+<section class="slide ph veil close" id="s9" style="background-image:url(img/usina-latte-cerca.jpg);background-position:center 0%">
+  <div class="top"><span class="tag">AT WORK</span><span>09 / 09</span></div>
+  <div class="body end">
     <p class="t">No necesitas tener todas las respuestas preparadas.</p>
-    <p class="h2 mt">Necesitas haber practicado no tenerlas.</p>
-    <div class="rule"></div>
+    <p class="h2" style="margin-top:20px">Necesitas haber practicado no tenerlas.</p>
     <p class="ask">¿Qué pregunta te da miedo que te hagan en tu próxima reunión? Escríbemela en comentarios.</p>
-    <p class="sign">Siempre hay un segundo intento.</p>
   </div>
 </section>
 </body></html>
