@@ -60,8 +60,10 @@ with open('caps.txt','w') as f:
   f.write(f"file '{lines[-1][0]}'\n")
 # title
 im=Image.new('RGBA',(1080,1920),(0,0,0,0));d=ImageDraw.Draw(im)
-TF=ImageFont.truetype('fonts/CrimsonPro-SemiBold.ttf',58); tt='¿Por qué tu inglés suena a traducción?'
-tw=d.textlength(tt,font=TF); cy=100
-d.rounded_rectangle(((1080-tw)/2-30,cy-46,(1080+tw)/2+30,cy+46),radius=16,fill=(249,245,238,250))
-d.text((540,cy),tt,font=TF,fill=(63,30,13),anchor='mm'); im.save('title.png')
+TF=ImageFont.truetype('fonts/CrimsonPro-SemiBold.ttf',92)
+L=['¿Por qué tu inglés','suena a traducción?']
+lh=104; top=1170; ws=[d.textlength(t,font=TF) for t in L]; mw=max(ws)
+d.rounded_rectangle(((1080-mw)/2-44,top-30,(1080+mw)/2+44,top+lh*len(L)+18),radius=26,fill=(249,245,238,250))
+for i,t in enumerate(L): d.text((540,top+i*lh+lh/2-6),t,font=TF,fill=(63,30,13),anchor='mm')
+im.save('title.png')
 print(n,'states',round(total,2))
