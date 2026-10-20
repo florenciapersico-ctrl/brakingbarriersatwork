@@ -127,96 +127,91 @@
   .case .cols p { font-size:10pt; line-height:1.45; }
   .case .q { margin-top:4mm; font-family:var(--display); font-style:italic; font-size:13pt; color:var(--brown); }
 </style>
+<style>
+  .p1 h1 { font-size:40pt; line-height:1.02; margin-top:20mm; max-width:150mm; }
+  .p1 .for { margin-top:8mm; font-size:13pt; line-height:1.55; color:var(--on-ink-soft); max-width:140mm; }
+  .p1 .for b { color:var(--on-ink); font-weight:600; }
+  .block { margin-top:11mm; }
+  .ink .block h3 { color:var(--terra); }
+  .block h3 { font-family:var(--body); font-size:8pt; font-weight:700; letter-spacing:.2em; text-transform:uppercase; color:var(--brown); margin-bottom:4mm; }
+  .list { list-style:none; display:grid; gap:3.5mm; }
+  .list li { padding-left:8mm; position:relative; font-size:13pt; line-height:1.4; }
+  .list li::before { content:'✓'; position:absolute; left:0; color:var(--terra); font-weight:700; }
+  .ink .list li { color:var(--on-ink); }
+  .how { display:grid; grid-template-columns:repeat(3,1fr); gap:5mm; }
+  .how div { border-top:2px solid var(--terra); padding-top:3.5mm; }
+  .how b { display:block; font-family:var(--display); font-size:15pt; margin-bottom:1.5mm; }
+  .how p { font-size:10.5pt; color:var(--on-ink-soft); line-height:1.45; }
+  .q2 { border-left:2px solid var(--terra); padding:1mm 0 1mm 5mm; margin-top:4mm; }
+  .q2 .q { font-family:var(--display); font-style:italic; font-size:13pt; line-height:1.38; }
+  .q2 .a { font-size:9.5pt; color:var(--muted); margin-top:1.5mm; }
+  .pr { margin-top:11mm; background:var(--ink); color:var(--on-ink); padding:7mm 8mm; display:flex; justify-content:space-between; align-items:center; gap:8mm; }
+  .pr .lbl { font-size:7.5pt; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--terra); }
+  .pr .amt { font-family:var(--display); font-size:34pt; line-height:1; margin-top:2mm; }
+  .pr .t { font-size:10pt; color:var(--on-ink-soft); margin-top:2mm; }
+  .pr a { color:var(--ink); background:var(--terra); text-decoration:none; font-size:8.5pt; font-weight:700; letter-spacing:.12em; text-transform:uppercase; padding:3.6mm 5mm; white-space:nowrap; }
+  .nx { margin-top:7mm; font-size:12pt; line-height:1.55; }
+  .nx a { color:var(--brown); }
+</style>
 </head>
 <body>
 
-<!-- 1 · LA PROMESA -->
-<section class="page ink cover">
+<section class="page ink cover p1">
   <img class="logo" src="../../img/logo.webp" alt="Breaking Barriers at Work">
   <div class="who">Edición Entrevistas</div>
-  <h1 style="margin-top:22mm">De guardar búsquedas <em>a aplicar a ellas.</em></h1>
-  <p class="big">Para profesionales con inglés intermedio que todavía no trabajan en inglés,
-    pero su próximo puesto lo pide. Te ayudo a <em>pasar entrevistas en inglés</em> y a llegar
-    <em>preparada a tu trabajo nuevo</em>, entrenando con tu CV, tu experiencia y las búsquedas de tu rubro.
-    Sin memorizar respuestas.</p>
+  <h1>Tu próxima entrevista en inglés, <em>preparada.</em></h1>
+  <p class="for">Para profesionales con <b>inglés intermedio (B1–B2)</b> que <b>todavía no trabajan en inglés</b>
+    y quieren aplicar a puestos que lo piden.</p>
 
-  <span class="eyebrow" style="margin-top:12mm">Lo que hoy te frena</span>
-  <ul class="pain">
-    <li>Tienes búsquedas guardadas y no aplicas porque no sabes si sostendrías la entrevista.</li>
-    <li>Tu experiencia es enorme, pero en inglés suena más chica y más simple.</li>
-    <li>Te da miedo la pregunta que no preparaste, o quedarte en blanco.</li>
-  </ul>
-  <img class="photo" src="../../img/flor-laptop.webp" alt="Flor Pérsico" style="width:48mm;bottom:20mm">
+  <div class="block">
+    <h3>Qué vas a lograr</h3>
+    <ul class="list">
+      <li>Saber si estás en nivel, y qué te falta.</li>
+      <li>Presentarte y contar tu experiencia en inglés, sin leer.</li>
+      <li>Responder lo que no preparaste, y recuperarte si te quedas en blanco.</li>
+      <li>Aplicar a esas búsquedas que tienes guardadas.</li>
+    </ul>
+  </div>
+
+  <div class="block">
+    <h3>Cómo funciona</h3>
+    <div class="how">
+      <div><b>1 · Diagnóstico</b><p>Hablamos en inglés y te digo dónde estás.</p></div>
+      <div><b>2 · Simulacros</b><p>Cada semana practicamos tu entrevista con tu CV y tus búsquedas reales.</p></div>
+      <div><b>3 · Tu trabajo nuevo</b><p>Seguimos con reuniones, presentaciones y mails en inglés.</p></div>
+    </div>
+  </div>
   <div class="foot"><span>Breaking Barriers at Work · Flor Pérsico</span><span>1</span></div>
 </section>
 
-<!-- 2 · EL CAMINO + QUÉ INCLUYE -->
 <section class="page">
-  <span class="eyebrow">Tu camino · 5 meses</span>
-  <h2>Tres pasos.</h2>
-  <div class="steps3">
-    <div class="s3"><div class="n">1</div><div>
-      <h3>Tu diagnóstico <span class="when">Semana 1</span></h3>
-      <p>Hablamos en inglés sobre tu trabajo y te digo con honestidad dónde estás: qué ya te alcanza y qué hay que entrenar.</p>
-      <div class="goal">«Sé si estoy en nivel y qué me falta.»</div>
-    </div></div>
-    <div class="s3"><div class="n">2</div><div>
-      <h3>Lista para aplicar <span class="when">Semanas 2 a 6</span></h3>
-      <p>Con tu CV y tus búsquedas armo tu kit de entrevista. Cada semana hacemos un simulacro: la llamada del recruiter, tu presentación, tus logros con números, las preguntas difíciles y tu cierre.</p>
-      <div class="goal">«Sé qué contar de mí y qué hacer si algo no sale. Y apliqué.»</div>
-    </div></div>
-    <div class="s3"><div class="n">3</div><div>
-      <h3>Lista para el trabajo <span class="when">Hasta el mes 5</span></h3>
-      <p>Cada entrevista real se convierte en material de clase. Y entrenamos lo que te va a pedir el puesto: reuniones, presentaciones, mails, entender a un nativo que habla rápido.</p>
-      <div class="goal">«Me desenvuelvo en inglés como la profesional que ya soy, y sé cómo seguir entrenando sola.»</div>
-    </div></div>
-  </div>
-
-  <span class="eyebrow" style="margin-top:9mm">Qué incluye</span>
-  <ul class="inc2">
-    <li><b>1 sesión 1:1 por semana conmigo</b> <span>· 60 min</span></li>
-    <li><b>Interview Me</b> <span>· el módulo de entrevistas</span></li>
-    <li><b>Todo el programa AT WORK</b> <span>· grabado, 5 meses</span></li>
-    <li><b>Tu kit de entrevista</b> <span>· armado con tu CV y tu puesto</span></li>
-    <li><b>4 coaches de práctica con IA</b> <span>· se quedan contigo</span></li>
-    <li><b>Feedback de tus grabaciones</b> <span>· antes de cada sesión</span></li>
-    <li><b>Weekly Report</b> <span>· te sigo semana a semana</span></li>
-    <li><b>Comunidad en WhatsApp</b> <span>· con las alumnas y conmigo, entre sesiones</span></li>
+  <span class="eyebrow">Qué incluye · 5 meses</span>
+  <ul class="list" style="margin-top:4mm">
+    <li><b>1 sesión 1:1 por semana conmigo</b> (60 min)</li>
+    <li><b>Interview Me:</b> el módulo de entrevistas</li>
+    <li><b>Tu kit de entrevista</b>, armado con tu CV</li>
+    <li><b>Todo el programa AT WORK</b> en la plataforma</li>
+    <li><b>Coaches de práctica con IA</b>, para entrenar entre sesiones</li>
+    <li><b>Comunidad en WhatsApp</b></li>
   </ul>
-  <div class="foot"><span>Breaking Barriers at Work · Edición Entrevistas</span><span>2</span></div>
-</section>
 
-<!-- 3 · PRUEBA + INVERSIÓN -->
-<section class="page">
-  <span class="eyebrow">Caso de éxito</span>
-  <h2>Lo que pasa cuando entrenas.</h2>
-  <div class="case">
-    <div class="hd"><h3>Belem</h3><span class="rl">Líder de un equipo de IA en un banco · México</span></div>
-    <div class="cols">
-      <div><b>Antes · mayo</b><p>Proyectaba sus OKRs en pantalla y los leía en español, «por no pronunciarlo en inglés». En las capacitaciones globales tenía ideas y prefería no hablar.</p></div>
-      <div><b>Qué entrenamos</b><p>Sus OKRs reales, semana a semana: su update, role play conmigo haciendo de su jefe, feedback, un mapa del mensaje y un segundo intento.</p></div>
-      <div><b>Después · septiembre</b><p>Se presentó en una reunión real con lo que ensayamos y su jefe le dijo que estuvo bien. Reporta sus OKRs en inglés. Y en la capacitación se animó a hablar y preguntar.</p></div>
-    </div>
-    <div class="q">«Much better than the first time.» — Belem, sobre su segundo intento</div>
+  <div class="block">
+    <h3>Ellas ya lo hicieron</h3>
+    <div class="q2"><div class="q">«Me llamaron desde UK, un talent recruiter para una posición global, y pude hacer desde small talk, hablar de mi trabajo actual y mi experiencia pasada. Me fue bien. Respondí todo (con errores) of course, ya me mandó un mail con los next steps.»</div><div class="a">Alumna de AT WORK · octubre 2026</div></div>
+    <div class="q2"><div class="q">«I had my first interview in English —with Tesla— and I felt good. I could share my point of view and I felt comfortable and confident.»</div><div class="a">Moni · HR Professional · México</div></div>
   </div>
 
-  <span class="eyebrow" style="margin-top:7mm">Y en entrevistas</span>
-  <div class="tq3" style="margin-top:2mm">
-    <div class="t3"><div class="q">«Me llamaron esta mañana no programado desde UK, un talent recruiter para una posición global, y pude hacer desde small talk, hablar de mi trabajo actual y mi experiencia pasada. Me fue bien. Respondí todo (con errores) of course, ya me mandó un mail con los next steps.»</div><div class="a">Alumna de AT WORK · octubre 2026</div></div>
-    <div class="t3"><div class="q">«I had my first interview in English —with Tesla— and I felt good. I could share my point of view and I felt comfortable and confident.»</div><div class="a">Moni · HR Professional · México</div></div>
-  </div>
-
-  <div class="price2">
+  <div class="pr">
     <div>
-      <div class="plan">Inversión · AT WORK 1:1 · Edición Entrevistas</div>
+      <div class="lbl">Inversión</div>
       <div class="amt">USD 1.250</div>
-      <div class="terms">o 5 cuotas mensuales de USD 250, con tarjeta</div>
+      <div class="t">o 5 cuotas mensuales de USD 250</div>
     </div>
     <a href="https://buy.stripe.com/00wbJ21pn9oJ1F70RQ8k813">Reservar mi lugar →</a>
   </div>
-  <p class="next"><b>Próximo paso:</b> reservas tu lugar, me mandas tu CV y 2 o 3 búsquedas a las que quieras aplicar, y en la primera sesión te doy tu diagnóstico.
-    ¿Dudas? Escríbeme por <a href="https://wa.me/5491144101209" style="color:var(--brown)">WhatsApp</a>.</p>
-  <div class="foot"><span>Breaking Barriers at Work · Flor Pérsico</span><span>3</span></div>
+  <p class="nx"><b>Próximo paso:</b> si tienes dudas, agendamos 20 minutos y vemos juntas si es para ti.
+    Escríbeme por <a href="https://wa.me/5491144101209">WhatsApp</a>.</p>
+  <div class="foot"><span>Breaking Barriers at Work · Flor Pérsico</span><span>2</span></div>
 </section>
 
 </body>
