@@ -24,7 +24,14 @@ Flor no está mirando cuando corren: no le hagas preguntas en el chat. Lo que ne
 5. **Ann:** 20 % hook que ya funcionó, 80 % insight real de Flor. Tomá los hooks de las referentes de «Mis referentes» o de los posts de Ann que Flor mandó. El hook «10 razones por las cuales NO deberías trabajar conmigo» ya se usó.
 6. **CTA.** Solo 2 veces por semana va el de venta, en las filas con Matadolor «Invitando»: «comenta READY o envíame un DM con la palabra READY» (confirmado por Flor el 19/10: siempre READY, nunca «AT WORK»; ManyChat responde por comentario y por DM). El resto de los días el CTA es de crecimiento: comentar, guardar, mandárselo a alguien o seguirla. Si el post tiene un giro tipo hook, la última placa tiene que cerrarlo: Flor lo pidió con el «Ups, perdón… ese hook era para llamar tu atención».
 7. **Feed variado.** No repitas en dos días seguidos ni el fondo, ni el estilo, ni la foto. Antes de elegir, mirá qué se usó en los últimos 3 días en `carruseles/registro.md`.
-8. **Fotos.** Solo fotos reales de Flor, nunca de IA. Las que ya se usaron en el feed están en `carruseles/registro.md`, y no se repiten. Si la pieza necesita una foto y no hay una sin usar, hacé la versión tipográfica o con capturas y anotá en «Necesito de vos» qué foto conviene que mande.
+8. **Variedad de estilo (Flor, 20/10).** No todo en placas marrones o beige. La idea es que se vea profesional, con su imagen. Rotá entre:
+   - **Editorial con fotos:** foto a sangre en la portada, el medio y el cierre (Flor, cafés, laptop), con placas blancas #FAF8F4 y tinta negra. Es el modelo del 21/10.
+   - **Foto de Flor de fondo con hook en blanco:** como el de Ann.
+   - **Tipográfico claro u oscuro.**
+   - **Marrón con capturas:** solo para wins.
+
+   Al menos 3 de cada 5 piezas llevan foto real. Las fotos disponibles están en `carruseles/registro.md`.
+9. **Fotos.** Solo fotos reales de Flor, nunca de IA. Las que ya se usaron en el feed están en `carruseles/registro.md`, y no se repiten. Si la pieza necesita una foto y no hay una sin usar, hacé la versión tipográfica o con capturas y anotá en «Necesito de vos» qué foto conviene que mande.
 
 ## Wins de los lunes
 

@@ -1,117 +1,104 @@
 <!doctype html><html lang="es"><head><meta charset="utf-8"><title>AT WORK · Estoy grabando todo AT WORK</title>
 <link rel="stylesheet" href="../../_marca/fonts/fonts.css"><link rel="stylesheet" href="../../_marca/fonts/opensans.css">
 <style>
-:root{--bg:#EDE5CC;--ink:#3F1E0D;--brown:#895325;--red:#C2412D;--soft:#7B6A58}
+:root{--paper:#FAF8F4;--ink:#1F1A17;--terra:#B5704A;--red:#D2452F}
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#777}
-.slide{width:1080px;height:1440px;margin:0 auto 40px;position:relative;overflow:hidden;background:var(--bg);color:var(--ink);display:flex;flex-direction:column;padding:0 120px}
-.c{position:absolute;width:70px;height:70px;border-color:var(--ink);border-style:solid;border-width:0}
-.tl{left:56px;top:56px;border-top-width:5px;border-left-width:5px}.tr{right:56px;top:56px;border-top-width:5px;border-right-width:5px}
-.bl{left:56px;bottom:56px;border-bottom-width:5px;border-left-width:5px}.br{right:56px;bottom:56px;border-bottom-width:5px;border-right-width:5px}
-.top{height:190px;flex:none;display:flex;justify-content:space-between;align-items:center;padding-top:30px;font:600 26px/1 'Inter',sans-serif;letter-spacing:.22em;color:var(--ink)}
-.rec{display:flex;align-items:center;gap:16px;color:var(--red)}
-.rec b{width:26px;height:26px;border-radius:50%;background:var(--red);display:block}
-.foot{height:170px;flex:none;font:600 22px/1 'Inter',sans-serif;letter-spacing:.26em;text-transform:uppercase;color:var(--soft);display:flex;align-items:center}
-.body{flex:1;display:flex;flex-direction:column;justify-content:center}
-.h1{font:600 112px/1.02 'Crimson Pro',serif;letter-spacing:-.025em}
-.acc{font:italic 500 84px/1.08 'Crimson Pro',serif;color:var(--brown);margin-top:36px}
-.acc.sm{font-size:70px;margin-top:20px}
-.h2{font:600 92px/1.06 'Crimson Pro',serif;letter-spacing:-.02em}
+.slide{width:1080px;height:1440px;margin:0 auto 40px;position:relative;overflow:hidden;display:flex;flex-direction:column;padding:0 100px}
+.w{background:var(--paper);color:var(--ink)}
+.ph{background-size:cover;background-position:center;color:#fff}
+.ph:before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.45) 0%,rgba(0,0,0,0) 22%,rgba(0,0,0,0) 45%,rgba(0,0,0,.78) 78%,rgba(0,0,0,.88) 100%)}
+.veil:before{background:rgba(20,16,14,.68)}
+.slide>*{position:relative}
+.top{height:160px;flex:none;display:flex;justify-content:space-between;align-items:center;font:600 24px/1 'Inter',sans-serif;letter-spacing:.24em;text-transform:uppercase}
+.w .top{color:#8A7F76}
+.rec{display:flex;align-items:center;gap:14px;color:var(--red)}
+.ph .rec{color:#fff}
+.rec b{width:22px;height:22px;border-radius:50%;background:var(--red);display:block}
+.body{flex:1;display:flex;flex-direction:column;justify-content:center;padding-bottom:140px}
+.body.end{justify-content:flex-end;padding-bottom:120px}
+.h1{font:600 108px/1.02 'Crimson Pro',serif;letter-spacing:-.025em;text-shadow:0 2px 24px rgba(0,0,0,.35)}
+.acc{font:italic 500 78px/1.08 'Crimson Pro',serif;color:#F2C9A8;margin-top:26px}
+.acc.sm{font-size:66px;margin-top:14px}
+.h2{font:600 94px/1.05 'Crimson Pro',serif;letter-spacing:-.02em}
 .t{font:400 72px/1.16 'Crimson Pro',serif;letter-spacing:-.012em}
-.t em{font-style:italic;color:var(--brown)}
-.mt{margin-top:46px}
-.kick{font:600 26px/1 'Inter',sans-serif;letter-spacing:.24em;text-transform:uppercase;color:var(--red);margin-bottom:46px}
-.list p{font:500 64px/1.2 'Crimson Pro',serif;padding:20px 0;border-bottom:2px solid rgba(63,30,13,.25)}
+.t em{font-style:italic;color:var(--terra)}
+.ph .t em{color:#F2C9A8}
+.mt{margin-top:44px}
+.kick{font:600 26px/1 'Inter',sans-serif;letter-spacing:.24em;text-transform:uppercase;color:var(--terra);margin-bottom:46px}
+.ph .kick{color:#F2C9A8}
+.list p{font:500 64px/1.2 'Crimson Pro',serif;padding:20px 0;border-bottom:2px solid rgba(255,255,255,.35)}
 .flow p{font:500 68px/1.15 'Crimson Pro',serif}
-.flow b{color:var(--brown);font-weight:700}
-.flow i{display:block;font:400 54px/1 'Inter',sans-serif;color:var(--red);margin:22px 0 22px 6px;font-style:normal}
+.flow b{color:var(--terra);font-weight:700}
+.flow i{display:block;font:400 54px/1 'Inter',sans-serif;color:var(--terra);margin:20px 0 20px 6px;font-style:normal}
 .tags{display:flex;flex-wrap:wrap;gap:22px}
-.tags span{font:600 40px/1 'Inter',sans-serif;letter-spacing:-.01em;padding:24px 30px;border:3px solid var(--ink);border-radius:60px}
-.rule{width:120px;height:5px;background:var(--red);margin-top:60px}
-.ask{font:700 46px/1.32 'Open Sans',sans-serif;letter-spacing:-.015em;margin-top:52px}
+.tags span{font:600 40px/1 'Inter',sans-serif;padding:24px 30px;border:3px solid var(--ink);border-radius:60px}
+.ask{font:700 42px/1.32 'Open Sans',sans-serif;letter-spacing:-.015em;margin-top:44px;max-width:860px}
+.close .body.end{padding-bottom:70px}.close .h2{font-size:82px}.close .acc.sm{font-size:56px}.close .ask{font-size:36px;margin-top:30px}
 </style></head><body>
-<section class="slide" id="s1">
-  <i class="c tl"></i><i class="c tr"></i><i class="c bl"></i><i class="c br"></i>
-  <div class="top"><span class="rec"><b></b>REC</span><span>TOMA 1</span></div>
-  <div class="body">
+<section class="slide ph" id="s1" style="background-image:url(img/laptop-delivery-method-cafe-plantas.jpg);background-position:center 30%">
+  <div class="top"><span class="rec"><b></b>REC</span><span>Detrás de escena</span></div>
+  <div class="body end">
     <p class="h1">Estoy grabando todo AT WORK.</p>
     <p class="acc">Y me puse una sola regla.</p>
   </div>
-  <div class="foot">AT WORK · detrás de escena</div>
 </section>
-<section class="slide" id="s2">
-  <i class="c tl"></i><i class="c tr"></i><i class="c bl"></i><i class="c br"></i>
-  <div class="top"><span class="rec"><b></b>REC</span><span>TOMA 1 · 02</span></div>
+<section class="slide w" id="s2">
+  <div class="top"><span class="rec"><b></b>REC</span><span>02 / 09</span></div>
   <div class="body">
     <p class="h2">Una toma por clase.</p>
     <p class="t mt">Si algo sale mal,<br><em>sigo.</em></p>
   </div>
-  <div class="foot">AT WORK · detrás de escena</div>
 </section>
-<section class="slide" id="s3">
-  <i class="c tl"></i><i class="c tr"></i><i class="c bl"></i><i class="c br"></i>
-  <div class="top"><span class="rec"><b></b>REC</span><span>TOMA 1 · 03</span></div>
+<section class="slide w" id="s3">
+  <div class="top"><span class="rec"><b></b>REC</span><span>03 / 09</span></div>
   <div class="body">
     <p class="t">Para una perfeccionista en recuperación,</p>
     <p class="h2 mt">no es poco.</p>
   </div>
-  <div class="foot">AT WORK · detrás de escena</div>
 </section>
-<section class="slide" id="s4">
-  <i class="c tl"></i><i class="c tr"></i><i class="c bl"></i><i class="c br"></i>
-  <div class="top"><span class="rec"><b></b>REC</span><span>TOMA 1 · 04</span></div>
+<section class="slide ph veil" id="s4" style="background-image:url(img/usina-salon-plantas.jpg)">
+  <div class="top"><span class="rec"><b></b>REC</span><span>04 / 09</span></div>
   <div class="body">
     <p class="kick">Hasta ahora</p>
     <div class="list"><p>Onboarding completo</p><p>Módulo 1</p><p>Casi todo el Módulo 2</p><p>7 clases del Módulo 3</p></div>
     <p class="t mt"><em>Más de 25 clases grabadas.</em></p>
   </div>
-  <div class="foot">AT WORK · detrás de escena</div>
 </section>
-<section class="slide" id="s5">
-  <i class="c tl"></i><i class="c tr"></i><i class="c bl"></i><i class="c br"></i>
-  <div class="top"><span class="rec"><b></b>REC</span><span>TOMA 1 · 05</span></div>
+<section class="slide w" id="s5">
+  <div class="top"><span class="rec"><b></b>REC</span><span>05 / 09</span></div>
   <div class="body">
     <p class="t">¿Por qué una sola toma?</p>
     <p class="h2 mt">Porque es exactamente lo que les pido a mis alumnas.</p>
   </div>
-  <div class="foot">AT WORK · detrás de escena</div>
 </section>
-<section class="slide" id="s6">
-  <i class="c tl"></i><i class="c tr"></i><i class="c bl"></i><i class="c br"></i>
-  <div class="top"><span class="rec"><b></b>REC</span><span>TOMA 1 · 06</span></div>
+<section class="slide w" id="s6">
+  <div class="top"><span class="rec"><b></b>REC</span><span>06 / 09</span></div>
   <div class="body">
     <p class="t">En la reunión no hay segunda toma.</p>
     <div class="flow mt"><p>Te equivocas en una palabra.</p><i>↓</i><p>Te corriges.</p><i>↓</i><p><b>Y sigues.</b></p></div>
   </div>
-  <div class="foot">AT WORK · detrás de escena</div>
 </section>
-<section class="slide" id="s7">
-  <i class="c tl"></i><i class="c tr"></i><i class="c bl"></i><i class="c br"></i>
-  <div class="top"><span class="rec"><b></b>REC</span><span>TOMA 1 · 07</span></div>
+<section class="slide w" id="s7">
+  <div class="top"><span class="rec"><b></b>REC</span><span>07 / 09</span></div>
   <div class="body">
     <p class="t">Si grabara cada clase diez veces hasta que salga perfecta,</p>
     <p class="h2 mt">estaría enseñando lo contrario de lo que enseño.</p>
   </div>
-  <div class="foot">AT WORK · detrás de escena</div>
 </section>
-<section class="slide" id="s8">
-  <i class="c tl"></i><i class="c tr"></i><i class="c bl"></i><i class="c br"></i>
-  <div class="top"><span class="rec"><b></b>REC</span><span>TOMA 1 · 08</span></div>
+<section class="slide w" id="s8">
+  <div class="top"><span class="rec"><b></b>REC</span><span>08 / 09</span></div>
   <div class="body">
     <p class="kick">Lo que estoy grabando en el Módulo 3</p>
     <div class="tags"><span>Stop Translating</span><span>Verb Patterns</span><span>Questions</span><span>Relative Clauses</span><span>Conditionals</span><span>Modals</span><span>Reported Speech</span><span>Word Families</span></div>
   </div>
-  <div class="foot">AT WORK · detrás de escena</div>
 </section>
-<section class="slide" id="s9">
-  <i class="c tl"></i><i class="c tr"></i><i class="c bl"></i><i class="c br"></i>
-  <div class="top"><span class="rec"><b></b>REC</span><span>CORTE</span></div>
-  <div class="body">
+<section class="slide ph close" id="s9" style="background-image:url(img/flor-calle-tapado-negro.jpg);background-position:center 0%">
+  <div class="top"><span class="rec"><b></b>CORTE</span><span>09 / 09</span></div>
+  <div class="body end">
     <p class="h2">Clear, not native.</p>
     <p class="acc sm">Tampoco en mis videos.</p>
-    <div class="rule"></div>
     <p class="ask">¿Qué situación de tu trabajo te gustaría que tuviera su propia clase? Cuéntame en comentarios.</p>
   </div>
-  <div class="foot">AT WORK · detrás de escena</div>
 </section>
 </body></html>
