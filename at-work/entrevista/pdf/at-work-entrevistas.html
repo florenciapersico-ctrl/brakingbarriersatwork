@@ -131,7 +131,7 @@
   .p1 h1 { font-size:40pt; line-height:1.02; margin-top:20mm; max-width:150mm; }
   .p1 .for { margin-top:8mm; font-size:13pt; line-height:1.55; color:var(--on-ink-soft); max-width:140mm; }
   .p1 .for b { color:var(--on-ink); font-weight:600; }
-  .block { margin-top:11mm; }
+  .block { margin-top:9mm; }
   .ink .block h3 { color:var(--terra); }
   .block h3 { font-family:var(--body); font-size:8pt; font-weight:700; letter-spacing:.2em; text-transform:uppercase; color:var(--brown); margin-bottom:4mm; }
   .list { list-style:none; display:grid; gap:3.5mm; }
@@ -143,15 +143,21 @@
   .how b { display:block; font-family:var(--display); font-size:15pt; margin-bottom:1.5mm; }
   .how p { font-size:10.5pt; color:var(--on-ink-soft); line-height:1.45; }
   .q2 { border-left:2px solid var(--terra); padding:1mm 0 1mm 5mm; margin-top:4mm; }
-  .q2 .q { font-family:var(--display); font-style:italic; font-size:13pt; line-height:1.38; }
+  .q2 .q { font-family:var(--display); font-style:italic; font-size:11.5pt; line-height:1.38; }
   .q2 .a { font-size:9.5pt; color:var(--muted); margin-top:1.5mm; }
-  .pr { margin-top:11mm; background:var(--ink); color:var(--on-ink); padding:7mm 8mm; display:flex; justify-content:space-between; align-items:center; gap:8mm; }
+  .pr { margin-top:7mm; background:var(--ink); color:var(--on-ink); padding:7mm 8mm; display:flex; justify-content:space-between; align-items:center; gap:8mm; }
   .pr .lbl { font-size:7.5pt; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--terra); }
   .pr .amt { font-family:var(--display); font-size:34pt; line-height:1; margin-top:2mm; }
   .pr .t { font-size:10pt; color:var(--on-ink-soft); margin-top:2mm; }
   .pr a { color:var(--ink); background:var(--terra); text-decoration:none; font-size:8.5pt; font-weight:700; letter-spacing:.12em; text-transform:uppercase; padding:3.6mm 5mm; white-space:nowrap; }
   .nx { margin-top:7mm; font-size:12pt; line-height:1.55; }
   .nx a { color:var(--brown); }
+  .two { display:grid; grid-template-columns:1fr 1fr; gap:7mm; margin-top:5mm; }
+  .two h4 { font-family:var(--body); font-size:8pt; font-weight:700; letter-spacing:.2em; text-transform:uppercase; color:var(--brown); border-bottom:2px solid var(--terra); padding-bottom:2mm; margin-bottom:3mm; }
+  .inc3 { list-style:none; display:grid; gap:3mm; }
+  .inc3 li { padding-left:6mm; position:relative; font-size:9.6pt; color:var(--muted); line-height:1.4; }
+  .inc3 li::before { content:'✓'; position:absolute; left:0; color:var(--terra); font-weight:700; }
+  .inc3 b { display:block; color:var(--ink); font-size:10.5pt; }
 </style>
 </head>
 <body>
@@ -186,14 +192,28 @@
 
 <section class="page">
   <span class="eyebrow">Qué incluye · 5 meses</span>
-  <ul class="list" style="margin-top:4mm">
-    <li><b>1 sesión 1:1 por semana conmigo</b> (60 min)</li>
-    <li><b>Interview Me:</b> el módulo de entrevistas</li>
-    <li><b>Tu kit de entrevista</b>, armado con tu CV</li>
-    <li><b>Todo el programa AT WORK</b> en la plataforma</li>
-    <li><b>Coaches de práctica con IA</b>, para entrenar entre sesiones</li>
-    <li><b>Comunidad en WhatsApp</b></li>
-  </ul>
+  <h2 style="font-size:24pt">No es una clase por semana.<br>Te acompaño toda la semana.</h2>
+  <div class="two">
+    <div>
+      <h4>Conmigo</h4>
+      <ul class="inc3">
+        <li><b>Sesión 1:1 semanal · 60 min</b>Simulacro de tu entrevista, feedback, corrección y segundo intento.</li>
+        <li><b>Weekly Report cada lunes</b>Me cuentas tus avances y dudas. Lo leo y te respondo antes de la sesión.</li>
+        <li><b>Feedback de tus grabaciones</b>Me mandas tus respuestas grabadas y te las devuelvo corregidas.</li>
+        <li><b>Comunidad en WhatsApp</b>Para lo que no puede esperar: te llamó un recruiter, te llegó una entrevista.</li>
+        <li><b>Diagnóstico al inicio y al cierre</b>Ves con evidencia cuánto avanzaste.</li>
+      </ul>
+    </div>
+    <div>
+      <h4>Para practicar sola</h4>
+      <ul class="inc3">
+        <li><b>Tu kit de entrevista</b>Armado con tu CV y tus búsquedas: presentación, preguntas, vocabulario y frases para recuperarte.</li>
+        <li><b>Interview Me</b>El módulo de entrevistas en la plataforma.</li>
+        <li><b>Todo el programa AT WORK</b>Los módulos grabados y las bibliotecas de práctica.</li>
+        <li><b>4 coaches de práctica con IA</b>Configurados con tu contexto, disponibles 24/7. Se quedan contigo.</li>
+      </ul>
+    </div>
+  </div>
 
   <div class="block">
     <h3>Ellas ya lo hicieron</h3>
