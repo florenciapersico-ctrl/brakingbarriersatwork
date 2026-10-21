@@ -29,4 +29,10 @@ procesar en cada mensaje.
 ## Lo que ya está hecho en este repo
 
 - `CLAUDE.md` le da a Claude el mapa del sitio, así no gasta explorando.
-- Le avisa que no lea entero `rutina/index.html` (la mitad son fuentes en base64).
+- Las tipografías de `rutina/index.html` salieron a `rutina/fonts/`: el archivo pasó
+  de 310 KB a 158 KB, la mitad de lectura cada vez que Claude lo toca.
+- Claude arranca en **Sonnet** en este proyecto (`.claude/settings.json`). Para algo
+  de estrategia o difícil, escribí `/model opus` en esa sesión.
+- El agente de Meta Ads también usa Sonnet.
+- Claude tiene bloqueado leer el PDF de AT WORK y las tipografías, que no le sirven.
+  Si algún día necesitás que lea el PDF, sacá esa línea de `.claude/settings.json`.

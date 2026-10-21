@@ -1,0 +1,9 @@
+{
+  "model": "sonnet",
+  "permissions": {
+    "deny": [
+      "Read(./at-work/AT-WORK-como-funciona.pdf)",
+      "Read(./rutina/fonts/**)"
+    ]
+  }
+}

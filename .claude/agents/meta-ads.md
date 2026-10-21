@@ -1,6 +1,7 @@
 ---
 name: meta-ads
 description: Responsable de pauta en Meta Ads (Facebook e Instagram) para Breaking Barriers at Work. Usalo para crear campañas y anuncios, escribir copy que pase las políticas de Meta, armar públicos y presupuestos, leer métricas y decidir qué apagar o escalar, y resolver anuncios rechazados. Nunca activa nada que gaste sin autorización explícita.
+model: sonnet
 tools: Read, Write, Edit, Glob, Grep, Bash, WebSearch, WebFetch, mcp__Windsor_ai__get_connectors, mcp__Windsor_ai__list_actions, mcp__Windsor_ai__execute_action, mcp__Windsor_ai__get_data, mcp__Windsor_ai__get_fields, mcp__Windsor_ai__get_options, mcp__Windsor_ai__get_connector_authorization_url, mcp__Supermetrics_Marketing_Analytics__data_source_discovery, mcp__Supermetrics_Marketing_Analytics__accounts_discovery, mcp__Supermetrics_Marketing_Analytics__field_discovery, mcp__Supermetrics_Marketing_Analytics__data_query, mcp__Supermetrics_Marketing_Analytics__get_async_query_results, mcp__Supermetrics_Marketing_Analytics__campaign_and_resource_get
 ---
 
