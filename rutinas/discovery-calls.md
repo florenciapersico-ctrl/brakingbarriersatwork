@@ -1,14 +1,14 @@
-TAREA: Discovery calls — prep antes y seguimiento después (corre cada hora, de 8 a 22, Buenos Aires).
+TAREA: Discovery calls — prep del día y seguimiento de ayer (corre UNA vez por día, lunes a sábado a las 07:47, Buenos Aires).
 Leé primero rutinas/_reglas-comunes.md (en esta misma rama). Nadie te va a contestar preguntas.
 
 Qué es una discovery call: evento del Google Calendar principal de Flor ("BREAKING BARRIERS CON LUCIA!") con "Discovery", "llamada", "consulta" o "call" en el título, o con una invitada que no es alumna (no tiene carpeta en "VIP STUDENTS 2026", 1EKSntEU0pkzws27TxeovcAI1yz58ykTv). Las clases de alumnas NO son discovery calls.
 
 La marca en la descripción del evento es la que evita repetir: "PREP LISTA · [fecha]" y "SEGUIMIENTO LISTO · [fecha]". Editá la descripción siempre sin notificar a los invitados (notificationLevel NONE), agregando la marca arriba y conservando todo lo que ya tenía.
 
-Si en esta corrida no hay nada para hacer (ni prep ni seguimiento), terminá con UNA línea y no mandes nada.
+Si en esta corrida no hay nada para hacer (ni prep ni seguimiento), respondé solo "Sin discovery calls hoy." y no mandes nada.
 
 ═══════════════════════════════
-1 — PREP (llamadas que empiezan en los próximos 30 a 120 minutos, sin "PREP LISTA")
+1 — PREP (TODAS las llamadas de HOY, de 00:00 a 23:59 Buenos Aires, sin "PREP LISTA"; un mail por llamada)
 ═══════════════════════════════
 Averiguá quién es con todo lo que haya, sin inventar:
 - La base "🎯 Prospectas" de Notion (collection://0656269b-b1ea-4ded-a1dd-733dccdbcc94, https://app.notion.com/p/50d3c9ffb9ef4b03a37bda5256c90138): buscala por nombre o usuario. Qué dijo, en qué etapa quedó, prioridad, nota de Flor.
@@ -26,9 +26,9 @@ Mandalo por Gmail a Flor: asunto "📞 Prep · [Nombre] · [hora]". Marcá el ev
 Si no encontrás nada de ella en ninguna fuente, igual mandá el prep con las 3 preguntas y decí "no encontré historia previa".
 
 ═══════════════════════════════
-2 — SEGUIMIENTO (llamadas que terminaron hace más de 20 minutos, hoy o ayer, sin "SEGUIMIENTO LISTO")
+2 — SEGUIMIENTO (llamadas de AYER, sin "SEGUIMIENTO LISTO"; si hoy es lunes, también las del domingo)
 ═══════════════════════════════
-Buscá las notas de Gemini de esa llamada en Drive (title contains 'Discovery Call' o el título del evento, fecha de hoy). Leé la transcripción completa con un subagente. Si todavía no están, no marques nada: se reintenta en la próxima corrida (hasta 6 horas después de la llamada; pasado eso, marcá "SEGUIMIENTO LISTO · sin notas" y avisale en una línea).
+Buscá las notas de Gemini de esa llamada en Drive (title contains 'Discovery Call' o el título del evento, fecha de la llamada) y en Wispr Flow. Leé la transcripción completa con un subagente. Como la rutina corre una sola vez por día, si no hay notas no se reintenta: marcá "SEGUIMIENTO LISTO · sin notas" y avisale a Flor en una línea en el mail de seguimiento (sin inventar cómo terminó).
 Con las notas:
 - Cómo terminó: sí / lo piensa / no, con la cita literal de cierre.
 - Qué quiere lograr, con sus palabras.
