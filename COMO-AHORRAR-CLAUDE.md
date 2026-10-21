@@ -36,3 +36,8 @@ procesar en cada mensaje.
 - El agente de Meta Ads también usa Sonnet.
 - Claude tiene bloqueado leer el PDF de AT WORK y las tipografías, que no le sirven.
   Si algún día necesitás que lea el PDF, sacá esa línea de `.claude/settings.json`.
+- En las sesiones de este repo quedan apagados los conectores que el sitio no usa:
+  Vercel, Stripe, Gamma, Gmail, Google Calendar, Drive y Docs, Notion, Slack y Wispr
+  Flow. Siguen prendidos Windsor y Supermetrics (Meta Ads), Canva (creativos) y
+  GitHub. Para volver a prender uno, borrá su línea `mcp__...` en
+  `.claude/settings.json`. Esto no toca tus chats normales de claude.ai.
