@@ -44,6 +44,7 @@ def transcribir(video,out):
   print(f'{len(words)} palabras. Revisá y puntuá {out}/subtitulos.txt (misma cantidad de palabras, en orden).')
 
 def render(video,out,hook,cta):
+  MARCO=os.environ.get('LAYOUT')=='marco'
   from PIL import Image,ImageDraw,ImageFont
   D=dur(video); words=json.load(open(os.path.join(out,'words.json')))
   sil=json.load(open(os.path.join(out,'silencios.json')))
@@ -77,7 +78,7 @@ def render(video,out,hook,cta):
       if re.search(r'[»"”][.,:;!?]*$',tok): inq=False
     chunks.append(c)
   F=ImageFont.truetype(f'{FONTS}/CrimsonPro-Regular.ttf',66); FI=ImageFont.truetype(f'{FONTS}/CrimsonPro-Italic.ttf',66)
-  BOX=(63,30,13,255); ON=(250,244,236); OFF=(196,150,120); CY=1020
+  BOX=(63,30,13,255); ON=(250,244,236); OFF=(196,150,120); CY=1150 if MARCO else 1020
   cd=os.path.join(out,'caps'); os.makedirs(cd,exist_ok=True)
   def cap(c,j,p):
     im=Image.new('RGBA',(1080,1920),(0,0,0,0)); d=ImageDraw.Draw(im)
@@ -101,13 +102,20 @@ def render(video,out,hook,cta):
   with open(ct,'w') as f:
     for p,dd in seq: f.write(f"file '{p}'\nduration {dd:.3f}\n")
     f.write(f"file '{seq[-1][0]}'\n")
-  # hook visual (debajo de los subtítulos, grande)
-  im=Image.new('RGBA',(1080,1920),(0,0,0,0)); d=ImageDraw.Draw(im)
-  TF=ImageFont.truetype(f'{FONTS}/CrimsonPro-SemiBold.ttf',92); L=hook.split('|'); lh=104; top=1170
-  mw=max(d.textlength(x,font=TF) for x in L)
-  d.rounded_rectangle(((1080-mw)/2-44,top-30,(1080+mw)/2+44,top+lh*len(L)+18),radius=26,fill=(249,245,238,250))
-  for k,x in enumerate(L): d.text((540,top+k*lh+lh/2-6),x,font=TF,fill=(63,30,13),anchor='mm')
+  # hook visual
+  im=Image.new('RGBA',(1080,1920),(0,0,0,0)); d=ImageDraw.Draw(im); L=hook.split('|')
+  if MARCO:
+    TF=ImageFont.truetype(f'{FONTS}/CrimsonPro-SemiBold.ttf',104); lh=112; top=215-lh*len(L)/2
+    for k,x in enumerate(L): d.text((540,top+k*lh+lh/2),x,font=TF,fill=(63,30,13),anchor='mm')
+  else:
+    TF=ImageFont.truetype(f'{FONTS}/CrimsonPro-SemiBold.ttf',92); lh=104; top=1170
+    mw=max(d.textlength(x,font=TF) for x in L)
+    d.rounded_rectangle(((1080-mw)/2-44,top-30,(1080+mw)/2+44,top+lh*len(L)+18),radius=26,fill=(249,245,238,250))
+    for k,x in enumerate(L): d.text((540,top+k*lh+lh/2-6),x,font=TF,fill=(63,30,13),anchor='mm')
   title=os.path.join(out,'hook.png'); im.save(title)
+  if MARCO:
+    mk=Image.new('L',(1000,1440),0); ImageDraw.Draw(mk).rounded_rectangle((0,0,999,1439),radius=40,fill=255)
+    mask=os.path.join(out,'marco_mask.png'); mk.save(mask)
   # placa final
   im=Image.new('RGB',(1080,1920),(63,30,13)); d=ImageDraw.Draw(im)
   B=ImageFont.truetype(f'{FONTS}/CrimsonPro-SemiBold.ttf',96); I=ImageFont.truetype(f'{FONTS}/CrimsonPro-SemiBoldItalic.ttf',72); S=ImageFont.truetype(f'{FONTS}/CrimsonPro-SemiBold.ttf',44)
@@ -127,9 +135,9 @@ def render(video,out,hook,cta):
   fc=''
   for i,(a,b) in enumerate(keep):
     fc+=f"[0:v]trim={a}:{b},setpts=PTS-STARTPTS[v{i}];[0:a]atrim={a}:{b},asetpts=PTS-STARTPTS,afade=t=in:d=0.02,afade=t=out:st={max(0,b-a-0.03)}:d=0.03[a{i}];"
-  fc+=''.join(f"[v{i}][a{i}]" for i in range(len(keep)))+f"concat=n={len(keep)}:v=1:a=1[cv][ca];[cv]{grade},fps=30[g];[1:v]format=rgba[t];[2:v]format=rgba,fps=30[c];[g][t]overlay=0:0[gt];[gt][c]overlay=0:0:eof_action=pass[ov];[ca]{aud}[oa]"
+  fc+=''.join(f"[v{i}][a{i}]" for i in range(len(keep)))+f"concat=n={len(keep)}:v=1:a=1[cv][ca];[cv]{grade},fps=30[g0];"+(f"[g0]scale=1000:-2,crop=1000:1440:0:0,format=rgba[vv];[3:v]format=gray[mk];[vv][mk]alphamerge[vr];color=c=0xF4EADF:s=1080x1920:r=30[bgc];[bgc][vr]overlay=40:430:shortest=1[g];" if MARCO else "[g0]null[g];")+f"[1:v]format=rgba[t];[2:v]format=rgba,fps=30[c];[g][t]overlay=0:0[gt];[gt][c]overlay=0:0:eof_action=pass[ov];[ca]{aud}[oa]"
   main=os.path.join(out,'main.mp4')
-  run('ffmpeg','-v','error','-y','-i',video,'-loop','1','-i',title,'-f','concat','-safe','0','-i',ct,'-filter_complex',fc,'-map','[ov]','-map','[oa]','-t',str(total),'-c:v','libx264','-preset','slow','-crf','17','-pix_fmt','yuv420p','-c:a','aac','-b:a','192k','-ar','48000',main)
+  run('ffmpeg','-v','error','-y','-i',video,'-loop','1','-i',title,'-f','concat','-safe','0','-i',ct,*(['-loop','1','-i',mask] if MARCO else []),'-filter_complex',fc,'-map','[ov]','-map','[oa]','-t',str(total),'-c:v','libx264','-preset','slow','-crf','17','-pix_fmt','yuv420p','-c:a','aac','-b:a','192k','-ar','48000',main)
   cardv=os.path.join(out,'card.mp4')
   run('ffmpeg','-v','error','-y','-loop','1','-t','2.8','-i',card,'-f','lavfi','-t','2.8','-i','anullsrc=r=48000:cl=stereo','-vf','fade=t=in:d=0.25,format=yuv420p','-r','30','-c:v','libx264','-crf','18','-c:a','aac','-b:a','192k',cardv)
   lst=os.path.join(out,'l.txt'); open(lst,'w').write(f"file '{main}'\nfile '{cardv}'\n")

@@ -44,6 +44,18 @@ Flor la pidió el 20/10 («que parezca que estoy en una oficina»). Antes del re
 - **Entregas:** mandá las dos versiones (fondo original y fondo de oficina) para que elija, salvo que ella ya haya dicho cuál quiere.
 - **Control:** revisá los bordes del pelo y las manos con un recorte ampliado.
 
+## Formato «marco» (si la cabeza quedó cortada)
+
+Flor lo pidió el 21/10 porque la cabeza cortada «queda rarísimo». Con `LAYOUT=marco python3 $S/reel.py render ...` el video sale así:
+- **Arriba:** una franja crema #F4EADF con el hook grande en marrón.
+- **Abajo:** el video en una tarjeta redondeada de 1000 × 1440, con los subtítulos sobre el video.
+
+Así el corte queda en el borde del marco y parece un encuadre a propósito. Usalo siempre que la cabeza toque el borde de arriba.
+
+## Ropa: color sin arrugas (gratis)
+
+Con `ROPA=38,36,38 python3 $S/fondo.py ...` la remera queda negra y plana. Para marrón, usá `92,60,40`. El crema todavía se mezcla con el pantalón: no lo uses. Cambiar la prenda por otra (por ejemplo, de remera a blazer) no se puede gratis: hace falta IA generativa paga, como Runway Aleph por API, con la clave en `RUNWAYML_API_SECRET`.
+
 ## Antes de entregar
 
 - **Revisá los fotogramas** con Read en 3 o 4 momentos: que los subtítulos no tapen la boca, que el hook no tape la cara y que las comillas aparezcan bien.
