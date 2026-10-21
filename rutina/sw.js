@@ -1,17 +1,20 @@
 /* Founder Routine — service worker.
-   La app es un solo HTML con todo adentro (tipografías incluidas), así que
-   precachearla alcanza para que funcione sin señal. Estrategia: red primero
+   La app es un solo HTML más sus tipografías en fonts/; precachear todo eso
+   alcanza para que funcione sin señal. Estrategia: red primero
    para tener siempre la última versión, caché como respaldo cuando no hay
    internet. Los datos de la usuaria viven en localStorage, no acá. */
 
-const CACHE = 'founder-routine-v1';
+const CACHE = 'founder-routine-v2';
 const SHELL = [
   './',
   './index.html',
   './manifest.webmanifest',
   './icon-192.png',
   './icon-512.png',
-  './apple-touch-icon.png'
+  './apple-touch-icon.png',
+  './fonts/crimson-pro.woff2',
+  './fonts/crimson-pro-italic.woff2',
+  './fonts/open-sans.woff2'
 ];
 
 self.addEventListener('install', (e) => {

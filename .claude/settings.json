@@ -1,0 +1,19 @@
+{
+  "model": "sonnet",
+  "permissions": {
+    "deny": [
+      "Read(./at-work/AT-WORK-como-funciona.pdf)",
+      "Read(./rutina/fonts/**)",
+      "mcp__Vercel",
+      "mcp__Stripe",
+      "mcp__Gamma",
+      "mcp__Gmail",
+      "mcp__Google_Calendar",
+      "mcp__Google_Drive",
+      "mcp__Google_Docs",
+      "mcp__Notion",
+      "mcp__Slack",
+      "mcp__Wispr_Flow"
+    ]
+  }
+}
