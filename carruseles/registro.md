@@ -28,3 +28,4 @@ Una línea por pieza: fecha · tema · estilo/fondo · foto usada · CTA. Lo lee
 - 27/10 · REEL a cámara · historia de Flor (colegio bilingüe → Londres → traductorado) · mensaje: tu oído espera el inglés del libro · OÍDO en comentarios
 - 28/10 · Problems expressing (momento #4 del banco, clase 05/10) · mensaje: muchos errores son el español hablando en inglés · hoja de corrección con birome terracota · PATRÓN en comentarios
 - 21/10 (reemplazo, Flor: el texto de «Estoy grabando» no servía) · No te falta inglés, te falta orden · momento #9 del banco (Sol, citas textuales) · EDITORIAL sin REC · cafe-latte-rosetta, cafe-latte-tulipan, flor-buzo-capucha · ORDEN por DM (agregar palabra en ManyChat)
+- 21/10 · REEL a cámara (grabado por Flor) · No es tu gramática, es que traduces · fondo y remera reales · CHUNKS por DM (agregar palabra en ManyChat)

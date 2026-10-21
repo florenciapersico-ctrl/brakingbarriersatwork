@@ -1,0 +1,2 @@
+file '/home/user/brakingbarriersatwork/carruseles/reels/r2-nuevo/main.mp4'
+file '/home/user/brakingbarriersatwork/carruseles/reels/r2-nuevo/card.mp4'
