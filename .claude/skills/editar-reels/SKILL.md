@@ -5,6 +5,8 @@ description: Edita los reels de Flor Pérsico (AT WORK · Breaking Barriers at W
 
 # Editar reels · formato AT WORK
 
+> **Por defecto (Flor, 21/10: «ok hazlo»):** formato **marco**, **remera negra** y **fondo de oficina**. Primero `ROPA=38,36,38 python3 $S/fondo.py`, después `LAYOUT=marco python3 $S/reel.py render`. Solo si ella pide otra cosa se usa el formato sin marco o el fondo original. Subí el MP4 final a la carpeta de Canva del día.
+
 El modelo aprobado es `carruseles/reels/r1-traduccion-literal/` («¿Por qué tu inglés suena robótico?»). Flor lo aprobó con un «perfecto, quedó perfecto». Todo reel nuevo sale igual, salvo que ella pida otra cosa.
 
 ## Lo que Flor pidió (no negociable)
