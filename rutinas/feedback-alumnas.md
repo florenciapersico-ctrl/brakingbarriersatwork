@@ -6,6 +6,7 @@ TODOS LOS DÍAS, para cada alumna activa (Notion Alumnas, collection://59d40821-
 1. ¿Subió algo nuevo desde la última corrida?
    - Weekly report de la semana: el Google Doc "Weekly Report · <Nombre> · semana del <lunes>" Y cualquier otro archivo (.docx, PDF, foto) que haya subido a su carpeta (05 · MI PROGRESO / Weekly Reports). Quedate con el que tiene respuestas reales.
    - Tarea: audios, docs o worksheets nuevos en su carpeta de Drive, o adjuntos/respuestas en Gmail.
+   - Regla de Flor (21/10): si una worksheet o tarea está hecha a medias (faltan ejercicios), NO se arma borrador ni se manda feedback. Se anota en el resumen a Flor como "a medias, esperando que la termine" y se vuelve a revisar en las próximas corridas; recién cuando esté completa se corrige toda junta.
 2. Antes de armar nada, revisá lo que Flor ya le mandó en los últimos 7 días desde las DOS cuentas (florenciapersico@breakingbarriers.site y mariaflorenciaper@gmail.com): resúmenes de clase, "Tu práctica de esta semana", respuestas al weekly, feedback de tareas. Revisá también los borradores existentes. Si Flor ya respondió, no se arma nada. Si ya hay un borrador para esa alumna, se actualiza ese mismo: nunca dos.
 3. Escuchá o leé la tarea de verdad. Los audios se transcriben (faster-whisper) y se avisa que la transcripción no evalúa pronunciación. Nunca escribir "no me llegó" sin haber buscado en Drive y en Gmail.
 4. Un solo borrador por alumna (respuesta en el hilo del weekly si existe), con:
