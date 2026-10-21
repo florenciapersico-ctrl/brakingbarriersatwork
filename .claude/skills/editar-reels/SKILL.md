@@ -17,11 +17,17 @@ El modelo aprobado es `carruseles/reels/r1-traduccion-literal/` («¿Por qué tu
 4. **Subtítulos con la puntuación bien.** Llevan mayúsculas, comas, puntos y dos puntos. Cuando cita a alguien (una alumna, una frase en inglés), va entre «comillas» y la frase en inglés en cursiva. Cada recuadro termina donde termina la idea, sin cortar a mitad de frase, con 2 a 4 palabras por recuadro.
 5. **Usá sus palabras exactas.** Solo se agrega puntuación, nunca se cambian ni se resumen.
 6. **Formato de su reel de referencia, con su marca:**
-   - **Subtítulos:** van justo debajo de la cara (y = 1020 sobre 1920), en un recuadro sólido redondeado marrón #3F1E0D. Usan Crimson Pro Regular de 66 px. La palabra que se está diciendo se enciende en crema #FAF4EC y las que siguen quedan en terracota #C49678.
-   - **Hook visual:** va DEBAJO de los subtítulos y más grande, nunca en la frente ni sobre la cara. Es un recuadro crema #F9F5EE redondeado, con Crimson Pro SemiBold de 92 px en marrón #3F1E0D y dos líneas. Queda fijo durante todo el video.
+   - **Subtítulos:** van justo debajo del cuello (Flor, 21/10: y = 1380 sobre 1920; ajustable con `CAP_Y`; revisá que no tapen boca ni mentón), en un recuadro sólido redondeado marrón #3F1E0D. Usan Crimson Pro Regular de 66 px. La palabra que se está diciendo se enciende en crema #FAF4EC y las que siguen quedan en terracota #C49678.
+   - **Hook visual:** va ARRIBA de la cabeza (Flor, 21/10: y = 300, ajustable con `HOOK_Y`), más grande que los subtítulos, nunca en la frente ni sobre la cara. Es un recuadro crema #F9F5EE redondeado, con Crimson Pro SemiBold de 92 px en marrón #3F1E0D y dos líneas. Queda fijo durante todo el video.
    - **Placa final de 2,8 s:** «No era el inglés. / Era la relación con el inglés.» + el CTA + «AT WORK · Clear, not native.»
 7. **Hook:** una pregunta corta que nombre el problema en su lenguaje. El de referencia es «¿Por qué tu inglés suena robótico?»: Flor lo prefirió a «suena a traducción». Proponé 2 o 3 opciones si no lo dio ella.
 8. **CTA:** el que diga ella en el video. Si dice una palabra distinta de READY, avisale que la agregue como palabra clave en ManyChat.
+
+## Guion y hook (Flor, 21/10)
+
+- Si le escribís un guion: arranca con la frase o el error, nunca con contexto, y cierra abriendo conversación, no dando el consejo.
+- Hook visual pensado para su alumna ideal (ya trabaja en inglés, no tiene errores y aun así se siente rara). Ejemplo aprobado: «Cero errores de gramática… / y aun así suenas traducida.»
+- Fuente de iPhone en HEVC/HDR: pasala antes a H.264 SDR (zscale + tonemap) y usá rutas absolutas en `render`.
 
 ## Cómo se hace
 

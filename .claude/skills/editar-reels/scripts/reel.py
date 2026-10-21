@@ -78,7 +78,7 @@ def render(video,out,hook,cta):
       if re.search(r'[»"”][.,:;!?]*$',tok): inq=False
     chunks.append(c)
   F=ImageFont.truetype(f'{FONTS}/CrimsonPro-Regular.ttf',66); FI=ImageFont.truetype(f'{FONTS}/CrimsonPro-Italic.ttf',66)
-  BOX=(63,30,13,255); ON=(250,244,236); OFF=(196,150,120); CY=1150 if MARCO else 1020
+  BOX=(63,30,13,255); ON=(250,244,236); OFF=(196,150,120); CY=1150 if MARCO else int(os.environ.get('CAP_Y',1380))
   cd=os.path.join(out,'caps'); os.makedirs(cd,exist_ok=True)
   def cap(c,j,p):
     im=Image.new('RGBA',(1080,1920),(0,0,0,0)); d=ImageDraw.Draw(im)
@@ -108,7 +108,7 @@ def render(video,out,hook,cta):
     TF=ImageFont.truetype(f'{FONTS}/CrimsonPro-SemiBold.ttf',104); lh=112; top=215-lh*len(L)/2
     for k,x in enumerate(L): d.text((540,top+k*lh+lh/2),x,font=TF,fill=(63,30,13),anchor='mm')
   else:
-    TF=ImageFont.truetype(f'{FONTS}/CrimsonPro-SemiBold.ttf',92); lh=104; top=1170
+    TF=ImageFont.truetype(f'{FONTS}/CrimsonPro-SemiBold.ttf',92); lh=104; top=int(os.environ.get('HOOK_Y',300))
     mw=max(d.textlength(x,font=TF) for x in L)
     d.rounded_rectangle(((1080-mw)/2-44,top-30,(1080+mw)/2+44,top+lh*len(L)+18),radius=26,fill=(249,245,238,250))
     for k,x in enumerate(L): d.text((540,top+k*lh+lh/2-6),x,font=TF,fill=(63,30,13),anchor='mm')
