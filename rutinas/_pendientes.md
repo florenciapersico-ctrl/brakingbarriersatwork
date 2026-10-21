@@ -4,6 +4,7 @@ Cada rutina revisa acá si hay algo suyo, lo termina (verificando antes que no e
 ## Links de la semana
 
 ## Corridas cortadas / a medias
+- 21/10 · CLASES-DE-HOY · GISELA (Flor, 21/10): en su próxima clase (jue 22/10 15:00) repasar "governance" vs "government". Hoy (21/10) tiene la entrevista con Softtek; no hubo clase. Cuando se arme la hoja del 22/10, incluirlo y borrar esta línea.
 - 20/10 · GABY (1:1 17:30, movida de las 13:00): sin notas de Gemini después de 4 h (ni en Drive ni adjuntas al evento). Evento marcado "RESUMEN ENVIADO · 20 OCT 2026 · sin notas de Gemini, no se mandó". No se mandó resumen: esperar a que Flor diga qué pasó en la clase (tampoco se sabe si se hizo la conversación de progreso). No reintentar.
 - 20/10 · CLASES-DE-HOY · ARIAL: dos hojas de hoy salieron en Arial al crearlas (Gisela, con "," en el h1 y ⭐ en la Tarea; Alejandra Rossi, sin causa clara: bloque de gramática en español con ¿). Gisela se rehízo sin coma ni emoji y pasó; la de Rossi se arregló con Docs API (updateTextStyle weightedFontFamily Open Sans en todo el cuerpo y weight 700 en los runs bold) y pasó. Hasta confirmar la causa: sin signos de puntuación en el h1, sin emojis en la hoja, y si el control da Arial aplicar ese arreglo.
 - 19/10 · LUNES-SEMANA: weekly 19/10 creados y linkeados. Recordatorios a alumnas NO enviados esta semana (Flor los manda). GRA SE DIO DE BAJA (Flor, 19/10): no incluirla en ninguna lista; su copia del 19/10 (12vpmZAjt2j3m_snTk-DDM-m8TbSggsM4dkUTUDhOKqg) quedó creada antes del aviso, no se le mandó nada; no borrar.
