@@ -1,3 +1,7 @@
+# Narrative Flow · guía original para alumnas
+
+(Nota para el coach: esta guía es de cuando Narrative Flow era un bot separado. Usala solo para reconocer las frases que la alumna puede escribirte para corregirte, y aplicá el protocolo de emergencia de `narrative-flow.md`. Donde dice "bot de Color Method" o "bot de Role Play", hoy es "pasemos a Color Method / Role Play" en este mismo chat.)
+
 THE BREAKING BARRIERS METHOD
 Bot de Narrative Flow
 Guía para alumnas — Breaking Barriers at Work

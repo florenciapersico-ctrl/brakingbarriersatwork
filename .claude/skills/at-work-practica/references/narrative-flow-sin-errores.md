@@ -1,3 +1,5 @@
+# Narrative Flow · qué NO es un error (archivo `ejemplo_texto_sin_errores`)
+
 THE BREAKING BARRIERS METHOD
 Narrative Flow Bot — Ejemplo: texto sin errores de gramática
 She Breaks Limits | Flor Pérsico
