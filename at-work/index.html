@@ -161,6 +161,12 @@
   @media (min-width: 760px) { .extra { grid-template-columns: 1fr 1fr; max-width: none; } }
   .extra p { font-size: 16px; color: var(--muted); background: var(--cream); border-radius: 3px; padding: 18px; }
   .extra strong { color: var(--ink); }
+  .wtitle { font-size: 23px; margin-top: 40px; }
+  .wide-row { }
+  .redact { background: #8696A0; color: transparent; border-radius: 3px; letter-spacing: -2px; user-select: none; }
+  .reply { display: block; background: rgba(0,0,0,.22); border-left: 4px solid #64A8E8; border-radius: 6px; padding: 6px 10px; margin: 2px 0 6px; font-size: 14px; color: rgba(233,237,239,.75); }
+  .reply span { display: block; font-weight: 600; font-size: 13.5px; }
+  .extra.one { grid-template-columns: 1fr; max-width: 640px; }
   .chat-cap { font-size: 13.5px; color: var(--muted); text-align: center; margin-top: -18px; }
 
   /* ── frases de alumnas ── */
@@ -378,9 +384,9 @@
     </div>
     <div class="wgroup">
       <h3>Se destrabó el CÓMO</h3>
-      <p class="wsub">Entender a los demás y hacerse entender.</p>
+      <p class="wsub">Encontrar sus errores, entender y hacerse entender.</p>
       <div class="chat">
-        <div class="bubble has-react"><span class="name" style="color:#F08BB4">Virginia</span>Hola holaa , un placer coincidir con este grupo hermoso!<br>Mi win profesional fue tener una reunión de líderes , 100% en inglés y super técnica, y pude entender todo y seguir completamente el hilo 🥹🙌🏼<br>Win personal-healthy y para motivar aún mas a nuestra Teacher, me compré una cinta caminadora para caminar mientras participo de meets ( empezaré por aquellas meets en las que no tengo que pensar tanto mientras hablo para no caerme jajaja ) 🤣<span class="time">7:10 p. m.</span><span class="react">😂 ❤️ 5</span></div><div class="bubble has-react"><span class="name" style="color:#A78BFA">Belem</span>Mi win de la semana pasada fue que fui a un evento y no esperé que las charlas fueran en inglés y pude entender todo! Y lo mejor es que me animé a hacer una pregunta 🫶🏼<span class="time">12:05 p. m.</span><span class="react">❤️‍🔥 💪🏼 ❤️ 👏🏻 4</span></div>
+        <div class="bubble has-react"><span class="name" style="color:#F08BB4">Virginia</span>Hi girls! my quick win has been identified my common and fosilizated errors , make a summary and practice a lot to improve<span class="time">11:27 a. m.</span><span class="react">❤️ 🙌 2</span></div><div class="bubble has-react"><span class="name" style="color:#F08BB4">Virginia</span>Hola holaa , un placer coincidir con este grupo hermoso!<br>Mi win profesional fue tener una reunión de líderes , 100% en inglés y super técnica, y pude entender todo y seguir completamente el hilo 🥹🙌🏼<br>Win personal-healthy y para motivar aún mas a nuestra Teacher, me compré una cinta caminadora para caminar mientras participo de meets ( empezaré por aquellas meets en las que no tengo que pensar tanto mientras hablo para no caerme jajaja ) 🤣<span class="time">7:10 p. m.</span><span class="react">😂 ❤️ 5</span></div><div class="bubble has-react"><span class="name" style="color:#A78BFA">Belem</span>Mi win de la semana pasada fue que fui a un evento y no esperé que las charlas fueran en inglés y pude entender todo! Y lo mejor es que me animé a hacer una pregunta 🫶🏼<span class="time">12:05 p. m.</span><span class="react">❤️‍🔥 💪🏼 ❤️ 👏🏻 4</span></div>
       </div>
       <figure class="wq"><blockquote>«Ya no pienso tanto al querer transmitir una idea, simplemente confío y la menciono.»</blockquote><figcaption>Virginia · lidera un equipo de QA</figcaption></figure>
     </div>
@@ -388,14 +394,18 @@
       <h3>Se destrabó el QUIÉN</h3>
       <p class="wsub">Dejar de achicarse.</p>
       <div class="chat">
-        <div class="bubble has-react"><span class="name" style="color:#64A8E8">Lauri</span>Hola buen día mi win de la última semana fue detectar algo que me estaba condicionando a la hora de hablar en inglés, empezar a desbloquearlo y trabajarlo junto a Flor ❤️<span class="time">10:55 a. m.</span><span class="react">❤️‍🔥 ❤️ 4</span></div><div class="bubble has-react"><span class="name" style="color:#6CB6E8">Sol</span>Mi win de hoy es:<br>Entender que estoy por que me lo gano y merezco, que tengo todas las cualidades para seguir avanzando en el idioma e ir perfeccionando, que acepte mi situación y no sea demasiado exigente conmigo.<br>Qué se vale tomarse el tiempo para hablar, pronunciar correctamente y no hablar con mucha velocidad solo por evadir el idioma.<span class="time">5:50 p. m.</span><span class="react">❤️ 3</span></div>
+        <div class="bubble has-react"><span class="name" style="color:#64A8E8">Lauri</span>Hola buen día mi win de la última semana fue detectar algo que me estaba condicionando a la hora de hablar en inglés, empezar a desbloquearlo y trabajarlo junto a Flor ❤️<span class="time">10:55 a. m.</span><span class="react">❤️‍🔥 ❤️ 4</span></div><div class="bubble has-react"><span class="name" style="color:#64A8E8">Lauri</span>Mi win esta semana es trabajar en la confianza para hablar en inglés especialmente para presentar. Hoy tengo una presentación importante que me ayudó muchísimo Flor a prepararla ❤️🚀<span class="time">12:31 p. m.</span><span class="react">❤️‍🔥 👏🏻 ❤️ 4</span></div><div class="bubble has-react"><span class="name" style="color:#E8A98A">Alejandra</span><span class="reply"><span style="color:#64A8E8">Lauri</span>Mi win esta semana es trabajar en la confianza para hablar en inglés especialmente para presentar. Hoy teng…</span>Muchos éxitos !! 🤍<span class="time">12:42 p. m.</span><span class="react">❤️</span></div><div class="bubble has-react"><span class="name" style="color:#F0A080">Gaby</span>Hello ladies! My win was to empower myself to comment on teams about a meeting while it was happening. Although afterwards I felt bad. But that's another story 🤣🤣<span class="time">2:36 p. m.</span><span class="react">❤️</span></div><div class="bubble has-react"><span class="name" style="color:#6CB6E8">Sol</span>Mi win de hoy es:<br>Entender que estoy por que me lo gano y merezco, que tengo todas las cualidades para seguir avanzando en el idioma e ir perfeccionando, que acepte mi situación y no sea demasiado exigente conmigo.<br>Qué se vale tomarse el tiempo para hablar, pronunciar correctamente y no hablar con mucha velocidad solo por evadir el idioma.<span class="time">5:50 p. m.</span><span class="react">❤️ 3</span></div>
       </div>
       <figure class="wq"><blockquote>«My participation wasn't the best, but it was the first one.»</blockquote><figcaption>Brenda · su jefe le ofreció presentar su parte por ella. Le dijo que no.</figcaption></figure>
     </div>
     </div>
-    <div class="extra">
+
+    <h3 class="wtitle">Y fuera de clase, en su trabajo real</h3>
+    <div class="chat wide">
+      <div class="bubble has-react"><span class="name" style="color:#6CB6E8">Sol</span>Hi everyone,<br>I'm currently in Germany for work and recently spent some time in <span class="redact">██████</span>. Yesterday, we took a trip to <span class="redact">██████████</span>. I'm feeling really proud of myself - I've been speaking more slowly and clearly, and my confidence in the language has improved. My previous experiences in Germany were overwhelming, but this time I can see significant progress in myself.<span class="time">12:02 a. m.</span><span class="react">❤️‍🔥 ❤️ 👏🏻 💯 8</span></div><div class="bubble has-react"><span class="name" style="color:#A78BFA">Lourdes</span>Morning, girls! My last week win was my trip to Mexico City, to visit the team there. We had a team building session in a mixology class and everyone had fun! 🍸🍹🍷<span class="time">12:40 p. m.</span><span class="react">😍 ❤️ 🫶🏼 4</span></div><div class="bubble has-react"><span class="name" style="color:#E8C27A">Adriana</span>Hello everybody I started again ( oficcialy last friday , so my little win is finished my short homework that Flor gave to me<span class="time">10:28 a. m.</span><span class="react">❤️ 👏🏻 5</span></div>
+    </div>
+    <div class="extra one">
       <p><strong>Moni</strong>, de Recursos Humanos, tuvo su primera entrevista en inglés, con Tesla, y pudo dar su punto de vista sintiéndose cómoda y segura. Sin respuestas memorizadas: siendo ella.</p>
-      <p><strong>Sol</strong>, gerenta de logística en México, viajó a Alemania por trabajo. Las veces anteriores había sido abrumador; esta vez habló más despacio, más claro y con más confianza. Su jefe le delegó las reuniones en inglés.</p>
     </div>
     <p class="placa center">Clear, not native.</p>
   </div>
