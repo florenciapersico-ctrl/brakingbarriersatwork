@@ -29,3 +29,8 @@ Una línea por pieza: fecha · tema · estilo/fondo · foto usada · CTA. Lo lee
 - 28/10 · Problems expressing (momento #4 del banco, clase 05/10) · mensaje: muchos errores son el español hablando en inglés · hoja de corrección con birome terracota · PATRÓN en comentarios
 - 21/10 (reemplazo, Flor: el texto de «Estoy grabando» no servía) · No te falta inglés, te falta orden · momento #9 del banco (Sol, citas textuales) · EDITORIAL sin REC · cafe-latte-rosetta, cafe-latte-tulipan, flor-buzo-capucha · ORDEN por DM (agregar palabra en ManyChat)
 - 21/10 · REEL a cámara (grabado por Flor) · No es tu gramática, es que traduces · fondo y remera reales · CHUNKS por DM (agregar palabra en ManyChat)
+- 27/10 · «Cuando una alumna me dice "me falta inglés"…» · hook @hadar.accentsway (45K, 2,2x) + modelo de Flor 07/10 · plantilla SCRAPBOOK (fotos + notas de papel + polaroid + manuscrita) · fotos 26/10 living/carreta + stills del video del jardín (campera camel) · ORDEN
+- 28/10 · «Mi cara cuando una alumna me dijo esto en plena clase» · hook @mariaspeaksenglish (523K) + citas de Sol · scrapbook · playa (gorra), stills jardín · ORDEN
+- 29/10 · REEL «¿Sabías que explicar tu trabajo cambia por completo entre español e inglés?» · hook @mariaspeaksenglish (959K) · clips de Flor (jardín, cafetera) con texto en pantalla, sin voz · ORDEN
+- 30/10 · «Hablar más inglés y comunicar mejor NO es lo mismo 👀» · hook outlier propio 09/09 (4.006) · scrapbook · café ladrillo con Alfonso, Usina, stills · ORDEN
+- 31/10 · «Cuando tu marido nativo se toma unos días…» · hook outlier propio 05/09 (3.252) · personal + READY · playa con Alfonso, jardín, cafetera
