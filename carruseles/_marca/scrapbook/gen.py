@@ -59,6 +59,23 @@ CSS='''
 .bx{flex:none;width:52px;height:52px;border-radius:12px;background:#F7EBDD;color:#3B2214;font:700 38px/52px 'Inter',sans-serif;text-align:center}
 .ckt{font:400 42px/1.3 'Inter',sans-serif;color:#EBDDCD;padding-top:2px}
 .wca{position:absolute;right:96px;bottom:80px;font:italic 400 40px/1 'Crimson Pro',serif;color:#C98B62}
+.futbg{background:#F5F0E9}
+.fut{position:absolute;left:96px;right:96px;top:120px}
+.fut.mid{top:50%;transform:translateY(-50%);text-align:center}
+.fk{font:600 25px/1 'Inter',sans-serif;letter-spacing:.3em;text-transform:uppercase;color:#7C9A6E;margin-bottom:30px}
+.ft{font:600 104px/1.03 'Crimson Pro',serif;color:#2B1A10;letter-spacing:-.015em}
+.ft.sm{font-size:70px}
+.ft i{color:#7C9A6E}
+.board{position:absolute;left:0;right:0;bottom:70px;height:800px}
+.pit{position:absolute;width:470px;min-height:330px;padding:50px 42px;font:500 44px/1.28 'Inter',sans-serif;color:#2B1A10;box-shadow:0 14px 30px rgba(60,40,20,.16)}
+.bignote{position:absolute;left:120px;right:120px;top:450px;padding:80px 64px 90px;transform:rotate(-2deg);box-shadow:0 20px 40px rgba(60,40,20,.18)}
+.fut.mid .bignote{position:relative;left:auto;right:auto;top:auto;margin:56px 40px;background:#fff;border:3px dashed #B9CBAA;box-shadow:none;min-height:300px}
+.fut.mid .bnt{border-bottom:2px solid #E4DDD2;height:70px;margin-top:20px}
+.bnh{font:600 23px/1 'Inter',sans-serif;letter-spacing:.24em;text-transform:uppercase;color:#6b5a4c;margin-bottom:26px}
+.bnt{font:500 54px/1.32 'Inter',sans-serif;color:#2B1A10}
+.fnote{position:absolute;left:96px;right:96px;bottom:120px;font:italic 500 52px/1.3 'Crimson Pro',serif;color:#7C9A6E;text-align:center}
+.fsub{font:italic 400 50px/1.3 'Crimson Pro',serif;color:#5d4c40;margin-top:24px}
+.fcta{font:600 46px/1.3 'Inter',sans-serif;color:#2B1A10}
 .wcta{font:700 50px/1.3 'Inter',sans-serif;color:#F7EBDD}
 .dim{position:absolute;inset:0;background:rgba(20,12,6,.52);z-index:2}
 .boldbox{position:absolute;z-index:6;left:90px;right:90px;top:50%;transform:translateY(-50%);text-align:center;color:#FAF4EC}
@@ -116,6 +133,16 @@ for i,s in enumerate(spec['slides']):
     elif k=='win':
         cards=''.join(f"<div class='wcard'><p class='wh'>Weekly report · my wins</p><p class='wt'>{c}</p></div>" for c in s['cards'])
         parts.append(f"<section class='slide winbg' id='s{i+1}'><div class='wbox'><p class='wk'>{s.get('kick','')}</p><p class='wpill'>{s['title']}</p>{cards}</div></section>")
+    elif k=='futcover':
+        cols=['#F7E7A4','#DCE6D2','#F2D4C7','#E3E0F2']
+        rots=[(-4,50,0),(3,555,30),(2,70,380),(-3,560,400)]
+        notes=''.join(f"<div class='pit' style='background:{cols[j%4]};left:{x}px;top:{y}px;transform:rotate({r}deg)'>{c}</div>" for j,(c,(r,x,y)) in enumerate(zip(s['notes'],rots)))
+        parts.append(f"<section class='slide futbg' id='s{i+1}'><div class='fut'><p class='fk'>{s.get('kick','')}</p><p class='ft'>{s['title']}</p></div><div class='board'>{notes}</div></section>")
+    elif k=='futwin':
+        c=s.get('color','#F7E7A4')
+        parts.append(f"<section class='slide futbg' id='s{i+1}'><div class='fut'><p class='fk'>{s.get('kick','')}</p><p class='ft sm'>{s['title']}</p></div><div class='bignote' style='background:{c}'><p class='bnh'>{s.get('label','Mi win de la semana')}</p><p class='bnt'>{s['text']}</p></div>{('<p class=fnote>'+s['note']+'</p>') if s.get('note') else ''}</section>")
+    elif k=='futend':
+        parts.append(f"<section class='slide futbg' id='s{i+1}'><div class='fut mid'><p class='ft'>{s['title']}</p><p class='fsub'>{s.get('text','')}</p><div class='bignote empty'><p class='bnh'>Mi win de la semana</p><p class='bnt'>{s.get('blank','________________')}</p></div><p class='fcta'>{s.get('cta','')}</p></div></section>")
     elif k=='wincheck':
         items=''.join(f"<div class='ck'><span class='bx'>✓</span><span class='ckt'>{c}</span></div>" for c in s['checks'])
         parts.append(f"<section class='slide' id='s{i+1}' style='background:#3B2214'><div class='wcx'><p class='wck'>{s.get('kick','')}</p><p class='wct'>{s['title']}</p><p class='wcs'>{s.get('sub','')}</p><div class='wcl'></div>{items}</div><p class='wca'>{s.get('arrow','desliza →')}</p></section>")

@@ -46,7 +46,7 @@ Flor no está mirando cuando corren: no le hagas preguntas en el chat. Lo que ne
 - **Formatos fijos de lunes, miércoles y viernes:** ver `carruseles/FORMATOS.md`.
 - **Wins: priorizar logros concretos** (ascenso, trabajo nuevo, entrevista que salió bien, viaje o reunión de trabajo en inglés). Solo los reports de la semana. Nada que la alumna marque como confidencial.
 - **Fuente de los wins: los Weekly Reports** («Weekly Report · <alumna> · semana del <lunes>», sección 01 MY WINS FROM LAST WEEK, en Drive). Las alumnas autorizan compartir en el contrato. Criterio: leer cada win completo; usar solo logros de inglés o de trabajo; nunca lo personal (pareja, salud, vacaciones, visas, familia) ni datos que identifiquen (nombres, empresas, jefes, clientes, otras academias). Sin nombres. Texto textual con typos mínimos corregidos. Registrar en `carruseles/wins/wins.md`.
-- Estilo fijo de los viernes: tipos `wincheck` (portada), `win` y `winend` en gen.py (fondo #8A5A34, pastilla crema, tarjeta oscura «Weekly report · my wins»). Portada editorial sin foto con checklist tildado.
+- Estilo fijo de los viernes: tipos `futcover`, `futwin`, `futend` en gen.py (claro, post-its de colores, sin marrón ni foto). Ver FORMATOS.md.
 - Los carruseles que no entran quedan como RESERVA en Smart Creator, sin fecha.
 
 ## Filosofía de Flor (26/10) · lo más importante

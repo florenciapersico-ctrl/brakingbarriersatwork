@@ -17,10 +17,10 @@ Una Gran Idea por semana: los tres carruseles la cuentan desde ángulos distinto
 - **CTA:** palabra clave con recurso por DM (PAUSA, NÚMEROS, PREGUNTAS…).
 - **Modelo:** `diario/2026-10-27-no-estaba-lista` (miércoles 28/10).
 
-## VIERNES · Resultados (wins de las alumnas, caso de éxito + conversión)
-- **Qué cuenta:** los wins de la semana sacados de los Weekly Reports (sección 01). Prioridad: logros concretos (ascenso, trabajo nuevo, entrevista que salió bien, viaje o reunión de trabajo en inglés, presentación). Después, confianza y hábitos. Solo los reports de ESA semana (no repetir). Sin nombres, empresas, jefes ni clientes; nada personal ni nada que la alumna marque como confidencial.
-- **Estructura:** portada editorial fija sin foto (`wincheck`: marrón oscuro #3B2214, «WINS DE LA SEMANA», título serif crema, subtítulo itálico terracota y 3 casillas tildadas con wins cortos) → 5 a 7 placas «Win #n» (pastilla con el resumen + tarjeta con el texto de la alumna) → cierre «Ninguno es hablar perfecto…» + READY.
-- **Diseño:** tipos `win` / `winend` (marrón caramelo #8A5A34, pastilla crema, tarjeta oscura «Weekly report · my wins»).
-- **CTA:** comentar su win de la semana + READY.
-- **Cuándo se arma:** martes a la mañana (los reports se completan los lunes), con aprobación de Flor.
+## VIERNES · Resultados que ella podría lograr (wins de las alumnas)
+- **Qué cuenta:** los wins de la semana (Weekly Reports, sección 01) mostrados como SU futuro: «imagínate escribir esto el próximo lunes». Prioridad: logros concretos (ascenso, trabajo nuevo, entrevista que salió bien, viaje o reunión de trabajo en inglés, presentación); después confianza y hábitos. Solo los reports de ESA semana. Sin nombres, empresas, jefes ni clientes; nada personal ni confidencial.
+- **Estructura:** portada `futcover` (kick «Wins de la semana», «Imagínate escribir esto *el próximo lunes*:», 4 post-its con wins cortos en primera persona) → 5 a 7 placas `futwin` (kick «Lo escribió una alumna esta semana», título que resume, post-it grande con el texto textual, una línea en itálica que la proyecta a ella) → cierre `futend` («¿Cuál quieres escribir tú el próximo lunes?», post-it vacío, READY).
+- **Diseño:** claro y luminoso, NADA de marrón: fondo #F5F0E9, post-its manteca #F7E7A4, salvia #DCE6D2, rosa #F2D4C7, lavanda #E3E0F2, acento verde salvia #7C9A6E, serif tinta + sans. Sin foto.
+- **CTA:** «¿Cuál quieres escribir tú?» en comentarios + READY.
+- **Cuándo se arma:** martes a la mañana, con aprobación de Flor.
 - **Modelo:** `diario/2026-10-30-wins`.
