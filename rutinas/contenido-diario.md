@@ -43,7 +43,9 @@ Flor no está mirando cuando corren: no le hagas preguntas en el chat. Lo que ne
 - **Lunes, miércoles y viernes: carrusel.**
 - **Viernes: siempre el carrusel de resultados (wins)** con capturas del grupo de WhatsApp. Estilo fijo: marrón caramelo con pastillas crema y capturas (`carruseles/serie-eterna-alumna/c-wins`). Nombres y fotos de perfil desenfocados. CTA: READY.
 - **Martes y jueves: video.** Flor manda B-roll y se edita con texto en pantalla (prompter escrito) para su voz en off, o un video a cámara que se edita con su estilo (skill `editar-reels`).
-- **Fuente de los wins: los Weekly Reports** («Weekly Report · <alumna> · semana del <lunes>», sección 01 MY WINS FROM LAST WEEK, en Drive). Las alumnas autorizan compartir en el contrato. Criterio: leer cada win completo; usar solo logros de inglés o de trabajo; nunca lo personal (pareja, salud, viajes, visas, familia) ni lo que pueda exponerlas (búsqueda de trabajo, entrevistas, LinkedIn, cambios de puesto, nombres de empresas, jefes, otras academias). Sin nombres. Texto textual con typos mínimos corregidos. Registrar en `carruseles/wins/wins.md`.
+- **Formatos fijos de lunes, miércoles y viernes:** ver `carruseles/FORMATOS.md`.
+- **Wins: priorizar logros concretos** (ascenso, trabajo nuevo, entrevista que salió bien, viaje o reunión de trabajo en inglés). Solo los reports de la semana. Nada que la alumna marque como confidencial.
+- **Fuente de los wins: los Weekly Reports** («Weekly Report · <alumna> · semana del <lunes>», sección 01 MY WINS FROM LAST WEEK, en Drive). Las alumnas autorizan compartir en el contrato. Criterio: leer cada win completo; usar solo logros de inglés o de trabajo; nunca lo personal (pareja, salud, vacaciones, visas, familia) ni datos que identifiquen (nombres, empresas, jefes, clientes, otras academias). Sin nombres. Texto textual con typos mínimos corregidos. Registrar en `carruseles/wins/wins.md`.
 - Estilo fijo de los viernes: tipos `win` y `winend` en gen.py (fondo #8A5A34, pastilla crema, tarjeta oscura «Weekly report · my wins»). Portada con foto de Flor.
 - Los carruseles que no entran quedan como RESERVA en Smart Creator, sin fecha.
 
