@@ -36,6 +36,16 @@ CSS='''
 .ptext{position:absolute;z-index:6;left:80px;right:80px;bottom:100px;color:var(--ink)}
 .ptext .x{text-shadow:none}.ptext .x i{color:var(--terra)}.ptext .t{text-shadow:none}
 .arrow{position:absolute;z-index:6}
+.winbg{background:#8A5A34}
+.wbox{position:absolute;left:90px;right:90px;top:50%;transform:translateY(-50%);text-align:center}
+.wk{font:600 26px/1 'Inter',sans-serif;letter-spacing:.3em;text-transform:uppercase;color:#F7EBDD;margin-bottom:26px}
+.wpill{display:inline-block;background:#F4EADF;color:#3F1E0D;font:700 64px/1.12 'Crimson Pro',serif;padding:26px 40px;border-radius:30px;margin-bottom:40px}
+.wcard{background:#23201D;border-radius:26px;padding:34px 40px 38px;text-align:left;box-shadow:0 18px 44px rgba(0,0,0,.35);margin:0 10px 26px;transform:rotate(-1deg)}
+.wcard+.wcard{transform:rotate(1deg)}
+.wh{font:600 22px/1 'Inter',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#C9A985;margin-bottom:18px}
+.wt{font:400 44px/1.36 'Inter',sans-serif;color:#F2ECE6}
+.wend{font:italic 500 50px/1.3 'Crimson Pro',serif;color:#F7EBDD;margin:6px 0 40px}
+.wcta{font:700 50px/1.3 'Inter',sans-serif;color:#F7EBDD}
 .dim{position:absolute;inset:0;background:rgba(20,12,6,.52);z-index:2}
 .boldbox{position:absolute;z-index:6;left:90px;right:90px;top:50%;transform:translateY(-50%);text-align:center;color:#FAF4EC}
 .boldbox .t{font:700 112px/1.02 'Oswald',sans-serif;text-transform:uppercase;color:#F7E7A4;letter-spacing:.005em;text-shadow:0 4px 30px rgba(0,0,0,.5)}
@@ -89,6 +99,11 @@ for i,s in enumerate(spec['slides']):
             im=s['img_'+side];shutil.copy(im,f"{out}/img/{os.path.basename(im)}")
             hs+=f"<div class='half {c}'><div class='bg' style=\"background-image:url(img/{os.path.basename(im)});background-position:{s.get('pos_'+side,'center')}\"></div><div class='lab'><span class='who'>{s['who_'+side]}</span><p class='say'>{s['say_'+side]}</p></div></div>"
         parts.append(f"<section class='slide grain' id='s{i+1}'>{hs}<div class='cut'></div>{top}</section>")
+    elif k=='win':
+        cards=''.join(f"<div class='wcard'><p class='wh'>Weekly report · my wins</p><p class='wt'>{c}</p></div>" for c in s['cards'])
+        parts.append(f"<section class='slide winbg' id='s{i+1}'><div class='wbox'><p class='wk'>{s.get('kick','')}</p><p class='wpill'>{s['title']}</p>{cards}</div></section>")
+    elif k=='winend':
+        parts.append(f"<section class='slide winbg' id='s{i+1}'><div class='wbox'><p class='wpill'>{s['title']}</p><p class='wend'>{s.get('text','')}</p><p class='wcta'>{s.get('cta','')}</p></div></section>")
     elif k=='bold':
         parts.append(f"<section class='slide grain' id='s{i+1}'><div class='bg' style=\"background-image:url({src});background-position:{pos}\"></div><div class='dim'></div><div class='boldbox'>{inner}</div></section>")
     elif k=='plain':

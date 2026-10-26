@@ -3,3 +3,4 @@
 fecha · alumna (interno) · qué dice (textual) · usado en
 
 - 17/10 · Sol, Virginia, Gaby, Lourdes, Alejandra, Belem, Lauri, Adriana y Sonne(=Sol) · ver carruseles/serie-eterna-alumna/c-wins/img · usados en «10 razones» (17/10)
+- 26/10 · weekly reports semanas 19/10 y 26/10 (Virginia ×2, Gaby, Ester, Gisela, Brenda, Adriana) · textual, solo inglés/trabajo; excluidos: visa, pareja, LinkedIn, entrevistas laborales, otra academia · usados en carrusel de wins 30/10
