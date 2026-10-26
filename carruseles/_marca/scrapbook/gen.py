@@ -59,12 +59,17 @@ CSS='''
 .bx{flex:none;width:52px;height:52px;border-radius:12px;background:#F7EBDD;color:#3B2214;font:700 38px/52px 'Inter',sans-serif;text-align:center}
 .ckt{font:400 42px/1.3 'Inter',sans-serif;color:#EBDDCD;padding-top:2px}
 .wca{position:absolute;right:96px;bottom:80px;font:italic 400 40px/1 'Crimson Pro',serif;color:#C98B62}
+.ftx{position:absolute;left:100px;right:100px;top:50%;transform:translateY(-55%)}
+.ftt{font:600 156px/0.98 'Crimson Pro',serif;color:#2B1A10;letter-spacing:-.02em}
+.ftt i{color:#6E8B63;font-weight:500}
+.fts{font:italic 400 64px/1.2 'Crimson Pro',serif;color:#6E8B63;margin-top:40px}
 .futbg{background:#F5F0E9}
 .fut{position:absolute;left:96px;right:96px;top:120px}
 .fut.mid{top:50%;transform:translateY(-50%);text-align:center}
 .fk{font:600 25px/1 'Inter',sans-serif;letter-spacing:.3em;text-transform:uppercase;color:#7C9A6E;margin-bottom:30px}
 .ft{font:600 104px/1.03 'Crimson Pro',serif;color:#2B1A10;letter-spacing:-.015em}
-.ft.sm{font-size:70px}
+.ft.sm{font-size:74px}
+.ft.sm i{color:#6E8B63}
 .ft i{color:#7C9A6E}
 .board{position:absolute;left:0;right:0;bottom:70px;height:800px}
 .pit{position:absolute;width:470px;min-height:330px;padding:50px 42px;font:500 44px/1.28 'Inter',sans-serif;color:#2B1A10;box-shadow:0 14px 30px rgba(60,40,20,.16)}
@@ -133,6 +138,8 @@ for i,s in enumerate(spec['slides']):
     elif k=='win':
         cards=''.join(f"<div class='wcard'><p class='wh'>Weekly report · my wins</p><p class='wt'>{c}</p></div>" for c in s['cards'])
         parts.append(f"<section class='slide winbg' id='s{i+1}'><div class='wbox'><p class='wk'>{s.get('kick','')}</p><p class='wpill'>{s['title']}</p>{cards}</div></section>")
+    elif k=='futtitle':
+        parts.append(f"<section class='slide' id='s{i+1}' style='background:#F3EDE4'><div class='ftx'><p class='fk'>{s.get('kick','')}</p><p class='ftt'>{s['title']}</p><p class='fts'>{s.get('sub','')}</p></div></section>")
     elif k=='futcover':
         cols=['#F7E7A4','#DCE6D2','#F2D4C7','#E3E0F2']
         rots=[(-4,50,0),(3,555,30),(2,70,380),(-3,560,400)]

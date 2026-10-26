@@ -19,8 +19,9 @@ Una Gran Idea por semana: los tres carruseles la cuentan desde ángulos distinto
 
 ## VIERNES · Resultados que ella podría lograr (wins de las alumnas)
 - **Qué cuenta:** los wins de la semana (Weekly Reports, sección 01) mostrados como SU futuro: «imagínate escribir esto el próximo lunes». Prioridad: logros concretos (ascenso, trabajo nuevo, entrevista que salió bien, viaje o reunión de trabajo en inglés, presentación); después confianza y hábitos. Solo los reports de ESA semana. Sin nombres, empresas, jefes ni clientes; nada personal ni confidencial.
-- **Estructura:** portada `futcover` (kick «Wins de la semana», «Imagínate escribir esto *el próximo lunes*:», 4 post-its con wins cortos en primera persona) → 5 a 7 placas `futwin` (kick «Lo escribió una alumna esta semana», título que resume, post-it grande con el texto textual, una línea en itálica que la proyecta a ella) → cierre `futend` («¿Cuál quieres escribir tú el próximo lunes?», post-it vacío, READY).
+- **Estructura:** portada `futtitle` editorial clara, solo fondo crema y letras (kick «Wins de la semana», «Imagina que pudieras *sentirte así* en inglés», «(desliza)») → 5 a 7 placas `futwin` (kick «Lo escribió una alumna esta semana», título en segunda persona que nombra el deseo («Decir tu idea en la reunión *sin pensarla mil veces*»), post-it grande con el texto textual, una línea en itálica que la proyecta a ella) → cierre `futend` («¿Cuál de estos quieres sentir *tú*?», post-it vacío, READY).
 - **Diseño:** claro y luminoso, NADA de marrón: fondo #F5F0E9, post-its manteca #F7E7A4, salvia #DCE6D2, rosa #F2D4C7, lavanda #E3E0F2, acento verde salvia #7C9A6E, serif tinta + sans. Sin foto.
-- **CTA:** «¿Cuál quieres escribir tú?» en comentarios + READY.
+- **Marketing de deseo (Ann):** cada título le habla a ELLA y nombra lo que quiere sentir; el post-it es la prueba real; la línea itálica toca lo que hoy le pasa.
+- **CTA:** «¿Cuál de estos quieres sentir tú?» en comentarios + READY.
 - **Cuándo se arma:** martes a la mañana, con aprobación de Flor.
 - **Modelo:** `diario/2026-10-30-wins`.
