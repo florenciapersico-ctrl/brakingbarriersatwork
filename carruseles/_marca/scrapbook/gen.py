@@ -63,6 +63,12 @@ CSS='''
 .ftt{font:600 156px/0.98 'Crimson Pro',serif;color:#2B1A10;letter-spacing:-.02em}
 .ftt i{color:#6E8B63;font-weight:500}
 .fts{font:italic 400 64px/1.2 'Crimson Pro',serif;color:#6E8B63;margin-top:40px}
+.wabg{background-color:#E7DED3;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><g fill='none' stroke='%23d6cbbd' stroke-width='3' stroke-linecap='round'><circle cx='24' cy='26' r='9'/><path d='M70 20 q10 -12 20 0 t20 0'/><rect x='118' y='14' width='22' height='16' rx='4'/><path d='M20 92 l14 -14 l14 14'/><circle cx='88' cy='86' r='5'/><path d='M120 80 q14 8 0 22'/><path d='M30 138 h26'/><path d='M84 128 l8 16 l8 -16'/><circle cx='136' cy='140' r='8'/></g></svg>")}
+.wahead{position:absolute;left:70px;right:70px;top:90px;background:#FAF7F2;border-radius:30px;padding:40px 46px 44px;box-shadow:0 10px 30px rgba(60,40,20,.10)}
+.wahead .fk{margin-bottom:18px}
+.wastack{position:absolute;left:60px;right:60px;top:470px;bottom:200px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px}
+.wshot{display:block;max-width:860px;width:auto;height:auto;min-width:560px;object-fit:contain;border-radius:18px;box-shadow:0 18px 40px rgba(0,0,0,.22)}
+.wabg .fnote{bottom:90px;color:#4F6B45}
 .futbg{background:#F5F0E9}
 .fut{position:absolute;left:96px;right:96px;top:120px}
 .fut.mid{top:50%;transform:translateY(-50%);text-align:center}
@@ -138,6 +144,13 @@ for i,s in enumerate(spec['slides']):
     elif k=='win':
         cards=''.join(f"<div class='wcard'><p class='wh'>Weekly report · my wins</p><p class='wt'>{c}</p></div>" for c in s['cards'])
         parts.append(f"<section class='slide winbg' id='s{i+1}'><div class='wbox'><p class='wk'>{s.get('kick','')}</p><p class='wpill'>{s['title']}</p>{cards}</div></section>")
+    elif k=='wachat':
+        imgs=''
+        mh=int((770-28*(len(s['shots'])-1))/len(s['shots']))
+        for im in s['shots']:
+            shutil.copy(im,f"{out}/img/{os.path.basename(im)}")
+            imgs+=f"<img class='wshot' style='max-height:{mh}px' src='img/{os.path.basename(im)}'>"
+        parts.append(f"<section class='slide wabg' id='s{i+1}'><div class='wahead'><p class='fk'>{s.get('kick','')}</p><p class='ft sm'>{s['title']}</p></div><div class='wastack'>{imgs}</div>{('<p class=fnote>'+s['note']+'</p>') if s.get('note') else ''}</section>")
     elif k=='futtitle':
         parts.append(f"<section class='slide' id='s{i+1}' style='background:#F3EDE4'><div class='ftx'><p class='fk'>{s.get('kick','')}</p><p class='ftt'>{s['title']}</p><p class='fts'>{s.get('sub','')}</p></div></section>")
     elif k=='futcover':
