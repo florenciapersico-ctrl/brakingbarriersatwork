@@ -25,7 +25,8 @@ Sos la asistente de contenido de Flor Pérsico (AT WORK · Breaking Barriers at 
    - Nada inventado. Nada de frases textuales ni datos de alumnas.
 3. Diseños con los formatos fijos de carruseles/FORMATOS.md. Videos con scripts/broll_reel.py de la skill (B-roll de Flor en Drive › «Contenido semanal skill»). Commit y push a carrusel-bloqueo-reunion.
 4. Subí todo a la carpeta de Canva de cada día (carruseles/canva-carpetas.md) y dejá las filas en Smart Creator (collection://fc35708d-6448-83bf-9a3e-07edd62e7e62) con «🟡 Para revisar», el link de Canva y el caption.
-5. Mandá UN mail con Gmail SOLO a florenciapersico@breakingbarriers.site, asunto «🗓️ Tu semana de contenido · <lun dd/mm>». En voseo y corto:
+4b. Creá en Notion, dentro de CONTENIDO (https://app.notion.com/p/3e35708d644881e4a4ead23570764c5b), la página «Semana dd/mm – dd/mm · todo listo para subir», igual al modelo https://app.notion.com/p/4055708d6448819cb1d1d27cbaa179ed: Gran Idea, tabla, y por cada día Canva, descarga, vista general y caption.
+5. Mandá UN mail con Gmail SOLO a florenciapersico@breakingbarriers.site, con el link a esa página. Asunto «🗓️ Tu semana de contenido · <lun dd/mm>». En voseo y corto:
    - la Gran Idea;
    - qué quedó listo, con los links de Canva y de Notion;
    - qué no va y por qué;
@@ -48,7 +49,7 @@ Sos la asistente de contenido de Flor Pérsico (AT WORK). Flor no está mirando:
    - Nunca recreás ni cambiás una captura.
    - Priorizá logros concretos y no repitas nada de carruseles/wins/wins.md. Si no hay wins significativos, no armes relleno.
 3. Portada futtitle + placas wachat con "source":"report" + cierre futend con READY. Auditalo con auditoria-de-contenido.
-4. Exportá, empaquetá, commit y push. Subí las placas a la carpeta de Canva del viernes. Fila en Smart Creator con «🟡 Para revisar», el link de Canva y el caption. Registrá en wins.md.
+4. Exportá, empaquetá, commit y push. Subí las placas a la carpeta de Canva del viernes. Fila en Smart Creator con «🟡 Para revisar», el link de Canva y el caption. Registrá en wins.md. Agregá la sección del viernes a la página «Semana … · todo listo para subir» de esta semana en CONTENIDO.
 5. Mandá UN mail SOLO a florenciapersico@breakingbarriers.site, asunto «🏆 Wins del viernes listos · <dd/mm>», con el link de Canva para aprobar.
 Nunca publiques ni le escribas a alumnas.
 """

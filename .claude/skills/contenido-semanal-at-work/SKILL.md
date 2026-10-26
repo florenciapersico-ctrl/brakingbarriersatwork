@@ -64,7 +64,13 @@ Sábado, solo si hay algo real y significativo.
   - la auditoría en dos líneas;
   - el caption o la descripción en un bloque de código;
   - en los videos, el guion de voz.
-- **Aviso a Flor:** uno solo, con qué quedó listo, qué no va y qué necesita mandar (fotos, B-roll, dos líneas de su semana).
+- **Página de la semana (Flor 26/10: «necesito dónde está toda la semana completa»):** una sola página dentro de CONTENIDO (https://app.notion.com/p/3e35708d644881e4a4ead23570764c5b) llamada «Semana dd/mm – dd/mm · todo listo para subir», igual al modelo https://app.notion.com/p/4055708d6448819cb1d1d27cbaa179ed. Lleva:
+  - la Gran Idea;
+  - una tabla día → pieza → Canva → fila;
+  - por cada día: links de Canva y descarga, la vista general (imagen sola, con línea en blanco antes y después) y el caption en un bloque de código;
+  - las historias de cada día y lo que tiene que hacer Flor.
+  La rutina del jueves la crea con lunes a jueves; la de wins del martes le agrega el viernes. Es lo único que Flor tiene que abrir.
+- **Aviso a Flor:** uno solo, con el link a la página de la semana, con qué quedó listo, qué no va y qué necesita mandar (fotos, B-roll, dos líneas de su semana).
 
 ## Automatizaciones que usan esta skill
 - **Jueves 09:37:** semana siguiente, de lunes a jueves (`rutinas/semana-carruseles.md`).
