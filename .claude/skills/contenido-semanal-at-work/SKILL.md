@@ -11,9 +11,9 @@ Flor (26/10): «que quede todo automatizado con el mismo criterio de Ann y como 
 | Día | Pieza | Formato (detalle en `carruseles/FORMATOS.md`) | Modelo aprobado |
 |---|---|---|---|
 | Lunes | Carrusel personal + creencia | `theme:"ig"`: fotos NUEVAS de Flor a sangre + recuadros blancos | `carruseles/diario/2026-10-31-el-proceso` |
-| Martes | Video | B-roll + texto en pantalla (o a cámara con `editar-reels`) | `carruseles/reels/r4-ensayar` |
+| Martes | Reel A CÁMARA (concientización) | prompter (`PROMPTER.md`) → Flor graba → `editar-reels`. Plan B: B-roll + texto | `carruseles/reels/r4-ensayar` |
 | Miércoles | Carrusel Problema / Brecha | `bold` / `label` / `plain` (estilos de Instagram de Flor) | `carruseles/diario/2026-10-27-no-estaba-lista` |
-| Jueves | Video | igual que martes, con otras tomas | `carruseles/reels/r5-que-se-resolvio` |
+| Jueves | Reel A CÁMARA (concientización) | igual que martes. Plan B: B-roll + texto | `carruseles/reels/r5-que-se-resolvio` |
 | Viernes | Carrusel de wins | `futtitle` + `wachat` con `"source":"report"` + `futend` | `carruseles/diario/2026-10-30-wins` |
 
 Sábado, solo si hay algo real y significativo.
@@ -47,7 +47,8 @@ Sábado, solo si hay algo real y significativo.
 - Empaquetar: `LISTO-PARA-SUBIR/` (PNG + caption.txt) y `AT-WORK_<fecha>_LISTO.zip`. Commit y push a `carrusel-bloqueo-reunion`.
 
 ## Paso 3 · Videos
-- **No siempre B-roll (Flor 26/10).** Algunas semanas, un video tiene que ser a cámara: se entrega un **prompter** bueno para que Flor lo grabe con su cara (hook de 0 a 3 s, frases cortas para decir con sus palabras, una idea por línea, CTA), y después se edita con `editar-reels`.
+- **Por defecto, a cámara (Flor 26/10: «lo que más valoran es que yo aparezca con mi cara haciendo concientización»).** Martes y jueves se entrega un **prompter** con el criterio de Ann (ver `PROMPTER.md`); Flor lo graba y se edita como experto con `editar-reels`.
+- **Plan B, B-roll + texto en pantalla:** solo cuando Flor no tiene tiempo, no se siente bien o pasa algo. Igual se deja armado como respaldo cuando hay B-roll.
 - **B-roll de Flor + texto en pantalla:** `python3 .claude/skills/contenido-semanal-at-work/scripts/broll_reel.py spec.json`, dentro de `carruseles/reels/rN-<slug>/`. El spec lleva clips, segmentos (inicio, fin, velocidad), un texto por segmento (el primero es el hook) y la placa final.
   - Unos 3,5 s por placa para que se lea.
   - Tomas sin otras personas. Nunca la misma toma que el video anterior.
