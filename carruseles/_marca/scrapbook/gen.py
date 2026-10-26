@@ -36,6 +36,25 @@ CSS='''
 .ptext{position:absolute;z-index:6;left:80px;right:80px;bottom:100px;color:var(--ink)}
 .ptext .x{text-shadow:none}.ptext .x i{color:var(--terra)}.ptext .t{text-shadow:none}
 .arrow{position:absolute;z-index:6}
+.dim{position:absolute;inset:0;background:rgba(20,12,6,.52);z-index:2}
+.boldbox{position:absolute;z-index:6;left:90px;right:90px;top:50%;transform:translateY(-50%);text-align:center;color:#FAF4EC}
+.boldbox .t{font:700 112px/1.02 'Oswald',sans-serif;text-transform:uppercase;color:#F7E7A4;letter-spacing:.005em;text-shadow:0 4px 30px rgba(0,0,0,.5)}
+.boldbox .x{font:500 46px/1.3 'Inter',sans-serif;color:#FAF4EC;margin-top:30px}
+.boldbox .hand{font:italic 500 56px/1.15 'Crimson Pro',serif;color:#FAF4EC;transform:none}
+.plainbg{background:#7B4A2C}
+.bg.ghost{opacity:.17;filter:grayscale(.3) blur(1px)}
+.plainbox{position:absolute;z-index:6;left:100px;right:100px;top:50%;transform:translateY(-50%);text-align:center;color:#FAF4EC}
+.plainbox .kick{color:#F2C9A8;font-size:26px}
+.plainbox .t{font:600 84px/1.06 'Crimson Pro',serif;text-shadow:none;color:#FAF4EC}
+.plainbox .t i{color:#F7E7A4}
+.plainbox .x{font:500 46px/1.34 'Inter',sans-serif;text-shadow:none;margin-top:30px;color:#F3E6D8}
+.plainbox .x i{color:#F7E7A4}
+.plainbox .hand{font:italic 500 60px/1.15 'Crimson Pro',serif;color:#F7E7A4;transform:none;margin-top:34px}
+.plainbox .flow p{color:#FAF4EC}.plainbox .list p{font:500 52px/1.25 'Crimson Pro',serif;margin:10px 0}
+.band{position:absolute;z-index:6;left:0;right:0;top:0;padding:70px 90px 46px;background:#7B4A2C;color:#FAF4EC;text-align:center;font:500 46px/1.3 'Inter',sans-serif}
+.lbl{position:absolute;z-index:6;left:80px;right:80px;bottom:90px;text-align:center}
+.lbl .t{display:inline;background:#7B4A2C;color:#FAF4EC;font:600 74px/1.32 'Crimson Pro',serif;padding:10px 26px;border-radius:26px;-webkit-box-decoration-break:clone;box-decoration-break:clone;text-shadow:none}
+.lbl .t i{color:#F7E7A4}
 .half{position:absolute;left:0;right:0;height:715px;overflow:hidden}.half.a{top:0}.half.b{bottom:0}
 .half .bg{inset:0}.half.a .bg:after,.half.b .bg:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 45%,rgba(0,0,0,.55) 100%)}
 .cut{position:absolute;left:0;right:0;top:715px;height:10px;background:var(--cream);z-index:6}
@@ -70,6 +89,13 @@ for i,s in enumerate(spec['slides']):
             im=s['img_'+side];shutil.copy(im,f"{out}/img/{os.path.basename(im)}")
             hs+=f"<div class='half {c}'><div class='bg' style=\"background-image:url(img/{os.path.basename(im)});background-position:{s.get('pos_'+side,'center')}\"></div><div class='lab'><span class='who'>{s['who_'+side]}</span><p class='say'>{s['say_'+side]}</p></div></div>"
         parts.append(f"<section class='slide grain' id='s{i+1}'>{hs}<div class='cut'></div>{top}</section>")
+    elif k=='bold':
+        parts.append(f"<section class='slide grain' id='s{i+1}'><div class='bg' style=\"background-image:url({src});background-position:{pos}\"></div><div class='dim'></div><div class='boldbox'>{inner}</div></section>")
+    elif k=='plain':
+        parts.append(f"<section class='slide grain plainbg' id='s{i+1}'><div class='bg ghost' style=\"background-image:url({src});background-position:{pos}\"></div><div class='plainbox'>{inner}</div></section>")
+    elif k=='label':
+        band=f"<div class='band'>{s.get('band','')}</div>" if s.get('band') else ''
+        parts.append(f"<section class='slide grain' id='s{i+1}'><div class='bg' style=\"background-image:url({src});background-position:{pos}\"></div>{band}<div class='lbl'>{inner}</div></section>")
     elif k=='polaroid':
         cap=s.get('cap','')
         parts.append(f"<section class='slide grain paper' id='s{i+1}'>{top}<div class='pola' style='left:{s.get('px',300)}px;top:{s.get('py',150)}px'><div class='ph' style=\"background-image:url({src});background-position:{pos}\"></div><div class='cap'>{cap}</div></div><div class='tape' style='left:{s.get('px',300)+220}px;top:{s.get('py',150)-22}px;transform:rotate(-4deg)'></div><div class='ptext'>{inner}</div></section>")
@@ -110,7 +136,7 @@ if spec.get('theme')=='ig':
         _p=_re.sub(r"<p class='hand'>(.*?)</p>",lambda m:f"<p><span class='box over'>{m.group(1)}</span></p>",_p)
         _p=_re.sub(r"<p class='x'>(.*?)</p>",lambda m:f"<p><span class='box' style='font-weight:500;font-size:46px'>{m.group(1)}</span></p>",_p)
         parts[_i]=_p
-h=f"<!doctype html><html lang='es'><head><meta charset='utf-8'><title>AT WORK · {spec['title']}</title><link rel='stylesheet' href='../../_marca/fonts/fonts.css'><link rel='stylesheet' href='../../_marca/fonts/caveat.css'><style>{CSS}</style></head><body>{''.join(parts)}</body></html>"
+h=f"<!doctype html><html lang='es'><head><meta charset='utf-8'><title>AT WORK · {spec['title']}</title><link rel='stylesheet' href='../../_marca/fonts/fonts.css'><link rel='stylesheet' href='../../_marca/fonts/caveat.css'><link rel='stylesheet' href='../../_marca/fonts/oswald.css'><style>{CSS}</style></head><body>{''.join(parts)}</body></html>"
 h=h.replace("../../_marca/fonts/caveat.css","../../_marca/fonts/caveat.css")
 open(f"{out}/index.html",'w').write(h)
 open(f"{out}/caption.txt",'w').write(spec['caption'])

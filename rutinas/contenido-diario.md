@@ -43,6 +43,8 @@ Flor no está mirando cuando corren: no le hagas preguntas en el chat. Lo que ne
 Práctica diaria dentro de sus hábitos (hábitos atómicos), olvidarse del resultado y disfrutar el proceso: así vive Flor todo, y así quiere que sus alumnas vivan el inglés. Es una creencia de marca: usarla como Gran Idea en las próximas semanas y como cierre de las piezas personales.
 
 ## Reglas de Flor (26/10)
+- No usar fotos viejas (las de marca de `_marca/img/foto-*` ni las de octubre 20 ya publicadas): solo fotos nuevas de la carpeta de Drive «Contenido semanal skill».
+- Estilos propios de Flor en Instagram (tipos `bold`, `plain`, `label` en gen.py): mayúsculas amarillas Oswald sobre foto oscura, placa marrón lisa con foto opacada de fondo, etiqueta marrón redondeada sobre foto con banda arriba.
 - Contraste entre días: dos días seguidos nunca con el mismo estilo ni las mismas fotos. Estilos: `ig` (foto completa + recuadros blancos), `mag` (foto arriba + panel papel con serif), scrapbook. Rotar y no repetir fotos de la semana.
 - Las alumnas no se tienen que sentir expuestas: nada de escenas puntuales, citas textuales, cargos ni números de una alumna. Contar el patrón («lo veo muchísimo en alumnas que…»).
 - Texto estilo Instagram/Ann cuando haga falta claridad: letra sans negra sobre recuadro blanco redondeado (`"theme":"ig"` en gen.py).
