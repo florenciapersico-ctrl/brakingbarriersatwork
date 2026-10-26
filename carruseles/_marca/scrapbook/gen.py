@@ -150,7 +150,8 @@ for i,s in enumerate(spec['slides']):
         for im in s['shots']:
             shutil.copy(im,f"{out}/img/{os.path.basename(im)}")
             imgs+=f"<img class='wshot' style='max-height:{mh}px' src='img/{os.path.basename(im)}'>"
-        parts.append(f"<section class='slide wabg' id='s{i+1}'><div class='wahead'><p class='fk'>{s.get('kick','')}</p><p class='ft sm'>{s['title']}</p></div><div class='wastack'>{imgs}</div>{('<p class=fnote>'+s['note']+'</p>') if s.get('note') else ''}</section>")
+        wa_style=" style='background:#F3EDE4'" if s.get('source')=='report' else ''
+        parts.append(f"<section class='slide wabg' id='s{i+1}'{wa_style}><div class='wahead'><p class='fk'>{s.get('kick','')}</p><p class='ft sm'>{s['title']}</p></div><div class='wastack'>{imgs}</div>{('<p class=fnote>'+s['note']+'</p>') if s.get('note') else ''}</section>")
     elif k=='futtitle':
         parts.append(f"<section class='slide' id='s{i+1}' style='background:#F3EDE4'><div class='ftx'><p class='fk'>{s.get('kick','')}</p><p class='ftt'>{s['title']}</p><p class='fts'>{s.get('sub','')}</p></div></section>")
     elif k=='futcover':
