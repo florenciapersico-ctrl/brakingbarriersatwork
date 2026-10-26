@@ -19,7 +19,7 @@ Una Gran Idea por semana: los tres carruseles la cuentan desde ángulos distinto
 
 ## VIERNES · Resultados (wins de las alumnas, caso de éxito + conversión)
 - **Qué cuenta:** los wins de la semana sacados de los Weekly Reports (sección 01). Prioridad: logros concretos (ascenso, trabajo nuevo, entrevista que salió bien, viaje o reunión de trabajo en inglés, presentación). Después, confianza y hábitos. Solo los reports de ESA semana (no repetir). Sin nombres, empresas, jefes ni clientes; nada personal ni nada que la alumna marque como confidencial.
-- **Estructura:** portada tipográfica sin foto (`wincover`: título crema + pastilla + abanico de 3 tarjetas de wins) → 5 a 7 placas «Win #n» (pastilla con el resumen + tarjeta con el texto de la alumna) → cierre «Ninguno es hablar perfecto…» + READY.
+- **Estructura:** portada editorial fija sin foto (`wincheck`: marrón oscuro #3B2214, «WINS DE LA SEMANA», título serif crema, subtítulo itálico terracota y 3 casillas tildadas con wins cortos) → 5 a 7 placas «Win #n» (pastilla con el resumen + tarjeta con el texto de la alumna) → cierre «Ninguno es hablar perfecto…» + READY.
 - **Diseño:** tipos `win` / `winend` (marrón caramelo #8A5A34, pastilla crema, tarjeta oscura «Weekly report · my wins»).
 - **CTA:** comentar su win de la semana + READY.
 - **Cuándo se arma:** martes a la mañana (los reports se completan los lunes), con aprobación de Flor.

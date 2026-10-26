@@ -50,6 +50,15 @@ CSS='''
 .cvh{display:inline-block;margin-top:30px;background:#F4EADF;color:#3F1E0D;font:italic 600 50px/1.2 'Crimson Pro',serif;padding:16px 34px;border-radius:30px}
 .fan{position:absolute;left:0;right:0;bottom:0;height:760px}
 .fcard{position:absolute;left:190px;width:700px;bottom:110px;background:#23201D;border-radius:26px;padding:30px 36px 34px;text-align:left;box-shadow:0 22px 50px rgba(0,0,0,.4)}
+.wcx{position:absolute;left:96px;right:96px;top:150px}
+.wck{font:600 25px/1 'Inter',sans-serif;letter-spacing:.3em;text-transform:uppercase;color:#C98B62;margin-bottom:40px}
+.wct{font:600 100px/1.02 'Crimson Pro',serif;color:#F7EBDD;letter-spacing:-.015em}
+.wcs{font:italic 400 52px/1.2 'Crimson Pro',serif;color:#C98B62;margin-top:26px}
+.wcl{height:2px;background:rgba(247,235,221,.25);margin:56px 0 50px;width:420px}
+.ck{display:flex;align-items:flex-start;gap:28px;margin:0 0 34px}
+.bx{flex:none;width:52px;height:52px;border-radius:12px;background:#F7EBDD;color:#3B2214;font:700 38px/52px 'Inter',sans-serif;text-align:center}
+.ckt{font:400 42px/1.3 'Inter',sans-serif;color:#EBDDCD;padding-top:2px}
+.wca{position:absolute;right:96px;bottom:80px;font:italic 400 40px/1 'Crimson Pro',serif;color:#C98B62}
 .wcta{font:700 50px/1.3 'Inter',sans-serif;color:#F7EBDD}
 .dim{position:absolute;inset:0;background:rgba(20,12,6,.52);z-index:2}
 .boldbox{position:absolute;z-index:6;left:90px;right:90px;top:50%;transform:translateY(-50%);text-align:center;color:#FAF4EC}
@@ -107,6 +116,9 @@ for i,s in enumerate(spec['slides']):
     elif k=='win':
         cards=''.join(f"<div class='wcard'><p class='wh'>Weekly report · my wins</p><p class='wt'>{c}</p></div>" for c in s['cards'])
         parts.append(f"<section class='slide winbg' id='s{i+1}'><div class='wbox'><p class='wk'>{s.get('kick','')}</p><p class='wpill'>{s['title']}</p>{cards}</div></section>")
+    elif k=='wincheck':
+        items=''.join(f"<div class='ck'><span class='bx'>✓</span><span class='ckt'>{c}</span></div>" for c in s['checks'])
+        parts.append(f"<section class='slide' id='s{i+1}' style='background:#3B2214'><div class='wcx'><p class='wck'>{s.get('kick','')}</p><p class='wct'>{s['title']}</p><p class='wcs'>{s.get('sub','')}</p><div class='wcl'></div>{items}</div><p class='wca'>{s.get('arrow','desliza →')}</p></section>")
     elif k=='wincover':
         fan=''.join(f"<div class='fcard' style='transform:rotate({r}deg) translate({x}px,{y}px)'><p class='wh'>Weekly report · my wins</p><p class='wt'>{c}</p></div>" for c,(r,x,y) in zip(s['cards'],[(-6,-100,-330),(5,110,-170),(-2,0,10)]))
         parts.append(f"<section class='slide winbg' id='s{i+1}'><div class='cvtop'><p class='wk'>{s.get('kick','')}</p><p class='cvt'>{s['title']}</p><p class='cvh'>{s.get('hand','')}</p></div><div class='fan'>{fan}</div></section>")
