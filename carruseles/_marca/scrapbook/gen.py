@@ -82,6 +82,24 @@ IG='''
 .ig .lab .box{font-size:50px;padding:14px 26px 16px}
 .ig .lab .box b{font-weight:800}
 '''
+MAG='''
+.slide.mag{background:#F4EDE3}
+.mag .bg{inset:0 0 560px 0}
+.mag.shade:after{display:none}
+.mag .foot{bottom:0;left:0;right:0;height:560px;padding:56px 84px 70px;display:flex;flex-direction:column;justify-content:center;color:#2B1A10;border-top:10px solid #B5704A}
+.mag .t{text-shadow:none;color:#2B1A10;font-size:84px;line-height:1.03}
+.mag .t i{color:#B5704A}
+.mag .x{text-shadow:none;color:#5a4636;font:500 46px/1.32 'Inter',sans-serif;margin-top:24px}
+.mag .x i{color:#B5704A}
+.mag .hand,.mag0 .hand{font:italic 500 58px/1.15 'Crimson Pro',serif;color:#B5704A;transform:none;margin-top:20px}
+.mag0 .hand{color:#F2C9A8}
+.mag .kick{color:#B5704A;margin-bottom:20px;font-size:27px;line-height:1.3}
+.mag0 .t{font-size:96px}
+'''
+if spec.get('theme')=='mag':
+    CSS+=MAG
+    for _i,_p in enumerate(parts):
+        parts[_i]=_p.replace("class='slide","class='slide "+("mag0" if _i==0 else "mag"),1)
 if spec.get('theme')=='ig':
     CSS+=IG
     import re as _re
