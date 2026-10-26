@@ -39,7 +39,9 @@ Flor no está mirando cuando corren: no le hagas preguntas en el chat. Lo que ne
 - **Marketing de deseo, no de dolor:** mostrar la profesional que ella quiere ser, sin recordarle lo que hace mal.
 - **Performance a los 7 días:** se mide por DMs calificados, no por likes.
 
-## Reglas visuales de Flor (26/10)
+## Reglas de Flor (26/10)
+- Las alumnas no se tienen que sentir expuestas: nada de escenas puntuales, citas textuales, cargos ni números de una alumna. Contar el patrón («lo veo muchísimo en alumnas que…»).
+- Texto estilo Instagram/Ann cuando haga falta claridad: letra sans negra sobre recuadro blanco redondeado (`"theme":"ig"` en gen.py).
 - Sin numeración de placas (01/08) ni «AT WORK» arriba, ni «desliza →»: se ve hecho por IA.
 - La PORTADA siempre lleva a Flor (su cara o ella haciendo algo). Si no hay foto de ella, se edita/recorta una suya; nunca portada sin ella.
 - Cada carrusel lleva al menos 3 o 4 placas con foto y el texto encima. Nada de carruseles todos lisos: parecen hechos con IA.

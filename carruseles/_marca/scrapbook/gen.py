@@ -73,6 +73,25 @@ for i,s in enumerate(spec['slides']):
     elif k=='polaroid':
         cap=s.get('cap','')
         parts.append(f"<section class='slide grain paper' id='s{i+1}'>{top}<div class='pola' style='left:{s.get('px',300)}px;top:{s.get('py',150)}px'><div class='ph' style=\"background-image:url({src});background-position:{pos}\"></div><div class='cap'>{cap}</div></div><div class='tape' style='left:{s.get('px',300)+220}px;top:{s.get('py',150)-22}px;transform:rotate(-4deg)'></div><div class='ptext'>{inner}</div></section>")
+IG='''
+.slide.ig .shade:after{display:none}
+.ig .foot{text-align:center;bottom:120px}
+.ig .box{display:inline-block;background:#fff;color:#111;font:600 58px/1.22 'Inter',sans-serif;letter-spacing:-.01em;padding:18px 30px 20px;border-radius:22px;box-shadow:0 6px 24px rgba(0,0,0,.18);margin:6px 0;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.ig .box.over{background:none;color:#fff;box-shadow:none;text-shadow:0 2px 14px rgba(0,0,0,.65),0 0 2px rgba(0,0,0,.5);font-size:56px;position:static}
+.ig .lab{left:50px;right:50px;bottom:40px;text-align:center}
+.ig .lab .box{font-size:50px;padding:14px 26px 16px}
+.ig .lab .box b{font-weight:800}
+'''
+if spec.get('theme')=='ig':
+    CSS+=IG
+    import re as _re
+    for _i,_p in enumerate(parts):
+        _p=_p.replace("class='slide","class='slide ig",1)
+        _p=_re.sub(r"<div class='lab'><span class='who'>(.*?)</span><p class='say'>(.*?)</p></div>",lambda m:f"<div class='lab'><span class='box'><b>{m.group(1)}:</b> {m.group(2)}</span></div>",_p)
+        _p=_re.sub(r"<p class='t [^']*'>(.*?)</p>",lambda m:f"<p><span class='box'>{m.group(1)}</span></p>",_p)
+        _p=_re.sub(r"<p class='hand'>(.*?)</p>",lambda m:f"<p><span class='box over'>{m.group(1)}</span></p>",_p)
+        _p=_re.sub(r"<p class='x'>(.*?)</p>",lambda m:f"<p><span class='box' style='font-weight:500;font-size:46px'>{m.group(1)}</span></p>",_p)
+        parts[_i]=_p
 h=f"<!doctype html><html lang='es'><head><meta charset='utf-8'><title>AT WORK · {spec['title']}</title><link rel='stylesheet' href='../../_marca/fonts/fonts.css'><link rel='stylesheet' href='../../_marca/fonts/caveat.css'><style>{CSS}</style></head><body>{''.join(parts)}</body></html>"
 h=h.replace("../../_marca/fonts/caveat.css","../../_marca/fonts/caveat.css")
 open(f"{out}/index.html",'w').write(h)
