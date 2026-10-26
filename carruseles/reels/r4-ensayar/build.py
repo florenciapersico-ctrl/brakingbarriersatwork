@@ -37,7 +37,7 @@ for i,(a,b,t,k) in enumerate(texts):
 im=Image.new('RGB',(W,H),(63,30,13));d=ImageDraw.Draw(im)
 f1=ImageFont.truetype(f"{FON}/CrimsonPro-SemiBold.ttf",92);f2=ImageFont.truetype(f"{FON}/CrimsonPro-Regular.ttf",64);f3=ImageFont.truetype(f"{FON}/CrimsonPro-SemiBold.ttf",120)
 y=560
-for t,f,c,g in [("Ensaya la conversación,",f1,(250,244,236),110),("no el discurso.",f1,(215,161,132),220),("Comenta",f2,(196,150,120),120),("PREGUNTAS",f3,(250,244,236),130),("y te mando las frases para",f2,(196,150,120),76),("cuando te interrumpen",f2,(196,150,120),150),("AT WORK · Clear, not native.",ImageFont.truetype(f"{FON}/CrimsonPro-Regular.ttf",44),(196,150,120),0)]:
+for t,f,c,g in [("Ensaya la conversación,",f1,(250,244,236),110),("no el discurso.",f1,(215,161,132),220),("Comenta",f2,(196,150,120),120),("PREGUNTAS",f3,(250,244,236),130),("y te mando las frases para",f2,(196,150,120),76),("cuando te interrumpen",f2,(196,150,120),150)]:
     if t=="A": d.line((W/2,y-28,W/2,y+22),fill=c,width=5);d.polygon([(W/2-16,y+10),(W/2+16,y+10),(W/2,y+34)],fill=c)
     else: d.text((W/2,y),t,font=f,fill=c,anchor='mm')
     y+=g

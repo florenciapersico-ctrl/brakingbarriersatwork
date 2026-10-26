@@ -40,6 +40,7 @@ Flor no está mirando cuando corren: no le hagas preguntas en el chat. Lo que ne
 - **Performance a los 7 días:** se mide por DMs calificados, no por likes.
 
 ## Reglas visuales de Flor (26/10)
+- Sin numeración de placas (01/08) ni «AT WORK» arriba, ni «desliza →»: se ve hecho por IA.
 - La PORTADA siempre lleva a Flor (su cara o ella haciendo algo). Si no hay foto de ella, se edita/recorta una suya; nunca portada sin ella.
 - Cada carrusel lleva al menos 3 o 4 placas con foto y el texto encima. Nada de carruseles todos lisos: parecen hechos con IA.
 - Hooks más llamativos: copiar la estructura exacta de un outlier (referente o propio) y anotarlo en la fila.

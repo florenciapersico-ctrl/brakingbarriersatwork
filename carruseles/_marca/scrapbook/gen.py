@@ -59,7 +59,7 @@ for i,s in enumerate(spec['slides']):
         elif key=='flow': inner+="<div class='flow'>"+"<p class='ar'>↓</p>".join(f"<p>{l}</p>" for l in v)+"</div>"
         elif key=='text': inner+=f"<p class='x'>{v}</p>"
         elif key=='hand': inner+=f"<p class='hand'>{v}</p>"
-    top=f"<div class='top'><span>AT WORK</span><span class='n'>{'desliza →' if i==0 else n}</span></div>"
+    top=""  # Flor 26/10: sin numeración ni «AT WORK» arriba (se ve IA)
     if k=='photo':
         parts.append(f"<section class='slide grain shade' id='s{i+1}'><div class='bg' style=\"background-image:url({src});background-position:{pos}\"></div>{top}<div class='foot'>{inner}</div></section>")
     elif k=='note':
