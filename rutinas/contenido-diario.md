@@ -44,7 +44,7 @@ Flor no está mirando cuando corren: no le hagas preguntas en el chat. Lo que ne
 - Cada carrusel lleva al menos 3 o 4 placas con foto y el texto encima. Nada de carruseles todos lisos: parecen hechos con IA.
 - Hooks más llamativos: copiar la estructura exacta de un outlier (referente o propio) y anotarlo en la fila.
 - Pantallas de la compu: difuminar siempre (pueden verse chats, nombres o datos).
-- Alfonso solo aparece con su ok; si no, recortar para que salga solo Flor.
+- Alfonso: OK confirmado por Flor el 26/10, puede aparecer en las fotos.
 
 ## Reglas que no se rompen
 

@@ -9,7 +9,7 @@ Una línea por pieza: fecha · tema · estilo/fondo · foto usada · CTA. Lo lee
 - foto-flor-blazer-crema.jpg (FIJADO 1)
 - Sin usar pero de las mismas sesiones (evitarlas si el día anterior hubo de esa sesión): foto-flor-cafe.jpg, foto-flor-cafe-3.jpg, foto-flor-calle-3.jpg (NO usar: misma campera que «camina», Flor dijo que ya se repitió)
 - Fotos nuevas (20/10) en `_marca/img/fotos-oct20/` (sin usar salvo lo marcado):
-  - De Flor: flor-selfie-beso-edificio, flor-cafe-ladrillo-con-alfonso (sale Alfonso: solo con su ok), flor-calle-tapado-negro (USADA 21/10), flor-buzo-capucha
+  - De Flor: flor-selfie-beso-edificio, flor-cafe-ladrillo-con-alfonso (Alfonso dio el ok el 26/10), flor-calle-tapado-negro (USADA 21/10), flor-buzo-capucha
   - Lifestyle: laptop-delivery-method-cafe-plantas (USADA 21/10), usina-salon-plantas (USADA 21/10), usina-salon-luz (USADA 20/10), usina-salon-mesa, usina-latte-chipa-arriba, usina-latte-chipa-salon (USADA 20/10), usina-latte-cerca (USADA 20/10), cafe-latte-tulipan, cafe-latte-rosetta, cafe-libro-la-montana-eres-tu, casa-buganvilia, flores-secas-canasto
 
 - REGLA (Flor 20/10): ninguna foto de la sesión campera marrón de cuero (camina, calle-3) ni de las ya usadas. Mirar la ropa, no solo el archivo.
