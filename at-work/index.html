@@ -3,18 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Breaking Barriers at Work</title>
-<meta name="description" content="Programa grupal de 5 meses, con labs en vivo, para profesionales hispanohablantes B1–B2 que ya trabajan en inglés. Deja de sobrevivir con todo memorizado y responde lo que no viste venir.">
+<title>Breaking Barriers · AT WORK</title>
+<meta name="description" content="Muestra en inglés a la profesional que ya eres. Sin sumar más años de clases, sin memorizar guiones y sin seguir esperando a estar lista. AT WORK, con Flor Pérsico.">
 <meta name="theme-color" content="#3F1E0D">
-<meta property="og:title" content="Breaking Barriers at Work">
-<meta property="og:description" content="Tu inglés no es el techo. La falta de práctica real, sí. Programa de 5 meses con labs en vivo con Flor Pérsico.">
+<meta property="og:title" content="Muestra en inglés a la profesional que ya eres">
+<meta property="og:description" content="Sin sumar más años de clases, sin memorizar guiones y sin seguir esperando a estar lista. AT WORK, con Flor Pérsico.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://florenciapersico-ctrl.github.io/brakingbarriersatwork/at-work/">
 <meta property="og:site_name" content="Breaking Barriers at Work">
 <meta property="og:image" content="https://florenciapersico-ctrl.github.io/brakingbarriersatwork/at-work/img/og-at-work.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Breaking Barriers at Work — Sabes lo que quieres decir. En inglés sale una versión más simple.">
+<meta property="og:image:alt" content="Breaking Barriers at Work">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://florenciapersico-ctrl.github.io/brakingbarriersatwork/at-work/img/og-at-work.png">
 <link rel="canonical" href="https://florenciapersico-ctrl.github.io/brakingbarriersatwork/at-work/">
@@ -24,14 +24,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400;1,600&family=Inter:wght@400;500;600;700&display=swap">
 <style>
-  /* ══════════════════════════════════════════════════════════
-     Breaking Barriers at Work — landing
-     Paleta y tipografías tomadas del sitio actual de Flor.
-     Diseño de un solo mundo visual (crema cálida): no invierte
-     a oscuro, pero pinta cada color explícitamente para que
-     sostenga sobre cualquier fondo del visor.
-     ══════════════════════════════════════════════════════════ */
-
+  /* Breaking Barriers at Work · AT WORK. Texto: «Landing AT WORK grupal nueva» (21/10/2026).
+     Paleta y tipografías de la marca de Flor. */
   :root {
     --cream:       #F9F5EE;
     --cream-warm:  #FBF2D0;
@@ -40,18 +34,24 @@
     --brown:       #895325;
     --terracota:   #C68C6C;
     --terracota-lt:#D7A184;
-    --muted:       #7B6A58;
+    --muted:       #6F5F4F;
     --line:        rgba(63, 30, 13, .14);
     --line-soft:   rgba(63, 30, 13, .08);
     --on-ink:      #F4EADF;
-    --on-ink-soft: rgba(244, 234, 223, .62);
-    --on-ink-line: rgba(198, 140, 108, .28);
+    --on-ink-soft: rgba(244, 234, 223, .7);
+    --on-ink-line: rgba(198, 140, 108, .3);
+
+    /* Colores del chat (WhatsApp, modo oscuro), para que los mensajes se vean como son. */
+    --wa-bg:     #0B141A;
+    --wa-bubble: #202C33;
+    --wa-text:   #E9EDEF;
+    --wa-time:   rgba(233, 237, 239, .55);
 
     --display: 'Crimson Pro', Georgia, 'Times New Roman', serif;
     --body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
 
     --wrap: 1080px;
-    --measure: 62ch;
+    --read: 720px;
   }
 
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -60,1272 +60,446 @@
     html { scroll-behavior: auto; }
     *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; }
   }
-
   body {
-    background: var(--cream);
-    color: var(--ink);
-    font-family: var(--body);
-    font-size: 17px;
-    line-height: 1.62;
-    -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
+    background: var(--cream); color: var(--ink);
+    font-family: var(--body); font-size: 17.5px; line-height: 1.68;
+    -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
   }
-
-  h1, h2, h3, h4 { font-family: var(--display); font-weight: 600; line-height: 1.08; text-wrap: balance; letter-spacing: -.01em; }
+  h1, h2, h3 { font-family: var(--display); font-weight: 600; line-height: 1.1; text-wrap: balance; letter-spacing: -.01em; }
   p { text-wrap: pretty; }
   a { color: inherit; }
   strong { font-weight: 600; }
-  em { font-style: italic; }
-
+  img { max-width: 100%; }
   :focus-visible { outline: 2px solid var(--brown); outline-offset: 3px; border-radius: 2px; }
 
-  /* ── estructura ────────────────────────────────────────── */
   .wrap { max-width: var(--wrap); margin: 0 auto; padding: 0 24px; }
-  .narrow { max-width: 760px; margin-left: auto; margin-right: auto; }
-
-  section { padding: 84px 0; }
-  section.tight { padding: 60px 0; }
+  .read { max-width: var(--read); margin: 0 auto; padding: 0 24px; }
+  section { padding: 80px 0; }
+  @media (max-width: 640px) { section { padding: 60px 0; } body { font-size: 17px; } }
   .band-ink { background: var(--ink); color: var(--on-ink); }
   .band-sand { background: var(--sand); }
   .band-warm { background: var(--cream-warm); }
 
-  .eyebrow {
-    display: block;
-    font-size: 11px; font-weight: 700;
-    letter-spacing: .22em; text-transform: uppercase;
-    color: var(--brown);
-    margin-bottom: 18px;
-  }
+  .eyebrow { display: block; font-size: 11px; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; color: var(--brown); margin-bottom: 16px; }
   .band-ink .eyebrow { color: var(--terracota); }
+  h2 { font-size: clamp(30px, 4.8vw, 44px); margin-bottom: 22px; }
+  h2 em, h1 em { font-style: italic; font-weight: 500; color: var(--brown); }
+  .band-ink h2 em, .hero h1 em { color: var(--terracota-lt); }
+  h3.sub { font-size: clamp(22px, 3vw, 27px); margin: 44px 0 14px; }
+  .read p + p { margin-top: 16px; }
+  .soft { color: var(--muted); }
+  .band-ink .soft { color: var(--on-ink-soft); }
 
-  h2.section-title { font-size: clamp(30px, 5vw, 46px); margin-bottom: 16px; }
-  .lede { font-size: clamp(17px, 2vw, 19px); color: var(--muted); max-width: var(--measure); }
-  .band-ink .lede { color: var(--on-ink-soft); }
+  /* Frase destacada, como las placas del VSL. */
+  .placa { margin: 32px 0; padding-left: 20px; border-left: 2px solid var(--terracota); font-family: var(--display); font-style: italic; font-size: clamp(22px, 3.2vw, 29px); line-height: 1.28; color: var(--brown); }
+  .band-ink .placa { color: var(--terracota-lt); }
 
-  .rule { height: 1px; background: var(--line); border: 0; }
+  /* Listas con raya */
+  .dash { list-style: none; display: grid; gap: 0; margin: 24px 0; }
+  .dash li { padding: 14px 0 14px 28px; border-top: 1px solid var(--line); position: relative; }
+  .dash li:last-child { border-bottom: 1px solid var(--line); }
+  .dash li::before { content: '—'; position: absolute; left: 0; color: var(--terracota); }
+  .dash.big li { font-family: var(--display); font-size: 21px; line-height: 1.32; }
+  .band-ink .dash li { border-color: var(--on-ink-line); }
 
-  /* ── botones ───────────────────────────────────────────── */
+  /* ── botón ── */
   .btn {
-    display: inline-flex; align-items: center; gap: 10px;
-    font-family: var(--body);
-    font-size: 13px; font-weight: 700;
-    letter-spacing: .12em; text-transform: uppercase;
-    padding: 18px 34px;
-    border: 0; border-radius: 2px;
-    text-decoration: none;
-    transition: background .2s ease, color .2s ease, transform .12s ease;
+    display: inline-block; text-decoration: none;
+    font-size: 12.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+    padding: 18px 28px; border-radius: 2px; background: var(--terracota); color: var(--ink);
+    transition: background .18s ease, transform .12s ease;
   }
+  .btn:hover { background: var(--terracota-lt); }
   .btn:active { transform: translateY(1px); }
-  .btn-primary { background: var(--ink); color: var(--cream); }
-  .btn-primary:hover { background: var(--brown); }
-  .band-ink .btn-primary,
-  .hero .btn-primary { background: var(--terracota); color: var(--ink); }
-  .band-ink .btn-primary:hover,
-  .hero .btn-primary:hover { background: var(--terracota-lt); }
-  .btn-ghost { border: 1.5px solid var(--brown); color: var(--brown); background: transparent; }
-  .btn-ghost:hover { background: rgba(137, 83, 37, .08); }
+  .btn.dark { background: var(--ink); color: var(--on-ink); }
+  .btn.dark:hover { background: var(--brown); }
+  .cta { margin-top: 34px; }
+  .cta .note { margin-top: 12px; font-size: 14.5px; color: var(--muted); max-width: 46ch; }
+  .band-ink .cta .note, .hero .cta .note { color: var(--on-ink-soft); }
+  .cta.center { text-align: center; }
+  .cta.center .note { margin-left: auto; margin-right: auto; }
+  @media (max-width: 460px) { .btn { font-size: 11.5px; letter-spacing: .07em; padding: 17px 20px; } }
 
-  /* ── hero ──────────────────────────────────────────────── */
-  header.hero {
-    background: var(--ink);
-    color: var(--on-ink);
-    padding: 34px 0 0;
-  }
-  .brandbar {
-    display: flex; align-items: baseline; justify-content: space-between;
-    gap: 20px; flex-wrap: wrap;
-    padding-bottom: 46px;
-  }
-  .brandmark {
-    font-family: var(--display); font-size: 19px; letter-spacing: .01em;
-  }
-  .brandmark span { color: var(--terracota); }
-  .brandbar .who {
-    font-size: 11px; letter-spacing: .2em; text-transform: uppercase;
-    color: var(--on-ink-soft);
-  }
+  /* ── inicio ── */
+  .hero { background: var(--ink); color: var(--on-ink); padding: 32px 0 0; }
+  .brandbar { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 56px; }
+  .brandlogo { display: block; width: 170px; height: auto; filter: brightness(0) invert(.93) sepia(.2); }
+  .who { font-size: 11px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--terracota); }
+  .hero-grid { display: grid; gap: 40px; align-items: center; padding-bottom: 56px; }
+  @media (min-width: 900px) { .hero-grid { grid-template-columns: 1.15fr .85fr; gap: 56px; } }
+  .hero .kicker { font-size: 11px; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; color: var(--terracota); margin-bottom: 18px; }
+  .hero h1 { font-size: clamp(40px, 6.6vw, 66px); line-height: 1.03; margin-bottom: 20px; }
+  .hero .sub { font-size: clamp(18px, 2.2vw, 21px); color: var(--on-ink-soft); max-width: 44ch; }
+  .media { margin: 0; }
+  .media img { display: block; width: 100%; max-width: 380px; height: auto; border-radius: 3px; margin-left: auto; }
+  @media (max-width: 899px) { .media img { max-width: 260px; margin: 0; } }
+  .media .frame { position: relative; aspect-ratio: 16 / 9; background: #000; border-radius: 3px; overflow: hidden; }
+  .media iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block; }
+  .facts { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--on-ink-line); }
+  .fact { padding: 20px 12px 26px 0; }
+  .fact + .fact { padding-left: 18px; border-left: 1px solid var(--on-ink-line); }
+  .fact .big { font-family: var(--display); font-size: clamp(20px, 3vw, 28px); line-height: 1.1; color: var(--on-ink); }
+  .fact .small { font-size: 13px; color: var(--on-ink-soft); margin-top: 4px; }
+  @media (max-width: 560px) { .facts { grid-template-columns: 1fr; } .fact + .fact { padding-left: 0; border-left: 0; border-top: 1px solid var(--on-ink-line); } }
 
-  .hero-inner { padding-bottom: 76px; }
-  .hero h1 {
-    font-size: clamp(40px, 8vw, 82px);
-    line-height: .98;
-    letter-spacing: -.025em;
-    max-width: 15ch;
-  }
-  .hero h1 em { color: var(--terracota); font-style: italic; }
-  .hero .sub {
-    margin-top: 28px;
-    font-size: clamp(17px, 2.2vw, 21px);
-    color: var(--on-ink-soft);
-    max-width: 56ch;
-    line-height: 1.55;
-  }
-  .hero .cta-row { margin-top: 40px; display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
-  .hero .cta-note { font-size: 13px; color: var(--on-ink-soft); }
+  /* ── método ── */
+  .compare { width: 100%; border-collapse: collapse; margin: 30px 0; font-size: 16px; }
+  .compare th { text-align: left; vertical-align: bottom; font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; padding: 0 16px 12px 0; color: var(--on-ink-soft); }
+  .compare th.us { color: var(--terracota); }
+  .compare td { vertical-align: top; padding: 16px 16px 16px 0; border-top: 1px solid var(--on-ink-line); color: var(--on-ink-soft); width: 50%; }
+  .compare td.us { color: var(--on-ink); }
 
-  @media (max-width: 620px) {
-      .fact:nth-child(2) { border-right: 0; }
-    .fact:nth-child(1), .fact:nth-child(2) { border-bottom: 1px solid var(--on-ink-line); }
+  /* El ciclo: 4 pasos, el paso 2 abierto en tres caminos y la vuelta de Aplicar a Producir. */
+  .cycle { margin: 34px 0 10px; display: grid; gap: 12px; }
+  @media (min-width: 820px) { .cycle { grid-template-columns: repeat(4, 1fr); } }
+  .step { border: 1px solid var(--on-ink-line); border-radius: 3px; padding: 20px 18px; position: relative; }
+  .step .n { font-family: var(--display); font-size: 15px; color: var(--terracota); }
+  .step h3 { font-size: 24px; color: var(--on-ink); margin: 2px 0 6px; }
+  .step p { font-size: 15px; color: var(--on-ink-soft); }
+  .step.key { background: var(--terracota); border-color: var(--terracota); }
+  .step.key .n, .step.key h3, .step.key p { color: var(--ink); }
+  .step .forks { display: flex; gap: 6px; margin-top: 12px; flex-wrap: wrap; }
+  .step .forks span { font-size: 11px; font-weight: 700; letter-spacing: .1em; border: 1px solid rgba(63, 30, 13, .4); border-radius: 999px; padding: 3px 9px; }
+  @media (min-width: 820px) {
+    .step:not(:last-child)::after { content: '→'; position: absolute; right: -11px; top: 22px; color: var(--terracota); font-size: 16px; background: var(--ink); line-height: 1; }
   }
+  .loop { font-size: 14px; color: var(--on-ink-soft); text-align: right; margin-bottom: 8px; }
+  .loop span { color: var(--terracota); }
+  .three { margin: 26px 0; display: grid; gap: 14px; }
+  @media (min-width: 900px) { .three { grid-template-columns: repeat(3, 1fr); } }
+  .three article { border: 1px solid var(--on-ink-line); border-radius: 3px; padding: 22px 20px; display: flex; flex-direction: column; }
+  .three .tag { font-size: 11px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--terracota); }
+  .three h3 { font-size: 23px; color: var(--on-ink); margin: 6px 0 8px; }
+  .three p { font-size: 15.5px; color: var(--on-ink-soft); }
+  .three .case { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--on-ink-line); font-family: var(--display); font-style: italic; font-size: 17.5px; line-height: 1.4; color: var(--on-ink); }
 
-  /* ── listas de reconocimiento ──────────────────────────── */
-  .split { display: grid; grid-template-columns: 1fr; gap: 52px; }
-  @media (min-width: 900px) { .split { grid-template-columns: 1.25fr 1fr; gap: 64px; } }
+  /* ── muro de testimonios ── */
+  .wgroup { margin-top: 50px; }
+  .wgroup > h3 { font-size: clamp(23px, 3vw, 28px); margin-bottom: 18px; }
+  .tgrid { display: grid; gap: 18px; align-items: start; }
+  @media (min-width: 760px) { .tgrid { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 1000px) { .tgrid.three-col { grid-template-columns: repeat(3, 1fr); } }
+  .tcard { background: var(--cream); border: 1px solid var(--line-soft); border-radius: 3px; padding: 22px 20px; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+  .tcard .who2 { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--brown); }
+  .tcard .who2 span { font-weight: 500; letter-spacing: .02em; text-transform: none; color: var(--muted); }
+  .tcard p { font-size: 15.5px; color: var(--muted); }
+  .tcard .said { font-family: var(--display); font-size: 21px; line-height: 1.3; font-style: italic; color: var(--ink); }
+  .tcard .frame { position: relative; aspect-ratio: 16 / 9; background: #000; border-radius: 3px; overflow: hidden; }
+  .tcard iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block; }
 
-  ul.mirror { list-style: none; display: grid; gap: 20px; }
-  ul.mirror li {
-    padding-left: 30px; position: relative;
-    max-width: var(--measure);
+  .chat { background: var(--wa-bg); border-radius: 14px; padding: 14px 10px; display: grid; gap: 14px; }
+  .chat.wall { display: block; columns: 1; column-gap: 14px; padding: 18px 14px; }
+  @media (min-width: 760px) { .chat.wall { columns: 2; } }
+  @media (min-width: 1000px) { .chat.wall { columns: 3; } }
+  .chat.wall .bubble { break-inside: avoid; display: block; margin-bottom: 16px; }
+  .bubble {
+    background: var(--wa-bubble); color: var(--wa-text);
+    border-radius: 4px 14px 14px 14px; padding: 9px 12px 7px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    font-size: 15.5px; line-height: 1.42; position: relative; margin-bottom: 12px;
   }
-  ul.mirror li::before {
-    content: ''; position: absolute;
-    left: 0; top: .72em;
-    width: 16px; height: 1.5px; background: var(--terracota);
-  }
-  ul.no li::before { background: var(--muted); opacity: .5; }
-  ul.no li { color: var(--muted); }
+  .bubble .name { display: block; font-size: 14.5px; font-weight: 600; margin-bottom: 3px; }
+  .bubble .time { display: block; text-align: right; font-size: 11.5px; color: var(--wa-time); margin-top: 2px; }
+  .bubble .react { position: absolute; left: 10px; bottom: -13px; background: #1F2C34; border: 2px solid var(--wa-bg); border-radius: 999px; padding: 0 7px; font-size: 13px; line-height: 20px; }
+  .reply { display: block; background: rgba(0, 0, 0, .22); border-left: 4px solid #64A8E8; border-radius: 6px; padding: 6px 10px; margin: 2px 0 6px; font-size: 14px; color: rgba(233, 237, 239, .75); }
+  .reply b { display: block; font-weight: 600; font-size: 13.5px; color: #64A8E8; }
+  .redact { background: #8696A0; color: transparent; border-radius: 3px; user-select: none; }
 
-  .card-no {
-    background: var(--cream);
-    border: 1px solid var(--line);
-    border-radius: 3px;
-    padding: 30px 28px;
-  }
-  .card-no h3 { font-size: 22px; margin-bottom: 18px; }
-  .card-no .fineprint {
-    margin-top: 22px; padding-top: 20px;
-    border-top: 1px solid var(--line-soft);
-    font-size: 14.5px; color: var(--muted);
-  }
+  /* ── cómo trabajamos ── */
+  .ways { list-style: none; margin: 26px 0; display: grid; gap: 0; }
+  .ways li { padding: 16px 0 16px 28px; border-top: 1px solid var(--line); position: relative; font-size: 16.5px; color: var(--muted); }
+  .ways li:last-child { border-bottom: 1px solid var(--line); }
+  .ways li::before { content: ''; position: absolute; left: 0; top: 1.5em; width: 14px; height: 1.5px; background: var(--terracota); }
+  .ways strong { color: var(--ink); }
+  .labs-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 15.5px; }
+  .labs-table th, .labs-table td { text-align: left; padding: 10px 10px 10px 0; border-bottom: 1px solid var(--line); color: var(--muted); }
+  .labs-table th { font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--brown); }
+  .labs-table td:first-child { color: var(--ink); font-weight: 600; }
+  .scroll-x { overflow-x: auto; }
+  .path { list-style: none; margin: 20px 0 0; display: grid; gap: 12px; counter-reset: p; }
+  @media (min-width: 760px) { .path { grid-template-columns: 1fr 1fr; } }
+  .path li { counter-increment: p; background: var(--cream); border-radius: 3px; padding: 18px 18px 18px 56px; position: relative; font-size: 15.5px; color: var(--muted); }
+  .path li::before { content: counter(p); position: absolute; left: 18px; top: 14px; font-family: var(--display); font-size: 28px; color: var(--terracota); line-height: 1; }
+  .path strong { color: var(--ink); }
 
-  /* ── logros ────────────────────────────────────────────── */
-  .wins { display: grid; gap: 1px; background: var(--line); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin-top: 40px; }
-  @media (min-width: 760px) { .wins { grid-template-columns: 1fr 1fr; } }
-  .win { background: var(--cream); padding: 30px 28px; }
-  .win .k {
-    font-family: var(--display); font-size: 21px; line-height: 1.2;
-    margin-bottom: 8px;
-  }
-  .win p { font-size: 15.5px; color: var(--muted); }
-  .win .k .arrow { color: var(--terracota); font-style: normal; }
-  @media (min-width: 760px) { .win.wide { grid-column: 1 / -1; } }
+  /* ── para quién ── */
+  .fit { margin: 26px 0; display: grid; gap: 22px; }
+  @media (min-width: 760px) { .fit { grid-template-columns: 1fr 1fr; } }
+  .fit h3 { font-size: 22px; margin-bottom: 10px; }
+  .fit ul { list-style: none; display: grid; gap: 8px; }
+  .fit li { font-size: 16px; padding-left: 22px; position: relative; }
+  .fit li::before { content: '✓'; position: absolute; left: 0; color: var(--brown); font-weight: 700; }
+  .fit .no li { color: var(--muted); }
+  .fit .no li::before { content: '×'; color: var(--terracota); font-size: 18px; line-height: 1.2; }
 
-  /* ── diagnóstico ───────────────────────────────────────── */
-  .diagnosis h2 {
-    font-size: clamp(30px, 5.4vw, 52px);
-    max-width: 18ch;
-  }
-  .diagnosis h2 em { color: var(--terracota); font-style: italic; }
-  .diagnosis .body { margin-top: 30px; max-width: 58ch; color: var(--on-ink-soft); font-size: 17.5px; }
-  .diagnosis .body p + p { margin-top: 16px; }
-  .diagnosis .body strong { color: var(--on-ink); font-weight: 600; }
+  /* ── Flor ── */
+  .bio { display: grid; gap: 36px; align-items: start; }
+  @media (min-width: 820px) { .bio { grid-template-columns: 300px 1fr; gap: 56px; } }
+  .bio img { display: block; width: 100%; max-width: 300px; height: auto; border-radius: 3px; }
+  .bio p + p { margin-top: 16px; }
+  .bio .cred { font-size: 15.5px; color: var(--muted); }
 
-  /* ── herramientas ──────────────────────────────────────── */
-  .tools { display: grid; gap: 28px; margin-top: 46px; }
-  @media (min-width: 760px) { .tools { grid-template-columns: repeat(2, 1fr); } }
-  .tool {
-    background: var(--cream);
-    border: 1px solid var(--line);
-    border-radius: 3px;
-    padding: 32px 28px 28px;
-    display: flex; flex-direction: column;
-  }
-  .tool .idx {
-    font-family: var(--display); font-size: 15px;
-    color: var(--terracota); letter-spacing: .08em;
-    margin-bottom: 14px; font-variant-numeric: tabular-nums;
-  }
-  .tool h3 { font-size: 26px; margin-bottom: 4px; }
-  .tool .kicker {
-    font-size: 11px; font-weight: 600; letter-spacing: .14em;
-    text-transform: uppercase; color: var(--brown);
-    margin-bottom: 18px;
-  }
-  .tool p { font-size: 15.5px; color: var(--muted); }
-  .tool p + p { margin-top: 12px; }
-  .tool .botline {
-    margin-top: auto; padding-top: 22px;
-    font-size: 12.5px; font-weight: 600; letter-spacing: .04em;
-    color: var(--brown);
-    border-top: 1px solid var(--line-soft);
-  }
+  /* ── siguiente paso ── */
+  .route { list-style: none; counter-reset: paso; display: grid; gap: 12px; margin: 26px 0; }
+  @media (min-width: 760px) { .route { grid-template-columns: repeat(4, 1fr); } }
+  .route li { counter-increment: paso; border: 1px solid var(--on-ink-line); border-radius: 3px; padding: 18px 16px; font-size: 15px; color: var(--on-ink-soft); }
+  .route li::before { content: counter(paso); display: block; margin-bottom: 6px; font-family: var(--display); font-size: 24px; color: var(--terracota); line-height: 1; }
+  .route li strong { color: var(--on-ink); }
 
-  .cycle {
-    list-style: none; display: flex; flex-wrap: wrap; gap: 10px;
-    margin-top: 34px;
-  }
-  .cycle li {
-    display: flex; align-items: baseline; gap: 8px;
-    background: var(--sand); border: 1px solid var(--line-soft); border-radius: 2px;
-    padding: 12px 16px;
-    font-size: 14.5px; font-weight: 600; color: var(--ink);
-  }
-  .cycle .n {
-    font-family: var(--display); font-size: 12.5px; color: var(--terracota);
-    font-variant-numeric: tabular-nums;
-  }
-  .pillars { display: grid; gap: 18px; margin-top: 38px; }
-  @media (min-width: 900px) { .pillars { grid-template-columns: repeat(4, 1fr); align-items: stretch; } }
-  .pillar {
-    background: var(--cream-warm); border: 1px solid var(--line-soft); border-radius: 3px;
-    padding: 26px 24px;
-  }
-  .pillar h4 { font-size: 20px; margin-bottom: 14px; }
-  .pillar ul { list-style: none; display: grid; gap: 9px; }
-  .pillar li {
-    position: relative; padding-left: 18px;
-    font-size: 14.5px; line-height: 1.5; color: var(--muted);
-  }
-  .pillar li::before {
-    content: '→'; position: absolute; left: 0; top: 0;
-    color: var(--terracota); font-size: 13px;
-  }
-  .pillar.core {
-    background: var(--terracota); border-color: var(--terracota);
-    display: flex; flex-direction: column; justify-content: center; text-align: center;
-  }
-  .pillar.core .core-mark {
-    font-family: var(--display); font-size: 22px; line-height: 1.15;
-    font-weight: 600; color: var(--ink); letter-spacing: .01em;
-  }
-  .pillar.core p { margin-top: 12px; font-size: 14px; line-height: 1.5; color: rgba(63, 30, 13, .78); }
-  .claim {
-    margin-top: 22px; text-align: center;
-    font-family: var(--display); font-size: clamp(20px, 2.6vw, 25px); color: var(--brown);
-  }
-  .tools-lead { font-size: clamp(22px, 3vw, 28px); margin: 54px 0 14px; }
-
-  /* ── roadmap ───────────────────────────────────────────── */
-  .stages { margin-top: 48px; display: grid; gap: 0; }
-  .stage {
-    display: grid; grid-template-columns: 1fr; gap: 18px;
-    padding: 38px 0;
-    border-top: 1px solid var(--line);
-  }
-  .stage:last-child { border-bottom: 1px solid var(--line); }
-  @media (min-width: 860px) {
-    .stage { grid-template-columns: 250px 1fr; gap: 48px; }
-  }
-  .stage .label { }
-  .stage .tag {
-    font-size: 10.5px; font-weight: 700; letter-spacing: .18em;
-    text-transform: uppercase; color: var(--terracota);
-    display: block; margin-bottom: 10px;
-  }
-  .stage h3 { font-size: 27px; line-height: 1.12; }
-  .stage .fn { font-size: 16px; color: var(--muted); max-width: var(--measure); }
-  .stage ul { list-style: none; margin-top: 18px; display: grid; gap: 9px; }
-  .stage ul li { font-size: 15px; padding-left: 20px; position: relative; color: var(--ink); }
-  .stage ul li::before {
-    content: ''; position: absolute; left: 0; top: .68em;
-    width: 9px; height: 1.5px; background: var(--terracota); opacity: .8;
-  }
-  .stage.two-col ul { grid-template-columns: 1fr; }
-  @media (min-width: 620px) { .stage.two-col ul { grid-template-columns: 1fr 1fr; gap: 9px 26px; } }
-
-  .hito {
-    margin-top: 24px;
-    border-left: 2px solid var(--terracota);
-    padding: 4px 0 4px 20px;
-  }
-  .hito .lbl {
-    font-size: 10px; font-weight: 700; letter-spacing: .18em;
-    text-transform: uppercase; color: var(--brown);
-    display: block; margin-bottom: 6px;
-  }
-  .hito q, .hito .q {
-    font-family: var(--display); font-style: italic;
-    font-size: 19px; line-height: 1.42; color: var(--ink);
-    quotes: none;
-    display: block;
-  }
-
-  /* ── guides ────────────────────────────────────────────── */
-  .guides { display: grid; gap: 1px; background: var(--line); margin-top: 38px; border: 1px solid var(--line); border-radius: 3px; overflow: hidden; }
-  @media (min-width: 700px) { .guides { grid-template-columns: 1fr 1fr; } }
-  .guide { background: var(--cream); padding: 19px 22px; font-size: 15.5px; }
-  .guide .en { font-family: var(--display); font-size: 18px; }
-  .guide .es { display: block; font-size: 13.5px; color: var(--muted); margin-top: 3px; }
-
-  /* ── semana ────────────────────────────────────────────── */
-  .week { display: grid; gap: 26px; margin-top: 42px; }
-  @media (min-width: 800px) { .week { grid-template-columns: 1fr 1fr; gap: 30px 48px; } }
-  .weekitem { padding-left: 26px; position: relative; max-width: 54ch; }
-  .weekitem::before {
-    content: ''; position: absolute; left: 0; top: .55em;
-    width: 8px; height: 8px; border-radius: 50%;
-    border: 1.5px solid var(--terracota);
-  }
-  .weekitem h4 { font-family: var(--body); font-size: 15px; font-weight: 700; letter-spacing: .01em; margin-bottom: 5px; }
-  .weekitem p { font-size: 15px; color: var(--muted); }
-
-  /* ── testimonios ───────────────────────────────────────── */
-  .quotes { display: grid; gap: 24px; margin-top: 44px; }
-  @media (min-width: 900px) { .quotes { grid-template-columns: repeat(3, 1fr); } }
-  .quote {
-    background: var(--cream);
-    border: 1px solid var(--line);
-    border-radius: 3px;
-    padding: 30px 28px;
-    display: flex; flex-direction: column;
-  }
-  .quote p { font-size: 16px; line-height: 1.6; }
-  .quote p + p { margin-top: 13px; }
-  .quote .attr {
-    margin-top: auto; padding-top: 24px;
-    border-top: 1px solid var(--line-soft);
-  }
-  .quote .name { font-family: var(--display); font-size: 19px; display: block; }
-  .quote .role { font-size: 12.5px; color: var(--muted); letter-spacing: .02em; }
-
-  /* ── flor ──────────────────────────────────────────────── */
-  .bio { display: grid; gap: 34px; }
-  @media (min-width: 880px) { .bio { grid-template-columns: 1fr 1.35fr; gap: 60px; align-items: start; } }
-  .bio .plate {
-    border: 1px solid var(--line);
-    border-radius: 3px;
-    background: var(--cream);
-    padding: 34px 30px;
-  }
-  .bio .plate .sig {
-    font-family: var(--display); font-style: italic;
-    font-size: 30px; line-height: 1.1;
-  }
-  .bio .plate .sigrole {
-    margin-top: 12px; font-size: 12px; letter-spacing: .14em;
-    text-transform: uppercase; color: var(--brown); font-weight: 600;
-  }
-  .bio .plate ul { list-style: none; margin-top: 24px; display: grid; gap: 12px; }
-  .bio .plate li { font-size: 14.5px; color: var(--muted); padding-left: 18px; position: relative; }
-  .bio .plate li::before {
-    content: ''; position: absolute; left: 0; top: .68em;
-    width: 8px; height: 1.5px; background: var(--terracota);
-  }
-  .bio .text p { max-width: var(--measure); }
-  .bio .text p + p { margin-top: 18px; }
-
-  /* ── oferta ────────────────────────────────────────────── */
-  .offer-grid { display: grid; gap: 40px; margin-top: 44px; }
-  @media (min-width: 900px) { .offer-grid { grid-template-columns: 1.15fr 1fr; gap: 60px; align-items: start; } }
-
-  .includes { list-style: none; display: grid; gap: 15px; }
-  .includes li { padding-left: 30px; position: relative; font-size: 16px; color: var(--on-ink); }
-  .includes li::before {
-    content: ''; position: absolute; left: 0; top: .52em;
-    width: 15px; height: 1.5px; background: var(--terracota);
-  }
-  .includes li span { color: var(--on-ink-soft); }
-
-  .prices { display: grid; gap: 16px; }
-  .price {
-    border: 1px solid var(--on-ink-line);
-    border-radius: 3px;
-    padding: 26px 26px 24px;
-    position: relative;
-    display: block;
-    text-decoration: none;
-    color: var(--on-ink);
-    transition: border-color .18s ease, background .18s ease, transform .12s ease;
-  }
-  .price:hover { border-color: var(--terracota); background: rgba(198, 140, 108, .1); }
-  .price:active { transform: translateY(1px); }
-  .price.best { border-color: var(--terracota); background: rgba(198, 140, 108, .08); }
-  .price.best:hover { background: rgba(198, 140, 108, .16); }
-  .price .plan {
-    font-size: 11px; font-weight: 700; letter-spacing: .16em;
-    text-transform: uppercase; color: var(--terracota);
-  }
-  .price .amount {
-    font-family: var(--display); font-size: 46px; line-height: 1;
-    margin-top: 12px; font-variant-numeric: tabular-nums;
-  }
-  .price .amount small { font-size: 20px; opacity: .7; }
-  .price .terms { margin-top: 8px; font-size: 14px; color: var(--on-ink-soft); }
-  .price .flag {
-    position: absolute; top: -1px; right: 20px;
-    transform: translateY(-50%);
-    background: var(--terracota); color: var(--ink);
-    font-size: 10px; font-weight: 700; letter-spacing: .14em;
-    text-transform: uppercase; padding: 5px 10px; border-radius: 2px;
-  }
-  .seats {
-    margin-top: 26px; padding-top: 22px;
-    border-top: 1px solid var(--on-ink-line);
-    font-size: 14.5px; color: var(--on-ink-soft);
-  }
-  .seats strong { color: var(--terracota); font-weight: 600; }
-
-
-  .price { display: block; text-decoration: none; color: var(--on-ink);
-    transition: border-color .18s ease, background .18s ease, transform .12s ease; }
-  .price:hover { border-color: var(--terracota); background: rgba(198, 140, 108, .1); }
-  .price:active { transform: translateY(1px); }
-  .price .pay { display: inline-block; margin-top: 16px;
-    font-size: 11.5px; font-weight: 700; letter-spacing: .11em;
-    text-transform: uppercase; color: var(--terracota); }
-  .price:hover .pay { color: var(--terracota-lt); }
-  .price.best:hover { background: rgba(198, 140, 108, .16); }
-  #pagar { scroll-margin-top: 0; }
-  .steps { list-style: none; counter-reset: paso; display: grid; gap: 14px; margin-top: 30px; }
-  @media (min-width: 760px) { .steps { grid-template-columns: repeat(4, 1fr); } }
-  .steps li { counter-increment: paso; border: 1px solid var(--on-ink-line); border-radius: 3px;
-    padding: 20px 18px; font-size: 15px; color: var(--on-ink-soft); }
-  .steps li::before { content: "0" counter(paso); display: block; margin-bottom: 8px;
-    font-family: var(--display); font-size: 13px; color: var(--terracota); }
-  .steps li strong { display: block; color: var(--on-ink); font-size: 16px; margin-bottom: 4px; }
-  .labs-table { width: 100%; border-collapse: collapse; margin-top: 18px; font-size: 15px; }
-  .labs-table th, .labs-table td { text-align: left; padding: 11px 10px 11px 0;
-    border-bottom: 1px solid var(--on-ink-line); color: var(--on-ink-soft); }
-  .labs-table th { font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--terracota); }
-  .labs-table td:first-child { color: var(--on-ink); font-weight: 600; }
-  .ctarow { margin-top: 34px; }
-  #pagar .section-title { margin-bottom: 28px; }
-  @media (min-width: 760px) { .prices { grid-template-columns: 1fr 1fr; gap: 20px; } }
-  .incl { margin-top: 46px; padding-top: 34px; border-top: 1px solid var(--on-ink-line); }
-  .incl h3 { font-size: 20px; margin-bottom: 20px; color: var(--on-ink); }
-  @media (min-width: 900px) { .incl .includes { columns: 2; column-gap: 48px; } .incl .includes li { break-inside: avoid; } }
-
-  .paytitle {
-    font-size: 22px; margin-bottom: 16px; color: var(--on-ink);
-    scroll-margin-top: 28px;
-  }
-
-  @media (max-width: 460px) {
-    .btn { font-size: 11.5px; letter-spacing: .07em; padding: 17px 20px; }
-  }
-
-  .brandlogo { display: block; width: 190px; height: auto; }
-  .footlogo { display: block; width: 170px; height: auto; margin-bottom: 4px; }
-
-  .hero-split { display: grid; gap: 40px; align-items: end; }
-  @media (min-width: 900px) {
-    .hero-split { grid-template-columns: 1.35fr .65fr; gap: 56px; }
-  }
-  .heroshot { margin: 0; align-self: end; }
-  .heroshot img {
-    display: block; width: 100%; max-width: 340px; height: auto;
-    border-radius: 3px;
-  }
-  @media (max-width: 899px) {
-    .heroshot { order: -1; }
-    .heroshot img { max-width: 260px; }
-  }
-
-  .tick { display: block; width: 46px; height: auto; margin-bottom: 20px; }
-  .qmark { display: block; width: 40px; height: auto; margin-bottom: 16px; }
-
-  .bioshot {
-    display: block; width: 100%; max-width: 320px; height: auto;
-    border-radius: 3px; margin-bottom: 22px;
-  }
-
-  .stage .txt { font-size: 15.5px; color: var(--muted); max-width: var(--measure); }
-  .stage .txt + .txt { margin-top: 12px; }
-  .stage .shift {
-    margin-top: 14px;
-    font-family: var(--display); font-style: italic;
-    font-size: 18px; line-height: 1.4; color: var(--brown);
-    max-width: var(--measure);
-  }
-
-  .inline-link { color: var(--terracota); text-decoration: underline; text-underline-offset: 3px; }
-  .inline-link:hover { color: var(--terracota-lt); }
-  .btn.full { display: flex; justify-content: center; width: 100%; margin-top: 20px; }
-
-
-  /* ── faq ───────────────────────────────────────────────── */
-  .faq { margin-top: 40px; border-top: 1px solid var(--line); }
+  /* ── FAQ ── */
+  .faq { margin-top: 10px; border-top: 1px solid var(--line); }
   .faq details { border-bottom: 1px solid var(--line); }
-  .faq summary {
-    list-style: none; cursor: pointer;
-    padding: 24px 40px 24px 0;
-    position: relative;
-    font-family: var(--display); font-size: 21px; line-height: 1.25;
-  }
+  .faq summary { cursor: pointer; list-style: none; padding: 18px 34px 18px 0; position: relative; font-family: var(--display); font-size: 21px; font-weight: 600; }
   .faq summary::-webkit-details-marker { display: none; }
-  .faq summary::after {
-    content: '+'; position: absolute; right: 4px; top: 22px;
-    font-family: var(--body); font-size: 22px; font-weight: 400;
-    color: var(--terracota); line-height: 1;
-    transition: transform .2s ease;
-  }
+  .faq summary::after { content: '+'; position: absolute; right: 4px; top: 14px; font-size: 26px; color: var(--brown); font-family: var(--body); font-weight: 400; }
   .faq details[open] summary::after { content: '–'; }
-  .faq .answer { padding: 0 0 26px; max-width: var(--measure); color: var(--muted); font-size: 16px; }
-  .faq .answer p + p { margin-top: 12px; }
+  .faq .answer { padding: 0 0 20px; color: var(--muted); font-size: 16.5px; }
 
-  /* ── cierre ────────────────────────────────────────────── */
   .closing { text-align: center; }
-  .closing h2 {
-    font-size: clamp(32px, 6vw, 58px);
-    max-width: 17ch; margin: 0 auto 22px;
-  }
-  .closing h2 em { color: var(--terracota); font-style: italic; }
-  .closing .lede { margin: 0 auto 36px; text-align: center; }
+  .closing .placa { border: 0; padding: 0; max-width: 30ch; margin: 0 auto; font-size: clamp(25px, 3.8vw, 36px); }
 
-  footer {
-    background: var(--ink); color: var(--on-ink-soft);
-    padding: 46px 0;
-    font-size: 13.5px;
-  }
-  footer .foot {
-    display: flex; justify-content: space-between; gap: 18px; flex-wrap: wrap; align-items: baseline;
-  }
-  footer .fname { font-family: var(--display); font-size: 18px; color: var(--on-ink); }
-  footer a { color: var(--terracota); text-decoration: none; }
-  footer a:hover { text-decoration: underline; }
+  footer { background: var(--ink); color: var(--on-ink-soft); padding: 28px 0 40px; border-top: 1px solid var(--on-ink-line); font-size: 13.5px; }
+  .foot { display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+  .foot a { color: var(--on-ink); }
 </style>
 </head>
 <body>
 
-<!-- ═══════════════ HERO ═══════════════ -->
+<!-- ═══════════ 00 · INICIO ═══════════ -->
 <header class="hero">
   <div class="wrap">
     <div class="brandbar">
       <img class="brandlogo" src="img/logo.webp" alt="Breaking Barriers at Work" width="705" height="287">
-      <div class="who">Flor Pérsico · Programa grupal con Working Labs en vivo</div>
+      <div class="who">Flor Pérsico · AT WORK</div>
     </div>
-
-    <div class="hero-inner hero-split">
+    <div class="hero-grid">
       <div>
-      <h1>Sabes lo que quieres decir. En inglés sale <em>una versión más simple.</em></h1>
-      <p class="sub">
-        Lo estudiaste durante años, lo lees, trabajas en inglés todos los días. Pero
-        cuando hay que producir en el momento traduces en la cabeza, pierdes palabras
-        y repites los mismos errores de siempre — y lo que llega no representa a la
-        profesional que ya eres.
-      </p>
+        <p class="kicker">Breaking Barriers · AT WORK</p>
+        <h1>Muestra en inglés a la profesional que <em>ya eres</em>.</h1>
+        <p class="sub">Sin sumar más años de clases, sin memorizar guiones y sin seguir esperando a «estar lista».</p>
+        <div class="cta">
+          <a class="btn" href="https://ig.me/m/ysi_speakenglish" target="_blank" rel="noopener noreferrer">Escríbeme READY por Instagram →</a>
+          <p class="note">Te respondo yo, Flor. Te hago unas preguntas cortas y te digo si AT WORK es para ti.</p>
+        </div>
       </div>
-      <figure class="heroshot">
+      <!-- VSL: hasta que esté subido se ve la foto de Flor. Para mostrarlo, reemplazar
+           VIDEO_ID por el ID de YouTube del VSL: el video aparece en lugar de la foto. -->
+      <figure class="media" id="vsl" data-video="https://www.youtube-nocookie.com/embed/VIDEO_ID?rel=0">
         <img src="img/flor-laptop.webp" alt="Flor Pérsico" width="420" height="574" loading="eager">
       </figure>
     </div>
+    <div class="facts">
+      <div class="fact"><div class="big">Labs en vivo</div><div class="small">Grupos de máximo 8 profesionales</div></div>
+      <div class="fact"><div class="big">5 meses</div><div class="small">Con tu propio trabajo como material</div></div>
+      <!-- Única fecha con vencimiento de la página: cuando arranque el grupo, cambiar por el próximo lab. -->
+      <div class="fact"><div class="big">Primer grupo</div><div class="small">Precio de fundadoras · próximo inicio: 27 de noviembre</div></div>
+    </div>
   </div>
-
 </header>
 
-<!-- ═══════════════ RECONOCIMIENTO ═══════════════ -->
+<!-- ═══════════ 01 · ¿TE SUENA? ═══════════ -->
 <section>
-  <div class="wrap">
-    <div class="split">
-      <div>
-        <img class="tick" src="img/tilde.webp" alt="" width="964" height="968" loading="lazy">
-        <span class="eyebrow">Esto es para ti si</span>
-        <h2 class="section-title">Te vas a reconocer<br>en alguna de estas.</h2>
-        <ul class="mirror" style="margin-top:34px">
-          <li>Llevas años de inglés encima y aun así traduces en la cabeza antes de hablar. Repites los mismos errores desde siempre y nadie te explicó nunca por qué.</li>
-          <li>Te preparaste toda la semana para la reunión, pero cuando te hacen una pregunta que no viste venir te quedas en blanco un segundo, y contestas una versión mucho más simple de lo que en realidad piensas.</li>
-          <li>Sigues sin esfuerzo a tus colegas latinos hablando en inglés. Pero cuando habla un nativo —rápido, encadenando las palabras— pierdes el hilo, y te da vergüenza pedir que lo repita.</li>
-          <li>Cuando hay que dar indicaciones después de una llamada te quedas callada por miedo a equivocarte — y minutos después mandas por mail lo que no te animaste a decir en la reunión.</li>
-          <li>La noche anterior a una reunión importante te cuesta dormirte pensando si vas a poder decir lo que realmente quieres decir.</li>
-          <li>Escribes bien cuando tienes tiempo de revisar. En vivo, con alguien esperando, no te sale ni la mitad de eso.</li>
-          <li>Preparas de más: escribes antes lo que vas a decir, ensayas, dependes de un guion. Y cuando la conversación se sale de ese guion te quedas sin piso.</li>
-          <li>Cuando presentas terminas leyendo la slide en voz alta, en vez de explicar lo que sabes perfectamente que dice ahí.</li>
-          <li>Evitas ciertas palabras porque no estás segura de cómo se pronuncian, y terminas eligiendo la que te sale, no la que querías.</li>
-          <li>Sabes que el inglés te está frenando la carrera. No porque no lo sepas: porque en las conversaciones que deciden cosas termina hablando otra persona por ti.</li>
-          <li>Entraste a un rol internacional, o tu empresa se volvió global, y de golpe tu jefe, tu equipo o tus clientes son extranjeros. Nunca entrenaste estas situaciones y se nota desde la primera.</li>
-        </ul>
-      </div>
+  <div class="read">
+    <span class="eyebrow">¿Te suena?</span>
+    <h2>Entiendes casi todo. Pero en la reunión, ese inglés <em>no aparece</em>.</h2>
+    <ul class="dash big">
+      <li>Escribes el speech palabra por palabra y lo dejas al lado de la computadora «por las dudas».</li>
+      <li>Mientras el otro habla, armas la frase en tu cabeza. Cuando por fin la tienes, ya cambiaron de tema.</li>
+      <li>Presentas «como un robot»: sin conectores entre una slide y otra, y terminas de golpe.</li>
+      <li>Llega la pregunta inesperada al final de la presentación y te desarmas.</li>
+      <li>Tienes algo valioso para aportar y te quedas callada. A veces, hasta apagas la cámara.</li>
+      <li>Cierras Teams y, diez segundos después, aparece la frase perfecta.</li>
+    </ul>
+    <p class="placa">Y lo que más te molesta no es el error de gramática. Es sentir que tu inglés hace que los demás vean menos de lo que realmente eres capaz.</p>
 
-      <aside class="card-no">
-        <span class="eyebrow">Esto no es para ti si</span>
-        <h3>Prefiero decírtelo antes.</h3>
-        <ul class="mirror no">
-          <li>Eres profesional B1–B2 pero todavía no trabajas en inglés.</li>
-          <li>Tu inglés ya fluye sin esfuerzo y solo buscas pulir detalles. El programa está diseñado para B1–B2: por encima de ese rango te vas a aburrir.</li>
-          <li>Buscas clases de gramática tradicionales o preparación para exámenes.</li>
-          <li>No vas a practicar entre labs y esperas resultados sin implementar.</li>
-          <li>Esperas que tu coach haga el proceso por ti.</li>
-        </ul>
-        <p class="fineprint">
-          Yo te doy las herramientas, el road map y te acompaño en el proceso.
-          La que acciona eres tú.
-        </p>
-      </aside>
-    </div>
+    <h3 class="sub">Y casi siempre pasa justo cuando algo importante está cambiando</h3>
+    <ul class="dash">
+      <li>Te dieron más responsabilidades y ahora te toca liderar reuniones en inglés.</li>
+      <li>Tienes que presentar resultados ante líderes de otros países.</li>
+      <li>Tu trabajo te pide más llamadas improvisadas y preguntas que no preparaste.</li>
+      <li>Tienes que explicar lo técnico a equipos que no son técnicos, y en inglés.</li>
+      <li>Se viene un ascenso, un rol regional o una entrevista, y no quieres tener que decir «no estoy preparada».</li>
+    </ul>
+    <p style="margin-top:26px">Quizás profesionalmente ya estás preparada. <strong>Lo que falta es que eso también se vea cuando hablas en inglés.</strong></p>
   </div>
 </section>
 
-<!-- ═══════════════ LOGROS ═══════════════ -->
+<!-- ═══════════ 02 · LO QUE YA PROBASTE ═══════════ -->
 <section class="band-sand">
-  <div class="wrap">
-    <span class="eyebrow">Qué vas a lograr</span>
-    <h2 class="section-title">En cinco meses, esto<br>deja de ser una excepción.</h2>
-    <p class="lede">
-      Ocho cambios concretos. No son estados de ánimo: son cosas que empiezas a
-      hacer —o que dejas de evitar— en tu trabajo real.
-    </p>
+  <div class="read">
+    <span class="eyebrow">Lo que ya probaste</span>
+    <h2>El problema no es que te <em>falte</em> inglés.</h2>
+    <p>Te dijeron que si te cuesta hablar, tienes que estudiar más. Entonces hiciste academia, gramática, Business English, conversación con nativos sobre un PDF. Y, como me dijo una alumna, «se trata más de lo mismo».</p>
+    <p>Esos métodos te dieron conocimiento. Lo que no te enseñaron es a tenerlo disponible bajo presión: cuando te preguntan algo que no preparaste, tienes cinco segundos para responder y encima te interrumpen.</p>
+    <p class="placa">Saber inglés y tenerlo disponible no son lo mismo.</p>
+  </div>
+</section>
 
-    <div class="wins">
-      <div class="win">
-        <div class="k">De evitar <span class="arrow">→</span> a participar</div>
-        <p>Intervienes en las reuniones, opinas, discutes un punto y entras en conversaciones que antes dejabas pasar.</p>
-      </div>
-      <div class="win">
-        <div class="k">De saber inglés <span class="arrow">→</span> a poder usarlo</div>
-        <p>Dejas de depender de frases memorizadas y de estructuras que reconoces pero no aparecen. Lo que ya sabes empieza a llegarte cuando lo necesitas.</p>
-      </div>
-      <div class="win">
-        <div class="k">De hablar como salga <span class="arrow">→</span> a construir con estructura</div>
-        <p>Ordenas la idea, pones primero lo importante y se entiende a la primera. Y en vez de leer la presentación, la explicas.</p>
-      </div>
-      <div class="win">
-        <div class="k">De quedarte bloqueada <span class="arrow">→</span> a sostener la interacción</div>
-        <p>Sigues hablando aunque no tengas todo preparado, aunque llegue una pregunta que no viste venir, aunque no te salga una palabra o te equivoques.</p>
-      </div>
-      <div class="win">
-        <div class="k">De práctica genérica <span class="arrow">→</span> a entrenamiento con propósito</div>
-        <p>Usas tus propias situaciones de trabajo para detectar qué te está frenando hoy, y practicas eso — no lo que toca en la unidad 7.</p>
-      </div>
-      <div class="win">
-        <div class="k">De depender de tu profesora <span class="arrow">→</span> a saber cómo seguir</div>
-        <p>Sabes qué mirar, qué practicar, con qué herramienta, cómo volver a intentarlo y cómo llevarlo a tu próxima reunión.</p>
-      </div>
-      <div class="win">
-        <div class="k">De esquivar por miedo a tu pronunciación <span class="arrow">→</span> a entender y hacerte entender</div>
-        <p>Entiendes mejor el inglés hablado real —el rápido, el encadenado, el de los nativos— y te siguen sin esfuerzo cuando hablas. Sin perseguir un acento perfecto, que nunca fue el objetivo.</p>
-      </div>
-      <div class="win">
-        <div class="k">De dejar que el miedo decida <span class="arrow">→</span> a hablar desde tu experiencia</div>
-        <p>Sabes qué decir y cómo decirlo, y ya no te callas pensando «¿estaré a la altura?». Hablas desde la profesional que eres, no desde el miedo a equivocarte.</p>
-      </div>
+<!-- ═══════════ 03 · EL DELIVERY METHOD™ ═══════════ -->
+<section class="band-ink" id="metodo">
+  <div class="wrap">
+    <div class="read" style="padding:0;margin:0 auto 0 0">
+      <span class="eyebrow">Mi método</span>
+      <h2>The Delivery Method™: <em>usar primero, aprender después</em>.</h2>
+      <p>«Delivery» es entregar tu mensaje. Este método no mide cuánto inglés sabes, sino si tu mensaje llega en la reunión real. Y funciona al revés de como aprendiste:</p>
+    </div>
+
+    <div class="scroll-x">
+      <table class="compare">
+        <thead><tr><th>Cómo se enseña inglés en casi todos lados</th><th class="us">The Delivery Method™</th></tr></thead>
+        <tbody>
+          <tr><td>Primero aprendes, después practicas y, con suerte, algún día lo usas en la reunión.</td><td class="us">Primero lo usas en una situación real, detectas dónde se rompió, entrenas solo eso y lo vuelves a usar.</td></tr>
+          <tr><td>Si en la reunión no te sale, vuelves a estudiar todo de nuevo.</td><td class="us">Si en la reunión no te sale, ese intento te dice exactamente qué entrenar.</td></tr>
+          <tr><td>Dependes de la profesora.</td><td class="us">Aprendes a hacerte tu propio diagnóstico. El método sigue funcionando cuando yo no estoy.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="placa" style="max-width:40ch">No empezamos estudiando 20 frases para dar un project update. Primero te pido que me des el update como lo darías hoy.</p>
+
+    <h3 class="sub" style="color:var(--on-ink)">Los 4 pasos</h3>
+    <div class="cycle" aria-label="El ciclo del Delivery Method: Producir, Detectar, Corregir y refinar, Aplicar">
+      <article class="step"><span class="n">01</span><h3>Producir</h3><p>Usas tu inglés en una situación real de tu semana (un update, un mail, una pregunta difícil), sin esconderte detrás de un guion.</p></article>
+      <article class="step key"><span class="n">02</span><h3>Detectar</h3><p>Encontramos dónde se rompió la comunicación: en el QUÉ, en el CÓMO o en el QUIÉN.</p><div class="forks"><span>QUÉ</span><span>CÓMO</span><span>QUIÉN</span></div></article>
+      <article class="step"><span class="n">03</span><h3>Corregir y refinar</h3><p>Entrenas solo eso y haces el segundo intento. El primero te dice qué entrenar; el segundo te demuestra que puedes.</p></article>
+      <article class="step"><span class="n">04</span><h3>Aplicar</h3><p>Lo llevas a tu reunión real esa misma semana. Y eso se vuelve tu próximo Producir.</p></article>
+    </div>
+    <p class="loop"><span>↻</span> De Aplicar vuelves a Producir</p>
+
+    <h3 class="sub" style="color:var(--on-ink)">La clave es detectar</h3>
+    <p class="soft" style="max-width:64ch">Trabarte es un síntoma. Y el mismo síntoma, «me quedo callada», puede venir de tres lugares distintos. Si no sabes cuál es el tuyo, puedes estudiar años y seguir trabándote en el mismo lugar.</p>
+
+    <div class="three">
+      <article>
+        <span class="tag">Se rompió el QUÉ</span>
+        <h3>Tu mensaje.</h3>
+        <p>No tenías claro qué querías decir: muchas vueltas, mucho contexto, ningún punto.</p>
+        <p class="case">Belem tenía que dar su update de OKRs y no arrancaba por el punto principal. Lo probó en español y se enredó igual: no era el inglés, era el mensaje. Ordenamos sus ideas en un mapa de cuatro líneas («pasamos de 20 líneas a tres») y lo dio sin pantalla: «Much better than the first time.»</p>
+      </article>
+      <article>
+        <span class="tag">Se rompió el CÓMO</span>
+        <h3>Tu inglés.</h3>
+        <p>Sabías qué decir, pero no te salió en inglés: la palabra no apareció o salió mal.</p>
+        <p class="case">Brenda revisó sus propias frases, encontró sola su error y explicó la regla. Si lo encuentras tú, no es falta de base: es un error fosilizado. No hacía falta otra clase de gramática; hacía falta automatizarlo.</p>
+      </article>
+      <article>
+        <span class="tag">Se rompió el QUIÉN</span>
+        <h3>Tu voz.</h3>
+        <p>Sabías qué decir y cómo, pero en el momento no lo dijiste: te achicaste, te callaste, pensaste «¿estaré a la altura?».</p>
+        <p class="case">Belem: «Primero evitaba las reuniones en inglés… Ha cambiado que ya no me hago como chiquita en las reuniones.»</p>
+      </article>
+    </div>
+
+    <p class="placa" style="max-width:40ch">Pruébalo hoy: la próxima vez que te trabes, dilo en español. Si te enredas igual, no era el inglés.</p>
+    <div class="cta">
+      <a class="btn" href="https://ig.me/m/ysi_speakenglish" target="_blank" rel="noopener noreferrer">Escríbeme READY por Instagram →</a>
+      <p class="note">Si te viste en alguno de los tres, cuéntame cuál y lo vemos juntas.</p>
     </div>
   </div>
 </section>
 
-<!-- ═══════════════ DIAGNÓSTICO ═══════════════ -->
-<section class="band-ink diagnosis">
-  <div class="wrap">
-    <span class="eyebrow">Real talk</span>
-    <h2>El problema no es que te falte inglés. Es que nunca entrenaste <em>cómo usar el que ya tienes</em> bajo presión.</h2>
-    <div class="body">
-      <p>
-        Estudiaste años. Hiciste cursos, business english, clases particulares. Eso
-        construyó algo real: lees documentación técnica sin despeinarte, escribes bien
-        cuando tienes tiempo de revisar, y reconoces la estructura correcta apenas la ves.
-      </p>
-      <p>
-        Pero construir conocimiento y poder recuperarlo en el momento son dos cosas
-        distintas, y casi nadie entrena la segunda. Nadie te enseñó a agarrar tu reunión
-        del martes y convertirla en material de entrenamiento: ver qué te frenó ahí
-        exactamente, entender por qué, y practicar eso hasta que te salga sin construirlo.
-      </p>
-      <p>
-        <strong>Eso es lo que hacemos aquí.</strong> Sí trabajamos lenguaje, gramática
-        funcional, pronunciación y listening — pero siempre entrando por tu producción
-        real, no por el índice de un libro. Y sales con un sistema de entrenamiento que
-        sigue siendo tuyo cuando el programa termina.
-      </p>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════ HERRAMIENTAS ═══════════════ -->
-<section>
-  <div class="wrap">
-    <span class="eyebrow">El método</span>
-    <h2 class="section-title">Delivery Method&trade;</h2>
-    <p class="lede">
-      Una sola lógica, repetida cada semana: tu trabajo real entra, y sale convertido
-      en entrenamiento. No practicas situaciones de manual — practicas la reunión que
-      tienes el jueves.
-    </p>
-
-    <div class="pillars">
-      <article class="pillar core">
-        <div class="core-mark">Delivery<br>Method&trade;</div>
-        <p>Lo técnico, a tu ritmo en la plataforma. La práctica bajo presión, conmigo en los labs. Todo sobre lo mismo: lo que de verdad te pasa en el trabajo.</p>
-      </article>
-      <article class="pillar">
-        <h4>Plataforma, a tu ritmo</h4>
-        <ul>
-          <li>Programa grabado: Onboarding, Delivery Method™ y 5 módulos, aplicados al trabajo</li>
-          <li>Cuatro coaches de IA en una sola página de práctica</li>
-          <li>Weekly Report cada lunes, con mi feedback por escrito</li>
-          <li>Disponible cuando puedas, con tu material real</li>
-        </ul>
-      </article>
-      <article class="pillar">
-        <h4>Working Labs en vivo conmigo</h4>
-        <ul>
-          <li>Dos Working Labs por semana de 90 minutos, con máximo 8 profesionales de tu nivel</li>
-          <li>Produces, recibes feedback y haces el segundo intento</li>
-          <li>Un check-in 1:1 conmigo una vez por mes</li>
-          <li>Claridad sobre qué priorizar y por qué</li>
-          <li>Feedback sobre tu producción, no sobre un ejercicio</li>
-        </ul>
-      </article>
-      <article class="pillar">
-        <h4>Road map guiado</h4>
-        <ul>
-          <li>Lead Yourself First</li>
-          <li>The Delivery Method™</li>
-          <li>Activate Your English</li>
-          <li>Communicate in Real Time</li>
-          <li>Polish Your English</li>
-          <li>Understand &amp; Be Understood</li>
-          <li>Own Your Voice</li>
-        </ul>
-      </article>
-    </div>
-
-    <p class="claim">Lo técnico pasa en la plataforma. Lo mental y la práctica bajo presión, en los labs.</p>
-
-    <ol class="cycle" aria-label="Ciclo del Delivery Method">
-      <li><span class="n">01</span> Producir</li>
-      <li><span class="n">02</span> Detectar</li>
-      <li><span class="n">03</span> Corregir y refinar</li>
-      <li><span class="n">04</span> Aplicar</li>
-    </ol>
-
-    <h3 class="tools-lead">La clave es detectar qué se rompió.</h3>
-    <p class="lede">
-      Usas tu inglés en una situación real, sin esconderte detrás de un guion. Después
-      encontramos dónde se rompió la comunicación, entrenas solo eso y lo llevas a tu
-      reunión real esa misma semana. El mismo síntoma, «me quedo callada», puede venir
-      de tres lugares:
-    </p>
-
-    <div class="wins">
-      <div class="win">
-        <div class="k">Se rompió el QUÉ</div>
-        <p>Tienes el inglés, pero cinco ideas compiten. Entrenamos ordenar el mensaje e ir al punto.</p>
-      </div>
-      <div class="win">
-        <div class="k">Se rompió el CÓMO</div>
-        <p>Falta una estructura, un error se repite, la palabra no aparece, no entiendes al otro o no te entienden. Entrenamos solo el patrón que te frena.</p>
-      </div>
-      <div class="win wide">
-        <div class="k">Se rompió el QUIÉN</div>
-        <p>Sabes qué decir y cómo, y aun así no hablas. Entrenamos el miedo, el perfeccionismo, el bloqueo.</p>
-      </div>
-    </div>
-
-    <h3 class="tools-lead">Cuatro herramientas dentro del método. Y cuatro coaches de IA.</h3>
-    <p class="lede">
-      Las herramientas no son el método: se usan según qué se rompió. Al principio
-      haces el ciclo conmigo en los labs, después con tus coaches de IA —Role Play,
-      Narrative Flow, Color Method y Flor English Coach, configurados con tu contexto—
-      y al final sola.
-    </p>
-
-    <div class="tools">
-      <article class="tool">
-        <span class="idx">01</span>
-        <h3>Narrative Flow</h3>
-        <div class="kicker">De dónde viene el error</div>
-        <p>No todos los errores son el mismo error, y por eso no todos se arreglan igual. Sobre tus mails y tus reuniones reales separamos tres cosas distintas:</p>
-        <p><strong>Knowledge gap:</strong> nadie te explicó esa regla todavía.<br>
-           <strong>Gap de automatización:</strong> la sabes, pero en automático te sale mal desde hace años.<br>
-           <strong>Construction gap:</strong> tienes las piezas, pero no llegas a armar la frase en el momento.</p>
-        <p>Recién cuando sabemos cuál de las tres es, sabemos cómo entrenarla.</p>
-        <div class="botline">Con su coach de IA</div>
-      </article>
-
-      <article class="tool">
-        <span class="idx">02</span>
-        <h3>Color Method</h3>
-        <div class="kicker">De reconocer a usar</div>
-        <p>El problema nunca fue no conocer palabras: fue no poder usarlas en el momento. Esto mueve el lenguaje de «lo reconozco» a «me sale».</p>
-        <p>Tres pasos: <strong>Discover</strong> — encontrarlo en tu propio contexto. <strong>Understand</strong> — entender cómo y cuándo se usa de verdad. <strong>Use</strong> — producirlo hasta que no tengas que buscarlo.</p>
-        <p>Trabajamos chunks, collocations y lenguaje de alto valor para tu rubro. No listas infinitas, y no avanzamos hasta que lo anterior te salga solo.</p>
-        <div class="botline">Con su coach de IA</div>
-      </article>
-
-      <article class="tool">
-        <span class="idx">03</span>
-        <h3>Role Play Method</h3>
-        <div class="kicker">Ensayo con presión real</div>
-        <p>Entrenas tus situaciones futuras y las que se repiten: con tu jefe, sobre tu proyecto, antes de que pasen de verdad.</p>
-        <p>Contexto, primer intento sin que nadie te corte, presión progresiva, feedback puntual y <strong>retry</strong>. Esa segunda vuelta siempre sale mejor, y ahí es donde se construye la seguridad real.</p>
-        <p>No memorizas un speech. Entrenas poder sostener la conversación cuando se desvía.</p>
-        <div class="botline">Con su coach de IA</div>
-      </article>
-
-      <article class="tool">
-        <span class="idx">04</span>
-        <h3>Message Map</h3>
-        <div class="kicker">Primero lo importante</div>
-        <p>Para cuando tienes la idea clara pero no logras estructurarla en inglés. Cuatro pasos: <strong>Dump</strong>, <strong>Map</strong>, <strong>Speak</strong>, <strong>Check</strong>.</p>
-        <p>El mapa es simple: <strong>Situation → Key Message → Support → Action</strong>. Dices primero lo que importa y se entiende a la primera, en una reunión, un update o una presentación.</p>
-        <div class="botline">Se entrena en los labs y con tus coaches</div>
-      </article>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════ ROADMAP ═══════════════ -->
-<section class="band-warm">
-  <div class="wrap">
-    <span class="eyebrow">El road map</span>
-    <h2 class="section-title">Un recorrido claro.<br>Y siempre sabes dónde estás.</h2>
-    <p class="lede">
-      El onboarding, el Delivery Method™ y Activate Your English son iguales para todas
-      y se hacen en orden. Después, tu diagnóstico decide qué módulo se abre: el del
-      QUÉ, el del CÓMO o el del QUIÉN. Cada etapa termina en un hito concreto — escrito
-      en primera persona, porque es tuyo.
-    </p>
-
-    <div class="stages">
-
-      <article class="stage">
-        <div class="label">
-          <span class="tag">Onboarding</span>
-          <h3>Lead Yourself First</h3>
-        </div>
-        <div>
-          <p class="txt">Antes de tu primer lab, empezamos por el proceso. Recibes tus
-          accesos, pruebas tus cuatro coaches y grabas tu Starting Point: tu punto de
-          partida, no con un test, con tu producción real. Yo hago tu primer diagnóstico
-          —qué se rompe en tu QUÉ, tu CÓMO y tu QUIÉN— y te lo devuelvo en tu primer
-          check-in 1:1.</p>
-          <p class="txt">Y armas tu sistema semanal: cómo vas a atravesar el programa, con
-          acción, exposición progresiva y evidencia de avance que puedas ver.</p>
-          <div class="hito">
-            <span class="lbl">Al terminar esta etapa</span>
-            <span class="q">«Sé hacia dónde voy, cómo vamos a trabajar y qué tengo que hacer cada semana para avanzar.»</span>
-          </div>
-        </div>
-      </article>
-
-      <article class="stage">
-        <div class="label">
-          <span class="tag">El método</span>
-          <h3>The Delivery Method™</h3>
-        </div>
-        <div>
-          <p class="txt">Aprendes a usar tu propio trabajo como material de entrenamiento
-          y a hacerte la pregunta que ordena todo: ¿qué se rompió? Con eso armas tu ciclo
-          semanal: producir, detectar, corregir y aplicar.</p>
-          <div class="hito">
-            <span class="lbl">Al terminar esta etapa</span>
-            <span class="q">«Sé usar mi propio trabajo para entrenar y sé detectar qué se rompió.»</span>
-          </div>
-        </div>
-      </article>
-
-      <article class="stage">
-        <div class="label">
-          <span class="tag">Módulo 1</span>
-          <h3>Activate Your English</h3>
-        </div>
-        <div>
-          <p class="txt">El inglés que ya sabes está ahí, guardado. Lo lees, lo entiendes,
-          lo reconoces cuando lo escuchas — pero no aparece cuando lo necesitas. Esta
-          etapa existe para sacarlo de ahí.</p>
-          <p class="txt">Aprendes a convertir tus situaciones reales de trabajo en
-          práctica con tus coaches: Role Play para ensayar lo que viene,
-          Narrative Flow para entender de dónde vienen tus errores, y Color Method para
-          mover tu vocabulario profesional de «lo reconozco» a «me sale». Sales de aquí
-          con tu método de entrenamiento funcionando.</p>
-          <div class="hito">
-            <span class="lbl">Al terminar esta etapa</span>
-            <span class="q">«Sé convertir mis situaciones reales de trabajo en práctica y activar el inglés que ya conozco.»</span>
-          </div>
-        </div>
-      </article>
-
-      <article class="stage">
-        <div class="label">
-          <span class="tag">Módulo 2 · el QUÉ</span>
-          <h3>Communicate in Real Time</h3>
-        </div>
-        <div>
-          <p class="txt">Todo lo que preparaste te sirve hasta que la conversación se sale
-          del guion. Ahí aparece la pregunta que no viste venir, la palabra que no llega, la
-          interrupción que te desarma. Nadie entrena eso — y es exactamente lo que tu
-          trabajo te está pidiendo.</p>
-          <p class="txt">Trabajamos cómo construir el mensaje, cómo ordenarlo rápido para
-          que se entienda a la primera —primero lo importante, con el Message Map—, cómo adaptarlo cuando la conversación cambia de
-          dirección, y cómo sostenerlo cuando no tienes todo preparado. Después lo aplicas
-          en situaciones reales: presentarte ante un equipo nuevo, dar un update, explicar
-          un problema, disentir, responder lo inesperado, hablar de números y resultados,
-          presentar delante de quien decide.</p>
-          <div class="hito">
-            <span class="lbl">Al terminar esta etapa</span>
-            <span class="q">«Puedo construir y sostener mi mensaje en tiempo real. Sé qué hacer cuando no recuerdo una palabra, cuando necesito ordenar una idea, cuando noto que no fui clara o cuando la conversación cambia de dirección.»</span>
-          </div>
-        </div>
-      </article>
-
-      <article class="stage">
-        <div class="label">
-          <span class="tag">Módulo 3 · el CÓMO</span>
-          <h3>Polish Your English</h3>
-        </div>
-        <div>
-          <p class="txt">A veces lo que te frena no es la fluidez: es la precisión. Te
-          enseñaron gramática en pedazos, aislada, durante años. Por eso armas cada frase
-          por partes, revisando por dentro si ese tiempo verbal va o no va, mientras la
-          conversación sigue sin ti.</p>
-          <p class="txt">Aquí trabajamos los patrones que realmente están interfiriendo con
-          tu claridad — los que aparecen una y otra vez en tus reuniones y en tus mails,
-          explicados de una vez y bien. No es un syllabus enciclopédico de todo B1–B2: es
-          lo tuyo, lo que te está costando de verdad.</p>
-          <div class="hito">
-            <span class="lbl">Al terminar esta etapa</span>
-            <span class="q">«Entiendo y puedo aplicar los patrones del idioma que más aparecen en mi comunicación laboral, y noto la diferencia en cómo me expreso.»</span>
-          </div>
-        </div>
-      </article>
-
-      <article class="stage">
-        <div class="label">
-          <span class="tag">Módulo 4 · el CÓMO</span>
-          <h3>Understand &amp; Be Understood</h3>
-        </div>
-        <div>
-          <p class="txt">A tus colegas latinos los entiendes sin esfuerzo. Y de pronto habla
-          un nativo, encadena las palabras, y se te va la mitad de lo que dijo. No es tu
-          oído: es que ese inglés no suena como el que escuchas todos los días en tu equipo.</p>
-          <p class="txt">Trabajamos las dos direcciones: comprensión del inglés hablado real
-          —el rápido, el conectado— y pronunciación orientada a inteligibilidad, para que a
-          ti te sigan sin esfuerzo. El objetivo es que te entiendan, no que pierdas tu
-          acento. Tu acento nunca fue el problema.</p>
-          <div class="hito">
-            <span class="lbl">Al terminar esta etapa</span>
-            <span class="q">«Entiendo mejor el inglés hablado real, me hago entender con más claridad, y sé cómo seguir entrenando mi oído y mi producción.»</span>
-          </div>
-        </div>
-      </article>
-
-      <article class="stage">
-        <div class="label">
-          <span class="tag">Módulo 5 · el QUIÉN</span>
-          <h3>Own Your Voice</h3>
-        </div>
-        <div>
-          <p class="txt">A veces el bloqueo ni siquiera es el idioma. Sabes qué decir y
-          cómo decirlo, y aun así te callas o te quedas en blanco pensando «¿estaré a la
-          altura?». Ahí no se rompe el inglés: se rompe desde dónde hablas.</p>
-          <p class="txt">Trabajamos la diferencia entre «no me sale» y «no me animo», qué
-          hacer cuando te callas o te quedas en blanco, y cómo hablar sin ser perfecta.</p>
-          <div class="hito">
-            <span class="lbl">Al terminar esta etapa</span>
-            <span class="q">«Hablo desde mi experiencia y no desde el miedo.»</span>
-          </div>
-        </div>
-      </article>
-
-      <article class="stage">
-        <div class="label">
-          <span class="tag">Semana 20</span>
-          <h3>Cierre y autonomía</h3>
-        </div>
-        <div>
-          <p class="txt">Comparas tu producción con tu Starting Point y te llevas tu plan
-          para seguir entrenando sola, con tus coaches y tu propio Delivery Method™.</p>
-          <div class="hito">
-            <span class="lbl">Al terminar el programa</span>
-            <span class="q">«Veo con evidencia cuánto avancé y sé cómo seguir.»</span>
-          </div>
-        </div>
-      </article>
-
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════ LA SEMANA ═══════════════ -->
-<section class="band-sand">
-  <div class="wrap">
-    <span class="eyebrow">Cómo se vive por dentro</span>
-    <h2 class="section-title">Tu semana en AT WORK.</h2>
-
-    <div class="week">
-      <div class="weekitem">
-        <h4>Antes de tu primer lab, te conozco a fondo</h4>
-        <p>Haces el onboarding, grabas tu Starting Point y reunimos tu material real — tus reuniones, tus presentaciones, tus transcripts — para que tus coaches trabajen con tu contexto, no con ejemplos genéricos. Tu primer diagnóstico te lo devuelvo en tu primer check-in 1:1.</p>
-      </div>
-      <div class="weekitem">
-        <h4>Dos Working Labs en vivo por semana</h4>
-        <p>Conmigo, en grupos de máximo 8 profesionales de tu nivel: viernes de 13:00 a 14:30 y sábados de 15:30 a 17:00, hora de Argentina (10:00 y 12:30 en México; 11:00 y 13:30 en Colombia). Vas a los dos o al que te quede mejor. Llevas tu situación real, produces, recibes feedback y haces el segundo intento. Y una vez por mes, un check-in 1:1 conmigo para revisar cómo vas.</p>
-      </div>
-      <div class="weekitem">
-        <h4>La plataforma absorbe lo técnico</h4>
-        <p>El programa grabado —Onboarding, Delivery Method™ y 5 módulos— y las bibliotecas de práctica están ahí para consultar cuando los necesites. Así el tiempo en vivo queda libre para practicar, no para escuchar teoría.</p>
-      </div>
-      <div class="weekitem">
-        <h4>Un weekly report cada lunes</h4>
-        <p>Tu win de la semana anterior, tus objetivos, en qué módulo estás y qué situación quieres entrenar. Lo leo y te respondo con feedback por escrito, y lo que necesita más trabajo lo llevamos al lab.</p>
-      </div>
-      <div class="weekitem">
-        <h4>Bloques cortos, varias veces por semana</h4>
-        <p>La recomendación es entrenar en bloques cortos y sostenidos. Como referencia: unas tres prácticas de alrededor de cuarenta minutos con tus coaches. Las acomodas tú, cuando te queda mejor, y llevas lo practicado a una situación real de trabajo.</p>
-      </div>
-      <div class="weekitem">
-        <h4>No estás sola con la parte difícil</h4>
-        <p>Muchos bloqueos no son de inglés: son perfeccionismo, autoexigencia, miedo a la exposición. Tienes tu espacio en el weekly report para contármelo, y la comunidad de WhatsApp está abierta de lunes a viernes, en horario laboral, para lo puntual.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════ TESTIMONIOS ═══════════════ -->
-<section>
+<!-- ═══════════ 04 · MURO DE TESTIMONIOS ═══════════
+     Mensajes reales: solo nombre de pila, sin fotos de perfil, ciudades tapadas. Luz no va.
+-->
+<section class="band-warm" id="testimonios">
   <div class="wrap">
     <span class="eyebrow">Ellas ya lo están haciendo</span>
-    <h2 class="section-title">Lo que están logrando<br>otras alumnas.</h2>
+    <h2>Lo que están logrando mis alumnas</h2>
+    <p class="soft">Mensajes reales de mis alumnas y de nuestra comunidad.</p>
 
-    <div class="quotes">
-      <article class="quote">
-        <img class="qmark" src="img/comillas.webp" alt="" width="111" height="80" loading="lazy">
-        <p>En una reunión real pidió ayuda de forma directa, reformuló cuando hizo falta y hasta hizo un chiste en inglés. Después de otro update me escribió:</p>
-        <p><em>«Not perfect, but the message was delivered.»</em></p>
-        <div class="attr">
-          <span class="name">Gaby</span>
-          <span class="role">Senior Manager de IT</span>
-        </div>
-      </article>
-      <article class="quote">
-        <img class="qmark" src="img/comillas.webp" alt="" width="111" height="80" loading="lazy">
-        <p>Identificó sus errores fosilizados y los practica. En una reunión de líderes, 100 % en inglés y súper técnica, entendió todo y siguió el hilo.</p>
-        <p><em>«Ya no pienso tanto al querer transmitir una idea, simplemente confío y la menciono.»</em></p>
-        <div class="attr">
-          <span class="name">Virginia</span>
-          <span class="role">Líder de un equipo de QA</span>
-        </div>
-      </article>
-      <article class="quote">
-        <img class="qmark" src="img/comillas.webp" alt="" width="111" height="80" loading="lazy">
-        <p>Su jefe le ofreció presentar su parte por ella. Le dijo que no y la presentó ella.</p>
-        <p><em>«My participation wasn't the best, but it was the first one.»</em></p>
-        <div class="attr">
-          <span class="name">Brenda</span>
-          <span class="role">Product Supply e Innovación</span>
-        </div>
-      </article>
-      <article class="quote">
-        <img class="qmark" src="img/comillas.webp" alt="" width="111" height="80" loading="lazy">
-        <p>Viajó a Alemania por trabajo. Las veces anteriores había sido abrumador; esta vez habló más despacio, más claro y con más confianza. Su jefe le delegó las reuniones en inglés.</p>
-        <div class="attr">
-          <span class="name">Sol</span>
-          <span class="role">Gerenta de Logística · México</span>
-        </div>
-      </article>
-      <article class="quote">
-        <img class="qmark" src="img/comillas.webp" alt="" width="111" height="80" loading="lazy">
-        <p>En su primera entrevista en inglés, con Tesla, dio su punto de vista sintiéndose cómoda y segura. Sin respuestas memorizadas: siendo ella.</p>
-        <div class="attr">
-          <span class="name">Moni</span>
-          <span class="role">Recursos Humanos</span>
-        </div>
-      </article>
+    <div class="wgroup">
+      <h3>Ahora participan y presentan ellas</h3>
+      <div class="tgrid three-col">
+        <article class="tcard">
+          <div class="who2">Gaby <span>· Senior Manager de IT</span></div>
+          <p>En una reunión real pidió ayuda de forma directa, reformuló cuando hizo falta y hasta hizo un chiste en inglés. Después de otro update me escribió:</p>
+          <p class="said">«Not perfect, but the message was delivered.»</p>
+        </article>
+        <article class="tcard">
+          <div class="who2">Brenda <span>· Product Supply e Innovación</span></div>
+          <p>Su jefe le ofreció presentar su parte por ella. Le dijo que no y la presentó ella.</p>
+          <p class="said">«My participation wasn't the best, but it was the first one.»</p>
+        </article>
+        <article class="tcard">
+          <div class="who2">Sol <span>· Gerenta de logística, México</span></div>
+          <p>Viajó a Alemania por trabajo. Las veces anteriores había sido abrumador; esta vez habló más despacio, más claro y con más confianza. Su jefe le delegó las reuniones en inglés.</p>
+          <div class="frame">
+            <iframe src="https://www.youtube-nocookie.com/embed/P4Eqz1mjJws?rel=0" title="Sol cuenta su experiencia en Breaking Barriers at Work" loading="lazy" allowfullscreen allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+          </div>
+          <div class="chat">
+            <div class="bubble"><span class="name" style="color:#6CB6E8">Sol</span>Hi everyone,<br>I'm currently in Germany for work and recently spent some time in <span class="redact">██████</span>. Yesterday, we took a trip to <span class="redact">██████████</span>. I'm feeling really proud of myself - I've been speaking more slowly and clearly, and my confidence in the language has improved. My previous experiences in Germany were overwhelming, but this time I can see significant progress in myself.<span class="time">12:02 a. m.</span><span class="react">❤️‍🔥 ❤️ 👏🏻 💯 8</span></div>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <div class="wgroup">
+      <h3>Ahora entienden y siguen el hilo</h3>
+      <div class="tgrid three-col">
+        <article class="tcard">
+          <div class="who2">Virginia <span>· Líder de un equipo de QA</span></div>
+          <p>Identificó sus errores fosilizados y los practica. En una reunión de líderes, 100 % en inglés y súper técnica, entendió todo y siguió el hilo.</p>
+          <p class="said">«Ya no pienso tanto al querer transmitir una idea, simplemente confío y la menciono.»</p>
+          <div class="chat">
+            <div class="bubble"><span class="name" style="color:#F08BB4">Virginia</span>Mi win profesional fue tener una reunión de líderes , 100% en inglés y super técnica, y pude entender todo y seguir completamente el hilo 🥹🙌🏼<span class="time">7:10 p. m.</span><span class="react">😂 ❤️ 5</span></div>
+          </div>
+        </article>
+        <article class="tcard">
+          <div class="who2">Belem <span>· Data y BI</span></div>
+          <p>Fue a un evento y no esperaba que las charlas fueran en inglés. Entendió todo y se animó a hacer una pregunta.</p>
+          <div class="chat">
+            <div class="bubble"><span class="name" style="color:#A78BFA">Belem</span>Mi win de la semana pasada fue que fui a un evento y no esperé que las charlas fueran en inglés y pude entender todo! Y lo mejor es que me animé a hacer una pregunta 🫶🏼<span class="time">12:05 p. m.</span><span class="react">❤️‍🔥 💪🏼 ❤️ 👏🏻 4</span></div>
+          </div>
+        </article>
+        <article class="tcard">
+          <div class="who2">Lina <span>· Ingeniera aeronáutica, Colombia</span></div>
+          <p>«Las clases parten de un contexto y las vas dirigiendo de acuerdo con las capacidades de cada una. No se siente como una clase genérica "para cumplir": realmente hay un objetivo detrás.»</p>
+          <p>«Cada vez me doy más cuenta de que sí entiendo, y que hay muchas situaciones cotidianas que puedo abordar de manera simple, con estructura, sin enredarme tanto.»</p>
+          <p class="said">«Me has ayudado a entender que sí puedo, que solo tengo que arriesgarme más y hacerlo.»</p>
+        </article>
+      </div>
+    </div>
+
+    <div class="wgroup">
+      <h3>Ahora hablan siendo ellas</h3>
+      <div class="tgrid">
+        <article class="tcard">
+          <div class="who2">Moni <span>· Recursos Humanos</span></div>
+          <p>En su primera entrevista en inglés, con Tesla, dio su punto de vista sintiéndose cómoda y segura. Sin respuestas memorizadas: siendo ella.</p>
+        </article>
+        <article class="tcard">
+          <div class="who2">Lauri</div>
+          <p>Detectó algo que la estaba condicionando a la hora de hablar en inglés, y empezamos a desbloquearlo juntas.</p>
+          <div class="chat">
+            <div class="bubble"><span class="name" style="color:#64A8E8">Lauri</span>Hola buen día mi win de la última semana fue detectar algo que me estaba condicionando a la hora de hablar en inglés, empezar a desbloquearlo y trabajarlo junto a Flor ❤️<span class="time">10:55 a. m.</span><span class="react">❤️‍🔥 ❤️ 4</span></div>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <div class="cta center">
+      <a class="btn dark" href="https://ig.me/m/ysi_speakenglish" target="_blank" rel="noopener noreferrer">Escríbeme READY por Instagram →</a>
     </div>
   </div>
 </section>
 
-<!-- ═══════════════ WINS DE LA COMUNIDAD ═══════════════ -->
-<!-- Capturas del grupo de WhatsApp. Confirmar por escrito el permiso de cada una antes de publicar. -->
-<section class="band-sand">
-  <div class="wrap">
-    <span class="eyebrow">Wins de la semana</span>
-    <h2 class="section-title">Lo que comparten<br>en la comunidad.</h2>
-    <p class="lede">Cada lunes, en el grupo, cada una cuenta su win de la semana. Algunos, tal cual los escribieron:</p>
-    <div class="wins">
-      <div class="win">
-        <div class="k">Alejandra</div>
-        <p>«Poder explicar un proyecto a un equipo técnico y entender las indicaciones que me dieron para avanzar.»</p>
-      </div>
-      <div class="win">
-        <div class="k">Belem</div>
-        <p>«Fui a un evento, no esperé que las charlas fueran en inglés, ¡y pude entender todo! Y lo mejor es que me animé a hacer una pregunta.»</p>
-      </div>
-      <div class="win">
-        <div class="k">Virginia</div>
-        <p>«Tener una reunión de líderes, 100 % en inglés y súper técnica, y poder entender todo y seguir completamente el hilo.»</p>
-      </div>
-      <div class="win">
-        <div class="k">Gaby</div>
-        <p>«Animarme a dar mi punto de vista en una reunión.»</p>
-      </div>
-      <div class="win">
-        <div class="k">Lauri</div>
-        <p>«Detectar algo que me estaba condicionando a la hora de hablar en inglés, empezar a desbloquearlo y trabajarlo junto a Flor.»</p>
-      </div>
-      <div class="win">
-        <div class="k">Sonne</div>
-        <p>«Entender que se vale tomarse el tiempo para hablar, pronunciar correctamente y no hablar con mucha velocidad solo por evadir el idioma.»</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════ FLOR ═══════════════ -->
-<section class="band-warm">
-  <div class="wrap">
-    <div class="bio">
-      <div class="plate">
-        <img class="bioshot" src="img/flor-cafe.webp" alt="Flor Pérsico" width="410" height="566" loading="lazy">
-        <div class="sig">Flor Pérsico</div>
-        <div class="sigrole">Creadora del método Breaking Barriers</div>
-        <ul>
-          <li>Trabajo con un número limitado de alumnas: el programa se arma sobre el material de cada una</li>
-          <li>Alumnas en México, Colombia, Perú, Costa Rica y Argentina</li>
-          <li>Managers, gerentas y directoras de operaciones, IT, finanzas, HR y compliance</li>
-          <li>Trabajo sobre transcripts reales de clase, no sobre material de manual</li>
-        </ul>
-      </div>
-
-      <div class="text">
-        <span class="eyebrow">Quién te acompaña</span>
-        <h2 class="section-title" style="font-size:clamp(28px,4.4vw,40px)">No enseño inglés.<br>Intervengo tu comunicación.</h2>
-        <p>
-          Trabajo con mujeres profesionales que ya saben inglés y que, aun así, salen de
-          sus reuniones con la sensación de haber sonado como una versión más chica de
-          sí mismas. Ese hueco entre lo que piensas y lo que logras decir bajo presión
-          es lo único que me interesa cerrar.
-        </p>
-        <p>
-          Por eso el método no empieza en un libro. Empieza en tu transcript: en lo que
-          realmente dijiste el martes a las nueve, en qué error repetiste sin darte
-          cuenta y en qué estructura evitaste porque no te salía. A partir de ahí armamos
-          tu entrenamiento.
-        </p>
-        <p>
-          Trabajo con lenguaje, gramática funcional, pronunciación y listening — todo
-          eso está adentro. Lo que cambia es por dónde entramos: no por el índice de un
-          libro, sino por lo que te está pasando a ti en el trabajo.
-        </p>
-        <p>
-          Y trabajo con un número limitado de alumnas a la vez, porque necesito conocer
-          tu contexto y seguir de cerca cómo estás aplicando el método.
-        </p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════ FAQ ═══════════════ -->
+<!-- ═══════════ 05 · CÓMO TRABAJAMOS ═══════════ -->
 <section>
-  <div class="wrap narrow">
-    <span class="eyebrow">Antes de aplicar</span>
-    <h2 class="section-title">Lo que suelen preguntarme.</h2>
+  <div class="read">
+    <span class="eyebrow">Cómo trabajamos</span>
+    <h2>Lo técnico, a tu ritmo. <em>La práctica, conmigo.</em></h2>
+    <p>Así cada hora en vivo se usa para hablar, no para escuchar teoría.</p>
+    <ul class="ways">
+      <li><strong>Labs en vivo conmigo.</strong> Dos por semana, de 90 minutos, con máximo 8 profesionales de tu nivel. Traes tu reunión, tu presentación o tu entrevista, la dices, detectamos qué pasó y haces el segundo intento.</li>
+      <li><strong>Programa grabado.</strong> Gramática, vocabulario y pronunciación aplicados al trabajo, para que llegues al lab con lo técnico visto.</li>
+      <li><strong>Cuatro coaches de IA</strong> (Role Play, Narrative Flow, Color Method y Flor English Coach) para practicar entre labs con tu propio material. Se quedan contigo cuando termina el programa.</li>
+      <li><strong>Weekly Report</strong> cada lunes, con mi feedback por escrito.</li>
+      <li><strong>Check-in 1:1 mensual</strong> conmigo, a solas, para revisar tu avance y ajustar tu foco.</li>
+      <li><strong>Comunidad en WhatsApp</strong> de lunes a viernes, en horario laboral.</li>
+    </ul>
 
-    <div class="faq">
-      <details>
-        <summary>¿Cuánto tiempo necesito por semana?</summary>
-        <div class="answer">
-          <p>Los labs (hasta 3 horas por semana si vas a los dos) y, como referencia, unas tres prácticas de alrededor de 40 minutos con tus coaches. Más tu Weekly Report de los lunes.</p>
-          <p>El método se apoya en la repetición corta y sostenida, no en sesiones largas y espaciadas.</p>
-        </div>
-      </details>
-
-      <details>
-        <summary>¿En qué se diferencia de una profesora particular de inglés?</summary>
-        <div class="answer">
-          <p>Una clase particular adapta el contenido a ti: llegas, se trabaja lo que surja ese día, te corrigen. Eso está bien, y aquí también pasa — pero es el piso, no la diferencia.</p>
-          <p>La diferencia es que hay un sistema completo detrás: un road map con un orden pensado, una metodología —el Delivery Method™— para convertir tu trabajo real en entrenamiento, cuatro herramientas y cuatro coaches de IA, bibliotecas de práctica, labs en vivo para practicar con tu material, y un weekly report donde yo veo cómo vas cada semana.</p>
-          <p>En cada momento sabes en qué etapa estás, qué viene después y para qué sirve. Y cuando el programa termina, ese sistema de entrenamiento sigue siendo tuyo.</p>
-        </div>
-      </details>
-
-      <details>
-        <summary>Es grupal: ¿voy a tener atención personalizada?</summary>
-        <div class="answer">
-          <p>Sí. En los labs trabajas con tus propias situaciones de trabajo y recibes feedback sobre lo que produces, en grupos de máximo 8 profesionales de tu nivel. Además tienes tu check-in 1:1 mensual y mi feedback escrito sobre tu Weekly Report.</p>
-          <p>El recorrido está estructurado. La práctica es en grupo. La intervención es personalizada.</p>
-        </div>
-      </details>
-
-      <details>
-        <summary>¿Y si no estoy segura de tener nivel B1–B2?</summary>
-        <div class="answer">
-          <p>Lo vemos en nuestra charla antes de que pagues nada, para que tu grupo sea de un nivel parecido al tuyo. Yo no evalúo por tu puesto ni por lo que creas de tu inglés: evalúo tu producción real.</p>
-          <p>El rango tiene dos bordes y te digo la verdad en los dos. Si estás por debajo, arrancar sin la base te frustraría: el programa exige producir desde el primer día.</p>
-          <p>Y si estás por encima —tu inglés ya fluye y solo necesitas pulir— tampoco es para ti. Está construido sobre lo que se traba una y otra vez en B1–B2, así que te aburrirías.</p>
-        </div>
-      </details>
-
-      <details>
-        <summary>¿Trabajamos gramática y pronunciación, o solo conversación?</summary>
-        <div class="answer">
-          <p>Se trabajan las dos, y también listening y vocabulario. Hay un módulo entero dedicado a los patrones del idioma que están interfiriendo con tu claridad, y otro a comprensión del inglés hablado real y pronunciación.</p>
-          <p>Lo que no hacemos es recorrer un temario completo por si acaso. Trabajamos lo que aparece en tus reuniones y en tus mails, que es lo que te está frenando hoy.</p>
-        </div>
-      </details>
-
-      <details>
-        <summary>¿Qué pasa si no puedo ir a un lab?</summary>
-        <div class="answer">
-          <p>No pasa nada: vienes al lab siguiente y te comparto la guía de ese lab para que hagas la práctica igual. Si hace falta, también puede quedar grabado.</p>
-          <p>Y si aparece un viaje de trabajo o una temporada imposible, se conversa y se pausa: prefiero eso a que pagues un mes que no vas a poder aprovechar.</p>
-        </div>
-      </details>
-
-      <details>
-        <summary>¿Me sirve si estoy preparando una entrevista en inglés?</summary>
-        <div class="answer">
-          <p>Sí. Entrenamos con tu experiencia, tu CV y el puesto al que aplicas, y tienes incluido Interview Me, mi programa de preparación de entrevistas.</p>
-        </div>
-      </details>
-
-      <details>
-        <summary>¿Qué pasa cuando terminan los cinco meses?</summary>
-        <div class="answer">
-          <p>Te quedas con tus cuatro coaches de IA y con tu propio Delivery Method™ para seguir entrenando sola: funcionan en Claude, con tu propia cuenta, y ya están configurados con tu contexto. El programa grabado y las bibliotecas están disponibles durante los cinco meses.</p>
-          <p>Si quieres seguir puliendo, puedes renovar por cinco meses más, como hacen muchas alumnas.</p>
-        </div>
-      </details>
-
-      <details>
-        <summary>¿Voy a dejar de cometer errores?</summary>
-        <div class="answer">
-          <p>No. Y si alguien te promete eso, desconfía.</p>
-          <p>Lo que sí va a pasar es que vas a producir con más consistencia como la profesional que ya eres: con errores que no te frenan, en vez de errores que te dejan en silencio.</p>
-        </div>
-      </details>
-
-      <details>
-        <summary>¿Trabajas mi acento?</summary>
-        <div class="answer">
-          <p>Trabajo tu inteligibilidad, que no es lo mismo. El objetivo es que te entiendan sin esfuerzo y que tú entiendas el inglés real, con su habla conectada.</p>
-          <p>Tu acento no es el problema. Nunca lo fue.</p>
-        </div>
-      </details>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════ CIERRE ═══════════════ -->
-<section class="band-sand closing">
-  <div class="wrap narrow">
-    <h2>Tu próxima reunión puede ser <em>distinta.</em></h2>
-    <p class="lede">
-      No hace falta esperar cinco meses para empezar: desde la primera semana
-      practicas sobre la reunión que tienes de verdad esta semana.
-    </p>
-    <a class="btn btn-primary" href="#ingresar">Quiero ingresar al programa →</a>
-  </div>
-</section>
-
-<!-- ═══════════════ CÓMO ENTRAR ═══════════════ -->
-<section class="band-ink" id="ingresar">
-  <div class="wrap">
-    <span class="eyebrow">Cómo entrar</span>
-    <h2 class="section-title">Escribe READY<br>por DM.</h2>
-    <p class="lede">
-      El primer grupo arranca el viernes 27 de noviembre (o el sábado 28, según tu
-      lab). 8 lugares por lab: cuando un lab llega a 8, se cierra. Pausa de fiestas
-      del 21 de diciembre al 6 de enero.
-    </p>
-
-    <ol class="steps">
-      <li><strong>READY</strong> Me escribes READY por DM en Instagram.</li>
-      <li><strong>Conversación corta</strong> Me cuentas tu situación de trabajo y vemos si AT WORK es para ti.</li>
-      <li><strong>Audio o llamada de 10 minutos</strong> Confirmamos tu nivel y el lab que te queda mejor.</li>
-      <li><strong>Tu propuesta</strong> Te mando tu propuesta con el link de pago para reservar tu lugar.</li>
-    </ol>
-
-    <div class="ctarow">
-      <a class="btn btn-primary" href="https://ig.me/m/ysi_speakenglish" target="_blank" rel="noopener noreferrer">Escribe READY por DM →</a>
-    </div>
-
-    <!-- Precio fuera de la landing: va en la propuesta, después del valor (Game Plan con Ann).
-         Para volver a mostrarlo: USD 250/mes durante 5 meses (USD 1.250), Stripe
-         https://buy.stripe.com/5kQ7sMec97gB4Rj8ki8k81l -->
-
-    <div class="incl">
-      <h3>Horarios de los Working Labs · B1–B2 en adelante</h3>
+    <h3 class="sub">Horarios de los labs</h3>
+    <div class="scroll-x">
       <table class="labs-table">
         <thead><tr><th>Lab</th><th>Argentina</th><th>México (CDMX)</th><th>Colombia</th></tr></thead>
         <tbody>
@@ -1333,72 +507,153 @@
           <tr><td>Sábado</td><td>15:30 a 17:00</td><td>12:30 a 14:00</td><td>13:30 a 15:00</td></tr>
         </tbody>
       </table>
-      <p class="seats">Vas a los dos labs o al que te quede mejor. Desde el 27 de noviembre.</p>
     </div>
+    <p class="soft" style="margin-top:14px;font-size:15.5px">Vas a los dos labs o al que te quede mejor. Si un día no puedes, vas al lab siguiente y recibes la guía de ese lab para hacer la práctica igual.</p>
+    <p class="placa">Máximo 8 por lab, porque todas tienen que poder hablar y recibir feedback sobre su propio material. Cuando un lab se llena, se cierra.</p>
 
-    <div class="incl">
-      <h3>Los cinco meses incluyen</h3>
-      <ul class="includes">
-        <li><strong>Dos Working Labs por semana conmigo</strong> <span>— 90 minutos, máximo 8 profesionales de tu nivel: produces sobre tu situación real, recibes feedback y haces el segundo intento.</span></li>
-        <li><strong>Un check-in 1:1 por mes</strong> <span>— de 30 a 45 minutos, para revisar tu avance y ajustar tu foco.</span></li>
-        <li><strong>El Delivery Method™</strong> <span>— el sistema para convertir tus reuniones, presentaciones y conversaciones reales en material de entrenamiento.</span></li>
-        <li><strong>Cuatro coaches de IA</strong> <span>— Role Play, Narrative Flow, Color Method y Flor English Coach, en una sola página de práctica y configurados con tu contexto.</span></li>
-        <li><strong>Las herramientas del método</strong> <span>— Narrative Flow™, Color Method™, Role Play Method™ y Message Map™.</span></li>
-        <li><strong>Programa grabado</strong> <span>— Onboarding (Lead Yourself First), The Delivery Method™ y 5 módulos: Activate Your English, Communicate in Real Time, Polish Your English, Understand &amp; Be Understood y Own Your Voice.</span></li>
-        <li><strong>Tu Starting Point</strong> <span>— y la comparación al cierre: tu avance, medido.</span></li>
-        <li><strong>Workplace Practice Library</strong> <span>— guías de situaciones reales de trabajo, con vocabulario, expresiones y role play.</span></li>
-        <li><strong>Precision Library</strong> <span>— para cuando te trabas con algo puntual, en el momento en que lo necesitas.</span></li>
-        <li><strong>Listening &amp; Pronunciation Practice Library</strong> <span>— para entrenar el inglés hablado real y tu inteligibilidad.</span></li>
-        <li><strong>Weekly Report cada lunes</strong> <span>— tu registro de la semana, con mi feedback por escrito.</span></li>
-        <li><strong>Interview Me</strong> <span>— incluido, para cuando preparas una entrevista en inglés.</span></li>
-        <li><strong>Comunidad en WhatsApp</strong> <span>— de lunes a viernes, en horario laboral.</span></li>
-      </ul>
-      <p class="seats">
-        Tus coaches de IA se quedan contigo: funcionan en Claude, así que puedes seguir
-        entrenando cuando el programa termina.
-      </p>
+    <h3 class="sub">Tu recorrido en 5 meses</h3>
+    <ol class="path">
+      <li><strong>Tu punto de partida.</strong> Grabas tu Starting Point y hacemos tu primer diagnóstico: qué se rompe en tu QUÉ, tu CÓMO y tu QUIÉN.</li>
+      <li><strong>Activa el inglés que ya sabes.</strong> Conviertes tus situaciones reales de trabajo en práctica, con tus coaches y las herramientas del método.</li>
+      <li><strong>Entrena solo lo que se rompe en tu caso.</strong> Ordenar el mensaje en tiempo real, pulir los patrones que te frenan, entender y hacerte entender, o hablar sin esperar a estar «lista».</li>
+      <li><strong>Cierre y autonomía.</strong> Comparas tu producción con tu Starting Point y te llevas tu plan para seguir entrenando sola.</li>
+    </ol>
+  </div>
+</section>
+
+<!-- ═══════════ 06 · PARA QUIÉN ES ═══════════ -->
+<section class="band-sand">
+  <div class="read">
+    <h2>¿Es para ti?</h2>
+    <div class="fit">
+      <div>
+        <h3>Es para ti si…</h3>
+        <ul>
+          <li>ya trabajas en inglés o te preparas para tu próximo paso profesional en inglés;</li>
+          <li>entiendes casi todo, pero al hablar traduces, tardas o simplificas lo que querías decir;</li>
+          <li>empezaste un rol nuevo, te viene un ascenso o te toca liderar reuniones;</li>
+          <li>ya probaste academias o conversación y sentiste que fue más de lo mismo;</li>
+          <li>quieres un método y estás dispuesta a practicar con tu propio material.</li>
+        </ul>
+      </div>
+      <div class="no">
+        <h3>No es para ti si…</h3>
+        <ul>
+          <li>empiezas desde cero o necesitas las bases del idioma;</li>
+          <li>quieres preparar un examen internacional o buscas inglés general;</li>
+          <li>esperas memorizar respuestas para repetirlas;</li>
+          <li>quieres que alguien haga el proceso por ti;</li>
+          <li>necesitas hablar perfecto antes de animarte a hablar;</li>
+          <li>no puedes asistir a ninguno de los dos labs de la semana.</li>
+        </ul>
+      </div>
     </div>
   </div>
 </section>
 
-<footer>
-  <div class="wrap foot">
-    <div>
-      <img class="footlogo" src="img/logo.webp" alt="Breaking Barriers at Work" width="705" height="287">
-      <div style="margin-top:6px">Professional English for leadership, clarity and presence.</div>
-    </div>
-    <div style="text-align:right">
-      <div><a href="mailto:florenciapersico@breakingbarriers.site">florenciapersico@breakingbarriers.site</a></div>
-      <div style="margin-top:6px"><a href="terminos/">Términos del programa</a> · © 2026 Flor Pérsico</div>
+<!-- ═══════════ 07 · SOBRE FLOR ═══════════ -->
+<section>
+  <div class="wrap" style="max-width:960px">
+    <div class="bio">
+      <img src="img/flor-cafe.webp" alt="Flor Pérsico" width="410" height="566" loading="lazy">
+      <div>
+        <span class="eyebrow">Por qué sé lo que te pasa</span>
+        <h2>Yo también <em>lo viví</em>.</h2>
+        <p>Soy Flor, traductora y English coach. Aprendí inglés de chica y me convertí en «la que sabe inglés»: a los quince, en Madrid, el colegio abrió un curso de Proficiency solo para mí.</p>
+        <p>Y a los veintiún años, viviendo en Londres, no me animé a ir a una entrevista para trabajar de camarera. Sentía que no iba a entender. Tenía el conocimiento, pero nunca lo había entrenado para aparecer bajo presión.</p>
+        <p class="placa">No era solo el inglés: era mi relación con el inglés. De ahí nació Breaking Barriers.</p>
+        <p class="cred">Traductora pública y profesora con más de 18 años de experiencia, con formación en liderazgo ejecutivo y neurociencias. Mis alumnas trabajan en operaciones, finanzas, RR. HH., compliance, IT, banca, tecnología y consultoría, en Latinoamérica, España y Estados Unidos.</p>
+      </div>
     </div>
   </div>
-</footer>
+</section>
 
+<!-- ═══════════ 08 · SIGUIENTE PASO ═══════════ -->
+<section class="band-ink" id="entrar">
+  <div class="read">
+    <h2>¿Te viste <em>en esta página</em>?</h2>
+    <p>Si mientras leías pensaste «esto me pasa a mí», escríbeme <strong>READY</strong> por mensaje directo en Instagram.</p>
+    <ol class="route">
+      <li>Me escribes READY a <strong>@ysi_speakenglish</strong>.</li>
+      <li>Te hago unas preguntas cortas: tu rol, cómo usas el inglés hoy y qué es lo que más te está costando.</li>
+      <li>Si veo que realmente te puedo ayudar, te mando tu propuesta con todo lo que necesitas para decidir.</li>
+      <li>Reservas tu lugar en el lab que te quede mejor.</li>
+    </ol>
+    <div class="cta">
+      <a class="btn" href="https://ig.me/m/ysi_speakenglish" target="_blank" rel="noopener noreferrer">Escríbeme READY por Instagram →</a>
+      <p class="note">Sin compromiso. Y si veo que AT WORK no es lo que necesitas, te lo voy a decir.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ 09 · PREGUNTAS FRECUENTES ═══════════ -->
+<section class="band-sand">
+  <div class="read">
+    <h2>Lo que suelen preguntarme</h2>
+    <div class="faq">
+      <details>
+        <summary>¿Cómo sé si tengo el nivel?</summary>
+        <div class="answer">Si entiendes casi todo en tus reuniones, pero te cuesta hablar en el momento, probablemente sí. Lo confirmamos en nuestra charla antes de que entres, para que tu grupo sea de un nivel parecido al tuyo.</div>
+      </details>
+      <details>
+        <summary>Es grupal: ¿voy a tener atención personalizada?</summary>
+        <div class="answer">Sí. En los labs trabajas con tus propias situaciones de trabajo y recibes feedback sobre lo que produces tú. Además tienes tu check-in 1:1 mensual conmigo y mi feedback escrito sobre tu Weekly Report.</div>
+      </details>
+      <details>
+        <summary>¿Cuánto tiempo le tengo que dedicar?</summary>
+        <div class="answer">Los labs (hasta 3 horas por semana si vas a los dos) y, como referencia, unas tres prácticas de alrededor de 40 minutos por semana con tus coaches, en bloques cortos. Más el Weekly Report de los lunes.</div>
+      </details>
+      <details>
+        <summary>¿Y si no puedo ir a un lab?</summary>
+        <div class="answer">No pasa nada. Vas al lab siguiente y te comparto la guía de ese lab para que hagas la práctica igual. Si hace falta, también puede quedar grabado.</div>
+      </details>
+      <details>
+        <summary>¿Se trabaja gramática y pronunciación?</summary>
+        <div class="answer">Sí, cuando afectan tu comunicación. La gramática está en el programa grabado y se trabaja solo lo que se rompe en tu caso. La pronunciación apunta a que te entiendan con claridad, no a borrar tu acento: clear, not native.</div>
+      </details>
+      <details>
+        <summary>¿Me sirve si estoy preparando una entrevista en inglés?</summary>
+        <div class="answer">Sí. Entrenamos con tu experiencia, tu CV y el puesto al que aplicas, y tienes incluido Interview Me, mi programa de preparación de entrevistas.</div>
+      </details>
+      <details>
+        <summary>¿Cuánto cuesta?</summary>
+        <div class="answer">Te lo cuento en tu propuesta, después de conocer tu caso, para que tengas todo junto: qué vamos a trabajar, cómo y la inversión. El primer grupo tiene precio de fundadoras.</div>
+      </details>
+      <details>
+        <summary>¿Qué pasa cuando terminan los 5 meses?</summary>
+        <div class="answer">Te quedas con tus coaches de IA y con tu propio Delivery Method™ para seguir entrenando sola. Si quieres seguir puliendo, puedes renovar por 5 meses más, como hacen muchas alumnas.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ 10 · CIERRE ═══════════ -->
+<section class="band-ink closing">
+  <div class="read">
+    <p class="placa">Quizás no te falta otro año de inglés. Te falta entrenar el inglés que ya tienes, en las situaciones donde realmente importa.</p>
+    <div class="cta center">
+      <a class="btn" href="https://ig.me/m/ysi_speakenglish" target="_blank" rel="noopener noreferrer">Escríbeme READY por Instagram →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ 11 · PIE DE PÁGINA ═══════════ -->
+<footer>
+  <div class="wrap foot">
+    <div>Breaking Barriers · AT WORK — Professional English for leadership, clarity and presence.</div>
+    <div><a href="mailto:florenciapersico@breakingbarriers.site">florenciapersico@breakingbarriers.site</a> · <a href="terminos/">Términos y condiciones</a> · © 2026 Flor Pérsico</div>
+  </div>
+</footer>
 
 <script>
 (function () {
   'use strict';
-
-  // El visor de artifacts inyecta un <base href>, y con eso un href="#aplicar"
-  // resuelve contra la base en vez de contra la página: el navegador intenta
-  // irse a otra URL en lugar de bajar hasta la sección. Movemos el scroll a
-  // mano, así el botón funciona tanto aquí como en el sitio propio.
-  var smooth = !window.matchMedia || !matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  document.addEventListener('click', function (e) {
-    var a = e.target.closest ? e.target.closest('a[href]') : null;
-    if (!a) return;
-    var raw = a.getAttribute('href') || '';
-    if (raw.charAt(0) !== '#' || raw.length < 2) return;
-    var target = document.getElementById(raw.slice(1));
-    if (!target) return;
-    e.preventDefault();
-    target.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'start' });
-    // Que el teclado siga la lectura donde quedó la vista.
-    target.setAttribute('tabindex', '-1');
-    target.focus({ preventScroll: true });
-  });
-
+  // El VSL reemplaza la foto del inicio solo cuando tiene un ID de video real.
+  var vsl = document.getElementById('vsl');
+  var src = vsl && vsl.getAttribute('data-video');
+  if (src && src.indexOf('VIDEO_ID') === -1) {
+    vsl.innerHTML = '<div class="frame"><iframe src="' + src + '" title="Muestra en inglés a la profesional que ya eres · Flor Pérsico" allowfullscreen allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin"></iframe></div>';
+  }
 })();
 </script>
 </body>
