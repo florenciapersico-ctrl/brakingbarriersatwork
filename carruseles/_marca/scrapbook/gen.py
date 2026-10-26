@@ -36,6 +36,12 @@ CSS='''
 .ptext{position:absolute;z-index:6;left:80px;right:80px;bottom:100px;color:var(--ink)}
 .ptext .x{text-shadow:none}.ptext .x i{color:var(--terra)}.ptext .t{text-shadow:none}
 .arrow{position:absolute;z-index:6}
+.half{position:absolute;left:0;right:0;height:715px;overflow:hidden}.half.a{top:0}.half.b{bottom:0}
+.half .bg{inset:0}.half.a .bg:after,.half.b .bg:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 45%,rgba(0,0,0,.55) 100%)}
+.cut{position:absolute;left:0;right:0;top:715px;height:10px;background:var(--cream);z-index:6}
+.lab{position:absolute;left:70px;right:70px;bottom:46px;z-index:6;color:#fff}
+.lab .who{display:inline-block;font:700 24px/1 'Inter',sans-serif;letter-spacing:.24em;text-transform:uppercase;background:var(--cream);color:var(--brown);padding:12px 18px 10px;transform:rotate(-2deg);margin-bottom:14px}
+.lab .say{font:700 76px/1.02 'Caveat',cursive;text-shadow:0 2px 18px rgba(0,0,0,.6)}
 '''
 def esc(s): return s
 parts=[]
@@ -58,6 +64,12 @@ for i,s in enumerate(spec['slides']):
         parts.append(f"<section class='slide grain shade' id='s{i+1}'><div class='bg' style=\"background-image:url({src});background-position:{pos}\"></div>{top}<div class='foot'>{inner}</div></section>")
     elif k=='note':
         parts.append(f"<section class='slide grain' id='s{i+1}'><div class='bg blur' style=\"background-image:url({src});background-position:{pos}\"></div>{top}<div class='note'>{inner}</div></section>")
+    elif k=='split':
+        hs=''
+        for side,c in (('top','a'),('bot','b')):
+            im=s['img_'+side];shutil.copy(im,f"{out}/img/{os.path.basename(im)}")
+            hs+=f"<div class='half {c}'><div class='bg' style=\"background-image:url(img/{os.path.basename(im)});background-position:{s.get('pos_'+side,'center')}\"></div><div class='lab'><span class='who'>{s['who_'+side]}</span><p class='say'>{s['say_'+side]}</p></div></div>"
+        parts.append(f"<section class='slide grain' id='s{i+1}'>{hs}<div class='cut'></div>{top}</section>")
     elif k=='polaroid':
         cap=s.get('cap','')
         parts.append(f"<section class='slide grain paper' id='s{i+1}'>{top}<div class='pola' style='left:{s.get('px',300)}px;top:{s.get('py',150)}px'><div class='ph' style=\"background-image:url({src});background-position:{pos}\"></div><div class='cap'>{cap}</div></div><div class='tape' style='left:{s.get('px',300)+220}px;top:{s.get('py',150)-22}px;transform:rotate(-4deg)'></div><div class='ptext'>{inner}</div></section>")
