@@ -45,6 +45,11 @@ CSS='''
 .wh{font:600 22px/1 'Inter',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#C9A985;margin-bottom:18px}
 .wt{font:400 44px/1.36 'Inter',sans-serif;color:#F2ECE6}
 .wend{font:italic 500 50px/1.3 'Crimson Pro',serif;color:#F7EBDD;margin:6px 0 40px}
+.cvtop{position:absolute;left:90px;right:90px;top:120px;text-align:center}
+.cvt{font:700 92px/1.04 'Crimson Pro',serif;color:#F7EBDD;letter-spacing:-.01em}
+.cvh{display:inline-block;margin-top:30px;background:#F4EADF;color:#3F1E0D;font:italic 600 50px/1.2 'Crimson Pro',serif;padding:16px 34px;border-radius:30px}
+.fan{position:absolute;left:0;right:0;bottom:0;height:760px}
+.fcard{position:absolute;left:190px;width:700px;bottom:110px;background:#23201D;border-radius:26px;padding:30px 36px 34px;text-align:left;box-shadow:0 22px 50px rgba(0,0,0,.4)}
 .wcta{font:700 50px/1.3 'Inter',sans-serif;color:#F7EBDD}
 .dim{position:absolute;inset:0;background:rgba(20,12,6,.52);z-index:2}
 .boldbox{position:absolute;z-index:6;left:90px;right:90px;top:50%;transform:translateY(-50%);text-align:center;color:#FAF4EC}
@@ -102,6 +107,9 @@ for i,s in enumerate(spec['slides']):
     elif k=='win':
         cards=''.join(f"<div class='wcard'><p class='wh'>Weekly report · my wins</p><p class='wt'>{c}</p></div>" for c in s['cards'])
         parts.append(f"<section class='slide winbg' id='s{i+1}'><div class='wbox'><p class='wk'>{s.get('kick','')}</p><p class='wpill'>{s['title']}</p>{cards}</div></section>")
+    elif k=='wincover':
+        fan=''.join(f"<div class='fcard' style='transform:rotate({r}deg) translate({x}px,{y}px)'><p class='wh'>Weekly report · my wins</p><p class='wt'>{c}</p></div>" for c,(r,x,y) in zip(s['cards'],[(-6,-100,-330),(5,110,-170),(-2,0,10)]))
+        parts.append(f"<section class='slide winbg' id='s{i+1}'><div class='cvtop'><p class='wk'>{s.get('kick','')}</p><p class='cvt'>{s['title']}</p><p class='cvh'>{s.get('hand','')}</p></div><div class='fan'>{fan}</div></section>")
     elif k=='winend':
         parts.append(f"<section class='slide winbg' id='s{i+1}'><div class='wbox'><p class='wpill'>{s['title']}</p><p class='wend'>{s.get('text','')}</p><p class='wcta'>{s.get('cta','')}</p></div></section>")
     elif k=='bold':
