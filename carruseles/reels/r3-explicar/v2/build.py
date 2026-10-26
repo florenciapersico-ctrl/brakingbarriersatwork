@@ -6,14 +6,14 @@ B=U+"61eef6ec-39277FA7-6861-4B40-AABA-C6C0E78BF901.mov"
 C=U+"da16f4b5-IMG_5537.mov"
 FON="/home/user/brakingbarriersatwork/.claude/skills/editar-reels/fonts"
 W,H=1080,1920
-segs=[(A,0.0,3.6),(C,2.6,5.9),(B,2.0,5.6),(A,5.0,7.9),(A,7.9,9.9)]
+segs=[(A,2.0,2.8,0.55),(A,2.8,3.6,0.55),(C,0.0,3.3,1),(C,3.3,6.6,1),(C,6.6,8.4,0.6),(A,8.5,9.9,0.55)]
 # text per segment index range: (start,end,text,kind)
-durs=[e-s for _,s,e in segs]; t0=[sum(durs[:i]) for i in range(len(durs))]; T=sum(durs)
-texts=[(0,t0[1],"¿Sabías que explicar tu trabajo cambia por completo entre español e inglés?","hook"),
-(t0[1],t0[2],"En español damos contexto primero… y la idea llega al final.","body"),
-(t0[2],t0[3],"En inglés, quien te escucha espera la idea primero.","body"),
-(t0[3],t0[4],"Si traduces tu orden del español, se pierden antes de que llegues.","body"),
-(t0[4],T,"No te falta inglés. Te falta cambiar el orden.","body")]
+durs=[(e-s)/sp for _,s,e,sp in segs]; t0=[sum(durs[:i]) for i in range(len(durs))]; T=sum(durs)
+texts=[(0,t0[2],"¿Sabías que explicar tu trabajo cambia por completo entre español e inglés?","hook"),
+(t0[2],t0[3],"En español damos contexto primero… y la idea llega al final.","body"),
+(t0[3],t0[4],"En inglés, quien te escucha espera la idea primero.","body"),
+(t0[4],t0[5],"Si traduces tu orden del español, se pierden antes de que llegues.","body"),
+(t0[5],T,"No te falta inglés. Te falta cambiar el orden.","body")]
 def wrap(d,t,f,mw):
     out=[];cur=""
     for w in t.split():
@@ -45,9 +45,9 @@ grade="hqdn3d=1:1:2:2,curves=master='0/0.02 0.25/0.29 0.5/0.56 0.75/0.80 1/1',eq
 ins=[];fc=""
 srcs=[A,B,C]
 for s in srcs: ins+=["-i",s]
-for i,(src,s,e) in enumerate(segs):
+for i,(src,s,e,sp) in enumerate(segs):
     k=srcs.index(src)
-    fc+=f"[{k}:v]trim={s}:{e},setpts=PTS-STARTPTS,scale=1080:1920:force_original_aspect_ratio=increase:flags=lanczos,crop=1080:1920,fps=30,format=yuv420p[s{i}];"
+    fc+=f"[{k}:v]trim={s}:{e},setpts=(PTS-STARTPTS)/{sp},scale=1080:1920:force_original_aspect_ratio=increase:flags=lanczos,crop=1080:1920,fps=30,format=yuv420p[s{i}];"
 fc+="".join(f"[s{i}]" for i in range(len(segs)))+f"concat=n={len(segs)}:v=1[cv];[cv]{grade}[g0];"
 prev="g0"
 for i,(n,a,b) in enumerate(pngs):
