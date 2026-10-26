@@ -116,6 +116,8 @@ Los posts de venta (filas «Invitando») usan primero los wins que todavía no s
 
 ## Tarea 1 · Producción (05:52) · la pieza de MAÑANA
 
+> ⚠️ **APAGADA desde el 26/10.** La reemplaza la rutina semanal `rutinas/semana-carruseles.md` (jueves) y la de wins de los martes. Estos pasos quedan como referencia técnica (Canva, Notion, registro).
+
 1. Preparación:
    ```
    cd /home/user/brakingbarriersatwork 2>/dev/null || git clone https://github.com/florenciapersico-ctrl/brakingbarriersatwork /home/user/brakingbarriersatwork && cd /home/user/brakingbarriersatwork
@@ -195,5 +197,5 @@ Terminá en dos líneas: qué dejaste listo y qué falló.
    - Al pie, el link a la fila de Notion y a CONTENIDO.
 
    No adjuntes archivos: usá los links, que pesan nada.
-3. Si la pieza de hoy NO está lista (no hay callout 🟢), producila en el momento siguiendo la Tarea 1 y mandá el mail apenas esté. Si no llegás, mandá el mail igual diciendo qué falta.
+3. Si hoy no hay pieza lista (o su fila dice «⚪ Esta semana no va»), NO la produzcas en el momento (menos es más, Flor 26/10): si hay algo que subir, mandá solo eso; si no hay nada, no mandes mail.
 4. Respondé solo con el id del mensaje enviado.
