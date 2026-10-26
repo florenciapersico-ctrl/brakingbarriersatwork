@@ -10,11 +10,11 @@ segs=[("IMG:/home/user/brakingbarriersatwork/carruseles/_marca/img/fotos-oct26b/
 # text per segment index range: (start,end,text,kind)
 durs=[(e-s)/sp for _,s,e,sp in segs]; t0=[sum(durs[:i]) for i in range(len(durs))]; T=sum(durs)
 texts=[(0,t0[1],"Deja de ensayar tu presentación en inglés 20 veces","hook"),
-(t0[1],t0[2],"Muchas alumnas llegan a clase con su presentación memorizada.","body"),
-(t0[2],t0[3],"Y su miedo no es el guion. Es: «¿y si me interrumpen?»","body"),
+(t0[1],t0[2],"Te la sabes de memoria… hasta que alguien te interrumpe.","body"),
+(t0[2],t0[3],"Y el guion se cae. Te quedas en blanco.","body"),
 (t0[3],t0[4],"Porque una reunión no es una exposición del colegio. Es una conversación.","body"),
-(t0[4],t0[5],"Así que no ensayamos el discurso. Ensayamos las preguntas que le pueden hacer.","body"),
-(t0[5],T,"«I don't have that figure with me. I'll send it after the meeting.»","body")]
+(t0[4],t0[5],"Por eso no ensayamos el discurso: ensayamos las preguntas que te pueden hacer.","body"),
+(t0[5],T,"Imagínate que te interrumpen… y respondes tranquila. Porque eso también lo ensayaste.","body")]
 def wrap(d,t,f,mw):
     out=[];cur=""
     for w in t.split():
