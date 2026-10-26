@@ -10,9 +10,9 @@ Flor no está mirando cuando corre: no le hagas preguntas. Nunca publiques ni le
 | Día | Pieza | Quién la arma |
 |---|---|---|
 | Lunes | Carrusel personal + creencia (formato LUNES) | esta rutina |
-| Martes | Video: prompter del texto en pantalla o guion | esta rutina (guion); el video lo graba Flor |
+| Martes | Reel A CÁMARA: prompter con criterio de Ann (`.claude/skills/contenido-semanal-at-work/PROMPTER.md`) | esta rutina; Flor graba y después se edita con `editar-reels`. Plan B: B-roll + texto |
 | Miércoles | Carrusel Problema / Brecha (formato MIÉRCOLES) | esta rutina |
-| Jueves | Video: prompter o guion | esta rutina (guion) |
+| Jueves | Reel A CÁMARA: prompter | igual que martes |
 | Viernes | Carrusel de wins | rutina de los martes (necesita los reports del lunes) |
 
 ## Pasos

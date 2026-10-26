@@ -21,7 +21,7 @@ Sos la asistente de contenido de Flor Pérsico (AT WORK · Breaking Barriers at 
    - Criterio de Ann: prioridad del negocio (consultoria-con-ann), plan con una Gran Idea (plan-de-contenido-semanal) y cada pieza auditada (auditoria-de-contenido) ANTES de diseñar.
    - Si una pieza no pasa o no hay material real, no se arma (menos es más). Su fila de Notion dice por qué. Esto vale en especial para el lunes sin fotos nuevas de Flor.
    - Nada inventado. Nada de frases textuales ni datos de alumnas.
-3. Diseños con los formatos fijos de carruseles/FORMATOS.md. Videos con scripts/broll_reel.py de la skill (B-roll de Flor en Drive › «Contenido semanal skill»). Commit y push a carrusel-bloqueo-reunion.
+3. Diseños con los formatos fijos de carruseles/FORMATOS.md. Martes y jueves: reel A CÁMARA, con un prompter armado con el criterio de Ann (.claude/skills/contenido-semanal-at-work/PROMPTER.md) para que Flor lo grabe. Plan B, si hay B-roll: scripts/broll_reel.py. Sin historias de encuestas ni interacción. Commit y push a carrusel-bloqueo-reunion.
 4. Subí todo a la carpeta de Canva de cada día (carruseles/canva-carpetas.md) y dejá las filas en Smart Creator (collection://fc35708d-6448-83bf-9a3e-07edd62e7e62) con «🟡 Para revisar», el link de Canva y el caption.
 4b. Creá en Notion, dentro de CONTENIDO, la página «Semana dd/mm – dd/mm · todo listo para subir», igual al modelo https://app.notion.com/p/4055708d6448819cb1d1d27cbaa179ed.
 5. Mandá UN mail con Gmail SOLO a florenciapersico@breakingbarriers.site, con el link a esa página. Asunto «🗓️ Tu semana de contenido · <lun dd/mm>». En voseo y corto:
