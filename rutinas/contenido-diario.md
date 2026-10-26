@@ -46,6 +46,7 @@ Práctica diaria dentro de sus hábitos (hábitos atómicos), olvidarse del resu
 - No usar fotos viejas (las de marca de `_marca/img/foto-*` ni las de octubre 20 ya publicadas): solo fotos nuevas de la carpeta de Drive «Contenido semanal skill».
 - Estilos propios de Flor en Instagram (tipos `bold`, `plain`, `label` en gen.py): mayúsculas amarillas Oswald sobre foto oscura, placa marrón lisa con foto opacada de fondo, etiqueta marrón redondeada sobre foto con banda arriba.
 - Contraste entre días: dos días seguidos nunca con el mismo estilo ni las mismas fotos. Estilos: `ig` (foto completa + recuadros blancos), `mag` (foto arriba + panel papel con serif), scrapbook. Rotar y no repetir fotos de la semana.
+- Nunca una frase textual de una alumna, ni siquiera sin nombre (hook o comillas): usar expresiones comunes («me quedé en blanco»). Pedido de Flor 26/10.
 - Las alumnas no se tienen que sentir expuestas: nada de escenas puntuales, citas textuales, cargos ni números de una alumna. Contar el patrón («lo veo muchísimo en alumnas que…»).
 - Texto estilo Instagram/Ann cuando haga falta claridad: letra sans negra sobre recuadro blanco redondeado (`"theme":"ig"` en gen.py).
 - Sin numeración de placas (01/08) ni «AT WORK» arriba, ni «desliza →»: se ve hecho por IA.
