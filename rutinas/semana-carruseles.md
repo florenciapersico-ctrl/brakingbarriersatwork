@@ -17,6 +17,7 @@ Flor no está mirando cuando corre: no le hagas preguntas. Nunca publiques ni le
 
 ## Pasos
 1. `cd /home/user/brakingbarriersatwork && git fetch origin carrusel-bloqueo-reunion && git checkout carrusel-bloqueo-reunion && git pull origin carrusel-bloqueo-reunion`. Leé `carruseles/FORMATOS.md` y `rutinas/contenido-diario.md`.
+1b. Seguí la skill `.claude/skills/contenido-semanal-at-work/SKILL.md` (criterio, formatos, videos con `scripts/broll_reel.py`). Antes del plan, mirá la prioridad del negocio con `consultoria-con-ann`.
 2. **Insumos reales, nunca inventados.** Juntá:
    - Banco de hooks de outliers: https://app.notion.com/p/4005708d64488114a5b6c99a484449aa (sin los de «Usados» ni los de los últimos 21 días).
    - Banco de momentos de clase: https://app.notion.com/p/3f15708d644881b2a8fec24504b005b0 y las notas de clase de los últimos 7 días (solo patrones, nunca escenas ni frases de una alumna).
