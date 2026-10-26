@@ -47,6 +47,7 @@ Sábado, solo si hay algo real y significativo.
 - Empaquetar: `LISTO-PARA-SUBIR/` (PNG + caption.txt) y `AT-WORK_<fecha>_LISTO.zip`. Commit y push a `carrusel-bloqueo-reunion`.
 
 ## Paso 3 · Videos
+- **No siempre B-roll (Flor 26/10).** Algunas semanas, un video tiene que ser a cámara: se entrega un **prompter** bueno para que Flor lo grabe con su cara (hook de 0 a 3 s, frases cortas para decir con sus palabras, una idea por línea, CTA), y después se edita con `editar-reels`.
 - **B-roll de Flor + texto en pantalla:** `python3 .claude/skills/contenido-semanal-at-work/scripts/broll_reel.py spec.json`, dentro de `carruseles/reels/rN-<slug>/`. El spec lleva clips, segmentos (inicio, fin, velocidad), un texto por segmento (el primero es el hook) y la placa final.
   - Unos 3,5 s por placa para que se lea.
   - Tomas sin otras personas. Nunca la misma toma que el video anterior.
@@ -68,7 +69,8 @@ Sábado, solo si hay algo real y significativo.
   - la Gran Idea;
   - una tabla día → pieza → Canva → fila;
   - por cada día: links de Canva y descarga, la vista general (imagen sola, con línea en blanco antes y después) y el caption en un bloque de código;
-  - las historias de cada día y lo que tiene que hacer Flor.
+  - lo que tiene que hacer Flor.
+- **Historias:** NO van encuestas, cajas de preguntas, sliders ni historias de interacción (Ann no las recomienda). Hasta que exista la skill de historias, no se proponen.
   La rutina del jueves la crea con lunes a jueves; la de wins del martes le agrega el viernes. Es lo único que Flor tiene que abrir.
 - **Aviso a Flor:** uno solo, con el link a la página de la semana, con qué quedó listo, qué no va y qué necesita mandar (fotos, B-roll, dos líneas de su semana).
 
