@@ -39,6 +39,12 @@ Flor no está mirando cuando corren: no le hagas preguntas en el chat. Lo que ne
 - **Marketing de deseo, no de dolor:** mostrar la profesional que ella quiere ser, sin recordarle lo que hace mal.
 - **Performance a los 7 días:** se mide por DMs calificados, no por likes.
 
+## Estructura fija de la semana (Flor, 26/10)
+- **Lunes, miércoles y viernes: carrusel.**
+- **Viernes: siempre el carrusel de resultados (wins)** con capturas del grupo de WhatsApp. Estilo fijo: marrón caramelo con pastillas crema y capturas (`carruseles/serie-eterna-alumna/c-wins`). Nombres y fotos de perfil desenfocados. CTA: READY.
+- **Martes y jueves: video.** Flor manda B-roll y se edita con texto en pantalla (prompter escrito) para su voz en off, o un video a cámara que se edita con su estilo (skill `editar-reels`).
+- Los carruseles que no entran quedan como RESERVA en Smart Creator, sin fecha.
+
 ## Filosofía de Flor (26/10) · lo más importante
 Práctica diaria dentro de sus hábitos (hábitos atómicos), olvidarse del resultado y disfrutar el proceso: así vive Flor todo, y así quiere que sus alumnas vivan el inglés. Es una creencia de marca: usarla como Gran Idea en las próximas semanas y como cierre de las piezas personales.
 
