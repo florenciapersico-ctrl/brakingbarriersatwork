@@ -17,13 +17,13 @@ Una Gran Idea por semana: los tres carruseles la cuentan desde ángulos distinto
 - **CTA:** palabra clave con recurso por DM (PAUSA, NÚMEROS, PREGUNTAS…).
 - **Modelo:** `diario/2026-10-27-no-estaba-lista` (miércoles 28/10).
 
-## VIERNES · Resultados que ella podría lograr (wins reales de WhatsApp)
-- **Qué cuenta:** los wins de la semana como SU futuro. Prueba = capturas REALES del grupo de WhatsApp (nunca recreadas ni inventadas a partir de otro texto). Prioridad: logros concretos (ascenso, trabajo nuevo, entrevista que salió bien, viaje o reunión de trabajo en inglés, presentación); después confianza y hábitos. Solo capturas de ESA semana. Nombre y foto de perfil siempre desenfocados o recortados; nada personal ni confidencial.
-- **Respaldo automático:** si no hay capturas de WhatsApp, captura REAL de la sección 01 del Weekly Report (export PDF → recorte, nombre fuera, partes personales desenfocadas), placa `wachat` con `"source":"report"` (fondo crema, sin dibujitos de WhatsApp) y kick «Lo escribió una alumna en su weekly report». Modelo: `diario/_demo-wins-report`.
-- **Fuente:** Flor sube las capturas los lunes a Drive › «Contenido semanal skill» › «Wins de WhatsApp (capturas para el viernes)» (id 1zDpNW4TfpySW9PTCcv0AtpubwHyknrMp). Los Weekly Reports sirven para detectar wins y pedirle a Flor esa captura (o que la alumna lo comparta en el grupo), no como captura.
-- **Estructura:** portada `futtitle` (fondo crema y letras: «Imagina que pudieras *sentirte así* en inglés», «(desliza)»; no adelanta los wins: genera curiosidad) → 4 a 6 placas `wachat` (fondo tipo WhatsApp, tarjeta con kick «Lo escribió una alumna en el grupo» + título en segunda persona que nombra el deseo, captura real, línea itálica que la proyecta) → cierre `futend` («¿Cuál de estos quieres sentir *tú*?» + READY).
-- **Diseño:** crema #F3EDE4 y verde salvia #6E8B63 en portada y cierre; placas con fondo de WhatsApp claro con dibujitos. Nada de marrón.
+## VIERNES · Resultados que ella podría lograr (wins reales)
+- **Qué cuenta:** los wins de la semana como SU futuro. La prueba siempre es una captura REAL, nunca recreada ni inventada a partir de otro texto. Prioridad: logros concretos (ascenso, trabajo nuevo, entrevista que salió bien, viaje o reunión de trabajo en inglés, presentación); después confianza y hábitos. Solo material de ESA semana, sin repetir (ver `wins/wins.md`).
+- **Fuente por defecto (acordado con Flor 26/10):** captura REAL de la sección «01 MY WINS FROM LAST WEEK» del Weekly Report. Export PDF → `pdftoppm -r 200` → recorte de encabezado + sección 01 (sin nombre ni fecha) → desenfocar todo lo personal (pareja, salud, visas, viajes personales, redes, LinkedIn/búsqueda laboral, otras academias, empresa o jefes). Si el texto está en gris claro, se oscurece solo el color (no se toca el contenido). Placa `wachat` con `"source":"report"` (fondo crema) y kick «Lo escribió una alumna en su weekly report».
+- **Prioridad si existen:** capturas del grupo de WhatsApp que Flor sube a Drive › «Contenido semanal skill» › «Wins de WhatsApp (capturas para el viernes)» (id 1zDpNW4TfpySW9PTCcv0AtpubwHyknrMp). Placa `wachat` sin `source` (fondo WhatsApp) y kick «Lo escribió una alumna en el grupo». Nombre y foto de perfil desenfocados o recortados.
+- **Estructura:** portada `futtitle` («Imagina que pudieras *sentirte así* en inglés», «(desliza)»; no adelanta los wins) → 4 a 6 placas `wachat` (título en segunda persona que nombra el deseo, captura real grande y legible, una por placa, línea itálica que la proyecta) → cierre `futend` («¿Cuál de estos quieres sentir *tú*?» + READY).
+- **Diseño:** crema #F3EDE4 y verde salvia #6E8B63. Nada de marrón (salvo el que trae la captura del report).
 - **Marketing de deseo (Ann):** cada título le habla a ELLA; la captura es la prueba; la línea itálica toca lo que hoy le pasa.
 - **CTA:** «¿Cuál de estos quieres sentir tú?» en comentarios + READY.
-- **Cuándo se arma:** martes a la mañana, con aprobación de Flor. Si no hay capturas nuevas, avisarle (no se recrean).
-- **Modelo de formato:** `diario/_demo-wins-whatsapp` (demo con capturas ya publicadas el 17/10; no se publica).
+- **Cuándo se arma:** martes a la mañana, con aprobación de Flor.
+- **Modelos:** `diario/2026-10-30-wins` (formato reports) y `diario/_demo-wins-whatsapp` (formato WhatsApp; no se publica).

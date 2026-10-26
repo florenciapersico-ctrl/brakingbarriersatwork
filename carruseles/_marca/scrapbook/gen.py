@@ -68,6 +68,7 @@ CSS='''
 .wahead .fk{margin-bottom:18px}
 .wastack{position:absolute;left:60px;right:60px;top:470px;bottom:200px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px}
 .wshot{display:block;max-width:860px;width:auto;height:auto;min-width:560px;object-fit:contain;border-radius:18px;box-shadow:0 18px 40px rgba(0,0,0,.22)}
+.wastack.wide .wshot{max-width:980px;min-width:0;border-radius:12px}
 .wabg .fnote{bottom:90px;color:#4F6B45}
 .futbg{background:#F5F0E9}
 .fut{position:absolute;left:96px;right:96px;top:120px}
@@ -146,12 +147,13 @@ for i,s in enumerate(spec['slides']):
         parts.append(f"<section class='slide winbg' id='s{i+1}'><div class='wbox'><p class='wk'>{s.get('kick','')}</p><p class='wpill'>{s['title']}</p>{cards}</div></section>")
     elif k=='wachat':
         imgs=''
-        mh=int((770-28*(len(s['shots'])-1))/len(s['shots']))
+        mh=int(((700 if s.get('source')=='report' else 770)-28*(len(s['shots'])-1))/len(s['shots']))
         for im in s['shots']:
             shutil.copy(im,f"{out}/img/{os.path.basename(im)}")
             imgs+=f"<img class='wshot' style='max-height:{mh}px' src='img/{os.path.basename(im)}'>"
         wa_style=" style='background:#F3EDE4'" if s.get('source')=='report' else ''
-        parts.append(f"<section class='slide wabg' id='s{i+1}'{wa_style}><div class='wahead'><p class='fk'>{s.get('kick','')}</p><p class='ft sm'>{s['title']}</p></div><div class='wastack'>{imgs}</div>{('<p class=fnote>'+s['note']+'</p>') if s.get('note') else ''}</section>")
+        wshot_w=' wide' if s.get('source')=='report' else ''
+        parts.append(f"<section class='slide wabg' id='s{i+1}'{wa_style}><div class='wahead'><p class='fk'>{s.get('kick','')}</p><p class='ft sm'>{s['title']}</p></div><div class='wastack{wshot_w}'>{imgs}</div>{('<p class=fnote>'+s['note']+'</p>') if s.get('note') else ''}</section>")
     elif k=='futtitle':
         parts.append(f"<section class='slide' id='s{i+1}' style='background:#F3EDE4'><div class='ftx'><p class='fk'>{s.get('kick','')}</p><p class='ftt'>{s['title']}</p><p class='fts'>{s.get('sub','')}</p></div></section>")
     elif k=='futcover':
