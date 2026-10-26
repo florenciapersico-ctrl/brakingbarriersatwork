@@ -39,6 +39,13 @@ Flor no está mirando cuando corren: no le hagas preguntas en el chat. Lo que ne
 - **Marketing de deseo, no de dolor:** mostrar la profesional que ella quiere ser, sin recordarle lo que hace mal.
 - **Performance a los 7 días:** se mide por DMs calificados, no por likes.
 
+## Reglas visuales de Flor (26/10)
+- La PORTADA siempre lleva a Flor (su cara o ella haciendo algo). Si no hay foto de ella, se edita/recorta una suya; nunca portada sin ella.
+- Cada carrusel lleva al menos 3 o 4 placas con foto y el texto encima. Nada de carruseles todos lisos: parecen hechos con IA.
+- Hooks más llamativos: copiar la estructura exacta de un outlier (referente o propio) y anotarlo en la fila.
+- Pantallas de la compu: difuminar siempre (pueden verse chats, nombres o datos).
+- Alfonso solo aparece con su ok; si no, recortar para que salga solo Flor.
+
 ## Reglas que no se rompen
 
 1. **Nunca publiques nada** en Instagram ni en ningún lado. Flor sube todo ella. Tampoco le escribas a alumnas ni a prospectas, y no borres nada.
