@@ -39,6 +39,9 @@ Flor no está mirando cuando corren: no le hagas preguntas en el chat. Lo que ne
 - **Marketing de deseo, no de dolor:** mostrar la profesional que ella quiere ser, sin recordarle lo que hace mal.
 - **Performance a los 7 días:** se mide por DMs calificados, no por likes.
 
+## Filosofía de Flor (26/10) · lo más importante
+Práctica diaria dentro de sus hábitos (hábitos atómicos), olvidarse del resultado y disfrutar el proceso: así vive Flor todo, y así quiere que sus alumnas vivan el inglés. Es una creencia de marca: usarla como Gran Idea en las próximas semanas y como cierre de las piezas personales.
+
 ## Reglas de Flor (26/10)
 - Las alumnas no se tienen que sentir expuestas: nada de escenas puntuales, citas textuales, cargos ni números de una alumna. Contar el patrón («lo veo muchísimo en alumnas que…»).
 - Texto estilo Instagram/Ann cuando haga falta claridad: letra sans negra sobre recuadro blanco redondeado (`"theme":"ig"` en gen.py).
