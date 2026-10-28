@@ -902,21 +902,18 @@
     </div>
 
     <!--
-      VIDEO REAL: reemplazar el <button class="placeholder"> por el embed.
-      Recomendado Vimeo, Wistia o Bunny Stream: permiten ocultar la barra
-      de progreso y avisan el minuto que va. Después, en el <script> de
-      abajo, pasar VSL.demo a false y llamar a VSL.tick(segundos) desde
-      el evento de tiempo del reproductor.
+      Video servido desde Google Drive (tiene que estar compartido como
+      "cualquier persona con el link: Lector"). Drive no avisa en qué minuto
+      va el video, así que las opciones de pago se muestran desde el inicio.
+      Si se pasa a YouTube/Vimeo/Bunny, poner VSL.revealOnLoad en false y
+      llamar a VSL.tick(segundos) desde el evento de tiempo del reproductor.
     -->
     <div class="player" id="player">
-      <button class="placeholder" id="placeholder" type="button" aria-label="Reproducir el video de ejemplo">
-        <span class="play" aria-hidden="true"></span>
-        <span class="ph-title">Acá va tu VSL</span>
-        <span class="ph-note">Video de ejemplo: al darle play simula el avance y las opciones de pago aparecen cuando el video llega al precio.</span>
-      </button>
-      <div class="demo-bar" id="demo-bar"></div>
+      <iframe src="https://drive.google.com/file/d/11x8_QixjWCWgtkDx2w1-UDyzzxwBzhAD/preview"
+              title="Breaking Barriers at Work: el video"
+              allow="autoplay; fullscreen" allowfullscreen></iframe>
     </div>
-    <p class="sound-hint">🔊 Activa el sonido. Dura unos 14 minutos.</p>
+    <p class="sound-hint">🔊 Activa el sonido. Dura 12 minutos.</p>
 
     <p class="waiting no-js-hide" id="waiting">Las opciones para entrar aparecen al final del video.</p>
 
@@ -1063,7 +1060,8 @@
   // demo: true mientras no haya video real (simula el avance).
   var VSL = {
     revealAt: 11 * 60 + 30,
-    demo: true,
+    demo: false,
+    revealOnLoad: true,    // Drive no informa el minuto: pago visible desde el inicio
     demoSeconds: 8,          // en la demo, cuánto tarda en "llegar" al precio
     storageKey: 'bbatw-vsl-visto'
   };
@@ -1104,7 +1102,7 @@
   root.classList.add('js-vsl');
   var visto = false;
   try { visto = localStorage.getItem(VSL.storageKey) === '1'; } catch (e) {}
-  if (visto) { reveal(); } else if (closing) { closing.style.display = 'none'; }
+  if (visto || VSL.revealOnLoad) { reveal(); } else if (closing) { closing.style.display = 'none'; }
 
   document.querySelectorAll('[data-cta]').forEach(function (a) {
     a.addEventListener('click', function () { track('VSLCheckoutClick', { plan: a.getAttribute('data-cta') }); });
