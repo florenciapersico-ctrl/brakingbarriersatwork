@@ -846,6 +846,16 @@
   .facts-row span { font-size: var(--t-sm); color: var(--on-ink-soft); }
 
   .proof-head { text-align: center; }
+  .caps { columns: 1; column-gap: 22px; margin-top: 40px; }
+  @media (min-width: 640px) { .caps { columns: 2; } }
+  @media (min-width: 980px) { .caps { columns: 3; } }
+  .cap { break-inside: avoid; margin: 0 0 22px; }
+  .cap img {
+    display: block; width: 100%; height: auto;
+    border-radius: 10px; border: 1px solid var(--line);
+    box-shadow: 0 10px 28px rgba(63, 30, 13, .10);
+  }
+  .cap figcaption { margin-top: 10px; font-size: var(--t-sm); color: var(--muted); }
 
   .vsl-closing { text-align: center; }
   .vsl-closing h2 em { color: var(--terracota); font-style: italic; }
@@ -895,43 +905,42 @@
   </div>
 </header>
 
-<!-- ═══════════════ 2 · PRUEBA ═══════════════ -->
+<!-- ═══════════════ 2 · PRUEBA: CAPTURAS REALES ═══════════════ -->
+<!-- Capturas reales de la comunidad y de los weekly reports, con nombres
+     tapados o recortados. Originales: rama carrusel-bloqueo-reunion,
+     carruseles/diario/. -->
 <section id="testimonios">
   <div class="wrap">
     <div class="proof-head">
       <span class="eyebrow">Lo que dicen ellas</span>
-      <h2 class="section-title">Con sus palabras.<br>Sin editar.</h2>
+      <h2 class="section-title">Sus mensajes.<br>Tal cual llegaron.</h2>
     </div>
 
-    <div class="quotes">
-      <article class="quote">
-        <img class="qmark" src="../at-work-pago/img/comillas.webp" alt="" width="111" height="80" loading="lazy">
-        <p>Yo tenía miedo de solo saludar a mi jefe en inglés. Hoy ya hablo, ya digo, ya explico, ya me paro enfrente de una presentación y digo las cosas como las pienso y expreso mi punto de vista.</p>
-        <p>Mi mismo jefe me dice: «Sol, ya empiezas a ser más participativa.»</p>
-        <div class="attr">
-          <span class="name">Sol</span>
-        </div>
-      </article>
-
-      <article class="quote">
-        <img class="qmark" src="../at-work-pago/img/comillas.webp" alt="" width="111" height="80" loading="lazy">
-        <p>No se siente como una clase genérica «para cumplir»: realmente hay un objetivo detrás.</p>
-        <p>Siento que he ganado más confianza. Me has ayudado a entender que sí puedo, que solo tengo que arriesgarme más y hacerlo.</p>
-        <div class="attr">
-          <span class="name">Lina</span>
-          <span class="role">Ingeniera aeronáutica · Colombia</span>
-        </div>
-      </article>
-
-      <article class="quote">
-        <img class="qmark" src="../at-work-pago/img/comillas.webp" alt="" width="111" height="80" loading="lazy">
-        <p>I noticed that since a couple of meetings now he's not asking «what do you mean?» anymore.</p>
-        <p>Ahora estoy desafiando activamente a mis colegas en reuniones para expresar desacuerdo y proponer alternativas. Antes me quedaba callada.</p>
-        <div class="attr">
-          <span class="name">Maribel</span>
-          <span class="role">Procurement Manager · México</span>
-        </div>
-      </article>
+    <div class="caps">
+      <figure class="cap">
+        <img src="img/sol-alemania.webp" alt="Mensaje de Sol en el grupo de WhatsApp: está en Alemania por trabajo, se siente orgullosa, habla más despacio y con más claridad, y ve un progreso significativo." width="900" height="870" loading="lazy">
+        <figcaption>Sol · en Alemania por trabajo</figcaption>
+      </figure>
+      <figure class="cap">
+        <img src="img/virginia-lideres.webp" alt="Mensaje de Virginia: su win profesional fue una reunión de líderes 100% en inglés y súper técnica, y pudo entender todo y seguir el hilo." width="882" height="540" loading="lazy">
+        <figcaption>Virginia · reunión de líderes</figcaption>
+      </figure>
+      <figure class="cap">
+        <img src="img/me-fue-bien.webp" alt="Mensajes de una alumna: me fue bien, me presenté, dije lo del proceso de registro, entendí súper bien, salí motivada de que puedo lograrlo." width="480" height="450" loading="lazy">
+        <figcaption>Alumna de AT WORK · después de presentarse</figcaption>
+      </figure>
+      <figure class="cap">
+        <img src="img/jefa.webp" alt="Mensaje de una alumna: me fue muy bien en la presentación, me felicitó mi jefa." width="520" height="248" loading="lazy">
+        <figcaption>Alumna de AT WORK · después de una presentación</figcaption>
+      </figure>
+      <figure class="cap">
+        <img src="img/win1.webp" alt="Weekly report: quiero reconocer mi mejora en seguridad al hablar; ya no pienso tanto, confío y lo menciono, sobre todo en reuniones importantes." width="900" height="414" loading="lazy">
+        <figcaption>Weekly report de una alumna</figcaption>
+      </figure>
+      <figure class="cap">
+        <img src="img/win2.webp" alt="Weekly report: me siento con mucha más confianza al hablar; si me equivoco no le doy tanta relevancia, sigo adelante." width="900" height="340" loading="lazy">
+        <figcaption>Weekly report de una alumna</figcaption>
+      </figure>
     </div>
   </div>
 </section>
