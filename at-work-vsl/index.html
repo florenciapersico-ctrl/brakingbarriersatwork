@@ -902,16 +902,16 @@
     </div>
 
     <!--
-      Video servido desde Google Drive (tiene que estar compartido como
-      "cualquier persona con el link: Lector"). Drive no avisa en qué minuto
-      va el video, así que las opciones de pago se muestran desde el inicio.
-      Si se pasa a YouTube/Vimeo/Bunny, poner VSL.revealOnLoad en false y
-      llamar a VSL.tick(segundos) desde el evento de tiempo del reproductor.
+      Video en YouTube (cvuYpFZoego). Las opciones de pago se muestran desde
+      el inicio (VSL.revealOnLoad). Para que aparezcan recién en el minuto del
+      precio: usar la IFrame API de YouTube, poner revealOnLoad en false y
+      llamar a VSL.tick(segundos, duración) con player.getCurrentTime().
     -->
     <div class="player" id="player">
-      <iframe src="https://drive.google.com/file/d/11x8_QixjWCWgtkDx2w1-UDyzzxwBzhAD/preview"
-              title="Breaking Barriers at Work: el video"
-              allow="autoplay; fullscreen" allowfullscreen></iframe>
+      <iframe src="https://www.youtube-nocookie.com/embed/cvuYpFZoego?rel=0&amp;modestbranding=1&amp;playsinline=1"
+              title="Cómo mostrar en inglés a la profesional que ya eres (sin más clases)"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
     </div>
     <p class="sound-hint">🔊 Activa el sonido. Dura 12 minutos.</p>
 
@@ -1061,7 +1061,7 @@
   var VSL = {
     revealAt: 11 * 60 + 30,
     demo: false,
-    revealOnLoad: true,    // Drive no informa el minuto: pago visible desde el inicio
+    revealOnLoad: true,    // pago visible desde el inicio
     demoSeconds: 8,          // en la demo, cuánto tarda en "llegar" al precio
     storageKey: 'bbatw-vsl-visto'
   };
