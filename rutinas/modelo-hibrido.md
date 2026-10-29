@@ -9,8 +9,8 @@ Si "Formato" está vacío, no se asume nada: se le pregunta a Flor en el mail de
 | Formato | Quiénes | Encuentros en vivo |
 |---|---|---|
 | `1:1` | Adriana, Alejandra Rossi, Alejandra Santos, Belem (pausada, vuelve el 7/11), Brenda, Emely, Ester, Gabriela, Georgina, Gisela, Laura González, Laura Manzano, Lourdes, Luz, Sol, Virginia | Su clase semanal 1:1 |
-| `Lab 1 · vie 13:00 ART` | Nuevas (todavía nadie) | Lab semanal. México 10:00 · Colombia 11:00 |
-| `Lab 2 · sáb 15:30 ART` | Nuevas (todavía nadie) | Lab semanal. México 12:30 · Colombia 13:30 |
+| `Lab 1 · vie 13:00 ART` | Nuevas (todavía nadie) | Lab semanal de 60 min (13:00–14:00). México 10:00 · Colombia 11:00 |
+| `Lab 2 · sáb 15:30 ART` | Nuevas (todavía nadie) | Lab semanal de 60 min (15:30–16:30). México 12:30 · Colombia 13:30 |
 | `Grupo reducido A2-B1 · mar y jue 20:00 ART` | Lina y Corina (Perú 18:00) | 2 clases grupales por semana. **No es un lab y no se vende.** |
 
 - Las nuevas entran **solo** por lab. Una alumna de 1:1 puede sumar un lab como extra
@@ -19,7 +19,6 @@ Si "Formato" está vacío, no se asume nada: se le pregunta a Flor en el mail de
 - Labs: arrancan vie 27/11 y sáb 28/11. **Pausa del 21/12 al 6/1** (sin labs, sin
   weekly, sin invitaciones). Los dos labs tienen **el mismo contenido** cada semana;
   cada alumna va a uno solo. Máximo 8 por horario (lo dice el VSL).
-- PENDIENTE de Flor: duración del lab. El VSL dice 60 min; el horario cargado es de 90 min.
 
 ## Weekly report (todas, los lunes)
 

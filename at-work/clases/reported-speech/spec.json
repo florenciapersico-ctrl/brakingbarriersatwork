@@ -1,0 +1,71 @@
+{
+  "codigo": "M3",
+  "titulo": "Reported Speech",
+  "etiqueta": "BREAKING BARRIERS AT WORK · MÓDULO 3",
+  "subtitulo": ["Contar lo que se dijo.", "Sin perder el mensaje."],
+  "portada_notas": "Terminas una reunión con el cliente y tu manager te pregunta: \"So, what did they say?\"\nY ahí aparece la frase: \"He said me that they are not happy.\"\nSe entiende. Pero suena a traducción, y en ese momento lo que importa es que tu manager escuche el mensaje, no el error.\nEn el trabajo contamos todo el tiempo lo que dijo otra persona: en un update, en un mail, en una reunión de equipo. A eso se le llama reported speech.\nEn esta clase vas a aprender a contar lo que se dijo con claridad: say y tell, cuándo cambia el tiempo verbal y cuándo no, cómo se reporta una pregunta, y los verbos que vas a usar en el trabajo para no repetir said todo el tiempo.",
+  "slides": [
+    {
+      "rotulo": "01 · EL PROBLEMA",
+      "titulo": "He said me that…",
+      "cuerpo": ["# ✗ ASÍ NO", "He said me that the client is unhappy.", "# ✓ ASÍ SÍ", "He told me (that) the client is unhappy.", "He said (that) the client is unhappy."],
+      "notas": "Empecemos por el error más frecuente.\n\"He said me that the client is unhappy.\"\nEn español decimos \"me dijo\", entonces traducimos \"said me\". Pero en inglés say no lleva a la persona directamente después.\nTienes dos opciones correctas: \"He told me the client is unhappy\" o \"He said the client is unhappy\".\nY fíjate que that está entre paréntesis: en el inglés del trabajo, sobre todo hablando, normalmente se omite."
+    },
+    {
+      "rotulo": "02 · SAY / TELL",
+      "titulo": "Say something.\nTell someone.",
+      "cuerpo": ["# SAY + LO QUE SE DIJO", "She said (that) the budget was approved.", "# TELL + PERSONA + LO QUE SE DIJO", "She told us (that) the budget was approved.", "# ✗ EVITA", "She said us… · She told that…"],
+      "lateral": "Si dices a quién, normalmente es tell.",
+      "notas": "La regla práctica es esta: say se enfoca en lo que se dijo. Tell se enfoca en a quién se le dijo.\n\"She said the budget was approved.\"\n\"She told us the budget was approved.\"\nSi nombras a la persona, normalmente usas tell. Si no la nombras, say.\nHay expresiones fijas con tell que no siguen esto, como tell the truth o tell a story, pero para contar lo que pasó en una reunión, con esta regla resuelves casi todo."
+    },
+    {
+      "rotulo": "03 · ¿CAMBIA EL TIEMPO VERBAL?",
+      "titulo": "Depende de si sigue siendo verdad",
+      "cuerpo": ["# FUE ALGO DE ESE MOMENTO", "\"I'm working on it.\" → She said she was working on it.", "# SIGUE SIENDO VERDAD", "\"The deadline is Friday.\" → She said the deadline is Friday.", "She said the deadline was Friday. (también correcto)"],
+      "notas": "Seguramente aprendiste que en reported speech el verbo siempre \"va un tiempo para atrás\". Es una estructura muy frecuente, pero no es obligatoria.\nSi lo que se dijo fue algo de ese momento, normalmente retrocede: \"I'm working on it\" pasa a \"She said she was working on it\".\nPero si sigue siendo verdad cuando lo cuentas, puedes dejar el presente: \"She said the deadline is Friday\". El deadline sigue siendo el viernes.\nLas dos versiones son correctas. Con el presente le dices a la otra persona: esto sigue vigente."
+    },
+    {
+      "rotulo": "04 · LOS CAMBIOS MÁS FRECUENTES",
+      "titulo": "Cuando retrocedes",
+      "cuerpo": ["# PRESENTE → PASADO", "\"We need more time.\" → They said they needed more time.", "# WILL → WOULD", "\"I'll send it tomorrow.\" → He said he would send it the next day.", "# CAN → COULD", "\"We can't join.\" → They said they couldn't join.", "# PASADO → PASADO (O HAD + PARTICIPIO)", "\"We fixed it.\" → They said they fixed it / had fixed it."],
+      "notas": "Cuando decides retroceder, estos son los cambios que más vas a usar.\nEl presente pasa a pasado: \"We need more time\", \"They said they needed more time\".\nWill pasa a would: \"I'll send it tomorrow\", \"He said he would send it\". Y fíjate que tomorrow puede cambiar a the next day si ya no es mañana.\nCan pasa a could.\nY el pasado, hablando, muchas veces queda igual: \"They said they fixed it\". Had fixed también es correcto, y lo vas a ver más por escrito.\nNo hace falta memorizar una tabla: piensa en el momento del que estás hablando."
+    },
+    {
+      "rotulo": "05 · PREGUNTAS",
+      "titulo": "La pregunta ya no es pregunta",
+      "cuerpo": ["# ✗ ASÍ NO", "She asked me what did I think.", "# ✓ ASÍ SÍ", "She asked me what I thought.", "# SÍ / NO → IF O WHETHER", "\"Are you available on Monday?\" → He asked if I was available on Monday."],
+      "notas": "Ahora, las preguntas. Acá aparece otro error muy común:\n\"She asked me what did I think.\"\nCuando reportas una pregunta, ya no es una pregunta. Entonces va en orden de frase normal: sujeto y después verbo, y sin do ni did.\n\"She asked me what I thought.\"\nY si la pregunta original se responde con sí o no, usas if o whether: \"Are you available on Monday?\" pasa a \"He asked if I was available on Monday\".\nWhether suena un poco más formal, y se usa mucho en mails."
+    },
+    {
+      "rotulo": "06 · PAUSA",
+      "titulo": "Pause the video.\nTry it yourself.",
+      "cuerpo": ["1 · \"We'll send the report tomorrow.\" → The client said…", "2 · \"Can you join the call?\" → My manager asked…", "3 · \"Did you review the budget?\" → She asked me…", "4 · \"I'm not convinced.\" → He told…"],
+      "lateral": "Then press play to compare.",
+      "notas": "Ahora te toca a ti.\nTienes cuatro frases. Pausa el video y conviértelas en reported speech, en voz alta o por escrito.\nPause the video. Try it yourself. Then press play to compare."
+    },
+    {
+      "rotulo": "07 · RESPUESTAS",
+      "titulo": "Compara",
+      "cuerpo": ["1 · The client said they would send the report the next day.", "2 · My manager asked if I could join the call.", "3 · She asked me if I had reviewed the budget. / …if I reviewed the budget.", "4 · He told us he wasn't convinced."],
+      "notas": "Veamos.\nUno: \"The client said they would send the report the next day.\" Si todavía no pasó mañana, también puedes decir \"they will send the report tomorrow\".\nDos: \"My manager asked if I could join the call.\" Sin do, sin signo de pregunta.\nTres: \"She asked me if I had reviewed the budget\", o hablando, \"if I reviewed the budget\".\nCuatro: \"He told us he wasn't convinced.\" Tell, con la persona.\nSi te equivocaste en alguna, anótala: es justo lo que vas a revisar al final."
+    },
+    {
+      "rotulo": "08 · VERBOS DEL TRABAJO",
+      "titulo": "Más allá de said",
+      "cuerpo": ["# + (THAT) + FRASE", "mention · explain · confirm · point out", "They confirmed (that) the launch is on track.", "# + ALGUIEN + TO + VERBO", "ask · remind · tell", "She asked us to send a weekly update.", "# SUGGEST", "I suggested having a call. / I suggested (that) we have a call."],
+      "notas": "Si en un update repites said, said, said, se pierde el matiz. Los verbos de reporte dicen qué hizo la otra persona con sus palabras.\nMention, explain, confirm y point out van con una frase: \"They confirmed the launch is on track.\"\nAsk, remind y tell, cuando son pedidos, van con la persona y to más verbo: \"She asked us to send a weekly update.\"\nY suggest tiene su propio patrón: \"I suggested having a call\" o \"I suggested we have a call\". Lo que normalmente no se usa es \"suggested us to\".\nCon estos verbos ya no solo cuentas lo que se dijo: cuentas qué se decidió."
+    },
+    {
+      "rotulo": "09 · APLÍCALO",
+      "titulo": "Cuéntale la reunión a tu manager",
+      "cuerpo": ["I spoke to the client this morning.", "They confirmed the launch is still on track, but they mentioned they need the final numbers by Thursday.", "They asked us to send a short update every Monday, and I suggested having a quick call next week."],
+      "notas": "Así se ve todo junto, en un update real.\n\"I spoke to the client this morning. They confirmed the launch is still on track, but they mentioned they need the final numbers by Thursday. They asked us to send a short update every Monday, and I suggested having a quick call next week.\"\nFíjate: el launch y el jueves siguen vigentes, por eso quedan en presente. Hay un verbo distinto para cada cosa: confirmed, mentioned, asked, suggested. Y ni un solo said me."
+    },
+    {
+      "rotulo": "10 · TU TURNO",
+      "titulo": "Apply it · Practice it · Review it",
+      "cuerpo": ["# APPLY IT", "Escribe tres frases contando una reunión real de esta semana.", "# PRACTICE IT", "Dilas en voz alta, o en el coach de Role Play como si se lo contaras a tu manager.", "# REVIEW IT", "Retry y Personal Error Radar: say / tell · orden de la pregunta · tiempo verbal."],
+      "notas": "Ahora, a tu trabajo.\nApply it: piensa en una reunión real de esta semana y escribe tres frases contando qué se dijo y qué se decidió. Usa al menos dos verbos distintos de said.\nPractice it: dilas en voz alta, o abre el coach de Role Play y cuéntaselo como si fuera tu manager.\nReview it: haz un segundo intento y revisa tu Personal Error Radar con tres preguntas: ¿usé say y tell bien?, ¿las preguntas quedaron en orden de frase?, ¿el tiempo verbal tiene sentido para lo que sigue vigente?\nY la próxima vez que alguien te pregunte \"So, what did they say?\", ya sabes cómo contarlo."
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+M3 · Reported Speech
+
+SLIDE 1
+Terminas una reunión con el cliente y tu manager te pregunta: "So, what did they say?"
+Y ahí aparece la frase: "He said me that they are not happy."
+Se entiende. Pero suena a traducción, y en ese momento lo que importa es que tu manager escuche el mensaje, no el error.
+En el trabajo contamos todo el tiempo lo que dijo otra persona: en un update, en un mail, en una reunión de equipo. A eso se le llama reported speech.
+En esta clase vas a aprender a contar lo que se dijo con claridad: say y tell, cuándo cambia el tiempo verbal y cuándo no, cómo se reporta una pregunta, y los verbos que vas a usar en el trabajo para no repetir said todo el tiempo.
+
+SLIDE 2
+Empecemos por el error más frecuente.
+"He said me that the client is unhappy."
+En español decimos "me dijo", entonces traducimos "said me". Pero en inglés say no lleva a la persona directamente después.
+Tienes dos opciones correctas: "He told me the client is unhappy" o "He said the client is unhappy".
+Y fíjate que that está entre paréntesis: en el inglés del trabajo, sobre todo hablando, normalmente se omite.
+
+SLIDE 3
+La regla práctica es esta: say se enfoca en lo que se dijo. Tell se enfoca en a quién se le dijo.
+"She said the budget was approved."
+"She told us the budget was approved."
+Si nombras a la persona, normalmente usas tell. Si no la nombras, say.
+Hay expresiones fijas con tell que no siguen esto, como tell the truth o tell a story, pero para contar lo que pasó en una reunión, con esta regla resuelves casi todo.
+
+SLIDE 4
+Seguramente aprendiste que en reported speech el verbo siempre "va un tiempo para atrás". Es una estructura muy frecuente, pero no es obligatoria.
+Si lo que se dijo fue algo de ese momento, normalmente retrocede: "I'm working on it" pasa a "She said she was working on it".
+Pero si sigue siendo verdad cuando lo cuentas, puedes dejar el presente: "She said the deadline is Friday". El deadline sigue siendo el viernes.
+Las dos versiones son correctas. Con el presente le dices a la otra persona: esto sigue vigente.
+
+SLIDE 5
+Cuando decides retroceder, estos son los cambios que más vas a usar.
+El presente pasa a pasado: "We need more time", "They said they needed more time".
+Will pasa a would: "I'll send it tomorrow", "He said he would send it". Y fíjate que tomorrow puede cambiar a the next day si ya no es mañana.
+Can pasa a could.
+Y el pasado, hablando, muchas veces queda igual: "They said they fixed it". Had fixed también es correcto, y lo vas a ver más por escrito.
+No hace falta memorizar una tabla: piensa en el momento del que estás hablando.
+
+SLIDE 6
+Ahora, las preguntas. Acá aparece otro error muy común:
+"She asked me what did I think."
+Cuando reportas una pregunta, ya no es una pregunta. Entonces va en orden de frase normal: sujeto y después verbo, y sin do ni did.
+"She asked me what I thought."
+Y si la pregunta original se responde con sí o no, usas if o whether: "Are you available on Monday?" pasa a "He asked if I was available on Monday".
+Whether suena un poco más formal, y se usa mucho en mails.
+
+SLIDE 7
+Ahora te toca a ti.
+Tienes cuatro frases. Pausa el video y conviértelas en reported speech, en voz alta o por escrito.
+Pause the video. Try it yourself. Then press play to compare.
+
+SLIDE 8
+Veamos.
+Uno: "The client said they would send the report the next day." Si todavía no pasó mañana, también puedes decir "they will send the report tomorrow".
+Dos: "My manager asked if I could join the call." Sin do, sin signo de pregunta.
+Tres: "She asked me if I had reviewed the budget", o hablando, "if I reviewed the budget".
+Cuatro: "He told us he wasn't convinced." Tell, con la persona.
+Si te equivocaste en alguna, anótala: es justo lo que vas a revisar al final.
+
+SLIDE 9
+Si en un update repites said, said, said, se pierde el matiz. Los verbos de reporte dicen qué hizo la otra persona con sus palabras.
+Mention, explain, confirm y point out van con una frase: "They confirmed the launch is on track."
+Ask, remind y tell, cuando son pedidos, van con la persona y to más verbo: "She asked us to send a weekly update."
+Y suggest tiene su propio patrón: "I suggested having a call" o "I suggested we have a call". Lo que normalmente no se usa es "suggested us to".
+Con estos verbos ya no solo cuentas lo que se dijo: cuentas qué se decidió.
+
+SLIDE 10
+Así se ve todo junto, en un update real.
+"I spoke to the client this morning. They confirmed the launch is still on track, but they mentioned they need the final numbers by Thursday. They asked us to send a short update every Monday, and I suggested having a quick call next week."
+Fíjate: el launch y el jueves siguen vigentes, por eso quedan en presente. Hay un verbo distinto para cada cosa: confirmed, mentioned, asked, suggested. Y ni un solo said me.
+
+SLIDE 11
+Ahora, a tu trabajo.
+Apply it: piensa en una reunión real de esta semana y escribe tres frases contando qué se dijo y qué se decidió. Usa al menos dos verbos distintos de said.
+Practice it: dilas en voz alta, o abre el coach de Role Play y cuéntaselo como si fuera tu manager.
+Review it: haz un segundo intento y revisa tu Personal Error Radar con tres preguntas: ¿usé say y tell bien?, ¿las preguntas quedaron en orden de frase?, ¿el tiempo verbal tiene sentido para lo que sigue vigente?
+Y la próxima vez que alguien te pregunte "So, what did they say?", ya sabes cómo contarlo.
