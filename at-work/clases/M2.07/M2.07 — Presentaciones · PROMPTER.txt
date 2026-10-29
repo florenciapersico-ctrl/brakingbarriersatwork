@@ -1,0 +1,130 @@
+M2.07 · Presentaciones: que recuerden tu mensaje
+
+SLIDE 1
+Una alumna terminó una propuesta excelente diciendo: "And that's all. The end."
+Otra me dijo: "I finish my presentation, and the person who is hearing me didn't know that I finished."
+Y otra: "I was reading all the time. I get nervous, and I begin to speak faster."
+Ninguna tenía un problema con su tema. Saben muchísimo de lo que hacen. Lo que les faltaba era el inglés para guiar a la audiencia.
+Hoy te llevas ese inglés. Frases para abrir, para explicar cada slide, para hablar de datos, para pasar de una slide a la otra, para recuperarte cuando te trabas, para cerrar y para responder preguntas. Y los errores que más se cuelan cuando presentamos desde el español.
+No importa si presentas estudios, resultados, un proyecto o una propuesta: las frases son las mismas.
+Una regla antes de empezar: no aprendas todas. De cada bloque, elige una o dos y úsalas siempre. Buscamos automaticidad, no variedad.
+
+SLIDE 2
+Antes de abrir PowerPoint, escribe tu mensaje en una frase de unas quince palabras. Tiene que ser una idea, no un tema.
+"Q3 results" es un tema. "Q3 closed on target, but two regions need support before December" es una idea: dice qué piensas y qué está en juego.
+Una alumna presentó un evento científico enorme. Su primer mensaje fue: "The brand has a lot of scientific evidence." Eso es un tema: nadie va a estar en desacuerdo. Cuando seguimos trabajando, apareció la idea: "The event gave us credibility with doctors who didn't believe in the product."
+Frases para decir tu mensaje: "The key message today is…" para decirlo al principio, sin vueltas. "The bottom line is…" para la versión ejecutiva, en una frase. "What I'd like you to remember is…" para repetirlo al final.
+Error típico: "The objective of this presentation is to show you about…". Sobra el "about", y además "mostrar" no es un objetivo. Mejor: "Today I'd like to agree on…", "get your approval for…", "recommend…".
+Fíjate en esto: si te dicen "tenemos cinco minutos, no treinta", ¿qué dirías? Eso va primero.
+
+SLIDE 3
+Los primeros treinta segundos deciden si te siguen. Y son los más fáciles de preparar, porque siempre tienen la misma forma.
+Línea 1, contexto: "Thank you for your time today." o "Following our conversation about…, I've put together this proposal." Para situar a la audiencia.
+Línea 2, objetivo, en positivo y corto: "My objective today is to agree on the next steps for…" o "Today I'd like to walk you through…"
+Línea 3, el mapa: "I'll cover three areas: first…, then…, and finally…" Para que sepan dónde están en todo momento.
+Línea 4, tiempo o pedido: "I'll take ten minutes, and then I'd love your questions." o "At the end, I'll ask for your decision on…"
+Errores típicos. Objetivo largo y negativo: "My objective is not only to show you… nor… but I would like to…". Una sola frase: "My objective today is to agree on the next steps." "I'm going to talk about…" una y otra vez suena a lista: prueba con "I'll walk you through…". Y "Today I will present you the results": no es "present you". Es "Today I'll present the results" o "I'll walk you through the results."
+Fíjate en esto: las cuatro líneas se pueden ensayar hasta que salgan solas. Son las únicas que te permito saber casi de memoria.
+
+SLIDE 4
+El error más común: describir lo que todos ya están viendo.
+"In this slide you can see the studies that we are working on." Todos lo ven.
+Compara: "This slide summarizes the seven studies currently underway. The key message is that our strategy is focused on two growth areas."
+Mantra de la clase: Don't tell me what I can see. Tell me what I should understand.
+Títulos de acción. El título de cada slide no es una etiqueta, es la conclusión. En vez de "Revenue": "Revenue grew 38% as enterprise deals doubled." Lee solo tus títulos en orden: tienen que contar la historia. Y si te trabas, el título ya dice el mensaje por ti.
+Errores típicos: "In this slide…" es "On this slide…", o mejor "This slide shows…". Y "Here we can see that…" en todas las slides: empieza por la idea, "The key point here is…".
+
+SLIDE 5
+Este es el corazón de la clase. Cada slide se explica igual, sea del campo que sea.
+Uno, Open: presentas la slide. "This slide summarizes…", "Here I'd like to focus on…", "There are three things I'd like to highlight here."
+Dos, Message: la idea principal. "The key message here is…", "What I'd like to highlight is…"
+Tres, Evidence: el dato o el ejemplo. "The results show that…", "As you can see…", "One of the key findings was…", "According to…"
+Cuatro, Impact: por qué importa, en tu campo. "This is important because…", "What this means for us is…", "From a business perspective…", "From a medical perspective…", "For the team, this means…", "For our clients, this means…"
+Cinco, Transition: conectas. "Building on that…", "This brings us to…"
+Ejemplo de operaciones: "This slide shows the current state of the building. The key point is that we have no space to grow. We have sixteen people in three hundred and seventy square meters, and no room for new equipment. What this means is that we can't add people or projects. This brings me to the options we've considered."
+Ejemplo de comunicación interna: "Here I'd like to focus on engagement. What stands out is that only 20% of employees opened the last newsletter. From a business perspective, this means our key messages are not reaching people. Building on that, let me show you our proposal."
+Fíjate en esto: el paso que más se olvida es el cuatro. Si una slide no tiene "so what", la audiencia se queda con el dato y no con tu idea.
+
+SLIDE 6
+Casi todas presentan números. Estos son los bloques que más vas a usar.
+Tendencia: "Sales increased by 15%." "Costs went down from 2 million to 1.5 million." "Performance remained stable." "Volume peaked in March." "There was a significant improvement in…"
+Comparación: "Compared with last quarter…", "This is twice as high as…", "This is slightly below our target."
+Causa: "This was mainly driven by…", "This was due to…"
+Resultado: "As a result…", "This allowed us to…", "This led to…"
+Interpretación: "What this tells us is…", "What this means in practice is…" Un dato sin interpretación no es un mensaje.
+Gráficos, en este orden: qué muestra, dónde mirar, qué concluyes. "This chart shows our monthly volume. If you look at the last three months, you'll see a clear drop. What stands out is that it started when the new process was launched."
+Datos no confirmados: no te disculpes, enmárcalo. "The final figures are expected by the end of the month. What I can confirm now is the direction of the results." O: "This data is being validated. I'll share the confirmed numbers in our next update." Evita: "I'm not sure about this one…"
+Errores típicos con números: "increased in 20%" es "increased by 20%", y de 10 a 12 es "from 10 to 12". "The 60% of our clients" es "60% of our clients", sin "the". "A 20% of the budget" es "20% of the budget". "The sales grew" es "Sales grew". Y "2.5 millions" es "2.5 million", sin s.
+Pronunciación: percent, con acento en la segunda sílaba. Increase como verbo, in-CREASE; como sustantivo, IN-crease.
+
+SLIDE 7
+Sin transiciones, una presentación es una lista de slides. Con transiciones, es una historia.
+Para avanzar: "Let's move on to…", "Now I'd like to turn to…", "Next, let's look at…"
+Para conectar: "Building on that…", "Based on these results…", "This brings us to…", "With that in mind…"
+Para destacar: "The key point here is…", "What really stands out is…"
+Para cerrar una sección: "So, the key takeaway is…", "To summarize this point…"
+Para ir y volver: "I'll come back to that in a moment.", "As I mentioned earlier…"
+Dos reglas: la transición se dice antes de cambiar de slide, no después. Y elige una o dos y úsalas siempre. No necesitas diez.
+Errores típicos: "Let's pass to the next slide": en inglés no "pasamos", es "Let's move on to the next slide." "In the next slide" es "On the next slide". "So… so… so, let's continue": cuenta tus "so" cuando te grabes y cámbialos por tu transición. "Now I will explain you…" es "Now let me explain…" o "Let me walk you through…"
+
+SLIDE 8
+Una buena presentación no es una presentación sin errores. Es una en la que sabes recuperarte.
+Si no sale la palabra: "Let me rephrase that.", "What I mean is…", "Let me put it another way."
+Si perdiste el hilo: "Let me go back to the key point." Y repites tu mensaje.
+Si necesitas un segundo: "Let me think about the best way to put this." Y haces la pausa, sin pedir perdón.
+Lo que no: pasar al español, o "Sorry, sorry, my English…". Le quita autoridad a lo que sabes.
+You don't need to know every word. You need to know how to recover.
+
+SLIDE 9
+El cierre tiene tres partes: resumes, recomiendas, pides.
+"To sum up, …", después "My recommendation is…", y después "What I need from you today is…"
+Evita "And that's all" o "Questions?" a secas. Termina con tu pedido y después: "I'm happy to take any questions."
+Para las preguntas, una regla: tu primera frase responde. Después explicas.
+Para ganar un segundo: "That's a fair question." Para chequear: "If I understand correctly, you're asking…" o "Just to make sure I understand…" Para responder corto: "In short, …" o "The short answer is…" Sin el dato: "I don't have that figure with me right now. I'll confirm it and send it to you by tomorrow." Y si te cuestionan: "I see your point. That said, I still recommend… because…"
+Cuando terminan las preguntas, vuelve a tu mensaje: "To wrap up, the key takeaway is…"
+Errores típicos: "I don't know" a secas: mejor "I don't have that information right now, but I can find out." "Repeat, please?": mejor "Sorry, could you say that again?" Y "Is clear?": "Does that make sense?"
+
+SLIDE 10
+Estos vienen de traducir desde el español. Los vi en presentaciones de alumnas de campos muy distintos.
+"Discuss about the plan" y "show you about the results": discuss, explain y show van directo, sin "about". "Discuss the plan." "Show you the results."
+"Explain me" es "explain to me".
+"Invest on" es "invest in". "Close of" es "close to". "Depends of" es "depends on".
+"Has been established since 2010": con un año concreto, pasado simple. "Was established in 2010."
+"We solved it putting a film": para decir cómo, by más -ing. "We solved it by putting in a film."
+"It's going to be one lead" es "There will be one lead."
+"We are considering to change" es "We are considering changing."
+Y "actually" no significa "actualmente": significa "en realidad". Actualmente es "currently".
+No hace falta corregir todos a la vez. Marca los dos que más te pasan y entrénalos esta semana.
+
+SLIDE 11
+Ahora te toca a ti. Tienes cuatro frases de presentaciones reales. Cada una tiene un error de los que acabamos de ver.
+Pausa el video, corrígelas en voz alta y después compara.
+Pause the video. Try it yourself. Then press play to compare.
+
+SLIDE 12
+Veamos.
+Uno: "We need to discuss the budget." Discuss va directo, sin about.
+Dos: "Sales increased by 20%." Con porcentajes de cambio, by.
+Tres: "This slide shows the results." Y mejor todavía, empieza por la idea: "The key message here is…"
+Cuatro: "We are considering changing the supplier." Después de consider, -ing.
+Si te equivocaste en alguna, ese es uno de tus dos errores para entrenar esta semana.
+
+SLIDE 13
+Así puedes preparar cualquier presentación tú sola, con ChatGPT, Claude o la herramienta que uses.
+Uno, primer intento: te grabas dando la presentación completa, como te salga, sin escribir nada antes. Ese primer intento es diagnóstico, no examen.
+Dos, transcripción: pasas el audio a texto, con la transcripción de Teams o Zoom, con el dictado del teléfono, o subiendo el audio a la herramienta.
+Tres, feedback: pegas la transcripción con el prompt de tu worksheet. Ese prompt le pide exactamente lo que vimos hoy: tu mensaje, la apertura, los cinco pasos por slide, los datos, las transiciones, el cierre y estos errores. Y le pide que no te reescriba la presentación: que te marque qué corregir.
+Cuatro, segundo intento: corriges solo las tres prioridades que te marcó, eliges tus frases y vuelves a grabarte. Le pegas las dos versiones y le pides que compare.
+Cinco, preguntas: practicas con tu Role Play las preguntas difíciles.
+Primer intento, feedback, segundo intento. Siempre mejora la segunda vez. Y ahí es donde se construye la confianza de verdad.
+
+SLIDE 14
+No la aprendas de memoria. Si memorizas y pierdes una frase, pierdes la presentación entera.
+Cuatro etapas: escribes lo que dirías, lo pasas a bullets, dejas tres o cuatro palabras clave por slide, y presentas mirando solo esas palabras.
+Marca tus bloques: una barra donde termina un bloque de sentido, dos barras donde termina una idea. "Our biggest risk / is not the budget. // It's the timeline." No necesitas hablar más lento. Necesitas que se entienda dónde termina cada idea.
+Ahora, tus tres acciones.
+Apply it: elige una presentación real de tu trabajo y escribe tu mensaje en una frase y tu apertura de cuatro líneas.
+Practice it: grábate el primer intento hoy, o ensaya las preguntas difíciles con tu Role Play.
+Review it: haz el segundo intento con tus tres prioridades y anota en tu Personal Error Radar los dos errores que más se te cuelan.
+Y justo antes de entrar, en vez de decirte "tranquila", di "I'm excited". Un estudio de Harvard mostró que funciona mejor que intentar calmarse.
+Tú eres la presentación. Las slides solo te acompañan.
