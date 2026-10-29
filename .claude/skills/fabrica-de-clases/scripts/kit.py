@@ -109,14 +109,68 @@ def prompter(spec, carpeta, base):
     return palabras
 
 
+LINEA = "_" * 66
+
+
+def worksheet(spec, carpeta, base):
+    """spec["worksheet"]: titulo, intro y secciones (titulo, texto, items, lineas, prompt).
+    Las respuestas van al final. Devuelve la ruta del .docx."""
+    ws = spec["worksheet"]
+    d = docx.Document()
+    for st in d.styles:
+        if st.type == 1 and st.name == "Normal":
+            st.font.name, st.font.size = "Georgia", Pt(11)
+    cab = d.add_paragraph().add_run(f'BREAKING BARRIERS AT WORK · {spec["codigo"]} · {spec["titulo"].upper()}')
+    cab.bold, cab.font.size, cab.font.color.rgb = True, Pt(9), DocRGB(0x89, 0x53, 0x25)
+    t = d.add_paragraph().add_run(ws["titulo"])
+    t.bold, t.font.size, t.font.color.rgb = True, Pt(22), DocRGB(0x3F, 0x1E, 0x0D)
+    d.add_paragraph("Nombre: ______________________   Fecha: ____________")
+    intro = d.add_paragraph()
+    intro.add_run("Cómo usar esta hoja. ").bold = True
+    intro.add_run(ws["intro"])
+    for sec in ws["secciones"]:
+        h = d.add_paragraph().add_run(sec["titulo"])
+        h.bold, h.font.size, h.font.color.rgb = True, Pt(14), DocRGB(0xC6, 0x8C, 0x6C)
+        for parrafo in sec.get("texto", []):
+            d.add_paragraph(parrafo)
+        for item in sec.get("items", []):
+            d.add_paragraph(item)
+            for _ in range(sec.get("lineas", 1)):
+                d.add_paragraph(LINEA)
+        if sec.get("prompt"):
+            d.add_paragraph().add_run("Copia este prompt:").bold = True
+            caja_prompt = d.add_table(rows=1, cols=1)
+            caja_prompt.style = "Table Grid"
+            caja_prompt.cell(0, 0).text = sec["prompt"]
+    if ws.get("respuestas"):
+        d.add_page_break()
+        h = d.add_paragraph().add_run("Respuestas")
+        h.bold, h.font.size = True, Pt(14)
+        for r in ws["respuestas"]:
+            d.add_paragraph(r)
+    ruta = carpeta / f"{base} · WORKSHEET.docx"
+    d.save(ruta)
+    return ruta
+
+
+def a_pdf(ruta):
+    import subprocess
+    subprocess.run(["soffice", "--headless", "--convert-to", "pdf", "--outdir", str(ruta.parent), str(ruta)],
+                   check=True, capture_output=True)
+
+
 def main():
     spec = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
     carpeta = Path(sys.argv[2])
     carpeta.mkdir(parents=True, exist_ok=True)
     base = f'{spec["codigo"]} — {spec["titulo"]}'
-    deck(spec, carpeta / f"{base} · DECK.pptx")
-    palabras = prompter(spec, carpeta, base)
-    print(f"{len(spec['slides']) + 1} slides · {palabras} palabras · ~{palabras / 130:.0f} min")
+    if spec.get("slides"):
+        deck(spec, carpeta / f"{base} · DECK.pptx")
+        palabras = prompter(spec, carpeta, base)
+        print(f"{len(spec['slides']) + 1} slides · {palabras} palabras · ~{palabras / 130:.0f} min")
+    if spec.get("worksheet"):
+        a_pdf(worksheet(spec, carpeta, base))
+        print("worksheet .docx y .pdf")
 
 
 if __name__ == "__main__":

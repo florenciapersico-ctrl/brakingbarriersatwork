@@ -1,0 +1,56 @@
+{
+  "codigo": "M2.07",
+  "titulo": "Presentaciones",
+  "worksheet": {
+    "titulo": "Presentation Prep Kit",
+    "intro": "Hazla después de ver la clase. Responde primero sin mirar el video y después revisa con las respuestas del final. Vuelve a esta hoja cada vez que tengas que preparar una presentación real.",
+    "secciones": [
+      {
+        "titulo": "A · Notice",
+        "texto": ["Lee esta apertura en voz alta:", "\"Thank you for your time today. Following our conversation last week, I've put together a proposal for the new onboarding process. My objective today is to agree on the next steps. I'll cover three areas: first, the current situation, then the two options, and finally my recommendation. I'll take ten minutes, and then I'd love your questions.\"", "Encuentra las cuatro líneas de la apertura:"],
+        "items": ["1 · Contexto:", "2 · Objetivo:", "3 · Mapa:", "4 · Tiempo o pedido:"],
+        "lineas": 1
+      },
+      {
+        "titulo": "B · Practice",
+        "texto": ["Corrige cada frase. Todas tienen uno de los errores de la clase."],
+        "items": ["1 · The objective of this presentation is to show you about our results.", "2 · Today I will present you the new process.", "3 · In this slide you can see the budget.", "4 · Costs increased in 12%.", "5 · The 40% of our clients renewed their contracts.", "6 · Let's pass to the next slide.", "7 · We need to discuss about the timeline.", "8 · The company has been established since 2015.", "9 · Revenue reached 3.5 millions.", "10 · Is clear?"],
+        "lineas": 1
+      },
+      {
+        "titulo": "C · Apply to Your Work",
+        "texto": ["Elige una presentación real de tu trabajo: una que tengas que dar pronto o una que diste hace poco."],
+        "items": ["Tu mensaje en una frase de unas 15 palabras (una idea, no un tema):", "Tu apertura en cuatro líneas (contexto · objetivo · mapa · tiempo o pedido):", "Elige una slide y explícala en cinco pasos (open · message · evidence · impact · transition):", "Un dato de tu presentación, con su interpretación (\"What this means is…\"):", "Tu cierre: resume · recomienda · pide (\"What I need from you today is…\"):"],
+        "lineas": 3
+      },
+      {
+        "titulo": "D · Speak & Retry",
+        "texto": ["1 · Grábate dando la presentación completa, como te salga, sin escribir nada antes.", "2 · Pasa el audio a texto (transcripción de Teams o Zoom, dictado del teléfono, o subiendo el audio a tu herramienta de IA).", "3 · Pega la transcripción con este prompt en ChatGPT, Claude o la herramienta que uses:"],
+        "prompt": "Act as my English presentation coach. I'm a professional who presents at work in English. Below is the transcript of my first attempt at a presentation. Do NOT rewrite my presentation. Give me feedback in Spanish on:\n1) My key message: is it an idea or just a topic?\n2) My opening: context, objective, map, time or request. Which line is missing?\n3) Each slide: open, message, evidence, impact (so what) and transition. Which step is missing?\n4) How I talk about numbers (increased by, from… to…, no \"the\" before percentages, million without -s).\n5) My transitions, and how many times I say \"so\".\n6) My closing: summary, recommendation and request.\n7) Errors from Spanish (discuss about, explain me, depends of, considering to…).\nEnd with my 3 priorities for the second attempt, in order.\nTranscript: [pega aquí tu transcripción]"
+      },
+      {
+        "titulo": "D · Speak & Retry (preguntas difíciles)",
+        "texto": ["4 · Corrige solo tus 3 prioridades y vuelve a grabarte. Pega las dos versiones y pide que las compare.", "5 · Practica las preguntas con tu coach de Role Play:"],
+        "prompt": "Act as [cargo de la persona: my manager / the client / the director] in my company. I've just presented [tema de tu presentación]. Ask me 5 difficult questions, one at a time, the way a real [cargo] would. After each of my answers, tell me in one line if my first sentence answered the question, and give me a more natural version."
+      },
+      {
+        "titulo": "E · Review it · Personal Error Radar",
+        "items": ["Mis 3 prioridades del primer intento:", "¿Cuáles mejoré en el segundo intento?", "Los 2 errores que más se me cuelan (para entrenar esta semana):", "Mi frase de transición elegida:", "Mi frase para recuperarme cuando me trabo:"],
+        "lineas": 2
+      }
+    ],
+    "respuestas": [
+      "A · 1 Thank you for your time today. Following our conversation last week, I've put together a proposal… · 2 My objective today is to agree on the next steps. · 3 I'll cover three areas: first…, then…, and finally… · 4 I'll take ten minutes, and then I'd love your questions.",
+      "B · 1 Today I'd like to walk you through our results. Sobra el about y \"mostrar\" no es un objetivo.",
+      "B · 2 Today I'll present the new process. / I'll walk you through the new process. Present no va con \"you\".",
+      "B · 3 This slide shows the budget. Mejor todavía, empieza por la idea: \"The key point here is…\". Además, es on this slide, no in.",
+      "B · 4 Costs increased by 12%. Para el tamaño del cambio, by.",
+      "B · 5 40% of our clients renewed their contracts. Sin the delante del porcentaje.",
+      "B · 6 Let's move on to the next slide. En inglés no \"pasamos\" de slide.",
+      "B · 7 We need to discuss the timeline. Discuss va directo, sin about.",
+      "B · 8 The company was established in 2015. Con un año concreto, pasado simple.",
+      "B · 9 Revenue reached 3.5 million. Million con número delante no lleva -s.",
+      "B · 10 Does that make sense? Es la pregunta natural para chequear que te siguen."
+    ]
+  }
+}
