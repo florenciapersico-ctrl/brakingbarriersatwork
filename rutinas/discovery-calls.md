@@ -1,7 +1,7 @@
 TAREA: Discovery calls — prep del día y seguimiento de ayer (corre UNA vez por día, lunes a sábado a las 07:47, Buenos Aires).
 Leé primero rutinas/_reglas-comunes.md (en esta misma rama). Nadie te va a contestar preguntas.
 
-Qué es una discovery call: evento del Google Calendar principal de Flor ("BREAKING BARRIERS CON LUCIA!") con "Discovery", "llamada", "consulta" o "call" en el título, o con una invitada que no es alumna (no tiene carpeta en "VIP STUDENTS 2026", 1EKSntEU0pkzws27TxeovcAI1yz58ykTv). Las clases de alumnas NO son discovery calls.
+Qué es una discovery call: evento del Google Calendar principal de Flor ("BREAKING BARRIERS CON LUCIA!") con "Discovery", "llamada", "consulta" o "call" en el título, o con una invitada que no es alumna (no tiene carpeta en "VIP STUDENTS 2026", 1EKSntEU0pkzws27TxeovcAI1yz58ykTv). Las clases de alumnas NO son discovery calls. Tampoco lo son los turnos personales de Flor ni sus servicios contratados (regla de Flor 29/10: "Antonela" es un asesoramiento de imagen para Flor, no una prospecta). Si una invitada no tiene carpeta de alumna pero el evento no menciona discovery/llamada/consulta/call y no hay una prospecta con ese nombre en Notion, NO la tomes como discovery call.
 
 La marca en la descripción del evento es la que evita repetir: "PREP LISTA · [fecha]" y "SEGUIMIENTO LISTO · [fecha]". Editá la descripción siempre sin notificar a los invitados (notificationLevel NONE), agregando la marca arriba y conservando todo lo que ya tenía.
 
