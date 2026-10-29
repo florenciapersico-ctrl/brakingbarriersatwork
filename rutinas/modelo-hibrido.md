@@ -69,7 +69,9 @@ Nunca: "lo vemos en tu clase", "nos vemos el [día]" ni nada que prometa una 1:1
 Cada alumna de lab tiene **un encuentro 1:1 por mes** con Flor.
 
 - Cómo se agenda: con una **agenda de citas de Google Calendar** (página de reservas)
-  que crea Flor una vez. PENDIENTE de Flor: horarios, duración y el link.
+  «AT WORK · Tu 1:1 mensual con Flor»: https://calendar.app.google/kxnVBHB5XJam7JG69
+  (la creó Flor el 29/10; los horarios y la duración se manejan desde esa agenda).
+  La rutina completa está en `rutinas/1a1-mensual.md`.
 - Propuesta de horarios (a confirmar con el Calendar real): 30 min, martes 11:00–13:00
   ART (México 8:00, Colombia 9:00) y miércoles 17:00–19:00 ART (México 14:00,
   Colombia 15:00). Son 8 turnos por semana, de sobra para 16 alumnas (2 labs × 8).
