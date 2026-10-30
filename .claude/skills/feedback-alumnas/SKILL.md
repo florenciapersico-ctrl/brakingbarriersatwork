@@ -60,6 +60,7 @@ Idioma y trato: igual al último mail de Flor a esa alumna. Voseo con las argent
 
 ## 4b. Si la alumna no vino o no tuvo clase (Flor, 30/10: casos Vir y Gaby)
 El feedback va en un DOCUMENTO con el formato de clase (no un mail eterno), en su carpeta de Drive, y un mail corto con el link: "como no tuvimos clase, te mando acá todo para que quede más claro".
+FORMATO OBLIGATORIO (Flor, 30/10: "no lo estás armando con mi branding, con mi estilo"): el doc se arma SOBRE la plantilla rutinas/plantillas/hoja-alumna.html de la rama claude/peaceful-hamilton-9vczne (Open Sans en <style>, títulos #82552E, subtítulos y bordes #C68C6C, recuadros crema #FFF8E7, TODAY'S GOAL en recuadro, bloques 1 Narrative Flow (tabla con sus frases reales, error en rojo, corrección en verde, columna Gap/Fossilized), 2 Language Clinic, 3 Skill, 4 Pronunciation, Tarea en español con su trato, pie "AT WORK · Your English. Your voice. Your impact."). Contenido de clase en inglés; la Tarea arriba de todo. Modelo: hoja de Vir del 30/10 y la de Gaby del 30/10.
 Estructura del documento:
 1. Encabezado de clase (BREAKING BARRIERS AT WORK · título · Nombre · AT WORK 1:1 · fecha) y TU OBJETIVO en una línea.
 2. Lo que la alumna contó o necesitó (ej. la pregunta que se le armó mal en una reunión): la teoría explicada como en la clase grabada correspondiente (mismas fórmulas) y su frase armada paso a paso, para que la próxima la arme sola.
