@@ -77,10 +77,10 @@ Cuando esté listo, fase 2 (decisión de Flor): canal de YouTube semanal + newsl
 
 ## 7. Reglas de CTA
 - Reel sin lead magnet: SIN CTA en el video. El CTA va en la descripción ("la descripción es el GPS": trabajar 1:1, cómo es AT WORK, escribime).
-- Pieza de conversión (1–2 por semana): "Si estás lista para entrenar tu inglés con tus reuniones reales, escribime LISTA por DM." (palabra clave de "listo" de Ann: es para las que ya están listas, no para un lead magnet).
+- Pieza de conversión (1–2 por semana): "Si estás lista para entrenar tu inglés con tus reuniones reales, escribime READY por DM." (palabra clave de "listo" de Ann: es para las que ya están listas, no para un lead magnet; READY reemplazó a LISTA desde el 29/10). Historias con CTA de venta READY los martes y viernes; los otros días, de conexión.
 - Stories: CTA a DM solo en fase de invitación.
 - Carruseles: CTA a guardar/compartir en la última lámina ("guardalo para tu próxima reunión").
-- Palabra DIAGNÓSTICO: la usa Flor en sus carruseles para mandar el ejercicio de diagnóstico (lead magnet). LISTA queda para las piezas de conversión directa. Nunca las dos en la misma pieza.
+- Palabra GUÍA (desde 29/10): lead magnet, la guía «Sabes inglés. ¿Por qué en la reunión no te sale?», seguida de un mini-curso de 5 emails. (Antes era DIAGNÓSTICO con el ejercicio de diagnóstico.) READY queda para las piezas de conversión directa. Nunca las dos en la misma pieza.
 
 ## 8. Voz
 - Flor hablando a UNA lectora, como coach. Directa, cálida, con humor y opinión.

@@ -7,6 +7,7 @@ REGLAS
 - Si alguna de estas personas responde por su cuenta (Gmail, Instagram, WhatsApp, planilla), eso sí se avisa, en la sección de ventas, no como prospecta nueva.
 - Las marcadas como "no alumna ideal" o "ya es alumna" quedan fuera de cualquier lista de ventas.
 - Última actualización: 25/09/2026 (la cargó Flor).
+- OJO (30/10): las notas "REABRIR con 1:1" de abajo son viejas. A las prospectas nuevas ya no se les ofrece 1:1 semanal, solo AT WORK grupal (ver oferta/oferta-vigente.md). La hot list se reactiva recién con el offer doc grupal listo y nunca con el mismo mensaje de antes.
 
 | Nombre | Usuario IG | Etapa previa | Resultado / nota de Flor |
 |---|---|---|---|
