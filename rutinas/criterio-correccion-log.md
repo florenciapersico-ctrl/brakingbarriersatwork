@@ -20,3 +20,6 @@ Cada vez que Flor corrige una devolución, se anota acá qué cambió y por qué
 - PRIMERO entender qué tiene que lograr la alumna y dar feedback sobre ESO. Adri prepara una entrevista: "todo el feedback de cómo escribió en el documento no importa para nada. El objetivo es que pase su entrevista."
 - Entonces se corrige lo que impacta en el objetivo: si las respuestas contestan la pregunta, si son claras y de largo justo para decirlas, si muestran su valor para el puesto, tono, gramática/vocabulario que se va a ESCUCHAR, pronunciación de palabras clave. NO typos, tildes, mayúsculas ni formato del documento.
 - Siempre: leer la transcripción de la clase pasada, ver qué tarea tenía y revisar lo que hizo de ESA tarea.
+- (Adri, 2da vuelta) La devolución larga quedó "extremadamente extensa y poco claro". Corta y clara, lo importante primero.
+- Si la tarea era practicar en voz alta (sin entrega), no hay nada escrito para corregir. En ese caso, lo que hace Flor: un mensaje corto por WhatsApp preguntando cómo viene, si tiene algo para que le dé feedback o si necesita algo, y recordándole que puede mandar audios practicando.
+- En un documento que armaron juntas en clase NO se puede saber qué escribió la alumna y qué escribió Flor: no corregirlo sin preguntarle a Flor qué parte es de la alumna.
