@@ -23,3 +23,7 @@ Cada vez que Flor corrige una devolución, se anota acá qué cambió y por qué
 - (Adri, 2da vuelta) La devolución larga quedó "extremadamente extensa y poco claro". Corta y clara, lo importante primero.
 - Si la tarea era practicar en voz alta (sin entrega), no hay nada escrito para corregir. En ese caso, lo que hace Flor: un mensaje corto por WhatsApp preguntando cómo viene, si tiene algo para que le dé feedback o si necesita algo, y recordándole que puede mandar audios practicando.
 - En un documento que armaron juntas en clase NO se puede saber qué escribió la alumna y qué escribió Flor: no corregirlo sin preguntarle a Flor qué parte es de la alumna.
+
+## 30/10 · Gaby (seguimiento por faltar + Ferani) · versión larga rechazada
+- "Es un montón, súper choclo. Me gustaría darle algo que le ayude, no que la agobie." Equilibrio con "completo": completo quiere decir no dejar afuera lo importante, NO listar todo. Elegí las 3 o 4 correcciones que más le sirven para su trabajo real (las que se repiten o la frenan), agrupá las del mismo tipo y el resto se trabaja en clase. Si se juntan dos cosas en un mail, más corto todavía.
+- Seguimiento cuando falta a clase: preguntar si vio la clase recomendada, resolverle la situación real que contó (con la frase lista para usar) y UNA tarea concreta y corta.
