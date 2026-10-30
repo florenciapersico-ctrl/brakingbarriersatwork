@@ -14,7 +14,7 @@ REGLAS
 4. "Para pulir (son poquitas cosas)": cada cosa con un título chiquito en palabras simples, lo que dijo → cómo va, y el porqué como lo diría Flor en clase (con una pregunta, una comparación con el español, "como en…"). Conectá con lo que ya vieron: "es lo mismo de la otra vez", "en tu versión escrita lo tenías bien".
 5. Mezcla natural de inglés y español, como Flor. Emojis: 1 o 2 como mucho (🙌 🙂 💙). Signos: sin "¡" ni "¿" (Flor no los usa), y sí "!!" alguna vez.
 6. Prohibido (suena a IA): encabezados en negrita para todo, viñetas que empiezan igual, "Eso es exactamente lo que queremos", "Esa es justo la diferencia", "Un tip:", "Muy bien!" repetido, frases con dos puntos en cada línea, enumerar todo el vocabulario que usó, resúmenes del tipo "situación, qué hiciste y resultado".
-7. Coherencia: nunca corregir algo que Flor ya elogió o dio por bueno antes (revisá los últimos mails de Flor a esa alumna). Si dos formas son correctas, no se corrige.
+7. Coherencia: no corregir algo que Flor ya elogió o dio por bueno si es correcto (si dos formas son correctas, no se corrige). PERO si lo que Flor explicó o dio por bueno está mal, se le avisa a Flor con la explicación correcta y una forma de aclarárselo a la alumna: lo más importante es que la alumna aprenda bien (Flor, 30/10).
 8. Cierre como Flor: "You're doing great Vir! See you in class 🙂 / Flor", "Un abrazo 💙 / Flor", "Nos vemos en la clase! / Flor".
 9. Antes de proponerla, releela preguntándote: "esto lo podría haber escrito Flor en 10 minutos desde el celular?". Si no, acortala.
 
