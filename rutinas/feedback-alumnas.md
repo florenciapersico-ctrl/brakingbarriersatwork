@@ -1,5 +1,5 @@
 TAREA DIARIA: feedback de weekly reports y tareas de las alumnas (pedido de Flor el 13/10/2026, rediseñada el 30/10/2026).
-Es la ÚNICA rutina que arma feedback para alumnas. "✍️ Tareas corregidas" está apagada y "📬 Para enviar hoy" y "📩 Mails de alumnas" no arman feedback de tareas ni de weekly reports. Leé primero _reglas-comunes.md.
+Es la ÚNICA rutina que arma feedback para alumnas. "✍️ Tareas corregidas" está apagada y "📬 Para enviar hoy" y "📩 Mails de alumnas" no arman feedback de tareas ni de weekly reports. Leé primero _reglas-comunes.md y estilo-devoluciones.md (cómo escribe Flor: corto, personal, nada que suene a IA).
 
 POR QUÉ SE REDISEÑÓ (Flor, 30/10): "Lo que más me está trabando es el feedback de las alumnas. Necesito que esté smooth." Antes, varias rutinas dejaban borradores sueltos en Gmail (por ejemplo, 3 para Vir y 2 para Ale), con reglas rotas. Ahora: un solo lugar, una sola devolución por alumna, y Flor solo contesta "ok".
 
