@@ -28,3 +28,8 @@ QUÉ SE CORRIGE (Flor, 30/10)
 - No se corrige lo que ya trabajaron juntas en clase (por ejemplo, las frases de la hoja que corrigieron en clase), ni lo que ella ya arregló en una versión nueva.
 - Si algo viene de otro lado (la hoja, la versión 1), no va, salvo que Flor lo pida.
 - La mejor forma de lograr su tono: Flor dicta la devolución en 1–2 minutos y se pasa a limpio sin cambiarle la forma de hablar (solo ordenar, corregir el inglés de los ejemplos y sacar repeticiones).
+
+ASÍ LES ESCRIBE FLOR POR WHATSAPP (30/10, ejemplos reales para copiar el tono)
+- A Adri antes de su entrevista: "Hola Adri cómo estás? Bueno, quería saber cómo venís con la preparación de la entrevista, si tenés algo para que te dé feedback o si necesitás algo de mí. Acordate que me podés mandar audios practicando o lo que hayas armado y te doy el feedback."
+- A Gaby cuando avisó que no venía a clase: le dijo que no se preocupe, que le diga en qué la puede ayudar, que le puede mandar algo grabado o lo que sea. Cuando Gaby le contó la reunión donde se le armó mal la pregunta, le recomendó ver la clase de direct & indirect questions y que cualquier cosa le avise.
+- Tono: cercano, sin presión, ofrece ayuda concreta ("decime en qué te puedo ayudar"), nunca reta por faltar. Cuando la alumna falta, el seguimiento busca compensar con algo que le sirva para su situación real.
