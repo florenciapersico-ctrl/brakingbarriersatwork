@@ -15,3 +15,8 @@ Cada vez que Flor corrige una devolución, se anota acá qué cambió y por qué
 ## 30/10 · Gisela (weekly del 26/10) · NO SE MANDA
 - Si la alumna tiene clase hoy o en las próximas ~24 h, NO se manda la respuesta al weekly ("ya es al pedo, la veo en un rato"): se le pasa a Flor en 3–4 líneas qué tocar en clase (win, plan, aclaraciones). Aplica también a tareas chicas; si es una corrección larga de una tarea, preguntar a Flor.
 - Chequear siempre el Calendar real para saber cuándo es la próxima clase (el dato de Notion puede estar viejo).
+
+## 30/10 · Adri (preparación de entrevista) · rehecha
+- PRIMERO entender qué tiene que lograr la alumna y dar feedback sobre ESO. Adri prepara una entrevista: "todo el feedback de cómo escribió en el documento no importa para nada. El objetivo es que pase su entrevista."
+- Entonces se corrige lo que impacta en el objetivo: si las respuestas contestan la pregunta, si son claras y de largo justo para decirlas, si muestran su valor para el puesto, tono, gramática/vocabulario que se va a ESCUCHAR, pronunciación de palabras clave. NO typos, tildes, mayúsculas ni formato del documento.
+- Siempre: leer la transcripción de la clase pasada, ver qué tarea tenía y revisar lo que hizo de ESA tarea.
