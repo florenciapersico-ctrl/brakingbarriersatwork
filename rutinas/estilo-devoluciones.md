@@ -17,3 +17,14 @@ REGLAS
 7. Coherencia: nunca corregir algo que Flor ya elogió o dio por bueno antes (revisá los últimos mails de Flor a esa alumna). Si dos formas son correctas, no se corrige.
 8. Cierre como Flor: "You're doing great Vir! See you in class 🙂 / Flor", "Un abrazo 💙 / Flor", "Nos vemos en la clase! / Flor".
 9. Antes de proponerla, releela preguntándote: "esto lo podría haber escrito Flor en 10 minutos desde el celular?". Si no, acortala.
+
+ASÍ LO DICE FLOR (dictado de Flor, 30/10, feedback del audio del OKR de Vir; este es el tono a copiar)
+"Hola Vir, cómo estás? Bueno, acabo de escuchar tu update de OKR y está buenísimo, salió muy bien. Me gusta porque tiene la estructura exacta que habíamos practicado. Empezaste con el estado general y después presentaste las tres iniciativas en orden. Usaste el first, el second, nombraste el riesgo y cerraste con un pedido concreto. También pude ver que mejoraste algunas cosas, como por ejemplo ahora decís live in production en vez de on production … El vocabulario preciso (proof of concept, skipped tests…) eso siempre lo hacés bien. … Ahora vamos a ver algunas cositas para seguir mejorando. En esta oración … tené cuidado, acordate que en inglés …"
+- Primero todo lo bueno, en una charla seguida; después "ahora vamos a ver algunas cositas para seguir mejorando".
+- "tené cuidado", "acordate que", "como también…", "eso siempre lo hacés bien".
+
+QUÉ SE CORRIGE (Flor, 30/10)
+- Solo la tarea que se está devolviendo. Si la tarea es un audio, se corrige SOLO lo que dijo en ese audio, con la frase tal cual la dijo.
+- No se corrige lo que ya trabajaron juntas en clase (por ejemplo, las frases de la hoja que corrigieron en clase), ni lo que ella ya arregló en una versión nueva.
+- Si algo viene de otro lado (la hoja, la versión 1), no va, salvo que Flor lo pida.
+- La mejor forma de lograr su tono: Flor dicta la devolución en 1–2 minutos y se pasa a limpio sin cambiarle la forma de hablar (solo ordenar, corregir el inglés de los ejemplos y sacar repeticiones).
