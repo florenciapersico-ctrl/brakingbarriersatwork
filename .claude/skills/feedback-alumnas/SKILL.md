@@ -51,12 +51,15 @@ Seguí `rutinas/estilo-devoluciones.md`. En resumen:
 
 1. Saludo y arranque personal: "Hola Vir, cómo estás? Bueno, acabo de escuchar tu update…".
 2. Todo lo bueno, en una charla seguida y conectado con lo que practicaron: "tiene la estructura exacta que habíamos practicado", "eso siempre lo hacés bien", "se nota que mejoraste…".
-3. "Ahora vamos a ver algunas cositas para seguir mejorando". Son 2 o 3 como mucho, las que más le sirven para su trabajo y lo que tiene por delante. Cada una lleva la frase tal cual, cómo va y el porqué, como lo diría Flor en clase ("tené cuidado", "acordate que…", "como también…").
+3. "Ahora vamos a ver algunas cositas para seguir mejorando": TODAS las correcciones reales de la entrega (escrita y audio), numeradas (Flor 30/10: tiene que ser completo). Antes de poner una corrección, verificá que sea correcta de verdad (si las dos formas son correctas, no se corrige). Cada una lleva la frase tal cual, cómo va y el porqué, como lo diría Flor en clase ("tené cuidado", "acordate que…", "como también…").
 4. Si hay weekly: responder todas sus secciones de forma breve (win, dónde está, foco, plan, situación para la 1:1 o el lab, qué necesita de Flor). En las de lab, conectalo con lo que va a traer al próximo lab.
 5. Cierre como Flor ("You're doing great Vir! See you in class 🙂 / Flor", "Un abrazo 💙 / Flor").
 
 No va nada de esto: encabezados en negrita, viñetas simétricas, "¡", "¿", más de 2 emojis, pedirle que lo rehaga o lo regrabe, ni tareas o prácticas nuevas.
 Idioma y trato: igual al último mail de Flor a esa alumna. Voseo con las argentinas y tú con las demás.
+
+## 4b. Si la alumna no tuvo clase
+Si la clase se cayó (ella o Flor), la devolución suma al final "te dejo algo para esta semana" con la tarea de la hoja que estaba preparada para esa clase (link + 3 o 4 pasos concretos y que se mande antes de la próxima clase). Así no pierde ritmo hasta la próxima (Flor, 30/10).
 
 ## 5. Antes de dársela a Flor, chequeá
 

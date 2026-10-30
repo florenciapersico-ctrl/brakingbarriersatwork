@@ -8,7 +8,7 @@ CÓMO ESCRIBE FLOR DE VERDAD (mails escritos por ella)
 - Feedback a Vir del 07/10 (el modelo a seguir): "Escuché tu corrected version, como siempre súper comprometida, me encanta que lo hayas grabado de nuevo tan rápido." Después "Para pulir (son poquitas cosas)" con títulos chiquitos en palabras de todos los días ("El sujeto, una vez más", "That después de validate", "Guardrails") y explicaciones como charla: "Quién lo puede considerar? El agente, entonces va… Es el mismo tip de la otra vez… ya lo tenés casi."
 
 REGLAS
-1. Corto. Se lee en 1 minuto. Si hay mucho para corregir, elegí las 2 o 3 cosas que más le van a servir en su trabajo; el resto se trabaja en clase. Nunca listas de 8 o 10 correcciones.
+1. COMPLETO (Flor, 30/10: la versión corta "no incluyó todas las cosas que tenía que mejorar"): se corrigen TODOS los errores reales de la entrega (escrita y audio), numerados, cada uno con lo que dijo → cómo va → el porqué con la voz de Flor. Lo que se acorta es el relleno, nunca las correcciones. Si la entrega tiene más de 8 errores, agrupá los del mismo tipo.
 2. Arranque personal y concreto, sobre ELLA y lo que hizo ("como siempre súper comprometida", "qué lindo escucharte así, sin leer"). Nada genérico tipo "Qué buen trabajo!" o "Excelente trabajo".
 3. "Lo que ya lograste" en prosa, uno o dos párrafos, no en viñetas simétricas. Una o dos citas suyas, no cinco.
 4. "Para pulir (son poquitas cosas)": cada cosa con un título chiquito en palabras simples, lo que dijo → cómo va, y el porqué como lo diría Flor en clase (con una pregunta, una comparación con el español, "como en…"). Conectá con lo que ya vieron: "es lo mismo de la otra vez", "en tu versión escrita lo tenías bien".
