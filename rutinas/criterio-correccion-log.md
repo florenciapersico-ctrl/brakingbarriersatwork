@@ -11,3 +11,7 @@ Cada vez que Flor corrige una devolución, se anota acá qué cambió y por qué
 - Si no hubo clase: tarea nueva con la hoja preparada, adaptada para hacerla SOLA (role plays con el bot con el prompt para copiarle; lo de "con Flor" pasa a la próxima clase). La tarea va ARRIBA de todo en la hoja.
 - Nunca mandar a ver un training que no existe: nombre exacto de Notion (ej. "M3 · Questions & Indirect Questions") o ninguno.
 - Frases a evitar por sonar a IA: "Esa es justo la diferencia".
+
+## 30/10 · Gisela (weekly del 26/10) · NO SE MANDA
+- Si la alumna tiene clase hoy o en las próximas ~24 h, NO se manda la respuesta al weekly ("ya es al pedo, la veo en un rato"): se le pasa a Flor en 3–4 líneas qué tocar en clase (win, plan, aclaraciones). Aplica también a tareas chicas; si es una corrección larga de una tarea, preguntar a Flor.
+- Chequear siempre el Calendar real para saber cuándo es la próxima clase (el dato de Notion puede estar viejo).
