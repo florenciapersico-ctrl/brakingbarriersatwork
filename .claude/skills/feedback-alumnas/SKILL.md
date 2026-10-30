@@ -14,7 +14,7 @@ Leé antes: `rutinas/_reglas-comunes.md` (alumnas, mails, privacidad), `rutinas/
 | Tipo | Quiénes | ¿Feedback? | De dónde sale la tarea |
 |---|---|---|---|
 | 1:1 (formato viejo) | Las alumnas actuales con clase individual | Sí: tareas y weekly report | La transcripción de su última clase 1:1 + el resumen post-clase que recibió |
-| Lab grupal (formato nuevo, desde 27/11) | Las que entran desde ahora: lab vie 13:00 o sáb 15:30 ART + 1:1 mensual | Sí: weekly report de los lunes y sus tareas | Su weekly report de la semana (qué quiere entrenar, su situación real) + la transcripción del último lab al que fue (lo que se trabajó y lo que Flor pidió) + su último 1:1 mensual si fue más reciente |
+| Lab grupal (formato nuevo, desde 27/11) | Las que entran desde ahora: lab vie 13:00 o sáb 15:30 ART + 1:1 mensual | Sí: weekly report de los lunes y las tareas que están en el weekly | Las tareas están en su weekly report (Flor, 30/10). El lab es un encuentro de práctica: ahí NO se da tarea, y el playbook que se llevan del lab NO lleva feedback. La transcripción del último lab y del último 1:1 mensual se leen solo para ponerse en tema y no contradecir |
 | Grupo reducido A2–B1 | Lina y Corina (mar y jue 20:00) | NO. No se arma feedback de tareas ni de weekly | — |
 
 Casos especiales de `_reglas-comunes.md` mandan (por ejemplo, Alejandra Rossi: nunca se le escribe; todo va solo a Flor).
@@ -23,7 +23,7 @@ Si no sabés de qué tipo es una alumna, preguntale a Flor y no armes nada.
 ## 1. Ponerse en tema (antes de leer la entrega)
 
 - 1:1: leé la transcripción de la ÚLTIMA clase (notas y transcripción de Gemini en su carpeta de Drive "VIP STUDENTS 2026", o Wispr Flow `search_meetings`) y el último "Resumen de tu clase" que se le mandó.
-- Lab: leé su weekly report de esta semana y la transcripción del último lab al que fue (en el lab hay varias alumnas: quedate solo con lo de ella; nunca le cites lo de otra).
+- Lab: leé su weekly report de esta semana (ahí están sus tareas) y, para contexto, la transcripción del último lab al que fue y de su último 1:1 mensual (en el lab hay varias alumnas: quedate solo con lo de ella; nunca le cites lo de otra). Del lab no se corrige nada ni el playbook.
 - Anotá en 3 líneas: qué tarea le dio Flor (con fecha), qué trabajaron y qué le dijo o corrigió Flor.
 - Revisá también los mails de Flor a esa alumna de las últimas 2 semanas, desde las dos cuentas (florenciapersico@breakingbarriers.site y mariaflorenciaper@gmail.com).
 - Si no encontrás la transcripción, decilo. No inventes la tarea.
