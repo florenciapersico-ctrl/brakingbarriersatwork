@@ -1,95 +1,107 @@
 ---
 name: feedback-alumnas
-description: Cómo se le da feedback a una alumna de AT WORK (Flor Pérsico) por su tarea o su weekly report. Se pone en tema con su última clase o lab, chequea que la entrega sea la tarea vigente, corrige solo esa entrega sin contradecir a Flor y la escribe con la voz de Flor, para que ella la apruebe. Usala cuando Flor diga "dale feedback a X", "corregí la tarea de X", "respondé el weekly de X", "ponete al día con el feedback", y en la rutina diaria 💬 Feedback de alumnas.
+description: Feedback de tareas, audios y weekly reports para las alumnas de AT WORK (Flor Pérsico), con el criterio, el branding y la voz de Flor. Antes de corregir, se pone en tema con la última clase, revisa qué tarea tenía la alumna y qué tiene que lograr; corrige solo esa entrega sin repetir lo que hicieron en clase; avisa a Flor si algo de la clase estuvo mal explicado; y entrega la devolución para que Flor la apruebe antes de mandarla. Usala cuando Flor diga "dale feedback a X", "corregí la tarea de X", "respondé el weekly de X", "ponete al día con el feedback", cuando una alumna no vino a clase y hay que mandarle algo, y en la rutina diaria de feedback.
 ---
 
 # Feedback de alumnas · AT WORK
 
-Pedido de Flor (30/10/2026): "para enviarle la tarea a una alumna, chequear el transcript anterior de su clase, ver cuál era la tarea que le di, chequear que no le estemos dando feedback de una tarea súper vieja… asegurarnos de que estamos actualizados con las alumnas, enviándoles bien su feedback, con mi tono, con mi estilo y que realmente les sirva."
+Pedido de Flor (30/10/2026): "Para darle feedback a una alumna: chequear el transcript de su última clase, ver cuál era la tarea que le di, chequear que no le estemos dando feedback de una tarea súper vieja, asegurarnos de que estamos al día, con mi tono, con mi estilo, y que realmente les sirva."
 
-Leé antes: `rutinas/_reglas-comunes.md` (alumnas, mails, privacidad), `rutinas/estilo-devoluciones.md` (cómo habla Flor, con su dictado real) y `oferta/oferta-vigente.md` (formatos).
+Todo lo de este archivo sale de una ronda real de correcciones con Flor (30/10/2026, Vir, Gaby, Adri, Lourdes, Gisela, Brenda). Los ejemplos están en `referencias/`.
 
-## 0. Qué tipo de alumna es (mirá su ficha en Notion › Alumnas, collection://59d40821-721b-4597-9b86-4b856c800e87)
+## Regla de oro
 
-| Tipo | Quiénes | ¿Feedback? | De dónde sale la tarea |
-|---|---|---|---|
-| 1:1 (formato viejo) | Las alumnas actuales con clase individual | Sí: tareas y weekly report | La transcripción de su última clase 1:1 + el resumen post-clase que recibió |
-| Lab grupal (formato nuevo, desde 27/11) | Las que entran desde ahora: lab vie 13:00 o sáb 15:30 ART + 1:1 mensual | Sí: weekly report de los lunes y las tareas que están en el weekly | Las tareas están en su weekly report (Flor, 30/10). El lab es un encuentro de práctica: ahí NO se da tarea, y el playbook que se llevan del lab NO lleva feedback. La transcripción del último lab y del último 1:1 mensual se leen solo para ponerse en tema y no contradecir |
-| Grupo reducido A2–B1 | Lina y Corina (mar y jue 20:00) | NO. No se arma feedback de tareas ni de weekly | — |
+Nada le llega a una alumna sin el **ok explícito de Flor para ese mensaje**. Feedback y respuestas a mails: siempre con ok. Sin pedir ok sí se puede: invitaciones o avisos de calendario para su clase u onboarding, y compartirle su carpeta de Drive. Nunca borrar nada sin que Flor lo confirme.
 
-Casos especiales de `_reglas-comunes.md` mandan (por ejemplo, Alejandra Rossi: nunca se le escribe; todo va solo a Flor).
-Si no sabés de qué tipo es una alumna, preguntale a Flor y no armes nada.
+## 0. ¿Qué tipo de alumna es? (ficha en Notion › Alumnas)
 
-## 1. Ponerse en tema (antes de leer la entrega)
+| Tipo | ¿Feedback? | De dónde sale la tarea |
+|---|---|---|
+| 1:1 (alumnas actuales) | Sí: tareas, audios y weekly | Transcripción de su última clase + resumen que recibió |
+| Lab grupal (alumnas nuevas, desde 27/11) | Sí: weekly report y las tareas que están en el weekly | El lab es práctica: ahí no hay tarea y el playbook del lab NO lleva feedback. La transcripción del último lab (solo lo de ella) y del 1:1 mensual se leen para ponerse en tema |
+| Grupo reducido A2–B1 (Lina y Corina) | NO | — |
 
-- 1:1: leé la transcripción de la ÚLTIMA clase (notas y transcripción de Gemini en su carpeta de Drive "VIP STUDENTS 2026", o Wispr Flow `search_meetings`) y el último "Resumen de tu clase" que se le mandó.
-- Lab: leé su weekly report de esta semana (ahí están sus tareas) y, para contexto, la transcripción del último lab al que fue y de su último 1:1 mensual (en el lab hay varias alumnas: quedate solo con lo de ella; nunca le cites lo de otra). Del lab no se corrige nada ni el playbook.
-- Anotá en 3 líneas: qué tarea le dio Flor (con fecha), qué trabajaron y qué le dijo o corrigió Flor.
-- Revisá también los mails de Flor a esa alumna de las últimas 2 semanas, desde las dos cuentas (florenciapersico@breakingbarriers.site y mariaflorenciaper@gmail.com).
-- Si no encontrás la transcripción, decilo. No inventes la tarea.
+Casos especiales (por ejemplo, alumnas a las que nunca se les escribe) mandan sobre esta tabla. Si no sabés el tipo, preguntale a Flor.
 
-## 2. ¿La entrega es la tarea vigente?
+## 1. Ponerse en tema ANTES de leer la entrega
 
-- Tiene que ser la tarea que Flor dio en la última clase o lab, o la anterior si todavía no la había hecho.
-- Si es una tarea vieja que ya superaron en clase, o no sabés a qué corresponde: NO la devuelvas. Preguntale a Flor: "Tiene sin devolver X del dd/mm; después ya trabajaron Y. La devolvemos igual o la dejamos?".
-- Si Flor ya la devolvió (por mail o en clase), no se arma nada.
-- Si la hoja está a medias, no se devuelve (regla de Flor 21/10). Anotá qué le falta. La excepción es que Flor haya dicho en clase que la mande igual.
+1. **Mirá el calendario real**: ¿cuándo es su próxima clase? (Notion puede estar viejo).
+2. **Leé la transcripción COMPLETA de su última clase** (notas/transcripción de Gemini en su carpeta de Drive o Wispr Flow) y el resumen que recibió. Ignorá cualquier charla personal grabada antes o después de la clase.
+3. Anotá en 3 líneas: **qué tarea le dio Flor exactamente** (con fecha y cita), **qué practicaron juntas** y **qué le corrigió o explicó Flor**. Si la hoja de clase y el resumen dicen tareas distintas, preguntale a Flor cuál vale.
+4. **¿Qué tiene que lograr la alumna?** (pasar una entrevista, presentar al COO, dirigir una reunión…). El feedback es sobre ESO. Ejemplo: si prepara una entrevista, importa si sus respuestas contestan, son claras, muestran su valor y suenan bien dichas; los typos o el formato del documento NO importan.
+5. Leé también los mails de Flor a esa alumna de las últimas 2 semanas (las dos cuentas de Flor).
+
+## 2. ¿Hay algo para devolver y está al día?
+
+- **Si tiene clase hoy o en las próximas ~24 h**: no se manda nada. A Flor se le pasan 3–4 puntos para tocar en clase.
+- **Si la tarea era practicar en voz alta** (sin entrega): no hay nada escrito para corregir. Se le propone a Flor un mensaje corto de WhatsApp: "Hola X, cómo estás? Quería saber cómo venís con [lo que prepara], si tenés algo para que te dé feedback o si necesitás algo de mí. Acordate que me podés mandar audios practicando o lo que hayas armado y te doy el feedback."
+- **Si es una tarea vieja** que ya superaron en clase: no se devuelve; se pregunta a Flor.
+- **Si Flor ya la devolvió** (mail o clase): nada.
+- **Si la hoja está a medias**: no se devuelve, salvo que Flor haya dicho en clase que la mande igual. Se anota qué le falta.
+- **Documentos que armaron juntas en clase**: no se puede saber qué escribió la alumna y qué escribió Flor. No se corrigen sin preguntarle a Flor qué parte es de la alumna.
 
 ## 3. Leer o escuchar la entrega de verdad
 
-- Los audios se transcriben con faster-whisper large-v3. Avisá que la transcripción no evalúa pronunciación.
-- Si un tramo no se entiende, no lo corrijas: preguntale a Flor.
-- Si un archivo no se puede bajar o procesar, decilo. Nunca escribas "no me llegó" sin buscar en Drive y en Gmail.
-- Se corrige SOLO esa entrega. Si es un audio, solo lo que dijo en el audio, con la frase tal cual la dijo. Nada de la hoja de clase, nada que ya corrigieron juntas, nada que ella ya arregló en una versión nueva.
-- Coherencia con Flor, pero lo correcto primero (Flor, 30/10: "si yo lo expliqué de una cierta forma, pero está mal, eso es súper importante que me lo expliques… lo más importante es que la alumna lo aprenda bien"):
-  - Si lo que Flor explicó o dio por bueno ES correcto, la devolución lo sigue, con sus mismas palabras y ejemplos (si dos formas son correctas, no se corrige).
-  - Si lo que Flor explicó o dio por bueno en clase o en un mail está MAL o es impreciso, NO se copia el error: se le avisa a Flor primero, aparte y arriba de la devolución de esa alumna ("⚠️ Ojo: en la clase del dd/mm le explicaste X; en realidad es Y, porque…" con un ejemplo claro), y se propone cómo decírselo bien a la alumna sin que quede incómodo ("te aclaro algo que vimos en clase…"). Flor decide; la devolución no sale hasta que ella lo vea.
+- Audios: transcribir (faster-whisper large-v3). La transcripción escribe la palabra correcta aunque esté mal dicha: **no sirve para pronunciación**.
+- Pronunciación: correr el chequeo de pronunciación (`herramientas/pronunciacion/pron_check.py` del repo de Flor) y pasarle a Flor la lista "mm:ss · palabra · cómo debería sonar · qué se oyó" para que escuche y confirme. **Solo lo que Flor confirma va a la alumna.** Errores típicos: live adjetivo /laɪv/ dicho como vivir, -ed con sílaba de más (skip-ed), v→b (bisa), th→t (tank you), vocales largas/cortas, e- antes de s.
+- Si un tramo no se entiende, no se corrige: se pregunta a Flor.
+- Nunca "no me llegó" sin buscar en Drive y Gmail (y preguntar si lo mandó por WhatsApp).
 
-## 4. Escribirla con la voz de Flor
+## 4. Qué se corrige
 
-Seguí `rutinas/estilo-devoluciones.md`. En resumen:
+- **Solo esa entrega.** Si es audio, solo lo que dijo en el audio, con la frase tal cual.
+- **No** lo que corrigieron juntas en clase. **No** lo que ella ya arregló en su versión nueva: eso va a "lo que mejoraste".
+- **Verificá cada corrección.** Si las dos formas son correctas, no se corrige (ej.: "automatically" antes del verbo o al final; "every experiment live in production" es correcta). Si la corrección deja una oración sin verbo, está mal.
+- **Lo correcto antes que la coherencia**: si algo que Flor explicó o dio por bueno está mal, NO se copia. Se le avisa a Flor arriba de la devolución ("⚠️ Ojo: en la clase del dd/mm le explicaste X; en realidad es Y, porque…", con un ejemplo) y se propone cómo aclarárselo: "Te aclaro algo que vimos en clase…" / "Te aclaro algo del modelo que armamos en clase…". Flor decide.
+- **Priorizá, ayudá sin agobiar.** Completo quiere decir no dejar afuera lo importante, no listar todo. Elegí lo que más le sirve para su trabajo real (lo que se repite o la frena), agrupá lo del mismo tipo, y el resto se trabaja en clase. "Es un montón, súper choclo" es un error tan grave como dejar afuera algo importante.
+- **Nunca** pedir que rehaga o regrabe "porque está mal", ni mandar a ver un training que no existe (nombre exacto de Notion, o ninguno).
 
-1. Saludo y arranque personal: "Hola Vir, cómo estás? Bueno, acabo de escuchar tu update…".
-2. Todo lo bueno, en una charla seguida y conectado con lo que practicaron: "tiene la estructura exacta que habíamos practicado", "eso siempre lo hacés bien", "se nota que mejoraste…".
-3. "Ahora vamos a ver algunas cositas para seguir mejorando": TODAS las correcciones reales de la entrega (escrita y audio), numeradas (Flor 30/10: tiene que ser completo). Antes de poner una corrección, verificá que sea correcta de verdad (si las dos formas son correctas, no se corrige). Cada una lleva la frase tal cual, cómo va y el porqué, como lo diría Flor en clase ("tené cuidado", "acordate que…", "como también…").
-4. Si hay weekly: responder todas sus secciones de forma breve (win, dónde está, foco, plan, situación para la 1:1 o el lab, qué necesita de Flor). En las de lab, conectalo con lo que va a traer al próximo lab.
-5. Cierre como Flor ("You're doing great Vir! See you in class 🙂 / Flor", "Un abrazo 💙 / Flor").
+## 5. Cómo se escribe: la voz de Flor
 
-No va nada de esto: encabezados en negrita, viñetas simétricas, "¡", "¿", más de 2 emojis, pedirle que lo rehaga o lo regrabe, ni tareas o prácticas nuevas.
-Idioma y trato: igual al último mail de Flor a esa alumna. Voseo con las argentinas y tú con las demás.
+Ver `referencias/voz-de-flor.md` (dictados y mensajes reales). En resumen:
 
-## 4b. Si la alumna no vino o no tuvo clase (Flor, 30/10: casos Vir y Gaby)
-El feedback va en un DOCUMENTO con el formato de clase (no un mail eterno), en su carpeta de Drive, y un mail corto con el link: "como no tuvimos clase, te mando acá todo para que quede más claro".
-FORMATO OBLIGATORIO (Flor, 30/10: "no lo estás armando con mi branding, con mi estilo"): el doc se arma SOBRE la plantilla rutinas/plantillas/hoja-alumna.html de la rama claude/peaceful-hamilton-9vczne (Open Sans en <style>, títulos #82552E, subtítulos y bordes #C68C6C, recuadros crema #FFF8E7, TODAY'S GOAL en recuadro, bloques 1 Narrative Flow (tabla con sus frases reales, error en rojo, corrección en verde, columna Gap/Fossilized), 2 Language Clinic, 3 Skill, 4 Pronunciation, Tarea en español con su trato, pie "AT WORK · Your English. Your voice. Your impact."). Contenido de clase en inglés; la Tarea arriba de todo. Modelo: hoja de Vir del 30/10 y la de Gaby del 30/10.
-REGLA (Flor, 30/10): toda tabla de errores (Narrative Flow o "lo que dijiste") va con las columnas de corrección VACÍAS para que la alumna la complete; al final del documento va un "Answer key" ("miralo solo después de intentarlo") con cada corrección y la explicación de por qué. Nunca la tabla ya resuelta.
-La estructura NO tiene que ser la de la clase: se adapta a lo que necesita esa devolución (Flor: "lo importante es que mantenga el branding y mi forma de ser").
-Estructura del documento:
-1. Encabezado de clase (BREAKING BARRIERS AT WORK · título · Nombre · AT WORK 1:1 · fecha) y TU OBJETIVO en una línea.
-2. Lo que la alumna contó o necesitó (ej. la pregunta que se le armó mal en una reunión): la teoría explicada como en la clase grabada correspondiente (mismas fórmulas) y su frase armada paso a paso, para que la próxima la arme sola.
-3. Feedback de su tarea o audio: lo que salió bien y las correcciones que más le sirven (numeradas, con la voz de Flor).
-4. Tarea demandante y útil para su trabajo real (ej. armar su guía de entrevista), en pasos, con el prompt para practicar con el bot de Role Play, y espacio en blanco en el mismo documento para completarla.
-5. Cierre: "en la próxima clase hacemos el role play juntas".
-Antes de que Flor apruebe, el documento se crea en el Drive de Flor (no en la carpeta de la alumna, que ella ve); con el ok se mueve a su carpeta y se manda el mail.
-Si había una hoja de clase preparada para ese día (caso Vir), se adapta esa hoja para hacerla sola (role plays con el bot y su prompt; lo de "con Flor" pasa a la próxima clase) y la tarea va arriba de todo.
+- Arranque: "Hola Vir, cómo estás? Bueno, acabo de escuchar tu…". Nada de "Qué buen trabajo!" genérico.
+- Lo bueno primero, en una charla seguida y conectado con lo que practicaron ("tiene la estructura exacta que habíamos practicado", "eso siempre lo hacés bien", "se nota que mejoraste…").
+- Después: "Ahora vamos a ver algunas cositas para seguir mejorando", numeradas: lo que dijo → cómo va → el porqué con la voz de Flor ("tené cuidado", "acordate que…", "fijate…", "como también…").
+- **Explicá la teoría para que la alumna lo pueda armar sola**, con las mismas fórmulas de la clase grabada que corresponde, y después mostrale su frase armada paso a paso. No le resuelvas todo ni uses frases secas tipo "era una pregunta de dos opciones".
+- Voseo con argentinas, tú con las demás (igual que el último mail de Flor a esa alumna). Sin "¡" ni "¿". 1 o 2 emojis (🙌 🙂 💙). Cierre: "You're doing great Vir! See you in class 🙂 / Flor" o "Un abrazo 💙 / Flor".
+- Prohibido (suena a IA): encabezados en negrita para todo, viñetas que arrancan igual, "Esa es justo la diferencia", "Eso es exactamente lo que queremos", "Un tip:", palabras que Flor no usa ("afilarla"), listar todo el vocabulario que usó.
+- Antes de pasarla: "¿esto lo podría haber escrito Flor?". Si Flor pide "audítalo", sé sincera y no le saques contenido útil: lo que molesta suele ser el tono robótico, no el largo.
 
-## 5. Antes de dársela a Flor, chequeá
+## 6. Tareas que se le dan
 
-- [ ] Leí la última clase o lab y sé qué tarea le dio Flor.
-- [ ] La entrega es esa tarea y está al día.
-- [ ] Cada corrección está en ESA entrega, tal cual.
-- [ ] No contradigo lo que Flor explicó bien; y si algo de lo que explicó estaba mal, se lo marqué a ella con la explicación correcta.
-- [ ] Suena a Flor: "esto lo podría haber escrito ella en 10 minutos desde el celular?".
-- [ ] No nombro a Maribel ni a Luz Cañas, ni nada personal o sensible de la alumna.
+- Si hubo clase: se retoma la tarea que Flor ya le dio; no se inventa otra.
+- **Si la alumna no vino o no tuvo clase**: se le deja algo para no perder ritmo, y tiene que ser **demandante y útil para su trabajo real** (no "grabá dos preguntas"). Ejemplos: armar su guía de entrevista con todas sus preguntas bien formuladas; adaptar la hoja de clase preparada para hacerla sola.
+- Siempre que haya práctica oral, el **prompt listo para copiarle al bot de Role Play** (quién es el bot, qué situación, y que al final le dé feedback sobre lo que se está entrenando).
+- Cierre con lo que harán juntas: "en la próxima clase hacemos el role play: vos entrevistás y yo hago de candidata".
 
-## 6. Entrega a Flor y envío
+## 7. Formato de la entrega
 
-- NO se crean borradores en Gmail.
-- Para cada alumna, Flor ve:
-  - qué tarea le dio y en qué clase o lab;
-  - el link a la entrega;
-  - el mail de destino;
-  - el asunto;
-  - la devolución completa.
-- En la rutina diaria todo eso va en el mail "💬 Feedback para revisar". Si lo pide Flor en el momento, va en la conversación.
-- Se le manda a una alumna SOLO el texto que Flor aprobó explícitamente ("ok Vir"), con sus cambios, desde florenciapersico@breakingbarriers.site, con Flor en CCO y en el hilo de su tarea o weekly. Después se anota en "Notas tracker" de su ficha: "📧 dd/mm: feedback de <tarea> enviado".
-- Nunca se borra nada sin que Flor lo confirme.
+**Feedback corto** (una tarea, hubo clase): mail en la voz de Flor.
+
+**Si la alumna no vino a clase** (o el feedback es largo): **documento con el branding de AT WORK** + mail corto con el link ("Como no pudimos tener clase, te armé todo en un documento para que te quede más claro…").
+
+El documento:
+- Branding obligatorio, sobre `referencias/plantilla-branding.html`: Open Sans declarada en `<style>`, títulos #82552E, subtítulos y bordes #C68C6C, recuadros crema #FFF8E7, encabezado "BREAKING BARRIERS AT WORK", recuadro de objetivo, errores en rojo #C0392B y correcciones en verde #1E8449, pie "AT WORK · Your English. Your voice. Your impact."
+- **La estructura NO tiene que ser la de la clase**: sigue el feedback (ej.: saludo → 1 · lo que contó o necesitó, con la teoría → 2 · feedback de su entrega → 3 · su tarea con el prompt del bot y espacio para completarla → answer key → cierre "Un abrazo 💙 Flor"). Ejemplo aprobado: `referencias/ejemplo-gaby-30-10.html`.
+- **Tablas de errores con las correcciones VACÍAS** para que la alumna las complete ("primero intentá corregirlas vos, sin mirar el answer key"), y al final un **Answer key** ("Miralo solo después de intentarlo") con cada corrección y el porqué. Nunca la tabla resuelta.
+- Si había una hoja de clase preparada para ese día: se adapta para hacerla sola (role plays con el bot y su prompt; lo de "con Flor" pasa a la próxima clase) y la tarea va arriba de todo.
+- Se crea con Drive (HTML → Google Doc). Mientras Flor no aprueba, va en el Drive de Flor (no en la carpeta de la alumna, que ella ve). Con el ok, se mueve a su carpeta y se manda el mail. Las versiones descartadas se renombran "[versión anterior — no usar]", nunca se borran.
+
+## 8. Antes de pasárselo a Flor
+
+- [ ] Leí la última clase y sé qué tarea le dio Flor y qué tiene que lograr la alumna.
+- [ ] La entrega es esa tarea, está al día y no repite lo trabajado en clase.
+- [ ] Cada corrección está en ESA entrega y la verifiqué.
+- [ ] Marqué con ⚠️ lo que Flor explicó mal.
+- [ ] Prioricé: ayuda, no agobia.
+- [ ] Suena a Flor y tiene su branding.
+- [ ] Pronunciación: solo lo que Flor confirmó.
+- [ ] Nada personal o sensible de la alumna; nunca nombrar a otras alumnas.
+
+## 9. Entrega a Flor y envío
+
+- A Flor se le muestra, por alumna: qué tarea le dio y en qué clase, el link a la entrega, el mail de destino, el asunto, la devolución completa (o el link al documento) y los ⚠️/dudas. Una alumna por vez si Flor está revisando en vivo.
+- En la rutina diaria todo va en un mail "💬 Feedback para revisar · <día dd/mm>". Flor responde "ok Vir", "ok todas" o "Vir: cambiá X".
+- Con el ok: se manda exactamente el texto aprobado desde florenciapersico@breakingbarriers.site, con Flor en CCO, en el hilo de su tarea si existe. Se anota en su ficha de Notion ("📧 dd/mm: feedback de <tarea> enviado").
+- Cada vez que Flor corrige una devolución, se anota el criterio nuevo en `referencias/criterio-de-flor.md` y se ajusta esta skill.
