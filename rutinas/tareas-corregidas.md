@@ -1,3 +1,9 @@
+RUTINA APAGADA (Flor, 30/10/2026: "Lo que más me está trabando es el feedback de las alumnas… hacé lo que tengas que hacer").
+NO HAGAS NADA DE ESTE ARCHIVO: no busques tareas, no crees borradores, no mandes el correo "✍️ Tareas corregidas". Terminá en una línea: "Rutina apagada: el feedback lo hace 💬 Feedback de alumnas."
+El feedback de tareas y weekly reports lo hace SOLO la rutina "💬 Feedback de alumnas" (rama claude/hopeful-maxwell-asxs94, rutinas/feedback-alumnas.md), que no deja borradores sueltos: le manda a Flor un solo mail "💬 Feedback para revisar".
+
+--- Texto viejo, solo como referencia de estilo ---
+
 TAREA: Corregir las tareas que mandan las alumnas (pedido por Flor el 05/10/2026). Leé primero _reglas-comunes.md y la skill .claude/skills/control-de-nivel.
 
 1. Buscá tareas nuevas desde la última corrida (mirá en Gmail enviados el último "✍️ Tareas corregidas"):
