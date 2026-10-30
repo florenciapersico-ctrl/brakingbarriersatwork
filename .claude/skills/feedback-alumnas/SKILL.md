@@ -58,8 +58,16 @@ Seguí `rutinas/estilo-devoluciones.md`. En resumen:
 No va nada de esto: encabezados en negrita, viñetas simétricas, "¡", "¿", más de 2 emojis, pedirle que lo rehaga o lo regrabe, ni tareas o prácticas nuevas.
 Idioma y trato: igual al último mail de Flor a esa alumna. Voseo con las argentinas y tú con las demás.
 
-## 4b. Si la alumna no tuvo clase
-Si la clase se cayó (ella o Flor), la devolución suma al final "te dejo algo para esta semana" con la tarea de la hoja que estaba preparada para esa clase (link + 3 o 4 pasos concretos y que se mande antes de la próxima clase). Así no pierde ritmo hasta la próxima (Flor, 30/10).
+## 4b. Si la alumna no vino o no tuvo clase (Flor, 30/10: casos Vir y Gaby)
+El feedback va en un DOCUMENTO con el formato de clase (no un mail eterno), en su carpeta de Drive, y un mail corto con el link: "como no tuvimos clase, te mando acá todo para que quede más claro".
+Estructura del documento:
+1. Encabezado de clase (BREAKING BARRIERS AT WORK · título · Nombre · AT WORK 1:1 · fecha) y TU OBJETIVO en una línea.
+2. Lo que la alumna contó o necesitó (ej. la pregunta que se le armó mal en una reunión): la teoría explicada como en la clase grabada correspondiente (mismas fórmulas) y su frase armada paso a paso, para que la próxima la arme sola.
+3. Feedback de su tarea o audio: lo que salió bien y las correcciones que más le sirven (numeradas, con la voz de Flor).
+4. Tarea demandante y útil para su trabajo real (ej. armar su guía de entrevista), en pasos, con el prompt para practicar con el bot de Role Play, y espacio en blanco en el mismo documento para completarla.
+5. Cierre: "en la próxima clase hacemos el role play juntas".
+Antes de que Flor apruebe, el documento se crea en el Drive de Flor (no en la carpeta de la alumna, que ella ve); con el ok se mueve a su carpeta y se manda el mail.
+Si había una hoja de clase preparada para ese día (caso Vir), se adapta esa hoja para hacerla sola (role plays con el bot y su prompt; lo de "con Flor" pasa a la próxima clase) y la tarea va arriba de todo.
 
 ## 5. Antes de dársela a Flor, chequeá
 
