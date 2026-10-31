@@ -3,6 +3,8 @@
 Fechas (Flor, 31/10): el primer lab es el sáb 7/11 a las 18:00 ART. Desde el 14/11, todos los sábados de 15:30 a 16:30 ART. Pausa del 21/12 al 6/1. Máximo 8 alumnas, nivel B1–B2.
 Regla de Ann: lo técnico va en la plataforma grabada; en el lab se trabajan lo mental y la práctica bajo presión. El lab no tiene tarea.
 
+**Cómo se elige el tema (Flor, 31/10):** solo el lab 1 está fijo. El tema de cada uno de los demás labs sale de los weekly reports de esa semana (lo que las alumnas están viviendo y necesitan) y del roadmap de Flor. La tabla de abajo es una propuesta inicial que se revisa cada semana con los weekly.
+
 | Fecha | Lab | Situación real | Base grabada |
 |---|---|---|---|
 | sáb 7/11 18:00 | Entender a nativos que hablan rápido (connected speech para ENTENDER, no para hablar) | "Se intimidan con nativos, hablan rápido y no les entienden" (Flor, 31/10) | Lab01 Connected Speech v2 (deck en Drive), adaptado a la escucha |
