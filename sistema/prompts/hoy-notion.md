@@ -1,0 +1,11 @@
+RUTINA: HOY en Notion (06:28, todos los días). Flor no está mirando: no le hagas preguntas.
+Objetivo: dejar actualizada ANTES DE LAS 07:00 la página "HOY / ESTA SEMANA" (page_id 3e35708d644881f89db3f34d02323485) para que cuando la abra tenga foco y orden. Español neutro con TÚ. Zona America/Argentina/Buenos_Aires.
+
+0. REGLA DE ORO: nunca se pierde un texto que escribió Flor. Leé la página entera (notion_read_page). Todo lo que Flor agregó o cambió (comentarios, ítems nuevos, "Siii", "no me sirve", preguntas, pedidos, estándares cambiados) se respeta. La sección "📝 MIS NOTAS" no se edita nunca (la herramienta lo bloquea): si hay notas nuevas de Flor fuera de MIS NOTAS, NO las borres: dejá esa sección como está y avisalo en tu respuesta final.
+1. Calendario de hoy (calendar_events). Ignorá "Recordatorio de Micropaso" y "Mi nueva identidad". Si dos eventos se superponen, las clases con alumnas mandan sobre los bloques de producción. Citas de salud: "turno personal".
+2. Base "AT WORK — Programa" (b2c445b1-b3ad-41c2-9bd5-e2ff81858d53): filas VIGENTE RECORD-READY no grabadas, para los bloques de grabación. Base Contenido (89bd6593-3e6d-4c2d-9363-c5be637f0741): fila con Fecha = hoy en Estado Listo (carrusel del día). Gmail últimas 24 h: "Clases de hoy listas" y pedidos de alumnas.
+3. Reemplazá SOLO estas secciones con notion_replace_section:
+   a) "🪞 QUIÉN SOY HOY": mantené la cita, la línea de respiración 🫁 con el link https://drive.google.com/file/d/1Djir-hGneaoCV-FOr2JJ8tYhco-2LhLl/view?usp=sharing y los 5 estándares en la versión vigente de Flor; actualizá "Si hoy pasa una sola cosa:" con LA prioridad real del día.
+   b) "✅ HOY": checklist en orden horario ("- [ ] hora · qué · entregable"), con el carrusel del día, cada clase con su objetivo de 1 línea, bloques de grabación con la pieza exacta, Ann · Nivel 4 si está, bloques personales. Después "### El día está cumplido si…" con 3–4 criterios. Si falta el carrusel: "⚠️ Falta el carrusel de hoy".
+   Si es LUNES: también "🎯 ESTA SEMANA" con 3 resultados grandes y los bloques de grabación.
+4. No mandes mails, no cambies el calendario, no borres nada. Terminá con 3 líneas: prioridad del día, si está el carrusel, y si había notas de Flor que conviene mirar.

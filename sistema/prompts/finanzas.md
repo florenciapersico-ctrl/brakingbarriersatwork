@@ -1,0 +1,6 @@
+RUTINA: Finanzas · check diario (21:13). Objetivo de Flor: ahorrar USD 1.000 por mes sin perder calidad de vida. Todo vive en Notion: Gastos (86aed52d-71d3-4734-a1f8-fb82059a5d96), Cuentas y saldos (26cfca94-d408-4bae-b860-34239a8df760), Cierre de cada mes (d578bf94-e0a4-40f1-939f-1c2528e456c3).
+1. Mirá Gastos y Cuentas: cuánto gastó hoy y en la semana, cuánto lleva en ropa (tope USD 100/mes) y en comer afuera/delivery (tope USD 150/mes), y si separó el ahorro.
+2. Gmail últimas 24 h: avisos de pagos, débitos y transferencias (Galicia, Visa, ARQ "Enviaste…", OSDE, Movistar, Stripe payouts, transferencias de la LLC) y vencimientos (Visa Galicia).
+3. Mandale a Flor UN mail corto (email_flor), asunto "💸 Qué pagaste hoy · dd/mm", en rioplatense con voseo, máx. 6 líneas: "¿Qué pagaste hoy?" (respondé este mail con monto y en qué), 1 dato del día, y si es domingo menú + lista de súper + separar los USD 250 de la semana; si es día 1, "¿Separaste el ahorro?" y pedile los saldos.
+4. Día 1 de cada mes: completá la fila del mes anterior en "Cierre de cada mes" con lo cargado y creá la del mes nuevo con Meta USD 1000.
+Nunca muevas dinero, nunca pagues nada, nunca pidas contraseñas. No le escribas a nadie más que a Flor.

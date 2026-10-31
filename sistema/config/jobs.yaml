@@ -1,0 +1,110 @@
+# Rutinas del sistema de Flor. Cada una:
+#   cuando:  horario (hora de Buenos Aires) — lo usa .github/workflows/sistema.yml
+#   tipo:    "feedback" / "enviar_aprobados" (circuitos en código) o "agente" (IA con herramientas)
+#   instrucciones: archivos con el criterio de Flor (se leen en cada corrida)
+#   herramientas: lo ÚNICO que esa rutina puede usar
+#
+# Para cambiar lo que hace una rutina, se cambia su archivo de instrucciones.
+
+comunes: &comunes
+  - rutinas/_reglas-comunes.md
+  - git:claude/peaceful-hamilton-9vczne:rutinas/_reglas-comunes.md
+  - oferta/oferta-vigente.md
+
+rutinas:
+  feedback:
+    nombre: "💬 Feedback de alumnas"
+    cuando: "todos los días 10:47 y 18:47"
+    tipo: feedback
+
+  enviar_aprobados:
+    nombre: "✅ Enviar feedback aprobado por Flor"
+    cuando: "cada hora de 8 a 22"
+    tipo: enviar_aprobados
+
+  hoy_notion:
+    nombre: "✅ HOY en Notion"
+    cuando: "todos los días 06:28"
+    tipo: agente
+    instrucciones: [sistema/prompts/hoy-notion.md]
+    herramientas: [calendar_events, gmail_search, gmail_read_thread, notion_query, notion_read_page,
+                   notion_replace_section, read_repo_file]
+
+  para_enviar:
+    nombre: "📬 Correos para enviar hoy"
+    cuando: "todos los días 07:12"
+    tipo: agente
+    instrucciones: [sistema/prompts/para-enviar.md]
+    herramientas: [gmail_search, gmail_read_thread, gmail_create_draft_for_flor_to_send, email_flor,
+                   notion_query, notion_prepend_note, calendar_events]
+
+  discovery:
+    nombre: "📞 Discovery calls · prep y seguimiento"
+    cuando: "lunes a sábado 07:47"
+    tipo: agente
+    instrucciones: [rutinas/discovery-calls.md]
+    herramientas: [calendar_events, calendar_update_description, gmail_search, gmail_read_thread, email_flor,
+                   notion_query, notion_read_page, notion_update_properties, notion_prepend_note, read_repo_file]
+
+  clases_de_hoy:
+    nombre: "📚 Clases de hoy listas"
+    cuando: "lunes a sábado 05:30"
+    tipo: agente
+    instrucciones: ["git:claude/peaceful-hamilton-9vczne:rutinas/clases-de-hoy.md"]
+    herramientas: [calendar_events, calendar_update_description, drive_list_folder, drive_read_file,
+                   drive_create_doc, gmail_search, gmail_read_thread, email_flor, notion_query, notion_read_page,
+                   notion_prepend_note, read_repo_file]
+
+  respuestas_flor:
+    nombre: "📨 Respuestas de Flor a los mails del sistema"
+    cuando: "todos los días 13:41 y 20:41"
+    tipo: agente
+    instrucciones: [sistema/prompts/respuestas-flor.md]
+    herramientas: [gmail_search, gmail_read_thread, email_flor, calendar_events, calendar_update_description,
+                   notion_query, notion_read_page, notion_update_properties, notion_prepend_note, notion_create_row,
+                   read_repo_file]
+
+  finanzas:
+    nombre: "💸 Finanzas · qué pagaste hoy"
+    cuando: "todos los días 21:13"
+    tipo: agente
+    instrucciones: [sistema/prompts/finanzas.md]
+    herramientas: [gmail_search, gmail_read_thread, email_flor, notion_query, notion_create_row,
+                   notion_update_properties]
+
+  lunes_semana:
+    nombre: "🗓️ Tu semana (lunes) + weekly reports a alumnas"
+    cuando: "lunes 08:41"
+    tipo: agente
+    instrucciones: ["git:claude/peaceful-hamilton-9vczne:rutinas/lunes-semana.md"]
+    # Único mail que sale a alumnas sin aprobación (autorizado por Flor 29/09 y 19/10): el link de su weekly.
+    herramientas: [gmail_search, gmail_read_thread, email_flor, email_student_weekly_link, drive_list_folder,
+                   drive_read_file, calendar_events, notion_query, notion_read_page, read_repo_file]
+
+  ciclo_alumnas:
+    nombre: "🔄 Ciclo de alumnas (lun, mié y vie)"
+    cuando: "lunes, miércoles y viernes 09:33"
+    tipo: agente
+    instrucciones: ["git:claude/peaceful-hamilton-9vczne:rutinas/ciclo-alumnas.md"]
+    herramientas: [gmail_search, gmail_read_thread, email_flor, calendar_events, notion_query, notion_read_page,
+                   drive_list_folder, drive_read_file, read_repo_file]
+
+  viernes_estado:
+    nombre: "📊 Tu semana en números (viernes)"
+    cuando: "viernes 16:52"
+    tipo: agente
+    instrucciones: ["git:claude/peaceful-hamilton-9vczne:rutinas/viernes-estado.md"]
+    herramientas: [gmail_search, gmail_read_thread, email_flor, calendar_events, notion_query, drive_read_file,
+                   read_repo_file]
+
+  notion_al_dia:
+    nombre: "🧹 Notion al día (noche)"
+    cuando: "todos los días 23:23"
+    tipo: agente
+    instrucciones: ["git:claude/peaceful-hamilton-9vczne:rutinas/notion-al-dia.md"]
+    herramientas: [calendar_events, gmail_search, gmail_read_thread, drive_read_file, notion_query, notion_read_page,
+                   notion_update_properties, notion_prepend_note, notion_create_row]
+
+# Siguen como rutinas de Claude (fase 2, necesitan Canva y archivos del repo):
+# contenido de la semana, wins del viernes, "para subir hoy", clase lista para grabar,
+# qué grabar esta semana, portales de alumnas, SOP lab, correo en orden y EOD con Stripe.

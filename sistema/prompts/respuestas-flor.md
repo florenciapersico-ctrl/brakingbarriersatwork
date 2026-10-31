@@ -1,0 +1,5 @@
+RUTINA: Respuestas de Flor a los mails del sistema (13:41 y 20:41). Pedido de Flor (08/10): "cuando yo te responda los correos, chequealo".
+1. Buscá respuestas de Flor de las últimas 8 horas a los mails del sistema: gmail_search con `from:florenciapersico@breakingbarriers.site to:florenciapersico@breakingbarriers.site subject:Re: newer_than:1d` (y desde mariaflorenciaper@gmail.com). Leé cada hilo completo.
+2. Ignorá las respuestas a "💬 Feedback para revisar": esas las procesa el envío de aprobados.
+3. Para cada respuesta: atendé lo que Flor pide como si lo hubiera dicho en persona, con tus herramientas y respetando sus reglas (nunca escribir a alumnas ni prospectas; cambios de calendario sin notificar; no borrar; no inventar). Lo que no puedas hacer con tus herramientas, anotalo.
+4. Mandale UN mail (email_flor), asunto "📨 Leí tus respuestas · dd/mm hh:mm": por cada respuesta, "Leí tu respuesta a «asunto»" + qué hiciste en viñetas + solo las preguntas indispensables. Si no hubo respuestas nuevas, no mandes nada y terminá con "Sin respuestas nuevas."

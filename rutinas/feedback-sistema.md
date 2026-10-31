@@ -55,4 +55,4 @@ Corre al final de la rutina de feedback y en cada corrida de "📨 Respuestas de
 
 7 · CALIDAD A LO LARGO DEL TIEMPO
 - Cada domingo, en el resumen semanal: cuántas devoluciones se mandaron, cuántas Flor aprobó sin cambiar (por semáforo), y los 3 cambios más repetidos de Flor (de criterio-correccion-log.md).
-- Si las 🟢 se aprueban sin cambios varias semanas seguidas, se le puede PROPONER a Flor que las 🟢 salgan solas. Solo Flor decide eso; hasta entonces, todo lleva ✅.
+- Regla de Flor (31/10, "no quiero perder la humanidad dentro de mi negocio"): TODO feedback (tareas, mails, weekly reports) y toda respuesta a alumnas pasa por el criterio de Flor antes de salir, también las 🟢. El semáforo solo le ordena la revisión. No se propone envío automático.

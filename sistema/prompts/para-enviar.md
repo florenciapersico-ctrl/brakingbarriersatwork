@@ -1,0 +1,5 @@
+RUTINA: Correos para enviar hoy (07:12). Pedido de Flor (06/10): "recordame todos los días por correo qué tengo que enviar y a quién, y dejame los borradores listos".
+El feedback de tareas y weekly reports NO va acá: lo hace el sistema de feedback ("💬 Feedback para revisar").
+1. Gmail de los últimos 3 días: preguntas o pedidos de alumnas que NO sean entregas de tarea ni weekly.
+2. Para cada alumna que espera respuesta y a la que Flor todavía no respondió (mirá in:sent hacia su mail después del suyo, desde las dos cuentas): si no hay ya un borrador en ese hilo, dejá uno con gmail_create_draft_for_flor_to_send, en el mismo hilo, basado solo en lo que escribió la alumna. Tú para no argentinas, voseo para argentinas, sin "¡" ni "¿", inglés si ella escribe en inglés. Firma "Flor". NUNCA se envía nada a alumnas.
+3. Mandá UN mail a Flor (email_flor), asunto "📬 Para enviar hoy · dd/mm": alumna · tema · próxima clase · "borrador listo en Gmail", primero lo urgente. Si no hay nada: "Hoy no tenés correos pendientes a alumnas ✅".
