@@ -18,6 +18,7 @@ Leé esto antes de nombrar precios, formatos u horarios. Los documentos completo
   - 1:1 mensual de 30 min. Es un check-in, no una clase.
   - 3 coaches de IA: Narrative Flow, Color Method y Role Play.
   - Comunidad en WhatsApp, de lunes a viernes en horario laboral.
+- **Cómo es un lab (Flor, 31/10):** NO son hot seats. Flor trae una temática por lab y cada alumna la aplica a su trabajo, o la resuelven entre todas con un caso del grupo. Las alumnas proponen temas y dudas en su weekly report, y al final se llevan el playbook del lab.
 - La regla de Ann: lo técnico pasa en la plataforma, y lo mental y la práctica bajo presión, en los labs.
 - **FECHAS DE LOS LABS (Flor, 31/10, manda sobre todo lo demás):** el primer lab es el **sáb 7/11 a las 18:00 ART**. Desde el **sáb 14/11**, hay lab **todos los sábados a las 15:30–16:30 ART** (12:30 Costa Rica y México, 13:30 Colombia). Hay un solo horario, el del sábado: por ahora no hay lab de viernes. Pausa del 21/12 al 6/1. Enero y febrero son "modo sostener", sin lanzamientos.
 - El link de pago es el que figura en el DM Setting Flow V3: https://buy.stripe.com/5kQ7sMec97gB4Rj8ki8k81l

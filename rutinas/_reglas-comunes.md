@@ -33,3 +33,7 @@ FUENTES
 - SÍ, sin pedir ok: invitaciones y avisos del calendario a la alumna (crear o mover su clase/onboarding con notificación para ella) y el mail para compartirle su carpeta de Drive.
 - NO, siempre con el ok explícito de Flor para ese mensaje: responder correos de alumnas y darles feedback de tareas o weekly reports.
 - Los cambios de calendario que NO son para avisarle a una alumna (bloques de Flor, marcas en eventos) siguen con notificationLevel NONE.
+
+## LABS Y ALUMNA NUEVA (Flor, 31/10/2026)
+- Labs: NO son hot seats. Flor trae una temática por lab, cada alumna la aplica a su trabajo o se resuelve entre todas un caso del grupo. Temas: desde los weekly reports y el roadmap de Flor. El primero es el sáb 7/11 a las 18:00 ART; desde el 14/11, todos los sábados 15:30 ART. No hay lab de viernes.
+- La primera alumna del grupal se llama YIRALY Soto Alfaro (no "Yílary"), y le dicen "Yir".

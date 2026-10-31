@@ -16,4 +16,5 @@ Regla de Ann: lo técnico va en la plataforma grabada; en el lab se trabajan lo 
 | sáb 19/12 | Tu año en inglés | "Tell me about yourself" y los logros del año, para la performance review | Entrevistas + M3 Reported Speech |
 
 En todos los labs se trabaja el QUIÉN: qué hacer cuando te quedás en blanco.
+Formato (Flor, 31/10): NO son hot seats. Flor trae la temática y cada alumna la aplica a su trabajo, o la resuelven entre todas con un caso del grupo.
 Estructura base: el guion de 60 min de los labs M2.07 y M5.01, con interrupción, detección y segundo intento.
