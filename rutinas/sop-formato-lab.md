@@ -75,6 +75,8 @@ DOMINGO: nada.
 - 2 labs seguidos sin asistir, o 2 weekly seguidos sin entregar → "⚠️ Reconectar con <nombre>" + un mensaje corto y cálido listo para que Flor lo mande (sin culpa, preguntando cómo está con el trabajo).
 - Malestar serio en un weekly → solo alerta a Flor, no se resuelve por mail.
 - Pago fallido o atrasado (Stripe) → alerta con nombre, monto y fecha.
+- Contrato (Flor, 31/10): DESDE AHORA el Acuerdo de Trabajo (VIP y Lab, https://drive.google.com/file/d/1YCz4gbd76Blq93kibhpkXB6Wvs1bfBF6/view) se manda SIEMPRE junto con el link de pago y el Offer Doc (oferta/dm-setting-flow-v3.md, sección 17). Si en el alta ves que a una alumna nueva le mandaron el link de pago sin el acuerdo, alerta a Flor con el mensaje listo para mandárselo. Cuando llega firmado (Gmail o Drive): tildá "Contrato firmado" y guardalo en su carpeta. Si a 7 días del pago no llegó, un recordatorio suave listo para Flor.
+- Excepción Yir (entró antes de esta regla): ella manda el acuerdo cuando termina el onboarding de la plataforma. No se le reclama; solo si pasan 21 días desde el 30/10 sin contrato ni Starting Point, alerta suave a Flor con un mensaje cálido listo.
 
 ## 5. CICLO DE VIDA (renovación, testimonio, salida)
 Igual que ciclo-alumnas.md (principio: abrir la conversación de progreso y que ella nombre lo que sigue), adaptado a 5 meses y al lab:

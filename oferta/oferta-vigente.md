@@ -33,7 +33,7 @@ Leé esto antes de nombrar precios, formatos u horarios. Los documentos completo
 2. Conversación corta sobre su situación de trabajo, en tú.
 3. Se confirma que tenga nivel B1–B2 y que pueda ir al lab del sábado 15:30 ART. Si no puede, va a lista de espera en Prospectas.
 4. Si encaja, audio o llamada de 10 minutos.
-5. Offer Doc en PDF con precio y link de pago.
+5. Offer Doc en PDF con precio y link de pago, SIEMPRE junto con el Acuerdo de Trabajo (VIP y Lab) para firmar (Flor, 31/10): https://drive.google.com/file/d/1YCz4gbd76Blq93kibhpkXB6Wvs1bfBF6/view
 
 Sin llamadas de venta largas mientras el ticket sea mensual. A quien recién la conoce se le manda el VSL y pasa a la hot list.
 

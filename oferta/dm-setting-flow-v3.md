@@ -147,6 +147,10 @@ En el audio o en la llamada (máximo 10 minutos):
 
 El Offer Doc es la **propuesta**, no “info para mirar”. Va en PDF, con el precio y el link de pago adentro.
 
+**Regla de Flor (31/10): el Acuerdo de Trabajo va SIEMPRE junto con el link de pago**, en el mismo mensaje que el Offer Doc: [Acuerdo de Trabajo AT WORK · VIP y Lab (PDF)](https://drive.google.com/file/d/1YCz4gbd76Blq93kibhpkXB6Wvs1bfBF6/view) (editable: [docx](https://drive.google.com/file/d/1r9P-V9rBJBanRegXSPQfywqFNCmbGEGT/view)). La alumna lo firma y lo devuelve antes de su primer lab. Si se deja para el onboarding, no lo manda.
+
+> Te dejo mi propuesta para ti, con todo lo que necesitas para decidir, y el acuerdo de trabajo para que lo firmes junto con el pago. Léela con intención: voy a estar unos minutos por acá por si te surge alguna duda 😊
+
 > Te dejo mi propuesta para ti, con todo lo que necesitas para decidir. Léela con intención: voy a estar unos minutos por acá por si te surge alguna duda 😊
 
 Nunca decir: “te mando algo para que mires”, “después vemos si te interesa”, “avísame qué te parece”, “no es ningún compromiso”.
