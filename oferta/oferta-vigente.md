@@ -21,7 +21,7 @@ Leé esto antes de nombrar precios, formatos u horarios. Los documentos completo
   - 3 coaches de IA: Narrative Flow, Color Method y Role Play.
   - Comunidad en WhatsApp, de lunes a viernes en horario laboral.
 - La regla de Ann: lo técnico pasa en la plataforma, y lo mental y la práctica bajo presión, en los labs.
-- Los labs arrancan el vie 27/11 y el sáb 28/11. Pausa del 21/12 al 6/1. Enero y febrero son "modo sostener", sin lanzamientos.
+- Los labs arrancan el sáb 7/11 (Flor, 31/10). El arranque del lab del viernes está a confirmar. Pausa del 21/12 al 6/1. Enero y febrero son "modo sostener", sin lanzamientos.
 - El link de pago es el que figura en el DM Setting Flow V3: https://buy.stripe.com/5kQ7sMec97gB4Rj8ki8k81l
 - Todavía no hay precio de pago completo para el grupal. No lo inventes.
 

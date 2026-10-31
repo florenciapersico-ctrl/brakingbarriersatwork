@@ -18,7 +18,7 @@ Nada le llega a una alumna sin el **ok explícito de Flor para ese mensaje**. Fe
 | Tipo | ¿Feedback? | De dónde sale la tarea |
 |---|---|---|
 | 1:1 (alumnas actuales) | Sí: tareas, audios y weekly | Transcripción de su última clase + resumen que recibió |
-| Lab grupal (alumnas nuevas, desde 27/11) | Sí: weekly report y las tareas que están en el weekly | El lab es práctica: ahí no hay tarea y el playbook del lab NO lleva feedback. La transcripción del último lab (solo lo de ella) y del 1:1 mensual se leen para ponerse en tema |
+| Lab grupal (alumnas nuevas, labs desde el sáb 7/11) | Sí: weekly report y las tareas que están en el weekly | El lab es práctica: ahí no hay tarea y el playbook del lab NO lleva feedback. La transcripción del último lab (solo lo de ella) y del 1:1 mensual se leen para ponerse en tema |
 | Grupo reducido A2–B1 (Lina y Corina) | NO | — |
 
 Casos especiales (por ejemplo, alumnas a las que nunca se les escribe) mandan sobre esta tabla. Si no sabés el tipo, preguntale a Flor.
