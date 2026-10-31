@@ -6,7 +6,11 @@ Es el equivalente, para el grupal, de lo que el 1:1 ya tiene en la SOP Library d
 - Labs: el primero es el sáb 7/11 a las 18:00 ART. Desde el sáb 14/11, todos los sábados 15:30–16:30 ART (12:30 México y Costa Rica, 13:30 Colombia). Sin lab de viernes. Pausa del 21/12 al 6/1. Máximo 8 alumnas, B1–B2.
 - Un lab NO es un hot seat. Flor trae UNA temática; cada alumna la aplica a su trabajo, o se resuelve entre todas un caso del grupo. Lo técnico va en la plataforma; en el lab va lo mental y la práctica bajo presión. El lab no deja tarea: se llevan el playbook.
 - El tema de cada lab sale de los weekly reports de esa semana + el roadmap de Flor (labs/plan-labs-nov-dic.md es la propuesta inicial). Solo el lab 1 está fijo.
-- Quién es alumna lab: en Notion › Alumnas (collection://59d40821-721b-4597-9b86-4b856c800e87), Modalidad con "Grupal" o "Lab" y Estado programa activo/confirmada. Primera alumna: YIRALY Soto Alfaro ("Yir"). Lina y Corina NO son lab (grupo reducido A2–B1): este SOP no las toca.
+- Quién es alumna lab: en Notion › Alumnas (collection://59d40821-721b-4597-9b86-4b856c800e87), Programa = "AT WORK grupal" Y la propiedad "Lab" empieza con "Lab" (hoy: "Lab 2 · Sábado 15:30"), con Estado programa Activa o Confirmada. NO uses "Modalidad" (dice "Mensual" para todas). Lina y Corina tienen Lab = "Grupo reducido (mar y jue)": NO son lab y este SOP no las toca.
+- Primera alumna: YIRALY Soto Alfaro ("Yir"), yiralysoto@hotmail.com, ficha https://app.notion.com/p/4095708d644881ab93f4f78c75a426cf. Hay una ficha DUPLICADA (https://app.notion.com/p/4095708d644881d398c2ed7a4a8ac305): ignorala, no escribas ahí y no la borres.
+- Calendar (primary de Flor): lab 1 = evento csc5beorhch4iplf30ua9p3q08 (sáb 7/11 18:00 ART); labs de los sábados = recurrente up7666dif5qon9ru57t3s2r2ns (15:30 ART desde el 14/11, sin 26/12 ni 2/1). Mismo Meet en los dos: https://meet.google.com/gow-vnpg-xhx. El recurrente de los viernes (mc68iv3i6t2780ecl1cs06gi5g) quedó viejo: NO hay lab de viernes, no invites a nadie ahí.
+- WhatsApp: el link al grupo está en el onboarding de la plataforma (academy.breakingbarriers.site, sección comunidad). Flor suma a cada alumna; no se le pide el link.
+- Plataforma: academy.breakingbarriers.site, grupo "Breaking Barriers at Work". El acceso lo da Flor; después se tilda "Acceso a plataforma dado" en la ficha.
 - A una alumna lab nunca se le escribe sin el ok explícito de Flor para ese mensaje. Excepciones ya autorizadas (_reglas-comunes): invitaciones del calendario, compartir su carpeta de Drive y el mail del weekly report de los lunes.
 - Trato: tú para no argentinas, voseo para argentinas. A Flor siempre voseo.
 
@@ -17,7 +21,26 @@ Hacelo dentro de las 24 h. Revisá antes qué ya existe para no duplicar.
 3. Calendar: invitala al evento recurrente del lab del sábado (si es antes del 14/11, también al lab 1 del sáb 7/11 18:00). Permitido sin ok, con notificación para ella. Si el evento recurrente del lab no existe, NO lo crees: avisale a Flor en el mail del día.
 4. 1:1 mensual: proponé a Flor 2 horarios para su primer check-in de 30 min en las próximas 2 semanas, respetando las reglas de agenda de Flor (máx. hasta 20:00 ART, sábado a la mañana y domingo libres, nunca encima de clases, grabación, FOCO, Ann o máster). No lo agendes sin el ok de Flor.
 5. Portal: creale su "🌿 Portal" en Notion igual que portales-alumnas.md, con la sección "🧪 Mis labs" (próximo lab, tema, playbooks anteriores) en lugar de "clases 1:1".
-6. Mail de bienvenida: dejalo LISTO dentro del mail a Flor (no se manda sin su ok): qué incluye, horario del lab en su hora, link a su carpeta, a los coaches de IA (https://florenciapersico-ctrl.github.io/brakingbarriersatwork/coach/), y al grupo de WhatsApp (si Flor no te pasó el link, poné [FLOR: link WhatsApp]).
+6. Mail de bienvenida: dejalo LISTO dentro del mail a Flor (no se manda sin su ok; una sola versión, nunca dos borradores). Usá el MODELO DE BIENVENIDA de abajo, cambiando solo lo que está entre [ ]. Después: "Bienvenida enviada" = fecha en la ficha.
+7. Checklist de la ficha (propiedades reales de Notion): Programa "AT WORK grupal", Lab "Lab 2 · Sábado 15:30", Cuota 250, Moneda USD, Duración meses 5, Inicio 1:1 (= inicio del programa), Fin previsto (+5 meses), Próximo pago, Carpeta Drive, Bienvenida enviada, Acceso a plataforma dado, Contrato firmado, Último check-in 1:1. Lo que falte va al mail de Flor como "Falta: …".
+8. Pagos: 5 cuotas de USD 250 por Stripe. Recordale a Flor que programe en Stripe la cancelación de la suscripción después de la 5.ª cuota (sin prorrateo).
+
+MODELO DE BIENVENIDA (basado en el mail real de Flor a Yir del 30/10, corregido; tú si no es argentina, voseo si es argentina):
+Asunto: Bienvenida a AT WORK, [Nombre] 🤍
+Hola [apodo], ¿cómo estás?
+Ya me llegó tu pago, así que oficialmente eres parte de AT WORK. Me hace muy feliz tenerte.
+Te cuento cómo sigue todo:
+1. Tu acceso a la plataforma: en las próximas horas te llega una invitación de academy.breakingbarriers.site. Creas tu contraseña y vas al módulo "Onboarding · Start Here". Al final grabas tu Starting Point: un audio de 2 a 3 minutos, sin guion, contando en inglés una situación real de tu trabajo. Es tu punto de partida.
+2. Tu Working Lab: todos los sábados de [hora en su país] ([15:30] de Argentina), 60 minutos, por Meet. Tu primer lab es el [sábado dd/mm]. En cada lab trabajamos un tema (una reunión, un update, una presentación) y lo aplicas a tu trabajo. Ya te llega la invitación al calendario. Del 21/12 al 6/1 hacemos una pausa por las fiestas.
+3. Nuestro check-in 1:1: una vez por mes nos vemos 30 minutos, solas tú y yo, para ver cómo vas. El primero es [fecha o "te escribo para coordinar el día"].
+4. Cada lunes, tu Weekly Report: lo completas y te respondo por escrito con tu corrección y tu foco de la semana. Ahí también me cuentas qué te gustaría trabajar en el lab. El primero es el lunes [dd/mm].
+5. Tus coaches de IA (Narrative Flow, Color Method y Role Play), para practicar cuando quieras: https://florenciapersico-ctrl.github.io/brakingbarriersatwork/coach/
+6. La comunidad: te sumo al grupo de WhatsApp de AT WORK; ahí me escribes de lunes a viernes en horario laboral.
+Para ir adelantando: cuéntame en un mensaje cuál es tu puesto y en qué reuniones te cuesta más hablar en inglés.
+[Una línea con algo que ella dijo en la llamada o en el DM, solo si está en una fuente.]
+Un abrazo,
+Flor
+Nunca pongas fechas u horarios que no estén en el Calendar o en _reglas-comunes.md (el 30/10 salió una bienvenida con el primer lab el 28/11, un lab de viernes y un check-in de 30–45 min: todo eso estaba mal).
 
 ## 2. CICLO SEMANAL (todas las semanas, salvo pausa 21/12–6/1)
 LUNES
