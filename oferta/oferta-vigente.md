@@ -14,25 +14,23 @@ Leé esto antes de nombrar precios, formatos u horarios. Los documentos completo
 - Incluye:
   - Programa grabado: gramática, vocabulario y pronunciación, a su ritmo.
   - Weekly report con feedback escrito. Lo manda el lunes y se corrige en la semana.
-  - 1 lab en vivo por semana, de 60 min, en dos horarios con el mismo contenido. Cada alumna va a uno solo y hay máximo 8 por horario:
-    - Viernes 13:00–14:00 ART (10:00 México, 11:00 Colombia).
-    - Sábado 15:30–16:30 ART (12:30 México, 13:30 Colombia).
+  - 1 lab en vivo por semana, de 60 min, los sábados 15:30–16:30 ART (12:30 México y Costa Rica, 13:30 Colombia). Máximo 8 alumnas.
   - 1:1 mensual de 30 min. Es un check-in, no una clase.
   - 3 coaches de IA: Narrative Flow, Color Method y Role Play.
   - Comunidad en WhatsApp, de lunes a viernes en horario laboral.
 - La regla de Ann: lo técnico pasa en la plataforma, y lo mental y la práctica bajo presión, en los labs.
-- Los labs arrancan el sáb 7/11 (Flor, 31/10). El arranque del lab del viernes está a confirmar. Pausa del 21/12 al 6/1. Enero y febrero son "modo sostener", sin lanzamientos.
+- **FECHAS DE LOS LABS (Flor, 31/10, manda sobre todo lo demás):** el primer lab es el **sáb 7/11 a las 18:00 ART**. Desde el **sáb 14/11**, hay lab **todos los sábados a las 15:30–16:30 ART** (12:30 Costa Rica y México, 13:30 Colombia). Hay un solo horario, el del sábado: por ahora no hay lab de viernes. Pausa del 21/12 al 6/1. Enero y febrero son "modo sostener", sin lanzamientos.
 - El link de pago es el que figura en el DM Setting Flow V3: https://buy.stripe.com/5kQ7sMec97gB4Rj8ki8k81l
 - Todavía no hay precio de pago completo para el grupal. No lo inventes.
 
 **Grupo reducido A2–B1 (Lina y Corina):** martes y jueves 20:00 ART. No es lab y no se vende.
 
-**Workshop de Pronunciación y Connected Speech:** sáb 7/11, 18:00–19:30 ART, para todas las alumnas. Se graba.
+**Workshop de Pronunciación y Connected Speech:** estaba el sáb 7/11 de 18:00 a 19:30 ART, que ahora es el horario del primer lab. A confirmar con Flor si el workshop es ese primer lab o se mueve.
 
 ## Cómo se vende
 1. READY por DM en @ysi_speakenglish. Es la palabra de las piezas de venta y reemplaza a LISTA.
 2. Conversación corta sobre su situación de trabajo, en tú.
-3. Se confirma que tenga nivel B1–B2 y que pueda ir a uno de los dos labs. Si no puede, va a lista de espera en Prospectas.
+3. Se confirma que tenga nivel B1–B2 y que pueda ir al lab del sábado 15:30 ART. Si no puede, va a lista de espera en Prospectas.
 4. Si encaja, audio o llamada de 10 minutos.
 5. Offer Doc en PDF con precio y link de pago.
 

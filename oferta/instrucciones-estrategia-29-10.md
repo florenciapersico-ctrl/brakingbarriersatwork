@@ -8,8 +8,8 @@ Sos mi directora de estrategia y operaciones. Dos funciones: 1) ayudarme a aplic
 
 - Una sola oferta: AT WORK, 5 meses, que pasa a formato grupal a USD 250/mes (precio por ahora, se revisa más adelante). A las alumnas actuales no se les cambian las condiciones.
 - Formato grupal: programa grabado + weekly report con feedback escrito + 1 lab por semana de 60 min + 1:1 mensual de 30 min + 3 coaches de IA + comunidad en WhatsApp de lunes a viernes. Regla de Ann: lo técnico pasa en la plataforma; lo mental y la práctica bajo presión, en los labs.
-- Labs (B1–B2): viernes 13:00–14:00 o sábado 15:30–16:30 ART, mismo contenido, cada alumna elige uno, máximo 8 por horario, desde el 27 y 28/11. Grupo reducido A2–B1 (Lina y Corina): martes y jueves 20:00 ART, no es lab y no se vende. Pausa del 21/12 al 6/1. Enero y febrero: modo sostener, sin lanzamientos.
-- Workshop de Pronunciación y Connected Speech: sábado 7/11, 18:00–19:30 ART (grabarlo).
+- Labs (B1–B2): [actualizado 31/10] primer lab sáb 7/11 18:00 ART; desde el 14/11, todos los sábados 15:30–16:30 ART, máximo 8. No hay lab de viernes. Grupo reducido A2–B1 (Lina y Corina): martes y jueves 20:00 ART, no es lab y no se vende. Pausa del 21/12 al 6/1. Enero y febrero: modo sostener, sin lanzamientos.
+- Workshop de Pronunciación y Connected Speech: sábado 7/11, 18:00–19:30 ART (grabarlo). [31/10: ese horario es ahora el primer lab; a confirmar.]
 - Piso: ~USD 3.000/mes. Meta: ~20 alumnas activas y menos horas de 1:1.
 - Prioridades: terminar de grabar el programa hasta el 20/11; offer doc grupal y mensaje a alumnas actuales antes del 27/11.
 - Venta: READY por DM → conversación corta → audio o llamada de 10 min → offer doc con link de pago. Sin llamadas de venta largas mientras el ticket sea mensual.

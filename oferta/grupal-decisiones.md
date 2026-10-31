@@ -1,6 +1,6 @@
 # AT WORK grupal · decisiones (fuente vigente de la oferta)
 
-> **Actualización 31/10 (Flor):** los labs arrancan el sábado 7/11, no el 27/11. Lo de abajo con fecha 27/11 quedó viejo.
+> **FECHAS DE LOS LABS (Flor, 31/10, manda sobre todo lo demás):** el primer lab es el **sáb 7/11 a las 18:00 ART**. Desde el **sáb 14/11**, hay lab **todos los sábados a las 15:30–16:30 ART** (12:30 Costa Rica y México, 13:30 Colombia). Hay un solo horario, el del sábado: por ahora no hay lab de viernes. Pausa del 21/12 al 6/1. Todo lo de abajo que hable del viernes 13:00, del 27/11 o del 28/11 quedó viejo.
 
 # **ACTUALIZACIÓN 29/10/2026 · manda sobre lo de abajo: 1 lab por semana de 60 minutos, en dos horarios con el mismo contenido (viernes 13:00–14:00 o sábado 15:30–16:30 ART); cada alumna va a uno solo, máximo 8 por horario. 1:1 mensual de 30 minutos. 3 coaches de IA (sale Flor English Coach). El Lab A pasa a ser el grupo reducido A2–B1 (Lina y Corina): no es lab y no se vende. Precio sin cambios: USD 250/mes. Detalle completo en «AT WORK - Programa FINAL Etapa 2 · GRUPAL».**
 
