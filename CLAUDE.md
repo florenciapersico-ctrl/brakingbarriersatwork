@@ -10,6 +10,10 @@ Respondé en castellano rioplatense, corto y al grano.
 - `at-work/index.html` — página del programa AT WORK (~1200 líneas).
 - `at-work/guia-fuente.html` — guía de fuentes/estilo.
 - `coach/index.html` — página de las alumnas para abrir los coaches.
+- `app/` — app de alumnas con login (Supabase): `index.html`, `app.js` (vistas), `datos.js`
+  (capa de datos real + demo), `programa.js` (módulos, clases, coaches), `config.js`, `LEEME.md`.
+- `supabase/` — `schema.sql` (tablas + RLS) y `functions/flor-ai/` (Flor AI, coaches,
+  invitaciones y borradores; `prompts.ts` tiene las instrucciones).
 - `rutina/` — app instalable (PWA): `index.html`, `sw.js`, `manifest.webmanifest`, íconos, `fonts/`.
 - `.claude/skills/meta-ads/` y `.claude/agents/meta-ads.md` — agente de Meta Ads.
   Solo leelo cuando la tarea sea de anuncios.
