@@ -45,7 +45,7 @@ npx supabase login
 npx supabase functions deploy flor-ai --project-ref TU-PROJECT-REF
 ```
 O desde el panel: **Edge Functions › Deploy a new function › Via editor**, nombre `flor-ai`,
-y pegás `supabase/functions/flor-ai/index.ts` y `prompts.ts`.
+y pegás `supabase/functions/flor-ai/index.ts` (es un solo archivo).
 
 ### 4. Invitar alumnas
 Entrá a la app con tu usuario › **Alumnas › Invitar alumna**. Le llega un mail, crea su
@@ -56,5 +56,5 @@ contraseña y entra directo a "Empieza acá".
 - Flor AI ve los datos que cargás en "Alumnas" (foco, tareas, clases, feedback). Cuanto más
   completo, mejor guía.
 - Para sumar clases nuevas que grabes: editá la lista `clases` del módulo en `app/programa.js`.
-- Para cambiar cómo responden Flor AI o los coaches: `supabase/functions/flor-ai/prompts.ts`
+- Para cambiar cómo responden Flor AI o los coaches: el principio de `supabase/functions/flor-ai/index.ts`
   y volvés a publicar la función.

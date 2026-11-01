@@ -13,7 +13,7 @@ Respondé en castellano rioplatense, corto y al grano.
 - `app/` — app de alumnas con login (Supabase): `index.html`, `app.js` (vistas), `datos.js`
   (capa de datos real + demo), `programa.js` (módulos, clases, coaches), `config.js`, `LEEME.md`.
 - `supabase/` — `schema.sql` (tablas + RLS) y `functions/flor-ai/` (Flor AI, coaches,
-  invitaciones y borradores; `prompts.ts` tiene las instrucciones).
+  invitaciones y borradores; las instrucciones están arriba de `index.ts`, un solo archivo).
 - `rutina/` — app instalable (PWA): `index.html`, `sw.js`, `manifest.webmanifest`, íconos, `fonts/`.
 - `.claude/skills/meta-ads/` y `.claude/agents/meta-ads.md` — agente de Meta Ads.
   Solo leelo cuando la tarea sea de anuncios.
