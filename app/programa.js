@@ -53,6 +53,12 @@ window.PROGRAMA = {
       frase: '¿Cómo digo esta frase en la reunión? ' }
   ],
 
+  // Mientras Flor AI no esté activada en la app, los coaches abren estos links de Claude.
+  enClaude: {
+    practica: 'https://claude.ai/artifact/6mfNAGdhVfDv8ByMbFnhph',
+    coaches: 'https://claude.ai/artifact/6dZ11vhhbVdbcbcaQyRzS8'
+  },
+
   situaciones: [
     ['Tengo una reunión o presentación pronto', 'roleplay'],
     ['Escribí algo y no sé si está bien', 'narrative'],

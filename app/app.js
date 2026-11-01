@@ -2,6 +2,7 @@
 (function () {
   const P = window.PROGRAMA, DB = window.DB;
   const root = document.getElementById('root');
+  const IA = DB.demo || !!(window.ATW_CONFIG || {}).FLOR_AI_ACTIVA; // Flor AI dentro de la app
   const st = { perfil: null, programa: {}, admin: false, chat: null, pendiente: null, enviando: false };
 
   // ---------- utilidades ----------
@@ -286,8 +287,33 @@ ${fb ? `<section class="card">
 
   // ---------- Flor AI y coaches (chat) ----------
   const coachDe = (id) => P.coaches.find((c) => c.id === id) || P.coaches[0];
+  function enClaudeHTML() {
+    const L = P.enClaude;
+    return `<div class="head"><div><span class="eyebrow">Tu práctica entre clases</span><h1>Flor AI y tus coaches</h1></div></div>
+<p class="muted intro">Tus coaches funcionan dentro de Claude, con tu cuenta. Tócalo y empieza a practicar: trae una situación real de tu semana, una reunión, una presentación o un mail.</p>
+<div class="grid g-2e">
+  <a class="card feature" href="${L.practica}" target="_blank" rel="noopener" style="text-decoration:none">
+    <span class="eyebrow">Empieza por aquí</span><h2>Tu práctica de la semana</h2>
+    <p class="muted">Lo haces como te sale, vemos dónde se rompió, entrenas solo eso y lo vuelves a intentar. Todo en una sesión.</p>
+    <span class="btn" style="align-self:flex-start">Empezar mi práctica</span>
+  </a>
+  <a class="card" href="${L.coaches}" target="_blank" rel="noopener" style="text-decoration:none;color:inherit">
+    <span class="eyebrow">Herramientas por separado</span><h2>Tus coaches</h2>
+    <p class="muted">Para trabajar una sola cosa: ensayar con Role Play, corregir gramática con Narrative Flow, subir el nivel con Color Method o tu pronunciación.</p>
+    <span class="btn ghost" style="align-self:flex-start">Abrir mis coaches</span>
+  </a>
+</div>
+<section class="card"><h3>La primera vez</h3><ul class="dates">
+  <li><b>1. Tu cuenta</b><span>Entra con tu cuenta de Claude. Si no tienes, créala gratis con tu mail en claude.ai.</span></li>
+  <li><b>2. El aviso</b><span>Te va a aparecer “Este artefacto usa conectores”. Deja prendido “Usar Claude” y toca Continuar. Es normal.</span></li>
+  <li><b>3. ¿Prefieres hablar?</b><span>Toca el micrófono del coach para el modo conversación, o dicta con el micrófono de tu teclado.</span></li>
+</ul></section>
+<p class="muted small">Lo importante, mándaselo a Flor desde <a href="#feedback">Pedir feedback</a>: ella te responde acá.</p>`;
+  }
+
   V.flor = {
     async html() {
+      if (!IA) return enClaudeHTML();
       return `<div class="head"><div><span class="eyebrow">Tu consultoría y tus coaches</span><h1>Flor AI</h1></div></div>
 <div class="chat">
   <div class="chat-side">
@@ -306,6 +332,7 @@ ${fb ? `<section class="card">
 </div>`;
     },
     async mount(arg) {
+      if (!IA) { st.pendiente = null; return; }
       let chats = await DB.chats();
       const sel = $('#coachSel');
       const pintarLista = () => {
@@ -491,13 +518,13 @@ ${url(links().plataforma) ? `<div class="row"><a class="btn ghost" href="${esc(l
   V.coaches = {
     html() {
       return `<div class="head"><div><span class="eyebrow">Tu práctica entre clases</span><h1>Mis coaches</h1></div></div>
-<p class="muted intro">Están dentro de esta app: no necesitas cuenta de Claude ni instalar nada. Elige el que necesitas y escríbele con tus palabras, o dicta con el micrófono de tu teclado.</p>
+<p class="muted intro">${IA ? 'Están dentro de esta app: no necesitas cuenta de Claude ni instalar nada. Elige el que necesitas y escríbele con tus palabras, o dicta con el micrófono de tu teclado.' : 'Se abren en Claude, con tu cuenta. Elige el que necesitas y escríbele con tus palabras, o dicta con el micrófono de tu teclado.'}</p>
 <section class="card">
   <h3>¿Qué coach uso hoy?</h3>
   <div class="picker" id="picker">${P.situaciones.map(([s, c], i) => `<button type="button" aria-pressed="${i === 0}" data-c="${c}">${esc(s)}</button>`).join('')}</div>
   <div class="answer" id="answer"></div>
 </section>
-<div class="grid g-3">${P.coaches.map((c) => `<section class="card coach" style="--c:${c.color}"><h3>${c.nombre}</h3><p class="muted small">${esc(c.desc)}</p><div class="phrase">"${esc(c.frase.trim())}"</div><div class="row"><a class="btn ghost sm" href="#flor/${c.id}">Abrir ${c.nombre}</a></div></section>`).join('')}</div>
+<div class="grid g-3">${P.coaches.map((c) => `<section class="card coach" style="--c:${c.color}"><h3>${c.nombre}</h3><p class="muted small">${esc(c.desc)}</p><div class="phrase">"${esc(c.frase.trim())}"</div><div class="row">${IA ? `<a class="btn ghost sm" href="#flor/${c.id}">Abrir ${c.nombre}</a>` : `<a class="btn ghost sm" href="${c.id === 'flor' ? P.enClaude.practica : P.enClaude.coaches}" target="_blank" rel="noopener">Abrir ${c.nombre}</a>`}</div></section>`).join('')}</div>
 <p class="muted small">Los coaches te ayudan a practicar. El diagnóstico de qué trabajar lo hace Flor con tus reuniones reales.</p>`;
     },
     mount() {
@@ -505,7 +532,7 @@ ${url(links().plataforma) ? `<div class="row"><a class="btn ghost" href="${esc(l
       const show = (b) => {
         $$('button', p).forEach((x) => x.setAttribute('aria-pressed', x === b));
         const c = coachDe(b.dataset.c);
-        $('#answer').innerHTML = `<span class="eyebrow">Te recomiendo</span><h3>${c.nombre}</h3><p class="small">${esc(c.desc)}</p><div class="row"><button class="btn" type="button" data-ask="${esc(c.frase)}" data-coach="${c.id}" data-send="${/[:\s]$/.test(c.frase) ? 'no' : 'si'}">Empezar con ${c.nombre}</button></div>`;
+        $('#answer').innerHTML = `<span class="eyebrow">Te recomiendo</span><h3>${c.nombre}</h3><p class="small">${esc(c.desc)}</p><div class="row">${IA ? `<button class="btn" type="button" data-ask="${esc(c.frase)}" data-coach="${c.id}" data-send="${/[:\s]$/.test(c.frase) ? 'no' : 'si'}">Empezar con ${c.nombre}</button>` : `<a class="btn" href="${c.id === 'flor' ? P.enClaude.practica : P.enClaude.coaches}" target="_blank" rel="noopener">Abrir ${c.nombre} en Claude</a>`}<span class="muted small">Para empezar: “${esc(c.frase.trim())}”</span></div>`;
       };
       p.onclick = (e) => { const b = e.target.closest('[data-c]'); if (b) show(b); };
       show($('button', p));
@@ -610,13 +637,13 @@ ${url(links().plataforma) ? `<div class="row"><a class="btn ghost" href="${esc(l
         ${x.texto ? `<pre>${esc(x.texto)}</pre>` : ''}${url(x.link) ? `<a class="small" href="${esc(x.link)}" target="_blank" rel="noopener">Abrir el link que mandó</a>` : ''}
         <div class="field"><label>Tu respuesta</label><textarea class="r" rows="5" placeholder="Lo que funcionó, tu foco para ella y qué clase ver."></textarea></div>
         <div class="field"><label>Correcciones</label><div class="corrs"></div><button type="button" class="linkbtn small addc">+ Agregar corrección</button></div>
-        <div class="row"><button class="btn send" type="button">Enviar respuesta</button><button class="btn ghost ia" type="button">Borrador con IA</button></div>
+        <div class="row"><button class="btn send" type="button">Enviar respuesta</button>${IA ? '<button class="btn ghost ia" type="button">Borrador con IA</button>' : ''}</div>
       </div>`).join('') : '<p class="muted">No hay pedidos pendientes. 🎉</p>';
       if (tab === 'weeklies') cuerpo = wp.length ? wp.map((x) => `<div class="fbitem" data-wid="${x.id}">
         <div class="row between"><b>${nom(x.alumna_id)} · semana del ${fecha(x.semana, { day: 'numeric', month: 'long' })}</b><span class="muted small">Enviado ${fecha(x.enviado_en)}</span></div>
         ${P.weekly.map(([id, l]) => (x.respuestas[id] ? `<p class="small"><b>${l}</b><br>${esc(x.respuestas[id])}</p>` : '')).join('')}
         <div class="field"><label>Tu respuesta</label><textarea class="r" rows="4" placeholder="Su próximo paso para esta semana."></textarea></div>
-        <div class="row"><button class="btn sendw" type="button">Enviar respuesta</button><button class="btn ghost iaw" type="button">Borrador con IA</button></div>
+        <div class="row"><button class="btn sendw" type="button">Enviar respuesta</button>${IA ? '<button class="btn ghost iaw" type="button">Borrador con IA</button>' : ''}</div>
       </div>`).join('') : '<p class="muted">No hay weeklies sin responder.</p>';
       if (tab === 'respondidos') cuerpo = resp.length ? resp.map((x) => `<details class="fbitem"><summary><b>${nom(x.alumna_id)} · ${esc(x.titulo || tipoNombre(x.tipo))}</b> <span class="muted small">${fecha(x.respondido_en)}</span></summary><pre>${esc(x.texto)}</pre><div class="reply"><p>${esc(x.respuesta).replace(/\n/g, '<br>')}</p>${fixes(x.correcciones)}</div></details>`).join('') : '<p class="muted">Todavía no respondiste pedidos.</p>';
       return `<div class="head"><div><span class="eyebrow">Panel de Flor</span><h1>Bandeja</h1></div></div>
@@ -632,7 +659,7 @@ ${url(links().plataforma) ? `<div class="row"><a class="btn ghost" href="${esc(l
         const box = $('.corrs', it);
         $('.addc', it).onclick = () => filaCorr(box);
         box.onclick = (e) => { if (e.target.classList.contains('quitar')) e.target.parentElement.remove(); };
-        $('.ia', it).onclick = async (e) => {
+        if ($('.ia', it)) $('.ia', it).onclick = async (e) => {
           const b = e.target; b.disabled = true; b.textContent = 'Armando borrador…';
           try { const r = await DB.borrador({ pedido_id: +it.dataset.pid || it.dataset.pid }); $('.r', it).value = r.respuesta; box.innerHTML = ''; (r.correcciones || []).forEach((c) => filaCorr(box, c.mal, c.bien)); }
           catch (er) { toast(er.message, true); }
@@ -647,7 +674,7 @@ ${url(links().plataforma) ? `<div class="row"><a class="btn ghost" href="${esc(l
       });
       $$('[data-wid]').forEach((it) => {
         const id = +it.dataset.wid || it.dataset.wid;
-        $('.iaw', it).onclick = async (e) => {
+        if ($('.iaw', it)) $('.iaw', it).onclick = async (e) => {
           const b = e.target; b.disabled = true; b.textContent = 'Armando borrador…';
           try { const r = await DB.borrador({ weekly_id: id }); $('.r', it).value = r.respuesta; } catch (er) { toast(er.message, true); }
           b.disabled = false; b.textContent = 'Borrador con IA';
@@ -709,8 +736,9 @@ ${url(links().plataforma) ? `<div class="row"><a class="btn ghost" href="${esc(l
       return `<div class="head"><div><span class="eyebrow">Panel de Flor</span><h1>Alumnas</h1></div><span class="pill">${al.filter((x) => x.activa !== false && x.rol !== 'admin').length} activas</span></div>
 <div class="grid" style="grid-template-columns:minmax(0,280px) minmax(0,1fr);align-items:start" id="agrid">
   <div class="grid">
-    <form class="card" id="invform" novalidate><h3>Invitar alumna</h3><p class="muted small">Le llega un mail para crear su contraseña.</p>
-      <input type="text" id="inv-nombre" placeholder="Nombre"><input type="email" id="inv-email" placeholder="Mail"><button class="btn sm" type="submit">Mandar invitación</button></form>
+    ${IA ? `<form class="card" id="invform" novalidate><h3>Invitar alumna</h3><p class="muted small">Le llega un mail para crear su contraseña.</p>
+      <input type="text" id="inv-nombre" placeholder="Nombre"><input type="email" id="inv-email" placeholder="Mail"><button class="btn sm" type="submit">Mandar invitación</button></form>`
+      : `<section class="card"><h3>Invitar alumna</h3><p class="muted small">En Supabase: <b>Authentication › Users › Add user › Send invitation</b>, con su mail. Le llega un mail para crear su contraseña y aparece acá.</p></section>`}
     <div class="alist">${al.map((x) => `<button type="button" data-a="${x.id}" ${String(x.id) === sel ? 'aria-current="true"' : ''}><span>${esc(x.nombre || x.email)}${x.activa === false ? ' <span class="muted small">(inactiva)</span>' : ''}</span><span class="muted small">${esc(x.formato || '')}</span></button>`).join('')}</div>
   </div>
   <div class="grid" style="align-content:start">${det}</div>
@@ -719,7 +747,7 @@ ${url(links().plataforma) ? `<div class="row"><a class="btn ghost" href="${esc(l
     mount(sel) {
       if (window.matchMedia('(max-width:860px)').matches) $('#agrid').style.gridTemplateColumns = '1fr';
       $$('[data-a]').forEach((b) => (b.onclick = () => (location.hash = 'alumnas/' + b.dataset.a)));
-      $('#invform').onsubmit = async (e) => {
+      if ($('#invform')) $('#invform').onsubmit = async (e) => {
         e.preventDefault(); const em = $('#inv-email').value.trim(); if (!em) return toast('Escribe el mail.', true);
         await intentar(() => DB.invitar(em, $('#inv-nombre').value.trim()), 'Invitación enviada a ' + em); ruta();
       };
