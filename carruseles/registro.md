@@ -34,3 +34,5 @@ Una línea por pieza: fecha · tema · estilo/fondo · foto usada · CTA. Lo lee
 - 29/10 · REEL «¿Sabías que explicar tu trabajo cambia por completo entre español e inglés?» · hook @mariaspeaksenglish (959K) · clips de Flor (jardín, cafetera) con texto en pantalla, sin voz · ORDEN
 - 30/10 · «Hablar más inglés y comunicar mejor NO es lo mismo 👀» · hook outlier propio 09/09 (4.006) · scrapbook · café ladrillo con Alfonso, Usina, stills · ORDEN
 - 31/10 · «Cuando tu marido nativo se toma unos días…» · hook outlier propio 05/09 (3.252) · personal + READY · playa con Alfonso, jardín, cafetera
+- 02/11 · REEL a cámara «Dar un update» (Módulo 2) · hook «a quick update» · Main point → Why → Next · sin foto · READY por DM (prompter en reels/r10-update)
+- 04/11 · Carrusel «¿Dices work-ED con dos sílabas?» · banco #8 (hook @hadar.accentsway 69k) · plain/bold marrón, texto solo (sin fotos nuevas), placa del caso «I miss them» reemplazada por ejemplo genérico · ED por DM
