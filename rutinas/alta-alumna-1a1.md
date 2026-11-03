@@ -5,7 +5,7 @@ Las alumnas LAB (Programa "AT WORK grupal" con Lab que empieza con "Lab") NO van
 ## LINKS FIJOS (si alguno dice [FALTA], NO se manda la bienvenida: hacé todo lo demás y avisale a Flor)
 - Comunidad AT WORK en la plataforma (GoHighLevel): https://academy.breakingbarriers.site/communities/groups/breaking-barriers-at-work/home · Adentro, en "Learning", están: el onboarding 1:1, el onboarding lab y el programa AT WORK (todos los módulos). Una alumna 1:1 hace el "onboarding 1:1".
 - Comunidad de WhatsApp (invitación): https://chat.whatsapp.com/EKffC7cix6oDfeCCvfKGYv
-- Agendar el primer 1:1: [FALTA · Flor lo pasa]
+- Agendar el primer 1:1 (página de citas de Google Calendar de Flor): https://calendar.app.google/XMDANMAaRPLHTFBG8
 - WhatsApp de Flor: https://wa.me/5491144101209
 - Acuerdo de trabajo (VIP y Lab): https://drive.google.com/file/d/1YCz4gbd76Blq93kibhpkXB6Wvs1bfBF6/view
 - Coaches de IA (por ahora, Flor 03/11): https://claude.ai/artifact/WJL8169mrDjHEkCJfhXH6t · en el mail: "Toca «Copiar» en el coach que quieras y pégalo en un chat nuevo de la IA que uses." (La página del sitio /coach/ todavía no se usa.)
