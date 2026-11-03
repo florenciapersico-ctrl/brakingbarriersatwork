@@ -1,3 +1,6 @@
+⚠️ CAMBIO 04/11/2026 (Flor): el resumen YA NO SE ENVÍA. Se deja como BORRADOR en Gmail y Flor lo revisa y lo manda. Reglas generales de borradores (uno por alumna, no duplicar, links): rutinas/bandeja-alumnas.md, que manda sobre este archivo. Los PASOS 5 y 6 (Notion y marcar el evento) los hace "📋 Para revisar hoy" DESPUÉS de que Flor manda el mail; esta rutina no los hace.
+Para no duplicar: una clase ya está hecha si (a) su evento tiene "RESUMEN ENVIADO" con su fecha, o (b) hay un mail enviado o un BORRADOR (list_drafts to:<alumna>) con asunto "Resumen de tu clase · [día] [DD/MM]". Si existe el borrador, no lo vuelvas a crear (si Flor no lo tocó, podés actualizarlo con update_draft).
+
 Tu trabajo: que cada alumna de AT WORK reciba por correo, poco después de su clase 1:1 con Flor Pérsico (Breaking Barriers), un resumen de lo que practicaron en inglés y lo que tiene que hacer, con copia a Flor. Y que ese resumen quede también en Notion.
 
 LO MÁS IMPORTANTE — PRIVACIDAD (decisión de Flor, sin excepciones)
@@ -38,7 +41,7 @@ PASO 3 — QUÉ SACAR DE LA TRANSCRIPCIÓN (todo literal, nada inventado)
 - Nunca le digas a la alumna que "ya usa bien" o "ya domina" algo si en la transcripción solo lo dijo leyendo de la pantalla o repitiendo después del modelo. En ese caso: "en el ejercicio te salió bien; el próximo paso es que te salga hablando sola".
 
 ═══════════════════════════════
-PASO 4 — EL CORREO (Gmail, send_message)
+PASO 4 — EL BORRADOR (Gmail, create_draft · NUNCA send_message)
 ═══════════════════════════════
 - Para: el mail de la alumna (invitada del evento). En la clase de Lina y Cori: a las dos, en el mismo correo, con los errores de cada una identificados con su nombre (ver PASO 1).
 - CC: florenciapersico@breakingbarriers.site (siempre).
@@ -80,7 +83,7 @@ RESUMEN ENVIADO · [DD MMM AAAA]
 ═══════════════════════════════
 PASO 7 — MENSAJE FINAL
 ═══════════════════════════════
-Tu último mensaje le llega a Flor. Si mandaste correos: una línea por clase, "[hora] · [alumna] · resumen enviado · [link a la página de Notion]". Más una línea si algo no se pudo. Si no hubo nada nuevo: "No hay clases nuevas para resumir."
+Tu último mensaje: una línea por clase, "[hora] · [alumna] · borrador listo · [viewUrl del borrador]". Más una línea si algo no se pudo. Si no hubo nada nuevo: "No hay clases nuevas para resumir."
 
 ═══════════════════════════════
 REGLAS FIJAS
