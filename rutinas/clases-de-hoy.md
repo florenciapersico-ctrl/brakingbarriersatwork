@@ -84,6 +84,14 @@ h) VENTANA DE RENOVACIÓN (desde el 01/10/2026). Si a la alumna le quedan 10 sem
    - Si la descripción del evento ya tiene un bloque "⭐ ANTES DE ARRANCAR LA CLASE", conservalo ARRIBA de todo y poné el bloque CLASE LISTA debajo.
    La información sigue saliendo de Drive (regla de fuentes); la sección "🎯 Fase 2" de Notion es la única excepción permitida, porque la arma la rutina del ciclo a partir de Drive.
 
+PASO 3 ter — PRIMERA CLASE DE UNA ALUMNA NUEVA (Flor, 03/11/2026 · lo que falló con Georgina el 02/11: "sin onboarding, sin carpeta ni notas → sin hoja")
+Si es la PRIMERA clase 1:1 de la alumna (no hay notas de Gemini anteriores), NO se saltea: se prepara igual, con lo que haya.
+- Fuentes: su carpeta (01: acuerdo y Starting Point, hoja y grabación; 02: material real), la ficha de Notion, la bienvenida enviada, el mail del alta (alta-alumna-1a1.md) y lo que haya escrito por mail.
+- Hoja para la alumna (misma plantilla): "Tu primera clase". Bloques: 1) Tu situación: la situación concreta de su trabajo que la pone nerviosa (si la escribió en algún lado, literal; si no, "La definimos juntas hoy"). 2) Tu objetivo a 5 meses, medible y concreto (se completa en clase; ejemplo: "presentar en mi reunión mensual con mis propias palabras, sin memorizar"). 3) Tu primer Weekly Report, que hacemos juntas hoy (link a su copia de la semana en 05 si existe). 4) Tu única tarea de esta semana (la deja Flor al final: "Flor te la deja en clase").
+- Guía para Flor (Notion, no en la hoja): checklist del onboarding con ✅/❌ (carpeta compartida, bienvenida, acceso a la plataforma, acuerdo subido, Starting Point, material en 02, comunidad); lo que ya se sabe de su trabajo; y el orden sugerido: 5 min bienvenida y "es normal no entender todo", 10 min lo que falte del checklist, 20 min objetivo + situación concreta (bajar "hablar fluido" a algo medible), 15 min primer weekly juntas, 5 min la única tarea de la semana.
+- Si falta la carpeta o el acceso, va arriba de todo en el correo a Flor: "⚠️ [Nombre] llega a su primera clase sin [qué]".
+- Descripción del evento: solo lo que la alumna puede leer (nunca pago, precio, viaje, anexo ni notas de onboarding para Flor).
+
 ═══════════════════════════════
 PASO 4 — LA CLASE (Google Doc en la carpeta de la alumna)
 ═══════════════════════════════
