@@ -37,3 +37,7 @@ ASÍ LES ESCRIBE FLOR POR WHATSAPP (30/10, ejemplos reales para copiar el tono)
 ## Tono suave para todas (Flor, 03/11/2026)
 
 Nunca encuadre de falla ("perdiste estabilidad", "te trabaste", "te costó", tablas de errores). Todo es "para mejorar" / "para que suene todavía más natural", con mucho más reconocimiento que corrección y 3–4 correcciones como máximo. Las prácticas son herramientas para lo que viene. Alumnas inseguras o esperando respuesta: abrir y cerrar con confianza en ella. Vale también para las hojas de clase que ve la alumna. Detalle: .claude/skills/feedback-alumnas/SKILL.md, sección 5.
+
+## Alumna que viaja o semana sin clase (Flor, 03/11/2026)
+
+Flor la acompaña todo el tiempo: verificar en el calendario si hay otra clase antes; cada semana sin clase lleva una hoja de autoclase con formato de clase AT WORK, una clase grabada de la plataforma para ver y una entrega concreta con fecha (subir a 04 · MIS PRÁCTICAS) que Flor devuelve con feedback. Nunca "practicá sola y nos vemos a la vuelta". Detalle: .claude/skills/feedback-alumnas/SKILL.md, sección 5.

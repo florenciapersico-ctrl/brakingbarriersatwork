@@ -69,6 +69,17 @@ Casos especiales (por ejemplo, alumnas a las que nunca se les escribe) mandan so
 - **Situaciones sensibles** (espera respuesta de una entrevista, evaluación, alumna insegura): abrir y cerrar con confianza en ella; nada que la haga sentir que salió mal.
 - Vale también para las hojas de clase que ve la alumna (secciones tipo "Tus mejores momentos + cómo llevar todo a ese nivel", consignas en positivo).
 
+### Alumna que viaja o no va a tener clase (pedido de Flor, 03/11/2026)
+
+"Yo la voy a ir acompañando durante todo su viaje… le tengo que dar una tarea para que la haga sola con el formato de la típica clase nuestra, pedirle que me mande su práctica, sugerirle ver algo en la plataforma, hacer las actividades… tiene que ser mucho más acompañado."
+
+- **Antes de escribir, verificá en el calendario** si de verdad no hay otra clase antes del viaje y qué clases caen durante el viaje. Nunca asumas "era su última clase".
+- **Flor la acompaña todo el viaje.** Nada de "practicá sola 5 minutos y nos vemos a la vuelta" ni "reprogramamos a la vuelta".
+- **Cada semana sin clase = una hoja de autoclase** con el formato de una clase típica de AT WORK y el branding: warm-up, objetivo, teoría breve con ejemplos de SU trabajo, actividades paso a paso (Narrative Flow con sus frases, shadowing, role play con el bot con el prompt listo) y 45–60 min de trabajo.
+- **Siempre una clase de la plataforma para ver**: solo de "AT WORK — Programa", VIGENTE y grabada (✅ GRABADA o link de video). Nunca nombrar un training que no está grabado.
+- **Siempre una entrega concreta con fecha**: qué grabar o escribir, dónde subirlo (04 · MIS PRÁCTICAS) y que Flor le devuelve feedback. El mail lo dice claro: "cada semana te mando tu clase, tú me mandás tu práctica y yo te devuelvo el feedback".
+- Lo mismo vale para semanas sin clase por feriado o por vacaciones de Flor (ej.: Gaby, semana del 09/11).
+
 Ver `referencias/voz-de-flor.md` (dictados y mensajes reales). En resumen:
 
 - Arranque: "Hola Vir, cómo estás? Bueno, acabo de escuchar tu…". Nada de "Qué buen trabajo!" genérico.
