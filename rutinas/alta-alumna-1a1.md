@@ -3,8 +3,8 @@ Leé primero _reglas-comunes.md y _pendientes.md. Corre 3 veces por día. Objeti
 Las alumnas LAB (Programa "AT WORK grupal" con Lab que empieza con "Lab") NO van acá: las da de alta el SOP del lab. Tampoco Alejandra Rossi ni José Manuel Lema (cuñado de Flor, no es alumna).
 
 ## LINKS FIJOS (si alguno dice [FALTA], NO se manda la bienvenida: hacé todo lo demás y avisale a Flor)
-- Programa AT WORK (onboarding + clases grabadas): https://academy.breakingbarriers.site/communities/groups/breaking-barriers-at-work/home
-- Comunidad de WhatsApp (invitación): [FALTA · Flor lo pasa]
+- Comunidad AT WORK en la plataforma (GoHighLevel): https://academy.breakingbarriers.site/communities/groups/breaking-barriers-at-work/home · Adentro, en "Learning", están: el onboarding 1:1, el onboarding lab y el programa AT WORK (todos los módulos). Una alumna 1:1 hace el "onboarding 1:1".
+- Comunidad de WhatsApp (invitación): https://chat.whatsapp.com/EKffC7cix6oDfeCCvfKGYv
 - Agendar el primer 1:1: [FALTA · Flor lo pasa]
 - WhatsApp de Flor: https://wa.me/5491144101209
 - Acuerdo de trabajo (VIP y Lab): https://drive.google.com/file/d/1YCz4gbd76Blq93kibhpkXB6Wvs1bfBF6/view
@@ -33,9 +33,9 @@ Asunto: Bienvenida a AT WORK, [Nombre] 🤍
 Hola [apodo o nombre], ¿cómo estás?
 Ya me llegó tu pago, así que oficialmente eres parte de AT WORK. Me hace muy feliz tenerte.
 Acá tienes todo para empezar:
-1. Tu acceso a la plataforma: te llega en otro mail, una invitación de academy.breakingbarriers.site para crear tu contraseña. Ahí está el programa AT WORK y su primer módulo, el onboarding: [link del programa]. Empieza por ahí, con calma.
+1. Tu acceso a la plataforma: te llega en otro mail, una invitación de academy.breakingbarriers.site para crear tu contraseña. Después entras a la comunidad AT WORK: [link de la comunidad en la plataforma]. En "Learning" tienes tu onboarding 1:1 y el programa AT WORK con todos los módulos. Empieza por el onboarding 1:1, con calma.
 2. Tu carpeta personal: [link de su carpeta]. Es solo tuya: ahí van tu acuerdo de trabajo, tu starting point, tus weekly reports y tu material.
-3. La comunidad de WhatsApp de AT WORK: [link de la comunidad].
+3. La comunidad de WhatsApp de AT WORK: [link de la comunidad de WhatsApp].
 4. Agenda tu primer 1:1 conmigo: [link para agendar]. Antes de esa clase, termina el onboarding.
 5. Tus coaches de IA, para practicar cuando quieras: [link de coaches].
 Si algo no te llega o no puedes entrar, escríbeme a mi WhatsApp: [link WhatsApp de Flor].
