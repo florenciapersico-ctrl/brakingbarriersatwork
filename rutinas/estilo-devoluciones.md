@@ -41,3 +41,7 @@ Nunca encuadre de falla ("perdiste estabilidad", "te trabaste", "te costó", tab
 ## Alumna que viaja o semana sin clase (Flor, 03/11/2026)
 
 Flor la acompaña todo el tiempo: verificar en el calendario si hay otra clase antes; cada semana sin clase lleva una hoja de autoclase con formato de clase AT WORK, una clase grabada de la plataforma para ver y una entrega concreta con fecha (subir a 04 · MIS PRÁCTICAS) que Flor devuelve con feedback. Nunca "practicá sola y nos vemos a la vuelta". Detalle: .claude/skills/feedback-alumnas/SKILL.md, sección 5.
+
+## Nunca repetir lo que ya vio (Flor, 03/11/2026)
+
+Antes de armar una clase, autoclase o tarea: leer TODAS las clases de la alumna y listar lo ya trabajado (lo tocado al pasar cuenta como visto). No repetir temas ni insistir en el mismo eje; elegir algo nuevo y dejar en el borrador para Flor la evidencia "nunca lo vio: revisé del dd/mm al dd/mm". Detalle: .claude/skills/feedback-alumnas/SKILL.md, sección 5.

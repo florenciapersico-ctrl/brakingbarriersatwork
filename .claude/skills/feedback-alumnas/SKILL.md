@@ -69,6 +69,15 @@ Casos especiales (por ejemplo, alumnas a las que nunca se les escribe) mandan so
 - **Situaciones sensibles** (espera respuesta de una entrevista, evaluación, alumna insegura): abrir y cerrar con confianza en ella; nada que la haga sentir que salió mal.
 - Vale también para las hojas de clase que ve la alumna (secciones tipo "Tus mejores momentos + cómo llevar todo a ese nivel", consignas en positivo).
 
+### Nunca repetir lo que ya vio (regla dura, pedido de Flor, 03/11/2026)
+
+"No me gustaría que le envíes algo que ella hizo, queda muy mal… fijarte de no seguir insistiendo en el mismo tema 700 veces y usar temas que sean nuevos y chequear que no los hayan visto antes."
+
+Antes de armar una clase, una autoclase, una tarea o recomendarle una clase del programa:
+1. **Leé TODAS sus clases** (Notas de Gemini/transcripciones desde la primera, no solo las últimas), sus hojas y su registro, y armá la lista de temas y clases del programa que ya trabajó, con fecha. "Se tocó al pasar" cuenta como visto salvo que Flor diga lo contrario.
+2. **No repitas un tema ya trabajado** ni sigas con el mismo eje semana tras semana (ej.: Carta Porte con Brenda). Elegí algo nuevo que responda a cómo habla ella hoy y a situaciones de su trabajo que todavía no se trabajaron.
+3. **En el borrador para Flor, poné una línea de evidencia**: "Nunca lo vio: revisé sus clases del dd/mm al dd/mm". Si no podés verificarlo, decilo y no lo mandes como nuevo.
+
 ### Alumna que viaja o no va a tener clase (pedido de Flor, 03/11/2026)
 
 "Yo la voy a ir acompañando durante todo su viaje… le tengo que dar una tarea para que la haga sola con el formato de la típica clase nuestra, pedirle que me mande su práctica, sugerirle ver algo en la plataforma, hacer las actividades… tiene que ser mucho más acompañado."
