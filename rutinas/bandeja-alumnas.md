@@ -6,6 +6,8 @@ Pedido de Flor (03/11/2026): "Quiero que arregles esta automatización para que 
 - Se respondían weekly viejos.
 - Los audios quedaban sin feedback.
 
+Si algo sale mal o Flor corrige algo, anotalo en rutinas/mejoras-log.md (ver rutinas/mejora-continua.md).
+
 Este archivo es la ÚNICA fuente de reglas para todo lo que va hacia una alumna. Si otro archivo de rutinas dice otra cosa, manda este.
 
 ## 1 · Quién hace qué
