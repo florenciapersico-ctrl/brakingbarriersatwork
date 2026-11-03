@@ -18,6 +18,9 @@ Flor (26/10): «que quede todo automatizado con el mismo criterio de Ann y como 
 
 Sábado, solo si hay algo real y significativo.
 
+## Paso 0 · La voz de Flor (siempre primero)
+Leé `VOZ-DE-FLOR.md`: lo que Flor publicó y cómo cambió nuestros borradores. Escribí como ella escribe ahí. Antes de planificar, agregá a ese archivo lo que haya publicado desde la última entrada (Smart Creator en Posted o el perfil @ysi_speakenglish): texto tal cual, qué cambió y la lección.
+
 ## Paso 1 · Criterio (antes de escribir nada)
 1. **Prioridad del negocio** con `anthropic-skills:consultoria-con-ann`: ¿qué necesita el negocio esta semana (conversaciones, cupos, una oferta)? El CTA de la semana sale de ahí.
 2. **Plan** con `anthropic-skills:plan-de-contenido-semanal`. Una Gran Idea: «Tu alumna cree que [X], pero la verdad es que [Y]», con una prueba real. Lunes, martes, miércoles y jueves la cuentan desde ángulos distintos; el viernes la prueba con wins. Mezcla 40/40/20.
