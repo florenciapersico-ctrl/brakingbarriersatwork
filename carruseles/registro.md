@@ -36,3 +36,4 @@ Una línea por pieza: fecha · tema · estilo/fondo · foto usada · CTA. Lo lee
 - 31/10 · «Cuando tu marido nativo se toma unos días…» · hook outlier propio 05/09 (3.252) · personal + READY · playa con Alfonso, jardín, cafetera
 - 02/11 · REEL a cámara «Dar un update» (Módulo 2) · hook «a quick update» · Main point → Why → Next · sin foto · READY por DM (prompter en reels/r10-update)
 - 04/11 · Carrusel «¿Dices work-ED con dos sílabas?» · banco #8 (hook @hadar.accentsway 69k) · plain/bold marrón, texto solo (sin fotos nuevas), placa del caso «I miss them» reemplazada por ejemplo genérico · ED por DM
+- 02/11 (corrida extra, reemplaza el reel «Dar un update», que pasa a «Otra semana») · Carrusel «¿Te aprendes de memoria tu presentación en inglés?» · onboarding de alumna nueva (sin datos) · estilo miércoles bold/label/plain · fotos nuevas 03/11 (selfie calle, auto, auto roja, Usina, laptop NOI) · READY por DM
