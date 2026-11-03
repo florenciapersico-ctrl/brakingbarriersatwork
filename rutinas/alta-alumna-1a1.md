@@ -8,7 +8,7 @@ Las alumnas LAB (Programa "AT WORK grupal" con Lab que empieza con "Lab") NO van
 - Agendar el primer 1:1: [FALTA · Flor lo pasa]
 - WhatsApp de Flor: https://wa.me/5491144101209
 - Acuerdo de trabajo (VIP y Lab): https://drive.google.com/file/d/1YCz4gbd76Blq93kibhpkXB6Wvs1bfBF6/view
-- Coaches de IA: https://florenciapersico-ctrl.github.io/brakingbarriersatwork/coach/
+- Coaches de IA (por ahora, Flor 03/11): https://claude.ai/artifact/WJL8169mrDjHEkCJfhXH6t · en el mail: "Toca «Copiar» en el coach que quieras y pégalo en un chat nuevo de la IA que uses." (La página del sitio /coach/ todavía no se usa.)
 - Template de carpeta: "📁 TEMPLATE — CARPETA PERSONAL ALUMNA" (1VGJI_SzdYhdVXZXT_Q4EtcKnjtKDtt4j) · carpeta madre: VIP STUDENTS 2026 (1EKSntEU0pkzws27TxeovcAI1yz58ykTv)
 
 ## PASO 1 · DETECTAR ALUMNAS NUEVAS
@@ -37,7 +37,7 @@ Acá tienes todo para empezar:
 2. Tu carpeta personal: [link de su carpeta]. Es solo tuya: ahí van tu acuerdo de trabajo, tu starting point, tus weekly reports y tu material.
 3. La comunidad de WhatsApp de AT WORK: [link de la comunidad de WhatsApp].
 4. Agenda tu primer 1:1 conmigo: [link para agendar]. Antes de esa clase, termina el onboarding.
-5. Tus coaches de IA, para practicar cuando quieras: [link de coaches].
+5. Tus coaches de IA, para practicar cuando quieras: [link de coaches]. Toca «Copiar» en el coach que quieras y pégalo en un chat nuevo de la IA que uses.
 Si algo no te llega o no puedes entrar, escríbeme a mi WhatsApp: [link WhatsApp de Flor].
 Un abrazo,
 Flor
