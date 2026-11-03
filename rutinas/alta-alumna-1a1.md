@@ -13,12 +13,12 @@ Las alumnas LAB (Programa "AT WORK grupal" con Lab que empieza con "Lab") NO van
 
 ## PASO 1 · DETECTAR ALUMNAS NUEVAS
 - Gmail: correos de notifications@stripe.com de los últimos 3 días con asunto "Pago de ... para BARRIER BREAKERS SOLUTIONS LLC" (y transferencias que Flor haya confirmado en un mail o en _reglas-comunes.md).
-- Es NUEVA si no tiene ficha en Notion › Alumnas (collection://59d40821-721b-4597-9b86-4b856c800e87) con Estado Activa / Próxima a finalizar, ni pagos anteriores en Stripe. Una cuota de una alumna que ya cursa NO es alta. Si la ficha existe con Estado "Confirmada" y en "Notas tracker" no dice "✅ Alta 1:1", SÍ es alta (puede que Flor haya creado la ficha a mano).
+- Es NUEVA si no tiene ficha en Notion › Alumnas (collection://59d40821-721b-4597-9b86-4b856c800e87) con Estado Activa / Próxima a finalizar, ni pagos anteriores en Stripe. Una cuota de una alumna que ya cursa NO es alta. Si la ficha existe (con cualquier Estado) y en "Notas tracker" no dice "✅ Alta 1:1", SÍ es alta (puede que Flor haya creado la ficha a mano).
 - ¿1:1 o lab? Mirá, en este orden: el producto o la descripción del pago en Stripe, la propiedad "Programa" de su ficha, y lo que Flor haya escrito. Lab → no la toques (es del SOP del lab). Si no se puede saber, NO mandes nada: preguntale a Flor en el mail del PASO 6 ("¿Nombre es 1:1 o lab? Respondé '1a1 Nombre' o 'lab Nombre'") y en la próxima corrida buscá su respuesta en Gmail.
 - Antes de crear cualquier cosa, buscá si ya existe (ficha, carpeta, bienvenida en Enviados). Si hay duplicados, usá el más viejo y anotalo para Flor. Nunca crees dos.
 
 ## PASO 2 · FICHA EN NOTION
-Una sola ficha. Estado "Confirmada" (pasa a "Activa" sola después de su primera clase: notion-al-dia.md). Programa 1:1, mail, cuota y moneda del pago, fecha de pago, país si se sabe (trato: tú si no es argentina, voseo si es argentina; si no se sabe, tú). En "Notas tracker", arriba: "✅ Alta 1:1 dd/mm" y debajo la checklist del PASO 6. Nada personal.
+Una sola ficha. Estado "Activa" desde el pago (Flor, 03/11/2026: "cuando una alumna paga, ya es activa"; desde ese momento le corren todas las rutinas). Si la ficha ya existía como "Confirmada", pasala a "Activa". Programa 1:1, mail, cuota y moneda del pago, fecha de pago, país si se sabe (trato: tú si no es argentina, voseo si es argentina; si no se sabe, tú). En "Notas tracker", arriba: "✅ Alta 1:1 dd/mm" y debajo la checklist del PASO 6. Nada personal.
 
 ## PASO 3 · CARPETA DE DRIVE (el error de Georgina: la carpeta nunca le llegó)
 1. Dentro de VIP STUDENTS 2026, creá "[Nombre Apellido] · AT WORK" con la estructura EXACTA del template: 01 · MI CONTEXTO PROFESIONAL · 02 · MATERIAL REAL DE MI TRABAJO · 03 · MATERIALES DE SESIONES · 04 · MIS PRÁCTICAS · 05 · MI PROGRESO. No inventes otros nombres.
@@ -27,7 +27,7 @@ Una sola ficha. Estado "Confirmada" (pasa a "Activa" sola después de su primera
 4. Guardá el link en su ficha (propiedad "Carpeta Drive").
 
 ## PASO 4 · MAIL DE BIENVENIDA (se ENVÍA solo: autorizado por Flor el 03/11/2026)
-Solo si: es 1:1 confirmada, la carpeta está compartida y verificada, y ningún link de arriba dice [FALTA]. Buscá antes en Enviados que no se le haya mandado ya (asunto "Bienvenida a AT WORK"). Gmail send_message, desde la cuenta de Flor, a la alumna, Flor en CCO, htmlBody + body. Estilo de _reglas-comunes.md. Firmado "Flor". Trato según país. Usá este modelo, cambiando solo lo que está entre [ ]:
+Solo si: es 1:1, la carpeta está compartida y verificada, y ningún link de arriba dice [FALTA]. Buscá antes en Enviados que no se le haya mandado ya (asunto "Bienvenida a AT WORK"). Gmail send_message, desde la cuenta de Flor, a la alumna, Flor en CCO, htmlBody + body. Estilo de _reglas-comunes.md. Firmado "Flor". Trato según país. Usá este modelo, cambiando solo lo que está entre [ ]:
 
 Asunto: Bienvenida a AT WORK, [Nombre] 🤍
 Hola [apodo o nombre], ¿cómo estás?
@@ -55,7 +55,7 @@ Asunto: "✅ Alta 1:1 · [Nombre] · dd/mm". Arriba: lo que tiene que hacer Flor
 Si no hubo altas ni alertas, no mandes mail.
 
 ## PASO 7 · CONTROL ANTES DE LA PRIMERA CLASE (en cada corrida)
-Para cada alumna 1:1 en Estado "Confirmada" con su primera clase en las próximas 48 h (Calendar de Flor):
+Para cada alumna 1:1 con "✅ Alta 1:1" en los últimos 30 días que tiene su primera clase en las próximas 48 h (Calendar de Flor):
 - ¿Tiene carpeta compartida con su mail? ¿Le salió la bienvenida? ¿Flor tildó "Acceso a plataforma dado"? ¿Subió el acuerdo y el starting point a su carpeta?
 - ¿La descripción del evento tiene notas internas (pago, precio, viaje, onboarding, estrategia)? La alumna la ve: avisale a Flor con el texto exacto que hay que sacar. No la edites sin su ok.
 - Si algo falta: "⚠️ Antes de la primera clase de [Nombre] ([día hora])" arriba del mail a Flor, con qué falta y el mensaje listo para mandarle a la alumna si hace falta.
