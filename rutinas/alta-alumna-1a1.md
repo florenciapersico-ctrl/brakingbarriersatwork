@@ -35,6 +35,7 @@ Ya me llegó tu pago, así que oficialmente eres parte de AT WORK. Me hace muy f
 Acá tienes todo para empezar:
 1. Tu acceso a la plataforma: te llega en otro mail, una invitación de academy.breakingbarriers.site para crear tu contraseña. Después entras a la comunidad AT WORK: [link de la comunidad en la plataforma]. En "Learning" tienes tu onboarding 1:1 y el programa AT WORK con todos los módulos. Empieza por el onboarding 1:1, con calma.
 2. Tu carpeta personal: [link de su carpeta]. Es solo tuya: ahí van tu acuerdo de trabajo, tu starting point, tus weekly reports y tu material.
+   Tu acuerdo de trabajo: [link del acuerdo de trabajo]. Descárgalo, fírmalo y súbelo a 01 · Mi contexto profesional, en tu carpeta.
 3. La comunidad de WhatsApp de AT WORK: [link de la comunidad de WhatsApp].
 4. Agenda tu primer 1:1 conmigo: [link para agendar]. Antes de esa clase, termina el onboarding.
 5. Tus coaches de IA, para practicar cuando quieras: [link de coaches]. Toca «Copiar» en el coach que quieras y pégalo en un chat nuevo de la IA que uses.
