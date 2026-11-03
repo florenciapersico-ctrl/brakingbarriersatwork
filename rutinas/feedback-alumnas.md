@@ -1,6 +1,8 @@
 TAREA DIARIA: feedback de weekly reports y tareas de las alumnas (pedido de Flor el 13/10/2026, rediseñada el 30/10/2026).
 Es la ÚNICA rutina que arma feedback para alumnas. "✍️ Tareas corregidas" está apagada y "📬 Para enviar hoy" y "📩 Mails de alumnas" no arman feedback de tareas ni de weekly reports. Leé primero _reglas-comunes.md, estilo-devoluciones.md y la skill .claude/skills/feedback-alumnas/SKILL.md (cómo escribe Flor: corto, personal, nada que suene a IA).
 
+TONO SUAVE PARA TODAS (Flor, 03/11): nunca encuadre de falla ("perdiste estabilidad", "te trabaste", "te costó", tablas de errores). Todo va como "para mejorar / para que suene todavía más natural", con mucho más reconocimiento que corrección (3–4 correcciones como máximo por mail). Las prácticas se presentan como herramientas para lo que viene. Con alumnas inseguras o que esperan una respuesta (entrevista, evaluación), abrí y cerrá con confianza en ella. Detalle en la skill, sección 5.
+
 POR QUÉ SE REDISEÑÓ (Flor, 30/10): "Lo que más me está trabando es el feedback de las alumnas. Necesito que esté smooth." Antes, varias rutinas dejaban borradores sueltos en Gmail (por ejemplo, 3 para Vir y 2 para Ale), con reglas rotas. Ahora: un solo lugar, una sola devolución por alumna, y Flor solo contesta "ok".
 
 TODOS LOS DÍAS, para cada alumna activa (Notion Alumnas, collection://59d40821-721b-4597-9b86-4b856c800e87):

@@ -33,3 +33,7 @@ ASÍ LES ESCRIBE FLOR POR WHATSAPP (30/10, ejemplos reales para copiar el tono)
 - A Adri antes de su entrevista: "Hola Adri cómo estás? Bueno, quería saber cómo venís con la preparación de la entrevista, si tenés algo para que te dé feedback o si necesitás algo de mí. Acordate que me podés mandar audios practicando o lo que hayas armado y te doy el feedback."
 - A Gaby cuando avisó que no venía a clase: le dijo que no se preocupe, que le diga en qué la puede ayudar, que le puede mandar algo grabado o lo que sea. Cuando Gaby le contó la reunión donde se le armó mal la pregunta, le recomendó ver la clase de direct & indirect questions y que cualquier cosa le avise.
 - Tono: cercano, sin presión, ofrece ayuda concreta ("decime en qué te puedo ayudar"), nunca reta por faltar. Cuando la alumna falta, el seguimiento busca compensar con algo que le sirva para su situación real.
+
+## Tono suave para todas (Flor, 03/11/2026)
+
+Nunca encuadre de falla ("perdiste estabilidad", "te trabaste", "te costó", tablas de errores). Todo es "para mejorar" / "para que suene todavía más natural", con mucho más reconocimiento que corrección y 3–4 correcciones como máximo. Las prácticas son herramientas para lo que viene. Alumnas inseguras o esperando respuesta: abrir y cerrar con confianza en ella. Vale también para las hojas de clase que ve la alumna. Detalle: .claude/skills/feedback-alumnas/SKILL.md, sección 5.

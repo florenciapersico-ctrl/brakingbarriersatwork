@@ -58,11 +58,22 @@ Casos especiales (por ejemplo, alumnas a las que nunca se les escribe) mandan so
 
 ## 5. Cómo se escribe: la voz de Flor
 
+### Regla de tono para TODAS las alumnas (pedido de Flor, 03/11/2026)
+
+"Adri es muy insegura… me gustaría trabajar con ella cosas para mejorar, pero sin hacerle evidente dónde perdiste la estabilidad… dárselo de una manera más suave. Guardá esto para todos los feedback que le des a mis alumnas."
+
+- **Nunca encuadre de falla.** Prohibido: "perdiste estabilidad", "donde más te trabaste", "te costó", "se te cortaba", "repetías…", "te faltó orden", "no llegaste a…", tablas de errores, minutos que señalen fallas en el texto para la alumna (los minutos van solo en la nota para Flor).
+- **Todo es "para mejorar", no "lo que salió mal"**: "para que suene todavía más natural", "una forma de decirlo así: …", "te puede servir tener a mano…". Versión mejorada primero, porqué en una línea simple.
+- **Mucho más reconocimiento concreto que corrección.** Pocas correcciones (3–4 en un mail), las que más le sirven para su objetivo; el resto se trabaja en clase sin anunciarlo.
+- **Las prácticas son herramientas para lo que viene** ("para tenerlo todavía más a mano en la próxima"), nunca "para arreglar".
+- **Situaciones sensibles** (espera respuesta de una entrevista, evaluación, alumna insegura): abrir y cerrar con confianza en ella; nada que la haga sentir que salió mal.
+- Vale también para las hojas de clase que ve la alumna (secciones tipo "Tus mejores momentos + cómo llevar todo a ese nivel", consignas en positivo).
+
 Ver `referencias/voz-de-flor.md` (dictados y mensajes reales). En resumen:
 
 - Arranque: "Hola Vir, cómo estás? Bueno, acabo de escuchar tu…". Nada de "Qué buen trabajo!" genérico.
 - Lo bueno primero, en una charla seguida y conectado con lo que practicaron ("tiene la estructura exacta que habíamos practicado", "eso siempre lo hacés bien", "se nota que mejoraste…").
-- Después: "Ahora vamos a ver algunas cositas para seguir mejorando", numeradas: lo que dijo → cómo va → el porqué con la voz de Flor ("tené cuidado", "acordate que…", "fijate…", "como también…").
+- Después: "Ahora vamos a ver algunas cositas para seguir mejorando", numeradas (máx. 3–4, con el tono suave de arriba): lo que dijo → cómo va → el porqué con la voz de Flor ("tené cuidado", "acordate que…", "fijate…", "como también…").
 - **Explicá la teoría para que la alumna lo pueda armar sola**, con las mismas fórmulas de la clase grabada que corresponde, y después mostrale su frase armada paso a paso. No le resuelvas todo ni uses frases secas tipo "era una pregunta de dos opciones".
 - Voseo con argentinas, tú con las demás (igual que el último mail de Flor a esa alumna). Sin "¡" ni "¿". 1 o 2 emojis (🙌 🙂 💙). Cierre: "You're doing great Vir! See you in class 🙂 / Flor" o "Un abrazo 💙 / Flor".
 - Prohibido (suena a IA): encabezados en negrita para todo, viñetas que arrancan igual, "Esa es justo la diferencia", "Eso es exactamente lo que queremos", "Un tip:", palabras que Flor no usa ("afilarla"), listar todo el vocabulario que usó.
