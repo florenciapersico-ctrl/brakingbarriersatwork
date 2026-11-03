@@ -27,23 +27,9 @@ Una sola ficha. Estado "Activa" desde el pago (Flor, 03/11/2026: "cuando una alu
 4. Guardá el link en su ficha (propiedad "Carpeta Drive").
 
 ## PASO 4 · MAIL DE BIENVENIDA (se ENVÍA solo: autorizado por Flor el 03/11/2026)
-Solo si: es 1:1, la carpeta está compartida y verificada, y ningún link de arriba dice [FALTA]. Buscá antes en Enviados que no se le haya mandado ya (asunto "Bienvenida a AT WORK"). Gmail send_message, desde la cuenta de Flor, a la alumna, Flor en CCO, htmlBody + body. Estilo de _reglas-comunes.md. Firmado "Flor". Trato según país. Usá este modelo, cambiando solo lo que está entre [ ]:
-
-Asunto: Bienvenida a AT WORK, [Nombre] 🤍
-Hola [apodo o nombre], ¿cómo estás?
-Ya me llegó tu pago, así que oficialmente eres parte de AT WORK. Me hace muy feliz tenerte.
-Acá tienes todo para empezar:
-1. Tu acceso a la plataforma: te llega en otro mail, una invitación de academy.breakingbarriers.site para crear tu contraseña. Después entras a la comunidad AT WORK: [link de la comunidad en la plataforma]. En "Learning" tienes tu onboarding 1:1 y el programa AT WORK con todos los módulos. Empieza por el onboarding 1:1, con calma.
-2. Tu carpeta personal: [link de su carpeta]. Es solo tuya: ahí van tu acuerdo de trabajo, tu starting point, tus weekly reports y tu material.
-   Tu acuerdo de trabajo: [link del acuerdo de trabajo]. Descárgalo, fírmalo y súbelo a 01 · Mi contexto profesional, en tu carpeta.
-3. La comunidad de WhatsApp de AT WORK: [link de la comunidad de WhatsApp].
-4. Agenda tu primer 1:1 conmigo: [link para agendar]. Antes de esa clase, termina el onboarding.
-5. Tus coaches de IA, para practicar cuando quieras: [link de coaches]. Toca «Copiar» en el coach que quieras y pégalo en un chat nuevo de la IA que uses.
-Si algo no te llega o no puedes entrar, respóndeme este mail o escríbeme a florenciapersico@breakingbarriers.site.
-Un abrazo,
-Flor
-
-(Voseo para argentinas: "sos parte", "tenés", "empezá", "terminá", "escribime", "podés".) Nada más: ni precios, ni pagos, ni fechas que no estén en una fuente. Después: en la ficha, "Bienvenida enviada" = fecha.
+Solo si: es 1:1, la carpeta está compartida y verificada, y ningún link de arriba dice [FALTA]. Buscá antes en Enviados que no se le haya mandado ya (asunto "Bienvenida a AT WORK"). Gmail send_message, desde la cuenta de Flor, a la alumna, Flor en CCO, htmlBody + body. Estilo de _reglas-comunes.md. Firmado "Flor". Trato según país. Usá SIEMPRE la plantilla fija rutinas/plantillas/bienvenida-1a1.html (diseño aprobado por Flor el 03/11/2026: su marca, paso a paso, con calma). Como htmlBody, mandá ese HTML reemplazando SOLO {{NOMBRE}} (apodo o primer nombre) y {{LINK_CARPETA}} (link de su carpeta, ya verificada). No cambies textos, links, colores ni el orden de los bloques. Asunto: "Bienvenida a AT WORK, [Nombre] 🤍". Como body (texto plano), los mismos 6 pasos con sus links, en texto.
+Trato: la plantilla está en "tú". Si la alumna es argentina, pasá a voseo solo estos verbos: eres→sos, tienes→tenés, revisa→revisá, entras→entrás, vas→vas, empiezas→empezás, guárdala→guardala, descárgalo→descargalo, complétalo→completalo, fírmalo→firmalo, súbelo→subilo, únete→unite, elige→elegí, hayas→hayas, trae→traé, puedes→podés, respóndeme→respondeme, tocas→tocás, lo pegas→lo pegás, respira→respirá, ve→andá. Nada más.
+Nada más: ni precios, ni pagos, ni fechas que no estén en una fuente. Después: en la ficha, "Bienvenida enviada" = fecha.
 
 ## PASO 5 · LO QUE HACE FLOR (no se puede automatizar: va arriba del mail del PASO 6)
 - Darle acceso a la plataforma (academy.breakingbarriers.site → grupo Breaking Barriers at Work). Cuando lo hace, tilda "Acceso a plataforma dado" en la ficha.
