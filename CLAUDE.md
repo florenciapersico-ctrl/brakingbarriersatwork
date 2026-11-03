@@ -29,3 +29,15 @@ Respondé en castellano rioplatense, corto y al grano.
 - No explores el repo "por las dudas": este mapa ya dice dónde está todo.
 - Para cambios chicos, editá directo; no hace falta plan ni subagentes.
 - No hay nada que compilar ni testear: no busques `package.json` ni corras instaladores.
+
+## Links de pago (Stripe, fijos desde el 03/11/2026)
+
+Uno por formato; sirven para alumnas nuevas y renovaciones. Cuando Flor pida el link
+de pago de una alumna: dale el de su formato, con el mensaje listo para mandarle, y si
+la sesión tiene Gmail, mandáselo también por mail a Flor (solo a ella). Nunca a la alumna.
+
+- AT WORK 1:1 · 1 clase semanal · USD 250/mes → https://buy.stripe.com/cNibJ24Bz1WherT5868k81r
+- AT WORK 1:1 · 2 clases semanales · USD 444/mes → https://buy.stripe.com/9B6aEY4BzcAV2Jb2ZY8k81s
+- AT WORK Lab · USD 250/mes → https://buy.stripe.com/fZu4gA6JHgRb97z1VU8k81t
+- Acuerdo de trabajo (va junto con el link): https://drive.google.com/file/d/1YCz4gbd76Blq93kibhpkXB6Wvs1bfBF6/view
+
