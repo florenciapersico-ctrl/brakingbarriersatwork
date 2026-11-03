@@ -107,3 +107,8 @@ Las alumnas son invitadas a sus eventos y pueden leer la descripción. Ahí NUNC
 - 03/11/2026 · ALTA AUTOMÁTICA 1:1 (Flor): la rutina alta-alumna-1a1.md da de alta a cada alumna 1:1 apenas paga (ficha, carpeta de Drive compartida y verificada, bienvenida). EXCEPCIÓN AUTORIZADA por Flor el 03/11/2026: ese mail de bienvenida SÍ se le manda a la alumna 1:1 sin pedir confirmación (Flor en CCO). Las alumnas lab siguen con el SOP del lab (bienvenida con ok de Flor).
 - 03/11/2026 · ONBOARDING (Flor): el primer weekly report se hace JUNTAS en la primera clase. Los videos del programa no nombran nada que pueda cambiar (plataforma, Drive, links): eso va escrito debajo del video.
 - 03/11/2026 · RENOVACIÓN = 5 MESES (Flor): "La renovación dura otros cinco meses. Es lo mismo." Nunca propongas ni escribas Fase 2 de 3 meses.
+- 03/11/2026 · LINKS DE PAGO FIJOS (Stripe live, creados el 03/11; uno por formato, sirven para alumnas nuevas Y renovaciones; si es renovación o no, se sabe internamente):
+  · AT WORK 1:1 · 1 clase semanal · USD 250/mes → https://buy.stripe.com/cNibJ24Bz1WherT5868k81r
+  · AT WORK 1:1 · 2 clases semanales · USD 444/mes → https://buy.stripe.com/9B6aEY4BzcAV2Jb2ZY8k81s
+  · AT WORK Lab · USD 250/mes → https://buy.stripe.com/fZu4gA6JHgRb97z1VU8k81t
+  Todo mensaje que lleve un link de pago (renovación, alta, Emely en diciembre) usa SOLO uno de estos tres. No se crean más links individuales. Las suscripciones viejas no se tocan. Stripe cobra hasta que se cancela: el corte a los 5 meses se programa aparte.
