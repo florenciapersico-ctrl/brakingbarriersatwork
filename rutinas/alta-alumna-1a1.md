@@ -7,7 +7,7 @@ Las alumnas LAB (Programa "AT WORK grupal" con Lab que empieza con "Lab") NO van
 - Comunidad de WhatsApp (invitación): https://chat.whatsapp.com/EKffC7cix6oDfeCCvfKGYv
 - Agendar el primer 1:1 (página de citas de Google Calendar de Flor): https://calendar.app.google/XMDANMAaRPLHTFBG8
 - Contacto de Flor para las alumnas: su correo florenciapersico@breakingbarriers.site (Flor, 03/11: por mail y no por WhatsApp, así lo atiende la tarea "📩 Mails de alumnas"). No pongas el WhatsApp de Flor en la bienvenida.
-- Acuerdo de trabajo (VIP y Lab): https://drive.google.com/file/d/1YCz4gbd76Blq93kibhpkXB6Wvs1bfBF6/view
+- Acuerdo de trabajo (VIP y Lab): https://drive.google.com/file/d/14wEuM4_nw0zIB8cpnlDmB2lzF_GWUGoV/view
 - Coaches de IA (por ahora, Flor 03/11): https://claude.ai/artifact/WJL8169mrDjHEkCJfhXH6t · en el mail: "Toca «Copiar» en el coach que quieras y pégalo en un chat nuevo de la IA que uses." (La página del sitio /coach/ todavía no se usa.)
 - Template de carpeta: "📁 TEMPLATE — CARPETA PERSONAL ALUMNA" (1VGJI_SzdYhdVXZXT_Q4EtcKnjtKDtt4j) · carpeta madre: VIP STUDENTS 2026 (1EKSntEU0pkzws27TxeovcAI1yz58ykTv)
 
