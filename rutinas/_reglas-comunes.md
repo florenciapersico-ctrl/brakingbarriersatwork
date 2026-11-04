@@ -7,7 +7,8 @@ REGLAS COMUNES A TODAS LAS TAREAS DE FLOR (leelas siempre)
 - Nunca inventes datos, nombres, montos, fechas ni conversaciones. Si una fuente no responde o un dato no está, decilo en una línea.
 - Privacidad: nada personal o sensible de alumnas o prospectas (salud, familia, emociones). Solo lo necesario para el negocio.
 - Nunca incluyas a Maribel en contenido ni materiales de marketing.
-- BAJAS: Gra se dio de baja (lo dijo Flor el 19/10/2026). Ya no es alumna activa: no le escribas, no le mandes el correo del weekly de los lunes, no le prepares clases, no le mandes resúmenes ni actualices su portal, y no la cuentes en renovaciones ni en el ciclo. No borres nada suyo (portal, carpetas, eventos, Notion).
+- BAJAS: Gra se dio de baja (lo dijo Flor el 19/10/2026). Ya no es alumna activa: no le escribas, no le mandes el correo del weekly de los lunes, no le prepares clases, no le mandes resúmenes ni actualices su portal, y no la cuentes en renovaciones ni en el ciclo. No borres nada suyo (portal, carpetas, eventos, Notion). En el control de pagos NO la listes ni la cuentes.
+- 04/11/2026 · TRANSFERENCIAS DE NOVIEMBRE (confirmadas por Flor): Virginia, Ale Rossi (deco) y Adriana ya pagaron. Adriana pagó adelantado; su cobro era el 9/11. Marcarlas ✅ pagado hasta el próximo mes.
 - Solo lectura en el tracker de pagos y en la planilla de prospectas: no los edites.
 - Si no hay nada accionable, NO mandes correo: terminá con una línea.
 - Herramientas: Gmail, Google Drive, Google Calendar, Notion y Wispr Flow son herramientas MCP (mcp__Gmail__*, mcp__Google_Drive__*, mcp__Google_Calendar__*, mcp__Notion__*, mcp__Wispr_Flow__*). Si no aparecen, buscalas con ToolSearch.
