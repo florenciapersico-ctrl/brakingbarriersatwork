@@ -39,5 +39,7 @@ la sesión tiene Gmail, mandáselo también por mail a Flor (solo a ella). Nunca
 - AT WORK 1:1 · 1 clase semanal · USD 250/mes → https://buy.stripe.com/cNibJ24Bz1WherT5868k81r
 - AT WORK 1:1 · 2 clases semanales · USD 444/mes → https://buy.stripe.com/9B6aEY4BzcAV2Jb2ZY8k81s
 - AT WORK Lab · USD 250/mes → https://buy.stripe.com/fZu4gA6JHgRb97z1VU8k81t
-- Acuerdo de trabajo (va junto con el link): https://drive.google.com/file/d/1YCz4gbd76Blq93kibhpkXB6Wvs1bfBF6/view
+- Acuerdo de trabajo (va junto con el link, el de su formato):
+  1:1 → https://drive.google.com/file/d/14wEuM4_nw0zIB8cpnlDmB2lzF_GWUGoV/view
+  Lab → https://drive.google.com/file/d/12q-RaEci4v46SfhKC5tLKAJrhTEfBNXX/view
 
