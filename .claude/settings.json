@@ -1,8 +1,17 @@
 {
   "model": "sonnet",
+  "alwaysThinkingEnabled": false,
+  "env": {
+    "MAX_THINKING_TOKENS": "4000",
+    "CLAUDE_CODE_SUBAGENT_MODEL": "haiku",
+    "DISABLE_NON_ESSENTIAL_MODEL_CALLS": "1"
+  },
   "permissions": {
     "deny": [
-      "Read(./at-work/AT-WORK-como-funciona.pdf)",
+      "Read(./**/*.pdf)",
+      "Read(./**/*.png)",
+      "Read(./**/*.webp)",
+      "Read(./**/*.jpg)",
       "Read(./rutina/fonts/**)",
       "mcp__Vercel",
       "mcp__Stripe",
@@ -13,7 +22,8 @@
       "mcp__Google_Docs",
       "mcp__Notion",
       "mcp__Slack",
-      "mcp__Wispr_Flow"
+      "mcp__Wispr_Flow",
+      "mcp__Apify"
     ]
   }
 }

@@ -29,3 +29,9 @@ Respondé en castellano rioplatense, corto y al grano.
 - No explores el repo "por las dudas": este mapa ya dice dónde está todo.
 - Para cambios chicos, editá directo; no hace falta plan ni subagentes.
 - No hay nada que compilar ni testear: no busques `package.json` ni corras instaladores.
+- También son largos: `BBatW_landing.html` (~1050), `at-work/at-work-vsl/index.html` (~990)
+  y `app/app.js` (~800). Mismo criterio: Grep + tramo.
+- No releas un archivo que ya editaste para "verificar", ni hagas capturas con el
+  navegador salvo que Flor lo pida.
+- Respuestas finales cortas: qué cambiaste y dónde, sin resúmenes largos ni tablas.
+- Commit y push a la rama de la sesión; no abras PR salvo que Flor lo pida.
