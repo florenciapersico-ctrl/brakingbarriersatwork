@@ -9,3 +9,4 @@
 - 03/11 · feedback · los audios de Gaby y Lourdes quedaban sin feedback porque no había transcripción · bandeja §3: se transcribe con whisper.
 - 03/11 · principal · el audio de Gaby se bajó por el link público de la carpeta VIP STUDENTS 2026 · la carpeta está abierta para "cualquiera con el link" · prohibido usar links públicos (bandeja §3). Flor tiene que cerrar el acceso de la carpeta.
 - 03/11 · sistema · había 4 rutinas armando cosas para alumnas y 3 o 4 mails de revisión · se juntó todo en bandeja-alumnas.md y "📋 Para revisar hoy".
+- 03/11 · resúmenes (23:52) · Belem 18:00 (Flor rechazó el evento), Ale Rossi 19:00 y Lina+Cori 20:00 sin notas de Gemini a las 23:52 (menos de 4 h): no se armó nada, la próxima corrida lo reintenta; el borrador de Gisela salió primero con voseo en un recuadro y se corrigió a tú · revisar el trato de cada verbo en el HTML y en el texto plano antes de crear el borrador.
