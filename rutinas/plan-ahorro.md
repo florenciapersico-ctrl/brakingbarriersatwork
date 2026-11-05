@@ -67,3 +67,27 @@ Si hoy no hubo clases ni entregas, termina en una línea. No le manda mail a Flo
 
 ## Lo que NO se toca
 Contenido de Instagram, finanzas personales, menú y CEO Focus: lo decide Flor. Ver la propuesta en el mail del 05/11.
+
+## ✅ CONFIGURACIÓN APLICADA (Flor dijo "sí" el 04/11/2026, 21:20)
+Las sesiones nuevas no tienen acceso a Gmail ni a Drive, así que las tareas siguen en la conversación principal, pero quedaron juntas y corren menos veces. Los subagentes de tareas simples usan model "sonnet".
+
+ACTIVAS:
+- 📚 Clases de hoy · lun a sáb 02:48 · trig_01L7HW1BZCJDg582aXVLeaN8
+- 🌅 Mañana · lun a sáb 09:47 · trig_015ADCwuBTi5G2rpF2hfsHBw (alta, mails de alumnas, feedback, cierre y "📋 Para revisar hoy")
+- 🌙 Noche · todos los días 23:37 · trig_01QKr4eYcZiW1aLMDJ7WsH3c (resúmenes en borrador + Notion con sonnet; los portales solo los domingos)
+- 📝 Lunes · 08:41 · trig_01WWAPyD4fWSnw5SU9ENJG4N (recordatorio del weekly, con sonnet)
+- 🔁 Ciclo + Lab · lunes 09:33 · trig_01Qt4V6oWm56N1qXVx5Noojc (con sonnet)
+- 🔧 Revisión mensual · día 1, 17:58 · trig_01Nwes34UTSoSkk9N5eAoKuN
+- 📲 Para subir hoy y 🗓️ Semana de contenido: siguen como estaban (sesiones aparte)
+- 📥 Correo en orden y 🥗 Menú: siguen como estaban (sonnet)
+
+PAUSADAS (no se borró nada; se reactivan con update_trigger enabled=true):
+- 📩 Mails de alumnas: lo hace 🌅
+- 📋 Para revisar hoy, la tarea suelta: lo hace 🌅
+- ✅ Alta 1:1: lo hace 🌅
+- Portales y Notion al día: los hace 🌙
+- SOP Lab diario: va en 🔁
+- EOD diario
+- 🎬 Tu clase de mañana para grabar: se pide a mano cuando Flor va a grabar
+- 🏆 Wins del viernes
+- Domingo grabación, Viernes estado y el resto de las que pausó el otro chat el 04/11
