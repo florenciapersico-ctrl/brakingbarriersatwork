@@ -37,3 +37,7 @@ Una línea por pieza: fecha · tema · estilo/fondo · foto usada · CTA. Lo lee
 - 02/11 · REEL a cámara «Dar un update» (Módulo 2) · hook «a quick update» · Main point → Why → Next · sin foto · READY por DM (prompter en reels/r10-update)
 - 04/11 · Carrusel «¿Dices work-ED con dos sílabas?» · banco #8 (hook @hadar.accentsway 69k) · plain/bold marrón, texto solo (sin fotos nuevas), placa del caso «I miss them» reemplazada por ejemplo genérico · ED por DM
 - 02/11 (corrida extra, reemplaza el reel «Dar un update», que pasa a «Otra semana») · Carrusel «¿Te aprendes de memoria tu presentación en inglés?» · onboarding de alumna nueva (sin datos) · estilo miércoles bold/label/plain · fotos nuevas 03/11 (selfie calle, auto, auto roja, Usina, laptop NOI) · READY por DM
+- 09/11 · Carrusel «Te ascendieron y tu inglés no empeoró» · momento #14 del banco (patrón, sin nombre) · plantilla maestra DAHWUiZQqx4, fotos de la plantilla (sin fotos nuevas) · comentar + READY
+- 10/11 · REEL a cámara «Vocabulario» · banco de reels #10 (hook @hadar.accentsway 23k) · READY por DM
+- 11/11 · Carrusel «Guardar vocabulario no es poder usarlo» · Color Method · plantilla maestra, fotos de la plantilla · guardar + READY
+- 12/11 · REEL a cámara «Tu inglés no está mal, te faltan tres palabras» · clase M4.02 + hook @inglescon_neil 42k · guardar + READY
