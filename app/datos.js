@@ -52,8 +52,11 @@
       async documentos(a = uid) { return ok(await sb.from('documentos').select('*').eq('alumna_id', a).order('creado', { ascending: false })); },
       async subirDocumento(a, file, tipo, nombre) {
         const path = await this.subirArchivo(file, 'documentos', a);
-        ok(await sb.from('documentos').insert({ alumna_id: a, tipo, nombre: nombre || file.name, path }));
+        const d = ok(await sb.from('documentos').insert({ alumna_id: a, tipo, nombre: nombre || file.name, path }).select().single());
+        this.copiarDrive({ path, tipo, nombre: nombre || file.name, tabla: 'documentos', id: d.id });
       },
+      // Copia a la carpeta de Drive de la alumna (si Flor lo configuró). Nunca frena a la alumna si falla.
+      async copiarDrive(q) { try { const r = await llamar({ modo: 'drive', ...q }); return r.ok ? r.json() : null; } catch (e) { return null; } },
       async borrarDocumento(d) { await sb.storage.from('atwork').remove([d.path]); ok(await sb.from('documentos').delete().eq('id', d.id)); },
       async tareas(a = uid) { return ok(await sb.from('tareas').select('*').eq('alumna_id', a).order('orden').order('id')); },
       async marcarTarea(id, hecha) { ok(await sb.rpc('marcar_tarea', { p_id: id, p_hecha: hecha })); },
@@ -64,7 +67,11 @@
         ok(await sb.from('weekly').upsert(fila, { onConflict: 'alumna_id,semana' }));
       },
       async pedidos(a = uid) { return ok(await sb.from('pedidos').select('*').eq('alumna_id', a).order('creado', { ascending: false }).limit(50)); },
-      async crearPedido(p) { ok(await sb.from('pedidos').insert({ ...p, alumna_id: uid })); },
+      async crearPedido(p) {
+        const x = ok(await sb.from('pedidos').insert({ ...p, alumna_id: uid }).select().single());
+        if (p.archivo) this.copiarDrive({ path: p.archivo, tipo: p.tipo, nombre: p.archivo_nombre, tabla: 'pedidos', id: x.id });
+        return x;
+      },
       async patrones(a = uid) { return ok(await sb.from('patrones').select('*').eq('alumna_id', a).order('id')); },
       async programa() { return ok(await sb.from('programa').select('*').eq('id', 1).single()); },
 
@@ -100,6 +107,8 @@
       async crearPatron(a, patron, tipo, estado) { ok(await sb.from('patrones').insert({ alumna_id: a, patron, tipo, estado })); },
       async actualizarPatron(id, c) { ok(await sb.from('patrones').update(c).eq('id', id)); },
       async borrarPatron(id) { ok(await sb.from('patrones').delete().eq('id', id)); },
+      async ficha(a) { const { data } = await sb.from('fichas').select('texto').eq('alumna_id', a).maybeSingle(); return (data && data.texto) || ''; },
+      async guardarFicha(a, texto) { ok(await sb.from('fichas').upsert({ alumna_id: a, texto, actualizado: new Date().toISOString() })); },
       async guardarPrograma(c) { ok(await sb.from('programa').update(c).eq('id', 1)); },
       async borrador(q) {
         const r = await llamar({ modo: 'borrador', ...q });
@@ -223,7 +232,10 @@
       async actualizarPatron(pid, c) { Object.assign(S.patrones.find((x) => x.id === pid), c); save(); },
       async borrarPatron(pid) { S.patrones = S.patrones.filter((x) => x.id !== pid); save(); },
       async guardarPrograma(c) { Object.assign(S.programa, c); save(); },
-      async borrador() { await espera(400); return { respuesta: '(Demo) Acá aparece el borrador que arma la IA con tu voz y tu criterio. Lo editas y lo envías.', correcciones: [{ mal: 'if is possible', bien: 'if it is possible' }, { mal: 'we dont have', bien: "we don't have" }] }; }
+      async borrador() { await espera(400); return { respuesta: '(Demo) Acá aparece el borrador que arma la IA con tu voz y tu criterio. Lo editas y lo envías.', correcciones: [{ mal: 'if is possible', bien: 'if it is possible' }, { mal: 'we dont have', bien: "we don't have" }], foco: 'Ordenar tu update antes de hablar', foco_texto: 'Tu mensaje se pierde cuando arrancas por el detalle.', tareas: [{ texto: 'Ver M2 · The Message Map', donde: 'Módulo 2' }], notas: '(Demo) Notas para ti.' }; },
+      async ficha(a) { return (S.fichas || {})[a] || ''; },
+      async guardarFicha(a, t) { (S.fichas = S.fichas || {})[a] = t; save(); },
+      async copiarDrive() { return null; }
     };
   }
 
