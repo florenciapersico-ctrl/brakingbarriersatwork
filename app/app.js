@@ -120,7 +120,8 @@
     const f = marcoAuth('<h2>Crea tu contraseña</h2><p class="muted small">La vas a usar para entrar a tu espacio de AT WORK. Mínimo 8 caracteres.</p>' +
       '<div class="field"><label for="pw">Contraseña nueva</label><input id="pw" type="password" autocomplete="new-password" minlength="8"></div>' +
       '<div class="field"><label for="pw2">Repítela</label><input id="pw2" type="password" autocomplete="new-password"></div>' +
-      '<button class="btn" type="submit">Guardar y entrar</button><p id="msg" class="small"></p>');
+      '<button class="btn" type="submit">Guardar y entrar</button><p id="msg" class="small"></p>' + (st.perfil ? '<button type="button" class="linkbtn small" id="volver">Volver</button>' : ''));
+    if ($('#volver')) $('#volver').onclick = () => entrar();
     f.onsubmit = async (e) => {
       e.preventDefault(); const a = $('#pw').value, b = $('#pw2').value;
       if (a.length < 8) return ($('#msg').innerHTML = '<span class="err-text">Tiene que tener al menos 8 caracteres.</span>');
@@ -153,9 +154,10 @@
   function shell() {
     root.innerHTML = '<div class="shell"><aside class="side"><div class="logo">AT WORK<small>Breaking Barriers</small></div><nav class="main">' + navHTML() + '</nav>' +
       '<div class="foot">' + (DB.demo ? '<span class="demo">Versión demo</span><button class="linkbtn" id="reset">Reiniciar datos de ejemplo</button>' : '') +
-      '<span>' + esc(st.perfil.nombre || st.perfil.email || '') + '</span><button class="linkbtn" id="salir">Cerrar sesión</button></div></aside>' +
+      '<span>' + esc(st.perfil.nombre || st.perfil.email || '') + '</span><button class="linkbtn" id="clave">Cambiar contraseña</button><button class="linkbtn" id="salir">Cerrar sesión</button></div></aside>' +
       '<main id="app"></main></div><nav class="tabbar">' + navHTML() + '</nav>';
     $('#salir').onclick = () => DB.logout();
+    $('#clave').onclick = () => pantallaClave();
     if ($('#reset')) $('#reset').onclick = () => { DB.reiniciar(); location.reload(); };
     if (st.admin) contarBandeja();
   }
@@ -581,6 +583,7 @@ ${url(links().plataforma) ? `<div class="row"><a class="btn ghost" href="${esc(l
       const l = links(), lb = lab(), fechas = st.programa.fechas || [];
       const li = (t, link, desc) => `<li><b>${t}</b><span>${url(link) ? `<a href="${esc(link)}" target="_blank" rel="noopener">${desc}</a>` : desc + ' <span class="muted">(Flor lo agrega pronto)</span>'}</span></li>`;
       return `<div class="head"><div><span class="eyebrow">Tu primera semana</span><h1>Empieza acá</h1></div><span class="pill" id="onbCount"></span></div>
+<p class="note small">¿Entraste con una contraseña provisoria que te mandó Flor? <button type="button" class="linkbtn" id="clave2">Crea tu propia contraseña acá</button>.</p>
 <p class="muted intro">Todo lo que necesitas está en esta página. Tómate la semana con calma: no es correr. Si algo no te queda claro, escríbele a Flor. Preguntar dos o tres veces no es molestar.</p>
 <section class="card feature">
   <span class="eyebrow">Tu bienvenida · 20 a 30 minutos</span>
@@ -609,6 +612,7 @@ ${url(links().plataforma) ? `<div class="row"><a class="btn ghost" href="${esc(l
 </div>`;
     },
     mount() {
+      $('#clave2').onclick = () => pantallaClave();
       const el = $('#onb');
       const c = () => { $('#onbCount').textContent = $$('input:checked', el).length + ' de ' + P.onboarding.length + ' listos'; };
       el.addEventListener('change', () => {
@@ -736,9 +740,10 @@ ${url(links().plataforma) ? `<div class="row"><a class="btn ghost" href="${esc(l
       return `<div class="head"><div><span class="eyebrow">Panel de Flor</span><h1>Alumnas</h1></div><span class="pill">${al.filter((x) => x.activa !== false && x.rol !== 'admin').length} activas</span></div>
 <div class="grid" style="grid-template-columns:minmax(0,280px) minmax(0,1fr);align-items:start" id="agrid">
   <div class="grid">
-    ${IA ? `<form class="card" id="invform" novalidate><h3>Invitar alumna</h3><p class="muted small">Le llega un mail para crear su contraseña.</p>
-      <input type="text" id="inv-nombre" placeholder="Nombre"><input type="email" id="inv-email" placeholder="Mail"><button class="btn sm" type="submit">Mandar invitación</button></form>`
-      : `<section class="card"><h3>Invitar alumna</h3><p class="muted small">En Supabase: <b>Authentication › Users › Add user › Send invitation</b>, con su mail. Le llega un mail para crear su contraseña y aparece acá.</p></section>`}
+    <form class="card" id="invform" novalidate><h3>Agregar alumna</h3><p class="muted small">Le creas el usuario con una contraseña provisoria y se la mandas por WhatsApp. Después ella puede cambiarla.</p>
+      <input type="text" id="inv-nombre" placeholder="Nombre y apellido"><input type="email" id="inv-email" placeholder="Mail">
+      <input type="text" id="inv-pw" placeholder="Contraseña provisoria"><button class="btn sm" type="submit">Crear alumna</button>
+      <div id="inv-ok" hidden class="note small"></div></form>
     <div class="alist">${al.map((x) => `<button type="button" data-a="${x.id}" ${String(x.id) === sel ? 'aria-current="true"' : ''}><span>${esc(x.nombre || x.email)}${x.activa === false ? ' <span class="muted small">(inactiva)</span>' : ''}</span><span class="muted small">${esc(x.formato || '')}</span></button>`).join('')}</div>
   </div>
   <div class="grid" style="align-content:start">${det}</div>
@@ -747,9 +752,26 @@ ${url(links().plataforma) ? `<div class="row"><a class="btn ghost" href="${esc(l
     mount(sel) {
       if (window.matchMedia('(max-width:860px)').matches) $('#agrid').style.gridTemplateColumns = '1fr';
       $$('[data-a]').forEach((b) => (b.onclick = () => (location.hash = 'alumnas/' + b.dataset.a)));
-      if ($('#invform')) $('#invform').onsubmit = async (e) => {
-        e.preventDefault(); const em = $('#inv-email').value.trim(); if (!em) return toast('Escribe el mail.', true);
-        await intentar(() => DB.invitar(em, $('#inv-nombre').value.trim()), 'Invitación enviada a ' + em); ruta();
+      const genPw = () => 'atwork-' + Math.random().toString(36).slice(2, 7);
+      $('#inv-pw').value = genPw();
+      $('#invform').onsubmit = async (e) => {
+        e.preventDefault();
+        const em = $('#inv-email').value.trim(), nom = $('#inv-nombre').value.trim(), pw = $('#inv-pw').value.trim();
+        if (!em) return toast('Escribe el mail.', true);
+        const btn = $('#invform button[type=submit]'); btn.disabled = true;
+        try {
+          await intentar(() => DB.invitar(em, nom, pw), 'Alumna creada');
+          const link = location.origin + location.pathname;
+          const msg = 'Hola' + (nom ? ' ' + nom.split(' ')[0] : '') + '! Ya tienes tu espacio de AT WORK 🎉\nEntra acá: ' + link + '\nMail: ' + em + '\nContraseña provisoria: ' + pw + '\nCuando entres, ve a "Empieza acá" y crea tu propia contraseña.';
+          const ok = $('#inv-ok'); ok.hidden = false;
+          ok.innerHTML = '<b>Mándale esto por WhatsApp:</b><pre style="white-space:pre-wrap;font:inherit;margin:6px 0">' + esc(msg) + '</pre><button type="button" class="btn sm" id="copiar">Copiar mensaje</button> <a class="btn ghost sm" target="_blank" rel="noopener" href="https://wa.me/?text=' + encodeURIComponent(msg) + '">Abrir WhatsApp</a>';
+          $('#copiar').onclick = () => navigator.clipboard && navigator.clipboard.writeText(msg).then(() => toast('Copiado'));
+          $('#inv-email').value = ''; $('#inv-nombre').value = ''; $('#inv-pw').value = genPw();
+          const lista = await DB.alumnas();
+          $('.alist').innerHTML = lista.filter((x) => x.rol !== 'admin' || DB.demo).map((x) => `<button type="button" data-a="${x.id}"><span>${esc(x.nombre || x.email)}</span><span class="muted small">${esc(x.formato || '')}</span></button>`).join('');
+          $$('[data-a]').forEach((b) => (b.onclick = () => (location.hash = 'alumnas/' + b.dataset.a)));
+        } catch (er) { /* ya avisó */ }
+        btn.disabled = false;
       };
       const a = st._alumna; if (!a || String(a.id) !== sel) return;
       const aid = a.id;
