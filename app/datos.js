@@ -96,6 +96,7 @@
         const r = await llamar({ modo: 'invitar', email, nombre, password, redirect: location.origin + location.pathname });
         if (!r.ok) throw new Error(await errorDe(r));
       },
+      async pendientesImportacion() { return ok(await sb.from('importacion').select('email,nombre,datos').is('aplicado', null).order('orden')); },
       async todosPedidos() { return ok(await sb.from('pedidos').select('*').order('creado', { ascending: false }).limit(200)); },
       async responderPedido(id, respuesta, correcciones) { ok(await sb.from('pedidos').update({ respuesta, correcciones, estado: 'respondido', respondido_en: new Date().toISOString() }).eq('id', id)); },
       async todosWeeklies() { return ok(await sb.from('weekly').select('*').not('enviado_en', 'is', null).order('enviado_en', { ascending: false }).limit(200)); },
@@ -220,6 +221,7 @@
       async alumnas() { return copia(S.perfiles); },
       async actualizarPerfil(pid, c) { Object.assign(S.perfiles.find((x) => x.id === pid), c); save(); },
       async invitar(email, nombre) { S.perfiles.push({ id: 'a' + id(), email, nombre: nombre || email.split('@')[0], rol: 'alumna', formato: 'LAB', trabajo: '', objetivo: '', foco_titulo: '', foco_texto: '', modulo_actual: 0, clases_asignadas: [], onboarding: [], activa: true }); save(); },
+      async pendientesImportacion() { return []; },
       async todosPedidos() { return copia(S.pedidos.sort((x, y) => (x.creado < y.creado ? 1 : -1))); },
       async responderPedido(pid, respuesta, correcciones) { Object.assign(S.pedidos.find((x) => x.id === pid), { respuesta, correcciones, estado: 'respondido', respondido_en: new Date().toISOString() }); save(); },
       async todosWeeklies() { return copia(S.weekly.filter((w) => w.enviado_en).sort((x, y) => (x.enviado_en < y.enviado_en ? 1 : -1))); },

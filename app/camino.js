@@ -14,12 +14,11 @@
 
   P.recorrido = [
     { cuando: 'Semanas 1–2', etapa: 'Start Here', logro: 'Tu sistema de trabajo queda instalado y tienes tu Starting Point.' },
-    { cuando: 'Semanas 3–4', etapa: 'M1 · Activate Your English', logro: 'Conviertes situaciones reales de tu trabajo en práctica con tus coaches.' },
-    { cuando: 'Semanas 5–8', etapa: 'M2 · Communicate in Real Time', logro: 'El QUÉ: armas tu mensaje antes de hablar, aunque no lo tengas preparado.' },
-    { cuando: 'Semanas 9–12', etapa: 'M3 · Polish Your English', logro: 'El CÓMO: detectas dónde se rompe tu inglés y lo corriges.' },
-    { cuando: 'Semanas 13–14', etapa: 'M4 · Understand & Be Understood', logro: 'Entiendes más en reuniones y te entienden a la primera.' },
-    { cuando: 'Semanas 15–16', etapa: 'M5 · Own Your Voice', logro: 'El QUIÉN: hablas aunque no sea perfecto.' },
-    { cuando: 'Semanas 17–20', etapa: 'Autonomía y cierre', logro: 'Haces sola todo el ciclo y comparas con tu Starting Point.' }
+    { cuando: 'Semanas 3–4', etapa: 'Activate Your English', logro: 'Conviertes situaciones reales de tu trabajo en práctica con tus coaches.' },
+    { cuando: 'Semanas 5–8', etapa: 'Communicate in Real Time', logro: 'El QUÉ: armas tu mensaje antes de hablar, aunque no lo tengas preparado.' },
+    { cuando: 'Semanas 9–12', etapa: 'Polish Your English', logro: 'El CÓMO: detectas dónde se rompe tu inglés y lo corriges.' },
+    { cuando: 'Semanas 13–16', etapa: 'Understand & Be Understood', logro: 'Entiendes más en reuniones y te entienden a la primera.' },
+    { cuando: 'Semanas 17–20', etapa: 'Own Your Voice', logro: 'El QUIÉN: hablas aunque no sea perfecto.' }
   ];
   P.recorridoNota = 'Si tu diagnóstico pide otro foco, Flor te lo indica en la respuesta a tu Weekly Report y cambian el orden. Cada etapa marca el foco principal, no un límite.';
 
@@ -128,7 +127,7 @@
         T('12.4', 'M3 · The Accuracy Challenge: tu Error Radar', 'clase evidencia', 'Módulo 3', { pronto: true })
       ] }
     ] },
-    { n: 4, titulo: 'Entiende, hazte entender y usa tu voz', logro: 'Entiendes más en reuniones, te entienden a la primera y hablas aunque no sea perfecto.', semanas: [
+    { n: 4, titulo: 'Understand & Be Understood', logro: 'Entiendes más en reuniones y te entienden a la primera.', semanas: [
       { s: [13], titulo: 'Tu oído', tareas: [
         T('13.1', 'M4 · How English Really Sounds', 'clase', 'Módulo 4', { pronto: true }),
         T('13.2', 'M4 · Train Your Ear in Meetings', 'clase', 'Módulo 4', { pronto: true })
@@ -136,27 +135,25 @@
       { s: [14], titulo: 'Que te entiendan a la primera', tareas: [
         T('14.1', 'M4 · Pronunciation for Intelligibility', 'clase', 'Módulo 4', { pronto: true })
       ] },
-      { s: [15], titulo: 'El QUIÉN', tareas: [
+      { s: [15, 16], titulo: 'Llevarlo a tus reuniones', tareas: [
+        T('16.3', 'Escuchar una reunión real y anotar lo que no entendiste', 'practica', 'Tu trabajo'),
+        T('16.4', 'Shadowing con frases de tu trabajo y la prueba del dictado', 'practica', 'Coaches', { coaches: true })
+      ] }
+    ] },
+    { n: 5, titulo: 'Own Your Voice', logro: 'Hablas aunque no sea perfecto y tienes la evidencia de cuánto avanzaste.', semanas: [
+      { s: [17], titulo: 'El QUIÉN', tareas: [
         T('15.1', 'M5 · ¿No me sale o no me animo?', 'clase playbook', 'Módulo 5', { pronto: true }),
         T('15.2', 'M5 · Cuando me callo o me quedo en blanco', 'clase playbook', 'Módulo 5', { pronto: true })
       ] },
-      { s: [16], titulo: 'Hablar sin ser perfecta', tareas: [
+      { s: [18], titulo: 'Hablar sin ser perfecta', tareas: [
         T('16.1', 'M5 · Hablar sin ser perfecta', 'clase playbook', 'Módulo 5', { pronto: true }),
         T('16.2', 'Llevar a tu trabajo una situación que antes evitabas', 'evidencia', 'Tu trabajo')
-      ] }
-    ] },
-    { n: 5, titulo: 'Autonomía y cierre', logro: 'Haces sola todo el ciclo y tienes la evidencia de cuánto avanzaste.', semanas: [
-      { s: [17, 18], titulo: 'Tu foco final, sola', tareas: [
+      ] },
+      { s: [19, 20], titulo: 'Tu voz en tu situación más difícil', tareas: [
         T('17.1', 'Hacer tú todo el ciclo con tu situación más difícil', 'practica', 'Coaches', { coaches: true }),
-        T('17.2', 'Escribir tu rutina para seguir después del programa', 'orientacion', 'Drive · 05', { ir: '#proceso' })
-      ] },
-      { s: [19], titulo: 'Tu evidencia', tareas: [
-        T('19.1', 'Grabar tu Starting Point final', 'evidencia', 'Drive · 01', { ir: '#proceso' })
-      ] },
-      { s: [20], titulo: 'Cierre', tareas: [
-        T('20.1', 'Comparar con tu Starting Point en tu último encuentro', 'evidencia', 'Encuentro en vivo'),
-        T('20.2', 'Compartir tu win final en la comunidad', 'evidencia', 'Comunidad', { comunidad: true }),
-        T('20.3', 'Definir tu próximo nivel', 'orientacion', 'Encuentro en vivo')
+        T('19.1', 'Grabar tu Starting Point de nuevo', 'evidencia', 'Drive · 01', { ir: '#proceso' }),
+        T('20.1', 'Comparar con tu primer Starting Point en tu encuentro', 'evidencia', 'Encuentro en vivo'),
+        T('20.2', 'Compartir tu win en la comunidad', 'evidencia', 'Comunidad', { comunidad: true })
       ] }
     ] }
   ];

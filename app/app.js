@@ -297,7 +297,7 @@
   }
   function etapasHTML(n) {
     const e = n ? etapaDe(n) : -1;
-    return `<div class="stepper">${P.recorrido.map((r, i) => `<div class="${i < e ? 'done' : i === e ? 'on' : ''}"><i>${i < e ? '✓' : i + 1}</i><b>${esc(r.etapa)}</b><span>${esc(r.cuando)}</span></div>`).join('')}</div>`;
+    return `<div class="stepper">${P.recorrido.map((r, i) => `<div class="${i < e ? 'done' : i === e ? 'on' : ''}"><i>${i < e ? '✓' : i}</i><b>${esc(r.etapa)}</b><span>${esc(r.cuando)}</span></div>`).join('')}</div>`;
   }
 
   V.semana = {
@@ -612,7 +612,7 @@ ${P.camino.map((m) => { const pm = pctMes(m); return `<details class="card mes" 
     },
     mount() { montarCamino($('#app')); }
   };
-  function etapaDe(n) { return n <= 2 ? 0 : n <= 4 ? 1 : n <= 8 ? 2 : n <= 12 ? 3 : n <= 14 ? 4 : n <= 16 ? 5 : 6; }
+  function etapaDe(n) { return n <= 2 ? 0 : n <= 4 ? 1 : n <= 8 ? 2 : n <= 12 ? 3 : n <= 16 ? 4 : 5; }
 
   // ---------- Mis coaches (skills para instalar en Claude) ----------
   const SKILLS = [
@@ -871,6 +871,8 @@ ${o.nota ? `<p class="note">${esc(o.nota)}</p>` : ''}
   V.alumnas = {
     async html(sel) {
       const al = (await DB.alumnas()).filter((x) => x.rol !== 'admin' || DB.demo);
+      const ya = new Set(al.map((x) => String(x.email || '').toLowerCase()));
+      st._pend = DB.pendientesImportacion ? (await DB.pendientesImportacion().catch(() => [])).filter((x) => !ya.has(x.email)) : [];
       const a = al.find((x) => String(x.id) === sel);
       let det = '<section class="card empty-state"><h3>Elige una alumna</h3><p class="muted small">Desde acá le cargas su foco de la semana, sus tareas, las clases que tiene que ver, su progreso y sus patrones de error. Todo lo ve en su app y lo usa Flor AI.</p></section>';
       if (a) {
@@ -929,7 +931,9 @@ ${o.nota ? `<p class="note">${esc(o.nota)}</p>` : ''}
       <input type="text" id="inv-nombre" placeholder="Nombre y apellido"><input type="email" id="inv-email" placeholder="Mail">
       <input type="text" id="inv-pw" placeholder="Contraseña provisoria"><button class="btn sm" type="submit">Crear alumna</button>
       <div id="inv-ok" hidden class="note small"></div></form>
-    <div class="alist">${al.map((x) => `<button type="button" data-a="${x.id}" ${String(x.id) === sel ? 'aria-current="true"' : ''}><span>${esc(x.nombre || x.email)}${x.activa === false ? ' <span class="muted small">(inactiva)</span>' : ''}</span><span class="muted small">${esc(x.formato || '')}</span></button>`).join('')}</div>
+    ${st._pend && st._pend.length ? `<section class="card" id="pendcard"><h3>Por crear (${st._pend.length})</h3><p class="muted small">Ya están cargadas con su formato, su carpeta, sus weeklies y tu ficha. Toca «Crear» y mándale el mensaje: cuando entre, ve todo lo suyo.</p>
+      <div class="alist">${st._pend.map((x) => `<div class="editrow" data-pend="${esc(x.email)}"><span>${esc(x.nombre)}<br><span class="muted small">${esc(x.datos && x.datos.formato === 'LAB' ? 'Lab' : 'Private')} · ${esc(x.email)}</span></span><button type="button" class="btn sm pend-crear">Crear</button></div>`).join('')}</div></section>` : ''}
+    <div class="alist" id="alist">${al.map((x) => `<button type="button" data-a="${x.id}" ${String(x.id) === sel ? 'aria-current="true"' : ''}><span>${esc(x.nombre || x.email)}${x.activa === false ? ' <span class="muted small">(inactiva)</span>' : ''}</span><span class="muted small">${esc(x.formato || '')}</span></button>`).join('')}</div>
   </div>
   <div class="grid" style="align-content:start">${det}</div>
 </div>`;
@@ -939,6 +943,23 @@ ${o.nota ? `<p class="note">${esc(o.nota)}</p>` : ''}
       $$('[data-a]').forEach((b) => (b.onclick = () => (location.hash = 'alumnas/' + b.dataset.a)));
       const genPw = () => 'atwork-' + Math.random().toString(36).slice(2, 7);
       $('#inv-pw').value = genPw();
+      const mensajeAlta = (nom, em, pw) => 'Hola' + (nom ? ' ' + nom.split(' ')[0] : '') + '! Ya tienes tu espacio de AT WORK 🎉\nEntra acá: ' + location.origin + location.pathname + '\nMail: ' + em + '\nContraseña provisoria: ' + pw + '\nCuando entres, ve a "Empieza acá" y crea tu propia contraseña.';
+      const mostrarMsg = (ok, msg) => {
+        ok.hidden = false;
+        ok.innerHTML = '<b>Mándale esto por WhatsApp:</b><pre style="white-space:pre-wrap;font:inherit;margin:6px 0">' + esc(msg) + '</pre><button type="button" class="btn sm">Copiar mensaje</button> <a class="btn ghost sm" target="_blank" rel="noopener" href="https://wa.me/?text=' + encodeURIComponent(msg) + '">Abrir WhatsApp</a>';
+        ok.querySelector('button').onclick = () => navigator.clipboard && navigator.clipboard.writeText(msg).then(() => toast('Copiado'));
+      };
+      $$('[data-pend] .pend-crear').forEach((b) => (b.onclick = async () => {
+        const fila = b.closest('[data-pend]'), em = fila.dataset.pend, x = st._pend.find((p) => p.email === em), pw = genPw();
+        b.disabled = true;
+        try {
+          await intentar(() => DB.invitar(em, x.nombre, pw), 'Cuenta creada');
+          const ok = document.createElement('div'); ok.className = 'note small';
+          fila.after(ok); fila.querySelector('button').remove();
+          mostrarMsg(ok, mensajeAlta(x.nombre, em, pw));
+          st._pend = st._pend.filter((p) => p.email !== em);
+        } catch (er) { b.disabled = false; }
+      }));
       $('#invform').onsubmit = async (e) => {
         e.preventDefault();
         const em = $('#inv-email').value.trim(), nom = $('#inv-nombre').value.trim(), pw = $('#inv-pw').value.trim();
@@ -946,14 +967,11 @@ ${o.nota ? `<p class="note">${esc(o.nota)}</p>` : ''}
         const btn = $('#invform button[type=submit]'); btn.disabled = true;
         try {
           await intentar(() => DB.invitar(em, nom, pw), 'Alumna creada');
-          const link = location.origin + location.pathname;
-          const msg = 'Hola' + (nom ? ' ' + nom.split(' ')[0] : '') + '! Ya tienes tu espacio de AT WORK 🎉\nEntra acá: ' + link + '\nMail: ' + em + '\nContraseña provisoria: ' + pw + '\nCuando entres, ve a "Empieza acá" y crea tu propia contraseña.';
-          const ok = $('#inv-ok'); ok.hidden = false;
-          ok.innerHTML = '<b>Mándale esto por WhatsApp:</b><pre style="white-space:pre-wrap;font:inherit;margin:6px 0">' + esc(msg) + '</pre><button type="button" class="btn sm" id="copiar">Copiar mensaje</button> <a class="btn ghost sm" target="_blank" rel="noopener" href="https://wa.me/?text=' + encodeURIComponent(msg) + '">Abrir WhatsApp</a>';
-          $('#copiar').onclick = () => navigator.clipboard && navigator.clipboard.writeText(msg).then(() => toast('Copiado'));
+          const msg = mensajeAlta(nom, em, pw);
+          mostrarMsg($('#inv-ok'), msg);
           $('#inv-email').value = ''; $('#inv-nombre').value = ''; $('#inv-pw').value = genPw();
           const lista = await DB.alumnas();
-          $('.alist').innerHTML = lista.filter((x) => x.rol !== 'admin' || DB.demo).map((x) => `<button type="button" data-a="${x.id}"><span>${esc(x.nombre || x.email)}</span><span class="muted small">${esc(x.formato || '')}</span></button>`).join('');
+          $('#alist').innerHTML = lista.filter((x) => x.rol !== 'admin' || DB.demo).map((x) => `<button type="button" data-a="${x.id}"><span>${esc(x.nombre || x.email)}</span><span class="muted small">${esc(x.formato || '')}</span></button>`).join('');
           $$('[data-a]').forEach((b) => (b.onclick = () => (location.hash = 'alumnas/' + b.dataset.a)));
         } catch (er) { /* ya avisó */ }
         btn.disabled = false;

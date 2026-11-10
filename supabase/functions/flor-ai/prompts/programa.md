@@ -70,29 +70,28 @@ Semana 12 · Preguntar y reportar:
 - M3 · Word Families & Nominalization [clase · Módulo 3] PRONTO
 - M3 · The Accuracy Challenge: tu Error Radar [clase evidencia · Módulo 3] PRONTO
 
-### Mes 4 · Entiende, hazte entender y usa tu voz — al final del mes: Entiendes más en reuniones, te entienden a la primera y hablas aunque no sea perfecto.
+### Mes 4 · Understand & Be Understood — al final del mes: Entiendes más en reuniones y te entienden a la primera.
 Semana 13 · Tu oído:
 - M4 · How English Really Sounds [clase · Módulo 4] PRONTO
 - M4 · Train Your Ear in Meetings [clase · Módulo 4] PRONTO
 Semana 14 · Que te entiendan a la primera:
 - M4 · Pronunciation for Intelligibility [clase · Módulo 4] PRONTO
-Semana 15 · El QUIÉN:
+Semana 15 y 16 · Llevarlo a tus reuniones:
+- Escuchar una reunión real y anotar lo que no entendiste [practica · Tu trabajo]
+- Shadowing con frases de tu trabajo y la prueba del dictado [practica · Coaches]
+
+### Mes 5 · Own Your Voice — al final del mes: Hablas aunque no sea perfecto y tienes la evidencia de cuánto avanzaste.
+Semana 17 · El QUIÉN:
 - M5 · ¿No me sale o no me animo? [clase playbook · Módulo 5] PRONTO
 - M5 · Cuando me callo o me quedo en blanco [clase playbook · Módulo 5] PRONTO
-Semana 16 · Hablar sin ser perfecta:
+Semana 18 · Hablar sin ser perfecta:
 - M5 · Hablar sin ser perfecta [clase playbook · Módulo 5] PRONTO
 - Llevar a tu trabajo una situación que antes evitabas [evidencia · Tu trabajo]
-
-### Mes 5 · Autonomía y cierre — al final del mes: Haces sola todo el ciclo y tienes la evidencia de cuánto avanzaste.
-Semana 17 y 18 · Tu foco final, sola:
+Semana 19 y 20 · Tu voz en tu situación más difícil:
 - Hacer tú todo el ciclo con tu situación más difícil [practica · Coaches]
-- Escribir tu rutina para seguir después del programa [orientacion · Drive · 05]
-Semana 19 · Tu evidencia:
-- Grabar tu Starting Point final [evidencia · Drive · 01]
-Semana 20 · Cierre:
-- Comparar con tu Starting Point en tu último encuentro [evidencia · Encuentro en vivo]
-- Compartir tu win final en la comunidad [evidencia · Comunidad]
-- Definir tu próximo nivel [orientacion · Encuentro en vivo]
+- Grabar tu Starting Point de nuevo [evidencia · Drive · 01]
+- Comparar con tu primer Starting Point en tu encuentro [evidencia · Encuentro en vivo]
+- Compartir tu win en la comunidad [evidencia · Comunidad]
 
 Hábitos de todas las semanas (desde la semana 2): Lunes: tu Weekly Report (es tu plan de la semana que empieza) · Mandar una reunión o situación real · Practicar con tu coach y hacer el segundo intento · Aplicarlo en tu trabajo · Tu encuentro en vivo (clase o lab)
 
