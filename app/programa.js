@@ -3,36 +3,18 @@
 // (foco, tareas, clases) se carga desde el panel "Alumnas", no acá.
 window.PROGRAMA = {
   modulos: [
-    {
-      n: 0, nombre: 'Lead Yourself First',
-      desc: 'Tu punto de partida con tu producción real, cómo vas a atravesar el programa y qué te toca poner a ti.',
-      logro: 'Sé desde dónde parto, entiendo cómo es el recorrido y qué me toca hacer a mí para avanzar.',
-      clases: ['Bienvenida', 'Cómo vamos a trabajar', 'Tu espacio en Drive', 'Tu starting point']
-    },
-    {
-      n: 1, nombre: 'Activate Your English',
-      desc: 'Convertir tus situaciones reales de trabajo en práctica con Role Play, Narrative Flow y Color Method.',
-      logro: 'Sé cómo usar mis situaciones reales de trabajo para entrenar, y tengo las herramientas para hacerlo sola.',
-      clases: ['Role Play', 'Narrative Flow', 'Color Method', 'Tu sistema semanal']
-    },
-    {
-      n: 2, nombre: 'Communicate in Real Time',
-      desc: 'Construir, ordenar, adaptar y sostener tu mensaje cuando la conversación se sale del guion.',
-      logro: 'Puedo construir y sostener mi mensaje en tiempo real.',
-      clases: ['Organiza tus ideas de manera simple', 'Dar un update', 'Presentaciones', 'Preguntas inesperadas', 'Presentarte ante un equipo nuevo', 'Explicar un problema', 'Disentir']
-    },
-    {
-      n: 3, nombre: 'Polish Your English',
-      desc: 'Los patrones que de verdad interfieren con tu precisión. Se prescribe según tu diagnóstico.',
-      logro: 'Entiendo y puedo aplicar los patrones del idioma que más aparecen en mi comunicación laboral.',
-      clases: ['Master Tenses', 'Numbers and Figures', 'Grammar & Precision Lab']
-    },
-    {
-      n: 4, nombre: 'Understand & Be Understood',
-      desc: 'Entender el inglés hablado real y que se te entienda con claridad. Tu acento nunca fue el problema.',
-      logro: 'Entiendo mejor el inglés hablado real y me hago entender con más claridad.',
-      clases: ['Connected speech', 'Ritmo y acento de oración', 'Shadowing funcional']
-    }
+    { n: 0, nombre: 'Start Here · Onboarding', desc: 'Tu punto de partida, cómo funciona tu semana y dónde está cada cosa. Hay un onboarding para Lab y otro para Private.',
+      logro: 'Sé desde dónde parto, cómo es el recorrido y qué me toca hacer a mí.', clases: [] },
+    { n: 1, nombre: 'Activate Your English', desc: 'Convertir tus situaciones reales de trabajo en práctica con Role Play, Narrative Flow y Color Method.',
+      logro: 'Uso mis situaciones reales para entrenar y tengo las herramientas para hacerlo sola.', clases: [] },
+    { n: 2, nombre: 'Communicate in Real Time', desc: 'Construir, ordenar, adaptar y sostener tu mensaje cuando la conversación se sale del guion. El QUÉ.',
+      logro: 'Armo lo que quiero decir antes de hablar, aunque no lo tenga preparado.', clases: [] },
+    { n: 3, nombre: 'Polish Your English', desc: 'Los patrones que de verdad interfieren con tu precisión. El CÓMO. Se prescribe según tu diagnóstico.',
+      logro: 'Detecto yo misma dónde se rompe mi inglés y lo corrijo en el segundo intento.', clases: [] },
+    { n: 4, nombre: 'Understand & Be Understood', desc: 'Entender el inglés hablado real y que se te entienda a la primera. Tu acento nunca fue el problema.',
+      logro: 'Entiendo más en reuniones y me entienden a la primera.', clases: [] },
+    { n: 5, nombre: 'Own Your Voice', desc: 'El QUIÉN: cuando no te animas, te quedas en blanco o esperas hablar perfecto.',
+      logro: 'Hablo aunque no sea perfecto y llevo a mi trabajo lo que antes evitaba.', clases: [] }
   ],
 
   coaches: [
@@ -47,10 +29,7 @@ window.PROGRAMA = {
       frase: 'Revisa este mail que escribí: ' },
     { id: 'color', nombre: 'Color Method', color: 'var(--warn)',
       desc: 'Sube el nivel de tu vocabulario: verbos de impacto, expresiones de negocios y vocabulario de tu industria.',
-      frase: 'Quiero que esto suene más profesional: ' },
-    { id: 'pronunciation', nombre: 'Pronunciation', color: 'var(--ok)',
-      desc: 'Que se te entienda claro con frases reales de tu trabajo. No busca borrar tu acento.',
-      frase: '¿Cómo digo esta frase en la reunión? ' }
+      frase: 'Quiero que esto suene más profesional: ' }
   ],
 
   // Mientras Flor AI no esté activada en la app, los coaches abren estos links de Claude.
@@ -63,7 +42,7 @@ window.PROGRAMA = {
     ['Tengo una reunión o presentación pronto', 'roleplay'],
     ['Escribí algo y no sé si está bien', 'narrative'],
     ['Está correcto pero suena básico', 'color'],
-    ['Me piden que repita o me trabo con una palabra', 'pronunciation'],
+    ['Me piden que repita o me cuesta entender a nativos (llévalo también a Flor)', 'flor'],
     ['Quiero un primer feedback de mi tarea', 'flor'],
     ['No sé por dónde empezar', 'flor']
   ],

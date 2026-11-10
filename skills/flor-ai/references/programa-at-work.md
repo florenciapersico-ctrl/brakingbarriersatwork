@@ -1,0 +1,79 @@
+# AT WORK · el programa (lo que Flor AI tiene que conocer)
+
+Programa de 5 meses de Flor Pérsico (Breaking Barriers at Work / She Breaks Limits) para profesionales
+hispanohablantes B1–B2 que ya trabajan en inglés. Promesa: dejar de sobrevivir con todo memorizado y
+responder lo que no viste venir. Método: **Delivery Method™**, que trabaja el **qué** (el mensaje), el
+**cómo** (el inglés) y el **quién** (desde dónde habla). El principio de pronunciación es
+**inteligibilidad, no borrar el acento**.
+
+## Las cinco etapas
+
+| Etapa | Nombre | Qué resuelve | Hito ("lo que puede decir al cerrar") |
+|---|---|---|---|
+| Onboarding | Start & Diagnose | Diagnóstico: su inglés hoy, sus reuniones, sus interlocutores, qué la traba. Se configura su sistema de entrenamiento con su material. Los 8 pilares de mentalidad. | Sé desde dónde parto, cómo es el recorrido y tengo listo lo que necesito para entrenar con el sistema autónomo. |
+| Módulo 1 | Automatize Your English | Entrenar con su propio material con los 3 coaches: Narrative Flow, Color Method y Role Play. | Sé cómo entrenar con mis situaciones reales de trabajo. |
+| Módulo 2 | Communicate in Real Time | Seguir hablando cuando no viene la palabra; organizar y priorizar el mensaje; reparar sin abandonar la idea; manejar preguntas, interrupciones y cambios de dirección. Incluye M2.07 Presentaciones. | Puedo organizar y sostener mi mensaje en tiempo real. |
+| Módulo 3 | Build Your Language System | Los sistemas gramaticales recurrentes en B1–B2: sistema verbal, present perfect, -ing, verb patterns, calcos del español, artículos y concordancia, relativas, modales, condicionales, orden de preguntas, pasiva, word families. | Entiendo y puedo aplicar los sistemas que aparecen repetidamente en mi comunicación laboral. |
+| Módulo 4 | Understand & Be Understood | Entender a nativos que hablan rápido y que su producción sea fácil de seguir. | Entiendo por qué el inglés real suena como suena y sé entrenar mi oído y mi producción. |
+
+## Los coaches (bots) de la alumna
+
+- **Narrative Flow**: solo gramática de textos reales. Tabla con columnas vacías, ella corrige uno por uno.
+  Distingue **fosilizado** (sabe la regla, le sale mal en automático) de **falta de base** (no la sabe).
+  No toca vocabulario ni estilo. Nunca reescribe el texto por ella.
+- **Color Method**: vocabulario profesional (phrasal verbs, verbos de impacto, expresiones de negocios, de su
+  industria, conectores, idioms) con niveles **LA USO / LA ENTIENDO / LA DESCUBRO**. No corrige gramática.
+- **Role Play**: el simulador de vuelo. Ensaya su próxima situación real (reunión, presentación, entrevista,
+  llamada, negociación, small talk). Primera vuelta sin cortes; feedback y **segundo intento** después.
+- (Pronunciación: por ahora no hay coach; se trabaja con Flor en la clase o el lab, y en el Módulo 4, que se publica pronto.)
+
+## Workplace Practice Library (8 guías)
+
+1. Presentarte ante un equipo nuevo. 2. Los cinco minutos de charla antes de la reunión. 3. Dar un update de
+proyecto sin irte por las ramas. 4. Explicar un problema y los próximos pasos. 5. Disentir o pedir
+aclaraciones sin pedir permiso. 6. Explicar un proceso con claridad. 7. Responder preguntas que no viste
+venir. 8. Presentar delante de quien decide.
+
+También: banco de precisión y material de pronunciación para trabas puntuales.
+
+## La semana de la alumna (dos formatos)
+
+AT WORK tiene alumnas en dos formatos. El método y la práctica autónoma son iguales; cambia el espacio en
+vivo con Flor.
+
+**Formato 1:1**
+- **Clase 1:1 semanal** con Flor. Lleva su situación real de la semana; Flor la hace producir, separa
+  errores fosilizados de falta de base, trabaja el mensaje, el inglés y la mentalidad, y le deja tarea.
+- Lo que la alumna prepara con Flor AI llega a la clase como material de trabajo.
+
+**Formato lab (grupal)**
+- **Lab grupal en vivo** con Flor, máximo 8 profesionales del mismo nivel, en el día y horario que le
+  asignaron (hoy: sábados 15:30–16:30, hora Argentina). Lleva su situación
+  real, produce, recibe feedback y hace el **segundo intento** en vivo.
+- **1:1 mensual** de 30 minutos para revisar avance y ajustar el foco. Lo reserva ella con su link de agenda.
+  Si avisa con 24 horas, lo reprograma dentro del mismo mes; si no lo agenda en el mes, no se acumula.
+
+**En los dos formatos**
+- **Weekly report los lunes** (es su plan de la semana que empieza, no un resumen), 6 preguntas: (1) my wins
+  from last week, (2) where I am in AT WORK, (3) my focus this week, (4) my training schedule (2 bloques: día
+  y hora, qué va a entrenar, con qué material real), (5) la situación real que quiere practicar (1:1: se
+  trabaja en su sesión; lab: Flor la usa para su práctica, para los ejemplos del lab y para su 1:1 del mes),
+  (6) what I need from Flor.
+- **Práctica autónoma**: ~40 minutos, 3 veces por semana, con los coaches.
+- **Comunidad**: la academia (donde vive el contenido) y el grupo de WhatsApp para el acompañamiento entre pares.
+- Cada clase grabada cierra con: **Apply it** (frases o un mensaje sobre su trabajo), **Practice it** (en voz
+  alta o en Role Play) y **Review it** (Retry y Personal Error Radar). Esas son las tareas típicas.
+
+## Lo que el programa promete (y lo que no)
+
+Puede decir la idea cuando la piensa, responder lo que no vio venir, decir "no estoy de acuerdo" en la
+reunión, presentarse en dos frases, seguir a alguien que habla rápido, salir pensando "dije lo que quería
+decir". **No promete dejar de cometer errores**: promete errores que no la frenan.
+
+## Huecos que Flor completa (pegá acá o en el Proyecto)
+
+- Los **8 pilares de mentalidad** del onboarding: …
+- Lista de clases por módulo con su código (M1.xx, M2.xx…): …
+- Qué tareas entrega cada semana y en qué formato: …
+- Días y horarios vigentes de cada lab (por nivel): …
+- Por dónde responde Flor el weekly en cada formato (WhatsApp, mail): …
