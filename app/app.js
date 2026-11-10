@@ -582,7 +582,9 @@ ${P.camino.map((m) => `<details class="card mes" ${m.n === mesActual ? 'open' : 
     html() {
       return `<div class="head"><div><span class="eyebrow">Tu práctica entre clases</span><h1>Mis coaches</h1></div></div>
 <p class="muted intro">Para que practiques sola entre sesiones, con situaciones reales de tu trabajo. Se instalan una sola vez en Claude, como skills, y te lleva unos 10 minutos desde la computadora.</p>
-<div class="row"><a class="btn" href="${COACHES_URL}" target="_blank" rel="noopener">Ver el paso a paso con video</a></div>
+<section class="card"><span class="eyebrow">Míralo primero · 6 minutos</span><h3>El paso a paso en video</h3><p class="muted small">Te muestro cómo descargar, instalar y usar tus coaches. Puedes pausarlo e ir haciéndolo conmigo.</p>
+  <div style="position:relative;padding-top:56.25%;border-radius:12px;overflow:hidden;background:var(--surface-2)"><iframe src="https://drive.google.com/file/d/1kvQouR-hqDktK28UFj8RQ9W4hFM5us78/preview" allow="autoplay; fullscreen" allowfullscreen loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;border:0" title="Video: cómo descargar, instalar y usar tus coaches"></iframe></div>
+</section>
 <section class="card"><h3>1 · Descarga tus coaches</h3><p class="muted small">Descarga tus 3 coaches de práctica (el cuarto es opcional). <b>No descomprimas</b> los archivos .zip.</p>
   <div class="grid g-2e">${SKILLS.map(([n, d, zip]) => `<div class="fbitem"><b>${n}</b><span class="small muted">${esc(d)}</span><a class="btn ghost sm" style="align-self:flex-start" href="${COACHES_URL}${zip}" download>↓ Descargar ${n}</a></div>`).join('')}</div>
 </section>
