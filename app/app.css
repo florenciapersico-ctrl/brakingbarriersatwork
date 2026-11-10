@@ -206,3 +206,18 @@ th{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted
 .mobile-top{display:none;justify-content:space-between;align-items:center;margin-bottom:8px}
 @media (max-width:520px){.flow{grid-template-columns:1fr}.fix{grid-template-columns:1fr}.fix .arr{display:none}.dates li{grid-template-columns:1fr;gap:2px}.corr,.editrow{grid-template-columns:1fr}}
 @media (prefers-reduced-motion:no-preference){.view{animation:in .25s ease-out}@keyframes in{from{transform:translateY(4px)}to{transform:none}}}
+
+/* Camino de 5 meses */
+.reco{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+.reco div{display:flex;flex-direction:column;gap:4px;padding:12px;border-radius:12px;background:var(--surface-2);border:2px solid transparent}
+.reco div.on{border-color:var(--brand);background:var(--surface)}
+.reco b{font-family:var(--display);font-size:16px;line-height:1.2}
+details.mes{gap:14px}
+details.mes>summary{cursor:pointer;list-style:none;display:flex;flex-direction:column;gap:4px}
+details.mes>summary::-webkit-details-marker{display:none}
+details.mes>summary h2::after{content:" ›";color:var(--muted)}
+details.mes[open]>summary h2::after{content:" ⌄"}
+.semana{display:flex;flex-direction:column;gap:8px;padding-top:12px;border-top:1px solid var(--line)}
+.semana.actual{border-top:2px solid var(--brand)}
+ol.pasos{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;font-size:14px}
+@media (max-width:860px){.reco{grid-template-columns:repeat(2,1fr)}}

@@ -40,7 +40,21 @@
 
       // ---- alumna ----
       async miPerfil() { return ok(await sb.from('perfiles').select('*').eq('id', uid).single()); },
-      async guardarMiPerfil(c) { ok(await sb.rpc('guardar_mi_perfil', { p_nombre: c.nombre ?? null, p_objetivo: c.objetivo ?? null, p_onboarding: c.onboarding ?? null })); },
+      async guardarMiPerfil(c) { ok(await sb.rpc('guardar_mi_perfil', { p_nombre: c.nombre ?? null, p_objetivo: c.objetivo ?? null, p_onboarding: c.onboarding ?? null, p_camino: c.camino_hecho ?? null, p_compromisos: c.compromisos ?? null })); },
+      // ---- archivos y documentos (bucket privado "atwork", carpeta = id de la alumna) ----
+      async subirArchivo(file, carpeta, a = uid) {
+        const limpio = file.name.normalize('NFD').replace(/[^\w.\-]+/g, '_').slice(-80);
+        const path = a + '/' + carpeta + '/' + Date.now() + '-' + limpio;
+        ok(await sb.storage.from('atwork').upload(path, file, { contentType: file.type || undefined }));
+        return path;
+      },
+      async urlArchivo(path) { const d = ok(await sb.storage.from('atwork').createSignedUrl(path, 3600)); return d.signedUrl; },
+      async documentos(a = uid) { return ok(await sb.from('documentos').select('*').eq('alumna_id', a).order('creado', { ascending: false })); },
+      async subirDocumento(a, file, tipo, nombre) {
+        const path = await this.subirArchivo(file, 'documentos', a);
+        ok(await sb.from('documentos').insert({ alumna_id: a, tipo, nombre: nombre || file.name, path }));
+      },
+      async borrarDocumento(d) { await sb.storage.from('atwork').remove([d.path]); ok(await sb.from('documentos').delete().eq('id', d.id)); },
       async tareas(a = uid) { return ok(await sb.from('tareas').select('*').eq('alumna_id', a).order('orden').order('id')); },
       async marcarTarea(id, hecha) { ok(await sb.rpc('marcar_tarea', { p_id: id, p_hecha: hecha })); },
       async weeklies(a = uid) { return ok(await sb.from('weekly').select('*').eq('alumna_id', a).order('semana', { ascending: false }).limit(30)); },
@@ -109,7 +123,7 @@
           foco_titulo: 'Ordenar tu mensaje antes de hablar',
           foco_texto: 'Cuando hablas rápido es porque estás ordenando la idea mientras hablas. Esta semana entrenas la estructura antes de entrar a la reunión.',
           modulo_actual: 2, clases_asignadas: ['Organiza tus ideas de manera simple', 'Numbers and Figures'],
-          confianza_inicio: 6, confianza_hoy: 7, audio_inicio: '2026-10-31', drive_url: 'https://drive.google.com/', onboarding: [0, 1, 2, 3], activa: true },
+          confianza_inicio: 6, confianza_hoy: 7, audio_inicio: '2026-10-31', fecha_inicio: semanaAnt(5), camino_hecho: ['1.1', '1.2', '1.3', '1.4', '1.5', '1.6', '2.1', '2.2', '2.3', '3.1', '3.2', '3.3', '4.1', '4.2', '4.3', '5.1', '5.2'], compromisos: [0, 1, 2], drive_url: 'https://drive.google.com/', onboarding: [0, 1, 2, 3], activa: true },
         { id: 'car', email: 'carla@demo', nombre: 'Carla', rol: 'alumna', formato: '1:1', trabajo: 'Product manager en una startup', objetivo: '', foco_titulo: '', foco_texto: '', modulo_actual: 0, clases_asignadas: [], onboarding: [0], activa: true }
       ],
       tareas: [
@@ -118,8 +132,8 @@
         { id: 3, alumna_id: 'val', texto: 'Mandar una reunión real de esta semana', donde: 'Cambia los datos confidenciales si quieres', hecha: false, orden: 3 },
         { id: 4, alumna_id: 'val', texto: 'Ver la clase "Numbers and Figures"', donde: 'Módulo 3 · million, billion, trillion', hecha: false, orden: 4 }
       ],
-      weekly: [1, 2, 3, 4, 5, 6].map((n, i) => ({ id: 10 + i, alumna_id: 'val', semana: semanaAnt(n), respuestas: { win: 'Hablé en la daily sin leer.', situacion: 'Update de capex' }, enviado_en: semanaAnt(n) + 'T10:00:00Z', respuesta_flor: n === 1 ? 'Muy bien el win. Esta semana trabajamos el orden: Main point → Why → Next.' : 'Leído. Seguimos con tu foco.' }))
-        .concat([{ id: 30, alumna_id: 'car', semana: hoy, respuestas: { win: 'Me animé a preguntar en la reunión de producto.', modulo: 'Onboarding', situacion: 'Presentar el roadmap del trimestre', ayuda: 'Me trabo cuando me interrumpen.', dias: 'Martes y jueves' }, enviado_en: new Date().toISOString(), respuesta_flor: null }]),
+      weekly: [1, 2, 3, 4, 5, 6].map((n, i) => ({ id: 10 + i, alumna_id: 'val', semana: semanaAnt(n), respuestas: { wins: 'Hablé en la daily sin leer.', situacion: 'Update de capex' }, enviado_en: semanaAnt(n) + 'T10:00:00Z', respuesta_flor: n === 1 ? 'Muy bien el win. Esta semana trabajamos el orden: Main point → Why → Next.' : 'Leído. Seguimos con tu foco.' }))
+        .concat([{ id: 30, alumna_id: 'car', semana: hoy, respuestas: { wins: 'Me animé a preguntar en la reunión de producto.', donde: 'Semana 1, onboarding', foco: 'Grabar mi Starting Point', training1: 'Martes 8 h · Role Play del roadmap', situacion: 'Presentar el roadmap del trimestre', necesito: 'Me trabo cuando me interrumpen.' }, enviado_en: new Date().toISOString(), respuesta_flor: null }]),
       pedidos: [
         { id: 40, alumna_id: 'val', tipo: 'audio', titulo: 'Audio del update de capex', texto: 'Les comparto el update de capex: we are ten millions dollars below forecast and the main reason is because the directors of each businesses delayed approvals.', link: '', estado: 'respondido',
           respuesta: 'Explicaste la variación, las causas y lo que seguía. Ahora vamos a ordenarlo: primero el dato principal, después el por qué. Marca una pausa en cada first y second para darte tiempo a pensar.',
@@ -140,6 +154,7 @@
         fechas: [{ cuando: 'Sáb 7 nov', que: 'Lab · 18:00 Argentina' }, { cuando: 'Lun 9 nov', que: 'Weekly report' }, { cuando: 'Antes del 30 nov', que: 'Reserva tu 1:1 de noviembre' }, { cuando: 'Fin de año', que: 'Receso de labs' }],
         aviso: ''
       },
+      documentos: [{ id: 60, alumna_id: 'val', tipo: 'acuerdo', nombre: 'Acuerdo de Trabajo firmado.pdf', path: 'val/documentos/acuerdo.pdf', creado: semanaAnt(5) + 'T12:00:00Z' }],
       chats: [], mensajes: []
     });
     let S;
@@ -160,7 +175,12 @@
       async logout() { S.sesion = false; save(); authCb('SIGNED_OUT', null); },
       async recuperar() {}, async cambiarClave() {},
       async miPerfil() { const p = copia(S.perfiles.find((x) => x.id === yo())); if (p.id === 'val') p.rol = 'admin'; return p; },
-      async guardarMiPerfil(c) { const p = S.perfiles.find((x) => x.id === yo()); for (const k of ['nombre', 'objetivo', 'onboarding']) if (c[k] != null) p[k] = c[k]; save(); },
+      async guardarMiPerfil(c) { const p = S.perfiles.find((x) => x.id === yo()); for (const k of ['nombre', 'objetivo', 'onboarding', 'camino_hecho', 'compromisos']) if (c[k] != null) p[k] = c[k]; save(); },
+      async subirArchivo(file, carpeta, a = yo()) { await espera(200); return a + '/' + carpeta + '/' + file.name; },
+      async urlArchivo() { return '#'; },
+      async documentos(a = yo()) { return copia((S.documentos || []).filter((d) => d.alumna_id === a)); },
+      async subirDocumento(a, file, tipo, nombre) { (S.documentos = S.documentos || []).unshift({ id: id(), alumna_id: a, tipo, nombre: nombre || file.name, path: a + '/documentos/' + file.name, creado: new Date().toISOString() }); save(); },
+      async borrarDocumento(d) { S.documentos = (S.documentos || []).filter((x) => x.id !== d.id); save(); },
       async tareas(a = yo()) { return copia(S.tareas.filter((t) => t.alumna_id === a).sort((x, y) => x.orden - y.orden)); },
       async marcarTarea(tid, hecha) { const t = S.tareas.find((x) => x.id === tid); if (t) t.hecha = hecha; save(); },
       async weeklies(a = yo()) { return copia(S.weekly.filter((w) => w.alumna_id === a).sort((x, y) => (x.semana < y.semana ? 1 : -1))); },
