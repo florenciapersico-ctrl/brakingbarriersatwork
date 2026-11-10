@@ -59,12 +59,13 @@
     coaches: '<path d="M4 5h16v11H9l-5 4z"/><path d="M8 9h8M8 12h5"/>',
     progreso: '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
     empieza: '<path d="M5 21V4h11l-2 4 2 4H5"/>',
+    proceso: '<path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M10 13h6M10 17h4"/>',
     bandeja: '<path d="M3 13l3-8h12l3 8v6a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/><path d="M3 13h5l1 3h6l1-3h5"/>',
     alumnas: '<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><circle cx="17.5" cy="9" r="2.5"/><path d="M16 14.2a5 5 0 0 1 5.5 5.8"/>',
     ajustes: '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-2.7 1.1V21a2 2 0 0 1-4 0v-.1a1.6 1.6 0 0 0-2.7-1.1l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1A1.6 1.6 0 0 0 3.6 15H3a2 2 0 0 1 0-4h.1a1.6 1.6 0 0 0 1.1-2.7l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1A1.6 1.6 0 0 0 9.7 4.4V3a2 2 0 0 1 4 0v.1a1.6 1.6 0 0 0 2.7 1.1l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0 1.1 2.7H21a2 2 0 0 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1.3z"/>'
   };
   const svg = (k) => '<svg viewBox="0 0 24 24" aria-hidden="true">' + I[k] + '</svg>';
-  const VISTAS = [['semana', 'Mi semana'], ['flor', 'Flor AI'], ['feedback', 'Pedir feedback'], ['weekly', 'Weekly report'], ['camino', 'Mi camino'], ['coaches', 'Mis coaches'], ['progreso', 'Mi progreso'], ['empieza', 'Empieza acá']];
+  const VISTAS = [['semana', 'Mi semana'], ['camino', 'Mi camino'], ['flor', 'Flor AI'], ['feedback', 'Pedir feedback'], ['weekly', 'Weekly report'], ['coaches', 'Mis coaches'], ['proceso', 'Mi proceso'], ['progreso', 'Mi progreso'], ['empieza', 'Empieza acá']];
   const ADMIN = [['bandeja', 'Bandeja'], ['alumnas', 'Alumnas'], ['ajustes', 'Programa']];
 
   // ---------- arranque y sesión ----------
@@ -196,6 +197,52 @@
     if (location.hash === '#flor') ruta(); else location.hash = 'flor';
   });
 
+  // ---------- camino de 5 meses ----------
+  const COACHES_URL = '../coaches/';
+  const wq = (perfil) => P.weeklyPorFormato[(perfil && perfil.formato) === '1:1' ? '1:1' : 'LAB'];
+  function semanaDe(perfil) {
+    if (!perfil || !perfil.fecha_inicio) return null;
+    const d = Math.floor((Date.now() - new Date(perfil.fecha_inicio + 'T00:00:00')) / (7 * 864e5)) + 1;
+    return Math.max(1, Math.min(20, d));
+  }
+  function semanaCamino(n) {
+    for (const m of P.camino) for (const s of m.semanas) if (s.s.includes(n)) return { mes: m, sem: s };
+    return null;
+  }
+  const todasTareas = () => P.camino.flatMap((m) => m.semanas.flatMap((s) => s.tareas));
+  const TAG = { orientacion: 'Orientación', evidencia: 'Evidencia', habito: 'Hábito', comunidad: 'Comunidad', clase: 'Clase', practica: 'Práctica', coach: 'Coach', material: 'Material', envivo: 'En vivo', playbook: 'Playbook', worksheet: 'Worksheet' };
+  function accionTarea(t) {
+    if (t.ir) return `<a class="linkbtn small" href="${t.ir}">Ir</a>`;
+    if (t.coaches) return `<a class="linkbtn small" href="${COACHES_URL}" target="_blank" rel="noopener">Abrir coaches</a>`;
+    if (t.reservar && url(links().reservar)) return `<a class="linkbtn small" href="${esc(links().reservar)}" target="_blank" rel="noopener">Reservar</a>`;
+    if (t.comunidad && url(links().comunidad)) return `<a class="linkbtn small" href="${esc(links().comunidad)}" target="_blank" rel="noopener">Comunidad</a>`;
+    if (/clase/.test(t.tipo) && !t.pronto) { const l = url(t.link) || url(links().plataforma); return l ? `<a class="linkbtn small" href="${esc(l)}" target="_blank" rel="noopener">Ver clase</a>` : ''; }
+    return '';
+  }
+  function filaTarea(t, hechas) {
+    const tags = t.tipo.split(' ').map((x) => TAG[x] || x).join(' + ');
+    return `<li><label><input type="checkbox" data-cam="${t.id}" ${hechas.includes(t.id) ? 'checked' : ''}><div><div class="t">${esc(t.texto)}</div>
+      <div class="where">${tags} · ${esc(t.donde)} ${t.pronto ? '<span class="pill warn">Se publica pronto</span>' : ''} ${accionTarea(t)}</div></div></label></li>`;
+  }
+  function montarCamino(root) {
+    root.addEventListener('change', (e) => {
+      const i = e.target; if (!i.dataset || !i.dataset.cam) return;
+      const set = new Set(st.perfil.camino_hecho || []);
+      i.checked ? set.add(i.dataset.cam) : set.delete(i.dataset.cam);
+      st.perfil.camino_hecho = [...set];
+      $$('[data-cam="' + i.dataset.cam + '"]').forEach((x) => { x.checked = i.checked; });
+      $$('[data-camcount]').forEach((x) => { x.textContent = contarCamino(); });
+      intentar(() => DB.guardarMiPerfil({ camino_hecho: st.perfil.camino_hecho })).catch(() => {});
+    });
+  }
+  const contarCamino = () => { const ids = new Set(todasTareas().map((t) => t.id)); return (st.perfil.camino_hecho || []).filter((x) => ids.has(x)).length + ' de ' + ids.size + ' tareas'; };
+  async function abrirArchivo(path) {
+    try { const u = await DB.urlArchivo(path); if (u && u !== '#') window.open(u, '_blank', 'noopener'); else toast('En la demo los archivos no se abren.'); }
+    catch (e) { toast(e.message, true); }
+  }
+  document.addEventListener('click', (e) => { const b = e.target.closest('[data-archivo]'); if (b) { e.preventDefault(); abrirArchivo(b.dataset.archivo); } });
+  const adjunto = (x) => (x.archivo ? `<button type="button" class="linkbtn small" data-archivo="${esc(x.archivo)}">📎 ${esc(x.archivo_nombre || 'Archivo adjunto')}</button>` : '');
+
   // ---------- cálculos ----------
   function racha(weeklies) {
     const env = new Set(weeklies.filter((w) => w.enviado_en).map((w) => w.semana));
@@ -242,11 +289,12 @@ ${sinOnb && !(weeklies.length) ? `<section class="card feature"><span class="eye
     ${url(l.link) ? '<div class="row"><a class="btn ghost" href="' + esc(l.link) + '" target="_blank" rel="noopener">Entrar al lab</a></div>' : ''}` : '<p class="muted">Flor va a cargar acá la fecha del próximo lab.</p>'}
   </section>
 </div>
+${caminoSemanaHTML(p)}
 <div class="grid g-2">
   <section class="card">
-    <div class="row between"><h3>Tus tareas de esta semana</h3><span class="pill" id="taskCount"></span></div>
+    <div class="row between"><h3>Tareas que te dejó Flor</h3><span class="pill" id="taskCount"></span></div>
     ${tareas.length ? '<ul class="tasks" id="tasks">' + tareas.map((t) => `<li><label><input type="checkbox" data-id="${t.id}" ${t.hecha ? 'checked' : ''}><div><div class="t">${esc(t.texto)}</div>${t.donde ? '<div class="where">' + esc(t.donde) + '</div>' : ''}</div></label></li>`).join('') + '</ul>'
-      : '<p class="muted small">Todavía no hay tareas cargadas para esta semana. Mientras tanto, completa tu weekly report.</p>'}
+      : '<p class="muted small">Esta semana no hay tareas extra: sigue tu camino de arriba y completa tu weekly report.</p>'}
   </section>
   <section class="card">
     <span class="eyebrow">Weekly report · constancia</span>
@@ -277,12 +325,22 @@ ${fb ? `<section class="card">
 </section>`;
     },
     mount() {
+      montarCamino($('#app'));
       const el = $('#tasks'); if (!el) return ($('#taskCount') ? ($('#taskCount').textContent = '0') : null);
       const count = () => { $('#taskCount').textContent = el.querySelectorAll('input:checked').length + ' de ' + el.querySelectorAll('input').length; };
       el.addEventListener('change', (e) => { const i = e.target; intentar(() => DB.marcarTarea(+i.dataset.id || i.dataset.id, i.checked)).catch(() => { i.checked = !i.checked; count(); }); count(); });
       count();
     }
   };
+  function caminoSemanaHTML(p) {
+    const n = semanaDe(p);
+    if (!n) return `<section class="card empty-state"><span class="eyebrow">Tu camino AT WORK</span><h3>Tus 5 meses, semana por semana</h3><p class="muted small">Cuando Flor cargue tu fecha de inicio, acá vas a ver exactamente qué te toca esta semana.</p><a class="btn ghost" href="#camino">Ver mi camino</a></section>`;
+    const c = semanaCamino(n);
+    return `<section class="card"><div class="row between"><div><span class="eyebrow">Tu camino · semana ${n} de 20 · mes ${c.mes.n}</span><h3>${esc(c.sem.titulo)}</h3></div><a class="small" href="#camino">Ver todo mi camino</a></div>
+      <ul class="tasks">${c.sem.tareas.map((t) => filaTarea(t, p.camino_hecho || [])).join('')}</ul>
+      ${n >= 2 ? `<details><summary class="small muted">Tus hábitos de todas las semanas</summary><ul class="tasks" style="margin-top:8px">${P.habitos.tareas.map((t) => `<li><div class="fbitem"><b>${esc(t.texto)}</b><span class="where muted small">${esc(t.donde)} ${accionTarea(t)}</span></div></li>`).join('')}</ul></details>` : ''}
+    </section>`;
+  }
   function qa(link, t, s) {
     return url(link) ? `<a href="${esc(link)}" target="_blank" rel="noopener"><b>${t}</b><span>${s}</span></a>` : `<a href="#empieza"><b>${t}</b><span>${s}</span></a>`;
   }
@@ -290,27 +348,11 @@ ${fb ? `<section class="card">
   // ---------- Flor AI y coaches (chat) ----------
   const coachDe = (id) => P.coaches.find((c) => c.id === id) || P.coaches[0];
   function enClaudeHTML() {
-    const L = P.enClaude;
-    return `<div class="head"><div><span class="eyebrow">Tu práctica entre clases</span><h1>Flor AI y tus coaches</h1></div></div>
-<p class="muted intro">Tus coaches funcionan dentro de Claude, con tu cuenta. Tócalo y empieza a practicar: trae una situación real de tu semana, una reunión, una presentación o un mail.</p>
-<div class="grid g-2e">
-  <a class="card feature" href="${L.practica}" target="_blank" rel="noopener" style="text-decoration:none">
-    <span class="eyebrow">Empieza por aquí</span><h2>Tu práctica de la semana</h2>
-    <p class="muted">Lo haces como te sale, vemos dónde se rompió, entrenas solo eso y lo vuelves a intentar. Todo en una sesión.</p>
-    <span class="btn" style="align-self:flex-start">Empezar mi práctica</span>
-  </a>
-  <a class="card" href="${L.coaches}" target="_blank" rel="noopener" style="text-decoration:none;color:inherit">
-    <span class="eyebrow">Herramientas por separado</span><h2>Tus coaches</h2>
-    <p class="muted">Para trabajar una sola cosa: ensayar con Role Play, corregir gramática con Narrative Flow, subir el nivel con Color Method o tu pronunciación.</p>
-    <span class="btn ghost" style="align-self:flex-start">Abrir mis coaches</span>
-  </a>
-</div>
-<section class="card"><h3>La primera vez</h3><ul class="dates">
-  <li><b>1. Tu cuenta</b><span>Entra con tu cuenta de Claude. Si no tienes, créala gratis con tu mail en claude.ai.</span></li>
-  <li><b>2. El aviso</b><span>Te va a aparecer “Este artefacto usa conectores”. Deja prendido “Usar Claude” y toca Continuar. Es normal.</span></li>
-  <li><b>3. ¿Prefieres hablar?</b><span>Toca el micrófono del coach para el modo conversación, o dicta con el micrófono de tu teclado.</span></li>
-</ul></section>
-<p class="muted small">Lo importante, mándaselo a Flor desde <a href="#feedback">Pedir feedback</a>: ella te responde acá.</p>`;
+    return `<div class="head"><div><span class="eyebrow">Tu consultoría</span><h1>Flor AI</h1></div></div>
+<section class="card feature"><span class="eyebrow">Muy pronto acá</span><h2>Flor AI te va a guiar desde esta app</h2>
+  <p class="muted">Te va a decir qué te toca, dónde estás en tu camino y cómo prepararte para tu próxima situación real, y va a hacer tu onboarding contigo.</p>
+  <div class="row"><a class="btn" href="#camino">Mientras tanto, mira tu camino</a></div></section>
+<section class="card"><h3>Para practicar, usa tus coaches</h3><p class="muted small">Role Play, Narrative Flow, Color Method y Career Coach se instalan una sola vez en Claude.</p><div class="row"><a class="btn ghost" href="#coaches">Ver mis coaches</a></div></section>`;
   }
 
   V.flor = {
@@ -320,7 +362,7 @@ ${fb ? `<section class="card">
 <div class="chat">
   <div class="chat-side">
     <label class="eyebrow" for="coachSel">Hablar con</label>
-    <select id="coachSel">${P.coaches.map((c) => `<option value="${c.id}">${c.nombre}</option>`).join('')}</select>
+    <select id="coachSel">${P.coaches.filter((c) => c.id === 'flor').map((c) => `<option value="${c.id}">${c.nombre}</option>`).join('')}</select>
     <button class="new" id="nuevo" type="button">+ Nueva conversación</button>
     <span class="eyebrow" style="margin-top:6px">Tus conversaciones</span>
     <div class="chat-list" id="lista"></div>
@@ -419,7 +461,8 @@ ${fb ? `<section class="card">
     <div class="field"><label for="ptipo">¿Qué le mandas?</label><select id="ptipo">${TIPOS.map(([v, l]) => `<option value="${v}">${l}</option>`).join('')}</select></div>
     <div class="field"><label for="ptit">Título corto</label><input id="ptit" type="text" placeholder="Ej.: Update de capex con mi jefe"></div>
     <div class="field"><label for="ptxt">Tu texto o transcript</label><small>Pega el texto. Si es confidencial, cambia nombres y datos. Si es un audio, cuéntale el contexto.</small><textarea id="ptxt" rows="7"></textarea></div>
-    <div class="field"><label for="plink">Link al audio o video (opcional)</label><small>De tu Drive, con permiso para que Flor lo vea.</small><input id="plink" type="url" placeholder="https://drive.google.com/…"></div>
+    <div class="field"><label for="pfile">Sube tu audio, video o documento</label><small>Hasta 50 MB. Desde el celular puedes elegir una nota de voz o una grabación.</small><input id="pfile" type="file" accept="audio/*,video/*,.pdf,.doc,.docx,.txt,image/*"></div>
+    <div class="field"><label for="plink">O pega un link (opcional)</label><small>Por ejemplo, de tu Drive, con permiso para que Flor lo vea.</small><input id="plink" type="url" placeholder="https://drive.google.com/…"></div>
     <div class="row"><button class="btn" type="submit">Enviar a Flor</button><button class="btn ghost" type="button" id="pai">Primero, feedback de Flor AI</button></div>
   </form>
   <section class="card">
@@ -437,7 +480,7 @@ ${fb ? `<section class="card">
   ${ped.length ? ped.map((x) => `<div class="fbitem">
     <div class="row between"><b>${esc(x.titulo || tipoNombre(x.tipo))}</b><span class="pill ${x.estado === 'respondido' ? 'ok' : 'warn'}">${x.estado === 'respondido' ? 'Respondido' : 'Esperando a Flor'}</span></div>
     <span class="muted small">${tipoNombre(x.tipo)} · ${fecha(x.creado)}</span>
-    <details><summary class="small">Lo que mandaste</summary><pre>${esc(x.texto)}</pre>${url(x.link) ? `<a class="small" href="${esc(x.link)}" target="_blank" rel="noopener">Abrir link</a>` : ''}</details>
+    <details><summary class="small">Lo que mandaste</summary>${x.texto ? `<pre>${esc(x.texto)}</pre>` : ''}${adjunto(x)}${url(x.link) ? ` <a class="small" href="${esc(x.link)}" target="_blank" rel="noopener">Abrir link</a>` : ''}</details>
     ${x.respuesta ? `<div class="reply"><span class="eyebrow">Flor · ${fecha(x.respondido_en)}</span><p>${esc(x.respuesta).replace(/\n/g, '<br>')}</p>${fixes(x.correcciones)}</div>` : ''}
   </div>`).join('') : '<p class="muted small">Todavía no mandaste nada. Empieza por tu audio de punto de partida.</p>'}
 </section>`;
@@ -446,12 +489,16 @@ ${fb ? `<section class="card">
       const f = $('#pform');
       f.onsubmit = async (e) => {
         e.preventDefault();
-        const texto = $('#ptxt').value.trim(), link = $('#plink').value.trim();
-        if (!texto && !link) return toast('Pega tu texto o un link para que Flor lo vea.', true);
+        const texto = $('#ptxt').value.trim(), link = $('#plink').value.trim(), file = $('#pfile').files[0];
+        if (!texto && !link && !file) return toast('Pega tu texto, sube un archivo o pega un link para que Flor lo vea.', true);
         if (link && !url(link)) return toast('El link tiene que empezar con https://', true);
-        $('button[type=submit]', f).disabled = true;
-        try { await intentar(() => DB.crearPedido({ tipo: $('#ptipo').value, titulo: $('#ptit').value.trim(), texto, link }), 'Listo, le llegó a Flor.'); ruta(); }
-        catch (er) { $('button[type=submit]', f).disabled = false; }
+        if (file && file.size > 50 * 1024 * 1024) return toast('El archivo pesa más de 50 MB. Prueba con uno más corto o pega un link.', true);
+        const b = $('button[type=submit]', f); b.disabled = true; b.textContent = file ? 'Subiendo…' : 'Enviando…';
+        try {
+          const archivo = file ? await intentar(() => DB.subirArchivo(file, 'pedidos')) : '';
+          await intentar(() => DB.crearPedido({ tipo: $('#ptipo').value, titulo: $('#ptit').value.trim(), texto, link, archivo, archivo_nombre: file ? file.name : '' }), 'Listo, le llegó a Flor.'); ruta();
+        }
+        catch (er) { b.disabled = false; b.textContent = 'Enviar a Flor'; }
       };
       $('#pai').onclick = () => {
         const t = $('#ptxt').value.trim(); if (!t) return toast('Primero pega tu texto.', true);
@@ -473,11 +520,14 @@ ${fb ? `<section class="card">
 <p class="muted intro">Es tu canal con Flor. Planificas tu semana, cuentas qué hiciste y qué quieres entrenar. Flor lo lee siempre y te responde con tu próximo paso.</p>
 ${w.respuesta_flor ? `<section class="card"><div class="reply"><span class="eyebrow">Respuesta de Flor</span><p>${esc(w.respuesta_flor).replace(/\n/g, '<br>')}</p></div></section>` : ''}
 <form class="card" id="wform" novalidate>
-  ${P.weekly.map(([id, l, h]) => `<div class="field"><label for="w-${id}">${l}</label><small>${h}</small><textarea id="w-${id}" data-k="${id}" rows="3" ${bloqueado ? 'readonly' : ''}>${esc(w.respuestas[id] || '')}</textarea></div>`).join('')}
+  <p class="eyebrow">Weekly report ${st.perfil.formato === '1:1' ? '1:1' : 'LAB'} · Complete every Monday · 5–10 minutes</p>
+  <p class="muted small">Usa este momento para reconocer tus avances, definir tu foco y reservar cuándo vas a entrenar esta semana.</p>
+  ${wq(st.perfil).map(([id, l, h]) => `<div class="field"><label for="w-${id}">${l}</label><small>${h}</small><textarea id="w-${id}" data-k="${id}" rows="${/training/.test(id) ? 2 : 3}" ${bloqueado ? 'readonly' : ''}>${esc(w.respuestas[id] || '')}</textarea></div>`).join('')}
+  <p class="eyebrow">${P.weeklyLema}</p>
   ${bloqueado ? '' : `<div class="row"><button class="btn" type="submit">${w.enviado_en ? 'Actualizar mi weekly' : 'Enviar a Flor'}</button><button class="btn ghost" type="button" data-ask="Ayúdame con mi weekly report">Ordenarlo con Flor AI</button><span class="muted small" id="wsave">Tu borrador se guarda solo.</span></div>`}
 </form>
 ${hist.length ? `<section class="card"><h3>Tus weeklies anteriores</h3>${hist.map((x) => `<details class="fbitem"><summary><b>Semana del ${fecha(x.semana, { day: 'numeric', month: 'long' })}</b> ${x.respuesta_flor ? '<span class="pill ok">Flor respondió</span>' : ''}</summary>
-  ${P.weekly.map(([id, l]) => (x.respuestas[id] ? `<p class="small"><b>${l}</b><br>${esc(x.respuestas[id])}</p>` : '')).join('')}
+  ${wq(st.perfil).map(([id, l]) => (x.respuestas[id] ? `<p class="small"><b>${l}</b><br>${esc(x.respuestas[id])}</p>` : '')).join('')}
   ${x.respuesta_flor ? `<div class="reply"><span class="eyebrow">Flor</span><p>${esc(x.respuesta_flor).replace(/\n/g, '<br>')}</p></div>` : ''}</details>`).join('')}</section>` : ''}`;
     },
     mount() {
@@ -490,7 +540,7 @@ ${hist.length ? `<section class="card"><h3>Tus weeklies anteriores</h3>${hist.ma
       });
       f.onsubmit = async (e) => {
         e.preventDefault(); clearTimeout(tm);
-        const d = datos(); if (!d.situacion && !d.win) return toast('Completa al menos tu win y la situación que quieres entrenar.', true);
+        const d = datos(); if (!d.wins && !d.foco) return toast('Completa al menos tus wins y tu foco de esta semana.', true);
         await intentar(() => DB.guardarWeekly(DB.lunes(), d, true), 'Listo, tu weekly está enviado. Avisa en la comunidad que ya lo completaste.');
         ruta();
       };
@@ -500,46 +550,98 @@ ${hist.length ? `<section class="card"><h3>Tus weeklies anteriores</h3>${hist.ma
   // ---------- Mi camino ----------
   V.camino = {
     html() {
-      const p = st.perfil, asig = p.clases_asignadas || [], act = p.modulo_actual || 0;
-      return `<div class="head"><div><span class="eyebrow">Tu roadmap</span><h1>Mi camino</h1></div></div>
-<p class="muted intro">El programa no se hace en orden de principio a fin. Flor revisa tus prácticas y reuniones reales y te dice qué clase ver. Las clases resaltadas son las que tienes asignadas ahora.</p>
-${url(links().plataforma) ? `<div class="row"><a class="btn ghost" href="${esc(links().plataforma)}" target="_blank" rel="noopener">Ir a las clases grabadas</a></div>` : ''}
-<div class="road">${P.modulos.map((m) => {
-  const s = m.n < act ? 'done' : m.n === act ? 'current' : '';
-  return `<div class="stage ${s}"><div class="dot">${m.n}</div><div class="card">
-    <div class="row between"><h3>M${m.n} · ${esc(m.nombre)}</h3>${s === 'done' ? '<span class="pill ok">Completado</span>' : s === 'current' ? '<span class="pill warn">Estás aquí</span>' : ''}</div>
-    <p class="muted">${esc(m.desc)}</p>
-    <div class="lessons">${m.clases.map((c) => `<span class="${asig.includes(c) ? 'assigned' : ''}">${esc(c)}</span>`).join('')}</div>
-    <p class="small muted"><i>«${esc(m.logro)}»</i></p>
-  </div></div>`;
-}).join('')}</div>`;
-    }
+      const p = st.perfil, n = semanaDe(p), hechas = p.camino_hecho || [];
+      const mesActual = n ? semanaCamino(n).mes.n : 1;
+      return `<div class="head"><div><span class="eyebrow">Tu implementación, mes a mes, durante 5 meses</span><h1>Mi camino</h1></div><span class="pill" data-camcount>${contarCamino()}</span></div>
+<p class="muted intro">Ve mes por mes y semana por semana. Cada tarea se tilda una sola vez. Si tu diagnóstico pide otro foco, Flor te lo indica en tu Weekly Report y cambian el orden. Nunca vas a tener que adivinar qué te toca.</p>
+${n ? `<p class="note">Estás en la <b>semana ${n} de 20</b>.</p>` : ''}
+<section class="card"><h3>Tu recorrido</h3>
+  <div class="reco">${P.recorrido.map((r, i) => `<div class="${n && etapaDe(n) === i ? 'on' : ''}"><span class="eyebrow">${r.cuando}</span><b>${esc(r.etapa)}</b><span class="small muted">Al terminar: ${esc(r.logro)}</span></div>`).join('')}</div>
+  <p class="muted small">${esc(P.recorridoNota)}</p>
+</section>
+${P.camino.map((m) => `<details class="card mes" ${m.n === mesActual ? 'open' : ''}><summary><span class="eyebrow">Mes 0${m.n}</span><h2>${esc(m.titulo)}</h2><span class="muted small">Al final del mes: ${esc(m.logro)}</span></summary>
+  ${m.semanas.map((s) => `<div class="semana ${n && s.s.includes(n) ? 'actual' : ''}"><div class="row between"><b>Semana${s.s.length > 1 ? 's' : ''} ${s.s.join(' y ')} · ${esc(s.titulo)}</b>${n && s.s.includes(n) ? '<span class="pill warn">Esta semana</span>' : ''}</div>
+    <ul class="tasks">${s.tareas.map((t) => filaTarea(t, hechas)).join('')}</ul></div>`).join('')}
+</details>`).join('')}
+<section class="card"><span class="eyebrow">${esc(P.habitos.titulo)}</span><h3>${esc(P.habitos.ciclo)}</h3>
+  <ul class="dates">${P.habitos.tareas.map((t) => `<li><b>${esc(t.donde)}</b><span>${esc(t.texto)} ${accionTarea(t)}</span></li>`).join('')}</ul>
+</section>`;
+    },
+    mount() { montarCamino($('#app')); }
   };
+  function etapaDe(n) { return n <= 1 ? 0 : n <= 4 ? 1 : n <= 10 ? 2 : n <= 16 ? 3 : n <= 19 ? 4 : 5; }
 
-  // ---------- Mis coaches ----------
+  // ---------- Mis coaches (skills para instalar en Claude) ----------
+  const SKILLS = [
+    ['Role Play', 'Ensaya tu reunión, presentación o entrevista antes de que pase. Hace de la otra persona y te da feedback al final.', 'at-work-role-play.zip', 'Quiero practicar mi update del lunes con mi jefa.'],
+    ['Narrative Flow', 'Corrige la gramática de tu mail, mensaje o reporte. Tú encuentras tus errores, uno por uno.', 'at-work-narrative-flow.zip', 'Pega tu mail o tu reporte.'],
+    ['Color Method', 'Haz que lo que dices y escribes suene más profesional, con las expresiones de tu trabajo. También analiza cómo hablan tus colegas en un transcript.', 'at-work-color-method.zip', 'Pega tu texto o el transcript de tu reunión.'],
+    ['Career Coach', 'Opcional, solo si estás preparando entrevistas: analiza el aviso, arma tus respuestas STAR, revisa tu CV, tu carta y tu LinkedIn, y te prepara para negociar salario.', 'career-coach-pro.zip', 'Pega el aviso del puesto y tu CV.']
+  ];
   V.coaches = {
     html() {
       return `<div class="head"><div><span class="eyebrow">Tu práctica entre clases</span><h1>Mis coaches</h1></div></div>
-<p class="muted intro">${IA ? 'Están dentro de esta app: no necesitas cuenta de Claude ni instalar nada. Elige el que necesitas y escríbele con tus palabras, o dicta con el micrófono de tu teclado.' : 'Se abren en Claude, con tu cuenta. Elige el que necesitas y escríbele con tus palabras, o dicta con el micrófono de tu teclado.'}</p>
-<section class="card">
-  <h3>¿Qué coach uso hoy?</h3>
-  <div class="picker" id="picker">${P.situaciones.map(([s, c], i) => `<button type="button" aria-pressed="${i === 0}" data-c="${c}">${esc(s)}</button>`).join('')}</div>
-  <div class="answer" id="answer"></div>
+<p class="muted intro">Para que practiques sola entre sesiones, con situaciones reales de tu trabajo. Se instalan una sola vez en Claude, como skills, y te lleva unos 10 minutos desde la computadora.</p>
+<div class="row"><a class="btn" href="${COACHES_URL}" target="_blank" rel="noopener">Ver el paso a paso con video</a></div>
+<section class="card"><h3>1 · Descarga tus coaches</h3><p class="muted small">Descarga tus 3 coaches de práctica (el cuarto es opcional). <b>No descomprimas</b> los archivos .zip.</p>
+  <div class="grid g-2e">${SKILLS.map(([n, d, zip]) => `<div class="fbitem"><b>${n}</b><span class="small muted">${esc(d)}</span><a class="btn ghost sm" style="align-self:flex-start" href="${COACHES_URL}${zip}" download>↓ Descargar ${n}</a></div>`).join('')}</div>
 </section>
-<div class="grid g-3">${P.coaches.map((c) => `<section class="card coach" style="--c:${c.color}"><h3>${c.nombre}</h3><p class="muted small">${esc(c.desc)}</p><div class="phrase">"${esc(c.frase.trim())}"</div><div class="row">${IA ? `<a class="btn ghost sm" href="#flor/${c.id}">Abrir ${c.nombre}</a>` : `<a class="btn ghost sm" href="${c.id === 'flor' ? P.enClaude.practica : P.enClaude.coaches}" target="_blank" rel="noopener">Abrir ${c.nombre}</a>`}</div></section>`).join('')}</div>
-<p class="muted small">Los coaches te ayudan a practicar. El diagnóstico de qué trabajar lo hace Flor con tus reuniones reales.</p>`;
-    },
-    mount() {
-      const p = $('#picker');
-      const show = (b) => {
-        $$('button', p).forEach((x) => x.setAttribute('aria-pressed', x === b));
-        const c = coachDe(b.dataset.c);
-        $('#answer').innerHTML = `<span class="eyebrow">Te recomiendo</span><h3>${c.nombre}</h3><p class="small">${esc(c.desc)}</p><div class="row">${IA ? `<button class="btn" type="button" data-ask="${esc(c.frase)}" data-coach="${c.id}" data-send="${/[:\s]$/.test(c.frase) ? 'no' : 'si'}">Empezar con ${c.nombre}</button>` : `<a class="btn" href="${c.id === 'flor' ? P.enClaude.practica : P.enClaude.coaches}" target="_blank" rel="noopener">Abrir ${c.nombre} en Claude</a>`}<span class="muted small">Para empezar: “${esc(c.frase.trim())}”</span></div>`;
-      };
-      p.onclick = (e) => { const b = e.target.closest('[data-c]'); if (b) show(b); };
-      show($('button', p));
+<section class="card"><h3>2 · Instálalos en Claude</h3><ol class="pasos">
+  <li>Entra a <a href="https://claude.ai" target="_blank" rel="noopener">claude.ai</a> con tu cuenta (o créala con tu mail).</li>
+  <li>Ve a <b>Settings › Capabilities</b> y activa <b>Code execution and file creation</b> (en algunas versiones: <b>Create and edit files</b>). Sin esto, los coaches no funcionan.</li>
+  <li>Ve a <b>Customize › Skills</b> (en las versiones nuevas: <b>Plugins</b>).</li>
+  <li>Toca <b>+</b>, luego <b>Create skill</b> y después <b>Upload a skill</b>.</li>
+  <li>Elige uno de los .zip que descargaste. Repite con cada coach.</li>
+</ol><p class="note small">✓ Ya está listo si abres un chat nuevo, escribes <b>/</b> y ves tus coaches en la lista. Desde ahí también funcionan en el celular.</p></section>
+<section class="card"><h3>3 · Úsalos</h3><p class="small">Abre un chat nuevo en Claude, escribe <b>/</b> y elige tu coach. Después cuéntale qué traes.</p>
+  <ul class="dates">${SKILLS.map(([n, , , f]) => `<li><b>${n}</b><span>${esc(f)}</span></li>`).join('')}</ul>
+  <p class="muted small">Para cambiar de coach no necesitas otro chat: escribe “pasemos a Role Play”, “pasemos a Narrative Flow” o “pasemos a Color Method”.</p></section>
+<section class="card"><h3>¿Cuál uso hoy?</h3><ul class="dates">${P.situaciones.map(([s, c]) => `<li><b>${c === 'flor' ? 'Flor AI' : (P.coaches.find((x) => x.id === c) || {}).nombre || c}</b><span>${esc(s)}</span></li>`).join('')}</ul>
+  <p class="muted small">Flor AI vive en esta app: te dice qué te toca y te guía. Lo importante, mándaselo a Flor desde <a href="#feedback">Pedir feedback</a>.</p></section>`;
     }
   };
+
+  // ---------- Mi proceso: plan de acción, documentos y compromisos ----------
+  V.proceso = {
+    async html() {
+      const p = st.perfil, docs = await DB.documentos(), n = semanaDe(p);
+      const tipo = (t) => (P.tiposDoc.find((x) => x[0] === t) || [, 'Documento'])[1];
+      const acuerdo = docs.find((d) => d.tipo === 'acuerdo');
+      return `<div class="head"><div><span class="eyebrow">Tu plan de acción</span><h1>Mi proceso</h1></div>${n ? `<span class="pill">Semana ${n} de 20</span>` : ''}</div>
+<div class="grid g-2">
+  <section class="card feature"><span class="eyebrow">Tu objetivo a 5 meses</span><h2>${p.objetivo ? esc(p.objetivo) : 'Lo defines en tu onboarding'}</h2>
+    ${p.foco_titulo ? `<p class="muted">Foco de esta semana: ${esc(p.foco_titulo)}</p>` : ''}
+    <div class="row"><a class="btn" href="#camino">Ver mi camino</a></div></section>
+  <section class="card"><h3>Tu Acuerdo de Trabajo</h3>
+    ${acuerdo ? `<p class="pill ok" style="align-self:flex-start">Firmado</p><button type="button" class="btn ghost sm" style="align-self:flex-start" data-archivo="${esc(acuerdo.path)}">Abrir mi acuerdo</button>`
+      : `<p class="muted small">Cuando lo firmes, súbelo acá (PDF o foto). Flor también puede cargarlo por ti.</p>`}
+  </section>
+</div>
+<section class="card"><div class="row between"><h3>Mis documentos</h3></div>
+  ${docs.length ? `<ul class="dates">${docs.map((d) => `<li><b>${esc(tipo(d.tipo))}</b><span><button type="button" class="linkbtn" data-archivo="${esc(d.path)}">${esc(d.nombre)}</button> <span class="muted small">· ${fecha(d.creado)}</span></span></li>`).join('')}</ul>` : '<p class="muted small">Todavía no hay documentos.</p>'}
+  <form class="editrow" id="dform"><select id="d-tipo">${P.tiposDoc.map(([v, l]) => `<option value="${v}">${l}</option>`).join('')}</select><input type="file" id="d-file" accept=".pdf,image/*,.doc,.docx"><button class="btn sm" type="submit">Subir</button></form>
+</section>
+<section class="card"><h3>Checklist antes de continuar</h3><p class="muted small">Antes de continuar, asegúrate de tener claro que…</p>
+  <ul class="tasks" id="comp">${P.compromisos.map(([t, d], i) => `<li><label><input type="checkbox" data-i="${i}" ${(p.compromisos || []).includes(i) ? 'checked' : ''}><div><div class="t">${esc(t)}</div><div class="where">${esc(d)}</div></div></label></li>`).join('')}</ul>
+</section>`;
+    },
+    mount() {
+      montarCompromisos();
+      $('#dform').onsubmit = async (e) => {
+        e.preventDefault(); const f = $('#d-file').files[0]; if (!f) return toast('Elige un archivo.', true);
+        const b = $('#dform button'); b.disabled = true; b.textContent = 'Subiendo…';
+        try { await intentar(() => DB.subirDocumento(st.perfil.id, f, $('#d-tipo').value, f.name), 'Documento subido'); ruta(); }
+        catch (er) { b.disabled = false; b.textContent = 'Subir'; }
+      };
+    }
+  };
+  function montarCompromisos() {
+    const el = $('#comp'); if (!el) return;
+    el.addEventListener('change', () => {
+      const v = $$('input:checked', el).map((x) => +x.dataset.i); st.perfil.compromisos = v;
+      intentar(() => DB.guardarMiPerfil({ compromisos: v })).catch(() => {});
+    });
+  }
 
   // ---------- Mi progreso ----------
   V.progreso = {
@@ -603,16 +705,21 @@ ${url(links().plataforma) ? `<div class="row"><a class="btn ghost" href="${esc(l
       ${li('Flor', l.whatsapp_flor, 'Escribirle a Flor por WhatsApp')}
     </ul></section>
     ${fechas.length ? `<section class="card"><h3>Fechas importantes</h3><ul class="dates">${fechas.map((f) => `<li><b>${esc(f.cuando)}</b><span>${esc(f.que)}</span></li>`).join('')}</ul></section>` : ''}
-    <section class="card"><h3>Tenla siempre a mano</h3>
-      <p class="small"><b>iPhone:</b> abre esta página en Safari, toca compartir y elige “Agregar a inicio”.</p>
-      <p class="small"><b>Android:</b> en Chrome, toca los tres puntitos y “Agregar a la pantalla principal”.</p>
+    <section class="card"><h3>Instálala en tu celular</h3>
+      <p class="small"><b>iPhone:</b> abre esta página en Safari, toca compartir (el cuadrado con la flecha) y elige “Agregar a inicio”.</p>
+      <p class="small"><b>Android:</b> en Chrome, toca los tres puntitos y “Instalar app” o “Agregar a la pantalla principal”.</p>
       <p class="small"><b>Compu:</b> guárdala en favoritos (Ctrl + D o Cmd + D).</p>
+      <p class="muted small">Te queda el ícono de AT WORK como una app. Necesitas internet para usarla.</p>
     </section>
   </div>
-</div>`;
+</div>
+<section class="card"><h3>Checklist antes de continuar</h3><p class="muted small">Antes de continuar, asegúrate de tener claro que…</p>
+  <ul class="tasks" id="comp">${P.compromisos.map(([t, d], i) => `<li><label><input type="checkbox" data-i="${i}" ${(st.perfil.compromisos || []).includes(i) ? 'checked' : ''}><div><div class="t">${esc(t)}</div><div class="where">${esc(d)}</div></div></label></li>`).join('')}</ul>
+</section>`;
     },
     mount() {
       $('#clave2').onclick = () => pantallaClave();
+      montarCompromisos();
       const el = $('#onb');
       const c = () => { $('#onbCount').textContent = $$('input:checked', el).length + ' de ' + P.onboarding.length + ' listos'; };
       el.addEventListener('change', () => {
@@ -638,14 +745,14 @@ ${url(links().plataforma) ? `<div class="row"><a class="btn ghost" href="${esc(l
       let cuerpo = '';
       if (tab === 'pedidos') cuerpo = pend.length ? pend.map((x) => `<div class="fbitem" data-pid="${x.id}">
         <div class="row between"><b>${nom(x.alumna_id)} · ${esc(x.titulo || tipoNombre(x.tipo))}</b><span class="muted small">${tipoNombre(x.tipo)} · ${fecha(x.creado, { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}</span></div>
-        ${x.texto ? `<pre>${esc(x.texto)}</pre>` : ''}${url(x.link) ? `<a class="small" href="${esc(x.link)}" target="_blank" rel="noopener">Abrir el link que mandó</a>` : ''}
+        ${x.texto ? `<pre>${esc(x.texto)}</pre>` : ''}${adjunto(x)}${url(x.link) ? ` <a class="small" href="${esc(x.link)}" target="_blank" rel="noopener">Abrir el link que mandó</a>` : ''}
         <div class="field"><label>Tu respuesta</label><textarea class="r" rows="5" placeholder="Lo que funcionó, tu foco para ella y qué clase ver."></textarea></div>
         <div class="field"><label>Correcciones</label><div class="corrs"></div><button type="button" class="linkbtn small addc">+ Agregar corrección</button></div>
         <div class="row"><button class="btn send" type="button">Enviar respuesta</button>${IA ? '<button class="btn ghost ia" type="button">Borrador con IA</button>' : ''}</div>
       </div>`).join('') : '<p class="muted">No hay pedidos pendientes. 🎉</p>';
       if (tab === 'weeklies') cuerpo = wp.length ? wp.map((x) => `<div class="fbitem" data-wid="${x.id}">
         <div class="row between"><b>${nom(x.alumna_id)} · semana del ${fecha(x.semana, { day: 'numeric', month: 'long' })}</b><span class="muted small">Enviado ${fecha(x.enviado_en)}</span></div>
-        ${P.weekly.map(([id, l]) => (x.respuestas[id] ? `<p class="small"><b>${l}</b><br>${esc(x.respuestas[id])}</p>` : '')).join('')}
+        ${wq(al[x.alumna_id]).map(([id, l]) => (x.respuestas[id] ? `<p class="small"><b>${l}</b><br>${esc(x.respuestas[id])}</p>` : '')).join('')}
         <div class="field"><label>Tu respuesta</label><textarea class="r" rows="4" placeholder="Su próximo paso para esta semana."></textarea></div>
         <div class="row"><button class="btn sendw" type="button">Enviar respuesta</button>${IA ? '<button class="btn ghost iaw" type="button">Borrador con IA</button>' : ''}</div>
       </div>`).join('') : '<p class="muted">No hay weeklies sin responder.</p>';
@@ -698,7 +805,8 @@ ${url(links().plataforma) ? `<div class="row"><a class="btn ghost" href="${esc(l
       const a = al.find((x) => String(x.id) === sel);
       let det = '<section class="card empty-state"><h3>Elige una alumna</h3><p class="muted small">Desde acá le cargas su foco de la semana, sus tareas, las clases que tiene que ver, su progreso y sus patrones de error. Todo lo ve en su app y lo usa Flor AI.</p></section>';
       if (a) {
-        const [t, pat] = await Promise.all([DB.tareas(a.id), DB.patrones(a.id)]);
+        const [t, pat, docs] = await Promise.all([DB.tareas(a.id), DB.patrones(a.id), DB.documentos(a.id)]);
+        st._docs = docs;
         st._alumna = a;
         const v = (k) => esc(a[k] ?? '');
         det = `<form class="card" id="aform" novalidate>
@@ -712,6 +820,8 @@ ${url(links().plataforma) ? `<div class="row"><a class="btn ghost" href="${esc(l
   <h3>Su semana</h3>
   <div class="field"><label for="f-foco_titulo">Foco de esta semana</label><input id="f-foco_titulo" type="text" value="${v('foco_titulo')}" placeholder="Ej.: Ordenar tu mensaje antes de hablar"></div>
   <div class="field"><label for="f-foco_texto">Por qué ese foco</label><textarea id="f-foco_texto" rows="2">${v('foco_texto')}</textarea></div>
+  <div class="field"><label for="f-fecha_inicio">Fecha de inicio del programa</label><small>Con esto la app calcula en qué semana de los 20 está y qué le toca.</small><input id="f-fecha_inicio" type="date" value="${v('fecha_inicio')}"></div>
+  <p class="small muted">Camino: ${(a.camino_hecho || []).length} tareas tildadas${semanaDe(a) ? ' · semana ' + semanaDe(a) + ' de 20' : ''} · Compromisos: ${(a.compromisos || []).length} de ${P.compromisos.length}</p>
   <div class="field"><label for="f-modulo_actual">Dónde está</label><select id="f-modulo_actual">${P.modulos.map((m) => `<option value="${m.n}" ${+a.modulo_actual === m.n ? 'selected' : ''}>M${m.n} · ${esc(m.nombre)}</option>`).join('')}</select></div>
   <div class="field"><label>Clases asignadas</label><small>Toca para asignar o sacar.</small>
     ${P.modulos.map((m) => `<div class="lessons" style="margin-bottom:4px"><span class="muted small" style="border:0;padding-left:0">M${m.n}</span>${m.clases.map((c) => `<button type="button" class="cl" data-cl="${esc(c)}" aria-pressed="${(a.clases_asignadas || []).includes(c)}">${esc(c)}</button>`).join('')}</div>`).join('')}
@@ -727,7 +837,12 @@ ${url(links().plataforma) ? `<div class="row"><a class="btn ghost" href="${esc(l
   <div class="row"><button class="btn" type="submit">Guardar cambios</button><span class="muted small">Onboarding: ${(a.onboarding || []).length} de ${P.onboarding.length}</span></div>
 </form>
 <section class="card">
-  <div class="row between"><h3>Tareas de la semana</h3><button class="linkbtn small" id="limpiar">Borrar las hechas</button></div>
+  <h3>Documentos</h3><p class="muted small">Su Acuerdo de Trabajo firmado, su Starting Point, su plan de acción. Ella los ve en “Mi proceso”.</p>
+  ${docs.length ? `<ul class="dates">${docs.map((d) => `<li><b>${esc((P.tiposDoc.find((x) => x[0] === d.tipo) || [, 'Documento'])[1])}</b><span><button type="button" class="linkbtn" data-archivo="${esc(d.path)}">${esc(d.nombre)}</button> <button type="button" class="linkbtn small" data-deldoc="${d.id}">Quitar</button></span></li>`).join('')}</ul>` : '<p class="muted small">Sin documentos.</p>'}
+  <form class="editrow" id="adform"><select id="ad-tipo">${P.tiposDoc.map(([v2, l]) => `<option value="${v2}">${l}</option>`).join('')}</select><input type="file" id="ad-file" accept=".pdf,image/*,.doc,.docx"><button class="btn sm" type="submit">Subir</button></form>
+</section>
+<section class="card">
+  <div class="row between"><h3>Tareas extra de la semana</h3><button class="linkbtn small" id="limpiar">Borrar las hechas</button></div>
   <ul class="tasks">${t.map((x) => `<li><div class="fbitem" style="flex-direction:row;align-items:center;justify-content:space-between"><span>${x.hecha ? '✓ ' : ''}<b>${esc(x.texto)}</b>${x.donde ? '<br><span class="muted small">' + esc(x.donde) + '</span>' : ''}</span><button type="button" class="linkbtn small" data-deltarea="${x.id}">Quitar</button></div></li>`).join('') || '<li class="muted small">Sin tareas.</li>'}</ul>
   <form class="editrow" id="tform"><input type="text" id="t-texto" placeholder="Tarea (ej.: Ver la clase Dar un update)"><input type="text" id="t-donde" placeholder="Dónde / detalle (opcional)"><button class="btn sm" type="submit">Agregar</button></form>
 </section>
@@ -785,11 +900,21 @@ ${url(links().plataforma) ? `<div class="row"><a class="btn ghost" href="${esc(l
           foco_titulo: g('foco_titulo'), foco_texto: g('foco_texto'), modulo_actual: +g('modulo_actual'),
           clases_asignadas: $$('.cl[aria-pressed="true"]').map((b) => b.dataset.cl),
           confianza_inicio: n('confianza_inicio'), confianza_hoy: n('confianza_hoy'), audio_inicio: g('audio_inicio') || null,
-          drive_url: g('drive_url'), activa: $('#f-activa').checked
+          drive_url: g('drive_url'), activa: $('#f-activa').checked, fecha_inicio: g('fecha_inicio') || null
         };
         await intentar(() => DB.actualizarPerfil(aid, c), 'Guardado');
         if (aid === st.perfil.id) Object.assign(st.perfil, c);
       };
+      $('#adform').onsubmit = async (e) => {
+        e.preventDefault(); const f = $('#ad-file').files[0]; if (!f) return toast('Elige un archivo.', true);
+        const b = $('#adform button'); b.disabled = true; b.textContent = 'Subiendo…';
+        try { await intentar(() => DB.subirDocumento(aid, f, $('#ad-tipo').value, f.name), 'Documento subido'); ruta(); }
+        catch (er) { b.disabled = false; b.textContent = 'Subir'; }
+      };
+      $$('[data-deldoc]').forEach((b) => (b.onclick = async () => {
+        const d = (st._docs || []).find((x) => String(x.id) === b.dataset.deldoc); if (!d || !confirm('¿Quitar este documento?')) return;
+        await intentar(() => DB.borrarDocumento(d), 'Documento quitado'); ruta();
+      }));
       $('#tform').onsubmit = async (e) => {
         e.preventDefault(); const tx = $('#t-texto').value.trim(); if (!tx) return;
         await intentar(() => DB.crearTarea(aid, tx, $('#t-donde').value.trim(), Date.now() % 1e9)); ruta();
