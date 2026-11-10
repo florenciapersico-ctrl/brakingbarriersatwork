@@ -71,8 +71,8 @@
       // ---- admin (Flor) ----
       async alumnas() { return ok(await sb.from('perfiles').select('*').order('nombre')); },
       async actualizarPerfil(id, c) { ok(await sb.from('perfiles').update(c).eq('id', id)); },
-      async invitar(email, nombre) {
-        const r = await llamar({ modo: 'invitar', email, nombre, redirect: location.origin + location.pathname });
+      async invitar(email, nombre, password) {
+        const r = await llamar({ modo: 'invitar', email, nombre, password, redirect: location.origin + location.pathname });
         if (!r.ok) throw new Error(await errorDe(r));
       },
       async todosPedidos() { return ok(await sb.from('pedidos').select('*').order('creado', { ascending: false }).limit(200)); },

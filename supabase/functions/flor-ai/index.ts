@@ -111,7 +111,13 @@ const CORS = {
 const MODEL = Deno.env.get("FLOR_AI_MODEL") || "claude-opus-5-5";
 const EFFORT = Deno.env.get("FLOR_AI_EFFORT") || "low";
 const LIMITE = Number(Deno.env.get("LIMITE_DIARIO") || 60);
-const anthropic = new Anthropic({ apiKey: Deno.env.get("ANTHROPIC_API_KEY") });
+// Se crea recién cuando hace falta: así invitar alumnas funciona aunque todavía no esté la clave.
+let _ai: Anthropic | null = null;
+function ia() {
+  const key = Deno.env.get("ANTHROPIC_API_KEY");
+  if (!key) throw new Error("FALTA_CLAVE");
+  return (_ai ??= new Anthropic({ apiKey: key }));
+}
 
 const MODULOS = [
   "M0 · Lead Yourself First",
@@ -181,14 +187,20 @@ Deno.serve(async (req) => {
   if (body.modo === "invitar") {
     const { data: yo } = await db.from("perfiles").select("rol").eq("id", uid).single();
     if (yo?.rol !== "admin") return json({ error: "Solo Flor puede invitar alumnas." }, 403);
-    const b = body as { email?: string; nombre?: string; redirect?: string };
+    const b = body as { email?: string; nombre?: string; redirect?: string; password?: string };
     const email = (b.email || "").trim().toLowerCase();
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return json({ error: "Ese mail no parece válido." }, 400);
     const admin = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
-    const { error } = await admin.auth.admin.inviteUserByEmail(email, {
-      data: { nombre: (b.nombre || "").trim() },
-      redirectTo: b.redirect || undefined,
-    });
+    const nombre = (b.nombre || "").trim();
+    // Con contraseña provisoria: crea la usuaria ya confirmada (no depende de que salgan mails).
+    if (b.password) {
+      if (b.password.length < 8) return json({ error: "La contraseña provisoria tiene que tener al menos 8 caracteres." }, 400);
+      const { data, error } = await admin.auth.admin.createUser({ email, password: b.password, email_confirm: true, user_metadata: { nombre } });
+      if (error) return json({ error: /already/i.test(error.message) ? "Ya existe una alumna con ese mail." : error.message }, 400);
+      if (nombre && data.user) await admin.from("perfiles").update({ nombre }).eq("id", data.user.id);
+      return json({ ok: true });
+    }
+    const { error } = await admin.auth.admin.inviteUserByEmail(email, { data: { nombre }, redirectTo: b.redirect || undefined });
     if (error) return json({ error: error.message }, 400);
     return json({ ok: true });
   }
@@ -218,7 +230,7 @@ CORRECCIONES:
 frase con error => frase corregida
 (una por línea, máximo 5; si no hay, escribe "ninguna")`;
     const ctx = await contexto(db, alumnaId);
-    const r = await anthropic.messages.create({
+    const r = await ia().messages.create({
       model: MODEL,
       max_tokens: 16000,
       output_config: { effort: "medium" },
@@ -281,7 +293,7 @@ frase con error => frase corregida
       let completo = "";
       try {
         // deno-lint-ignore no-explicit-any
-        const s = anthropic.beta.messages.stream(params as any);
+        const s = ia().beta.messages.stream(params as any);
         for await (const ev of s) {
           if (ev.type === "content_block_delta" && ev.delta.type === "text_delta") {
             completo += ev.delta.text;
