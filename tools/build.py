@@ -56,7 +56,7 @@ const P = window.PROGRAMA, L = [];
 L.push('# PROGRAMA AT WORK · DATOS VIGENTES (fuente de verdad; ganan sobre cualquier anexo)');
 L.push('Programa de 5 meses (20 semanas) en dos formatos: AT WORK Lab (grupal) y AT WORK Private (1:1). Mismo camino y mismo método (The Delivery Method™: producir → detectar → corregir y refinar → aplicar; lo que se rompe es el QUÉ, el CÓMO o el QUIÉN).');
 L.push('Módulos: ' + P.modulos.map((m) => `M${m.n} ${m.nombre} (${m.desc})`).join(' · '));
-L.push('\n## Tu camino semana por semana (lo que ve la alumna en "Mi camino"). "PRONTO" = todavía no está publicada: no la mandes a verla, di que se publica pronto.');
+L.push('\n## Tu camino semana por semana (lo que ve la alumna en "Mi camino"). "PRONTO" = Flor la está grabando, todavía no está publicada: no la mandes a verla, di que está en grabación y se publica pronto.');
 for (const m of P.camino) {
   L.push(`\n### Mes ${m.n} · ${m.titulo} — al final del mes: ${m.logro}`);
   for (const s of m.semanas) {

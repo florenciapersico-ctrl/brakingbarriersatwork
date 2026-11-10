@@ -2,7 +2,7 @@
 Programa de 5 meses (20 semanas) en dos formatos: AT WORK Lab (grupal) y AT WORK Private (1:1). Mismo camino y mismo método (The Delivery Method™: producir → detectar → corregir y refinar → aplicar; lo que se rompe es el QUÉ, el CÓMO o el QUIÉN).
 Módulos: M0 Start Here · Onboarding (Tu punto de partida, cómo funciona tu semana y dónde está cada cosa. Hay un onboarding para Lab y otro para Private.) · M1 Activate Your English (Convertir tus situaciones reales de trabajo en práctica con Role Play, Narrative Flow y Color Method.) · M2 Communicate in Real Time (Construir, ordenar, adaptar y sostener tu mensaje cuando la conversación se sale del guion. El QUÉ.) · M3 Polish Your English (Los patrones que de verdad interfieren con tu precisión. El CÓMO. Se prescribe según tu diagnóstico.) · M4 Understand & Be Understood (Entender el inglés hablado real y que se te entienda a la primera. Tu acento nunca fue el problema.) · M5 Own Your Voice (El QUIÉN: cuando no te animas, te quedas en blanco o esperas hablar perfecto.)
 
-## Tu camino semana por semana (lo que ve la alumna en "Mi camino"). "PRONTO" = todavía no está publicada: no la mandes a verla, di que se publica pronto.
+## Tu camino semana por semana (lo que ve la alumna en "Mi camino"). "PRONTO" = Flor la está grabando, todavía no está publicada: no la mandes a verla, di que está en grabación y se publica pronto.
 
 ### Mes 1 · Start Here, tu método y tus coaches — al final del mes: Entiendes cómo funciona todo, hiciste tu primer ciclo completo y ya usas tus coaches.
 Semana 1 · Tu punto de partida:
@@ -33,6 +33,8 @@ Semana 5 · Decir las ideas simple:
 Semana 6 · Tu mapa del mensaje:
 - M2 · The Message Map + úsalo en tu próximo update [clase practica · Módulo 2] → https://academy.breakingbarriers.site/courses/products/6863ca67-9163-40bd-98de-f0c450d87919/categories/686e786a-3975-437e-98a7-b60a7f115798/posts/88302d24-8b19-4f36-b37b-2c2b97ecd28e
 - M2 · Manage the Interaction [clase · Módulo 2] → https://academy.breakingbarriers.site/courses/products/6863ca67-9163-40bd-98de-f0c450d87919/categories/686e786a-3975-437e-98a7-b60a7f115798/posts/7c133d1d-a777-4f96-9441-92b00c3db78e
+- M2 · Dar tu opinión [clase · Módulo 2] PRONTO
+- M2 · Explicar ideas [clase · Módulo 2] PRONTO
 Semana 7 · Tu situación de trabajo:
 - M2 · Talking About Numbers & Data [clase · Módulo 2] → https://academy.breakingbarriers.site/courses/products/6863ca67-9163-40bd-98de-f0c450d87919/categories/686e786a-3975-437e-98a7-b60a7f115798/posts/3b4e5f4e-1fde-4974-a59f-651260ae4a6d
 - M2 · Presentaciones: parte 1 [clase playbook · Módulo 2] → https://academy.breakingbarriers.site/courses/products/6863ca67-9163-40bd-98de-f0c450d87919/categories/686e786a-3975-437e-98a7-b60a7f115798/posts/ecdd7925-c11f-4276-9db3-e985ff8be613
@@ -40,6 +42,8 @@ Semana 7 · Tu situación de trabajo:
 Semana 8 · Presentarte y conectar:
 - M2 · Presentarte: a un equipo nuevo o en una entrevista [clase · Módulo 2] PRONTO
 - M2 · Small Talk & Networking [clase · Módulo 2] PRONTO
+- M2 · Expresar desacuerdo [clase · Módulo 2] PRONTO
+- M2 · Responder preguntas inesperadas [clase · Módulo 2] PRONTO
 - Comparar tu primer y tu último intento del mes y compartir tu win [evidencia · Comunidad]
 
 ### Mes 3 · Pule tu inglés · el CÓMO — al final del mes: Detectas tú misma dónde se rompe tu inglés y lo corriges en el segundo intento.
@@ -62,6 +66,8 @@ Semana 12 · Preguntar y reportar:
 - M3 · Questions & Indirect Questions [clase · Módulo 3] → https://academy.breakingbarriers.site/courses/products/6863ca67-9163-40bd-98de-f0c450d87919/categories/3aa37c22-88dd-460b-bbc6-bb5a22c0e9eb/posts/6eb79084-3227-4ab0-bfbb-03cb0d9cc256
 - M3 · Conditionals for Real Work Situations [clase · Módulo 3] PRONTO
 - M3 · Reported Speech & Reporting Information [clase · Módulo 3] PRONTO
+- M3 · Passive Voice for Processes & Reporting [clase · Módulo 3] PRONTO
+- M3 · Word Families & Nominalization [clase · Módulo 3] PRONTO
 - M3 · The Accuracy Challenge: tu Error Radar [clase evidencia · Módulo 3] PRONTO
 
 ### Mes 4 · Entiende, hazte entender y usa tu voz — al final del mes: Entiendes más en reuniones, te entienden a la primera y hablas aunque no sea perfecto.
