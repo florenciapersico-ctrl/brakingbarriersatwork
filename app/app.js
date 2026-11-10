@@ -238,7 +238,7 @@
   function filaTarea(t, hechas) {
     const tags = t.tipo.split(' ').map((x) => TAG[x] || x).join(' + ');
     return `<li><label><input type="checkbox" data-cam="${t.id}" ${hechas.includes(t.id) ? 'checked' : ''}><div><div class="t">${esc(t.texto)}</div>
-      <div class="where">${tags} · ${esc(t.donde)} ${t.pronto ? '<span class="pill warn">Se publica pronto</span>' : ''} ${accionTarea(t)}</div></div></label></li>`;
+      <div class="where">${tags} · ${esc(t.donde)} ${t.pronto ? '<span class="pill warn">En grabación · se publica pronto</span>' : ''} ${accionTarea(t)}</div></div></label></li>`;
   }
   function montarCamino(root) {
     root.addEventListener('change', (e) => {

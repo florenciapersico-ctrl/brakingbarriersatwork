@@ -83,7 +83,9 @@
       ] },
       { s: [6], titulo: 'Tu mapa del mensaje', tareas: [
         T('6.1', 'M2 · The Message Map + úsalo en tu próximo update', 'clase practica', 'Módulo 2', { link: M2('88302d24-8b19-4f36-b37b-2c2b97ecd28e') }),
-        T('6.2', 'M2 · Manage the Interaction', 'clase', 'Módulo 2', { link: M2('7c133d1d-a777-4f96-9441-92b00c3db78e') })
+        T('6.2', 'M2 · Manage the Interaction', 'clase', 'Módulo 2', { link: M2('7c133d1d-a777-4f96-9441-92b00c3db78e') }),
+        T('6.3', 'M2 · Dar tu opinión', 'clase', 'Módulo 2', { pronto: true }),
+        T('6.4', 'M2 · Explicar ideas', 'clase', 'Módulo 2', { pronto: true })
       ] },
       { s: [7], titulo: 'Tu situación de trabajo', tareas: [
         T('7.1', 'M2 · Talking About Numbers & Data', 'clase', 'Módulo 2', { link: M2('3b4e5f4e-1fde-4974-a59f-651260ae4a6d') }),
@@ -93,6 +95,8 @@
       { s: [8], titulo: 'Presentarte y conectar', tareas: [
         T('8.1', 'M2 · Presentarte: a un equipo nuevo o en una entrevista', 'clase', 'Módulo 2', { pronto: true }),
         T('8.2', 'M2 · Small Talk & Networking', 'clase', 'Módulo 2', { pronto: true }),
+        T('8.4', 'M2 · Expresar desacuerdo', 'clase', 'Módulo 2', { pronto: true }),
+        T('8.5', 'M2 · Responder preguntas inesperadas', 'clase', 'Módulo 2', { pronto: true }),
         T('8.3', 'Comparar tu primer y tu último intento del mes y compartir tu win', 'evidencia', 'Comunidad', { comunidad: true })
       ] }
     ] },
@@ -119,6 +123,8 @@
         T('12.1', 'M3 · Questions & Indirect Questions', 'clase', 'Módulo 3', { link: M3('6eb79084-3227-4ab0-bfbb-03cb0d9cc256') }),
         T('12.2', 'M3 · Conditionals for Real Work Situations', 'clase', 'Módulo 3', { pronto: true }),
         T('12.3', 'M3 · Reported Speech & Reporting Information', 'clase', 'Módulo 3', { pronto: true }),
+        T('12.5', 'M3 · Passive Voice for Processes & Reporting', 'clase', 'Módulo 3', { pronto: true }),
+        T('12.6', 'M3 · Word Families & Nominalization', 'clase', 'Módulo 3', { pronto: true }),
         T('12.4', 'M3 · The Accuracy Challenge: tu Error Radar', 'clase evidencia', 'Módulo 3', { pronto: true })
       ] }
     ] },
