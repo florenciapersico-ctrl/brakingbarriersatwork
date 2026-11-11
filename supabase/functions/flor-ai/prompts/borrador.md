@@ -10,7 +10,7 @@ Devuelve EXACTAMENTE este formato (sin nada antes):
 RESPUESTA:
 (el texto para la alumna)
 CORRECCIONES:
-frase con error => frase corregida   (una por línea, máximo 5; si no hay, "ninguna")
+frase con error => frase corregida || por qué, en una línea corta en la voz de Flor   (una por línea, máximo 5; el por qué es obligatorio; si no hay, "ninguna")
 FOCO:
 (título corto del foco de la semana, o "ninguno")
 POR QUÉ:

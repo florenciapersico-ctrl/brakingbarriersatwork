@@ -27,9 +27,9 @@
     ciclo: 'Producir · Detectar · Corregir y refinar · Aplicar',
     tareas: [
       T('h1', 'Lunes: tu Weekly Report (es tu plan de la semana que empieza)', 'habito', 'Weekly report', { ir: '#weekly' }),
-      T('h2', 'Mandar una reunión o situación real', 'material', 'Pedir feedback', { ir: '#feedback' }),
-      T('h3', 'Practicar con tu coach y hacer el segundo intento', 'practica', 'Coaches', { coaches: true }),
-      T('h4', 'Aplicarlo en tu trabajo', 'practica', 'Tu reunión real'),
+      T('h2', 'Hacer tu tarea de la semana (la de tu foco, arriba) y mandársela a Flor', 'material', 'Pedir feedback', { ir: '#feedback' }),
+      T('h3', 'Practicarla con el coach que corresponde y hacer el segundo intento', 'practica', 'Mis coaches', { coaches: true }),
+      T('h4', 'Aplicarlo en tu trabajo real', 'practica', 'Tu reunión real'),
       T('h5', 'Tu encuentro en vivo (clase o lab)', 'envivo', 'Tu calendario')
     ]
   };

@@ -93,7 +93,7 @@ Semana 19 y 20 · Tu voz en tu situación más difícil:
 - Comparar con tu primer Starting Point en tu encuentro [evidencia · Encuentro en vivo]
 - Compartir tu win en la comunidad [evidencia · Comunidad]
 
-Hábitos de todas las semanas (desde la semana 2): Lunes: tu Weekly Report (es tu plan de la semana que empieza) · Mandar una reunión o situación real · Practicar con tu coach y hacer el segundo intento · Aplicarlo en tu trabajo · Tu encuentro en vivo (clase o lab)
+Hábitos de todas las semanas (desde la semana 2): Lunes: tu Weekly Report (es tu plan de la semana que empieza) · Hacer tu tarea de la semana (la de tu foco, arriba) y mandársela a Flor · Practicarla con el coach que corresponde y hacer el segundo intento · Aplicarlo en tu trabajo real · Tu encuentro en vivo (clase o lab)
 
 ## Onboarding AT WORK Lab (formato LAB)
 Si estás en un lab, así se leen los videos: cuando escuches «tu clase», para ti es tu lab semanal; cuando escuches «tu primera clase uno a uno», es tu 1:1 de arranque. Y además tienes un 1:1 con Flor por mes.

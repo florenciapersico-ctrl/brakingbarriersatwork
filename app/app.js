@@ -391,7 +391,7 @@
   <div class="tbl"><table><thead><tr><th>#</th><th>Tu frase</th><th>¿Cómo la corriges?</th><th>¿Por qué?</th></tr></thead><tbody>
   ${c.map((x, i) => `<tr><td>${i + 1}</td><td>${esc(x.mal)}</td><td><textarea rows="2" class="ej-bien" data-i="${i}" aria-label="Tu corrección de la frase ${i + 1}"></textarea></td><td><textarea rows="2" class="ej-pq" data-i="${i}" aria-label="Por qué, frase ${i + 1}"></textarea></td></tr>`).join('')}
   </tbody></table></div>
-  <div class="row"><button type="button" class="btn sm ej-ver">Ver las respuestas</button><button type="button" class="btn ghost sm ej-ai">Revisarlo con Flor AI</button><span class="muted small ej-ok"></span></div>
+  <div class="row"><button type="button" class="btn sm ej-ver">Ver las respuestas</button><button type="button" class="btn ghost sm ej-ai">Copiar para Narrative Flow</button><span class="muted small ej-ok"></span></div>
   <div class="ej-resp" hidden><span class="eyebrow">Las respuestas</span>
   <div class="tbl"><table><thead><tr><th>#</th><th>Tu frase</th><th>Lo que pusiste</th><th>Corrección</th><th>Por qué</th></tr></thead><tbody>
   ${c.map((x, i) => `<tr><td>${i + 1}</td><td><s>${esc(x.mal)}</s></td><td class="ej-tuyo" data-i="${i}"></td><td><b>${esc(x.bien)}</b></td><td>${esc(x.por_que || '')}</td></tr>`).join('')}
@@ -422,8 +422,8 @@
         const r = leer();
         if (!r.some((x) => x.bien)) return toast('Primero escribe tu corrección en la tabla.', true);
         const filas = c.map((x, i) => `${i + 1}. Mi frase: "${x.mal}"\n   Mi corrección: ${r[i].bien || '(no sé)'}\n   Por qué: ${r[i].por_que || '(no sé)'}`).join('\n');
-        st.pendiente = { texto: 'Hice la tabla de corrección de mi feedback de Flor. ¿Me dices qué encontré bien y en qué me equivoqué, antes de ver las respuestas?\n\n' + filas + '\n\n(Son las frases de mi feedback ' + (clave.startsWith('weekly:') ? 'del weekly de la semana del ' + clave.slice(7) : 'de mi último pedido') + '.)', coach: 'flor', enviar: true };
-        location.hash = 'flor';
+        const txt = 'Narrative Flow: hice la tabla de corrección de mi feedback de Flor. ¿Me dices qué encontré bien y en qué me equivoqué, sin darme todavía la respuesta, para que lo intente de nuevo?\n\n' + filas;
+        (navigator.clipboard ? navigator.clipboard.writeText(txt) : Promise.reject()).then(() => toast('Copiado. Abre Claude, elige tu coach Narrative Flow y pégalo.'), () => { prompt('Copia este texto y pégalo en tu coach Narrative Flow:', txt); });
       };
     }
   }
@@ -449,9 +449,10 @@
     }
     return null;
   }
-  function etapasHTML(n) {
-    const e = n ? etapaDe(n) : -1;
-    return `<div class="stepper">${P.recorrido.map((r, i) => `<div class="${i < e ? 'done' : i === e ? 'on' : ''}"><i>${i < e ? '✓' : i}</i><b>${esc(r.etapa)}</b><span>${esc(r.cuando)}</span></div>`).join('')}</div>`;
+  function etapasHTML(n, p) {
+    const e = n ? etapaDe(n) : -1, h = new Set((p && p.camino_hecho) || []);
+    const completa = (i) => { let hay = false; for (const m of P.camino) for (const s of m.semanas) if (etapaDe(Math.min(...s.s)) === i) for (const t of s.tareas) { if (t.pronto) continue; hay = true; if (!h.has(t.id)) return false; } return hay; };
+    return `<div class="stepper">${P.recorrido.map((r, i) => `<div class="${completa(i) ? 'done' : i === e ? 'on' : ''}"><i>${completa(i) ? '✓' : i}</i><b>${esc(r.etapa)}</b><span>${esc(r.cuando)}</span></div>`).join('')}</div>`;
   }
 
   V.semana = {
@@ -460,6 +461,7 @@
       st._tareas = tareas;
       const p = st.perfil, r = racha(weeklies), l = lab(), n = semanaDe(p), av = avanceCamino(p), sig = loQueSigue(p);
       const fb = pedidos.find((x) => x.estado === 'respondido');
+      const acordado = tareas.find((t) => !t.hecha);
       const nombre = (p.nombre || '').split(' ')[0];
       const aviso = st.programa.aviso ? '<p class="note">' + esc(st.programa.aviso) + '</p>' : '';
       // Recordatorio del weekly: si todavía no mandó el de esta semana (y ya terminó el onboarding o empezó el camino)
@@ -470,7 +472,7 @@
       const cs = n ? semanaCamino(n) : null;
       const hechasSem = cs ? cs.sem.tareas.filter((t) => (p.camino_hecho || []).includes(t.id)).length : 0;
       const enVivo = fmt(p) === '1:1'
-        ? { t: 'Tu clase 1:1', d: 'Una vez por semana, en tu horario fijo con Flor.', link: '' }
+        ? { t: 'Tu clase 1:1', d: p.horario_clase ? esc(p.horario_clase) : 'En tu horario fijo con Flor.', link: url(p.link_clase) || '' }
         : { t: l.fecha ? esc(l.fecha) : 'Lab de los sábados', d: l.fecha ? esc(l.horario || '') + (l.tema ? ' · ' + esc(l.tema) : '') : '15:30 a 16:30 de Argentina (12:30 MX y CR, 13:30 CO)', link: url(l.link) || 'https://meet.google.com/gow-vnpg-xhx' };
       return `
 <div class="hero"><div><h1>${saludo()}${nombre ? ', ' + esc(nombre) : ''}<span class="punto">.</span></h1>
@@ -480,20 +482,20 @@ ${aviso}
 ${recW}
 ${sinOnb && !weeklies.length ? `<section class="card feature"><span class="eyebrow">Tu primera semana</span><h2>Empieza por tu onboarding</h2><p class="muted">Dónde está cada cosa, tu punto de partida y tu primera práctica. Con calma: entender todo lleva unas dos semanas.</p><div class="row"><a class="btn" href="#empieza">Ir a Empieza acá</a></div></section>` : ''}
 <div class="kpis">
-  <section class="card kpi"><span class="eyebrow">Tu camino</span><div class="kv">${ring(av.pct)}<span><b>${av.hechas} de ${av.total}</b><br><span class="muted small">tareas del programa</span></span></div></section>
-  <section class="card kpi"><span class="eyebrow">Esta semana</span><div class="kv"><span class="big">${cs ? hechasSem + '<small>/' + cs.sem.tareas.length + '</small>' : '–'}</span><span class="muted small">${cs ? esc(cs.sem.titulo) : 'Flor carga tu fecha de inicio'}</span></div></section>
+  <section class="card kpi"><span class="eyebrow">Dónde estás</span><b class="kt">${esc('M' + (P.modulos[p.modulo_actual || 0] || P.modulos[0]).n + ' · ' + (P.modulos[p.modulo_actual || 0] || P.modulos[0]).nombre)}</b><span class="muted small">${(p.clases_asignadas || []).length ? 'Te toca: ' + esc(p.clases_asignadas[p.clases_asignadas.length - 1]) : 'Lo actualiza Flor en tu clase'}</span><a class="small" href="#camino">Ver mi camino ›</a></section>
   <section class="card kpi"><span class="eyebrow">Weekly · constancia</span><div class="kv"><span class="big">${r.actual}</span><span class="muted small">${r.actual === 1 ? 'lunes seguido' : 'lunes seguidos'}<br>Récord: ${r.rec}</span></div>
     <div class="streak">${r.celdas.map((c) => `<div class="${c.on ? 'on' : ''} ${c.hoy ? 'now' : ''}" title="${fecha(c.s)}">${c.on ? '✓' : c.hoy ? 'Hoy' : ''}</div>`).join('')}</div></section>
-  <section class="card kpi"><span class="eyebrow">${fmt(p) === '1:1' ? 'En vivo con Flor' : 'Tu próximo lab'}</span><b class="kt">${enVivo.t}</b><span class="muted small">${enVivo.d}</span>${enVivo.link ? `<a class="small" href="${esc(enVivo.link)}" target="_blank" rel="noopener">Entrar al lab ›</a>` : ''}</section>
+  <section class="card kpi"><span class="eyebrow">${fmt(p) === '1:1' ? 'En vivo con Flor' : 'Tu próximo lab'}</span><b class="kt">${enVivo.t}</b><span class="muted small">${enVivo.d}</span>${enVivo.link ? `<a class="small" href="${esc(enVivo.link)}" target="_blank" rel="noopener">${fmt(p) === '1:1' ? 'Entrar a tu clase ›' : 'Entrar al lab ›'}</a>` : ''}</section>
 </div>
 <div class="grid g-2">
   <section class="card next"><span class="eyebrow">Lo que sigue</span>
-    ${sig ? `<h2>${esc(txtT(sig.t))}</h2><p class="muted small">Semana ${sig.s.s.join(' y ')} · ${esc(sig.s.titulo)} · ${esc(sig.t.donde)}</p><div class="row">${accionTarea(sig.t).replace('linkbtn small', 'btn')}<a class="btn ghost" href="#camino">Ver mi camino</a></div>`
+    ${acordado ? `<h2>${esc(acordado.texto)}</h2><p class="muted small">Lo acordamos en tu última clase${acordado.donde ? ' · ' + esc(acordado.donde) : ''}</p><div class="row"><a class="btn ghost" href="#camino">Ver mi camino</a></div>`
+      : sig ? `<h2>${esc(txtT(sig.t))}</h2><p class="muted small">Semana ${sig.s.s.join(' y ')} · ${esc(sig.s.titulo)} · ${esc(sig.t.donde)}</p><div class="row">${accionTarea(sig.t).replace('linkbtn small', 'btn')}<a class="btn ghost" href="#camino">Ver mi camino</a></div>`
       : n ? '<h2>Estás al día con tu camino</h2><p class="muted small">Usa esta semana para practicar con tu material real y mandárselo a Flor.</p><div class="row"><a class="btn" href="#feedback">Mandar material real</a></div>'
         : '<h2>Tu camino de 20 semanas</h2><p class="muted small">Cuando Flor cargue tu fecha de inicio, acá vas a ver exactamente qué te toca.</p><div class="row"><a class="btn ghost" href="#camino">Ver mi camino</a></div>'}
   </section>
   ${p.foco_titulo ? `<section class="card feature"><span class="eyebrow">Tu foco de esta semana · lo eligió Flor</span><h2>${esc(p.foco_titulo)}</h2>${p.foco_texto ? '<p class="muted">' + esc(p.foco_texto) + '</p>' : ''}
-    <div class="row"><button class="btn" type="button" data-ask="Quiero practicar mi foco de esta semana: ${esc(p.foco_titulo)}">Practicarlo con Flor AI</button></div></section>`
+    <div class="row"><button class="btn" type="button" data-ask="¿Dónde y cómo practico mi foco de esta semana (${esc(p.foco_titulo)})?">¿Dónde lo practico?</button><a class="btn ghost" href="#coaches">Mis coaches</a></div></section>`
     : `<section class="card empty-state"><span class="eyebrow">Tu foco de esta semana</span><h3>Flor lo elige con tu material</h3><p class="muted small">Cuando le mandes una reunión real o una práctica desde “Pedir feedback”, Flor te dice qué entrenar.</p><a class="btn ghost" href="#feedback">Pedir feedback</a></section>`}
 </div>
 ${caminoSemanaHTML(p)}
@@ -515,12 +517,12 @@ ${fb ? `<section class="card">
   <div class="feedback">${devolucion(fb.respuesta, fb.correcciones, 'pedidos:' + fb.id)}</div>
   <a href="#feedback" class="small">Ver todos tus feedbacks</a>
 </section>` : ''}
-<section class="card"><div class="row between"><h3>Tu recorrido</h3><a class="small" href="#camino">Ver detalle</a></div>${etapasHTML(n)}</section>
+<section class="card"><div class="row between"><h3>Tu recorrido</h3><a class="small" href="#camino">Ver detalle</a></div>${etapasHTML(n, p)}</section>
 <section class="grid">
   <span class="eyebrow">A mano</span>
   <div class="quick">
     ${fmt(p) === '1:1' ? qa((links().whatsapp_flor || 'https://wa.me/5491144101209'), 'Avisarle a Flor', 'WhatsApp') : qa(enVivo.link, 'Link del lab', 'Sábados') + qa('https://calendar.app.google/kxnVBHB5XJam7JG69', 'Reservar mi 1:1', '30 min, 1 por mes')}
-    ${qa(st.perfil.drive_url, 'Mi carpeta de Drive', 'Prácticas y material')}${qa(links().comunidad || 'https://chat.whatsapp.com/EKffC7cix6oDfeCCvfKGYv', 'Comunidad', 'Grupo de WhatsApp')}${qa((P.onbLinks[fmt(p)] || {}).curso ? 'https://academy.breakingbarriers.site/courses/products/6863ca67-9163-40bd-98de-f0c450d87919' : '', 'Mis clases', 'Curso AT WORK')}
+    ${qa(st.perfil.drive_url, 'Mi carpeta de Drive', 'Prácticas y material')}${qa(links().comunidad || 'https://chat.whatsapp.com/EKffC7cix6oDfeCCvfKGYv', 'Comunidad', 'Grupo de WhatsApp')}${qa((P.onbLinks[fmt(p)] || {}).curso ? 'https://academy.breakingbarriers.site/courses/products/6863ca67-9163-40bd-98de-f0c450d87919' : '', 'Curso AT WORK', 'Ver las clases')}
   </div>
 </section>`;
     },
@@ -538,7 +540,7 @@ ${fb ? `<section class="card">
     const c = semanaCamino(n);
     return `<section class="card"><div class="row between"><div><span class="eyebrow">Tu camino · semana ${n} de 20 · mes ${c.mes.n}</span><h3>${esc(c.sem.titulo)}</h3></div><a class="small" href="#camino">Ver todo mi camino</a></div>
       <ul class="tasks">${c.sem.tareas.map((t) => filaTarea(t, p.camino_hecho || [])).join('')}</ul>
-      ${n >= 2 ? `<details><summary class="small muted">Tus hábitos de todas las semanas</summary><ul class="tasks" style="margin-top:8px">${P.habitos.tareas.map((t) => `<li><div class="fbitem"><b>${esc(t.texto)}</b><span class="where muted small">${esc(t.donde)} ${accionTarea(t)}</span></div></li>`).join('')}</ul></details>` : ''}
+      ${n >= 2 ? `<details open><summary class="small muted">Tus hábitos de todas las semanas</summary><ul class="tasks" style="margin-top:8px">${P.habitos.tareas.map((t) => `<li><div class="fbitem"><b>${esc(t.texto)}</b><span class="where muted small">${esc(t.donde)} ${accionTarea(t)}</span></div></li>`).join('')}</ul></details>` : ''}
     </section>`;
   }
   function qa(link, t, s) {
@@ -1272,6 +1274,8 @@ ${cuerpo}`;
   <h3>Su semana</h3>
   <div class="field"><label for="f-foco_titulo">Foco de esta semana</label><input id="f-foco_titulo" type="text" value="${v('foco_titulo')}" placeholder="Ej.: Ordenar tu mensaje antes de hablar"></div>
   <div class="field"><label for="f-foco_texto">Por qué ese foco</label><textarea id="f-foco_texto" rows="2">${v('foco_texto')}</textarea></div>
+  <div class="field"><label for="f-horario_clase">Su clase en vivo</label><small>Día y horario que ella ve en su inicio. Ej.: Viernes 08:00 (Argentina)</small><input id="f-horario_clase" type="text" value="${v('horario_clase')}"></div>
+  <div class="field"><label for="f-link_clase">Link de su clase</label><input id="f-link_clase" type="url" value="${v('link_clase')}" placeholder="https://meet.google.com/..."></div>
   <div class="field"><label for="f-fecha_inicio">Fecha de inicio del programa</label><small>Con esto la app calcula en qué semana de los 20 está y qué le toca.</small><input id="f-fecha_inicio" type="date" value="${v('fecha_inicio')}"></div>
   <p class="small muted">Camino: ${(a.camino_hecho || []).length} tareas tildadas${semanaDe(a) ? ' · semana ' + semanaDe(a) + ' de 20' : ''} · Compromisos: ${(a.compromisos || []).length} de ${P.compromisos.length}</p>
   <div class="field"><label for="f-modulo_actual">Dónde está</label><select id="f-modulo_actual">${P.modulos.map((m) => `<option value="${m.n}" ${+a.modulo_actual === m.n ? 'selected' : ''}>M${m.n} · ${esc(m.nombre)}</option>`).join('')}</select></div>
@@ -1395,7 +1399,8 @@ ${cuerpo}`;
           foco_titulo: g('foco_titulo'), foco_texto: g('foco_texto'), modulo_actual: +g('modulo_actual'),
           clases_asignadas: $$('.cl[aria-pressed="true"]').map((b) => b.dataset.cl),
           confianza_inicio: n('confianza_inicio'), confianza_hoy: n('confianza_hoy'), audio_inicio: g('audio_inicio') || null,
-          drive_url: g('drive_url'), activa: $('#f-activa').checked, fecha_inicio: g('fecha_inicio') || null
+          drive_url: g('drive_url'), activa: $('#f-activa').checked, fecha_inicio: g('fecha_inicio') || null,
+          horario_clase: g('horario_clase'), link_clase: g('link_clase')
         };
         await intentar(() => Promise.all([DB.actualizarPerfil(aid, c), DB.guardarFicha(aid, $('#f-ficha').value)]), 'Guardado');
         if (aid === st.perfil.id) Object.assign(st.perfil, c);
