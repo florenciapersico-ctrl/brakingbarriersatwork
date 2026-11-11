@@ -178,7 +178,10 @@
 
   function navHTML(tab) {
     const it = ([id, l]) => (l = id === 'empieza' && (DB.demo || !st.admin) && onbHecho() ? 'Cómo funciona' : l, '<a href="#' + id + '" data-v="' + id + '">' + svg(id) + '<span>' + l + '</span>' + (id === 'bandeja' ? '<span class="badge"' + (tab ? '' : ' id="bdg"') + ' hidden></span>' : '') + (id === 'feedback' || id === 'weekly' ? '<span class="badge nuevo-' + id + '" hidden>Nuevo</span>' : '') + '</a>');
-    if (tab) return (st.admin && !DB.demo ? ADMIN.concat(VISTAS) : VISTAS).map(it).join('');
+    // En el celular la barra de abajo se corta: Flor AI va adelante para que siempre se vea.
+    const ORDEN = ['bandeja', 'flor', 'semana', 'alumnas', 'feedback', 'weekly', 'camino'];
+    const rank = (id) => { const i = ORDEN.indexOf(id); return i < 0 ? 99 : i; };
+    if (tab) return (st.admin && !DB.demo ? ADMIN.concat(VISTAS) : VISTAS).slice().sort((a, b) => rank(a[0]) - rank(b[0])).map(it).join('');
     return GRUPOS.map(([g, vs]) => '<div class="sep">' + g + '</div>' + vs.map(it).join('')).join('') + (st.admin ? '<div class="sep">Panel de Flor</div>' + ADMIN.map(it).join('') : '');
   }
   // ¿Ya hizo el onboarding? (checklist completo o la primera tarea del camino tildada)
