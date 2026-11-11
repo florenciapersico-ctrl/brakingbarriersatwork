@@ -67,6 +67,7 @@
         const w = ok(await sb.from('weekly').upsert(fila, { onConflict: 'alumna_id,semana' }).select('id').single());
         if (enviar && w) llamar({ modo: 'auto', weekly_id: w.id }).catch(() => {});
       },
+      async resumenes(a = uid) { try { return ok(await sb.from('resumenes').select('*').eq('alumna_id', a).order('fecha', { ascending: false }).limit(10)); } catch (e) { return []; } },
       async pedidos(a = uid) { return ok(await sb.from('pedidos').select('*').eq('alumna_id', a).order('creado', { ascending: false }).limit(50)); },
       async crearPedido(p) {
         const x = ok(await sb.from('pedidos').insert({ ...p, alumna_id: uid }).select().single());
@@ -229,6 +230,7 @@
         if (!w) { w = { id: id(), alumna_id: yo(), semana, respuestas: {}, enviado_en: null, respuesta_flor: null }; S.weekly.push(w); }
         w.respuestas = respuestas; if (enviar) w.enviado_en = new Date().toISOString(); save();
       },
+      async resumenes(a = yo()) { return copia((S.resumenes || []).filter((r) => r.alumna_id === a)); },
       async pedidos(a = yo()) { return copia(S.pedidos.filter((p) => p.alumna_id === a).sort((x, y) => (x.creado < y.creado ? 1 : -1))); },
       async crearPedido(p) { S.pedidos.push({ id: id(), alumna_id: yo(), estado: 'pendiente', respuesta: null, correcciones: [], creado: new Date().toISOString(), ...p }); save(); },
       async patrones(a = yo()) { return copia(S.patrones.filter((p) => p.alumna_id === a)); },

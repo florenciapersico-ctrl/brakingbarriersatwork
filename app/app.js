@@ -457,7 +457,7 @@
 
   V.semana = {
     async html() {
-      const [tareas, weeklies, pedidos] = await Promise.all([DB.tareas(), DB.weeklies(), DB.pedidos()]);
+      const [tareas, weeklies, pedidos, resumenes] = await Promise.all([DB.tareas(), DB.weeklies(), DB.pedidos(), DB.resumenes ? DB.resumenes().catch(() => []) : []]);
       st._tareas = tareas;
       const p = st.perfil, r = racha(weeklies), l = lab(), n = semanaDe(p), av = avanceCamino(p), sig = loQueSigue(p);
       const fb = pedidos.find((x) => x.estado === 'respondido');
@@ -512,6 +512,11 @@ ${caminoSemanaHTML(p)}
       <button type="button" data-ask="Ayúdame con mi weekly report"><b>Ayúdame con mi weekly</b><span>Lo ordenamos juntas antes del lunes.</span></button>
     </div></section>
 </div>
+${resumenes.length ? `<section class="card">
+  <div class="row between"><h3>Tu última clase</h3><span class="muted small">${esc(fecha(resumenes[0].fecha, { weekday: 'long', day: 'numeric', month: 'long' }))}</span></div>
+  <details class="resumen"><summary>Ver el resumen que te mandó Flor</summary><div class="feedback">${parrafos(resumenes[0].texto)}</div></details>
+  ${resumenes.length > 1 ? `<details class="resumen small"><summary>Clases anteriores (${resumenes.length - 1})</summary>${resumenes.slice(1).map((r) => `<details><summary>${esc(fecha(r.fecha, { weekday: 'long', day: 'numeric', month: 'long' }))}</summary><div class="feedback">${parrafos(r.texto)}</div></details>`).join('')}</details>` : ''}
+</section>` : ''}
 ${fb ? `<section class="card">
   <div class="row between"><h3>Último feedback de Flor</h3><span class="muted small">Sobre: ${esc(fb.titulo || fb.tipo)}</span></div>
   <div class="feedback">${devolucion(fb.respuesta, fb.correcciones, 'pedidos:' + fb.id)}</div>

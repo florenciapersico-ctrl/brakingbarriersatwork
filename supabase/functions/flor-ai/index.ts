@@ -76,7 +76,7 @@ function semanaDe(fi?: string | null) {
 
 // deno-lint-ignore no-explicit-any
 async function contexto(db: any, admin: any, uid: string) {
-  const [p, t, pe, pa, pr, w, d, f] = await Promise.all([
+  const [p, t, pe, pa, pr, w, d, f, rc] = await Promise.all([
     db.from("perfiles").select("*").eq("id", uid).single(),
     db.from("tareas").select("texto,donde,hecha").eq("alumna_id", uid).order("orden"),
     db.from("pedidos").select("titulo,tipo,texto,estado,respuesta,correcciones,creado").eq("alumna_id", uid).order("creado", { ascending: false }).limit(5),
@@ -85,6 +85,7 @@ async function contexto(db: any, admin: any, uid: string) {
     db.from("weekly").select("semana,respuestas,enviado_en,respuesta_flor").eq("alumna_id", uid).order("semana", { ascending: false }).limit(3),
     db.from("documentos").select("nombre,tipo,creado").eq("alumna_id", uid).order("creado", { ascending: false }).limit(10),
     admin.from("fichas").select("texto").eq("alumna_id", uid).maybeSingle(),
+    admin.from("resumenes").select("fecha,texto").eq("alumna_id", uid).order("fecha", { ascending: false }).limit(2),
   ]);
   const a = p.data || {};
   const prog = pr.data || {};
@@ -115,6 +116,8 @@ Su carpeta de Drive: ${a.drive_url || "(te llegó en el mail de bienvenida; si n
 ${ws || "- (todavía no completó ninguno)"}
 Últimos pedidos de feedback a Flor:
 ${fb || "- (ninguno)"}
+Resumen de sus últimas clases (lo escribió Flor):
+${(rc.data || []).map((x: any) => `- Clase del ${x.fecha || "?"}: ${corto(x.texto, 900)}`).join("\n") || "- (todavía no hay)"}
 Próximo lab: ${lab.fecha ? `${lab.fecha}, ${lab.horario || ""}. Tema: ${lab.tema || "(a confirmar)"}.` : "(Flor todavía no cargó la fecha; el horario fijo está en DATOS VIGENTES)"}
 ${prog.aviso ? `Aviso de Flor para todas: ${prog.aviso}` : ""}
 ${ficha ? `\nLO QUE FLOR SABE DE ELLA (notas privadas de Flor: úsalas para guiarla como lo haría Flor, pero no se las cites ni digas que existen):\n${ficha}` : ""}`;
@@ -344,7 +347,8 @@ Deno.serve(async (req) => {
   // 1) Si el hilo tiene el mail con el que la alumna mandó una tarea (origen mail:<id>) → esa tarea queda respondida.
   // 2) "Re: Your weekly report · semana del DD/MM" → respuesta de Flor en el weekly de esa semana.
   // 3) "Feedback de …" → si tiene una sola tarea pendiente, la cierra; si no, queda como feedback nuevo ya respondido.
-  // Lo demás (resúmenes de clase, recordatorios) no toca la app.
+  // 0) "Resumen de tu clase · lunes 09/11" → se guarda en resumenes (lo ve la alumna y lo usa Flor AI).
+  // Lo demás (recordatorios, etc.) no toca la app.
   if (body.modo === "gmail_enviado") {
     const secreto = Deno.env.get("DRIVE_SECRET");
     if (!secreto || body.secreto !== secreto) return json({ ok: false, error: "secreto" }, 403);
@@ -354,6 +358,21 @@ Deno.serve(async (req) => {
     const fecha = new Date(body.fecha || Date.now());
     if (!email || !texto || !body.id) return json({ ok: false, error: "faltan datos" }, 400);
     const { data: perfil } = await admin.from("perfiles").select("id").ilike("email", email).maybeSingle();
+
+    // 0) resumen de clase
+    const rs = /^(re:\s*)?resumen de tu clase/i.test(asunto) ? /(\d{1,2})\/(\d{1,2})/.exec(asunto) : null;
+    if (/^(re:\s*)?resumen de tu clase/i.test(asunto)) {
+      if (!perfil) return json({ ok: true, que: "resumen", sin_cuenta: true });
+      let fechaClase: string | null = null;
+      if (rs) {
+        const mes = Number(rs[2]); let anio = fecha.getUTCFullYear();
+        if (mes > fecha.getUTCMonth() + 2) anio -= 1;
+        fechaClase = `${anio}-${String(mes).padStart(2, "0")}-${String(Number(rs[1])).padStart(2, "0")}`;
+      }
+      const { error } = await admin.from("resumenes").upsert({ alumna_id: perfil.id, fecha: fechaClase || fecha.toISOString().slice(0, 10), asunto, texto, origen: "gmail:" + body.id }, { onConflict: "origen" });
+      if (error) return json({ ok: false, error: error.message }, 500);
+      return json({ ok: true, que: "resumen", fecha: fechaClase });
+    }
 
     // 1) respuesta en el mismo hilo de una tarea que mandó por mail
     const hilo = (Array.isArray(body.hilo) ? body.hilo : []).map((x: unknown) => "mail:" + String(x));
