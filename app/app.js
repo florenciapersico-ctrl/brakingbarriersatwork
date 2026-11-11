@@ -181,6 +181,7 @@
     if (tab) return (st.admin && !DB.demo ? ADMIN.concat(VISTAS) : VISTAS).map(it).join('');
     return GRUPOS.map(([g, vs]) => '<div class="sep">' + g + '</div>' + vs.map(it).join('')).join('') + (st.admin ? '<div class="sep">Panel de Flor</div>' + ADMIN.map(it).join('') : '');
   }
+  function txtT(t) { return t.privada && fmt(st.perfil) === '1:1' ? t.privada : t.texto; }
   function saludo() { const h = new Date().getHours(); return h < 12 ? 'Buen día' : h < 20 ? 'Buenas tardes' : 'Buenas noches'; }
   function iniciales(n) { return String(n || '?').split(/[\s@.]+/).filter(Boolean).slice(0, 2).map((x) => x[0].toUpperCase()).join(''); }
 
@@ -257,6 +258,7 @@
     if (t.onb) { const l = (P.onbLinks[fmt(st.perfil)] || {})[t.onb]; return l ? `<a class="linkbtn small" href="${esc(l)}" target="_blank" rel="noopener">Ver clase</a>` : ''; }
     if (t.ir) return `<a class="linkbtn small" href="${t.ir}">Ir</a>`;
     if (t.coaches && !(/clase/.test(t.tipo) && t.link)) return `<a class="linkbtn small" href="#coaches">Mis coaches</a>`;
+    if (t.reservar && fmt(st.perfil) === '1:1') return `<a class="linkbtn small" href="${esc((links().whatsapp_flor || 'https://wa.me/5491144101209'))}" target="_blank" rel="noopener">Avisar por WhatsApp</a>`;
     if (t.reservar && url(links().reservar)) return `<a class="linkbtn small" href="${esc(links().reservar)}" target="_blank" rel="noopener">Reservar</a>`;
     if (t.comunidad && url(links().comunidad)) return `<a class="linkbtn small" href="${esc(links().comunidad)}" target="_blank" rel="noopener">Comunidad</a>`;
     if (/clase/.test(t.tipo) && !t.pronto) { const l = url(t.link) || url(links().plataforma); return l ? `<a class="linkbtn small" href="${esc(l)}" target="_blank" rel="noopener">Ver clase</a>` : ''; }
@@ -264,7 +266,7 @@
   }
   function filaTarea(t, hechas) {
     const tags = t.tipo.split(' ').map((x) => TAG[x] || x).join(' + ');
-    return `<li><label><input type="checkbox" data-cam="${t.id}" ${hechas.includes(t.id) ? 'checked' : ''}><div><div class="t">${esc(t.texto)}</div>
+    return `<li><label><input type="checkbox" data-cam="${t.id}" ${hechas.includes(t.id) ? 'checked' : ''}><div><div class="t">${esc(txtT(t))}</div>
       <div class="where">${tags} · ${esc(t.donde)} ${t.pronto ? '<span class="pill warn">En grabación · se publica pronto</span>' : ''} ${accionTarea(t)}</div></div></label></li>`;
   }
   function montarCamino(root) {
@@ -356,7 +358,7 @@ ${sinOnb && !weeklies.length ? `<section class="card feature"><span class="eyebr
 </div>
 <div class="grid g-2">
   <section class="card next"><span class="eyebrow">Lo que sigue</span>
-    ${sig ? `<h2>${esc(sig.t.texto)}</h2><p class="muted small">Semana ${sig.s.s.join(' y ')} · ${esc(sig.s.titulo)} · ${esc(sig.t.donde)}</p><div class="row">${accionTarea(sig.t).replace('linkbtn small', 'btn')}<a class="btn ghost" href="#camino">Ver mi camino</a></div>`
+    ${sig ? `<h2>${esc(txtT(sig.t))}</h2><p class="muted small">Semana ${sig.s.s.join(' y ')} · ${esc(sig.s.titulo)} · ${esc(sig.t.donde)}</p><div class="row">${accionTarea(sig.t).replace('linkbtn small', 'btn')}<a class="btn ghost" href="#camino">Ver mi camino</a></div>`
       : n ? '<h2>Estás al día con tu camino</h2><p class="muted small">Usa esta semana para practicar con tu material real y mandárselo a Flor.</p><div class="row"><a class="btn" href="#feedback">Mandar material real</a></div>'
         : '<h2>Tu camino de 20 semanas</h2><p class="muted small">Cuando Flor cargue tu fecha de inicio, acá vas a ver exactamente qué te toca.</p><div class="row"><a class="btn ghost" href="#camino">Ver mi camino</a></div>'}
   </section>
@@ -387,7 +389,7 @@ ${fb ? `<section class="card">
 <section class="grid">
   <span class="eyebrow">A mano</span>
   <div class="quick">
-    ${fmt(p) === '1:1' ? qa('https://calendar.app.google/XMDANMAaRPLHTFBG8', 'Agendar con Flor', 'Tu link de reserva') : qa(enVivo.link, 'Link del lab', 'Sábados') + qa('https://calendar.app.google/kxnVBHB5XJam7JG69', 'Reservar mi 1:1', '30 min, 1 por mes')}
+    ${fmt(p) === '1:1' ? qa((links().whatsapp_flor || 'https://wa.me/5491144101209'), 'Avisarle a Flor', 'WhatsApp') : qa(enVivo.link, 'Link del lab', 'Sábados') + qa('https://calendar.app.google/kxnVBHB5XJam7JG69', 'Reservar mi 1:1', '30 min, 1 por mes')}
     ${qa(st.perfil.drive_url, 'Mi carpeta de Drive', 'Prácticas y material')}${qa(links().comunidad || 'https://chat.whatsapp.com/EKffC7cix6oDfeCCvfKGYv', 'Comunidad', 'Grupo de WhatsApp')}${qa((P.onbLinks[fmt(p)] || {}).curso ? 'https://academy.breakingbarriers.site/courses/products/6863ca67-9163-40bd-98de-f0c450d87919' : '', 'Mis clases', 'Curso AT WORK')}
   </div>
 </section>`;

@@ -54,7 +54,7 @@
         T('1.1', 'Ver el onboarding completo, con calma', 'orientacion', 'Start Here', { onb: 'curso' }),
         T('1.2', 'Firmar tu Acuerdo de Trabajo', 'orientacion', 'Drive · 01', { ir: '#proceso' }),
         T('1.3', 'Grabar tu Starting Point', 'evidencia', 'Drive · 01', { ir: '#proceso' }),
-        T('1.4', 'Agendar tu primer encuentro conmigo', 'orientacion', 'Link de reserva', { reservar: true }),
+        T('1.4', 'Agendar tu primer encuentro conmigo', 'orientacion', 'Link de reserva', { reservar: true, privada: 'Avisarle a Flor que terminaste el onboarding (tu primera clase es en tu día y horario fijo)' }),
         T('1.5', 'Reservar 2 o 3 bloques de 30 minutos por semana', 'habito', 'Tu calendario'),
         T('1.6', 'Presentarte en la comunidad', 'comunidad', 'Comunidad', { comunidad: true })
       ] },
@@ -251,7 +251,7 @@
       links: [
         ['Tu onboarding', 'Onboarding Private · Start Here (8 videos cortos)', 'curso'],
         ['Tu camino', 'Tu paso a paso de los 5 meses', ROADMAP],
-        ['Tu primera clase', 'Agendar', 'https://calendar.app.google/XMDANMAaRPLHTFBG8'],
+        ['Tu primera clase', 'En tu día y horario fijo (los que definiste con Flor)', ''],
         ['Comunidad', 'Unirme al grupo', COMUNIDAD],
         ['WhatsApp de Flor', 'Temas administrativos o privados', WHATSAPP]
       ],
@@ -261,7 +261,7 @@
         ['Una vez por semana', 'Tu clase 1:1 con Flor, en tu horario fijo.'],
         ['Material real', 'Con una reunión o situación por semana alcanza.']
       ],
-      arranque: ['Tu primera clase', 'En esa clase no recorren la plataforma: definen tu objetivo para los cinco meses, hacen tu primera práctica real y completan juntas tu primer Weekly Report. Trae tu Starting Point hecho, tus dudas anotadas y una situación concreta de tu trabajo en inglés que te pone nerviosa (en vez de «quiero hablar fluido», algo como «me trabo cuando presento los resultados del mes»).'],
+      arranque: ['Tu primera clase', 'Cuando termines el onboarding, avísale a Flor por WhatsApp y se ven en tu primera clase, en el día y horario que ya definieron juntas. No tienes que agendar nada. En esa clase no recorren la plataforma: definen tu objetivo para los cinco meses, hacen tu primera práctica real y completan juntas tu primer Weekly Report. Trae tu Starting Point hecho, tus dudas anotadas y una situación concreta de tu trabajo en inglés que te pone nerviosa (en vez de «quiero hablar fluido», algo como «me trabo cuando presento los resultados del mes»).'],
       checklist: [
         'Vi todos los videos del onboarding, en orden',
         'Descargué mi camino y lo tengo a mano',
@@ -270,7 +270,7 @@
         'Hice mi Starting Point (hoja + grabación espontánea, sin guion) y lo guardé en mi carpeta, con el nombre Starting Point - Audio inicial - Nombre y apellido',
         'Guardé algo real de mi trabajo en mi carpeta personal (ideal: una reunión grabada)',
         'Reservé 2 o 3 bloques de 30 minutos por semana en mi calendario',
-        'Agendé mi primera clase y anoté mi situación de trabajo y mis dudas'
+        'Le avisé a Flor que terminé el onboarding, tengo agendado mi día y horario de clase y anoté mi situación de trabajo y mis dudas'
       ],
       faq: faqComun.concat([
         ['¿Qué pasa si tengo que faltar a una clase?', 'Avísale a Flor con al menos 24 horas y la recuperan dentro del mismo mes. Con menos de 24 horas, la clase se considera tomada.'],
