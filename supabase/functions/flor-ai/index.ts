@@ -339,7 +339,7 @@ Deno.serve(async (req) => {
     const html = `<div style="font-family:Arial,sans-serif;font-size:15px;color:#2a211b;line-height:1.5">
 <p>Hola${nombre ? " " + esc(nombre) : ""}:</p>
 <p>Ya te respondí ${esc(que)} en tu espacio de AT WORK.</p>
-<p><a href="${app}#feedback" style="background:#d4a37f;color:#1d1814;padding:10px 18px;border-radius:999px;text-decoration:none;font-weight:bold">Ver mi feedback</a></p>
+<p><a href="${app}#${body.que === "weekly" ? "weekly" : "feedback"}" style="background:#d4a37f;color:#1d1814;padding:10px 18px;border-radius:999px;text-decoration:none;font-weight:bold">Ver mi feedback</a></p>
 <p>Léelo con calma y haz tu segundo intento.</p><p>Flor</p></div>`;
     try {
       const r = await fetch(url, { method: "POST", headers: { "Content-Type": "text/plain" }, body: JSON.stringify({ secreto, accion: "mail", para: a.email, asunto, html }) });
