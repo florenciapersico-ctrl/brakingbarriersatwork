@@ -22,6 +22,9 @@
  * 5) Cuando creás una alumna en la app sin link de Drive, le crea su carpeta (con 01 a 05) dentro de
  *    "AT WORK · Alumnas" y se la comparte. Si querés usar otra carpeta madre, agregá la propiedad
  *    CARPETA_ALUMNAS con su id. Si tenés una carpeta modelo, agregá PLANTILLA con su id y copia sus subcarpetas.
+ * 6) Cada 15 minutos (con la misma revisión) lee los mails que Flor mandó con la etiqueta "AT WORK/Enviado a alumnas":
+ *    si es la respuesta a una tarea, a un weekly o un "Feedback de…", la app lo marca respondido con su texto.
+ *    La primera vez que se agrega esto hay que ejecutar activarRevision a mano para darle permiso a Gmail.
  * Si ya lo tenías publicado: pegá esta versión y hacé Implementar › Gestionar implementaciones › editar › Versión nueva.
  * El script solo actúa si el secreto coincide: guarda en la carpeta de la alumna que le indica la función
  * y lee únicamente el archivo de audio que le pide la función.
@@ -92,6 +95,7 @@ function llamar(o) {
 }
 
 function revisarCarpetas() {
+  try { revisarEnviados(); } catch (e) { console.error('gmail', e); }
   var props = PropertiesService.getScriptProperties();
   var desde = Number(props.getProperty('DESDE') || (Date.now() - 24 * 3600 * 1000));
   var ahora = Date.now();
@@ -108,6 +112,41 @@ function revisarCarpetas() {
     } catch (e) { console.error(a.email, e); }
   });
   props.setProperty('DESDE', String(ahora - 60 * 1000));
+}
+
+// ---------- Gmail → app ----------
+// Flor sigue mandando su feedback por mail. Cada 15 minutos se leen sus mails con la etiqueta
+// "AT WORK/Enviado a alumnas" y la app se pone al día: tarea o weekly respondido, con su respuesta.
+var ETIQUETA_ENVIADOS = 'AT WORK/Enviado a alumnas';
+
+function revisarEnviados() {
+  var props = PropertiesService.getScriptProperties();
+  var desde = Number(props.getProperty('DESDE_MAIL') || (Date.now() - 7 * 24 * 3600 * 1000)); // la primera vez, los últimos 7 días
+  var ahora = Date.now();
+  var yo = Session.getEffectiveUser().getEmail().toLowerCase();
+  var q = 'in:sent label:"' + ETIQUETA_ENVIADOS + '" after:' + Math.floor((desde - 3600 * 1000) / 1000);
+  var hilos = GmailApp.search(q, 0, 100);
+  hilos.forEach(function (h) {
+    var ms = h.getMessages();
+    var ids = ms.map(function (m) { return m.getId(); });
+    ms.forEach(function (m) {
+      if (m.getDate().getTime() < desde) return;
+      if (m.getFrom().toLowerCase().indexOf(yo) < 0) return; // solo lo que mandó Flor
+      var para = (m.getTo().match(/[^\s<>,;"]+@[^\s<>,;"]+/) || [''])[0].toLowerCase();
+      if (!para || para === yo) return;
+      var r = llamar({ modo: 'gmail_enviado', email: para, asunto: m.getSubject(), fecha: m.getDate().toISOString(), texto: sinCita(m.getPlainBody()), id: m.getId(), hilo: ids });
+      if (!r.ok) console.error('gmail_enviado', para, m.getSubject(), r.error || r.destino);
+    });
+  });
+  props.setProperty('DESDE_MAIL', String(ahora - 60 * 1000));
+}
+
+// Saca del cuerpo el mail anterior que Gmail cita debajo de la respuesta.
+function sinCita(t) {
+  t = String(t || '');
+  var corte = t.search(/\n\s*(On [\s\S]{5,300}?wrote:|El [\s\S]{5,300}?escribió:)/);
+  if (corte > 0) t = t.slice(0, corte);
+  return t.replace(/\n{3,}/g, '\n\n').trim().slice(0, 40000);
 }
 
 function revisarCarpeta(a, carpeta, cod, desde) {

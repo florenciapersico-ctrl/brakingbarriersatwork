@@ -7,6 +7,7 @@
 // - modo drive: copia a la carpeta de Drive de la alumna un archivo que subió a la app (si está configurado).
 // - modo escuchar: transcribe un audio de la alumna para que Flor AI le dé feedback.
 // - modos drive_lista / drive_nuevo: el Apps Script de Flor carga en la app lo que las alumnas suben a Drive.
+// - modo gmail_enviado: el Apps Script de Flor avisa los feedbacks que ella mandó por mail y la app los marca respondidos.
 //
 // Las instrucciones viven en el repo (supabase/functions/flor-ai/prompts/*.md, se arman con tools/build.py)
 // y se bajan de GitHub; quedan en memoria 10 minutos.
@@ -336,6 +337,62 @@ Deno.serve(async (req) => {
   // deno-lint-ignore no-explicit-any
   let body: any;
   try { body = await req.json(); } catch { return json({ error: "Pedido inválido" }, 400); }
+
+  // ---------- Gmail → app: Flor respondió por mail (como siempre) y la app se pone al día sola ----------
+  // El Apps Script de Flor manda cada mail suyo con la etiqueta "AT WORK/Enviado a alumnas":
+  // { email, asunto, fecha, texto, id, hilo: [ids de los mails del hilo] }.
+  // 1) Si el hilo tiene el mail con el que la alumna mandó una tarea (origen mail:<id>) → esa tarea queda respondida.
+  // 2) "Re: Your weekly report · semana del DD/MM" → respuesta de Flor en el weekly de esa semana.
+  // 3) "Feedback de …" → si tiene una sola tarea pendiente, la cierra; si no, queda como feedback nuevo ya respondido.
+  // Lo demás (resúmenes de clase, recordatorios) no toca la app.
+  if (body.modo === "gmail_enviado") {
+    const secreto = Deno.env.get("DRIVE_SECRET");
+    if (!secreto || body.secreto !== secreto) return json({ ok: false, error: "secreto" }, 403);
+    const email = String(body.email || "").toLowerCase().trim();
+    const asunto = String(body.asunto || "").trim();
+    const texto = String(body.texto || "").trim();
+    const fecha = new Date(body.fecha || Date.now());
+    if (!email || !texto || !body.id) return json({ ok: false, error: "faltan datos" }, 400);
+    const { data: perfil } = await admin.from("perfiles").select("id").ilike("email", email).maybeSingle();
+
+    // 1) respuesta en el mismo hilo de una tarea que mandó por mail
+    const hilo = (Array.isArray(body.hilo) ? body.hilo : []).map((x: unknown) => "mail:" + String(x));
+    if (perfil && hilo.length) {
+      const { data: t } = await admin.from("pedidos").select("id,estado").eq("alumna_id", perfil.id).in("origen", hilo).order("creado", { ascending: false }).limit(1).maybeSingle();
+      if (t) {
+        if (t.estado !== "respondido") await admin.from("pedidos").update({ respuesta: texto, estado: "respondido", respondido_en: fecha.toISOString() }).eq("id", t.id);
+        return json({ ok: true, que: "tarea", id: t.id });
+      }
+    }
+
+    // 2) weekly
+    const w = /weekly report.*semana del (\d{1,2})\/(\d{1,2})/i.exec(asunto);
+    if (w && /^re:/i.test(asunto)) {
+      const mes = Number(w[2]), dia = Number(w[1]);
+      let anio = fecha.getUTCFullYear();
+      if (mes > fecha.getUTCMonth() + 2) anio -= 1; // weekly de diciembre respondido en enero
+      const semana = `${anio}-${String(mes).padStart(2, "0")}-${String(dia).padStart(2, "0")}`;
+      const { data: r } = await admin.rpc("sync_weekly", { p_email: email, p_semana: semana, p_respuestas: {}, p_enviado: fecha.toISOString(), p_respuesta_flor: texto, p_respondido: fecha.toISOString() });
+      return json({ ok: r !== "no_encontrada", que: "weekly", semana, destino: r });
+    }
+
+    // 3) feedback suelto
+    if (/^(re:\s*)?feedback/i.test(asunto)) {
+      if (perfil) {
+        const { data: ya } = await admin.from("pedidos").select("id").eq("origen", "flor:" + body.id).maybeSingle();
+        if (ya) return json({ ok: true, que: "feedback", ya: true });
+        const { data: pend } = await admin.from("pedidos").select("id").eq("alumna_id", perfil.id).eq("estado", "pendiente").lte("creado", fecha.toISOString());
+        if ((pend || []).length === 1) {
+          await admin.from("pedidos").update({ respuesta: texto, estado: "respondido", respondido_en: fecha.toISOString() }).eq("id", pend![0].id);
+          return json({ ok: true, que: "tarea", id: pend![0].id });
+        }
+      }
+      const titulo = asunto.replace(/^re:\s*/i, "").slice(0, 160);
+      const { data: r } = await admin.rpc("sync_tarea_mail", { p_email: email, p_origen: "flor:" + body.id, p_tipo: "tarea", p_titulo: titulo, p_texto: "Feedback que Flor le mandó por mail.", p_respuesta: texto, p_correcciones: [], p_creado: fecha.toISOString(), p_respondido: fecha.toISOString(), p_link: "" });
+      return json({ ok: r !== "no_encontrada", que: "feedback", destino: r });
+    }
+    return json({ ok: true, que: "nada" });
+  }
   if (body.modo === "drive_lista" || body.modo === "drive_nuevo") {
     const secreto = Deno.env.get("DRIVE_SECRET");
     if (!secreto || body.secreto !== secreto) return json({ ok: false, error: "secreto" }, 403);
@@ -357,6 +414,8 @@ Deno.serve(async (req) => {
     const email = String(body.email || "").toLowerCase();
     if (!f.id || !email) return json({ ok: false, error: "faltan datos" }, 400);
     const sub = String(f.subcarpeta || "04");
+    // Los Google Docs del weekly (05) los arma Flor y se cargan como weekly, no como tarea.
+    if (sub === "05" && /google-apps\.document/.test(String(f.mime || ""))) return json({ ok: true, omitido: "weekly_doc" });
     const esAudio = /^(audio|video)\//.test(f.mime || "") || AUDIO.test(f.nombre || "");
     const tipo = sub === "02" ? (esAudio ? "reunion" : "mail") : sub === "05" ? "tarea" : esAudio ? "audio" : "tarea";
     const titulo = (sub === "05" ? "Weekly (desde Drive): " : sub === "02" ? "Material real (desde Drive): " : "Desde Drive: ") + String(f.nombre || "archivo").slice(0, 120);
