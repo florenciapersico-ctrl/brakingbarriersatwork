@@ -139,7 +139,8 @@ async function bajarDeDrive(id: string): Promise<{ bytes: Uint8Array; mime: stri
 async function transcribir(fuente: string | { bytes: Uint8Array; mime: string }): Promise<string> {
   const key = Deno.env.get("DEEPGRAM_API_KEY");
   if (!key) throw new Error("SIN_TRANSCRIPCION");
-  const pedir = () => fetch("https://api.deepgram.com/v1/listen?model=nova-3&language=en&smart_format=true&punctuate=true&filler_words=true&paragraphs=true", {
+  // diarize: separa a cada persona que habla (en una reunión real hablan varias). language=multi: inglés y español mezclados.
+  const pedir = () => fetch("https://api.deepgram.com/v1/listen?model=nova-3&language=multi&smart_format=true&punctuate=true&filler_words=true&diarize=true", {
     method: "POST",
     headers: { Authorization: `Token ${key}`, "Content-Type": typeof fuente === "string" ? "application/json" : fuente.mime },
     body: typeof fuente === "string" ? JSON.stringify({ url: fuente }) : fuente.bytes,
@@ -154,16 +155,25 @@ async function transcribir(fuente: string | { bytes: Uint8Array; mime: string })
   // deno-lint-ignore no-explicit-any
   const words: any[] = alt?.words || [];
   if (!words.length) return "(No se entendió nada en el audio: puede estar vacío, muy bajo o en español.)";
-  // Frases de ~20 s con su minuto, y las palabras dudosas marcadas [así?]
-  const lineas: string[] = []; let act: string[] = []; let ini = words[0].start;
+  // Un renglón por turno de cada persona (o cada ~20 s), con su minuto y las palabras dudosas marcadas [así?]
+  const lineas: string[] = []; let act: string[] = []; let ini = words[0].start; let quien = words[0].speaker ?? 0;
+  const cerrar = () => { if (act.length) lineas.push(`(${MIN(ini)}) [Persona ${Number(quien) + 1}] ${act.join(" ")}`); act = []; };
   for (const w of words) {
+    const sp = w.speaker ?? 0;
+    if (sp !== quien || (w.start - ini > 20 && act.length && /[.?!]$/.test(act[act.length - 1]))) { cerrar(); ini = w.start; quien = sp; }
     const t = w.punctuated_word || w.word;
     act.push(w.confidence < 0.7 ? `[${t}?]` : t);
-    if (w.end - ini > 20 && /[.?!]$/.test(t)) { lineas.push(`(${MIN(ini)}) ${act.join(" ")}`); act = []; ini = w.end; }
   }
-  if (act.length) lineas.push(`(${MIN(ini)}) ${act.join(" ")}`);
+  cerrar();
+  const personas = new Set(words.map((w) => w.speaker ?? 0)).size;
   const dudosas = words.filter((w) => w.confidence < 0.7).length;
-  return `TRANSCRIPCIÓN AUTOMÁTICA (${MIN(words[words.length - 1].end)} min, ${words.length} palabras, ${dudosas} dudosas marcadas [así?]):\n${lineas.join("\n")}`;
+  // Cuánto habla cada una y cuántas palabras dudosas tiene (la alumna suele ser la de más palabras dudosas en inglés)
+  const resumen = [...new Set(words.map((w) => w.speaker ?? 0))].map((sp) => {
+    const ws = words.filter((w) => (w.speaker ?? 0) === sp);
+    return `Persona ${Number(sp) + 1}: ${ws.length} palabras, ${ws.filter((w) => w.confidence < 0.7).length} dudosas`;
+  }).join(" · ");
+  return `TRANSCRIPCIÓN AUTOMÁTICA (${MIN(words[words.length - 1].end)} min, ${words.length} palabras, ${personas} ${personas === 1 ? "persona" : "personas distintas"}, ${dudosas} palabras dudosas marcadas [así?]).
+${personas > 1 ? `Quién habla: ${resumen}.\n` : ""}${lineas.join("\n")}`;
 }
 
 // ---------- método de Flor (va siempre, arriba de lo que dicen los prompts) ----------
@@ -175,18 +185,19 @@ const METODO_BORRADOR = `MÉTODO DE CORRECCIÓN DE FLOR (manda sobre cualquier o
   · Las palabras marcadas [así?] son las que el sistema no entendió con claridad: casi siempre es un sonido que hay que trabajar. Y una palabra que no tiene sentido en el contexto (ej.: "road" donde iba "row", "reminding" donde iba "remaining") es la pista de que la pronunció de otra forma: corrígela como Flor ("ROW, NO ROAD: la fila del Excel es row y se dice 'rou'").
   · Da el respelling a la española con la sílaba fuerte en mayúsculas ("ri-MÉI-ning"), el acento de la oración y el connected speech cuando haga falta. Máximo 3 puntos de pronunciación; el objetivo es que se entienda, no borrar el acento.
   · Las correcciones de pronunciación también van en CORRECCIONES: cómo sonó (entre comillas, ej. "road") => cómo va (row, "rou") || por qué.
-  · En NOTAS PARA FLOR: los minutos que conviene que Flor escuche ella misma (las palabras [así?] más dudosas).`;
+  · En NOTAS PARA FLOR: los minutos que conviene que Flor escuche ella misma (las palabras [así?] más dudosas).
+- REUNIONES CON VARIAS PERSONAS: la transcripción separa a cada una como [Persona 1], [Persona 2]… Tu trabajo es encontrar cuál es la alumna (su nombre está en DATOS DE LA ALUMNA o en "ALUMNA EN LA GRABACIÓN"). Pistas: alguien la llama por su nombre o ella se presenta; habla de su rol o su equipo; es la que habla inglés como segunda lengua (más palabras dudosas, estructuras del español); el contexto de su trabajo. Da feedback SOLO de lo que dijo ella. NUNCA le preguntes a la alumna en qué minutos habla ni le digas que no la pudiste distinguir: decide tú con las pistas. En NOTAS PARA FLOR escribe "La alumna es la Persona N (por: …)" y, si no estás segura, "Chequear: creo que es la Persona N", para que Flor lo confirme antes de enviar.`;
 
 const METODO_CHAT = `MÉTODO DE CORRECCIÓN DE FLOR (en el chat, siempre en este orden):
 1. Primero tu devolución: lo que funcionó con evidencia (su frase) y UN foco.
 2. Después una tabla con SUS frases con error para que ella las corrija: | # | Tu frase | ¿Dónde está el error? | ¿Por qué? |, con las dos últimas columnas vacías. Pídele que la complete y te la mande.
 3. Cuando te responde, le dices qué encontró bien y en qué se equivocó, y recién ahí le das la tabla con las respuestas: | # | Tu frase | Corrección | Por qué |.
 Nunca le des la corrección antes de que lo intente ella, salvo que te la pida.
-Si su mensaje trae una TRANSCRIPCIÓN AUTOMÁTICA de un audio: lo escuchaste a través de esa transcripción, nunca digas que no pudiste escucharlo. Comenta momentos concretos y da feedback de pronunciación: las palabras marcadas [así?] son las que no se entendieron con claridad, y una palabra que no tiene sentido en el contexto es la pista de que la pronunció de otra forma. Da el respelling con la sílaba fuerte en mayúsculas ("ri-MÉI-ning"). Máximo 3 puntos; el objetivo es que se entienda, no borrar el acento. Después, que lo vuelva a grabar.`;
+Si su mensaje trae una TRANSCRIPCIÓN AUTOMÁTICA de un audio: lo escuchaste a través de esa transcripción, nunca digas que no pudiste escucharlo. Si hablan varias personas ([Persona 1], [Persona 2]…), identifica cuál es ella (la llaman por su nombre, habla de su rol, es la que habla inglés como segunda lengua) y comenta solo lo suyo; si dudas, dile en una línea a quién estás tomando como ella (\"Te tomo como la Persona 2, la que presenta el reporte\") y sigue. Comenta momentos concretos y da feedback de pronunciación: las palabras marcadas [así?] son las que no se entendieron con claridad, y una palabra que no tiene sentido en el contexto es la pista de que la pronunció de otra forma. Da el respelling con la sílaba fuerte en mayúsculas ("ri-MÉI-ning"). Máximo 3 puntos; el objetivo es que se entienda, no borrar el acento. Después, que lo vuelva a grabar.`;
 
 // ---------- borrador de feedback (se guarda en borradores; solo lo ve Flor) ----------
 // deno-lint-ignore no-explicit-any
-async function generarBorrador(admin: any, tabla: string, ref: number, imp?: { email: string; semana: string }) {
+async function generarBorrador(admin: any, tabla: string, ref: number, imp?: { email: string; semana: string }, quien?: string) {
     let alumnaId = "", material = "", transcripcion = "", aviso = "", sinAudio = false, ctxImp = "";
     // deno-lint-ignore no-explicit-any
     let adjunto: any = null;
@@ -195,6 +206,7 @@ async function generarBorrador(admin: any, tabla: string, ref: number, imp?: { e
       if (!x) throw new Error("No encontré el pedido.");
       alumnaId = x.alumna_id;
       material = `PEDIDO DE FEEDBACK (${x.tipo}): ${x.titulo}\n${x.texto || ""}${x.link ? `\nLink: ${x.link}` : ""}`;
+      if (quien) material += `\nALUMNA EN LA GRABACIÓN (lo dice Flor): ${quien}. Da feedback solo de lo que dice ella y llámala por ese nombre.`;
       if (x.archivo) {
         const nombre = String(x.archivo_nombre || x.archivo);
         const { data: f } = await admin.storage.from("atwork").createSignedUrl(x.archivo, 900);
@@ -421,7 +433,7 @@ Deno.serve(async (req) => {
     if (!(await esAdmin(db, uid))) return json({ error: "Solo Flor puede usar esto." }, 403);
     const tabla = body.pedido_id ? "pedidos" : body.weekly_id || body.imp ? "weekly" : "";
     if (!tabla) return json({ error: "Falta el pedido o el weekly." }, 400);
-    try { return json(await generarBorrador(admin, tabla, Number(body.pedido_id || body.weekly_id || 0), body.imp)); }
+    try { return json(await generarBorrador(admin, tabla, Number(body.pedido_id || body.weekly_id || 0), body.imp, String(body.quien || "").trim().slice(0, 80) || undefined)); }
     catch (e) {
       const m = String((e as Error).message);
       if (m !== "FALTA_CLAVE") console.error(e);

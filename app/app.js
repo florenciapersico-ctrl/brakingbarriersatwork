@@ -461,6 +461,10 @@
       const fb = pedidos.find((x) => x.estado === 'respondido');
       const nombre = (p.nombre || '').split(' ')[0];
       const aviso = st.programa.aviso ? '<p class="note">' + esc(st.programa.aviso) + '</p>' : '';
+      // Recordatorio del weekly: si todavía no mandó el de esta semana (y ya terminó el onboarding o empezó el camino)
+      const wHoy = weeklies.find((w) => w.semana === DB.lunes());
+      const faltaW = !(wHoy && wHoy.enviado_en) && (onbHecho(p) || weeklies.length > 0) && !st.admin;
+      const recW = faltaW ? `<section class="card feature recw"><span class="eyebrow">Recordatorio · weekly report</span><h2>${wHoy && Object.keys(wHoy.respuestas || {}).length ? 'Tu weekly está a medias' : 'Todavía no mandaste tu weekly de esta semana'}</h2><p class="muted">Son 5 a 10 minutos y es lo que le permite a Flor guiarte esta semana: tus wins, tu foco y qué necesitas de ella.</p><div class="row"><a class="btn" href="#weekly">${wHoy && Object.keys(wHoy.respuestas || {}).length ? 'Terminarlo ahora' : 'Completarlo ahora'}</a></div></section>` : '';
       const sinOnb = (p.onboarding || []).length < onbDe(p).checklist.length;
       const cs = n ? semanaCamino(n) : null;
       const hechasSem = cs ? cs.sem.tareas.filter((t) => (p.camino_hecho || []).includes(t.id)).length : 0;
@@ -472,6 +476,7 @@
   <p class="muted">${n ? `Semana ${n} de 20 · Mes ${cs.mes.n} · ${esc(cs.mes.titulo)}` : 'Tu espacio de AT WORK: todo lo de tu programa, en un solo lugar.'}</p></div>
   <div class="row"><a class="btn ghost" href="#weekly">${r.hoyHecho ? 'Ver mi weekly' : 'Completar mi weekly'}</a><a class="btn" href="#feedback">Pedir feedback</a></div></div>
 ${aviso}
+${recW}
 ${sinOnb && !weeklies.length ? `<section class="card feature"><span class="eyebrow">Tu primera semana</span><h2>Empieza por tu onboarding</h2><p class="muted">Dónde está cada cosa, tu punto de partida y tu primera práctica. Con calma: entender todo lleva unas dos semanas.</p><div class="row"><a class="btn" href="#empieza">Ir a Empieza acá</a></div></section>` : ''}
 <div class="kpis">
   <section class="card kpi"><span class="eyebrow">Tu camino</span><div class="kv">${ring(av.pct)}<span><b>${av.hechas} de ${av.total}</b><br><span class="muted small">tareas del programa</span></span></div></section>
@@ -675,11 +680,19 @@ ${fb ? `<section class="card">
     <div class="row between"><b>${esc(x.titulo || tipoNombre(x.tipo))}</b><span class="pill ${x.estado === 'respondido' ? 'ok' : 'warn'}">${x.estado === 'respondido' ? 'Respondido' : 'Esperando a Flor'}</span></div>
     <span class="muted small">${tipoNombre(x.tipo)} · ${fecha(x.creado)}</span>
     <details><summary class="small">Lo que mandaste</summary>${x.texto ? `<pre>${esc(x.texto)}</pre>` : ''}${adjunto(x)}${url(x.link) ? ` <a class="small" href="${esc(x.link)}" target="_blank" rel="noopener">Abrir link</a>` : ''}</details>
+    ${x.estado !== 'respondido' ? `<div class="row"><button type="button" class="linkbtn small" data-ped-edit="${x.id}">Editar</button><button type="button" class="linkbtn small" data-ped-del="${x.id}">Borrar</button></div>
+    <form class="ped-ed grid" data-ped-form="${x.id}" hidden><div class="field"><label>Título</label><input type="text" class="pe-tit" value="${esc(x.titulo || '')}"></div><div class="field"><label>Tu texto</label><textarea class="pe-txt" rows="5">${esc(x.texto || '')}</textarea></div><div class="row"><button class="btn sm" type="submit">Guardar cambios</button><button class="linkbtn small pe-cancel" type="button">Cancelar</button></div></form>` : ''}
     ${x.respuesta ? `<div class="reply" data-tit="${esc(x.titulo || '')}"><span class="eyebrow">Flor · ${fecha(x.respondido_en)}</span>${devolucion(x.respuesta, x.correcciones, 'pedidos:' + x.id)}</div>` : ''}
   </div>`).join('') : '<p class="muted small">Todavía no mandaste nada. Empieza por tu audio de punto de partida.</p>'}
 </section>`;
     },
     mount() {
+      $$('[data-ped-edit]').forEach((bt) => (bt.onclick = () => { const fm = $(`[data-ped-form="${bt.dataset.pedEdit}"]`); fm.hidden = !fm.hidden; }));
+      $$('[data-ped-form]').forEach((fm) => {
+        $('.pe-cancel', fm).onclick = () => { fm.hidden = true; };
+        fm.onsubmit = async (e) => { e.preventDefault(); await intentar(() => DB.editarPedido(+fm.dataset.pedForm || fm.dataset.pedForm, { titulo: $('.pe-tit', fm).value.trim(), texto: $('.pe-txt', fm).value.trim() }), 'Cambios guardados'); ruta(); };
+      });
+      $$('[data-ped-del]').forEach((bt) => (bt.onclick = async () => { if (!confirm('¿Borrar este pedido? Flor ya no lo va a ver.')) return; await intentar(() => DB.borrarPedido(+bt.dataset.pedDel || bt.dataset.pedDel), 'Pedido borrado'); ruta(); }));
       const f = $('#pform');
       f.onsubmit = async (e) => {
         e.preventDefault();
@@ -1052,10 +1065,12 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
         <div class="row between"><b>${esc(x.nombre)} · ${esc(x.titulo || tipoNombre(x.tipo))}</b><span class="muted small">${tipoNombre(x.tipo)} · ${fecha(x.creado, { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}</span></div>
         ${x.texto ? `<pre>${esc(x.texto)}</pre>` : ''}${adjunto(x)}${url(x.link) ? ` <a class="small" href="${esc(x.link)}" target="_blank" rel="noopener">Abrir el link que mandó</a>` : ''}
         <p class="aviso-audio note small" hidden></p>
+        ${['audio', 'reunion'].includes(x.tipo) || x.archivo || /drive\.google/.test(x.link || '') ? `<div class="field"><label>¿Quién es ella en la grabación?</label><small>Si en la reunión hablan varias personas, escribe su nombre (o "la que presenta el reporte") y toca «Armar de nuevo con IA». Si lo dejas vacío, la IA la busca sola.</small><input type="text" class="quien" placeholder="${esc(String(x.nombre || '').split(' ')[0])}"></div>` : ''}
         <div class="field"><label>Tu respuesta</label><small>Lo que funcionó, tu foco para ella y qué clase ver. Las correcciones van abajo: ella las ve como ejercicio (primero las encuentra, después ve tus respuestas).</small><textarea class="r" rows="6"></textarea></div>
-        <div class="field"><label>Correcciones</label><div class="corrs"></div><button type="button" class="linkbtn small addc">+ Agregar corrección</button></div>
+        <div class="field"><label>Correcciones · solo las ves tú así</label><small>Ella primero ve solo su frase, la corrige y dice por qué; recién después ve tu corrección y tu por qué. Toca «Ver cómo lo ve ella».</small><div class="corrs"></div><button type="button" class="linkbtn small addc">+ Agregar corrección</button></div>
         <p class="notas small muted" hidden></p>
-        <div class="row"><button class="btn send" type="button">Enviar respuesta</button><button class="btn ghost ia" type="button">Borrador con IA</button></div>
+        <div class="row"><button class="btn send" type="button">Enviar respuesta</button><button class="btn ghost ia" type="button">Borrador con IA</button><button class="btn ghost ver" type="button">Ver cómo lo ve ella</button><button class="linkbtn small borrarp" type="button">Borrar pedido</button></div>
+        <div class="vista" hidden><span class="eyebrow">Así lo ve ella en su app</span><div class="reply"></div></div>
       </div>` : `<div class="fbitem" data-pimp="${esc(x.email)}" data-origen="${esc(x.origen || '')}">
         <div class="row between"><b>${esc(x.nombre)} · ${esc(x.titulo || tipoNombre(x.tipo))}</b><span class="muted small">${tipoNombre(x.tipo)} · ${fecha(x.creado)} · todavía sin cuenta</span></div>
         ${x.texto ? `<pre>${esc(x.texto)}</pre>` : ''}${url(x.link) ? ` <a class="small" href="${esc(x.link)}" target="_blank" rel="noopener">Abrir el link</a>` : ''}
@@ -1094,7 +1109,9 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
       if (tab === 'tareas') {
         cuerpo = b.tResp.length ? porSemana(b.tResp, (x) => lunesDe(x.respondido_en || x.creado)).map((g) => grupo(nombreSemana(g.s), `<span class="pill ok">${g.items.length}</span>`, g.items.map((x) => `<details class="fbitem"><summary><b>${esc(x.nombre)} · ${esc(x.titulo || tipoNombre(x.tipo))}</b> <span class="muted small">${tipoNombre(x.tipo)} · ${fecha(x.respondido_en || x.creado)}</span></summary>
           <span class="eyebrow">Lo que mandó</span>${x.texto ? `<pre>${esc(x.texto)}</pre>` : ''}${x.src === 'app' ? adjunto(x) : ''}${url(x.link) ? ` <a class="small" href="${esc(x.link)}" target="_blank" rel="noopener">Abrir el link</a>` : ''}
-          <div class="reply"><span class="eyebrow">Tu respuesta</span>${parrafos(x.respuesta)}${fixes(x.correcciones)}</div></details>`).join(''))).join('') : '<section class="card"><p class="muted">Todavía no hay tareas con feedback.</p></section>';
+          <div class="reply"><span class="eyebrow">Tu respuesta</span>${parrafos(x.respuesta)}${fixes(x.correcciones)}</div>
+          ${x.src === 'app' ? `<div class="row"><button type="button" class="linkbtn small" data-resp-edit="${x.id}">Editar mi respuesta</button><button type="button" class="linkbtn small" data-resp-del="${x.id}">Borrar</button></div>
+          <form class="grid" data-resp-form="${x.id}" hidden><textarea class="re-txt" rows="8">${esc(x.respuesta || '')}</textarea><p class="muted small">Las correcciones quedan como están.</p><div class="row"><button class="btn sm" type="submit">Guardar</button></div></form>` : ''}</details>`).join(''))).join('') : '<section class="card"><p class="muted">Todavía no hay tareas con feedback.</p></section>';
       }
       return `<div class="head"><div><span class="eyebrow">Panel de Flor</span><h1>Bandeja</h1></div></div>
 <div class="tabs">${T.map(([id, l, n]) => `<button type="button" data-tab="${id}" aria-pressed="${tab === id}">${l}${n !== '' ? ' (' + n + ')' : ''}</button>`).join('')}</div>
@@ -1107,6 +1124,9 @@ ${cuerpo}`;
       };
       const leerCorr = (it) => $$('.corr', it).map((c) => ({ mal: $('.mal', c).value.trim(), bien: $('.bien', c).value.trim(), por_que: $('.pq', c).value.trim() })).filter((c) => c.mal && c.bien);
       const quitarDeLista = (it) => { const g = it.closest('.sem-grupo'); it.remove(); if (g && !$('.fbitem', g)) g.remove(); contarBandeja(); };
+      $$('[data-resp-edit]').forEach((bt) => (bt.onclick = () => { const fm = $(`[data-resp-form="${bt.dataset.respEdit}"]`); fm.hidden = !fm.hidden; }));
+      $$('[data-resp-form]').forEach((fm) => (fm.onsubmit = async (e) => { e.preventDefault(); await intentar(() => DB.editarPedido(+fm.dataset.respForm || fm.dataset.respForm, { respuesta: $('.re-txt', fm).value.trim() }), 'Respuesta actualizada'); ruta(); }));
+      $$('[data-resp-del]').forEach((bt) => (bt.onclick = async () => { if (!confirm('¿Borrar este pedido y tu respuesta? Ella tampoco lo va a ver más.')) return; await intentar(() => DB.borrarPedido(+bt.dataset.respDel || bt.dataset.respDel), 'Borrado'); ruta(); }));
       $$('[data-pimp]').forEach((it) => {
         const box = $('.corrs', it);
         $('.addc', it).onclick = () => filaCorr(box);
@@ -1132,11 +1152,17 @@ ${cuerpo}`;
         it._generar = async () => {
           const b = $('.ia', it); b.disabled = true; b.textContent = 'Armando borrador…';
           let ok = true;
-          try { it._aplicar(await DB.borrador({ pedido_id: +it.dataset.pid || it.dataset.pid })); } catch (er) { ok = false; toast(er.message, true); }
+          try { it._aplicar(await DB.borrador({ pedido_id: +it.dataset.pid || it.dataset.pid, quien: $('.quien', it) ? $('.quien', it).value.trim() : '' })); } catch (er) { ok = false; toast(er.message, true); }
           b.disabled = false; b.textContent = ok ? 'Armar de nuevo con IA' : 'Borrador con IA';
           return ok;
         };
         $('.ia', it).onclick = it._generar;
+        $('.ver', it).onclick = () => {
+          const v = $('.vista', it); v.hidden = !v.hidden; if (v.hidden) return;
+          $('.reply', v).innerHTML = devolucion($('.r', it).value, leerCorr(it), '') || '<p class="muted small">Todavía no escribiste nada.</p>';
+          $$('textarea', v).forEach((t) => (t.disabled = true)); $$('button', v).forEach((x) => (x.disabled = true));
+        };
+        $('.borrarp', it).onclick = async () => { if (!confirm('¿Borrar este pedido? Ella tampoco lo va a ver más.')) return; await intentar(() => DB.borrarPedido(+it.dataset.pid || it.dataset.pid), 'Pedido borrado'); quitarDeLista(it); };
         $('.send', it).onclick = async () => {
           const r = $('.r', it).value.trim(); if (!r) return toast('Escribe tu respuesta.', true);
           await intentar(() => DB.responderPedido(+it.dataset.pid || it.dataset.pid, r, leerCorr(it)), 'Respuesta enviada. Le llega un aviso por mail.');
