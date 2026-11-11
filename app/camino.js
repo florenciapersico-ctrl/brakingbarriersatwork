@@ -193,18 +193,18 @@
   const COMUNIDAD = 'https://chat.whatsapp.com/EKffC7cix6oDfeCCvfKGYv';
   const WHATSAPP = 'https://wa.me/5491144101209';
   const faqComun = [
-    ['¿Cómo sé qué tengo que hacer cada semana?', 'Sigues tu camino, con las tareas de cada semana, en orden. Y Flor lo ajusta a ti: si tu trabajo pide otro foco, te lo indica en la respuesta a tu Weekly Report. Nunca vas a tener que adivinar qué te toca.'],
+    ['¿Cómo sé qué tengo que hacer cada semana?', 'Sigues tu camino, con las tareas de cada semana, en orden. Y Flor lo ajusta a ti: si tu trabajo pide otro foco, te lo indica en la respuesta a tu Weekly Report. Nunca vas a tener que adivinar qué te toca. Y si tienes dudas, pregúntale a Flor AI: ella sabe dónde estás y te dice qué te toca esta semana.', '¿Qué me toca hacer esta semana?'],
     ['¿Es una clase grabada por semana?', 'No exactamente. Cada semana tiene sus tareas: a veces una clase, a veces dos, a veces una práctica. Lo importante no es cuántas clases ves, sino usar lo que aprendes en tu trabajo.'],
     ['¿Cuándo completo el Weekly Report?', 'Los lunes, en la sección Weekly report de esta app. El primero lo completan juntas en tu primer encuentro con Flor.'],
     ['¿El Weekly Report es de lo que hice o de lo que voy a hacer?', 'De lo que vas a hacer: es tu plan para la semana que empieza. Arriba cuentas un win de la semana pasada; después, qué vas a practicar y qué días; y al final, lo que necesitas de Flor.'],
-    ['¿Y si una semana no sé qué poner?', 'Manda la grabación de una reunión o de una práctica desde “Pedir feedback”. Con eso ya están.'],
+    ['¿Y si una semana no sé qué poner?', 'Manda la grabación de una reunión o de una práctica desde “Pedir feedback”. Con eso ya están. También puedes pedirle a Flor AI que te ayude a armarlo.', 'Ayúdame a armar mi Weekly Report de esta semana'],
     ['¿Tengo que grabar todas mis reuniones?', 'No. Con una reunión o una situación real por semana alcanza. Si es confidencial, cambia nombres y cifras, o grábate contando lo mismo con otros datos.'],
     ['No me llegó el mail de bienvenida o no puedo entrar a mi carpeta', 'Escríbele a Flor enseguida por WhatsApp y lo resuelven. Revisa también Spam y Promociones.'],
-    ['¿Tengo que ver los módulos en orden?', 'Sigues el orden de tu camino. Si tu trabajo pide algo antes (por ejemplo, una presentación importante el mes que viene), Flor te dice qué clase adelantar.'],
+    ['¿Tengo que ver los módulos en orden?', 'Sigues el orden de tu camino. Si tu trabajo pide algo antes (por ejemplo, una presentación importante el mes que viene), Flor te dice qué clase adelantar. Si no sabes cuál sigue, pregúntale a Flor AI.', '¿Qué clase me toca ver ahora?'],
     ['¿Hay recesos?', 'Sí, dos fijos para todas: del 21 de diciembre al 6 de enero y del 20 al 31 de julio. Los feriados de Argentina se recuerdan en la comunidad.'],
     ['¿Cuándo uso los coaches de IA?', 'Desde el Módulo 1: ahí Flor te enseña a instalarlos, usarlos y sacarles provecho. Hasta entonces no tienes que hacer nada con ellos.'],
     ['¿Por qué las clases teóricas están en español?', 'Porque en ellas no te enseña inglés, te enseña cómo entrenarlo. En español te explica cómo entrenar. En inglés, entrenan.'],
-    ['Me siento perdida o abrumada', 'Es normal: entender cómo funciona todo lleva unas dos semanas. Ve paso a paso. Y si algo no te cierra, escríbele a Flor: prefiere mil veces que preguntes a que te quedes trabada.']
+    ['Me siento perdida o abrumada', 'Es normal: entender cómo funciona todo lleva unas dos semanas. Ve paso a paso. Y si algo no te cierra, escríbele a Flor: prefiere mil veces que preguntes a que te quedes trabada. Mientras tanto, Flor AI te ayuda a ver cuál es tu próximo paso.', 'Me siento un poco perdida, ¿por dónde sigo?']
   ];
   P.onboardingPorFormato = {
     LAB: {

@@ -787,7 +787,7 @@ ${o.nota ? `<p class="note">${esc(o.nota)}</p>` : ''}
 <section class="card"><h3>Dónde está cada cosa</h3><p class="muted small">Las clases están en la comunidad AT WORK, dentro de «Learning», y tu camino con los links está en <a href="#camino">Mi camino</a>. Lo tuyo vive en tu carpeta personal de Drive:</p>
   <ul class="dates">${P.carpetas.map(([n, t, d]) => `<li><b>${n} · ${esc(t)}</b><span>${esc(d)}</span></li>`).join('')}</ul>
   <p class="muted small">Desde <a href="#proceso">Mi proceso</a> y <a href="#feedback">Pedir feedback</a> puedes subir tus archivos y quedan guardados en tu carpeta.</p></section>
-<section class="card"><h3>Preguntas frecuentes</h3>${o.faq.map(([q, r]) => `<details class="faq"><summary>${esc(q)}</summary><p class="small">${esc(r)}</p></details>`).join('')}
+<section class="card"><h3>Preguntas frecuentes</h3>${o.faq.map(([q, r, ask]) => `<details class="faq"><summary>${esc(q)}</summary><p class="small">${esc(r)}</p>${ask ? `<button type="button" class="btn ghost sm" data-ask="${esc(ask)}">Preguntarle a Flor AI</button>` : ''}</details>`).join('')}
   <p class="muted small">¿Dudas, prácticas, wins? En la comunidad. ¿Temas administrativos o privados? Por WhatsApp. Flor responde de lunes a viernes, en su horario de trabajo.</p></section>
 <section class="card"><h3>Checklist antes de continuar</h3><p class="muted small">Antes de continuar, asegúrate de tener claro que…</p>
   <ul class="tasks" id="comp">${P.compromisos.map(([t, d], i) => `<li><label><input type="checkbox" data-i="${i}" ${(st.perfil.compromisos || []).includes(i) ? 'checked' : ''}><div><div class="t">${esc(t)}</div><div class="where">${esc(d)}</div></div></label></li>`).join('')}</ul>
