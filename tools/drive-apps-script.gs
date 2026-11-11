@@ -15,10 +15,10 @@
  * 5. En Supabase › Edge Functions › Secrets agregá:
  *      DRIVE_SCRIPT_URL = esa URL
  *      DRIVE_SECRET     = la misma clave del paso 2
- * 3) Lee un audio que una alumna mandó como link de Drive, para que la app lo escuche (solo si el secreto coincide).
+ * 3) Lee un audio que una alumna mandó como link de Drive, para que la app lo escuche y le dé feedback.
  * Si ya lo tenías publicado: pegá esta versión y hacé Implementar › Gestionar implementaciones › editar › Versión nueva.
- * El script no lee nada de Drive salvo la carpeta de la alumna que le indica la función, y solo si el
- * secreto coincide.
+ * El script solo actúa si el secreto coincide: guarda en la carpeta de la alumna que le indica la función
+ * y lee únicamente el archivo de audio que le pide la función.
  */
 function doPost(e) {
   try {
@@ -30,6 +30,13 @@ function doPost(e) {
       if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(p.para || '')) return salida({ ok: false, error: 'mail' });
       MailApp.sendEmail({ to: p.para, subject: p.asunto || 'Tienes feedback nuevo de Flor', htmlBody: p.html || '', name: 'Flor · AT WORK' });
       return salida({ ok: true });
+    }
+
+    if (p.accion === 'leer') {
+      var f0 = DriveApp.getFileById(p.id);
+      if (f0.getSize() > 30 * 1024 * 1024) return salida({ ok: false, error: 'el archivo pesa más de 30 MB' });
+      var b0 = f0.getBlob();
+      return salida({ ok: true, nombre: f0.getName(), mime: b0.getContentType(), base64: Utilities.base64Encode(b0.getBytes()) });
     }
 
     var raiz = DriveApp.getFolderById(p.carpeta);
