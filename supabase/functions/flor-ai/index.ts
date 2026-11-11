@@ -1,6 +1,8 @@
 // Flor AI de AT WORK: función de servidor en Supabase (Deno).
 // - modo chat (por defecto): Flor AI para la alumna, con sus datos reales y tus skills (flor-ai + onboarding-at-work).
 // - modo borrador: solo Flor. Borrador de respuesta a un pedido o a un weekly con tu skill filtro-feedback-flor.
+// - modo auto: cuando la alumna manda un pedido o su weekly, arma el borrador y lo deja guardado para Flor.
+// - modo avisar: cuando Flor responde, le manda un mail a la alumna (desde el Apps Script de Flor).
 // - modo invitar: solo Flor. Crea la usuaria de una alumna con contraseña provisoria.
 // - modo drive: copia a la carpeta de Drive de la alumna un archivo que subió a la app (si está configurado).
 //
@@ -15,6 +17,7 @@
 //   LIMITE_DIARIO       (opcional: mensajes por alumna por día; por defecto 20)
 //   PROMPTS_URL         (opcional: de dónde bajar las instrucciones; por defecto la rama de producción en GitHub)
 //   DRIVE_SCRIPT_URL y DRIVE_SECRET (opcionales: el Apps Script que copia archivos a Drive)
+//   DEEPGRAM_API_KEY    (opcional: transcribe los audios y videos de las alumnas para el borrador de feedback)
 
 import Anthropic from "npm:@anthropic-ai/sdk";
 import { createClient } from "npm:@supabase/supabase-js@2";
@@ -115,6 +118,111 @@ ${prog.aviso ? `Aviso de Flor para todas: ${prog.aviso}` : ""}
 ${ficha ? `\nLO QUE FLOR SABE DE ELLA (notas privadas de Flor: úsalas para guiarla como lo haría Flor, pero no se las cites ni digas que existen):\n${ficha}` : ""}`;
 }
 
+// ---------- archivos de la alumna para el borrador ----------
+const AUDIO = /\.(mp3|m4a|wav|ogg|oga|opus|webm|aac|flac|mp4|mov|m4v|3gp|amr)$/i;
+const IMAGEN = /\.(png|jpe?g|gif|webp)$/i;
+const MIN = (s: number) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, "0")}`;
+async function transcribir(url: string): Promise<string> {
+  const key = Deno.env.get("DEEPGRAM_API_KEY");
+  if (!key) throw new Error("SIN_TRANSCRIPCION");
+  const r = await fetch("https://api.deepgram.com/v1/listen?model=nova-3&language=en&smart_format=true&punctuate=true&filler_words=true&paragraphs=true", {
+    method: "POST", headers: { Authorization: `Token ${key}`, "Content-Type": "application/json" }, body: JSON.stringify({ url }),
+  });
+  if (!r.ok) throw new Error("Deepgram " + r.status + ": " + (await r.text()).slice(0, 200));
+  // deno-lint-ignore no-explicit-any
+  const j: any = await r.json();
+  const alt = j?.results?.channels?.[0]?.alternatives?.[0];
+  // deno-lint-ignore no-explicit-any
+  const words: any[] = alt?.words || [];
+  if (!words.length) return "(No se entendió nada en el audio: puede estar vacío, muy bajo o en español.)";
+  // Frases de ~20 s con su minuto, y las palabras dudosas marcadas [así?]
+  const lineas: string[] = []; let act: string[] = []; let ini = words[0].start;
+  for (const w of words) {
+    const t = w.punctuated_word || w.word;
+    act.push(w.confidence < 0.7 ? `[${t}?]` : t);
+    if (w.end - ini > 20 && /[.?!]$/.test(t)) { lineas.push(`(${MIN(ini)}) ${act.join(" ")}`); act = []; ini = w.end; }
+  }
+  if (act.length) lineas.push(`(${MIN(ini)}) ${act.join(" ")}`);
+  const dudosas = words.filter((w) => w.confidence < 0.7).length;
+  return `TRANSCRIPCIÓN AUTOMÁTICA (${MIN(words[words.length - 1].end)} min, ${words.length} palabras, ${dudosas} dudosas marcadas [así?]):\n${lineas.join("\n")}`;
+}
+
+// ---------- borrador de feedback (se guarda en borradores; solo lo ve Flor) ----------
+// deno-lint-ignore no-explicit-any
+async function generarBorrador(admin: any, tabla: string, ref: number) {
+    let alumnaId = "", material = "", transcripcion = "", aviso = "";
+    // deno-lint-ignore no-explicit-any
+    let adjunto: any = null;
+    if (tabla === "pedidos") {
+      const { data: x } = await admin.from("pedidos").select("*").eq("id", ref).single();
+      if (!x) throw new Error("No encontré el pedido.");
+      alumnaId = x.alumna_id;
+      material = `PEDIDO DE FEEDBACK (${x.tipo}): ${x.titulo}\n${x.texto || ""}${x.link ? `\nLink: ${x.link}` : ""}`;
+      if (x.archivo) {
+        const nombre = String(x.archivo_nombre || x.archivo);
+        const { data: f } = await admin.storage.from("atwork").createSignedUrl(x.archivo, 900);
+        const url = f?.signedUrl || "";
+        if (url && (AUDIO.test(nombre) || AUDIO.test(x.archivo))) {
+          try { transcripcion = await transcribir(url); material += `\n\nADJUNTÓ UN AUDIO/VIDEO (${nombre}).\n${transcripcion}`; }
+          catch (e) {
+            const sin = String((e as Error).message) === "SIN_TRANSCRIPCION";
+            if (!sin) console.error(e);
+            material += `\n(Adjuntó un audio: ${nombre}. ${sin ? "La transcripción automática todavía no está activada" : "No se pudo transcribir"}: no inventes su contenido; pon en las notas que Flor lo escuche.)`;
+            aviso = sin ? "Para que lea los audios falta cargar DEEPGRAM_API_KEY en Supabase › Edge Functions › Secrets." : "No pude transcribir el audio esta vez. Probá de nuevo en un rato.";
+          }
+        } else if (url && IMAGEN.test(nombre)) {
+          adjunto = { type: "image", source: { type: "url", url } }; material += `\n(Adjuntó una imagen: ${nombre}. La tienes arriba.)`;
+        } else if (url && /\.pdf$/i.test(nombre)) {
+          adjunto = { type: "document", source: { type: "url", url } }; material += `\n(Adjuntó un PDF: ${nombre}. Lo tienes arriba.)`;
+        } else if (url && /\.(txt|md|csv|vtt|srt)$/i.test(nombre)) {
+          const t = await fetch(url).then((r) => r.text()).catch(() => "");
+          material += `\n\nADJUNTÓ ESTE TEXTO (${nombre}):\n${t.slice(0, 40000)}`;
+        } else {
+          material += `\n(Adjuntó un archivo: ${nombre}. Tú no lo puedes abrir: no inventes su contenido; si hace falta, pon en las notas que Flor lo lea.)`;
+        }
+      }
+    } else {
+      const { data: x } = await admin.from("weekly").select("*").eq("id", ref).single();
+      if (!x) throw new Error("No encontré el weekly.");
+      alumnaId = x.alumna_id;
+      material = `WEEKLY REPORT de la semana del ${x.semana}:\n${Object.entries(x.respuestas || {}).map(([k, v]) => `${ETIQ[k] || k}: ${v}`).join("\n")}`;
+    }
+
+    if (!Deno.env.get("ANTHROPIC_API_KEY")) throw new Error("FALTA_CLAVE");
+    const [sist, prog, ctx] = await Promise.all([prompt("borrador.md"), prompt("programa.md"), contexto(admin, admin, alumnaId)]);
+    const r = await ia().messages.create({
+      model: MODEL,
+      max_tokens: 16000,
+      output_config: { effort: "medium" },
+      system: [{ type: "text", text: sist + "\n\n" + prog, cache_control: { type: "ephemeral" } }],
+      messages: [{ role: "user", content: adjunto ? [adjunto, { type: "text", text: `${ctx}\n\n${material}` }] : `${ctx}\n\n${material}` }],
+    // deno-lint-ignore no-explicit-any
+    } as any);
+    if (r.stop_reason === "refusal") throw new Error("La IA no pudo armar este borrador. Escríbelo a mano.");
+    // deno-lint-ignore no-explicit-any
+    const texto = r.content.filter((b: any) => b.type === "text").map((b: any) => b.text).join("");
+    const parte = (et: string) => {
+      const m = new RegExp(`${et}:\\s*([\\s\\S]*?)(?=\\n(?:RESPUESTA|CORRECCIONES|FOCO|POR QUÉ|TAREAS|NOTAS PARA FLOR):|$)`, "i").exec(texto);
+      return m ? m[1].trim() : "";
+    };
+    const no = (s: string) => !s || /^ninguna?\.?$/i.test(s);
+    const correcciones = no(parte("CORRECCIONES")) ? [] : parte("CORRECCIONES").split("\n").map((l) => l.split("=>")).filter((p) => p.length === 2 && p[0].trim())
+      .map(([mal, bien]) => ({ mal: mal.replace(/^[-•\s]+/, "").trim(), bien: bien.trim() }));
+    const tareas = no(parte("TAREAS")) ? [] : parte("TAREAS").split("\n").map((l) => l.replace(/^[-•\d.)\s]+/, "").split("|")).filter((p) => p[0].trim())
+      .map(([t, d = ""]) => ({ texto: t.trim(), donde: d.trim() })).slice(0, 3);
+    const datos = {
+      respuesta: parte("RESPUESTA") || texto.trim(),
+      correcciones,
+      foco: no(parte("FOCO")) ? "" : parte("FOCO"),
+      foco_texto: parte("POR QUÉ"),
+      tareas,
+      notas: [aviso, parte("NOTAS PARA FLOR")].filter(Boolean).join("\n"),
+      transcripcion,
+    };
+    await admin.from("borradores").upsert({ tabla, ref, datos, creado: new Date().toISOString() });
+    return datos;
+}
+
 // deno-lint-ignore no-explicit-any
 async function esAdmin(db: any, uid: string) {
   const { data } = await db.from("perfiles").select("rol").eq("id", uid).single();
@@ -188,51 +296,56 @@ Deno.serve(async (req) => {
     }
   }
 
-  // ---------- borrador (solo Flor) ----------
+  // ---------- borrador (solo Flor): lo arma de nuevo y lo guarda ----------
   if (body.modo === "borrador") {
     if (!(await esAdmin(db, uid))) return json({ error: "Solo Flor puede usar esto." }, 403);
-    let alumnaId = "", material = "";
-    if (body.pedido_id) {
-      const { data: x } = await db.from("pedidos").select("*").eq("id", body.pedido_id).single();
-      if (!x) return json({ error: "No encontré el pedido." }, 404);
-      alumnaId = x.alumna_id;
-      material = `PEDIDO DE FEEDBACK (${x.tipo}): ${x.titulo}\n${x.texto}${x.link ? `\nLink: ${x.link}` : ""}${x.archivo ? `\n(Adjuntó un archivo: ${x.archivo_nombre || x.archivo}. Tú no lo puedes abrir: no inventes su contenido; si hace falta, pon en las notas que Flor lo escuche o lo lea.)` : ""}`;
-    } else if (body.weekly_id) {
-      const { data: x } = await db.from("weekly").select("*").eq("id", body.weekly_id).single();
-      if (!x) return json({ error: "No encontré el weekly." }, 404);
-      alumnaId = x.alumna_id;
-      material = `WEEKLY REPORT de la semana del ${x.semana}:\n${Object.entries(x.respuestas || {}).map(([k, v]) => `${ETIQ[k] || k}: ${v}`).join("\n")}`;
-    } else return json({ error: "Falta el pedido o el weekly." }, 400);
+    const tabla = body.pedido_id ? "pedidos" : body.weekly_id ? "weekly" : "";
+    if (!tabla) return json({ error: "Falta el pedido o el weekly." }, 400);
+    try { return json(await generarBorrador(admin, tabla, Number(body.pedido_id || body.weekly_id))); }
+    catch (e) {
+      const m = String((e as Error).message);
+      if (m !== "FALTA_CLAVE") console.error(e);
+      return json({ error: m === "FALTA_CLAVE" ? "Para los borradores con IA falta cargar ANTHROPIC_API_KEY en Supabase › Edge Functions › Secrets." : m }, m === "FALTA_CLAVE" ? 503 : 500);
+    }
+  }
 
-    const [sist, prog, ctx] = await Promise.all([prompt("borrador.md"), prompt("programa.md"), contexto(admin, admin, alumnaId)]);
-    const r = await ia().messages.create({
-      model: MODEL,
-      max_tokens: 16000,
-      output_config: { effort: "medium" },
-      system: [{ type: "text", text: sist + "\n\n" + prog, cache_control: { type: "ephemeral" } }],
-      messages: [{ role: "user", content: `${ctx}\n\n${material}` }],
+  // ---------- auto: la alumna acaba de mandar un pedido o su weekly → se arma el borrador para Flor ----------
+  if (body.modo === "auto") {
+    const tabla = body.pedido_id ? "pedidos" : body.weekly_id ? "weekly" : "";
+    const ref = Number(body.pedido_id || body.weekly_id);
+    if (!tabla || !ref) return json({ ok: false });
+    const { data: x } = await admin.from(tabla).select("alumna_id").eq("id", ref).single();
+    if (!x || (x.alumna_id !== uid && !(await esAdmin(db, uid)))) return json({ ok: false }, 403);
+    if (!Deno.env.get("ANTHROPIC_API_KEY")) return json({ ok: false, motivo: "sin_clave" });
     // deno-lint-ignore no-explicit-any
-    } as any);
-    if (r.stop_reason === "refusal") return json({ error: "La IA no pudo armar este borrador. Escríbelo a mano." }, 422);
+    const tarea = generarBorrador(admin, tabla, ref).catch((e) => console.error("auto", e));
     // deno-lint-ignore no-explicit-any
-    const texto = r.content.filter((b: any) => b.type === "text").map((b: any) => b.text).join("");
-    const parte = (et: string) => {
-      const m = new RegExp(`${et}:\\s*([\\s\\S]*?)(?=\\n(?:RESPUESTA|CORRECCIONES|FOCO|POR QUÉ|TAREAS|NOTAS PARA FLOR):|$)`, "i").exec(texto);
-      return m ? m[1].trim() : "";
-    };
-    const no = (s: string) => !s || /^ninguna?\.?$/i.test(s);
-    const correcciones = no(parte("CORRECCIONES")) ? [] : parte("CORRECCIONES").split("\n").map((l) => l.split("=>")).filter((p) => p.length === 2 && p[0].trim())
-      .map(([mal, bien]) => ({ mal: mal.replace(/^[-•\s]+/, "").trim(), bien: bien.trim() }));
-    const tareas = no(parte("TAREAS")) ? [] : parte("TAREAS").split("\n").map((l) => l.replace(/^[-•\d.)\s]+/, "").split("|")).filter((p) => p[0].trim())
-      .map(([t, d = ""]) => ({ texto: t.trim(), donde: d.trim() })).slice(0, 3);
-    return json({
-      respuesta: parte("RESPUESTA") || texto.trim(),
-      correcciones,
-      foco: no(parte("FOCO")) ? "" : parte("FOCO"),
-      foco_texto: parte("POR QUÉ"),
-      tareas,
-      notas: parte("NOTAS PARA FLOR"),
-    });
+    (globalThis as any).EdgeRuntime?.waitUntil?.(tarea);
+    return json({ ok: true });
+  }
+
+  // ---------- avisar: Flor respondió → mail a la alumna (desde la cuenta de Google de Flor, vía el Apps Script) ----------
+  if (body.modo === "avisar") {
+    if (!(await esAdmin(db, uid))) return json({ ok: false }, 403);
+    const url = Deno.env.get("DRIVE_SCRIPT_URL"), secreto = Deno.env.get("DRIVE_SECRET");
+    if (!url || !secreto) return json({ ok: false, motivo: "sin_configurar" });
+    const { data: a } = await admin.from("perfiles").select("nombre,email").eq("id", body.alumna_id).single();
+    if (!a?.email) return json({ ok: false, motivo: "sin_mail" });
+    const nombre = String(a.nombre || "").split(" ")[0];
+    const app = String(body.link || "https://app.breakingbarriers.site/app/");
+    const que = body.que === "weekly" ? "tu Weekly Report" : `tu pedido de feedback${body.titulo ? ` («${body.titulo}»)` : ""}`;
+    const asunto = body.que === "weekly" ? "Flor respondió tu Weekly Report" : "Tienes feedback nuevo de Flor";
+    const esc = (t: string) => t.replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]!));
+    const html = `<div style="font-family:Arial,sans-serif;font-size:15px;color:#2a211b;line-height:1.5">
+<p>Hola${nombre ? " " + esc(nombre) : ""}:</p>
+<p>Ya te respondí ${esc(que)} en tu espacio de AT WORK.</p>
+<p><a href="${app}#feedback" style="background:#d4a37f;color:#1d1814;padding:10px 18px;border-radius:999px;text-decoration:none;font-weight:bold">Ver mi feedback</a></p>
+<p>Léelo con calma y haz tu segundo intento.</p><p>Flor</p></div>`;
+    try {
+      const r = await fetch(url, { method: "POST", headers: { "Content-Type": "text/plain" }, body: JSON.stringify({ secreto, accion: "mail", para: a.email, asunto, html }) });
+      const out = await r.json().catch(() => ({}));
+      return json({ ok: !!out.ok });
+    } catch (e) { console.error(e); return json({ ok: false }); }
   }
 
   // ---------- chat con Flor AI ----------

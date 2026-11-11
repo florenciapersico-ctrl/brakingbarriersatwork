@@ -138,6 +138,24 @@ NOTAS PARA FLOR:
 (qué dejaste afuera, qué chequear, alertas de cuidado)
 """
     filtro += '\n\n# SKILL filtro-feedback-flor\n\n' + skill_texto('filtro-feedback-flor')
+    filtro += """
+
+# CUANDO EL PEDIDO TRAE UN AUDIO O UN VIDEO
+Vas a recibir la TRANSCRIPCIÓN AUTOMÁTICA con las palabras que el sistema entendió con poca seguridad marcadas así:
+[palabra?]. Eso es tu pista de pronunciación: si una palabra de uso común sale marcada o mal transcripta, lo más
+probable es que no se haya entendido como ella la dijo. Trabaja así:
+- Gramática y orden de la frase: con el criterio de Narrative Flow (abajo), sobre la transcripción.
+- Vocabulario: con el criterio de Color Method (abajo), solo 1 o 2 upgrades útiles para su trabajo.
+- Pronunciación: con el criterio del coach Pronunciation (abajo). Elige las 2 o 3 palabras o frases que más afectan
+  que la entiendan (no todas las marcadas), da el respelling y el tip. Nunca afirmes con certeza cómo sonó algo que
+  solo deduces de la transcripción: si dudas, escríbelo en NOTAS PARA FLOR como "chequear al escuchar: …".
+- Fluidez: si la transcripción muestra muletillas, frases cortadas o recomienzos, nómbralo en una línea.
+- El feedback sigue el formato y la voz del filtro de Flor (arriba): primero lo que salió bien, después 2 o 3
+  correcciones que más le cambian el resultado, y un paso concreto para el segundo intento.
+- En NOTAS PARA FLOR: los minutos o frases que conviene que Flor escuche ella misma antes de enviar.
+"""
+    for sk, tit in (('at-work-narrative-flow', 'Narrative Flow (gramática)'), ('at-work-color-method', 'Color Method (vocabulario)'), ('at-work-pronunciation', 'Pronunciation (pronunciación)')):
+        filtro += f'\n\n# CRITERIO DEL COACH {tit} · úsalo para el feedback, no para conversar\n\n' + skill_texto(sk)
     for n, t in [('programa.md', prog), ('flor-ai.md', flor), ('borrador.md', filtro)]:
         open(os.path.join(OUT, n), 'w', encoding='utf-8').write(t)
         print('prompt', n, len(t), 'caracteres')

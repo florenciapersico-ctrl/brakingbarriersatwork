@@ -64,11 +64,13 @@
       async guardarWeekly(semana, respuestas, enviar) {
         const fila = { alumna_id: uid, semana, respuestas };
         if (enviar) fila.enviado_en = new Date().toISOString();
-        ok(await sb.from('weekly').upsert(fila, { onConflict: 'alumna_id,semana' }));
+        const w = ok(await sb.from('weekly').upsert(fila, { onConflict: 'alumna_id,semana' }).select('id').single());
+        if (enviar && w) llamar({ modo: 'auto', weekly_id: w.id }).catch(() => {});
       },
       async pedidos(a = uid) { return ok(await sb.from('pedidos').select('*').eq('alumna_id', a).order('creado', { ascending: false }).limit(50)); },
       async crearPedido(p) {
         const x = ok(await sb.from('pedidos').insert({ ...p, alumna_id: uid }).select().single());
+        llamar({ modo: 'auto', pedido_id: x.id }).catch(() => {});
         if (p.archivo) this.copiarDrive({ path: p.archivo, tipo: p.tipo, nombre: p.archivo_nombre, tabla: 'pedidos', id: x.id });
         return x;
       },
@@ -96,6 +98,13 @@
         const r = await llamar({ modo: 'invitar', email, nombre, password, redirect: location.origin + location.pathname });
         if (!r.ok) throw new Error(await errorDe(r));
       },
+      async pedidoDeFlor(p) {
+        const x = ok(await sb.from('pedidos').insert({ ...p, estado: 'pendiente' }).select().single());
+        llamar({ modo: 'auto', pedido_id: x.id }).catch(() => {});
+        return x;
+      },
+      async borradores() { return ok(await sb.from('borradores').select('tabla,ref,datos')); },
+      async avisar(q) { try { const r = await llamar({ modo: 'avisar', link: location.origin + location.pathname, ...q }); return r.ok ? r.json() : null; } catch (e) { return null; } },
       async pendientesImportacion() { return ok(await sb.from('importacion').select('email,nombre,datos').is('aplicado', null).order('orden')); },
       async todosPedidos() { return ok(await sb.from('pedidos').select('*').order('creado', { ascending: false }).limit(200)); },
       async responderPedido(id, respuesta, correcciones) { ok(await sb.from('pedidos').update({ respuesta, correcciones, estado: 'respondido', respondido_en: new Date().toISOString() }).eq('id', id)); },
@@ -221,7 +230,10 @@
       async alumnas() { return copia(S.perfiles); },
       async actualizarPerfil(pid, c) { Object.assign(S.perfiles.find((x) => x.id === pid), c); save(); },
       async invitar(email, nombre) { S.perfiles.push({ id: 'a' + id(), email, nombre: nombre || email.split('@')[0], rol: 'alumna', formato: 'LAB', trabajo: '', objetivo: '', foco_titulo: '', foco_texto: '', modulo_actual: 0, clases_asignadas: [], onboarding: [], activa: true }); save(); },
+      async pedidoDeFlor(p) { S.pedidos.push({ id: id(), estado: 'pendiente', respuesta: null, correcciones: [], creado: new Date().toISOString(), ...p }); save(); },
       async pendientesImportacion() { return []; },
+      async borradores() { return []; },
+      async avisar() { return null; },
       async todosPedidos() { return copia(S.pedidos.sort((x, y) => (x.creado < y.creado ? 1 : -1))); },
       async responderPedido(pid, respuesta, correcciones) { Object.assign(S.pedidos.find((x) => x.id === pid), { respuesta, correcciones, estado: 'respondido', respondido_en: new Date().toISOString() }); save(); },
       async todosWeeklies() { return copia(S.weekly.filter((w) => w.enviado_en).sort((x, y) => (x.enviado_en < y.enviado_en ? 1 : -1))); },

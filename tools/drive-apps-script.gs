@@ -1,7 +1,9 @@
 /**
- * AT WORK · Copia a Drive
- * Recibe de la función flor-ai (Supabase) un archivo que la alumna subió a la app y lo guarda en su
- * carpeta personal de Drive, en la subcarpeta que corresponde (01 a 05).
+ * AT WORK · Copia a Drive y avisos por mail
+ * 1) Recibe de la función flor-ai (Supabase) un archivo que la alumna subió a la app y lo guarda en su
+ *    carpeta personal de Drive, en la subcarpeta que corresponde (01 a 05).
+ * 2) Cuando Flor responde un feedback o un weekly en la app, le manda a la alumna un mail corto
+ *    desde la cuenta de Google de Flor ("Tienes feedback nuevo de Flor" + botón a la app).
  *
  * Cómo publicarlo (una sola vez, desde la cuenta de Google de Flor):
  * 1. Entrá a script.google.com › Nuevo proyecto. Nombre: "AT WORK · Copia a Drive". Pegá este archivo entero.
@@ -21,6 +23,12 @@ function doPost(e) {
     var p = JSON.parse(e.postData.contents);
     var secreto = PropertiesService.getScriptProperties().getProperty('SECRETO');
     if (!secreto || p.secreto !== secreto) return salida({ ok: false, error: 'secreto' });
+
+    if (p.accion === 'mail') {
+      if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(p.para || '')) return salida({ ok: false, error: 'mail' });
+      MailApp.sendEmail({ to: p.para, subject: p.asunto || 'Tienes feedback nuevo de Flor', htmlBody: p.html || '', name: 'Flor · AT WORK' });
+      return salida({ ok: true });
+    }
 
     var raiz = DriveApp.getFolderById(p.carpeta);
     var destino = raiz;

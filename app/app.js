@@ -151,10 +151,33 @@
     shell();
     if (!location.hash || /access_token|type=/.test(location.hash)) location.replace('#' + (st.admin && !DB.demo ? 'bandeja' : 'semana'));
     ruta();
+    if (!st.admin) avisosNuevos();
+  }
+
+  // Aviso en la app cuando Flor le respondió algo que todavía no vio (además del mail).
+  const VISTO = (k) => 'atw-visto-' + k + '-' + (st.perfil && st.perfil.id);
+  async function avisosNuevos() {
+    try {
+      const [ps, ws] = await Promise.all([DB.pedidos(), DB.weeklies()]);
+      const ult = (arr, campo) => arr.map((x) => x[campo] || '').filter(Boolean).sort().pop() || '';
+      const marcas = { feedback: ult(ps.filter((x) => x.estado === 'respondido'), 'respondido_en'), weekly: ult(ws.filter((x) => x.respuesta_flor), 'respondido_en') };
+      let hay = false;
+      Object.entries(marcas).forEach(([k, t]) => {
+        let visto = ''; try { visto = localStorage.getItem(VISTO(k)) || ''; } catch (e) { /* sin almacenamiento */ }
+        if (!visto) { try { localStorage.setItem(VISTO(k), t || new Date().toISOString()); } catch (e) { /* */ } return; }
+        if (t && t > visto) { $$('.nuevo-' + k).forEach((b) => (b.hidden = false)); hay = true; }
+      });
+      if (hay) toast('Flor te respondió. Míralo en ' + ($('.nuevo-feedback:not([hidden])') ? 'Pedir feedback' : 'Weekly report') + '.');
+    } catch (e) { /* no es crítico */ }
+  }
+  function marcarVisto(v) {
+    if (st.admin || (v !== 'feedback' && v !== 'weekly')) return;
+    try { localStorage.setItem(VISTO(v), new Date().toISOString()); } catch (e) { /* */ }
+    $$('.nuevo-' + v).forEach((b) => (b.hidden = true));
   }
 
   function navHTML(tab) {
-    const it = ([id, l]) => '<a href="#' + id + '" data-v="' + id + '">' + svg(id) + '<span>' + l + '</span>' + (id === 'bandeja' ? '<span class="badge"' + (tab ? '' : ' id="bdg"') + ' hidden></span>' : '') + '</a>';
+    const it = ([id, l]) => '<a href="#' + id + '" data-v="' + id + '">' + svg(id) + '<span>' + l + '</span>' + (id === 'bandeja' ? '<span class="badge"' + (tab ? '' : ' id="bdg"') + ' hidden></span>' : '') + (id === 'feedback' || id === 'weekly' ? '<span class="badge nuevo-' + id + '" hidden>Nuevo</span>' : '') + '</a>';
     if (tab) return (st.admin && !DB.demo ? ADMIN.concat(VISTAS) : VISTAS).map(it).join('');
     return GRUPOS.map(([g, vs]) => '<div class="sep">' + g + '</div>' + vs.map(it).join('')).join('') + (st.admin ? '<div class="sep">Panel de Flor</div>' + ADMIN.map(it).join('') : '');
   }
@@ -190,6 +213,7 @@
     const vista = V[v] && (!ADMIN.some(([id]) => id === v) || st.admin) ? v : 'semana';
     $$('nav a').forEach((a) => (a.dataset.v === vista ? a.setAttribute('aria-current', 'page') : a.removeAttribute('aria-current')));
     if ($('#tbt')) $('#tbt').textContent = TITULOS[vista] || '';
+    marcarVisto(vista);
     const app = $('#app');
     app.innerHTML = '<div class="view"><p class="muted">Cargando…</p></div>';
     try {
@@ -793,13 +817,13 @@ ${o.nota ? `<p class="note">${esc(o.nota)}</p>` : ''}
       const nom = (id) => esc((al[id] && (al[id].nombre || al[id].email)) || 'Alumna');
       const T = [['pedidos', 'Pedidos de feedback', pend.length], ['weeklies', 'Weeklies sin responder', wp.length], ['respondidos', 'Respondidos', '']];
       let cuerpo = '';
-      if (tab === 'pedidos') cuerpo = pend.length ? pend.map((x) => `<div class="fbitem" data-pid="${x.id}">
+      if (tab === 'pedidos') cuerpo = pend.length ? pend.map((x) => `<div class="fbitem" data-pid="${x.id}" data-aid="${x.alumna_id}" data-tit="${esc(x.titulo || '')}">
         <div class="row between"><b>${nom(x.alumna_id)} · ${esc(x.titulo || tipoNombre(x.tipo))}</b><span class="muted small">${tipoNombre(x.tipo)} · ${fecha(x.creado, { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}</span></div>
         ${x.texto ? `<pre>${esc(x.texto)}</pre>` : ''}${adjunto(x)}${url(x.link) ? ` <a class="small" href="${esc(x.link)}" target="_blank" rel="noopener">Abrir el link que mandó</a>` : ''}
         <div class="field"><label>Tu respuesta</label><textarea class="r" rows="5" placeholder="Lo que funcionó, tu foco para ella y qué clase ver."></textarea></div>
         <div class="field"><label>Correcciones</label><div class="corrs"></div><button type="button" class="linkbtn small addc">+ Agregar corrección</button></div>
         <p class="notas small muted" hidden></p>
-        <div class="row"><button class="btn send" type="button">Enviar respuesta</button>${IA ? '<button class="btn ghost ia" type="button">Borrador con IA</button>' : ''}</div>
+        <div class="row"><button class="btn send" type="button">Enviar respuesta</button><button class="btn ghost ia" type="button">Borrador con IA</button></div>
       </div>`).join('') : '<p class="muted">No hay pedidos pendientes. 🎉</p>';
       if (tab === 'weeklies') cuerpo = wp.length ? wp.map((x) => `<div class="fbitem" data-wid="${x.id}" data-aid="${x.alumna_id}">
         <div class="row between"><b>${nom(x.alumna_id)} · semana del ${fecha(x.semana, { day: 'numeric', month: 'long' })}</b><span class="muted small">Enviado ${fecha(x.enviado_en)}</span></div>
@@ -811,14 +835,14 @@ ${o.nota ? `<p class="note">${esc(o.nota)}</p>` : ''}
           <div class="field"><label>Tareas (una por línea: tarea | dónde)</label><textarea class="pt" rows="3"></textarea></div>
           <label class="row small"><input type="checkbox" class="aplicar" checked> Cargarle este foco y estas tareas al enviar</label></div>
         <p class="notas small muted" hidden></p>
-        <div class="row"><button class="btn sendw" type="button">Enviar respuesta</button>${IA ? '<button class="btn ghost iaw" type="button">Borrador con IA</button>' : ''}</div>
+        <div class="row"><button class="btn sendw" type="button">Enviar respuesta</button><button class="btn ghost iaw" type="button">Borrador con IA</button></div>
       </div>`).join('') : '<p class="muted">No hay weeklies sin responder.</p>';
       if (tab === 'respondidos') cuerpo = resp.length ? resp.map((x) => `<details class="fbitem"><summary><b>${nom(x.alumna_id)} · ${esc(x.titulo || tipoNombre(x.tipo))}</b> <span class="muted small">${fecha(x.respondido_en)}</span></summary><pre>${esc(x.texto)}</pre><div class="reply"><p>${esc(x.respuesta).replace(/\n/g, '<br>')}</p>${fixes(x.correcciones)}</div></details>`).join('') : '<p class="muted">Todavía no respondiste pedidos.</p>';
       return `<div class="head"><div><span class="eyebrow">Panel de Flor</span><h1>Bandeja</h1></div></div>
 <div class="tabs">${T.map(([id, l, n]) => `<button type="button" data-tab="${id}" aria-pressed="${tab === id}">${l}${n !== '' ? ' (' + n + ')' : ''}</button>`).join('')}</div>
 <section class="card">${cuerpo}</section>`;
     },
-    mount() {
+    async mount() {
       $$('[data-tab]').forEach((b) => (b.onclick = () => (location.hash = 'bandeja/' + b.dataset.tab)));
       const filaCorr = (box, mal = '', bien = '') => {
         box.insertAdjacentHTML('beforeend', `<div class="corr"><input type="text" class="mal" placeholder="Lo que dijo" value="${esc(mal)}"><input type="text" class="bien" placeholder="Cómo se dice" value="${esc(bien)}"><button type="button" class="linkbtn small quitar">Quitar</button></div>`);
@@ -827,33 +851,47 @@ ${o.nota ? `<p class="note">${esc(o.nota)}</p>` : ''}
         const box = $('.corrs', it);
         $('.addc', it).onclick = () => filaCorr(box);
         box.onclick = (e) => { if (e.target.classList.contains('quitar')) e.target.parentElement.remove(); };
-        if ($('.ia', it)) $('.ia', it).onclick = async (e) => {
-          const b = e.target; b.disabled = true; b.textContent = 'Armando borrador…';
-          try { const r = await DB.borrador({ pedido_id: +it.dataset.pid || it.dataset.pid }); $('.r', it).value = r.respuesta; box.innerHTML = ''; (r.correcciones || []).forEach((c) => filaCorr(box, c.mal, c.bien)); if (r.notas) { $('.notas', it).hidden = false; $('.notas', it).textContent = 'Notas para ti: ' + r.notas; } }
-          catch (er) { toast(er.message, true); }
-          b.disabled = false; b.textContent = 'Borrador con IA';
+        it._aplicar = (r) => {
+          $('.r', it).value = r.respuesta || ''; box.innerHTML = ''; (r.correcciones || []).forEach((c) => filaCorr(box, c.mal, c.bien));
+          if (r.notas) { $('.notas', it).hidden = false; $('.notas', it).textContent = 'Notas para ti: ' + r.notas; }
+          const vieja = $('.trans', it); if (vieja) vieja.remove();
+          if (r.transcripcion) $('.notas', it).insertAdjacentHTML('afterend', `<details class="trans small"><summary>Ver la transcripción del audio</summary><pre>${esc(r.transcripcion)}</pre></details>`);
         };
+        it._generar = async () => {
+          const b = $('.ia', it); b.disabled = true; b.textContent = 'Armando borrador…';
+          let ok = true;
+          try { it._aplicar(await DB.borrador({ pedido_id: +it.dataset.pid || it.dataset.pid })); } catch (er) { ok = false; toast(er.message, true); }
+          b.disabled = false; b.textContent = ok ? 'Armar de nuevo con IA' : 'Borrador con IA';
+          return ok;
+        };
+        $('.ia', it).onclick = it._generar;
         $('.send', it).onclick = async () => {
           const r = $('.r', it).value.trim(); if (!r) return toast('Escribe tu respuesta.', true);
           const corr = $$('.corr', it).map((c) => ({ mal: $('.mal', c).value.trim(), bien: $('.bien', c).value.trim() })).filter((c) => c.mal && c.bien);
-          await intentar(() => DB.responderPedido(+it.dataset.pid || it.dataset.pid, r, corr), 'Respuesta enviada');
+          await intentar(() => DB.responderPedido(+it.dataset.pid || it.dataset.pid, r, corr), 'Respuesta enviada. Le llega un aviso por mail.');
+          DB.avisar({ que: 'pedido', alumna_id: it.dataset.aid, titulo: it.dataset.tit || '' });
           it.remove(); contarBandeja();
         };
       });
       $$('[data-wid]').forEach((it) => {
         const id = +it.dataset.wid || it.dataset.wid;
-        if ($('.iaw', it)) $('.iaw', it).onclick = async (e) => {
-          const b = e.target; b.disabled = true; b.textContent = 'Armando borrador…';
-          try {
-            const r = await DB.borrador({ weekly_id: id }); $('.r', it).value = r.respuesta;
-            if (r.foco || (r.tareas || []).length) { $('.plan', it).hidden = false; $('.pf', it).value = r.foco || ''; $('.pft', it).value = r.foco_texto || ''; $('.pt', it).value = (r.tareas || []).map((t) => t.texto + (t.donde ? ' | ' + t.donde : '')).join('\n'); }
-            if (r.notas) { $('.notas', it).hidden = false; $('.notas', it).textContent = 'Notas para ti: ' + r.notas; }
-          } catch (er) { toast(er.message, true); }
-          b.disabled = false; b.textContent = 'Borrador con IA';
+        it._aplicar = (r) => {
+          $('.r', it).value = r.respuesta || '';
+          if (r.foco || (r.tareas || []).length) { $('.plan', it).hidden = false; $('.pf', it).value = r.foco || ''; $('.pft', it).value = r.foco_texto || ''; $('.pt', it).value = (r.tareas || []).map((t) => t.texto + (t.donde ? ' | ' + t.donde : '')).join('\n'); }
+          if (r.notas) { $('.notas', it).hidden = false; $('.notas', it).textContent = 'Notas para ti: ' + r.notas; }
         };
+        it._generar = async () => {
+          const b = $('.iaw', it); b.disabled = true; b.textContent = 'Armando borrador…';
+          let ok = true;
+          try { it._aplicar(await DB.borrador({ weekly_id: id })); } catch (er) { ok = false; toast(er.message, true); }
+          b.disabled = false; b.textContent = ok ? 'Armar de nuevo con IA' : 'Borrador con IA';
+          return ok;
+        };
+        $('.iaw', it).onclick = it._generar;
         $('.sendw', it).onclick = async () => {
           const r = $('.r', it).value.trim(); if (!r) return toast('Escribe tu respuesta.', true);
-          await intentar(() => DB.responderWeekly(id, r), 'Respuesta enviada');
+          await intentar(() => DB.responderWeekly(id, r), 'Respuesta enviada. Le llega un aviso por mail.');
+          DB.avisar({ que: 'weekly', alumna_id: it.dataset.aid });
           if (!$('.plan', it).hidden && $('.aplicar', it).checked) {
             const aid = it.dataset.aid, foco = $('.pf', it).value.trim();
             if (foco) await intentar(() => DB.actualizarPerfil(aid, { foco_titulo: foco, foco_texto: $('.pft', it).value.trim() })).catch(() => {});
@@ -864,6 +902,19 @@ ${o.nota ? `<p class="note">${esc(o.nota)}</p>` : ''}
           it.remove(); contarBandeja();
         };
       });
+      // Borradores: los que ya armó la IA se cargan solos; los que faltan se arman ahora, de a uno.
+      const items = $$('[data-pid],[data-wid]');
+      if (items.length) {
+        const bs = await DB.borradores().catch(() => []);
+        const m = {}; bs.forEach((b) => { m[b.tabla + ':' + b.ref] = b.datos; });
+        const faltan = [];
+        items.forEach((it) => {
+          const k = it.dataset.pid ? 'pedidos:' + it.dataset.pid : 'weekly:' + it.dataset.wid;
+          if (m[k]) { it._aplicar(m[k]); const b = $('.ia,.iaw', it); if (b) b.textContent = 'Armar de nuevo con IA'; }
+          else faltan.push(it);
+        });
+        (async () => { for (const it of faltan) { if (!document.body.contains(it) || $('.r', it).value.trim()) continue; if (!(await it._generar())) break; } })();
+      }
     }
   };
 
@@ -918,6 +969,14 @@ ${o.nota ? `<p class="note">${esc(o.nota)}</p>` : ''}
   <ul class="tasks">${t.map((x) => `<li><div class="fbitem" style="flex-direction:row;align-items:center;justify-content:space-between"><span>${x.hecha ? '✓ ' : ''}<b>${esc(x.texto)}</b>${x.donde ? '<br><span class="muted small">' + esc(x.donde) + '</span>' : ''}</span><button type="button" class="linkbtn small" data-deltarea="${x.id}">Quitar</button></div></li>`).join('') || '<li class="muted small">Sin tareas.</li>'}</ul>
   <form class="editrow" id="tform"><input type="text" id="t-texto" placeholder="Tarea (ej.: Ver la clase Dar un update)"><input type="text" id="t-donde" placeholder="Dónde / detalle (opcional)"><button class="btn sm" type="submit">Agregar</button></form>
 </section>
+<form class="card" id="fbform" novalidate>
+  <h3>Feedback de un audio o archivo</h3>
+  <p class="muted small">¿Te mandó un audio por WhatsApp o un documento por mail? Súbelo acá: queda en su espacio y en tu Bandeja. Con «Borrador con IA» la app lo transcribe y te arma el feedback con tu criterio (pronunciación incluida). Tú lo revisas y lo envías.</p>
+  <input type="text" id="fb-tit" placeholder="Qué es (ej.: Audio de su update del lunes)">
+  <textarea id="fb-texto" rows="2" placeholder="Contexto para el feedback (opcional): qué quería practicar, para qué reunión…"></textarea>
+  <input type="file" id="fb-file" accept="audio/*,video/*,.pdf,.txt,image/*">
+  <button class="btn sm" type="submit">Llevar a mi Bandeja</button>
+</form>
 <section class="card">
   <h3>Patrones de error</h3>
   ${pat.map((x) => `<div class="editrow" data-pat="${x.id}"><span>${esc(x.patron)} <span class="muted small">· ${esc(x.tipo)}</span></span><select class="pat-estado">${['Practicando', 'Resuelto'].map((o) => `<option ${x.estado === o ? 'selected' : ''}>${o}</option>`).join('')}</select><button type="button" class="linkbtn small pat-del">Quitar</button></div>`).join('') || '<p class="muted small">Sin patrones cargados.</p>'}
@@ -978,6 +1037,20 @@ ${o.nota ? `<p class="note">${esc(o.nota)}</p>` : ''}
       };
       const a = st._alumna; if (!a || String(a.id) !== sel) return;
       const aid = a.id;
+      $('#fbform').onsubmit = async (e) => {
+        e.preventDefault();
+        const file = $('#fb-file').files[0];
+        if (!file) return toast('Elige el audio o el archivo.', true);
+        if (file.size > 50 * 1024 * 1024) return toast('El archivo pesa más de 50 MB.', true);
+        const btn = $('#fbform button[type=submit]'); btn.disabled = true; btn.textContent = 'Subiendo…';
+        try {
+          await intentar(async () => {
+            const archivo = await DB.subirArchivo(file, 'feedback', aid);
+            await DB.pedidoDeFlor({ alumna_id: aid, tipo: /^(audio|video)\//.test(file.type) ? 'audio' : 'tarea', titulo: $('#fb-tit').value.trim() || file.name, texto: $('#fb-texto').value.trim(), archivo, archivo_nombre: file.name });
+          }, 'Listo, está en tu Bandeja');
+          location.hash = 'bandeja/pedidos';
+        } catch (er) { btn.disabled = false; btn.textContent = 'Llevar a mi Bandeja'; }
+      };
       $$('.cl').forEach((b) => (b.onclick = () => b.setAttribute('aria-pressed', b.getAttribute('aria-pressed') !== 'true')));
       $('#aform').onsubmit = async (e) => {
         e.preventDefault();
