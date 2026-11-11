@@ -5,10 +5,11 @@
 // - modo avisar: cuando Flor responde, le manda un mail a la alumna (desde el Apps Script de Flor).
 // - modo invitar: solo Flor. Crea la usuaria de una alumna con contraseña provisoria.
 // - modo drive: copia a la carpeta de Drive de la alumna un archivo que subió a la app (si está configurado).
+// - modo escuchar: transcribe un audio de la alumna para que Flor AI le dé feedback.
+// - modos drive_lista / drive_nuevo: el Apps Script de Flor carga en la app lo que las alumnas suben a Drive.
 //
 // Las instrucciones viven en el repo (supabase/functions/flor-ai/prompts/*.md, se arman con tools/build.py)
-// y se bajan de GitHub; quedan en memoria 10 minutos. Para cambiar cómo responde Flor AI no hace falta
-// volver a publicar la función: editás skills/ o app/camino.js, corrés tools/build.py y hacés push.
+// y se bajan de GitHub; quedan en memoria 10 minutos.
 //
 // Secretos (Supabase › Edge Functions › Secrets):
 //   ANTHROPIC_API_KEY   (obligatorio para el chat y los borradores)
@@ -16,8 +17,8 @@
 //   FLOR_AI_EFFORT      (opcional: low | medium | high; por defecto low)
 //   LIMITE_DIARIO       (opcional: mensajes por alumna por día; por defecto 20)
 //   PROMPTS_URL         (opcional: de dónde bajar las instrucciones; por defecto la rama de producción en GitHub)
-//   DRIVE_SCRIPT_URL y DRIVE_SECRET (opcionales: el Apps Script que copia archivos a Drive)
-//   DEEPGRAM_API_KEY    (opcional: transcribe los audios y videos de las alumnas para el borrador de feedback)
+//   DRIVE_SCRIPT_URL y DRIVE_SECRET (el Apps Script de Flor: copia a Drive, avisos por mail, lee audios de Drive)
+//   DEEPGRAM_API_KEY    (transcribe los audios y videos de las alumnas)
 
 import Anthropic from "npm:@anthropic-ai/sdk";
 import { createClient } from "npm:@supabase/supabase-js@2";
@@ -484,7 +485,7 @@ Deno.serve(async (req) => {
   // ---------- chat con Flor AI ----------
   const mensaje = String(body.mensaje || "").trim();
   if (!mensaje || !body.chat_id) return json({ error: "Falta el mensaje." }, 400);
-  if (mensaje.length > 20000) return json({ error: "El mensaje es muy largo. Pégalo en partes." }, 400);
+  if (mensaje.length > 40000) return json({ error: "El mensaje es muy largo. Pégalo en partes." }, 400);
 
   const { data: chat } = await db.from("chats").select("*").eq("id", body.chat_id).single();
   if (!chat) return json({ error: "No encontré esta conversación." }, 404);
