@@ -19,6 +19,9 @@
  * 4) Cada 15 minutos revisa las carpetas 02, 04 y 05 de cada alumna: lo que suban a Drive aparece en la
  *    app como pedido de feedback (y si es un audio, la app lo escucha y te deja el borrador en la bandeja).
  *    Para prenderlo: en el editor elegí la función activarRevision y tocá Ejecutar (una sola vez).
+ * 5) Cuando creás una alumna en la app sin link de Drive, le crea su carpeta (con 01 a 05) dentro de
+ *    "AT WORK · Alumnas" y se la comparte. Si querés usar otra carpeta madre, agregá la propiedad
+ *    CARPETA_ALUMNAS con su id. Si tenés una carpeta modelo, agregá PLANTILLA con su id y copia sus subcarpetas.
  * Si ya lo tenías publicado: pegá esta versión y hacé Implementar › Gestionar implementaciones › editar › Versión nueva.
  * El script solo actúa si el secreto coincide: guarda en la carpeta de la alumna que le indica la función
  * y lee únicamente el archivo de audio que le pide la función.
@@ -34,6 +37,9 @@ function doPost(e) {
       MailApp.sendEmail({ to: p.para, subject: p.asunto || 'Tienes feedback nuevo de Flor', htmlBody: p.html || '', name: 'Flor · AT WORK' });
       return salida({ ok: true });
     }
+
+    // 5) Alumna nueva: le crea su carpeta con las subcarpetas 01 a 05 y se la comparte.
+    if (p.accion === 'crear_carpeta') return salida(crearCarpetaAlumna(p.nombre, p.email));
 
     if (p.accion === 'leer') {
       var f0 = DriveApp.getFileById(p.id);
@@ -115,4 +121,30 @@ function revisarCarpeta(a, carpeta, cod, desde) {
   }
   var hijas = carpeta.getFolders(); // subcarpetas adentro (ej. 04 › noviembre)
   while (hijas.hasNext()) revisarCarpeta(a, hijas.next(), cod, desde);
+}
+
+// ---------- Carpeta de una alumna nueva ----------
+var SUBS = ['01 · MI PUNTO DE PARTIDA', '02 · MI MATERIAL REAL', '03 · MIS SESIONES', '04 · MIS PRÁCTICAS', '05 · MIS WEEKLY REPORTS'];
+function crearCarpetaAlumna(nombre, email) {
+  var props = PropertiesService.getScriptProperties();
+  var madreId = props.getProperty('CARPETA_ALUMNAS'), madre;
+  if (madreId) madre = DriveApp.getFolderById(madreId);
+  else {
+    var it = DriveApp.getFoldersByName('AT WORK · Alumnas');
+    madre = it.hasNext() ? it.next() : DriveApp.createFolder('AT WORK · Alumnas');
+    props.setProperty('CARPETA_ALUMNAS', madre.getId());
+  }
+  var titulo = (nombre || email || 'Alumna').trim();
+  var ya = madre.getFoldersByName(titulo);
+  var carpeta = ya.hasNext() ? ya.next() : madre.createFolder(titulo);
+  var nombres = SUBS;
+  var plantilla = props.getProperty('PLANTILLA');
+  if (plantilla) {
+    nombres = []; var ps = DriveApp.getFolderById(plantilla).getFolders();
+    while (ps.hasNext()) nombres.push(ps.next().getName());
+    nombres.sort();
+  }
+  nombres.forEach(function (n) { if (!carpeta.getFoldersByName(n).hasNext()) carpeta.createFolder(n); });
+  if (email) { try { carpeta.addEditor(email); } catch (e) { console.error('compartir', e); } }
+  return { ok: true, link: carpeta.getUrl(), id: carpeta.getId() };
 }

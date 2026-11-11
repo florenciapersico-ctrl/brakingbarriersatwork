@@ -395,7 +395,23 @@ Deno.serve(async (req) => {
       const { data, error } = await admin.auth.admin.createUser({ email, password: body.password, email_confirm: true, user_metadata: { nombre } });
       if (error) return json({ error: /already/i.test(error.message) ? "Ya existe una alumna con ese mail." : error.message }, 400);
       if (nombre && data.user) await admin.from("perfiles").update({ nombre }).eq("id", data.user.id);
-      return json({ ok: true, id: data.user?.id });
+      // Su carpeta de Drive: la que puso Flor, la que ya tenía cargada o, si no hay, una nueva con 01 a 05.
+      let drive = "";
+      if (data.user) {
+        const dUrl = String(body.drive_url || "").trim();
+        if (/drive\.google\.com/.test(dUrl)) await admin.from("perfiles").update({ drive_url: dUrl }).eq("id", data.user.id);
+        const { data: pf } = await admin.from("perfiles").select("drive_url").eq("id", data.user.id).single();
+        drive = pf?.drive_url || "";
+        const sUrl = Deno.env.get("DRIVE_SCRIPT_URL"), secreto = Deno.env.get("DRIVE_SECRET");
+        if (!drive && sUrl && secreto) {
+          try {
+            const r = await fetch(sUrl, { method: "POST", headers: { "Content-Type": "text/plain" }, body: JSON.stringify({ secreto, accion: "crear_carpeta", nombre, email }) });
+            const out = await r.json().catch(() => ({}));
+            if (out.ok && out.link) { drive = out.link; await admin.from("perfiles").update({ drive_url: drive }).eq("id", data.user.id); }
+          } catch (e) { console.error("crear_carpeta", e); }
+        }
+      }
+      return json({ ok: true, id: data.user?.id, drive });
     }
     const { error } = await admin.auth.admin.inviteUserByEmail(email, { data: { nombre }, redirectTo: body.redirect || undefined });
     if (error) return json({ error: error.message }, 400);
