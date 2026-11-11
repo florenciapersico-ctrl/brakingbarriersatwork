@@ -1299,6 +1299,7 @@ ${cuerpo}`;
   <div class="grid">
     <form class="card" id="invform" novalidate><h3>Agregar alumna</h3><p class="muted small">Le creas el usuario con una contraseña provisoria y se la mandas por WhatsApp. Después ella puede cambiarla.</p>
       <input type="text" id="inv-nombre" placeholder="Nombre y apellido"><input type="email" id="inv-email" placeholder="Mail">
+      <input type="url" id="inv-drive" placeholder="Link a su carpeta de Drive (opcional)">
       <input type="text" id="inv-pw" placeholder="Contraseña provisoria"><button class="btn sm" type="submit">Crear alumna</button>
       <div id="inv-ok" hidden class="note small"></div></form>
     ${st._pend && st._pend.length ? `<section class="card" id="pendcard"><h3>Por crear (${st._pend.length})</h3><p class="muted small">Ya están cargadas con su formato, su carpeta, sus weeklies y tu ficha. Toca «Crear» y mándale el mensaje: cuando entre, ve todo lo suyo.</p>
@@ -1336,7 +1337,11 @@ ${cuerpo}`;
         if (!em) return toast('Escribe el mail.', true);
         const btn = $('#invform button[type=submit]'); btn.disabled = true;
         try {
-          await intentar(() => DB.invitar(em, nom, pw), 'Alumna creada');
+          const dr = $('#inv-drive').value.trim();
+          if (dr && !/drive\.google\.com/.test(dr)) { toast('El link de Drive tiene que ser de drive.google.com', true); btn.disabled = false; return; }
+          const nueva = await intentar(() => DB.invitar(em, nom, pw), 'Alumna creada');
+          if (dr && nueva && nueva.id) await intentar(() => DB.actualizarPerfil(nueva.id, { drive_url: dr }), 'Alumna creada y vinculada a su carpeta de Drive').catch(() => {});
+          $('#inv-drive').value = '';
           const msg = mensajeAlta(nom, em, pw);
           mostrarMsg($('#inv-ok'), msg);
           $('#inv-email').value = ''; $('#inv-nombre').value = ''; $('#inv-pw').value = genPw();

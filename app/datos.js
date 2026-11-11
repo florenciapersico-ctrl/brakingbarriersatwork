@@ -97,6 +97,7 @@
       async invitar(email, nombre, password) {
         const r = await llamar({ modo: 'invitar', email, nombre, password, redirect: location.origin + location.pathname });
         if (!r.ok) throw new Error(await errorDe(r));
+        return r.json().catch(() => ({}));
       },
       async pedidoDeFlor(p) {
         const x = ok(await sb.from('pedidos').insert({ ...p, estado: 'pendiente' }).select().single());
