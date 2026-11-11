@@ -124,7 +124,23 @@
         const r = await llamar({ modo: 'borrador', ...q });
         if (!r.ok) throw new Error(await errorDe(r));
         return r.json();
-      }
+      },
+      // ---- bandeja completa: también las alumnas que todavía no crearon su cuenta (tabla importacion) ----
+      async importacionTodas() { return ok(await sb.from('importacion').select('email,nombre,datos,weeklies,aplicado').order('orden')); },
+      async todosWeekliesAdmin() { return ok(await sb.from('weekly').select('*').order('semana', { ascending: false }).limit(1000)); },
+      async todosPedidosAdmin() { return ok(await sb.from('pedidos').select('*').order('creado', { ascending: false }).limit(1000)); },
+      async responderWeeklyImp(email, semana, texto) { const r = ok(await sb.rpc('admin_responder_weekly', { p_email: email, p_semana: semana, p_texto: texto })); if (r === 'no_encontrada') throw new Error('No encontré a esa alumna.'); },
+      async responderPedidoImp(email, origen, respuesta, correcciones) { ok(await sb.rpc('admin_responder_pedido_imp', { p_email: email, p_origen: origen, p_respuesta: respuesta, p_correcciones: correcciones })); },
+      // ---- intentos de la alumna en la tabla de corrección ----
+      async intento(clave) { const { data } = await sb.from('intentos').select('*').eq('alumna_id', uid).eq('clave', clave).maybeSingle(); return data; },
+      async guardarIntento(clave, respuestas, revelado) { ok(await sb.from('intentos').upsert({ alumna_id: uid, clave, respuestas, revelado: !!revelado, actualizado: new Date().toISOString() })); },
+      // ---- Flor AI escucha un audio (transcripción con las palabras dudosas marcadas) ----
+      async escuchar(path) {
+        const r = await llamar({ modo: 'escuchar', path });
+        if (!r.ok) throw new Error(await errorDe(r));
+        return (await r.json()).transcripcion;
+      },
+      async guardarFlor(flor) { ok(await sb.from('programa').update({ flor }).eq('id', 1)); }
     };
   }
 
@@ -249,7 +265,15 @@
       async borrador() { await espera(400); return { respuesta: '(Demo) Acá aparece el borrador que arma la IA con tu voz y tu criterio. Lo editas y lo envías.', correcciones: [{ mal: 'if is possible', bien: 'if it is possible' }, { mal: 'we dont have', bien: "we don't have" }], foco: 'Ordenar tu update antes de hablar', foco_texto: 'Tu mensaje se pierde cuando arrancas por el detalle.', tareas: [{ texto: 'Ver M2 · The Message Map', donde: 'Módulo 2' }], notas: '(Demo) Notas para ti.' }; },
       async ficha(a) { return (S.fichas || {})[a] || ''; },
       async guardarFicha(a, t) { (S.fichas = S.fichas || {})[a] = t; save(); },
-      async copiarDrive() { return null; }
+      async copiarDrive() { return null; },
+      async importacionTodas() { return []; },
+      async todosWeekliesAdmin() { return copia(S.weekly); },
+      async todosPedidosAdmin() { return copia(S.pedidos); },
+      async responderWeeklyImp() {}, async responderPedidoImp() {},
+      async intento(clave) { return copia((S.intentos || {})[clave] || null); },
+      async guardarIntento(clave, respuestas, revelado) { (S.intentos = S.intentos || {})[clave] = { clave, respuestas, revelado }; save(); },
+      async escuchar() { await espera(400); return 'TRANSCRIPCIÓN AUTOMÁTICA (demo): So overall we are on [track?] and the main reason is because the directors delayed the [approvals?].'; },
+      async guardarFlor(flor) { S.programa.flor = flor; save(); }
     };
   }
 

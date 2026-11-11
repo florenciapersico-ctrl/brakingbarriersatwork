@@ -328,3 +328,22 @@ details.faq p{margin-top:6px;color:var(--muted)}
 button.who{background:none;border:0;color:inherit;font:inherit;cursor:pointer;padding:0}
 .whomenu{position:absolute;right:16px;top:calc(100% + 6px);z-index:50;display:flex;flex-direction:column;gap:10px;align-items:flex-start;min-width:220px;padding:14px 16px;background:var(--card,#26201b);border:1px solid var(--line,#3a3028);border-radius:14px;box-shadow:0 12px 32px rgba(0,0,0,.35)}
 .whomenu[hidden]{display:none}
+
+/* método de corrección de Flor: la alumna encuentra el error y dice por qué, después ve las respuestas */
+.corr{grid-template-columns:1fr 1fr 1fr auto}
+@media (max-width:640px){.corr{grid-template-columns:1fr}}
+.ejer{display:flex;flex-direction:column;gap:10px;margin-top:8px;padding:14px;border-radius:12px;background:var(--surface-2)}
+.ejer .tbl{overflow-x:auto}
+.ejer table td{vertical-align:top}
+.ejer textarea{width:100%;min-width:140px;font:inherit;font-size:14px;padding:6px 8px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--fg);resize:vertical}
+.ejer .ej-resp{display:flex;flex-direction:column;gap:8px}
+.ejer .ej-resp[hidden]{display:none}
+.ejer td b{color:var(--ok)}
+.sem-grupo h3{margin:0}
+.aviso-audio{border-left:3px solid var(--accent);font-weight:600}
+/* tablero de Flor */
+.dias{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.dias button{aspect-ratio:1;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--fg);font:inherit;font-size:12px;cursor:pointer}
+.dias button[aria-pressed="true"]{background:var(--accent);color:var(--on-brand);border-color:var(--accent);font-weight:700}
+.chk{display:flex;gap:10px;align-items:flex-start}
+.chk .ok-i{color:var(--ok);font-weight:700} .chk .no-i{color:var(--accent);font-weight:700}

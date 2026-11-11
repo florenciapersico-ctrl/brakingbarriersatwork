@@ -207,11 +207,48 @@
     if (st.admin) contarBandeja();
   }
 
+  // Todo lo de la bandeja junto: alumnas con cuenta + las que siguen en importación (sin repetir).
+  async function cargarBandeja() {
+    const [ped, ws, al, imp] = await Promise.all([DB.todosPedidosAdmin(), DB.todosWeekliesAdmin(), DB.alumnas(), DB.importacionTodas().catch(() => [])]);
+    const porId = {}, mails = new Set();
+    al.forEach((x) => { porId[x.id] = x; if (x.email) mails.add(x.email.toLowerCase()); });
+    const vacio = (r) => !r || !Object.values(r).some((v) => String(v || '').trim());
+    const W = [], T = [];
+    ws.forEach((x) => { const a = porId[x.alumna_id] || {}; if (a.rol === 'admin' && !DB.demo) return; W.push({ src: 'app', id: x.id, aid: x.alumna_id, email: a.email, nombre: a.nombre || a.email || 'Alumna', perfil: a, semana: x.semana, respuestas: x.respuestas || {}, enviado_en: x.enviado_en, respuesta_flor: x.respuesta_flor, respondido_en: x.respondido_en }); });
+    ped.forEach((x) => { const a = porId[x.alumna_id] || {}; T.push({ ...x, src: 'app', nombre: a.nombre || a.email || 'Alumna', perfil: a }); });
+    imp.forEach((i) => {
+      if (mails.has(String(i.email).toLowerCase())) return;
+      const perfil = { formato: (i.datos || {}).formato || 'LAB' };
+      (i.weeklies || []).forEach((x) => W.push({ src: 'imp', email: i.email, nombre: i.nombre, perfil, semana: x.semana, respuestas: x.respuestas || {}, enviado_en: x.enviado_en, respuesta_flor: x.respuesta_flor || null, respondido_en: x.respondido_en }));
+      ((i.datos || {}).pedidos || []).forEach((x) => T.push({ ...x, src: 'imp', email: i.email, nombre: i.nombre, perfil, estado: x.respuesta ? 'respondido' : 'pendiente' }));
+    });
+    const sinResp = W.filter((w) => !w.respuesta_flor && (w.enviado_en || !vacio(w.respuestas)));
+    const resp = W.filter((w) => w.respuesta_flor);
+    const orden = (a, b) => (a.semana < b.semana ? 1 : a.semana > b.semana ? -1 : String(a.nombre).localeCompare(String(b.nombre)));
+    sinResp.sort(orden); resp.sort(orden);
+    const pend = T.filter((x) => x.estado === 'pendiente').sort((a, b) => (a.creado < b.creado ? 1 : -1));
+    const tResp = T.filter((x) => x.estado === 'respondido').sort((a, b) => ((a.respondido_en || a.creado) < (b.respondido_en || b.creado) ? 1 : -1));
+    const activas = al.filter((x) => x.rol !== 'admin' && x.activa !== false).map((x) => ({ nombre: x.nombre || x.email, email: (x.email || '').toLowerCase(), perfil: x }))
+      .concat(imp.filter((i) => !mails.has(String(i.email).toLowerCase())).map((i) => ({ nombre: i.nombre, email: String(i.email).toLowerCase(), perfil: { ...(i.datos || {}), nombre: i.nombre } })));
+    return { sinResp, resp, pend, tResp, W, T, activas, imp, al };
+  }
+  // "Esta semana", "Semana pasada", "Semana del 26 de octubre"
+  function nombreSemana(lun) {
+    const hoy = DB.lunes(), d = (new Date(hoy + 'T12:00:00') - new Date(lun + 'T12:00:00')) / (7 * 864e5);
+    const f = fecha(lun, { day: 'numeric', month: 'long' });
+    return Math.round(d) === 0 ? 'Esta semana · del ' + f : Math.round(d) === 1 ? 'Semana pasada · del ' + f : 'Semana del ' + f;
+  }
+  const lunesDe = (iso) => DB.lunes(new Date(String(iso).length === 10 ? iso + 'T12:00:00' : iso));
+  function porSemana(items, sem) {
+    const g = []; items.forEach((x) => { const s = sem(x); let b = g.find((y) => y.s === s); if (!b) g.push((b = { s, items: [] })); b.items.push(x); });
+    return g.sort((a, b) => (a.s < b.s ? 1 : -1));
+  }
+
   async function contarBandeja() {
     try {
-      const [p, w] = await Promise.all([DB.todosPedidos(), DB.todosWeeklies()]);
-      const n = p.filter((x) => x.estado === 'pendiente').length + w.filter((x) => !x.respuesta_flor).length;
-      $$('#bdg, .tabbar .badge').forEach((b) => { b.textContent = n; b.hidden = !n; });
+      const b = await cargarBandeja();
+      const n = b.pend.length + b.sinResp.length;
+      $$('#bdg, .tabbar .badge').forEach((x) => { x.textContent = n; x.hidden = !n; });
     } catch (e) { /* no es crítico */ }
   }
 
@@ -229,6 +266,7 @@
       const html = await V[vista].html(...args);
       app.innerHTML = '<div class="view">' + html + '</div>';
       if (V[vista].mount) await V[vista].mount(...args);
+      await montarEjercicios(app).catch((e) => console.error(e));
     } catch (e) {
       console.error(e);
       app.innerHTML = '<div class="view"><section class="card"><h3>No pudimos cargar esta sección</h3><p class="muted">' + esc(e.message) + '</p><div class="row"><button class="btn" onclick="location.reload()">Reintentar</button></div></section></div>';
@@ -306,7 +344,88 @@
   }
   const lab = () => st.programa.proximo_lab || {};
   const links = () => st.programa.links || {};
-  const fixes = (c) => (c || []).map((x) => '<div class="fix"><s>' + esc(x.mal) + '</s><span class="arr muted">→</span><b>' + esc(x.bien) + '</b></div>').join('');
+  const fixes = (c) => (c || []).map((x) => '<div class="fix"><s>' + esc(x.mal) + '</s><span class="arr muted">→</span><b>' + esc(x.bien) + '</b>' + (x.por_que ? '<span class="muted small"> · ' + esc(x.por_que) + '</span>' : '') + '</div>').join('');
+
+  // ---------- Método de corrección de Flor ----------
+  // 1) la respuesta de Flor · 2) sus frases para que ELLA encuentre el error y diga por qué · 3) la tabla con las respuestas.
+  const ES = /^(como|con|si|la|el|los|las|es|va|para|porque|cuando|en|se|y|acá|aca|así|fijate|fíjate|ojo|una|un|lo|al|del|de|que|ya|solo|sólo|también|pero)\b/i;
+  function partirBien(resto) {
+    const re = /[.!?…:]\s+/g; let m;
+    while ((m = re.exec(resto))) {
+      const sig = resto.slice(m.index + m[0].length);
+      if (/^[¿¡]/.test(sig) || ES.test(sig) || /^\S+\s+(es|son|va|van|significa|se|quiere|suena|lleva)\b/i.test(sig)) return [resto.slice(0, m.index + (m[0].trim() === ':' ? 0 : 1)).trim(), sig.trim()];
+    }
+    return [resto.trim(), ''];
+  }
+  // Saca del texto de Flor las líneas "frase de ella → frase corregida. Explicación" (como en sus mails).
+  function separar(texto) {
+    const L = String(texto || '').replace(/\r/g, '').split('\n'), quedan = [], corr = [];
+    const esCorr = (l) => /\S\s*(→|->)\s*\S/.test(l) && l.length < 600;
+    const esTit = (l) => l.trim().length > 2 && l.trim().length < 60 && /[A-ZÁÉÍÓÚÑ]{3}/.test(l) && l.trim() === l.trim().toUpperCase() && !/^ACORDATE/i.test(l.trim());
+    for (let i = 0; i < L.length; i++) {
+      const l = L[i];
+      if (esTit(l) && i + 1 < L.length && esCorr(L[i + 1])) continue;
+      if (esCorr(l)) {
+        const [mal, ...r] = l.split(/\s*(?:→|->)\s*/);
+        const [bien, por_que] = partirBien(r.join(' → '));
+        const tit = i > 0 && esTit(L[i - 1]) ? L[i - 1].trim() : '';
+        corr.push({ mal: mal.replace(/^[-•\d.)\s]+/, '').trim(), bien, por_que: por_que || (tit ? tit.charAt(0) + tit.slice(1).toLowerCase() : '') });
+        continue;
+      }
+      quedan.push(l);
+    }
+    return { texto: quedan.join('\n').replace(/\n{3,}/g, '\n\n').trim(), correcciones: corr };
+  }
+  const parrafos = (t) => esc(t).split(/\n{2,}/).map((p) => '<p>' + p.replace(/\n/g, '<br>') + '</p>').join('');
+  // La devolución completa, con el ejercicio. clave = 'pedidos:12' o 'weekly:2026-11-09'.
+  function devolucion(texto, corrs, clave) {
+    let t = texto || '', c = (corrs || []).filter((x) => x && x.mal);
+    if (!c.length) { const s = separar(t); if (s.correcciones.length) { t = s.texto; c = s.correcciones; } }
+    return parrafos(t) + (c.length ? ejercicioHTML(c, clave) : '');
+  }
+  function ejercicioHTML(c, clave) {
+    return `<div class="ejer" data-clave="${esc(clave)}" data-c="${esc(JSON.stringify(c))}">
+  <span class="eyebrow">Tu turno · ${c.length === 1 ? 'encuentra el error' : 'encuentra los errores'}</span>
+  <p class="small muted">${c.length === 1 ? 'Esta frase es tuya' : 'Estas frases son tuyas'}. Escribe cómo la dirías bien y por qué. Cuando termines, mira las respuestas.</p>
+  <div class="tbl"><table><thead><tr><th>#</th><th>Tu frase</th><th>¿Cómo la corriges?</th><th>¿Por qué?</th></tr></thead><tbody>
+  ${c.map((x, i) => `<tr><td>${i + 1}</td><td>${esc(x.mal)}</td><td><textarea rows="2" class="ej-bien" data-i="${i}" aria-label="Tu corrección de la frase ${i + 1}"></textarea></td><td><textarea rows="2" class="ej-pq" data-i="${i}" aria-label="Por qué, frase ${i + 1}"></textarea></td></tr>`).join('')}
+  </tbody></table></div>
+  <div class="row"><button type="button" class="btn sm ej-ver">Ver las respuestas</button><button type="button" class="btn ghost sm ej-ai">Revisarlo con Flor AI</button><span class="muted small ej-ok"></span></div>
+  <div class="ej-resp" hidden><span class="eyebrow">Las respuestas</span>
+  <div class="tbl"><table><thead><tr><th>#</th><th>Tu frase</th><th>Lo que pusiste</th><th>Corrección</th><th>Por qué</th></tr></thead><tbody>
+  ${c.map((x, i) => `<tr><td>${i + 1}</td><td><s>${esc(x.mal)}</s></td><td class="ej-tuyo" data-i="${i}"></td><td><b>${esc(x.bien)}</b></td><td>${esc(x.por_que || '')}</td></tr>`).join('')}
+  </tbody></table></div><p class="small muted">Ahora vuelve a decirlo (o a grabarlo) con la corrección: el segundo intento es el que fija.</p></div>
+</div>`;
+  }
+  async function montarEjercicios(root) {
+    for (const el of $$('.ejer', root)) {
+      const clave = el.dataset.clave, c = JSON.parse(el.dataset.c || '[]');
+      const leer = () => c.map((_, i) => ({ bien: $(`.ej-bien[data-i="${i}"]`, el).value.trim(), por_que: $(`.ej-pq[data-i="${i}"]`, el).value.trim() }));
+      const revelar = () => {
+        const r = leer(); $('.ej-resp', el).hidden = false; $('.ej-ver', el).textContent = 'Respuestas abajo ↓';
+        $$('.ej-tuyo', el).forEach((td) => { const x = r[+td.dataset.i]; td.innerHTML = x.bien ? esc(x.bien) + (x.por_que ? '<br><span class="muted small">' + esc(x.por_que) + '</span>' : '') : '<span class="muted small">(sin intento)</span>'; });
+      };
+      const propio = !st.admin || DB.demo;
+      if (propio && clave) {
+        const g = await DB.intento(clave).catch(() => null);
+        if (g) { (g.respuestas || []).forEach((x, i) => { const b = $(`.ej-bien[data-i="${i}"]`, el), p = $(`.ej-pq[data-i="${i}"]`, el); if (b) b.value = x.bien || ''; if (p) p.value = x.por_que || ''; }); if (g.revelado) revelar(); }
+      }
+      let tm;
+      el.addEventListener('input', () => { if (!propio || !clave) return; clearTimeout(tm); tm = setTimeout(() => DB.guardarIntento(clave, leer(), !$('.ej-resp', el).hidden).then(() => { $('.ej-ok', el).textContent = 'Guardado'; }).catch(() => {}), 800); });
+      $('.ej-ver', el).onclick = () => {
+        const r = leer();
+        if (!r.some((x) => x.bien) && !confirm('Todavía no escribiste ningún intento. ¿Quieres ver las respuestas igual? Lo que más te sirve es intentarlo primero.')) return;
+        revelar(); if (propio && clave) DB.guardarIntento(clave, r, true).catch(() => {});
+      };
+      $('.ej-ai', el).onclick = () => {
+        const r = leer();
+        if (!r.some((x) => x.bien)) return toast('Primero escribe tu corrección en la tabla.', true);
+        const filas = c.map((x, i) => `${i + 1}. Mi frase: "${x.mal}"\n   Mi corrección: ${r[i].bien || '(no sé)'}\n   Por qué: ${r[i].por_que || '(no sé)'}`).join('\n');
+        st.pendiente = { texto: 'Hice la tabla de corrección de mi feedback de Flor. ¿Me dices qué encontré bien y en qué me equivoqué, antes de ver las respuestas?\n\n' + filas + '\n\n(Son las frases de mi feedback ' + (clave.startsWith('weekly:') ? 'del weekly de la semana del ' + clave.slice(7) : 'de mi último pedido') + '.)', coach: 'flor', enviar: true };
+        location.hash = 'flor';
+      };
+    }
+  }
 
   // ======================= Vistas =======================
   const V = {};
@@ -387,7 +506,7 @@ ${caminoSemanaHTML(p)}
 </div>
 ${fb ? `<section class="card">
   <div class="row between"><h3>Último feedback de Flor</h3><span class="muted small">Sobre: ${esc(fb.titulo || fb.tipo)}</span></div>
-  <div class="feedback"><p>${esc(fb.respuesta).replace(/\n/g, '<br>')}</p>${fixes(fb.correcciones)}</div>
+  <div class="feedback">${devolucion(fb.respuesta, fb.correcciones, 'pedidos:' + fb.id)}</div>
   <a href="#feedback" class="small">Ver todos tus feedbacks</a>
 </section>` : ''}
 <section class="card"><div class="row between"><h3>Tu recorrido</h3><a class="small" href="#camino">Ver detalle</a></div>${etapasHTML(n)}</section>
@@ -556,7 +675,7 @@ ${fb ? `<section class="card">
     <div class="row between"><b>${esc(x.titulo || tipoNombre(x.tipo))}</b><span class="pill ${x.estado === 'respondido' ? 'ok' : 'warn'}">${x.estado === 'respondido' ? 'Respondido' : 'Esperando a Flor'}</span></div>
     <span class="muted small">${tipoNombre(x.tipo)} · ${fecha(x.creado)}</span>
     <details><summary class="small">Lo que mandaste</summary>${x.texto ? `<pre>${esc(x.texto)}</pre>` : ''}${adjunto(x)}${url(x.link) ? ` <a class="small" href="${esc(x.link)}" target="_blank" rel="noopener">Abrir link</a>` : ''}</details>
-    ${x.respuesta ? `<div class="reply"><span class="eyebrow">Flor · ${fecha(x.respondido_en)}</span><p>${esc(x.respuesta).replace(/\n/g, '<br>')}</p>${fixes(x.correcciones)}</div>` : ''}
+    ${x.respuesta ? `<div class="reply" data-tit="${esc(x.titulo || '')}"><span class="eyebrow">Flor · ${fecha(x.respondido_en)}</span>${devolucion(x.respuesta, x.correcciones, 'pedidos:' + x.id)}</div>` : ''}
   </div>`).join('') : '<p class="muted small">Todavía no mandaste nada. Empieza por tu audio de punto de partida.</p>'}
 </section>`;
     },
@@ -575,9 +694,19 @@ ${fb ? `<section class="card">
         }
         catch (er) { b.disabled = false; b.textContent = 'Enviar a Flor'; }
       };
-      $('#pai').onclick = () => {
-        const t = $('#ptxt').value.trim(); if (!t) return toast('Primero pega tu texto.', true);
-        st.pendiente = { texto: 'Revisa mi tarea y dame un primer feedback (' + tipoNombre($('#ptipo').value) + (($('#ptit').value.trim()) ? ': ' + $('#ptit').value.trim() : '') + '):\n\n' + t, coach: 'flor', enviar: true };
+      $('#pai').onclick = async () => {
+        const t = $('#ptxt').value.trim(), file = $('#pfile').files[0];
+        const esAudio = file && (/^(audio|video)\//.test(file.type) || /\.(mp3|m4a|wav|ogg|oga|opus|webm|aac|flac|mp4|mov|m4v|3gp|amr)$/i.test(file.name));
+        if (!t && !esAudio) return toast('Primero pega tu texto o sube tu audio.', true);
+        const enc = 'Revisa mi tarea y dame un primer feedback (' + tipoNombre($('#ptipo').value) + (($('#ptit').value.trim()) ? ': ' + $('#ptit').value.trim() : '') + ')';
+        let trans = '';
+        if (esAudio) {
+          if (file.size > 50 * 1024 * 1024) return toast('El audio pesa más de 50 MB. Prueba con uno más corto.', true);
+          const b = $('#pai'); b.disabled = true; b.textContent = 'Flor AI está escuchando tu audio…';
+          try { const path = await DB.subirArchivo(file, 'practicas'); trans = await DB.escuchar(path); }
+          catch (er) { toast(er.message, true); b.disabled = false; b.textContent = 'Primero, feedback de Flor AI'; return; }
+        }
+        st.pendiente = { texto: enc + (esAudio ? '. Te mando mi audio «' + file.name + '»: dame feedback de lo que dije y de mi pronunciación.' : ':') + (t ? '\n\n' + t : '') + (trans ? '\n\n' + trans : ''), coach: 'flor', enviar: true };
         location.hash = 'flor';
       };
     }
@@ -593,7 +722,7 @@ ${fb ? `<section class="card">
       const hist = ws.filter((x) => x.semana !== sem && x.enviado_en);
       return `<div class="head"><div><span class="eyebrow">Todos los lunes · semana del ${fecha(sem, { day: 'numeric', month: 'long' })}</span><h1>Weekly report</h1></div>${w.enviado_en ? '<span class="pill ok">Enviado</span>' : ''}</div>
 <p class="muted intro">Es tu canal con Flor. Planificas tu semana, cuentas qué hiciste y qué quieres entrenar. Flor lo lee siempre y te responde con tu próximo paso.</p>
-${w.respuesta_flor ? `<section class="card"><div class="reply"><span class="eyebrow">Respuesta de Flor</span><p>${esc(w.respuesta_flor).replace(/\n/g, '<br>')}</p></div></section>` : ''}
+${w.respuesta_flor ? `<section class="card"><div class="reply"><span class="eyebrow">Respuesta de Flor</span>${devolucion(w.respuesta_flor, null, 'weekly:' + w.semana)}</div></section>` : ''}
 <form class="card" id="wform" novalidate>
   <p class="eyebrow">Weekly report ${st.perfil.formato === '1:1' ? '1:1' : 'LAB'} · Complete every Monday · 5–10 minutes</p>
   <p class="muted small">${esc(P.weeklyIntro)}</p>
@@ -603,7 +732,7 @@ ${w.respuesta_flor ? `<section class="card"><div class="reply"><span class="eyeb
 </form>
 ${hist.length ? `<section class="card"><h3>Tus weeklies anteriores</h3>${hist.map((x) => `<details class="fbitem"><summary><b>Semana del ${fecha(x.semana, { day: 'numeric', month: 'long' })}</b> ${x.respuesta_flor ? '<span class="pill ok">Flor respondió</span>' : ''}</summary>
   ${wq(st.perfil).map(([id, l]) => (x.respuestas[id] ? `<p class="small"><b>${l}</b><br>${esc(x.respuestas[id])}</p>` : '')).join('')}
-  ${x.respuesta_flor ? `<div class="reply"><span class="eyebrow">Flor</span><p>${esc(x.respuesta_flor).replace(/\n/g, '<br>')}</p></div>` : ''}</details>`).join('')}</section>` : ''}`;
+  ${x.respuesta_flor ? `<div class="reply"><span class="eyebrow">Flor</span>${devolucion(x.respuesta_flor, null, 'weekly:' + x.semana)}</div>` : ''}</details>`).join('')}</section>` : ''}`;
     },
     mount() {
       const f = $('#wform'); if (!f || $('textarea[readonly]', f)) return;
@@ -724,9 +853,91 @@ ${listo ? '' : `<section class="card"><h3>Checklist antes de continuar</h3><p cl
     });
   }
 
+  // ---------- Mi progreso de Flor (cuando entra Flor) ----------
+  const diaISO = (d) => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+  async function progresoFlor() {
+    const b = await cargarBandeja();
+    const F = Object.assign({ objetivo: 'Terminar de grabar el programa y crear contenido todos los días', grabadas: [], contenido: {}, recordatorios: {}, links: {} }, st.programa.flor || {});
+    st._flor = F;
+    const lun = DB.lunes();
+    const delaSemana = (iso) => iso && lunesDe(iso) === lun;
+    const wEsta = b.W.filter((w) => w.semana === lun && (w.enviado_en || w.respuesta_flor || Object.keys(w.respuestas || {}).length));
+    const wRespEsta = wEsta.filter((w) => w.respuesta_flor);
+    const conW = new Set(wEsta.map((w) => String(w.email || '').toLowerCase()));
+    const faltan = b.activas.filter((a) => !conW.has(a.email));
+    const fbEsta = b.tResp.filter((x) => delaSemana(x.respondido_en));
+    // Clases en grabación que ya les tocan (o les tocan la semana que viene) a tus alumnas
+    const porGrabar = [];
+    for (const m of P.camino) for (const s of m.semanas) for (const t of s.tareas) {
+      if (!t.pronto || (F.grabadas || []).includes(t.id)) continue;
+      const desde = Math.min(...s.s);
+      const quienes = b.activas.map((a) => ({ a, n: semanaDe(a.perfil) })).filter((x) => x.n && x.n >= desde - 1 && !((x.a.perfil.camino_hecho || []).includes(t.id)));
+      if (quienes.length) porGrabar.push({ t, desde, quienes, ya: quienes.some((x) => x.n >= desde) });
+    }
+    porGrabar.sort((x, y) => (y.ya - x.ya) || (x.desde - y.desde));
+    const dias = [...Array(7)].map((_, i) => { const d = new Date(lun + 'T12:00:00'); d.setDate(d.getDate() + i); return d; });
+    const hechosDias = dias.filter((d) => F.contenido[diaISO(d)]).length;
+    const chk = (ok, txt, sub, link) => `<li class="chk"><span class="${ok ? 'ok-i' : 'no-i'}">${ok ? '✓' : '○'}</span><span><b>${txt}</b>${sub ? '<br><span class="muted small">' + sub + '</span>' : ''}${link ? ' ' + link : ''}</span></li>`;
+    const lk = F.links || {};
+    const enlace = (u, t) => (url(u) ? `<a class="btn ghost sm" href="${esc(u)}" target="_blank" rel="noopener">${t}</a>` : '');
+    const nom1 = (n) => esc(String(n || '').split(' ')[0]);
+    return `<div class="head"><div><span class="eyebrow">Tu semana como directora de AT WORK · semana del ${fecha(lun, { day: 'numeric', month: 'long' })}</span><h1>Mi progreso</h1></div></div>
+<section class="card feature"><span class="eyebrow">Tu objetivo</span><h2 id="fobj">${esc(F.objetivo)}</h2>
+  <div class="row"><button class="btn ghost sm" id="fobj-ed">Editar mi objetivo</button></div></section>
+<div class="grid g-2">
+  <section class="card"><div class="row between"><h3>Esta semana con tus alumnas</h3><a class="small" href="#bandeja">Ir a la bandeja</a></div>
+    <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px">
+      ${chk(!!F.recordatorios[lun], 'Recordatorio del weekly enviado', F.recordatorios[lun] ? 'Listo' : 'El lunes, a todas', `<button class="linkbtn small" id="frec">${F.recordatorios[lun] ? 'Desmarcar' : 'Marcar como enviado'}</button>`)}
+      ${chk(wEsta.length > 0 && wRespEsta.length === wEsta.length, `Weeklies respondidos: ${wRespEsta.length} de ${wEsta.length}`, wEsta.length > wRespEsta.length ? 'Te faltan: ' + wEsta.filter((w) => !w.respuesta_flor).map((w) => nom1(w.nombre)).join(', ') : wEsta.length ? 'Respondiste todos los que llegaron' : 'Todavía no llegó ninguno', wEsta.length > wRespEsta.length ? '<a class="small" href="#bandeja/weeklies">Responder</a>' : '')}
+      ${chk(!faltan.length, faltan.length ? (faltan.length === 1 ? '1 alumna todavía no mandó su weekly' : `${faltan.length} alumnas todavía no mandaron su weekly`) : 'Todas mandaron su weekly', faltan.map((a) => nom1(a.nombre)).join(', '))}
+      ${chk(!b.pend.length, b.pend.length ? (b.pend.length === 1 ? '1 tarea espera tu feedback' : `${b.pend.length} tareas esperan tu feedback`) : 'No hay tareas esperando feedback', b.pend.slice(0, 6).map((x) => nom1(x.nombre) + ' · ' + esc(x.titulo || tipoNombre(x.tipo))).join('<br>'), b.pend.length ? '<a class="small" href="#bandeja/pedidos">Responder</a>' : '')}
+      ${chk(fbEsta.length > 0, `Feedback de tareas devuelto esta semana: ${fbEsta.length}`, '')}
+    </ul></section>
+  <section class="card"><span class="eyebrow">Contenido · todos los días</span>
+    <div class="row" style="gap:10px"><span class="big">${hechosDias}</span><span class="muted">de 7 días con contenido publicado<br>esta semana</span></div>
+    <div class="dias" id="fdias">${dias.map((d) => `<button type="button" data-dia="${diaISO(d)}" aria-pressed="${!!F.contenido[diaISO(d)]}" title="${fecha(diaISO(d), { weekday: 'long', day: 'numeric' })}">${d.toLocaleDateString('es', { weekday: 'short' }).slice(0, 2)}<br>${d.getDate()}</button>`).join('')}</div>
+    <p class="muted small">Toca el día cuando publicas.</p>
+    <div class="row">${enlace(lk.instagram, 'Instagram')}${enlace(lk.contenido, 'Mi plan de contenido')}</div>
+  </section>
+</div>
+<section class="card"><div class="row between"><h3>Clases que tienes que grabar</h3>${enlace(lk.notion, 'Notion de grabación')}</div>
+  <p class="muted small">Son las clases que siguen «en grabación» y a las que una alumna ya llegó o llega la semana que viene.</p>
+  ${porGrabar.length ? `<ul class="tasks">${porGrabar.map((g) => `<li><div class="fbitem" style="flex-direction:row;align-items:flex-start;justify-content:space-between;gap:12px"><span><b>${esc(g.t.texto)}</b> ${g.ya ? '<span class="pill warn">Grábala sí o sí</span>' : '<span class="pill">La semana que viene</span>'}<br>
+    <span class="muted small">Va en la semana ${g.desde}. ${g.quienes.map((x) => nom1(x.a.nombre) + ' (semana ' + x.n + ')').join(', ')} ${g.ya ? (g.quienes.length === 1 ? 'ya llegó' : 'ya llegaron') : 'llega' + (g.quienes.length === 1 ? '' : 'n')}.</span></span>
+    <button type="button" class="btn ghost sm" data-grab="${esc(g.t.id)}">Ya la grabé</button></div></li>`).join('')}</ul>` : '<p class="muted small">Ninguna alumna llegó todavía a una clase en grabación. 🎉</p>'}
+</section>
+<details class="card"><summary><b>Tus links de trabajo</b></summary>
+  <form class="grid" id="flinks" novalidate>
+    <div class="field"><label for="fl-instagram">Tu Instagram</label><input id="fl-instagram" type="url" value="${esc(lk.instagram || '')}" placeholder="https://instagram.com/…"></div>
+    <div class="field"><label for="fl-contenido">Tu plan de contenido (Notion, Drive, lo que uses)</label><input id="fl-contenido" type="url" value="${esc(lk.contenido || '')}"></div>
+    <div class="field"><label for="fl-notion">Notion de grabación de clases</label><input id="fl-notion" type="url" value="${esc(lk.notion || '')}"></div>
+    <div class="row"><button class="btn sm" type="submit">Guardar links</button></div>
+  </form></details>`;
+  }
+  async function guardarF(cambios, msg) {
+    const F = Object.assign({}, st._flor, cambios);
+    await intentar(() => DB.guardarFlor(F), msg);
+    st._flor = F; st.programa.flor = F;
+  }
+  function montarProgresoFlor() {
+    const F = st._flor, lun = DB.lunes();
+    $('#fobj-ed').onclick = async () => { const t = prompt('Tu objetivo', F.objetivo); if (t && t.trim()) { await guardarF({ objetivo: t.trim() }, 'Guardado'); $('#fobj').textContent = t.trim(); } };
+    $('#frec').onclick = async () => { await guardarF({ recordatorios: { ...st._flor.recordatorios, [lun]: !st._flor.recordatorios[lun] } }); ruta(); };
+    $('#fdias').onclick = async (e) => {
+      const b = e.target.closest('[data-dia]'); if (!b) return;
+      const c = { ...st._flor.contenido }; if (c[b.dataset.dia]) delete c[b.dataset.dia]; else c[b.dataset.dia] = true;
+      await guardarF({ contenido: c }); ruta();
+    };
+    $$('[data-grab]').forEach((b) => (b.onclick = async () => { await guardarF({ grabadas: [...(st._flor.grabadas || []), b.dataset.grab] }, 'Anotada como grabada'); ruta(); }));
+    $('#flinks').onsubmit = async (e) => { e.preventDefault(); const g = (k) => $('#fl-' + k).value.trim(); await guardarF({ links: { instagram: g('instagram'), contenido: g('contenido'), notion: g('notion') } }, 'Guardado'); ruta(); };
+  }
+
   // ---------- Mi progreso ----------
   V.progreso = {
+    mount() { if (st._progFlor) montarProgresoFlor(); },
     async html() {
+      if (st.admin && !DB.demo) { st._progFlor = true; return progresoFlor(); }
+      st._progFlor = false;
       const [pat, ped, ws] = await Promise.all([DB.patrones(), DB.pedidos(), DB.weeklies()]);
       const p = st.perfil;
       const hace28 = Date.now() - 28 * 864e5;
@@ -828,49 +1039,93 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
   // ---------- Bandeja ----------
   V.bandeja = {
     async html(tab = 'pedidos') {
-      const [ped, ws, al] = await Promise.all([DB.todosPedidos(), DB.todosWeeklies(), mapaAlumnas()]);
-      const pend = ped.filter((x) => x.estado === 'pendiente'), wp = ws.filter((x) => !x.respuesta_flor);
-      const resp = ped.filter((x) => x.estado === 'respondido').slice(0, 30);
-      const nom = (id) => esc((al[id] && (al[id].nombre || al[id].email)) || 'Alumna');
-      const T = [['pedidos', 'Pedidos de feedback', pend.length], ['weeklies', 'Weeklies sin responder', wp.length], ['respondidos', 'Respondidos', '']];
+      const b = await cargarBandeja();
+      st._bandeja = b;
+      const T = [['pedidos', 'Pedidos de feedback', b.pend.length], ['weeklies', 'Weeklies sin responder', b.sinResp.length], ['respondidos', 'Weeklies respondidos', b.resp.length], ['tareas', 'Tareas con feedback', b.tResp.length]];
+      const resps = (x) => wq(x.perfil).map(([id, l]) => (x.respuestas[id] ? `<p class="small"><b>${l}</b><br>${esc(x.respuestas[id])}</p>` : '')).join('') +
+        Object.keys(x.respuestas || {}).filter((k) => !wq(x.perfil).some(([id]) => id === k) && String(x.respuestas[k] || '').trim()).map((k) => `<p class="small"><b>${esc(k)}</b><br>${esc(x.respuestas[k])}</p>`).join('');
+      const porMail = (t) => /^flor te respondi[oó] por mail\.?$/i.test(String(t || '').trim());
+      const grupo = (titulo, extra, html) => `<section class="card sem-grupo"><div class="row between"><h3>${esc(titulo)}</h3>${extra || ''}</div>${html}</section>`;
       let cuerpo = '';
-      if (tab === 'pedidos') cuerpo = pend.length ? pend.map((x) => `<div class="fbitem" data-pid="${x.id}" data-aid="${x.alumna_id}" data-tit="${esc(x.titulo || '')}">
-        <div class="row between"><b>${nom(x.alumna_id)} · ${esc(x.titulo || tipoNombre(x.tipo))}</b><span class="muted small">${tipoNombre(x.tipo)} · ${fecha(x.creado, { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}</span></div>
+      if (tab === 'pedidos') {
+        cuerpo = b.pend.length ? porSemana(b.pend, (x) => lunesDe(x.creado)).map((g) => grupo(nombreSemana(g.s), `<span class="pill warn">${g.items.length}</span>`, g.items.map((x) => x.src === 'app' ? `<div class="fbitem" data-pid="${x.id}" data-aid="${x.alumna_id}" data-tit="${esc(x.titulo || '')}">
+        <div class="row between"><b>${esc(x.nombre)} · ${esc(x.titulo || tipoNombre(x.tipo))}</b><span class="muted small">${tipoNombre(x.tipo)} · ${fecha(x.creado, { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}</span></div>
         ${x.texto ? `<pre>${esc(x.texto)}</pre>` : ''}${adjunto(x)}${url(x.link) ? ` <a class="small" href="${esc(x.link)}" target="_blank" rel="noopener">Abrir el link que mandó</a>` : ''}
-        <div class="field"><label>Tu respuesta</label><textarea class="r" rows="5" placeholder="Lo que funcionó, tu foco para ella y qué clase ver."></textarea></div>
+        <p class="aviso-audio note small" hidden></p>
+        <div class="field"><label>Tu respuesta</label><small>Lo que funcionó, tu foco para ella y qué clase ver. Las correcciones van abajo: ella las ve como ejercicio (primero las encuentra, después ve tus respuestas).</small><textarea class="r" rows="6"></textarea></div>
         <div class="field"><label>Correcciones</label><div class="corrs"></div><button type="button" class="linkbtn small addc">+ Agregar corrección</button></div>
         <p class="notas small muted" hidden></p>
         <div class="row"><button class="btn send" type="button">Enviar respuesta</button><button class="btn ghost ia" type="button">Borrador con IA</button></div>
-      </div>`).join('') : '<p class="muted">No hay pedidos pendientes. 🎉</p>';
-      if (tab === 'weeklies') cuerpo = wp.length ? wp.map((x) => `<div class="fbitem" data-wid="${x.id}" data-aid="${x.alumna_id}">
-        <div class="row between"><b>${nom(x.alumna_id)} · semana del ${fecha(x.semana, { day: 'numeric', month: 'long' })}</b><span class="muted small">Enviado ${fecha(x.enviado_en)}</span></div>
-        ${wq(al[x.alumna_id]).map(([id, l]) => (x.respuestas[id] ? `<p class="small"><b>${l}</b><br>${esc(x.respuestas[id])}</p>` : '')).join('')}
-        <div class="field"><label>Tu respuesta</label><textarea class="r" rows="5" placeholder="Su próximo paso para esta semana."></textarea></div>
-        <div class="plan" hidden><span class="eyebrow">Para su “Mi semana”</span>
+      </div>` : `<div class="fbitem" data-pimp="${esc(x.email)}" data-origen="${esc(x.origen || '')}">
+        <div class="row between"><b>${esc(x.nombre)} · ${esc(x.titulo || tipoNombre(x.tipo))}</b><span class="muted small">${tipoNombre(x.tipo)} · ${fecha(x.creado)} · todavía sin cuenta</span></div>
+        ${x.texto ? `<pre>${esc(x.texto)}</pre>` : ''}${url(x.link) ? ` <a class="small" href="${esc(x.link)}" target="_blank" rel="noopener">Abrir el link</a>` : ''}
+        <div class="field"><label>Tu respuesta</label><textarea class="r" rows="5"></textarea></div>
+        <div class="field"><label>Correcciones</label><div class="corrs"></div><button type="button" class="linkbtn small addc">+ Agregar corrección</button></div>
+        <div class="row"><button class="btn sendi" type="button">Guardar respuesta</button></div>
+      </div>`).join(''))).join('') : '<section class="card"><p class="muted">No hay pedidos pendientes. 🎉</p></section>';
+      }
+      if (tab === 'weeklies') {
+        cuerpo = b.sinResp.length ? porSemana(b.sinResp, (x) => x.semana).map((g) => grupo(nombreSemana(g.s), `<span class="pill warn">${g.items.length} sin responder</span>`, g.items.map((x) => `<div class="fbitem" ${x.src === 'app' ? `data-wid="${x.id}" data-aid="${x.aid}"` : `data-wimp="${esc(x.email)}" data-sem="${esc(x.semana)}"`}>
+        <div class="row between"><b>${esc(x.nombre)}</b><span class="muted small">${x.enviado_en ? 'Enviado ' + fecha(x.enviado_en, { weekday: 'short', day: 'numeric', month: 'short' }) : 'En su Google Doc'}${x.src === 'imp' ? ' · todavía sin cuenta' : ''}</span></div>
+        ${resps(x) || '<p class="muted small">(Lo escribió en su doc y todavía no se copió.)</p>'}
+        <div class="field"><label>Tu respuesta</label><textarea class="r" rows="6" placeholder="Su próximo paso para esta semana. Si le corriges frases, escríbelas así: frase de ella → frase corregida. Por qué. Ella las ve como ejercicio."></textarea></div>
+        ${x.src === 'app' ? `<div class="plan" hidden><span class="eyebrow">Para su “Mi semana”</span>
           <div class="field"><label>Foco de la semana</label><input type="text" class="pf"></div>
           <div class="field"><label>Por qué</label><input type="text" class="pft"></div>
           <div class="field"><label>Tareas (una por línea: tarea | dónde)</label><textarea class="pt" rows="3"></textarea></div>
-          <label class="row small"><input type="checkbox" class="aplicar" checked> Cargarle este foco y estas tareas al enviar</label></div>
+          <label class="row small"><input type="checkbox" class="aplicar" checked> Cargarle este foco y estas tareas al enviar</label></div>` : ''}
         <p class="notas small muted" hidden></p>
         <div class="row"><button class="btn sendw" type="button">Enviar respuesta</button><button class="btn ghost iaw" type="button">Borrador con IA</button></div>
-      </div>`).join('') : '<p class="muted">No hay weeklies sin responder.</p>';
-      if (tab === 'respondidos') cuerpo = resp.length ? resp.map((x) => `<details class="fbitem"><summary><b>${nom(x.alumna_id)} · ${esc(x.titulo || tipoNombre(x.tipo))}</b> <span class="muted small">${fecha(x.respondido_en)}</span></summary><pre>${esc(x.texto)}</pre><div class="reply"><p>${esc(x.respuesta).replace(/\n/g, '<br>')}</p>${fixes(x.correcciones)}</div></details>`).join('') : '<p class="muted">Todavía no respondiste pedidos.</p>';
+      </div>`).join(''))).join('') : '<section class="card"><p class="muted">No hay weeklies sin responder. 🎉</p></section>';
+      }
+      if (tab === 'respondidos') {
+        const gs = porSemana(b.resp, (x) => x.semana);
+        if (!gs.some((g) => g.s === DB.lunes())) gs.unshift({ s: DB.lunes(), items: [] });
+        cuerpo = gs.map((g) => {
+          const conW = new Set(b.W.filter((w) => w.semana === g.s).map((w) => String(w.email || '').toLowerCase()));
+          const faltan = g.s >= lunesDe(Date.now() - 14 * 864e5) ? b.activas.filter((a) => !conW.has(a.email)) : [];
+          return grupo(nombreSemana(g.s), `<span class="pill ok">${g.items.length} respondido${g.items.length === 1 ? '' : 's'}</span>`,
+            (faltan.length ? `<p class="small muted">Todavía no mandaron su weekly: ${faltan.map((a) => esc(String(a.nombre).split(' ')[0])).join(', ')}.</p>` : '') +
+            (g.items.length ? g.items.map((x) => `<details class="fbitem"><summary><b>${esc(x.nombre)}</b> <span class="muted small">${porMail(x.respuesta_flor) ? 'respondido por mail (el texto no se copió)' : 'respondido ' + fecha(x.respondido_en || x.enviado_en)}</span></summary>
+            <span class="eyebrow">Lo que escribió</span>${resps(x) || '<p class="muted small">(No se copió lo que escribió.)</p>'}
+            ${porMail(x.respuesta_flor) ? '' : `<div class="reply"><span class="eyebrow">Tu respuesta</span>${parrafos(x.respuesta_flor)}</div>`}</details>`).join('') : '<p class="muted small">Todavía no respondiste ningún weekly de esta semana.</p>'));
+        }).join('');
+      }
+      if (tab === 'tareas') {
+        cuerpo = b.tResp.length ? porSemana(b.tResp, (x) => lunesDe(x.respondido_en || x.creado)).map((g) => grupo(nombreSemana(g.s), `<span class="pill ok">${g.items.length}</span>`, g.items.map((x) => `<details class="fbitem"><summary><b>${esc(x.nombre)} · ${esc(x.titulo || tipoNombre(x.tipo))}</b> <span class="muted small">${tipoNombre(x.tipo)} · ${fecha(x.respondido_en || x.creado)}</span></summary>
+          <span class="eyebrow">Lo que mandó</span>${x.texto ? `<pre>${esc(x.texto)}</pre>` : ''}${x.src === 'app' ? adjunto(x) : ''}${url(x.link) ? ` <a class="small" href="${esc(x.link)}" target="_blank" rel="noopener">Abrir el link</a>` : ''}
+          <div class="reply"><span class="eyebrow">Tu respuesta</span>${parrafos(x.respuesta)}${fixes(x.correcciones)}</div></details>`).join(''))).join('') : '<section class="card"><p class="muted">Todavía no hay tareas con feedback.</p></section>';
+      }
       return `<div class="head"><div><span class="eyebrow">Panel de Flor</span><h1>Bandeja</h1></div></div>
 <div class="tabs">${T.map(([id, l, n]) => `<button type="button" data-tab="${id}" aria-pressed="${tab === id}">${l}${n !== '' ? ' (' + n + ')' : ''}</button>`).join('')}</div>
-<section class="card">${cuerpo}</section>`;
+${cuerpo}`;
     },
     async mount() {
       $$('[data-tab]').forEach((b) => (b.onclick = () => (location.hash = 'bandeja/' + b.dataset.tab)));
-      const filaCorr = (box, mal = '', bien = '') => {
-        box.insertAdjacentHTML('beforeend', `<div class="corr"><input type="text" class="mal" placeholder="Lo que dijo" value="${esc(mal)}"><input type="text" class="bien" placeholder="Cómo se dice" value="${esc(bien)}"><button type="button" class="linkbtn small quitar">Quitar</button></div>`);
+      const filaCorr = (box, mal = '', bien = '', pq = '') => {
+        box.insertAdjacentHTML('beforeend', `<div class="corr"><input type="text" class="mal" placeholder="Lo que dijo" value="${esc(mal)}"><input type="text" class="bien" placeholder="Cómo se dice" value="${esc(bien)}"><input type="text" class="pq" placeholder="Por qué (corto)" value="${esc(pq)}"><button type="button" class="linkbtn small quitar">Quitar</button></div>`);
       };
+      const leerCorr = (it) => $$('.corr', it).map((c) => ({ mal: $('.mal', c).value.trim(), bien: $('.bien', c).value.trim(), por_que: $('.pq', c).value.trim() })).filter((c) => c.mal && c.bien);
+      const quitarDeLista = (it) => { const g = it.closest('.sem-grupo'); it.remove(); if (g && !$('.fbitem', g)) g.remove(); contarBandeja(); };
+      $$('[data-pimp]').forEach((it) => {
+        const box = $('.corrs', it);
+        $('.addc', it).onclick = () => filaCorr(box);
+        box.onclick = (e) => { if (e.target.classList.contains('quitar')) e.target.parentElement.remove(); };
+        $('.sendi', it).onclick = async () => {
+          const r = $('.r', it).value.trim(); if (!r) return toast('Escribe tu respuesta.', true);
+          await intentar(() => DB.responderPedidoImp(it.dataset.pimp, it.dataset.origen, r, leerCorr(it)), 'Guardado. Lo ve cuando entre a su cuenta.');
+          quitarDeLista(it);
+        };
+      });
       $$('[data-pid]').forEach((it) => {
         const box = $('.corrs', it);
         $('.addc', it).onclick = () => filaCorr(box);
         box.onclick = (e) => { if (e.target.classList.contains('quitar')) e.target.parentElement.remove(); };
         it._aplicar = (r) => {
-          $('.r', it).value = r.respuesta || ''; box.innerHTML = ''; (r.correcciones || []).forEach((c) => filaCorr(box, c.mal, c.bien));
-          if (r.notas) { $('.notas', it).hidden = false; $('.notas', it).textContent = 'Notas para ti: ' + r.notas; }
+          $('.r', it).value = r.respuesta || ''; box.innerHTML = ''; (r.correcciones || []).forEach((c) => filaCorr(box, c.mal, c.bien, c.por_que || ''));
+          const av = $('.aviso-audio', it);
+          if (av) { av.hidden = !r.sin_audio; av.textContent = r.sin_audio ? r.notas : ''; }
+          if (r.notas && !r.sin_audio) { $('.notas', it).hidden = false; $('.notas', it).textContent = 'Notas para ti: ' + r.notas; }
           const vieja = $('.trans', it); if (vieja) vieja.remove();
           if (r.transcripcion) $('.notas', it).insertAdjacentHTML('afterend', `<details class="trans small"><summary>Ver la transcripción del audio</summary><pre>${esc(r.transcripcion)}</pre></details>`);
         };
@@ -884,10 +1139,9 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
         $('.ia', it).onclick = it._generar;
         $('.send', it).onclick = async () => {
           const r = $('.r', it).value.trim(); if (!r) return toast('Escribe tu respuesta.', true);
-          const corr = $$('.corr', it).map((c) => ({ mal: $('.mal', c).value.trim(), bien: $('.bien', c).value.trim() })).filter((c) => c.mal && c.bien);
-          await intentar(() => DB.responderPedido(+it.dataset.pid || it.dataset.pid, r, corr), 'Respuesta enviada. Le llega un aviso por mail.');
+          await intentar(() => DB.responderPedido(+it.dataset.pid || it.dataset.pid, r, leerCorr(it)), 'Respuesta enviada. Le llega un aviso por mail.');
           DB.avisar({ que: 'pedido', alumna_id: it.dataset.aid, titulo: it.dataset.tit || '' });
-          it.remove(); contarBandeja();
+          quitarDeLista(it);
         };
       });
       $$('[data-wid]').forEach((it) => {
@@ -916,7 +1170,21 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
             for (const [t, d = ''] of ts) await DB.crearTarea(aid, t.trim(), d.trim(), Date.now() % 1e9).catch(() => {});
             if (foco || ts.length) toast('Respuesta enviada y su semana actualizada');
           }
-          it.remove(); contarBandeja();
+          quitarDeLista(it);
+        };
+      });
+      $$('[data-wimp]').forEach((it) => {
+        const imp = { email: it.dataset.wimp, semana: it.dataset.sem };
+        it._aplicar = (r) => { $('.r', it).value = r.respuesta || ''; if (r.notas) { $('.notas', it).hidden = false; $('.notas', it).textContent = 'Notas para ti: ' + r.notas; } };
+        $('.iaw', it).onclick = async (e) => {
+          const b = e.target; b.disabled = true; b.textContent = 'Armando borrador…';
+          try { it._aplicar(await DB.borrador({ imp })); b.textContent = 'Armar de nuevo con IA'; } catch (er) { toast(er.message, true); b.textContent = 'Borrador con IA'; }
+          b.disabled = false;
+        };
+        $('.sendw', it).onclick = async () => {
+          const r = $('.r', it).value.trim(); if (!r) return toast('Escribe tu respuesta.', true);
+          await intentar(() => DB.responderWeeklyImp(imp.email, imp.semana, r), 'Guardado. Lo ve cuando entre a su cuenta.');
+          quitarDeLista(it);
         };
       });
       // Borradores: los que ya armó la IA se cargan solos; los que faltan se arman ahora, de a uno.

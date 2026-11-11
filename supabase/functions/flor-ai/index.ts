@@ -147,10 +147,28 @@ async function transcribir(url: string): Promise<string> {
   return `TRANSCRIPCIÓN AUTOMÁTICA (${MIN(words[words.length - 1].end)} min, ${words.length} palabras, ${dudosas} dudosas marcadas [así?]):\n${lineas.join("\n")}`;
 }
 
+// ---------- método de Flor (va siempre, arriba de lo que dicen los prompts) ----------
+const METODO_BORRADOR = `MÉTODO DE CORRECCIÓN DE FLOR (manda sobre cualquier otra indicación de formato):
+- En la app la alumna ve primero tu RESPUESTA y después una tabla con SUS frases para que ELLA encuentre el error y diga por qué. Recién después ve la tabla con las respuestas. Por eso:
+  · En RESPUESTA no escribas las correcciones ni las frases corregidas: anticipa que abajo tiene sus frases para encontrar el error ("Abajo te dejo X frases tuyas: encontrá el error y decime por qué antes de mirar la respuesta").
+  · En CORRECCIONES, una por línea, con este formato exacto: frase textual de ella => frase corregida || por qué, en una línea corta y en la voz de Flor (la regla en español, sin tecnicismos).
+- Si hay transcripción de un audio: tú SÍ lo escuchaste a través de la transcripción. Nunca escribas que no lo escuchaste, que no pudiste escucharlo o que lo vas a escuchar después. Comenta momentos concretos (con su frase o el minuto) y da feedback de PRONUNCIACIÓN:
+  · Las palabras marcadas [así?] son las que el sistema no entendió con claridad: casi siempre es un sonido que hay que trabajar. Y una palabra que no tiene sentido en el contexto (ej.: "road" donde iba "row", "reminding" donde iba "remaining") es la pista de que la pronunció de otra forma: corrígela como Flor ("ROW, NO ROAD: la fila del Excel es row y se dice 'rou'").
+  · Da el respelling a la española con la sílaba fuerte en mayúsculas ("ri-MÉI-ning"), el acento de la oración y el connected speech cuando haga falta. Máximo 3 puntos de pronunciación; el objetivo es que se entienda, no borrar el acento.
+  · Las correcciones de pronunciación también van en CORRECCIONES: cómo sonó (entre comillas, ej. "road") => cómo va (row, "rou") || por qué.
+  · En NOTAS PARA FLOR: los minutos que conviene que Flor escuche ella misma (las palabras [así?] más dudosas).`;
+
+const METODO_CHAT = `MÉTODO DE CORRECCIÓN DE FLOR (en el chat, siempre en este orden):
+1. Primero tu devolución: lo que funcionó con evidencia (su frase) y UN foco.
+2. Después una tabla con SUS frases con error para que ella las corrija: | # | Tu frase | ¿Dónde está el error? | ¿Por qué? |, con las dos últimas columnas vacías. Pídele que la complete y te la mande.
+3. Cuando te responde, le dices qué encontró bien y en qué se equivocó, y recién ahí le das la tabla con las respuestas: | # | Tu frase | Corrección | Por qué |.
+Nunca le des la corrección antes de que lo intente ella, salvo que te la pida.
+Si su mensaje trae una TRANSCRIPCIÓN AUTOMÁTICA de un audio: lo escuchaste a través de esa transcripción, nunca digas que no pudiste escucharlo. Comenta momentos concretos y da feedback de pronunciación: las palabras marcadas [así?] son las que no se entendieron con claridad, y una palabra que no tiene sentido en el contexto es la pista de que la pronunció de otra forma. Da el respelling con la sílaba fuerte en mayúsculas ("ri-MÉI-ning"). Máximo 3 puntos; el objetivo es que se entienda, no borrar el acento. Después, que lo vuelva a grabar.`;
+
 // ---------- borrador de feedback (se guarda en borradores; solo lo ve Flor) ----------
 // deno-lint-ignore no-explicit-any
-async function generarBorrador(admin: any, tabla: string, ref: number) {
-    let alumnaId = "", material = "", transcripcion = "", aviso = "";
+async function generarBorrador(admin: any, tabla: string, ref: number, imp?: { email: string; semana: string }) {
+    let alumnaId = "", material = "", transcripcion = "", aviso = "", sinAudio = false, ctxImp = "";
     // deno-lint-ignore no-explicit-any
     let adjunto: any = null;
     if (tabla === "pedidos") {
@@ -167,8 +185,9 @@ async function generarBorrador(admin: any, tabla: string, ref: number) {
           catch (e) {
             const sin = String((e as Error).message) === "SIN_TRANSCRIPCION";
             if (!sin) console.error(e);
-            material += `\n(Adjuntó un audio: ${nombre}. ${sin ? "La transcripción automática todavía no está activada" : "No se pudo transcribir"}: no inventes su contenido; pon en las notas que Flor lo escuche.)`;
-            aviso = sin ? "Para que lea los audios falta cargar DEEPGRAM_API_KEY en Supabase › Edge Functions › Secrets." : "No pude transcribir el audio esta vez. Probá de nuevo en un rato.";
+            sinAudio = true;
+            aviso = sin ? "⚠️ NO PUDE ESCUCHAR EL AUDIO: falta activar la transcripción (DEEPGRAM_API_KEY en Supabase › Edge Functions › Secrets). No armé el borrador para no mandarle algo sin haberla escuchado."
+              : "⚠️ NO PUDE ESCUCHAR EL AUDIO esta vez (falló la transcripción). Tocá «Armar de nuevo con IA» en un rato.";
           }
         } else if (url && IMAGEN.test(nombre)) {
           adjunto = { type: "image", source: { type: "url", url } }; material += `\n(Adjuntó una imagen: ${nombre}. La tienes arriba.)`;
@@ -181,6 +200,17 @@ async function generarBorrador(admin: any, tabla: string, ref: number) {
           material += `\n(Adjuntó un archivo: ${nombre}. Tú no lo puedes abrir: no inventes su contenido; si hace falta, pon en las notas que Flor lo lea.)`;
         }
       }
+    } else if (imp) {
+      // Alumna que todavía no creó su cuenta: su weekly vive en la tabla importacion.
+      const { data: x } = await admin.from("importacion").select("nombre,datos,weeklies").eq("email", imp.email.toLowerCase()).single();
+      // deno-lint-ignore no-explicit-any
+      const w = (x?.weeklies || []).find((e: any) => e.semana === imp.semana);
+      if (!w) throw new Error("No encontré ese weekly.");
+      const d = x.datos || {};
+      material = `WEEKLY REPORT de la semana del ${w.semana}:\n${Object.entries(w.respuestas || {}).map(([k, v]) => `${ETIQ[k] || k}: ${v}`).join("\n")}`;
+      ctxImp = `DATOS DE LA ALUMNA: ${x.nombre}. Formato: ${d.formato || "LAB"}. Trabajo: ${d.trabajo || "(sin cargar)"}. Objetivo: ${d.objetivo || "(sin cargar)"}. Empezó: ${d.fecha_inicio || "?"} (semana ${semanaDe(d.fecha_inicio) ?? "?"} de 20). Foco actual: ${d.foco_titulo || "(sin cargar)"}.
+Weeklies anteriores con la respuesta de Flor:
+${(x.weeklies || []).filter((e: any) => e.semana < imp.semana).slice(0, 3).map((e: any) => `- ${e.semana}: ${String(e.respuesta_flor || "").slice(0, 500)}`).join("\n") || "- (ninguno)"}`;
     } else {
       const { data: x } = await admin.from("weekly").select("*").eq("id", ref).single();
       if (!x) throw new Error("No encontré el weekly.");
@@ -188,13 +218,20 @@ async function generarBorrador(admin: any, tabla: string, ref: number) {
       material = `WEEKLY REPORT de la semana del ${x.semana}:\n${Object.entries(x.respuestas || {}).map(([k, v]) => `${ETIQ[k] || k}: ${v}`).join("\n")}`;
     }
 
+    // Si mandó un audio y no lo pude escuchar, no armo un borrador que hable sin haberla escuchado.
+    if (sinAudio) {
+      const datos = { respuesta: "", correcciones: [], foco: "", foco_texto: "", tareas: [], notas: aviso, transcripcion: "", sin_audio: true };
+      if (!imp) await admin.from("borradores").upsert({ tabla, ref, datos, creado: new Date().toISOString() });
+      return datos;
+    }
+
     if (!Deno.env.get("ANTHROPIC_API_KEY")) throw new Error("FALTA_CLAVE");
-    const [sist, prog, ctx] = await Promise.all([prompt("borrador.md"), prompt("programa.md"), contexto(admin, admin, alumnaId)]);
+    const [sist, prog, ctx] = await Promise.all([prompt("borrador.md"), prompt("programa.md"), imp ? Promise.resolve(ctxImp) : contexto(admin, admin, alumnaId)]);
     const r = await ia().messages.create({
       model: MODEL,
       max_tokens: 16000,
       output_config: { effort: "medium" },
-      system: [{ type: "text", text: sist + "\n\n" + prog, cache_control: { type: "ephemeral" } }],
+      system: [{ type: "text", text: sist + "\n\n" + prog, cache_control: { type: "ephemeral" } }, { type: "text", text: METODO_BORRADOR }],
       messages: [{ role: "user", content: adjunto ? [adjunto, { type: "text", text: `${ctx}\n\n${material}` }] : `${ctx}\n\n${material}` }],
     // deno-lint-ignore no-explicit-any
     } as any);
@@ -207,7 +244,7 @@ async function generarBorrador(admin: any, tabla: string, ref: number) {
     };
     const no = (s: string) => !s || /^ninguna?\.?$/i.test(s);
     const correcciones = no(parte("CORRECCIONES")) ? [] : parte("CORRECCIONES").split("\n").map((l) => l.split("=>")).filter((p) => p.length === 2 && p[0].trim())
-      .map(([mal, bien]) => ({ mal: mal.replace(/^[-•\s]+/, "").trim(), bien: bien.trim() }));
+      .map(([mal, resto]) => { const [bien, por_que = ""] = resto.split("||"); return { mal: mal.replace(/^[-•\d.)\s]+/, "").trim(), bien: bien.trim(), por_que: por_que.trim() }; });
     const tareas = no(parte("TAREAS")) ? [] : parte("TAREAS").split("\n").map((l) => l.replace(/^[-•\d.)\s]+/, "").split("|")).filter((p) => p[0].trim())
       .map(([t, d = ""]) => ({ texto: t.trim(), donde: d.trim() })).slice(0, 3);
     const datos = {
@@ -219,7 +256,7 @@ async function generarBorrador(admin: any, tabla: string, ref: number) {
       notas: [aviso, parte("NOTAS PARA FLOR")].filter(Boolean).join("\n"),
       transcripcion,
     };
-    await admin.from("borradores").upsert({ tabla, ref, datos, creado: new Date().toISOString() });
+    if (!imp) await admin.from("borradores").upsert({ tabla, ref, datos, creado: new Date().toISOString() });
     return datos;
 }
 
@@ -299,9 +336,9 @@ Deno.serve(async (req) => {
   // ---------- borrador (solo Flor): lo arma de nuevo y lo guarda ----------
   if (body.modo === "borrador") {
     if (!(await esAdmin(db, uid))) return json({ error: "Solo Flor puede usar esto." }, 403);
-    const tabla = body.pedido_id ? "pedidos" : body.weekly_id ? "weekly" : "";
+    const tabla = body.pedido_id ? "pedidos" : body.weekly_id || body.imp ? "weekly" : "";
     if (!tabla) return json({ error: "Falta el pedido o el weekly." }, 400);
-    try { return json(await generarBorrador(admin, tabla, Number(body.pedido_id || body.weekly_id))); }
+    try { return json(await generarBorrador(admin, tabla, Number(body.pedido_id || body.weekly_id || 0), body.imp)); }
     catch (e) {
       const m = String((e as Error).message);
       if (m !== "FALTA_CLAVE") console.error(e);
@@ -348,6 +385,20 @@ Deno.serve(async (req) => {
     } catch (e) { console.error(e); return json({ ok: false }); }
   }
 
+  // ---------- escuchar: la alumna sube un audio para que Flor AI le dé feedback ya ----------
+  if (body.modo === "escuchar") {
+    const path = String(body.path || "");
+    if (!path || (path.split("/")[0] !== uid && !(await esAdmin(db, uid)))) return json({ error: "Archivo no válido." }, 403);
+    const { data: f } = await admin.storage.from("atwork").createSignedUrl(path, 900);
+    if (!f?.signedUrl) return json({ error: "No encontré el audio." }, 404);
+    try { return json({ transcripcion: await transcribir(f.signedUrl) }); }
+    catch (e) {
+      const sin = String((e as Error).message) === "SIN_TRANSCRIPCION";
+      if (!sin) console.error(e);
+      return json({ error: sin ? "Flor AI todavía no puede escuchar audios. Mándaselo a Flor con «Enviar a Flor»." : "No pude escuchar tu audio esta vez. Prueba de nuevo en un rato o mándaselo a Flor." }, sin ? 503 : 500);
+    }
+  }
+
   // ---------- chat con Flor AI ----------
   const mensaje = String(body.mensaje || "").trim();
   if (!mensaje || !body.chat_id) return json({ error: "Falta el mensaje." }, 400);
@@ -378,7 +429,7 @@ Deno.serve(async (req) => {
     betas: ["server-side-fallback-2026-07-01"],
     fallbacks: "default",
     system: [
-      { type: "text", text: flor + "\n\n" + prog, cache_control: { type: "ephemeral" } },
+      { type: "text", text: flor + "\n\n" + prog + "\n\n" + METODO_CHAT, cache_control: { type: "ephemeral" } },
       { type: "text", text: `${ctx}\n\nEs un chat en vivo dentro de su app: empieza tu respuesta visible enseguida.` },
     ],
     messages,
