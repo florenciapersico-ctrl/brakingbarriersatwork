@@ -58,6 +58,7 @@
     camino: '<circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="6" r="2.5"/><path d="M8.5 18H15a3 3 0 0 0 0-6H9a3 3 0 0 1 0-6h6.5"/>',
     coaches: '<path d="M4 5h16v11H9l-5 4z"/><path d="M8 9h8M8 12h5"/>',
     progreso: '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
+    wins: '<path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M17 5h3a3 3 0 0 1-3 4M7 5H4a3 3 0 0 0 3 4"/>',
     empieza: '<path d="M5 21V4h11l-2 4 2 4H5"/>',
     proceso: '<path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M10 13h6M10 17h4"/>',
     bandeja: '<path d="M3 13l3-8h12l3 8v6a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/><path d="M3 13h5l1 3h6l1-3h5"/>',
@@ -67,7 +68,7 @@
   const svg = (k) => '<svg viewBox="0 0 24 24" aria-hidden="true">' + I[k] + '</svg>';
   const GRUPOS = [
     ['Tu programa', [['semana', 'Mi semana'], ['camino', 'Mi camino'], ['empieza', 'Empieza acá']]],
-    ['Con Flor', [['flor', 'Flor AI'], ['feedback', 'Pedir feedback'], ['weekly', 'Weekly report']]],
+    ['Con Flor', [['flor', 'Flor AI'], ['feedback', 'Pedir feedback'], ['weekly', 'Weekly report'], ['wins', 'Wins de todas']]],
     ['Tu práctica', [['coaches', 'Mis coaches'], ['proceso', 'Mi proceso'], ['progreso', 'Mi progreso']]]
   ];
   const VISTAS = GRUPOS.flatMap((g) => g[1]);
@@ -740,6 +741,7 @@ ${w.respuesta_flor ? `<section class="card"><div class="reply"><span class="eyeb
   <p class="eyebrow">Weekly report ${st.perfil.formato === '1:1' ? '1:1' : 'LAB'} · Complete every Monday · 5–10 minutes</p>
   <p class="muted small">${esc(P.weeklyIntro)}</p>
   ${wq(st.perfil).map(([id, l, h]) => `<div class="field"><label for="w-${id}">${l}</label><small>${h}</small><textarea id="w-${id}" data-k="${id}" rows="${/training/.test(id) ? 2 : 3}" ${bloqueado ? 'readonly' : ''}>${esc(w.respuestas[id] || '')}</textarea></div>`).join('')}
+  <label class="row small"><input type="checkbox" id="w-compartir" ${w.respuestas.compartir_wins === 'no' ? '' : 'checked'} ${bloqueado ? 'disabled' : ''}> Compartir mi win en «Wins de todas» (solo tu nombre y tu win)</label>
   <p class="eyebrow">${P.weeklyLema}</p>
   ${bloqueado ? '' : `<div class="row"><button class="btn" type="submit">${w.enviado_en ? 'Actualizar mi weekly' : 'Enviar a Flor'}</button><button class="btn ghost" type="button" data-ask="Ayúdame con mi weekly report">Ordenarlo con Flor AI</button><span class="muted small" id="wsave">Tu borrador se guarda solo.</span></div>`}
 </form>
@@ -749,8 +751,9 @@ ${hist.length ? `<section class="card"><h3>Tus weeklies anteriores</h3>${hist.ma
     },
     mount() {
       const f = $('#wform'); if (!f || $('textarea[readonly]', f)) return;
-      const datos = () => { const r = {}; $$('textarea', f).forEach((t) => { if (t.value.trim()) r[t.dataset.k] = t.value; }); return r; };
+      const datos = () => { const r = {}; $$('textarea', f).forEach((t) => { if (t.value.trim()) r[t.dataset.k] = t.value; }); if ($('#w-compartir') && !$('#w-compartir').checked) r.compartir_wins = 'no'; return r; };
       let tm;
+      f.addEventListener('change', () => f.dispatchEvent(new Event('input')));
       f.addEventListener('input', () => {
         clearTimeout(tm);
         tm = setTimeout(async () => { try { await DB.guardarWeekly(DB.lunes(), datos(), false); $('#wsave').textContent = 'Borrador guardado.'; } catch (e) { $('#wsave').textContent = 'No se pudo guardar el borrador.'; } }, 900);
@@ -761,6 +764,21 @@ ${hist.length ? `<section class="card"><h3>Tus weeklies anteriores</h3>${hist.ma
         await intentar(() => DB.guardarWeekly(DB.lunes(), d, true), 'Listo, tu weekly está enviado. Avisa en la comunidad que ya lo completaste.');
         ruta();
       };
+    }
+  };
+
+  // ---------- Wins de todas ----------
+  V.wins = {
+    async html() {
+      let ws = [];
+      try { ws = await DB.winsComunidad(); } catch (e) { console.error(e); }
+      const grupos = porSemana(ws.filter((w) => w.semana), (w) => w.semana);
+      const iniciales2 = (n) => esc(String(n || '?').slice(0, 1).toUpperCase());
+      return `<div class="head"><div><span class="eyebrow">Celebramos juntas</span><h1>Wins de todas</h1></div>${ws.length ? `<span class="pill ok">${ws.length} wins</span>` : ''}</div>
+<p class="muted intro">Cada lunes, cuando una de ustedes manda su weekly, su win aparece acá. Leer lo que lograron las demás también es parte del entrenamiento: a todas nos cuesta lo mismo y todas avanzamos.</p>
+${grupos.length ? grupos.map((g) => `<section class="card sem-grupo"><div class="row between"><h3>${esc(nombreSemana(g.s))}</h3><span class="pill">${g.items.length}</span></div>
+  <div class="winsgrid">${g.items.map((w) => `<article class="win"><span class="av">${iniciales2(w.nombre)}</span><div><b>${esc(w.nombre || 'Una alumna')}</b><p>${esc(w.wins).replace(/\n/g, '<br>')}</p></div></article>`).join('')}</div></section>`).join('')
+  : '<section class="card empty-state"><h3>Todavía no hay wins</h3><p class="muted small">Cuando manden su weekly, acá aparecen los wins de todas.</p><a class="btn" href="#weekly">Completar mi weekly</a></section>'}`;
     }
   };
 

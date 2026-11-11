@@ -142,6 +142,7 @@
         return (await r.json()).transcripcion;
       },
       async guardarFlor(flor) { ok(await sb.from('programa').update({ flor }).eq('id', 1)); },
+      async winsComunidad() { return ok(await sb.rpc('wins_comunidad')) || []; },
       // ---- editar o borrar un pedido (la alumna: mientras Flor no respondió; Flor: siempre) ----
       async editarPedido(id, c) { const d = ok(await sb.from('pedidos').update(c).eq('id', id).select('id')); if (!d || !d.length) throw new Error('Ya no se puede editar: Flor ya lo respondió.'); },
       async borrarPedido(id) { const d = ok(await sb.from('pedidos').delete().eq('id', id).select('id')); if (!d || !d.length) throw new Error('Ya no se puede borrar: Flor ya lo respondió.'); }
@@ -278,6 +279,7 @@
       async guardarIntento(clave, respuestas, revelado) { (S.intentos = S.intentos || {})[clave] = { clave, respuestas, revelado }; save(); },
       async escuchar() { await espera(400); return 'TRANSCRIPCIÓN AUTOMÁTICA (demo): So overall we are on [track?] and the main reason is because the directors delayed the [approvals?].'; },
       async guardarFlor(flor) { S.programa.flor = flor; save(); },
+      async winsComunidad() { return S.weekly.filter((w) => w.enviado_en && w.respuestas.win).map((w) => ({ nombre: (S.perfiles.find((p) => p.id === w.alumna_id) || {}).nombre, semana: w.semana, wins: w.respuestas.win })); },
       async editarPedido(pid, c) { Object.assign(S.pedidos.find((x) => x.id === pid), c); save(); },
       async borrarPedido(pid) { S.pedidos = S.pedidos.filter((x) => x.id !== pid); save(); }
     };

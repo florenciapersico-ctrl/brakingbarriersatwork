@@ -347,3 +347,8 @@ button.who{background:none;border:0;color:inherit;font:inherit;cursor:pointer;pa
 .dias button[aria-pressed="true"]{background:var(--accent);color:var(--on-brand);border-color:var(--accent);font-weight:700}
 .chk{display:flex;gap:10px;align-items:flex-start}
 .chk .ok-i{color:var(--ok);font-weight:700} .chk .no-i{color:var(--accent);font-weight:700}
+/* Wins de todas */
+.winsgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
+.win{display:flex;gap:10px;align-items:flex-start;padding:12px;border-radius:12px;background:var(--surface-2)}
+.win .av{flex:none;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:var(--accent);color:var(--on-brand);font-weight:700;font-size:14px}
+.win p{margin:4px 0 0;font-size:14px}
