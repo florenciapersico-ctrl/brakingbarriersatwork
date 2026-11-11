@@ -124,12 +124,13 @@ const IMAGEN = /\.(png|jpe?g|gif|webp)$/i;
 const MIN = (s: number) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, "0")}`;
 // Audio de un link de Drive: lo baja el Apps Script de Flor (corre con su cuenta, así ve las carpetas de las alumnas).
 const DRIVE_ID = (s: string) => /drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?(?:[^ ]*&)?id=)([\w-]{20,})/.exec(s || "")?.[1] || "";
-async function bajarDeDrive(id: string): Promise<{ bytes: Uint8Array; mime: string; nombre: string }> {
+async function bajarDeDrive(id: string): Promise<{ bytes: Uint8Array; mime: string; nombre: string; texto?: string }> {
   const url = Deno.env.get("DRIVE_SCRIPT_URL"), secreto = Deno.env.get("DRIVE_SECRET");
   if (!url || !secreto) throw new Error("SIN_DRIVE");
   const r = await fetch(url, { method: "POST", headers: { "Content-Type": "text/plain" }, body: JSON.stringify({ secreto, accion: "leer", id }) });
   const out = await r.json().catch(() => ({}));
   if (!out.ok) throw new Error("Drive: " + (out.error || r.status));
+  if (typeof out.texto === "string") return { bytes: new Uint8Array(), mime: "text/plain", nombre: out.nombre || "documento", texto: out.texto };
   const bin = atob(out.base64); const bytes = new Uint8Array(bin.length);
   for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
   return { bytes, mime: out.mime || "audio/mpeg", nombre: out.nombre || "audio" };
@@ -216,16 +217,19 @@ async function generarBorrador(admin: any, tabla: string, ref: number, imp?: { e
         } else {
           material += `\n(Adjuntó un archivo: ${nombre}. Tú no lo puedes abrir: no inventes su contenido; si hace falta, pon en las notas que Flor lo lea.)`;
         }
-      } else if (DRIVE_ID(`${x.link || ""} ${x.texto || ""}`) && (x.tipo === "audio" || x.tipo === "reunion" || AUDIO.test(`${x.link || ""}`))) {
+      } else if (DRIVE_ID(`${x.link || ""} ${x.texto || ""}`)) {
         // Mandó el audio como link de Drive: lo bajo con el Apps Script de Flor y lo escucho igual.
         try {
           const d = await bajarDeDrive(DRIVE_ID(`${x.link || ""} ${x.texto || ""}`));
-          if (!/^(audio|video)\//.test(d.mime) && !AUDIO.test(d.nombre)) throw new Error("NO_AUDIO");
-          transcripcion = await transcribir(d);
-          material += `\n\nEL AUDIO/VIDEO DEL LINK (${d.nombre}).\n${transcripcion}`;
+          if (d.texto != null) material += `\n\nEL DOCUMENTO DEL LINK (${d.nombre}):\n${d.texto}`;
+          else if (d.mime === "application/pdf") { let b = ""; for (let i = 0; i < d.bytes.length; i += 0x8000) b += String.fromCharCode(...d.bytes.subarray(i, i + 0x8000)); adjunto = { type: "document", source: { type: "base64", media_type: "application/pdf", data: btoa(b) } }; material += `\n(El link es un PDF: ${d.nombre}. Lo tienes arriba.)`; }
+          else if (!/^(audio|video)\//.test(d.mime) && !AUDIO.test(d.nombre)) throw new Error("NO_AUDIO");
+          else { transcripcion = await transcribir(d); material += `\n\nEL AUDIO/VIDEO DEL LINK (${d.nombre}).\n${transcripcion}`; }
         } catch (e) {
           const m = String((e as Error).message);
-          if (m !== "NO_AUDIO") {
+          const pareceAudio = x.tipo === "audio" || x.tipo === "reunion" || AUDIO.test(`${x.link || ""}`);
+          if (m !== "NO_AUDIO" && !pareceAudio) material += `\n(Mandó un link de Drive que no pude abrir: no inventes su contenido; pon en las notas que Flor lo revise.)`;
+          else if (m !== "NO_AUDIO") {
             console.error(e); sinAudio = true;
             aviso = m === "SIN_TRANSCRIPCION" ? "⚠️ NO PUDE ESCUCHAR EL AUDIO: falta activar la transcripción (DEEPGRAM_API_KEY en Supabase › Edge Functions › Secrets)."
               : m === "SIN_DRIVE" ? "⚠️ NO PUDE ESCUCHAR EL AUDIO DEL LINK DE DRIVE: falta conectar tu Apps Script (DRIVE_SCRIPT_URL y DRIVE_SECRET)."
@@ -314,13 +318,58 @@ Deno.serve(async (req) => {
   const auth = req.headers.get("Authorization") || "";
   const db = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_ANON_KEY")!, { global: { headers: { Authorization: auth } } });
   const admin = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
+
+  // ---------- Drive → app: el Apps Script de Flor avisa los archivos nuevos de las carpetas de las alumnas ----------
+  // deno-lint-ignore no-explicit-any
+  let body: any;
+  try { body = await req.json(); } catch { return json({ error: "Pedido inválido" }, 400); }
+  if (body.modo === "drive_lista" || body.modo === "drive_nuevo") {
+    const secreto = Deno.env.get("DRIVE_SECRET");
+    if (!secreto || body.secreto !== secreto) return json({ ok: false, error: "secreto" }, 403);
+    const carpetaDe = (u: string) => /\/folders\/([\w-]+)/.exec(u || "")?.[1] || /[?&]id=([\w-]+)/.exec(u || "")?.[1] || "";
+    const [{ data: ps }, { data: im }] = await Promise.all([
+      admin.from("perfiles").select("id,email,nombre,drive_url,rol,activa"),
+      admin.from("importacion").select("email,nombre,datos"),
+    ]);
+    // deno-lint-ignore no-explicit-any
+    const conCuenta = new Set((ps || []).map((p: any) => String(p.email || "").toLowerCase()));
+    // deno-lint-ignore no-explicit-any
+    const alumnas = (ps || []).filter((p: any) => p.rol !== "admin" && p.activa !== false && carpetaDe(p.drive_url)).map((p: any) => ({ email: p.email, nombre: p.nombre, carpeta: carpetaDe(p.drive_url) }))
+      // deno-lint-ignore no-explicit-any
+      .concat((im || []).filter((i: any) => !conCuenta.has(String(i.email).toLowerCase()) && carpetaDe(i.datos?.drive_url)).map((i: any) => ({ email: i.email, nombre: i.nombre, carpeta: carpetaDe(i.datos.drive_url) })));
+    if (body.modo === "drive_lista") return json({ ok: true, alumnas });
+
+    // drive_nuevo: un archivo nuevo → pedido de feedback (sin duplicar: origen = drive:<id>)
+    const f = body.archivo || {};
+    const email = String(body.email || "").toLowerCase();
+    if (!f.id || !email) return json({ ok: false, error: "faltan datos" }, 400);
+    const sub = String(f.subcarpeta || "04");
+    const esAudio = /^(audio|video)\//.test(f.mime || "") || AUDIO.test(f.nombre || "");
+    const tipo = sub === "02" ? (esAudio ? "reunion" : "mail") : sub === "05" ? "tarea" : esAudio ? "audio" : "tarea";
+    const titulo = (sub === "05" ? "Weekly (desde Drive): " : sub === "02" ? "Material real (desde Drive): " : "Desde Drive: ") + String(f.nombre || "archivo").slice(0, 120);
+    const origen = "drive:" + f.id;
+    // deno-lint-ignore no-explicit-any
+    const perfil = (ps || []).find((p: any) => String(p.email || "").toLowerCase() === email);
+    if (perfil) {
+      const { data: ya } = await admin.from("pedidos").select("id").eq("origen", origen).maybeSingle();
+      if (ya) return json({ ok: true, ya: true });
+      const { data: x, error } = await admin.from("pedidos").insert({ alumna_id: perfil.id, tipo, titulo, texto: `Lo subió a su carpeta ${sub} de Drive.`, link: f.link || "", estado: "pendiente", creado: f.creado || new Date().toISOString(), origen }).select("id").single();
+      if (error) return json({ ok: false, error: error.message }, 500);
+      if (Deno.env.get("ANTHROPIC_API_KEY")) {
+        const tarea = generarBorrador(admin, "pedidos", x.id).catch((e) => console.error("drive auto", e));
+        // deno-lint-ignore no-explicit-any
+        (globalThis as any).EdgeRuntime?.waitUntil?.(tarea);
+      }
+      return json({ ok: true, id: x.id });
+    }
+    const { data: r } = await admin.rpc("sync_tarea_mail", { p_email: email, p_origen: origen, p_tipo: tipo, p_titulo: titulo, p_texto: `Lo subió a su carpeta ${sub} de Drive.`, p_respuesta: null, p_correcciones: [], p_creado: f.creado || new Date().toISOString(), p_respondido: null, p_link: f.link || "" });
+    return json({ ok: r !== "no_encontrada", destino: r });
+  }
+
   const { data: u } = await db.auth.getUser(auth.replace("Bearer ", ""));
   if (!u?.user) return json({ error: "Tienes que iniciar sesión." }, 401);
   const uid = u.user.id;
 
-  // deno-lint-ignore no-explicit-any
-  let body: any;
-  try { body = await req.json(); } catch { return json({ error: "Pedido inválido" }, 400); }
 
   // ---------- invitar (solo Flor) ----------
   if (body.modo === "invitar") {
