@@ -322,3 +322,9 @@ details.faq p{margin-top:6px;color:var(--muted)}
   main{padding-top:18px}
 }
 @media (max-width:520px){.kpis{grid-template-columns:1fr 1fr;gap:10px}.kpi{padding:14px}.kpi .big{font-size:32px}.ring{width:52px;height:52px}.hero h1{font-size:32px}}
+
+/* menú de la cuenta (arriba a la derecha, también en el celular) */
+.topbar{position:relative}
+button.who{background:none;border:0;color:inherit;font:inherit;cursor:pointer;padding:0}
+.whomenu{position:absolute;right:16px;top:calc(100% + 6px);z-index:50;display:flex;flex-direction:column;gap:10px;align-items:flex-start;min-width:220px;padding:14px 16px;background:var(--card,#26201b);border:1px solid var(--line,#3a3028);border-radius:14px;box-shadow:0 12px 32px rgba(0,0,0,.35)}
+.whomenu[hidden]{display:none}

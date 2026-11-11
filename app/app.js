@@ -190,10 +190,13 @@
       '<div class="foot">' + (DB.demo ? '<span class="demo">Versión demo</span><button class="linkbtn" id="reset">Reiniciar datos de ejemplo</button>' : '') +
       '<button class="linkbtn" id="clave">Cambiar contraseña</button><button class="linkbtn" id="salir">Cerrar sesión</button></div></aside>' +
       '<div class="mainwrap"><header class="topbar"><span class="tb-title" id="tbt"></span><span class="tb-sp"></span>' +
-      '<span class="fmt">' + (fmt(st.perfil) === '1:1' ? 'Private' : 'Lab') + '</span><span class="who"><span class="av">' + esc(iniciales(nom)) + '</span><span class="nm">' + esc(nom.split(' ')[0]) + '</span></span></header>' +
+      (st.admin ? '' : '<span class="fmt">' + (fmt(st.perfil) === '1:1' ? 'Private' : 'Lab') + '</span>') + '<button type="button" class="who" id="whob" aria-haspopup="true"><span class="av">' + esc(iniciales(nom)) + '</span><span class="nm">' + esc(nom.split(' ')[0]) + '</span></button>' +
+      '<div class="whomenu" id="whom" hidden><span class="muted small">' + esc(st.perfil.email || '') + '</span><button type="button" class="linkbtn" id="clave2">Cambiar contraseña</button><button type="button" class="linkbtn" id="salir2">Cerrar sesión</button></div></header>' +
       '<main id="app"></main></div></div><nav class="tabbar">' + navHTML(true) + '</nav>';
-    $('#salir').onclick = () => DB.logout();
-    $('#clave').onclick = () => pantallaClave();
+    $('#salir').onclick = $('#salir2').onclick = () => DB.logout();
+    $('#clave').onclick = $('#clave2').onclick = () => { $('#whom').hidden = true; pantallaClave(); };
+    $('#whob').onclick = (e) => { e.stopPropagation(); $('#whom').hidden = !$('#whom').hidden; };
+    document.addEventListener('click', (e) => { const m = $('#whom'); if (m && !m.hidden && !m.contains(e.target)) m.hidden = true; });
     if ($('#reset')) $('#reset').onclick = () => { DB.reiniciar(); location.reload(); };
     if (st.admin) contarBandeja();
   }
