@@ -122,12 +122,29 @@ ${ficha ? `\nLO QUE FLOR SABE DE ELLA (notas privadas de Flor: úsalas para guia
 const AUDIO = /\.(mp3|m4a|wav|ogg|oga|opus|webm|aac|flac|mp4|mov|m4v|3gp|amr)$/i;
 const IMAGEN = /\.(png|jpe?g|gif|webp)$/i;
 const MIN = (s: number) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, "0")}`;
-async function transcribir(url: string): Promise<string> {
+// Audio de un link de Drive: lo baja el Apps Script de Flor (corre con su cuenta, así ve las carpetas de las alumnas).
+const DRIVE_ID = (s: string) => /drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?(?:[^ ]*&)?id=)([\w-]{20,})/.exec(s || "")?.[1] || "";
+async function bajarDeDrive(id: string): Promise<{ bytes: Uint8Array; mime: string; nombre: string }> {
+  const url = Deno.env.get("DRIVE_SCRIPT_URL"), secreto = Deno.env.get("DRIVE_SECRET");
+  if (!url || !secreto) throw new Error("SIN_DRIVE");
+  const r = await fetch(url, { method: "POST", headers: { "Content-Type": "text/plain" }, body: JSON.stringify({ secreto, accion: "leer", id }) });
+  const out = await r.json().catch(() => ({}));
+  if (!out.ok) throw new Error("Drive: " + (out.error || r.status));
+  const bin = atob(out.base64); const bytes = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  return { bytes, mime: out.mime || "audio/mpeg", nombre: out.nombre || "audio" };
+}
+async function transcribir(fuente: string | { bytes: Uint8Array; mime: string }): Promise<string> {
   const key = Deno.env.get("DEEPGRAM_API_KEY");
   if (!key) throw new Error("SIN_TRANSCRIPCION");
-  const r = await fetch("https://api.deepgram.com/v1/listen?model=nova-3&language=en&smart_format=true&punctuate=true&filler_words=true&paragraphs=true", {
-    method: "POST", headers: { Authorization: `Token ${key}`, "Content-Type": "application/json" }, body: JSON.stringify({ url }),
+  const pedir = () => fetch("https://api.deepgram.com/v1/listen?model=nova-3&language=en&smart_format=true&punctuate=true&filler_words=true&paragraphs=true", {
+    method: "POST",
+    headers: { Authorization: `Token ${key}`, "Content-Type": typeof fuente === "string" ? "application/json" : fuente.mime },
+    body: typeof fuente === "string" ? JSON.stringify({ url: fuente }) : fuente.bytes,
   });
+  // Hasta 3 intentos: que un corte de red no deje a la alumna sin feedback.
+  let r = await pedir();
+  for (let i = 0; i < 2 && !r.ok && r.status >= 500; i++) { await new Promise((ok) => setTimeout(ok, 1500 * (i + 1))); r = await pedir(); }
   if (!r.ok) throw new Error("Deepgram " + r.status + ": " + (await r.text()).slice(0, 200));
   // deno-lint-ignore no-explicit-any
   const j: any = await r.json();
@@ -198,6 +215,22 @@ async function generarBorrador(admin: any, tabla: string, ref: number, imp?: { e
           material += `\n\nADJUNTÓ ESTE TEXTO (${nombre}):\n${t.slice(0, 40000)}`;
         } else {
           material += `\n(Adjuntó un archivo: ${nombre}. Tú no lo puedes abrir: no inventes su contenido; si hace falta, pon en las notas que Flor lo lea.)`;
+        }
+      } else if (DRIVE_ID(`${x.link || ""} ${x.texto || ""}`) && (x.tipo === "audio" || x.tipo === "reunion" || AUDIO.test(`${x.link || ""}`))) {
+        // Mandó el audio como link de Drive: lo bajo con el Apps Script de Flor y lo escucho igual.
+        try {
+          const d = await bajarDeDrive(DRIVE_ID(`${x.link || ""} ${x.texto || ""}`));
+          if (!/^(audio|video)\//.test(d.mime) && !AUDIO.test(d.nombre)) throw new Error("NO_AUDIO");
+          transcripcion = await transcribir(d);
+          material += `\n\nEL AUDIO/VIDEO DEL LINK (${d.nombre}).\n${transcripcion}`;
+        } catch (e) {
+          const m = String((e as Error).message);
+          if (m !== "NO_AUDIO") {
+            console.error(e); sinAudio = true;
+            aviso = m === "SIN_TRANSCRIPCION" ? "⚠️ NO PUDE ESCUCHAR EL AUDIO: falta activar la transcripción (DEEPGRAM_API_KEY en Supabase › Edge Functions › Secrets)."
+              : m === "SIN_DRIVE" ? "⚠️ NO PUDE ESCUCHAR EL AUDIO DEL LINK DE DRIVE: falta conectar tu Apps Script (DRIVE_SCRIPT_URL y DRIVE_SECRET)."
+              : "⚠️ NO PUDE ABRIR EL AUDIO DEL LINK DE DRIVE (" + m.slice(0, 120) + "). Revisá que el archivo esté en tu Drive o compartido con vos y tocá «Armar de nuevo con IA».";
+          }
         }
       }
     } else if (imp) {

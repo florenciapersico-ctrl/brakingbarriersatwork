@@ -15,6 +15,8 @@
  * 5. En Supabase › Edge Functions › Secrets agregá:
  *      DRIVE_SCRIPT_URL = esa URL
  *      DRIVE_SECRET     = la misma clave del paso 2
+ * 3) Lee un audio que una alumna mandó como link de Drive, para que la app lo escuche (solo si el secreto coincide).
+ * Si ya lo tenías publicado: pegá esta versión y hacé Implementar › Gestionar implementaciones › editar › Versión nueva.
  * El script no lee nada de Drive salvo la carpeta de la alumna que le indica la función, y solo si el
  * secreto coincide.
  */
