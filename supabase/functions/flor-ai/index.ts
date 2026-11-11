@@ -7,6 +7,7 @@
 // - modo drive: copia a la carpeta de Drive de la alumna un archivo que subió a la app (si está configurado).
 // - modo escuchar: transcribe un audio de la alumna para que Flor AI le dé feedback.
 // - modos drive_lista / drive_nuevo: el Apps Script de Flor carga en la app lo que las alumnas suben a Drive.
+// - modo borrador_mail: solo Flor. Arma en su Gmail el borrador completo de la respuesta (lo manda ella).
 // - modo gmail_enviado: el Apps Script de Flor avisa los feedbacks que ella mandó por mail y la app los marca respondidos.
 //
 // Las instrucciones viven en el repo (supabase/functions/flor-ai/prompts/*.md, se arman con tools/build.py)
@@ -359,6 +360,12 @@ Deno.serve(async (req) => {
     if (!email || !texto || !body.id) return json({ ok: false, error: "faltan datos" }, 400);
     const { data: perfil } = await admin.from("perfiles").select("id").ilike("email", email).maybeSingle();
 
+    // Si este mail ya se cargó (por la tarea de la noche o por una corrida anterior), no se repite.
+    if (perfil) {
+      const { data: ya } = await admin.from("pedidos").select("id").eq("alumna_id", perfil.id).in("origen", ["gmail:" + body.id, "flor:" + body.id]).limit(1).maybeSingle();
+      if (ya) return json({ ok: true, ya: true });
+    }
+
     // 0) resumen de clase
     const rs = /^(re:\s*)?resumen de tu clase/i.test(asunto) ? /(\d{1,2})\/(\d{1,2})/.exec(asunto) : null;
     if (/^(re:\s*)?resumen de tu clase/i.test(asunto)) {
@@ -384,6 +391,16 @@ Deno.serve(async (req) => {
       }
     }
 
+    // 1b) borrador que armó la app (mismo asunto que quedó guardado en el pedido)
+    if (perfil) {
+      const base = asunto.replace(/^(re|rv|fwd?):\s*/i, "").trim();
+      const { data: t } = await admin.from("pedidos").select("id").eq("alumna_id", perfil.id).eq("estado", "pendiente").eq("mail_asunto", base).limit(1).maybeSingle();
+      if (t) {
+        await admin.from("pedidos").update({ respuesta: texto, estado: "respondido", respondido_en: fecha.toISOString() }).eq("id", t.id);
+        return json({ ok: true, que: "tarea", id: t.id });
+      }
+    }
+
     // 2) weekly
     const w = /weekly report.*semana del (\d{1,2})\/(\d{1,2})/i.exec(asunto);
     if (w && /^re:/i.test(asunto)) {
@@ -398,8 +415,6 @@ Deno.serve(async (req) => {
     // 3) feedback suelto
     if (/^(re:\s*)?feedback/i.test(asunto)) {
       if (perfil) {
-        const { data: ya } = await admin.from("pedidos").select("id").eq("origen", "flor:" + body.id).maybeSingle();
-        if (ya) return json({ ok: true, que: "feedback", ya: true });
         const { data: pend } = await admin.from("pedidos").select("id").eq("alumna_id", perfil.id).eq("estado", "pendiente").lte("creado", fecha.toISOString());
         if ((pend || []).length === 1) {
           await admin.from("pedidos").update({ respuesta: texto, estado: "respondido", respondido_en: fecha.toISOString() }).eq("id", pend![0].id);
@@ -407,7 +422,7 @@ Deno.serve(async (req) => {
         }
       }
       const titulo = asunto.replace(/^re:\s*/i, "").slice(0, 160);
-      const { data: r } = await admin.rpc("sync_tarea_mail", { p_email: email, p_origen: "flor:" + body.id, p_tipo: "tarea", p_titulo: titulo, p_texto: "Feedback que Flor le mandó por mail.", p_respuesta: texto, p_correcciones: [], p_creado: fecha.toISOString(), p_respondido: fecha.toISOString(), p_link: "" });
+      const { data: r } = await admin.rpc("sync_tarea_mail", { p_email: email, p_origen: "gmail:" + body.id, p_tipo: "tarea", p_titulo: titulo, p_texto: "Feedback que Flor le mandó por mail.", p_respuesta: texto, p_correcciones: [], p_creado: fecha.toISOString(), p_respondido: fecha.toISOString(), p_link: "" });
       return json({ ok: r !== "no_encontrada", que: "feedback", destino: r });
     }
     return json({ ok: true, que: "nada" });
@@ -572,6 +587,68 @@ Deno.serve(async (req) => {
       const out = await r.json().catch(() => ({}));
       return json({ ok: !!out.ok });
     } catch (e) { console.error(e); return json({ ok: false }); }
+  }
+
+  // ---------- borrador_mail (solo Flor): la respuesta completa queda como borrador en su Gmail ----------
+  // No se le manda nada a la alumna: Flor lo revisa y lo envía. Al enviarlo, gmail_enviado lo marca respondido.
+  if (body.modo === "borrador_mail") {
+    if (!(await esAdmin(db, uid))) return json({ error: "Solo Flor puede usar esto." }, 403);
+    const url = Deno.env.get("DRIVE_SCRIPT_URL"), secreto = Deno.env.get("DRIVE_SECRET");
+    if (!url || !secreto) return json({ error: "Falta conectar tu Apps Script (DRIVE_SCRIPT_URL y DRIVE_SECRET)." }, 503);
+    const respuesta = String(body.respuesta || "").replace(/\r/g, "").trim();
+    if (!respuesta) return json({ error: "Escribe tu respuesta." }, 400);
+    // deno-lint-ignore no-explicit-any
+    const corr = (Array.isArray(body.correcciones) ? body.correcciones : []).filter((c: any) => c && String(c.mal || "").trim() && String(c.bien || "").trim());
+    const ddmm = (iso: string) => `${iso.slice(8, 10)}/${iso.slice(5, 7)}`;
+    const limpiar = (t: string) => String(t || "").replace(/^(weekly|material real)?\s*\(desde drive\):\s*|^desde drive:\s*/i, "").trim();
+    let email = "", asunto = "", responder = "", tabla = "", ref = 0;
+    if (body.pedido_id) {
+      const { data: x } = await admin.from("pedidos").select("id,alumna_id,titulo,tipo,origen").eq("id", body.pedido_id).single();
+      if (!x) return json({ error: "No encontré el pedido." }, 404);
+      const { data: a } = await admin.from("perfiles").select("email").eq("id", x.alumna_id).single();
+      email = a?.email || ""; tabla = "pedidos"; ref = x.id;
+      asunto = `Feedback · ${limpiar(x.titulo) || "tu práctica"}`;
+      if (String(x.origen || "").startsWith("mail:")) responder = String(x.origen).slice(5);
+    } else if (body.weekly_id) {
+      const { data: x } = await admin.from("weekly").select("id,alumna_id,semana").eq("id", body.weekly_id).single();
+      if (!x) return json({ error: "No encontré el weekly." }, 404);
+      const { data: a } = await admin.from("perfiles").select("email").eq("id", x.alumna_id).single();
+      email = a?.email || ""; tabla = "weekly"; ref = x.id;
+      asunto = `Re: Your weekly report · semana del ${ddmm(String(x.semana))} 📝`;
+    } else if (body.imp?.email && body.imp?.semana) {
+      email = String(body.imp.email); asunto = `Re: Your weekly report · semana del ${ddmm(String(body.imp.semana))} 📝`;
+    } else if (body.imp_pedido?.email) {
+      email = String(body.imp_pedido.email);
+      asunto = `Feedback · ${limpiar(body.imp_pedido.titulo) || "tu práctica"}`;
+      if (String(body.imp_pedido.origen || "").startsWith("mail:")) responder = String(body.imp_pedido.origen).slice(5);
+    } else return json({ error: "Falta qué estás respondiendo." }, 400);
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return json({ error: "Esa alumna no tiene un mail válido cargado." }, 400);
+
+    // El cuerpo, con el formato de los mails de Flor: las correcciones antes del saludo final.
+    const ps = respuesta.split(/\n{2,}/);
+    const cierre = ps.length > 1 && ps[ps.length - 1].length <= 160 ? ps.pop()! : "";
+    // deno-lint-ignore no-explicit-any
+    const lineas = corr.map((c: any) => `${String(c.mal).trim()} → ${String(c.bien).trim()}.${c.por_que ? " " + String(c.por_que).trim() : ""}`.replace(/\.\./g, "."));
+    const texto = [...ps, ...lineas, cierre].filter(Boolean).join("\n\n");
+    const esc = (t: string) => t.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]!));
+    const p = (t: string) => `<p>${esc(t).replace(/\n/g, "<br>")}</p>`;
+    // deno-lint-ignore no-explicit-any
+    const htmlCorr = corr.map((c: any) => `<p><i>${esc(String(c.mal).trim())}</i> → <i><b>${esc(String(c.bien).trim())}</b></i>.${c.por_que ? " " + esc(String(c.por_que).trim()) : ""}</p>`).join("\n");
+    const html = `<div style="font-family:'Open Sans',Arial,sans-serif;font-size:15px;color:#333;line-height:1.55;max-width:640px">\n${ps.map(p).join("\n")}\n${htmlCorr}\n${cierre ? p(cierre) : ""}\n</div>`;
+
+    try {
+      const r = await fetch(url, { method: "POST", headers: { "Content-Type": "text/plain" }, body: JSON.stringify({ secreto, accion: "borrador", para: email, asunto, texto, html, responder }) });
+      const out = await r.json().catch(() => ({}));
+      if (!out.ok) return json({ error: `No se pudo armar el borrador en Gmail (${String(out.error || r.status).slice(0, 120)}). Si todavía no publicaste la versión nueva del Apps Script, publícala y prueba de nuevo.` }, 502);
+      const ahora = new Date().toISOString();
+      if (tabla === "pedidos") await admin.from("pedidos").update({ mail_borrador: ahora, mail_asunto: String(out.asunto || asunto).replace(/^(re|rv|fwd?):\s*/i, "").trim() }).eq("id", ref);
+      if (tabla === "weekly") await admin.from("weekly").update({ mail_borrador: ahora }).eq("id", ref);
+      if (tabla) {
+        const { data: b } = await admin.from("borradores").select("datos").eq("tabla", tabla).eq("ref", ref).maybeSingle();
+        await admin.from("borradores").upsert({ tabla, ref, datos: { ...(b?.datos || {}), respuesta, correcciones: corr }, creado: ahora });
+      }
+      return json({ ok: true, link: out.link || "", asunto });
+    } catch (e) { console.error(e); return json({ error: "No pude conectar con tu Gmail. Prueba de nuevo en un rato." }, 502); }
   }
 
   // ---------- escuchar: la alumna sube un audio para que Flor AI le dé feedback ya ----------

@@ -25,6 +25,8 @@
  * 6) Cada 15 minutos (con la misma revisión) lee los mails que Flor mandó con la etiqueta "AT WORK/Enviado a alumnas":
  *    si es la respuesta a una tarea, a un weekly o un "Feedback de…", la app lo marca respondido con su texto.
  *    La primera vez que se agrega esto hay que ejecutar activarRevision a mano para darle permiso a Gmail.
+ * 7) Cuando Flor responde en la bandeja de la app, arma el mail completo como BORRADOR en su Gmail
+ *    (a la alumna, con Flor en CCO). Nunca envía nada: lo revisa y lo manda Flor.
  * Si ya lo tenías publicado: pegá esta versión y hacé Implementar › Gestionar implementaciones › editar › Versión nueva.
  * El script solo actúa si el secreto coincide: guarda en la carpeta de la alumna que le indica la función
  * y lee únicamente el archivo de audio que le pide la función.
@@ -40,6 +42,10 @@ function doPost(e) {
       MailApp.sendEmail({ to: p.para, subject: p.asunto || 'Tienes feedback nuevo de Flor', htmlBody: p.html || '', name: 'Flor · AT WORK' });
       return salida({ ok: true });
     }
+
+    // 7) Flor respondió en la app: el mail completo queda como BORRADOR en su Gmail (no se envía nada).
+    //    Si la alumna mandó la tarea por mail, el borrador es la respuesta en ese mismo hilo.
+    if (p.accion === 'borrador') return salida(armarBorrador(p));
 
     // 5) Alumna nueva: le crea su carpeta con las subcarpetas 01 a 05 y se la comparte.
     if (p.accion === 'crear_carpeta') return salida(crearCarpetaAlumna(p.nombre, p.email));
@@ -139,6 +145,25 @@ function revisarEnviados() {
     });
   });
   props.setProperty('DESDE_MAIL', String(ahora - 60 * 1000));
+}
+
+function armarBorrador(p) {
+  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(p.para || '')) return { ok: false, error: 'mail de la alumna' };
+  var yo = Session.getEffectiveUser().getEmail();
+  var op = { htmlBody: p.html || '', bcc: yo, name: 'Florencia Persico' };
+  var borrador = null;
+  if (p.responder) {
+    try {
+      var original = GmailApp.getMessageById(p.responder);
+      if (original && original.getFrom().toLowerCase().indexOf(String(p.para).toLowerCase()) >= 0) borrador = original.createDraftReply(p.texto || '', op);
+    } catch (e) { console.error('responder', e); }
+  }
+  if (!borrador) borrador = GmailApp.createDraft(p.para, p.asunto || 'Feedback', p.texto || '', op);
+  var hilo = borrador.getMessage().getThread();
+  var et = GmailApp.getUserLabelByName(ETIQUETA_ENVIADOS) || GmailApp.createLabel(ETIQUETA_ENVIADOS);
+  hilo.addLabel(et); // así, cuando Flor lo manda, la revisión de Enviados lo encuentra
+  var link = p.responder && hilo.getMessageCount() > 1 ? hilo.getPermalink() : 'https://mail.google.com/mail/u/0/#drafts?compose=' + borrador.getMessage().getId();
+  return { ok: true, asunto: borrador.getMessage().getSubject(), link: link };
 }
 
 // Saca del cuerpo el mail anterior que Gmail cita debajo de la respuesta.
