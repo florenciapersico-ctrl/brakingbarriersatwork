@@ -177,10 +177,12 @@
   }
 
   function navHTML(tab) {
-    const it = ([id, l]) => '<a href="#' + id + '" data-v="' + id + '">' + svg(id) + '<span>' + l + '</span>' + (id === 'bandeja' ? '<span class="badge"' + (tab ? '' : ' id="bdg"') + ' hidden></span>' : '') + (id === 'feedback' || id === 'weekly' ? '<span class="badge nuevo-' + id + '" hidden>Nuevo</span>' : '') + '</a>';
+    const it = ([id, l]) => (l = id === 'empieza' && (DB.demo || !st.admin) && onbHecho() ? 'Cómo funciona' : l, '<a href="#' + id + '" data-v="' + id + '">' + svg(id) + '<span>' + l + '</span>' + (id === 'bandeja' ? '<span class="badge"' + (tab ? '' : ' id="bdg"') + ' hidden></span>' : '') + (id === 'feedback' || id === 'weekly' ? '<span class="badge nuevo-' + id + '" hidden>Nuevo</span>' : '') + '</a>');
     if (tab) return (st.admin && !DB.demo ? ADMIN.concat(VISTAS) : VISTAS).map(it).join('');
     return GRUPOS.map(([g, vs]) => '<div class="sep">' + g + '</div>' + vs.map(it).join('')).join('') + (st.admin ? '<div class="sep">Panel de Flor</div>' + ADMIN.map(it).join('') : '');
   }
+  // ¿Ya hizo el onboarding? (checklist completo o la primera tarea del camino tildada)
+  function onbHecho(p) { p = p || st.perfil || {}; return (p.onboarding || []).length >= onbDe(p).checklist.length || (p.camino_hecho || []).includes('1.1'); }
   function txtT(t) { return t.privada && fmt(st.perfil) === '1:1' ? t.privada : t.texto; }
   function saludo() { const h = new Date().getHours(); return h < 12 ? 'Buen día' : h < 20 ? 'Buenas tardes' : 'Buenas noches'; }
   function iniciales(n) { return String(n || '?').split(/[\s@.]+/).filter(Boolean).slice(0, 2).map((x) => x[0].toUpperCase()).join(''); }
@@ -192,10 +194,10 @@
       '<button class="linkbtn" id="clave">Cambiar contraseña</button><button class="linkbtn" id="salir">Cerrar sesión</button></div></aside>' +
       '<div class="mainwrap"><header class="topbar"><span class="tb-title" id="tbt"></span><span class="tb-sp"></span>' +
       (st.admin ? '' : '<span class="fmt">' + (fmt(st.perfil) === '1:1' ? 'Private' : 'Lab') + '</span>') + '<button type="button" class="who" id="whob" aria-haspopup="true"><span class="av">' + esc(iniciales(nom)) + '</span><span class="nm">' + esc(nom.split(' ')[0]) + '</span></button>' +
-      '<div class="whomenu" id="whom" hidden><span class="muted small">' + esc(st.perfil.email || '') + '</span><button type="button" class="linkbtn" id="clave2">Cambiar contraseña</button><button type="button" class="linkbtn" id="salir2">Cerrar sesión</button></div></header>' +
+      '<div class="whomenu" id="whom" hidden><span class="muted small">' + esc(st.perfil.email || '') + '</span><button type="button" class="linkbtn" id="mclave">Cambiar contraseña</button><button type="button" class="linkbtn" id="msalir">Cerrar sesión</button></div></header>' +
       '<main id="app"></main></div></div><nav class="tabbar">' + navHTML(true) + '</nav>';
-    $('#salir').onclick = $('#salir2').onclick = () => DB.logout();
-    $('#clave').onclick = $('#clave2').onclick = () => { $('#whom').hidden = true; pantallaClave(); };
+    $('#salir').onclick = $('#msalir').onclick = () => DB.logout();
+    $('#clave').onclick = $('#mclave').onclick = () => { $('#whom').hidden = true; pantallaClave(); };
     $('#whob').onclick = (e) => { e.stopPropagation(); $('#whom').hidden = !$('#whom').hidden; };
     document.addEventListener('click', (e) => { const m = $('#whom'); if (m && !m.hidden && !m.contains(e.target)) m.hidden = true; });
     if ($('#reset')) $('#reset').onclick = () => { DB.reiniciar(); location.reload(); };
@@ -216,7 +218,7 @@
     const [v, ...args] = location.hash.replace(/^#/, '').split('/');
     const vista = V[v] && (!ADMIN.some(([id]) => id === v) || st.admin) ? v : 'semana';
     $$('nav a').forEach((a) => (a.dataset.v === vista ? a.setAttribute('aria-current', 'page') : a.removeAttribute('aria-current')));
-    if ($('#tbt')) $('#tbt').textContent = TITULOS[vista] || '';
+    if ($('#tbt')) $('#tbt').textContent = vista === 'empieza' && (DB.demo || !st.admin) && onbHecho() ? 'Cómo funciona' : (TITULOS[vista] || '');
     marcarVisto(vista);
     const app = $('#app');
     app.innerHTML = '<div class="view"><p class="muted">Cargando…</p></div>';
@@ -697,9 +699,9 @@ ${P.camino.map((m) => { const pm = pctMes(m); return `<details class="card mes" 
   ${docs.length ? `<ul class="dates">${docs.map((d) => `<li><b>${esc(tipo(d.tipo))}</b><span><button type="button" class="linkbtn" data-archivo="${esc(d.path)}">${esc(d.nombre)}</button> <span class="muted small">· ${fecha(d.creado)}</span></span></li>`).join('')}</ul>` : '<p class="muted small">Todavía no hay documentos.</p>'}
   <form class="editrow" id="dform"><select id="d-tipo">${P.tiposDoc.map(([v, l]) => `<option value="${v}">${l}</option>`).join('')}</select><input type="file" id="d-file" accept=".pdf,image/*,.doc,.docx"><button class="btn sm" type="submit">Subir</button></form>
 </section>
-<section class="card"><h3>Checklist antes de continuar</h3><p class="muted small">Antes de continuar, asegúrate de tener claro que…</p>
+${listo ? '' : `<section class="card"><h3>Checklist antes de continuar</h3><p class="muted small">Antes de continuar, asegúrate de tener claro que…</p>
   <ul class="tasks" id="comp">${P.compromisos.map(([t, d], i) => `<li><label><input type="checkbox" data-i="${i}" ${(p.compromisos || []).includes(i) ? 'checked' : ''}><div><div class="t">${esc(t)}</div><div class="where">${esc(d)}</div></div></label></li>`).join('')}</ul>
-</section>`;
+</section>`}`;
     },
     mount() {
       montarCompromisos();
@@ -760,7 +762,12 @@ ${P.camino.map((m) => { const pm = pctMes(m); return `<details class="card mes" 
     html() {
       const o = onbDe(st.perfil), f = fmt(st.perfil), hechos = st.perfil.onboarding || [];
       const lk = (v) => (v === 'curso' ? (P.onbLinks[f] || {}).curso : v);
-      return `<div class="head"><div><span class="eyebrow">Tu primera semana · ${esc(o.nombre)}</span><h1>Empieza acá</h1></div><span class="pill" id="onbCount"></span></div>
+      const listo = (DB.demo || !st.admin) && onbHecho();
+      const arriba = listo ? `<div class="head"><div><span class="eyebrow">${esc(o.nombre)}</span><h1>Cómo funciona</h1></div><span class="pill">Onboarding hecho ✓</span></div>
+<section class="card feature"><span class="eyebrow">Ya terminaste tu onboarding</span><h2>Esto ya lo hiciste</h2>
+  <p class="muted">Esta página queda como guía para consultar cuando quieras: tus links, cómo es tu semana, dónde está cada cosa y las preguntas frecuentes. Lo que te toca ahora está en Mi semana.</p>
+  <div class="row"><a class="btn" href="#semana">Ir a Mi semana</a><button class="btn ghost" type="button" data-ask="¿Qué me toca hacer esta semana?">Preguntarle a Flor AI qué me toca</button></div></section>
+<p class="note small">¿Entraste con una contraseña provisoria que te mandó Flor? <button type="button" class="linkbtn" id="clave2">Crea tu propia contraseña acá</button>.</p>` : `<div class="head"><div><span class="eyebrow">Tu primera semana · ${esc(o.nombre)}</span><h1>Empieza acá</h1></div><span class="pill" id="onbCount"></span></div>
 <p class="note small">¿Entraste con una contraseña provisoria que te mandó Flor? <button type="button" class="linkbtn" id="clave2">Crea tu propia contraseña acá</button>.</p>
 <p class="muted intro">Todo lo que necesitas para empezar está en esta página. Tómate el onboarding con calma: entender cómo funciona todo lleva unas dos semanas, y es normal.</p>
 ${o.nota ? `<p class="note">${esc(o.nota)}</p>` : ''}
@@ -769,11 +776,12 @@ ${o.nota ? `<p class="note">${esc(o.nota)}</p>` : ''}
   <h2>Haz tu onboarding acompañada</h2>
   <p class="muted">Flor AI te explica cómo funciona tu semana, dónde está cada cosa, toma tu punto de partida y hacen juntas tu primera práctica.</p>
   <div class="row"><button class="btn" type="button" data-ask="Soy nueva en AT WORK, quiero hacer mi onboarding">Empezar mi onboarding</button>${url(lk('curso')) ? `<a class="btn ghost" href="${esc(lk('curso'))}" target="_blank" rel="noopener">Ver los 8 videos</a>` : ''}</div>
-</section>
+</section>`;
+      return `${arriba}
 <div class="grid g-2">
-  <section class="card"><h3>Tu checklist final</h3><p class="muted small">Márcalo completo antes de empezar el Módulo 1.</p>
+  ${listo ? '' : `<section class="card"><h3>Tu checklist final</h3><p class="muted small">Márcalo completo antes de empezar el Módulo 1.</p>
     <div class="meter"><i id="onbBar" style="width:0"></i></div>
-    <ul class="tasks" id="onb">${o.checklist.map((t, i) => `<li><label><input type="checkbox" data-i="${i}" ${hechos.includes(i) ? 'checked' : ''}><div><div class="t">${esc(t)}</div></div></label></li>`).join('')}</ul></section>
+    <ul class="tasks" id="onb">${o.checklist.map((t, i) => `<li><label><input type="checkbox" data-i="${i}" ${hechos.includes(i) ? 'checked' : ''}><div><div class="t">${esc(t)}</div></div></label></li>`).join('')}</ul></section>`}
   <div class="grid" style="align-content:start">
     <section class="card"><h3>Tus links</h3><ul class="dates">
       ${o.links.map(([t, d, v]) => `<li><b>${esc(t)}</b><span>${url(lk(v)) ? `<a href="${esc(lk(v))}" target="_blank" rel="noopener">${esc(d)}</a>` : esc(d)}</span></li>`).join('')}
@@ -782,8 +790,8 @@ ${o.nota ? `<p class="note">${esc(o.nota)}</p>` : ''}
     <section class="card"><h3>Tu semana</h3><ul class="dates">${o.semana.map(([a, b]) => `<li><b>${esc(a)}</b><span>${esc(b)}</span></li>`).join('')}</ul></section>
   </div>
 </div>
-<section class="card"><span class="eyebrow">Antes de empezar</span><h3>${esc(o.arranque[0])}</h3><p class="small">${esc(o.arranque[1])}</p>
-  ${url(o.links[2][2]) ? `<div class="row"><a class="btn ghost sm" href="${esc(o.links[2][2])}" target="_blank" rel="noopener">Agendar</a></div>` : ''}</section>
+${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</span><h3>${esc(o.arranque[0])}</h3><p class="small">${esc(o.arranque[1])}</p>
+  ${url(o.links[2][2]) ? `<div class="row"><a class="btn ghost sm" href="${esc(o.links[2][2])}" target="_blank" rel="noopener">Agendar</a></div>` : ''}</section>`}
 <section class="card"><h3>Dónde está cada cosa</h3><p class="muted small">Las clases están en la comunidad AT WORK, dentro de «Learning», y tu camino con los links está en <a href="#camino">Mi camino</a>. Lo tuyo vive en tu carpeta personal de Drive:</p>
   <ul class="dates">${P.carpetas.map(([n, t, d]) => `<li><b>${n} · ${esc(t)}</b><span>${esc(d)}</span></li>`).join('')}</ul>
   <p class="muted small">Desde <a href="#proceso">Mi proceso</a> y <a href="#feedback">Pedir feedback</a> puedes subir tus archivos y quedan guardados en tu carpeta.</p></section>
@@ -798,6 +806,7 @@ ${o.nota ? `<p class="note">${esc(o.nota)}</p>` : ''}
     },
     mount() {
       $('#clave2').onclick = () => pantallaClave();
+      if (!$('#onb')) return;
       montarCompromisos();
       const el = $('#onb'), total = onbDe(st.perfil).checklist.length;
       const c = () => { const n = $$('input:checked', el).length; $('#onbCount').textContent = n + ' de ' + total + ' listos'; $('#onbBar').style.width = (100 * n / total) + '%'; };
