@@ -110,6 +110,7 @@ Dónde está según Flor: ${MODULOS[a.modulo_actual ?? 0] || MODULOS[0]}. Clases
 Foco de esta semana (lo eligió Flor): ${a.foco_titulo ? `${a.foco_titulo}. ${a.foco_texto || ""}` : "(Flor todavía no lo cargó)"}
 Tareas extra que le dejó Flor:
 ${(t.data || []).map((x: any) => `- [${x.hecha ? "hecha" : "pendiente"}] ${x.texto}${x.donde ? ` (${x.donde})` : ""}`).join("\n") || "- (ninguna)"}
+Coaches (Role Play, Narrative Flow, Color Method, Pronunciation) en su Claude: ${a.coaches_instalados ? "SÍ, avisó que ya los instaló el " + String(a.coaches_instalados).slice(0, 10) : "NO SABEMOS: todavía no avisó que los instaló"}.
 Onboarding: ${(a.onboarding || []).length} ítems del checklist final tildados.
 Patrones de error (los carga Flor): ${(pa.data || []).map((x: any) => `${x.patron} (${x.tipo}, ${x.estado})`).join("; ") || "(sin cargar)"}.
 Documentos en su espacio: ${(d.data || []).map((x: any) => `${x.nombre} (${x.tipo})`).join(", ") || "(ninguno)"}.

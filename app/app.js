@@ -862,8 +862,21 @@ ${P.camino.map((m) => { const pm = pctMes(m); return `<details class="card mes" 
 <section class="card"><h3>3 · Úsalos</h3><p class="small">Abre un chat nuevo en Claude, escribe <b>/</b> y elige tu coach. Después cuéntale qué traes. Así arranca cada uno:</p>
   <ul class="dates">${SKILLS.map(([n, , , f]) => `<li><b>${n}</b><span>${esc(f)}</span></li>`).join('')}</ul>
   <p class="muted small">Para cambiar de coach no necesitas otro chat: escribe “pasemos a Role Play”, “pasemos a Narrative Flow” o “pasemos a Color Method”.</p></section>
+<section class="card feature" id="coaches-ok"><span class="eyebrow">4 · Avísale a Flor AI</span>
+  ${st.perfil.coaches_instalados
+    ? `<h3>Ya instalaste tus coaches ✓</h3><p class="muted small">Flor AI ya lo sabe: cuando te mande a practicar, te dice qué coach abrir y qué pegarle.</p><div class="row"><button type="button" class="linkbtn small" id="coaches-no">Todavía no los tengo</button></div>`
+    : `<h3>¿Ya los instalaste?</h3><p class="small">Cuando hayas instalado tus coaches y los veas al escribir <b>/</b> en Claude, toca este botón. Así Flor AI sabe que los tienes y te guía para practicar con ellos.</p><div class="row"><button type="button" class="btn" id="coaches-si">Ya instalé mis coaches</button></div>`}
+</section>
 <section class="card"><h3>¿Cuál uso hoy?</h3><ul class="dates">${P.situaciones.map(([s, c]) => `<li><b>${c === 'flor' ? 'Flor AI' : (P.coaches.find((x) => x.id === c) || {}).nombre || c}</b><span>${esc(s)}</span></li>`).join('')}</ul>
   <p class="muted small">Flor AI vive en esta app: te dice qué te toca y te guía. Lo importante, mándaselo a Flor desde <a href="#feedback">Pedir feedback</a>.</p></section>`;
+    },
+    mount() {
+      const marcar = async (si) => {
+        try { await intentar(() => DB.marcarCoaches(si), si ? 'Listo: Flor AI ya sabe que tienes tus coaches' : 'Listo'); st.perfil.coaches_instalados = si ? new Date().toISOString() : null; ruta(); } catch (e) {}
+      };
+      const s = $('#coaches-si'), n = $('#coaches-no');
+      if (s) s.onclick = () => marcar(true);
+      if (n) n.onclick = () => marcar(false);
     }
   };
 
