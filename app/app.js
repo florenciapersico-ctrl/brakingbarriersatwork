@@ -958,6 +958,7 @@ ${listo ? '' : `<section class="card"><h3>Checklist antes de continuar</h3><p cl
     const lk = F.links || {};
     const enlace = (u, t) => (url(u) ? `<a class="btn ghost sm" href="${esc(u)}" target="_blank" rel="noopener">${t}</a>` : '');
     const nom1 = (n) => esc(String(n || '').split(' ')[0]);
+    const linkGrabar = (id) => (F.grabar || {})[id] || (P.grabar || {})[id] || '';
     return `<div class="head"><div><span class="eyebrow">Tu semana como directora de AT WORK · semana del ${fecha(lun, { day: 'numeric', month: 'long' })}</span><h1>Mis números</h1></div></div>
 <section class="card feature"><span class="eyebrow">Tu objetivo</span><h2 id="fobj">${esc(F.objetivo)}</h2>
   <div class="row"><button class="btn ghost sm" id="fobj-ed">Editar mi objetivo</button></div>
@@ -982,7 +983,8 @@ ${listo ? '' : `<section class="card"><h3>Checklist antes de continuar</h3><p cl
   <p class="muted small">Son las clases que siguen «en grabación» y a las que una alumna ya llegó o llega la semana que viene.</p>
   ${porGrabar.length ? `<ul class="tasks">${porGrabar.map((g) => `<li><div class="fbitem" style="flex-direction:row;align-items:flex-start;justify-content:space-between;gap:12px"><span><b>${esc(g.t.texto)}</b> ${g.ya ? '<span class="pill warn">Grábala sí o sí</span>' : '<span class="pill">La semana que viene</span>'}<br>
     <span class="muted small">Va en la semana ${g.desde}. ${g.quienes.map((x) => nom1(x.a.nombre) + ' (semana ' + x.n + ')').join(', ')} ${g.ya ? (g.quienes.length === 1 ? 'ya llegó' : 'ya llegaron') : 'llega' + (g.quienes.length === 1 ? '' : 'n')}.</span></span>
-    <button type="button" class="btn ghost sm" data-grab="${esc(g.t.id)}">Ya la grabé</button></div></li>`).join('')}</ul>` : '<p class="muted small">Ninguna alumna llegó todavía a una clase en grabación. 🎉</p>'}
+    <span class="row" style="gap:6px;flex-wrap:wrap;justify-content:flex-end">${linkGrabar(g.t.id) ? `<a class="btn sm" href="${esc(linkGrabar(g.t.id))}" target="_blank" rel="noopener">🎬 Abrir todo para grabar</a><button type="button" class="linkbtn small" data-glink="${esc(g.t.id)}">Cambiar link</button>` : `<button type="button" class="btn ghost sm" data-glink="${esc(g.t.id)}">+ Pegar link del material</button>`}
+    <button type="button" class="btn ghost sm" data-grab="${esc(g.t.id)}">Ya la grabé</button></span></div></li>`).join('')}</ul>` : '<p class="muted small">Ninguna alumna llegó todavía a una clase en grabación. 🎉</p>'}
 </section>
 <details class="card"><summary><b>Tus links de trabajo</b></summary>
   <form class="grid" id="flinks" novalidate>
@@ -1009,6 +1011,13 @@ ${listo ? '' : `<section class="card"><h3>Checklist antes de continuar</h3><p cl
       const c = { ...st._flor.contenido }; if (c[b.dataset.dia]) delete c[b.dataset.dia]; else c[b.dataset.dia] = true;
       await guardarF({ contenido: c }); ruta();
     };
+    $$('[data-glink]').forEach((b) => (b.onclick = async () => {
+      const id = b.dataset.glink, actual = (st._flor.grabar || {})[id] || (P.grabar || {})[id] || '';
+      const u = prompt('Pega el link de la carpeta (Drive o Notion) donde tienes el prompter, la presentación y todo para grabar esta clase:', actual);
+      if (u == null) return;
+      if (u.trim() && !url(u.trim())) return toast('El link tiene que empezar con https://', true);
+      await guardarF({ grabar: { ...(st._flor.grabar || {}), [id]: u.trim() } }, 'Link guardado'); ruta();
+    }));
     $$('[data-grab]').forEach((b) => (b.onclick = async () => { await guardarF({ grabadas: [...(st._flor.grabadas || []), b.dataset.grab] }, 'Anotada como grabada'); ruta(); }));
     $('#flinks').onsubmit = async (e) => { e.preventDefault(); const g = (k) => $('#fl-' + k).value.trim(); await guardarF({ links: { instagram: g('instagram'), contenido: g('contenido'), notion: g('notion') } }, 'Guardado'); ruta(); };
   }

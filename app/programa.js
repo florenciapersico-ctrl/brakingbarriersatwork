@@ -66,6 +66,24 @@ window.PROGRAMA = {
     'Completar tu primer weekly report'
   ],
 
+  // Carpeta de Drive con todo listo para grabar (prompter, presentación, worksheet) de cada clase en grabación.
+  // Flor puede cambiar o agregar el link desde "Mi progreso" (se guarda aparte y gana sobre esto).
+  grabar: {
+    '8.1': 'https://drive.google.com/drive/folders/1GYqbHLqc49jppLsXQnrkJhZKHTWDCL77',
+    '8.2': 'https://drive.google.com/drive/folders/1kA8rZ1Bxp7Yoo71IjsxhgQoTh5qdd-W1',
+    '12.2': 'https://drive.google.com/drive/folders/15LYmigofQcKaUos2Iy7lgyVwOvUv0y3-',
+    '12.3': 'https://drive.google.com/drive/folders/1PbpMB2q1Zk11sIhsbtvmUCdj5Zq22jS_',
+    '12.4': 'https://drive.google.com/drive/folders/1ptvkOrkOIng2sOK656xHRKzxR2xuCuig',
+    '12.5': 'https://drive.google.com/drive/folders/1vk9RgIcrLSLB8DJwaHr_rN1mOTRDq4P-',
+    '12.6': 'https://drive.google.com/drive/folders/1b9EU8QIH9Wmco9bMOREUj1844-LPk29X',
+    '13.1': 'https://drive.google.com/drive/folders/1KkixW6PyUMHbLyWJWWlxSrVJxZ01OMTn',
+    '13.2': 'https://drive.google.com/drive/folders/1VidSlgWCWfnz74_U0u1dJ_tTozGSttCm',
+    '14.1': 'https://drive.google.com/drive/folders/11if3ZWqzcgsMloOWOCa9FhUL4rhRYyow',
+    '15.1': 'https://drive.google.com/drive/folders/1YEo6mlLvlLRK_6-__xLvsDwWeyRLpeN3',
+    '15.2': 'https://drive.google.com/drive/folders/17R11aoV5v9hoDOeeztP-xDT-5MwfJ-UP',
+    '16.1': 'https://drive.google.com/drive/folders/1f-cjpbjjp6SgnHJ8S1QfBIAZZ4Khmqlb'
+  },
+
   sugerencias: [
     ['Soy nueva, quiero hacer mi onboarding', 'Tu bienvenida: dónde está todo y tu primera práctica.'],
     ['¿Qué me toca esta semana?', 'Dónde estás en tu proceso y tu próximo paso.'],
