@@ -24,6 +24,7 @@
 
 import Anthropic from "npm:@anthropic-ai/sdk";
 import { createClient } from "npm:@supabase/supabase-js@2";
+import { unzipSync, strFromU8 } from "npm:fflate@0.8.2";
 
 const CORS = {
   "Access-Control-Allow-Origin": "*",
@@ -130,6 +131,43 @@ const IMAGEN = /\.(png|jpe?g|gif|webp)$/i;
 const MIN = (s: number) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, "0")}`;
 // Audio de un link de Drive: lo baja el Apps Script de Flor (corre con su cuenta, así ve las carpetas de las alumnas).
 const DRIVE_ID = (s: string) => /drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?(?:[^ ]*&)?id=)([\w-]{20,})/.exec(s || "")?.[1] || "";
+// Busca la tarea en la carpeta de Drive de la alumna (vía el Apps Script de Flor): lo que subió desde unos días antes del pedido.
+// Deja afuera lo que arma Flor (weekly, notas de Gemini, grabaciones de clase, documentos de clase) y prefiere 04 / prácticas.
+async function buscarTarea(carpeta: string, desde: string, titulo: string, emailAlumna: string): Promise<string> {
+  const url = Deno.env.get("DRIVE_SCRIPT_URL"), secreto = Deno.env.get("DRIVE_SECRET");
+  if (!url || !secreto || !carpeta) return "";
+  const r = await fetch(url, { method: "POST", headers: { "Content-Type": "text/plain" }, body: JSON.stringify({ secreto, accion: "buscar", carpeta, desde }) });
+  const out = await r.json().catch(() => ({}));
+  if (!out.ok || !Array.isArray(out.archivos)) return "";
+  const NO = /weekly report|notas de gemini|recording|registro de progreso|acuerdo de trabajo|roadmap|^at work · .* · \d{2} [a-z]{3} \d{4}|^copia de at work/i;
+  const palabras = String(titulo || "").toLowerCase().replace(/^tarea:\s*/, "").split(/[^a-záéíóúñ0-9]+/).filter((w) => w.length > 3);
+  // deno-lint-ignore no-explicit-any
+  const puntaje = (f: any) => {
+    const n = String(f.nombre || "").toLowerCase();
+    let p = palabras.filter((w) => n.includes(w)).length * 3;
+    if (/04|pr[aá]ctic/i.test(f.carpeta || "")) p += 2;
+    if (emailAlumna && String(f.duena || "").toLowerCase() === emailAlumna.toLowerCase()) p += 2;
+    if (/folder/.test(f.mime || "")) p -= 99;
+    return p;
+  };
+  // deno-lint-ignore no-explicit-any
+  const cand = out.archivos.filter((f: any) => !NO.test(String(f.nombre || ""))).map((f: any) => ({ f, p: puntaje(f) })).filter((x: any) => x.p > 0);
+  // deno-lint-ignore no-explicit-any
+  cand.sort((a: any, b: any) => b.p - a.p || (a.f.fecha < b.f.fecha ? 1 : -1));
+  return cand[0]?.f?.id || "";
+}
+// Word / PowerPoint / Excel: saca el texto del archivo (son zips con XML adentro).
+function textoOffice(bytes: Uint8Array, nombre: string): string {
+  try {
+    const z = unzipSync(bytes);
+    const partes = Object.keys(z).filter((k) => /^word\/document\.xml$|^ppt\/slides\/slide\d+\.xml$|^xl\/sharedStrings\.xml$/.test(k)).sort();
+    return partes.map((k) => strFromU8(z[k])
+      .replace(/<\/w:p>|<\/a:p>|<\/si>/g, "\n").replace(/<w:tab\/>|<\/w:tc>/g, " | ")
+      .replace(/<[^>]+>/g, "").replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&apos;/g, "'"))
+      .join("\n").replace(/[ \t]+\n/g, "\n").replace(/\n{3,}/g, "\n\n").trim().slice(0, 60000);
+  } catch (e) { console.error("office", nombre, e); return ""; }
+}
+const OFFICE = /\.(docx|pptx|xlsx)$/i;
 async function bajarDeDrive(id: string): Promise<{ bytes: Uint8Array; mime: string; nombre: string; texto?: string }> {
   const url = Deno.env.get("DRIVE_SCRIPT_URL"), secreto = Deno.env.get("DRIVE_SECRET");
   if (!url || !secreto) throw new Error("SIN_DRIVE");
@@ -229,18 +267,38 @@ async function generarBorrador(admin: any, tabla: string, ref: number, imp?: { e
           adjunto = { type: "image", source: { type: "url", url } }; material += `\n(Adjuntó una imagen: ${nombre}. La tienes arriba.)`;
         } else if (url && /\.pdf$/i.test(nombre)) {
           adjunto = { type: "document", source: { type: "url", url } }; material += `\n(Adjuntó un PDF: ${nombre}. Lo tienes arriba.)`;
+        } else if (url && OFFICE.test(nombre)) {
+          const b = await fetch(url).then((r) => r.arrayBuffer()).catch(() => null);
+          const t = b ? textoOffice(new Uint8Array(b), nombre) : "";
+          material += t ? `\n\nADJUNTÓ ESTE ARCHIVO (${nombre}):\n${t}` : `\n(Adjuntó un archivo: ${nombre}. No lo pude abrir: no inventes su contenido.)`;
         } else if (url && /\.(txt|md|csv|vtt|srt)$/i.test(nombre)) {
           const t = await fetch(url).then((r) => r.text()).catch(() => "");
           material += `\n\nADJUNTÓ ESTE TEXTO (${nombre}):\n${t.slice(0, 40000)}`;
         } else {
           material += `\n(Adjuntó un archivo: ${nombre}. Tú no lo puedes abrir: no inventes su contenido; si hace falta, pon en las notas que Flor lo lea.)`;
         }
-      } else if (DRIVE_ID(`${x.link || ""} ${x.texto || ""}`)) {
+      }
+      // Si no hay archivo ni link (ej.: "me avisó por mail que la subió a su carpeta"), la busco en su carpeta de Drive.
+      let idDrive = x.archivo ? "" : DRIVE_ID(`${x.link || ""} ${x.texto || ""}`);
+      if (!x.archivo && !idDrive) {
+        try {
+          const { data: al } = await admin.from("perfiles").select("drive_url,email").eq("id", x.alumna_id).single();
+          const desde = new Date(new Date(x.creado || Date.now()).getTime() - 7 * 864e5).toISOString();
+          idDrive = await buscarTarea(String(al?.drive_url || ""), desde, String(x.titulo || ""), String(al?.email || ""));
+          if (idDrive) {
+            const link = `https://drive.google.com/file/d/${idDrive}/view`;
+            await admin.from("pedidos").update({ link }).eq("id", x.id);
+            material += `\n(La busqué en su carpeta de Drive: ${link})`;
+          }
+        } catch (e) { console.error("buscar", e); }
+      }
+      if (idDrive) {
         // Mandó el audio como link de Drive: lo bajo con el Apps Script de Flor y lo escucho igual.
         try {
-          const d = await bajarDeDrive(DRIVE_ID(`${x.link || ""} ${x.texto || ""}`));
+          const d = await bajarDeDrive(idDrive);
           if (d.texto != null) material += `\n\nEL DOCUMENTO DEL LINK (${d.nombre}):\n${d.texto}`;
           else if (d.mime === "application/pdf") { let b = ""; for (let i = 0; i < d.bytes.length; i += 0x8000) b += String.fromCharCode(...d.bytes.subarray(i, i + 0x8000)); adjunto = { type: "document", source: { type: "base64", media_type: "application/pdf", data: btoa(b) } }; material += `\n(El link es un PDF: ${d.nombre}. Lo tienes arriba.)`; }
+          else if (OFFICE.test(d.nombre) || /officedocument/.test(d.mime)) { const t = textoOffice(d.bytes, d.nombre); if (!t) throw new Error("NO_AUDIO"); material += `\n\nEL ARCHIVO DEL LINK (${d.nombre}):\n${t}`; }
           else if (!/^(audio|video)\//.test(d.mime) && !AUDIO.test(d.nombre)) throw new Error("NO_AUDIO");
           else { transcripcion = await transcribir(d); material += `\n\nEL AUDIO/VIDEO DEL LINK (${d.nombre}).\n${transcripcion}`; }
         } catch (e) {
@@ -254,6 +312,16 @@ async function generarBorrador(admin: any, tabla: string, ref: number, imp?: { e
               : "⚠️ NO PUDE ABRIR EL AUDIO DEL LINK DE DRIVE (" + m.slice(0, 120) + "). Revisá que el archivo esté en tu Drive o compartido con vos y tocá «Armar de nuevo con IA».";
           }
         }
+      }
+      // Si lo único que hay es el aviso ("lo subió a su carpeta", "me avisó por mail") y no pude leer la tarea, NO se arma el mail:
+      // un feedback sin haber visto la tarea no sirve y Flor no lo mandaría.
+      const base = `${x.texto || ""}`.trim();
+      const leyo = !!transcripcion || !!adjunto || /\n\n(EL DOCUMENTO DEL LINK|EL ARCHIVO DEL LINK|ADJUNTÓ ESTE)/.test(material);
+      const soloAviso = !base || base.length < 400 && /(lo subió|subió a su carpeta|me avisó|avisó por mail|uploaded|subí|subido)/i.test(base);
+      if (!sinAudio && !leyo && soloAviso) {
+        sinAudio = true;
+        aviso = "⚠️ NO TENGO LA TAREA: solo me llegó el aviso de que la subió, no el archivo. No armé el borrador para no mandarle un feedback sin haberla visto. " +
+          (x.link ? "No pude abrir el link que tiene el pedido: revisá que sea el archivo correcto (Doc, PDF, Word o audio)." : "La busqué en su carpeta de Drive y no encontré nada nuevo desde una semana antes del pedido. Pegá el link del archivo en el pedido y tocá «Armar de nuevo con IA».");
       }
     } else if (imp) {
       // Alumna que todavía no creó su cuenta: su weekly vive en la tabla importacion.

@@ -47,6 +47,9 @@ function doPost(e) {
     //    Si la alumna mandó la tarea por mail, el borrador es la respuesta en ese mismo hilo.
     if (p.accion === 'borrador') return salida(armarBorrador(p));
 
+    // 8) Buscar la tarea en la carpeta de la alumna: lista los archivos que subió o cambió desde una fecha.
+    if (p.accion === 'buscar') return salida(buscarEnCarpeta(p));
+
     // 5) Alumna nueva: le crea su carpeta con las subcarpetas 01 a 05 y se la comparte.
     if (p.accion === 'crear_carpeta') return salida(crearCarpetaAlumna(p.nombre, p.email));
 
@@ -124,6 +127,7 @@ function revisarCarpetas() {
 // Flor sigue mandando su feedback por mail. Cada 15 minutos se leen sus mails con la etiqueta
 // "AT WORK/Enviado a alumnas" y la app se pone al día: tarea o weekly respondido, con su respuesta.
 var ETIQUETA_ENVIADOS = 'AT WORK/Enviado a alumnas';
+var ETIQUETA_REVISAR = 'AT WORK/Feedback para revisar';
 
 function revisarEnviados() {
   var props = PropertiesService.getScriptProperties();
@@ -147,6 +151,24 @@ function revisarEnviados() {
   props.setProperty('DESDE_MAIL', String(ahora - 60 * 1000));
 }
 
+function buscarEnCarpeta(p) {
+  var m = String(p.carpeta || '').match(/folders\/([\w-]{20,})/);
+  if (!m) return { ok: false, error: 'sin carpeta' };
+  var desde = p.desde ? new Date(p.desde) : new Date(Date.now() - 14 * 864e5);
+  var out = [];
+  function rec(f, ruta, prof) {
+    var it = f.getFiles();
+    while (it.hasNext()) {
+      var x = it.next();
+      if (x.getLastUpdated() >= desde) out.push({ id: x.getId(), nombre: x.getName(), mime: x.getMimeType(), fecha: x.getLastUpdated().toISOString(), carpeta: ruta, duena: (x.getOwner() ? x.getOwner().getEmail() : '') });
+    }
+    if (prof < 3) { var sub = f.getFolders(); while (sub.hasNext()) { var s = sub.next(); rec(s, ruta + '/' + s.getName(), prof + 1); } }
+  }
+  rec(DriveApp.getFolderById(m[1]), '', 0);
+  out.sort(function (a, b) { return a.fecha < b.fecha ? 1 : -1; });
+  return { ok: true, archivos: out.slice(0, 60) };
+}
+
 function armarBorrador(p) {
   if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(p.para || '')) return { ok: false, error: 'mail de la alumna' };
   var yo = Session.getEffectiveUser().getEmail();
@@ -162,6 +184,9 @@ function armarBorrador(p) {
   var hilo = borrador.getMessage().getThread();
   var et = GmailApp.getUserLabelByName(ETIQUETA_ENVIADOS) || GmailApp.createLabel(ETIQUETA_ENVIADOS);
   hilo.addLabel(et); // así, cuando Flor lo manda, la revisión de Enviados lo encuentra
+  // Y la etiqueta "AT WORK/Feedback para revisar": ahí quedan todos los borradores que arma la app, para que Flor los revise y los mande.
+  var rev = GmailApp.getUserLabelByName(ETIQUETA_REVISAR) || GmailApp.createLabel(ETIQUETA_REVISAR);
+  hilo.addLabel(rev);
   var link = p.responder && hilo.getMessageCount() > 1 ? hilo.getPermalink() : 'https://mail.google.com/mail/u/0/#drafts?compose=' + borrador.getMessage().getId();
   return { ok: true, asunto: borrador.getMessage().getSubject(), link: link };
 }
