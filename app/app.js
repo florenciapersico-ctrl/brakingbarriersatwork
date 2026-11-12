@@ -1819,7 +1819,7 @@ ${cuerpo}`;
 <form class="grid" id="prform" novalidate>
   <section class="card feature unica"><span class="eyebrow">Tu próximo lab</span>
     <h2>${esc(l.fecha || '')} · 15:30</h2>
-    <p class="small">${l.tema ? '<b>Tema:</b> ' + esc(l.tema) : 'Todavía no tiene tema.'}</p>
+    <p class="small">${l.tema ? '<b>Tema:</b> ' + esc(l.tema) : 'Todavía no tiene tema: se arma solo los jueves a la mañana.'}</p>${l.porque ? `<p class="small muted">Por qué: ${esc(l.porque)}</p>` : ''}
     <div class="row" style="gap:8px;flex-wrap:wrap">${url(l.material) ? `<a class="btn" href="${esc(l.material)}" target="_blank" rel="noopener">🎬 Abrir todo para darlo</a>` : ''}<a class="btn ${url(l.material) ? 'ghost sm' : ''}" href="${esc(l.link || MEET_LAB)}" target="_blank" rel="noopener">Entrar al Meet</a></div>
   </section>
   <section class="card"><h3>Próximo lab · lo que ven tus alumnas</h3>
