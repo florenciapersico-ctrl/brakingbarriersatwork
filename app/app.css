@@ -403,3 +403,6 @@ button.who{background:none;border:0;color:inherit;font:inherit;cursor:pointer;pa
 details.mas-grabar{margin-top:10px}
 details.mas-grabar summary{cursor:pointer}
 .card.unica .td-txt pre{color:#2b2118}
+/* Demo: barra para volver al panel de Flor */
+.demobar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;background:var(--brand);color:var(--on-brand);padding:10px 18px;font-size:.92rem}
+.demobar .btn{background:var(--on-brand);color:var(--brand);border-color:var(--on-brand)}

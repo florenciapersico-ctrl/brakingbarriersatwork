@@ -205,7 +205,7 @@
     root.innerHTML = '<div class="shell"><aside class="side"><div class="logo"><span class="tilde">~</span>AT WORK<small>Breaking Barriers</small></div><nav class="main">' + navHTML() + '</nav>' +
       '<div class="foot">' + (DB.demo ? '<span class="demo">Versión demo</span><button class="linkbtn" id="reset">Reiniciar datos de ejemplo</button>' : '') +
       '<button class="linkbtn" id="clave">Cambiar contraseña</button><button class="linkbtn" id="salir">Cerrar sesión</button></div></aside>' +
-      '<div class="mainwrap"><header class="topbar"><span class="tb-title" id="tbt"></span><span class="tb-sp"></span>' +
+      '<div class="mainwrap">' + (DB.demo && /[?&]demo\b/.test(location.search) ? '<div class="demobar"><span>Estás viendo la app como alumna, con datos de ejemplo.</span><a class="btn sm" href="' + location.pathname + '#inicio">← Volver a mi panel</a></div>' : '') + '<header class="topbar"><span class="tb-title" id="tbt"></span><span class="tb-sp"></span>' +
       (st.admin ? '' : '<span class="fmt">' + (fmt(st.perfil) === '1:1' ? 'Private' : 'Lab') + '</span>') + '<button type="button" class="who" id="whob" aria-haspopup="true"><span class="av">' + esc(iniciales(nom)) + '</span><span class="nm">' + esc(nom.split(' ')[0]) + '</span></button>' +
       '<div class="whomenu" id="whom" hidden><span class="muted small">' + esc(st.perfil.email || '') + '</span><button type="button" class="linkbtn" id="mclave">Cambiar contraseña</button><button type="button" class="linkbtn" id="msalir">Cerrar sesión</button></div></header>' +
       '<main id="app"></main></div></div><nav class="tabbar">' + navHTML(true) + '</nav>';
@@ -355,6 +355,23 @@
     return { actual, rec, celdas, hoyHecho: env.has(sem(0)) };
   }
   const lab = () => st.programa.proximo_lab || {};
+  // Próximo lab: el sábado que viene (o hoy, si es sábado y todavía no terminó), 15:30 Argentina, siempre en Meet.
+  const MEET_LAB = 'https://meet.google.com/gow-vnpg-xhx';
+  const HORARIO_LAB = '15:30 a 16:30 Argentina · 12:30 México y Costa Rica · 13:30 Colombia';
+  function proximoSabado() {
+    const d = new Date(), h = d.getHours() * 60 + d.getMinutes();
+    let add = (6 - d.getDay() + 7) % 7; if (add === 0 && h >= 16 * 60 + 30) add = 7;
+    d.setDate(d.getDate() + add);
+    const iso = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+    const t = d.toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric', month: 'long' });
+    return { iso, fecha: t.charAt(0).toUpperCase() + t.slice(1) };
+  }
+  // Si el lab guardado ya pasó (o nunca tuvo fecha), lo pasa al próximo sábado: fecha, horario y Meet. Tema y material quedan para cargar.
+  function labAlDia() {
+    const l = lab(), s = proximoSabado();
+    if (l.iso === s.iso) return null;
+    return { iso: s.iso, fecha: s.fecha, horario: HORARIO_LAB, link: /meet\.google/.test(l.link || '') ? l.link : MEET_LAB, tema: '', material: '' };
+  }
   const links = () => st.programa.links || {};
   const fixes = (c) => (c || []).map((x) => '<div class="fix"><s>' + esc(x.mal) + '</s><span class="arr muted">→</span><b>' + esc(x.bien) + '</b>' + (x.por_que ? '<span class="muted small"> · ' + esc(x.por_que) + '</span>' : '') + '</div>').join('');
 
@@ -484,7 +501,7 @@
     async html() {
       const [tareas, weeklies, pedidos, resumenes] = await Promise.all([DB.tareas(), DB.weeklies(), DB.pedidos(), DB.resumenes ? DB.resumenes().catch(() => []) : []]);
       st._tareas = tareas;
-      const p = st.perfil, r = racha(weeklies), l = lab(), n = semanaDe(p), av = avanceCamino(p), sig = loQueSigue(p);
+      const p = st.perfil, r = racha(weeklies), l = labAlDia() || lab(), n = semanaDe(p), av = avanceCamino(p), sig = loQueSigue(p);
       const fb = pedidos.find((x) => x.estado === 'respondido');
       const acordado = tareas.find((t) => !t.hecha);
       const nombre = (p.nombre || '').split(' ')[0];
@@ -938,7 +955,7 @@ ${listo ? '' : `<section class="card"><h3>Checklist antes de continuar</h3><p cl
     const out = [];
     if (!b) return out;
     for (const m of P.camino) for (const s of m.semanas) for (const t of s.tareas) {
-      if (!t.pronto || (F.grabadas || []).includes(t.id)) continue;
+      if (!t.pronto || (F.grabadas || []).includes(t.id) || (F.salteadas || []).includes(t.id)) continue;
       const desde = Math.min(...s.s);
       const quienes = b.activas.map((a) => ({ a, n: semanaDe(a.perfil) })).filter((x) => x.n && x.n >= desde - 1 && !((x.a.perfil.camino_hecho || []).includes(t.id)));
       if (quienes.length) out.push({ t, desde, quienes, ya: quienes.some((x) => x.n >= desde), listo: !!linkGrabar(F, t.id) });
@@ -964,6 +981,9 @@ ${listo ? '' : `<section class="card"><h3>Checklist antes de continuar</h3><p cl
     const faltan = b.activas.filter((a) => !conW.has(a.email));
     const fbEsta = b.tResp.filter((x) => delaSemana(x.respondido_en));
     const porGrabar = clasesPorGrabar(b, F);
+    const todasT = P.camino.flatMap((m) => m.semanas.flatMap((x) => x.tareas));
+    const hechasG = (F.grabadas || []).map((id) => todasT.find((t) => t.id === id)).filter(Boolean);
+    const salteadasG = (F.salteadas || []).map((id) => todasT.find((t) => t.id === id)).filter(Boolean);
     const dias = [...Array(7)].map((_, i) => { const d = new Date(lun + 'T12:00:00'); d.setDate(d.getDate() + i); return d; });
     const hechosDias = dias.filter((d) => F.contenido[diaISO(d)]).length;
     const chk = (ok, txt, sub, link) => `<li class="chk"><span class="${ok ? 'ok-i' : 'no-i'}">${ok ? '✓' : '○'}</span><span><b>${txt}</b>${sub ? '<br><span class="muted small">' + sub + '</span>' : ''}${link ? ' ' + link : ''}</span></li>`;
@@ -996,7 +1016,9 @@ ${listo ? '' : `<section class="card"><h3>Checklist antes de continuar</h3><p cl
   ${porGrabar.length ? `<ul class="tasks">${porGrabar.map((g, i) => `${i === 3 ? `</ul><details class="mas-grabar"><summary class="small">Ver las otras ${porGrabar.length - 3}</summary><ul class="tasks">` : ''}<li><div class="fbitem" style="flex-direction:row;align-items:flex-start;justify-content:space-between;gap:12px"><span><b>${esc(g.t.texto)}</b> ${g.ya ? '<span class="pill warn">Grábala sí o sí</span>' : '<span class="pill">La semana que viene</span>'}<br>
     <span class="muted small">Va en la semana ${g.desde}. ${g.quienes.map((x) => nom1(x.a.nombre) + ' (semana ' + x.n + ')').join(', ')} ${g.ya ? (g.quienes.length === 1 ? 'ya llegó' : 'ya llegaron') : 'llega' + (g.quienes.length === 1 ? '' : 'n')}.</span></span>
     <span class="row" style="gap:6px;flex-wrap:wrap;justify-content:flex-end">${lkG(g.t.id) ? `<a class="btn sm" href="${esc(lkG(g.t.id))}" target="_blank" rel="noopener">🎬 Abrir todo para grabar</a><button type="button" class="linkbtn small" data-glink="${esc(g.t.id)}">Cambiar link</button>` : `<button type="button" class="btn ghost sm" data-glink="${esc(g.t.id)}">+ Pegar link del material</button>`}
-    <button type="button" class="btn ghost sm" data-grab="${esc(g.t.id)}">Ya la grabé</button></span></div></li>`).join('')}</ul>${porGrabar.length > 3 ? '</details>' : ''}` : '<p class="muted small">Ninguna alumna llegó todavía a una clase en grabación. 🎉</p>'}
+    <button type="button" class="btn ghost sm" data-grab="${esc(g.t.id)}">Ya la grabé</button><button type="button" class="linkbtn small" data-saltar="${esc(g.t.id)}">No la grabo</button></span></div></li>`).join('')}</ul>${porGrabar.length > 3 ? '</details>' : ''}` : '<p class="muted small">Ninguna alumna llegó todavía a una clase en grabación. 🎉</p>'}
+  ${hechasG.length ? `<details class="mas-grabar"><summary class="small">✓ Ya grabadas (${hechasG.length})</summary><ul class="neg">${hechasG.map((t) => `<li class="row between"><span>${esc(t.texto)}</span><button type="button" class="linkbtn small" data-desgrab="${esc(t.id)}">Deshacer</button></li>`).join('')}</ul></details>` : ''}
+  ${salteadasG.length ? `<details class="mas-grabar"><summary class="small">No las grabo (${salteadasG.length})</summary><ul class="neg">${salteadasG.map((t) => `<li class="row between"><span>${esc(t.texto)}</span><button type="button" class="linkbtn small" data-dessaltar="${esc(t.id)}">Volver a la lista</button></li>`).join('')}</ul></details>` : ''}
 </section>
 <details class="card"><summary><b>Tus links de trabajo</b></summary>
   <form class="grid" id="flinks" novalidate>
@@ -1024,7 +1046,11 @@ ${listo ? '' : `<section class="card"><h3>Checklist antes de continuar</h3><p cl
       await guardarF({ contenido: c }); ruta();
     };
     $$('[data-glink]').forEach((b) => (b.onclick = async () => { if (await pegarLinkGrabar(b.dataset.glink)) ruta(); }));
-    $$('[data-grab]').forEach((b) => (b.onclick = async () => { await guardarF({ grabadas: [...(st._flor.grabadas || []), b.dataset.grab] }, 'Anotada como grabada'); ruta(); }));
+    $$('[data-grab]').forEach((b) => (b.onclick = async () => { await guardarF({ grabadas: [...(st._flor.grabadas || []), b.dataset.grab] }, '✓ Grabada: ' + ((P.camino.flatMap((m) => m.semanas.flatMap((x) => x.tareas)).find((t) => t.id === b.dataset.grab) || {}).texto || '') + '. Si fue sin querer, abajo está «Ya grabadas».'); ruta(); }));
+    const sacar = (k, id) => (st._flor[k] || []).filter((x) => x !== id);
+    $$('[data-desgrab]').forEach((b) => (b.onclick = async () => { await guardarF({ grabadas: sacar('grabadas', b.dataset.desgrab) }, 'Vuelve a la lista para grabar'); ruta(); }));
+    $$('[data-saltar]').forEach((b) => (b.onclick = async () => { await guardarF({ salteadas: [...(st._flor.salteadas || []), b.dataset.saltar] }, 'Sale de tu lista para grabar'); ruta(); }));
+    $$('[data-dessaltar]').forEach((b) => (b.onclick = async () => { await guardarF({ salteadas: sacar('salteadas', b.dataset.dessaltar) }, 'Vuelve a la lista para grabar'); ruta(); }));
     $('#flinks').onsubmit = async (e) => { e.preventDefault(); const g = (k) => $('#fl-' + k).value.trim(); await guardarF({ links: { instagram: g('instagram'), contenido: g('contenido'), notion: g('notion') } }, 'Guardado'); ruta(); };
   }
 
@@ -1272,7 +1298,7 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
       $('#ident-x').onclick = () => abrirId(false);
       $('#ident-f').onsubmit = async (e) => { e.preventDefault(); const t = $('#ident-t').value.trim(); if (!t) return; await guardarF({ identidad: t }, 'Guardado'); $('#ident').textContent = t; abrirId(false); };
       $$('[data-glink]').forEach((bt) => (bt.onclick = async () => { if (await pegarLinkGrabar(bt.dataset.glink)) ruta(); }));
-      $$('[data-grab]').forEach((bt) => (bt.onclick = async () => { await guardarF({ grabadas: [...(st._flor.grabadas || []), bt.dataset.grab] }, '¡Grabada! Una menos.'); ruta(); }));
+      $$('[data-grab]').forEach((bt) => (bt.onclick = async () => { await guardarF({ grabadas: [...(st._flor.grabadas || []), bt.dataset.grab] }, '✓ Grabada: ' + ((P.camino.flatMap((m) => m.semanas.flatMap((x) => x.tareas)).find((t) => t.id === bt.dataset.grab) || {}).texto || '') + '. Si fue sin querer, la desmarcás en Mis números.'); ruta(); }));
       $('#foco-f').onsubmit = async (e) => {
         e.preventDefault();
         const prev = st._flor.foco || {}, texto = $('#fo-t').value.trim();
@@ -1743,15 +1769,23 @@ ${cuerpo}`;
 
   // ---------- Programa (ajustes generales) ----------
   V.ajustes = {
-    html() {
+    async html() {
+      const nuevo = labAlDia();
+      if (nuevo) { try { await DB.guardarPrograma({ proximo_lab: nuevo }); st.programa.proximo_lab = nuevo; } catch (e) { st.programa.proximo_lab = nuevo; } }
       const l = lab(), k = links(), pr = st.programa;
       const inp = (id, lab_, val, ph = '', type = 'text') => `<div class="field"><label for="${id}">${lab_}</label><input id="${id}" type="${type}" value="${esc(val || '')}" placeholder="${esc(ph)}"></div>`;
       return `<div class="head"><div><span class="eyebrow">Panel de Flor</span><h1>Programa</h1></div></div>
 <p class="muted intro">Lo que cargas acá lo ven todas tus alumnas (y lo sabe Flor AI). Las clases y módulos se editan en <code>app/programa.js</code>.</p>
 <form class="grid" id="prform" novalidate>
-  <section class="card"><h3>Próximo lab</h3>
-    <div class="grid g-2e">${inp('l-fecha', 'Fecha', l.fecha, 'Sábado 7 de noviembre')}${inp('l-horario', 'Horario', l.horario, '18:00 Argentina · 15:00 México')}</div>
-    ${inp('l-tema', 'Tema', l.tema, 'Cómo dar un update claro en una reunión')}${inp('l-link', 'Link de Zoom', l.link, 'https://zoom.us/…', 'url')}
+  <section class="card feature unica"><span class="eyebrow">Tu próximo lab</span>
+    <h2>${esc(l.fecha || '')} · 15:30</h2>
+    <p class="small">${l.tema ? '<b>Tema:</b> ' + esc(l.tema) : 'Todavía no tiene tema.'}</p>
+    <div class="row" style="gap:8px;flex-wrap:wrap">${url(l.material) ? `<a class="btn" href="${esc(l.material)}" target="_blank" rel="noopener">🎬 Abrir todo para darlo</a>` : ''}<a class="btn ${url(l.material) ? 'ghost sm' : ''}" href="${esc(l.link || MEET_LAB)}" target="_blank" rel="noopener">Entrar al Meet</a></div>
+  </section>
+  <section class="card"><h3>Próximo lab · lo que ven tus alumnas</h3>
+    <div class="grid g-2e">${inp('l-fecha', 'Fecha', l.fecha, 'Sábado 14 de noviembre')}${inp('l-horario', 'Horario', l.horario, HORARIO_LAB)}</div>
+    ${inp('l-tema', 'Tema', l.tema, 'Small talk después de una capacitación')}${inp('l-link', 'Link de Meet', l.link, MEET_LAB, 'url')}
+    ${inp('l-material', 'Material listo para darlo (carpeta con playbook, deck y guion) · solo lo ves vos', l.material, 'https://drive.google.com/drive/folders/…', 'url')}
   </section>
   <section class="card"><h3>Links</h3>
     ${inp('k-plataforma', 'Plataforma con las clases grabadas', k.plataforma, 'https://academy.breakingbarriers.site', 'url')}
@@ -1773,7 +1807,7 @@ ${cuerpo}`;
         e.preventDefault();
         const g = (id) => $('#' + id).value.trim();
         const c = {
-          proximo_lab: { fecha: g('l-fecha'), horario: g('l-horario'), tema: g('l-tema'), link: g('l-link') },
+          proximo_lab: { iso: (st.programa.proximo_lab || {}).iso || proximoSabado().iso, fecha: g('l-fecha'), horario: g('l-horario'), tema: g('l-tema'), link: g('l-link'), material: g('l-material') },
           links: { plataforma: g('k-plataforma'), reservar: g('k-reservar'), comunidad: g('k-comunidad'), whatsapp_flor: g('k-whatsapp_flor') },
           fechas: g('fechas').split('\n').map((x) => x.split('|')).filter((x) => x[0].trim()).map(([a, b]) => ({ cuando: a.trim(), que: (b || '').trim() })),
           aviso: g('aviso')
