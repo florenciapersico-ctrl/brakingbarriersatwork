@@ -383,6 +383,27 @@ ${(x.weeklies || []).filter((e: any) => e.semana < imp.semana).slice(0, 3).map((
     return datos;
 }
 
+// "Tu tarea para la semana" de un resumen de clase → una tarea por viñeta o número (texto de Flor, sin tocar).
+function tareasDelResumen(texto: string): string[] {
+  const t = String(texto || "").replace(/\r/g, "");
+  const i = t.search(/tu tarea[^\n]*\n/i);
+  if (i < 0) return [];
+  const resto = t.slice(i).split("\n").slice(1);
+  const out: string[] = [];
+  let actual = "";
+  for (const linea of resto) {
+    const l = linea.trim();
+    if (/^(nos vemos|un abrazo|flor$|hoja de la clase|beso)/i.test(l)) break;
+    const m = /^(?:[-•*]|\d+[.)])\s+(.*)$/.exec(l);
+    if (m) { if (actual) out.push(actual); actual = m[1]; }
+    else if (l && actual) actual += " " + l;
+    else if (l && !actual && !out.length) actual = l;
+    else if (!l && actual && !out.length && !/^(?:[-•*]|\d+[.)])/.test(resto.find((x) => x.trim()) || "")) { out.push(actual); actual = ""; }
+  }
+  if (actual) out.push(actual);
+  return out.map((x) => x.replace(/\*/g, "").replace(/\s+/g, " ").trim()).filter((x) => x.length > 3).slice(0, 5);
+}
+
 // deno-lint-ignore no-explicit-any
 async function esAdmin(db: any, uid: string) {
   const { data } = await db.from("perfiles").select("rol").eq("id", uid).single();
@@ -446,6 +467,18 @@ Deno.serve(async (req) => {
       }
       const { error } = await admin.from("resumenes").upsert({ alumna_id: perfil.id, fecha: fechaClase || fecha.toISOString().slice(0, 10), asunto, texto, origen: "gmail:" + body.id }, { onConflict: "origen" });
       if (error) return json({ ok: false, error: error.message }, 500);
+      // Las tareas de la alumna salen SIEMPRE de "Tu tarea" del último resumen de clase (pedido de Flor, 12/11):
+      // reemplazan las pendientes, textuales, para que en su app vea exactamente lo que Flor le pidió.
+      const tareas = tareasDelResumen(texto);
+      if (tareas.length) {
+        const { data: ult } = await admin.from("resumenes").select("fecha").eq("alumna_id", perfil.id).order("fecha", { ascending: false }).limit(1).maybeSingle();
+        const esUltimo = !ult?.fecha || !fechaClase || String(ult.fecha) <= fechaClase;
+        if (esUltimo) {
+          await admin.from("tareas").delete().eq("alumna_id", perfil.id).eq("hecha", false);
+          const donde = `Resumen de la clase${rs ? ` del ${String(rs[1]).padStart(2, "0")}/${String(rs[2]).padStart(2, "0")}` : ""}`;
+          await admin.from("tareas").insert(tareas.map((t, i) => ({ alumna_id: perfil.id, texto: t, donde, hecha: false, orden: i + 1 })));
+        }
+      }
       return json({ ok: true, que: "resumen", fecha: fechaClase });
     }
 
