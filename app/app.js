@@ -65,6 +65,7 @@
     wins: '<path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M17 5h3a3 3 0 0 1-3 4M7 5H4a3 3 0 0 0 3 4"/>',
     empieza: '<path d="M5 21V4h11l-2 4 2 4H5"/>',
     proceso: '<path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M10 13h6M10 17h4"/>',
+    inicio: '<path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-5h4v5"/>',
     bandeja: '<path d="M3 13l3-8h12l3 8v6a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/><path d="M3 13h5l1 3h6l1-3h5"/>',
     alumnas: '<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><circle cx="17.5" cy="9" r="2.5"/><path d="M16 14.2a5 5 0 0 1 5.5 5.8"/>',
     ajustes: '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-2.7 1.1V21a2 2 0 0 1-4 0v-.1a1.6 1.6 0 0 0-2.7-1.1l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1A1.6 1.6 0 0 0 3.6 15H3a2 2 0 0 1 0-4h.1a1.6 1.6 0 0 0 1.1-2.7l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1A1.6 1.6 0 0 0 9.7 4.4V3a2 2 0 0 1 4 0v.1a1.6 1.6 0 0 0 2.7 1.1l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0 1.1 2.7H21a2 2 0 0 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1.3z"/>'
@@ -76,8 +77,11 @@
     ['Tu práctica', [['coaches', 'Mis coaches'], ['proceso', 'Mi proceso'], ['progreso', 'Mi progreso']]]
   ];
   const VISTAS = GRUPOS.flatMap((g) => g[1]);
-  const TITULOS = Object.fromEntries(VISTAS.concat([['bandeja', 'Bandeja'], ['alumnas', 'Alumnas'], ['ajustes', 'Programa']]));
+  const TITULOS = Object.fromEntries(VISTAS.concat([['bandeja', 'Bandeja'], ['alumnas', 'Alumnas'], ['ajustes', 'Programa'], ['inicio', 'Inicio']]));
   const ADMIN = [['bandeja', 'Bandeja'], ['alumnas', 'Alumnas'], ['ajustes', 'Programa']];
+  // Menú propio de Flor (administradora): nada de "tu programa" de alumna. Para ver lo de ellas: "Ver la app como alumna".
+  const MENU_FLOR = [['inicio', 'Inicio'], ['bandeja', 'Bandeja'], ['alumnas', 'Alumnas'], ['progreso', 'Mis números'], ['wins', 'Wins de alumnas'], ['ajustes', 'Programa']];
+  const esFlor = () => st.admin && !DB.demo;
 
   // ---------- arranque y sesión ----------
   const hashInicial = location.hash;
@@ -154,7 +158,7 @@
     st.programa = st.programa || {};
     st.admin = st.perfil.rol === 'admin';
     shell();
-    if (!location.hash || /access_token|type=/.test(location.hash)) location.replace('#' + (st.admin && !DB.demo ? 'bandeja' : 'semana'));
+    if (!location.hash || /access_token|type=/.test(location.hash)) location.replace('#' + (esFlor() ? 'inicio' : 'semana'));
     ruta();
     if (!st.admin) avisosNuevos();
   }
@@ -186,6 +190,7 @@
     // En el celular la barra de abajo se corta: Flor AI va adelante para que siempre se vea.
     const ORDEN = ['bandeja', 'flor', 'semana', 'alumnas', 'feedback', 'weekly', 'camino'];
     const rank = (id) => { const i = ORDEN.indexOf(id); return i < 0 ? 99 : i; };
+    if (esFlor()) return MENU_FLOR.slice(0, tab ? 5 : 6).map(it).join('') + (tab ? '' : '<div class="sep">Tus alumnas</div><a href="?demo#semana" target="_blank" rel="noopener">' + svg('alumnas') + '<span>Ver la app como alumna</span></a>');
     if (tab) return (st.admin && !DB.demo ? ADMIN.concat(VISTAS) : VISTAS).slice().sort((a, b) => rank(a[0]) - rank(b[0])).map(it).join('');
     return GRUPOS.map(([g, vs]) => '<div class="sep">' + g + '</div>' + vs.map(it).join('')).join('') + (st.admin ? '<div class="sep">Panel de Flor</div>' + ADMIN.map(it).join('') : '');
   }
@@ -261,9 +266,11 @@
 
   async function ruta() {
     const [v, ...args] = location.hash.replace(/^#/, '').split('/');
-    const vista = V[v] && (!ADMIN.some(([id]) => id === v) || st.admin) ? v : 'semana';
+    let vista = V[v] && (!ADMIN.some(([id]) => id === v) || st.admin) ? v : 'semana';
+    if (vista === 'inicio' && !esFlor()) vista = 'semana';
+    if (esFlor() && !MENU_FLOR.some(([id]) => id === vista)) vista = 'inicio';
     $$('nav a').forEach((a) => (a.dataset.v === vista ? a.setAttribute('aria-current', 'page') : a.removeAttribute('aria-current')));
-    if ($('#tbt')) $('#tbt').textContent = vista === 'empieza' && (DB.demo || !st.admin) && onbHecho() ? 'Cómo funciona' : (TITULOS[vista] || '');
+    if ($('#tbt')) $('#tbt').textContent = esFlor() && (MENU_FLOR.find(([id]) => id === vista) || [])[1] ? MENU_FLOR.find(([id]) => id === vista)[1] : vista === 'empieza' && (DB.demo || !st.admin) && onbHecho() ? 'Cómo funciona' : (TITULOS[vista] || '');
     marcarVisto(vista);
     const app = $('#app');
     app.innerHTML = '<div class="view"><p class="muted">Cargando…</p></div>';
@@ -951,7 +958,7 @@ ${listo ? '' : `<section class="card"><h3>Checklist antes de continuar</h3><p cl
     const lk = F.links || {};
     const enlace = (u, t) => (url(u) ? `<a class="btn ghost sm" href="${esc(u)}" target="_blank" rel="noopener">${t}</a>` : '');
     const nom1 = (n) => esc(String(n || '').split(' ')[0]);
-    return `<div class="head"><div><span class="eyebrow">Tu semana como directora de AT WORK · semana del ${fecha(lun, { day: 'numeric', month: 'long' })}</span><h1>Mi progreso</h1></div></div>
+    return `<div class="head"><div><span class="eyebrow">Tu semana como directora de AT WORK · semana del ${fecha(lun, { day: 'numeric', month: 'long' })}</span><h1>Mis números</h1></div></div>
 <section class="card feature"><span class="eyebrow">Tu objetivo</span><h2 id="fobj">${esc(F.objetivo)}</h2>
   <div class="row"><button class="btn ghost sm" id="fobj-ed">Editar mi objetivo</button></div></section>
 <div class="grid g-2">
@@ -1109,6 +1116,111 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
 
   // ======================= Panel de Flor =======================
   async function mapaAlumnas() { const a = await DB.alumnas(); const m = {}; a.forEach((x) => { m[x.id] = x; }); return m; }
+
+  // ---------- Inicio de Flor (panel de administradora) ----------
+  // Criterio: Ann (una sola cosa a la vez, con métrica de "resuelto") + Hábitos Atómicos (identidad, versión mínima,
+  // nunca fallar dos veces, mínima fricción). Mi día se tilda en menos de 30 segundos.
+  const HAB = {
+    dia: [['escritorio', 'Escritorio + medicación', 'Mañana'], ['meditar', 'Meditar', 'Mañana'], ['leer', 'Leer y escribir', 'Mañana'], ['mover', 'Gym o pádel', 'Mañana'],
+      ['casa', "Cocina + casa 15' + cena resuelta", 'Después de almorzar'], ['grabar', 'GRABAR (antes de cualquier otra cosa en la compu)', 'Después de almorzar']],
+    semana: [['w:compras', 'Compras + comida + flores (domingo)'], ['w:amiga', 'Ver a una amiga'], ['w:plataforma', 'Plataforma solo martes y jueves']],
+  };
+  const IDENTIDAD = 'Soy una mujer que cuida su energía y hace crecer un negocio sano y abundante.';
+  V.inicio = {
+    async html() {
+      const F = Object.assign({ foco: {} }, st.programa.flor || {});
+      st._flor = F;
+      const hoy = new Date(), hoyI = diaISO(hoy), lun = DB.lunes();
+      const desde = new Date(lun + 'T12:00:00'); desde.setDate(desde.getDate() - 7);
+      const [rows, b] = await Promise.all([DB.habitos(diaISO(desde)).catch(() => null), cargarBandeja().catch(() => null)]);
+      const H = {}; (rows || []).forEach((r) => { H[r.fecha] = r; });
+      st._hab = H; st._habOk = !!rows;
+      const r = H[hoyI] || { hechos: {}, minima: false }, sem = H[lun] || { hechos: {} };
+      const n = HAB.dia.filter(([k]) => r.hechos[k]).length;
+      const dias = [...Array(7)].map((_, i) => { const d = new Date(lun + 'T12:00:00'); d.setDate(d.getDate() + i); return d; });
+      const cuenta = (iso) => { const x = H[iso]; return x ? HAB.dia.filter(([k]) => x.hechos[k]).length : 0; };
+      const ayer = new Date(hoy); ayer.setDate(ayer.getDate() - 1); const ayI = diaISO(ayer);
+      const yaEmpezo = Object.keys(H).some((f) => f < ayI);
+      const fallóAyer = st._habOk && yaEmpezo && cuenta(ayI) === 0 && !(H[ayI] && H[ayI].minima) && n === 0 && !r.minima;
+      const item = (k, l, on) => `<button type="button" class="hab${on ? ' on' : ''}" data-hab="${k}" aria-pressed="${!!on}"><span class="hab-box" aria-hidden="true">✓</span><span class="hab-t">${esc(l)}</span></button>`;
+      let bloque = '';
+      HAB.dia.forEach(([k, l, g], i) => { if (i === 0 || HAB.dia[i - 1][2] !== g) bloque += `<p class="hab-sec">${g}</p>`; bloque += item(k, l, r.hechos[k]); });
+      const fo = F.foco || {};
+      const diasFoco = fo.desde ? Math.max(0, 30 - Math.floor((Date.now() - new Date(fo.desde + 'T12:00:00')) / 864e5)) : null;
+      const pendW = b ? b.sinResp.length : 0, pendT = b ? b.pend.length : 0;
+      const sinW = b ? b.activas.filter((a) => !b.W.some((w) => w.semana === lun && String(w.email || '').toLowerCase() === a.email && (w.enviado_en || Object.keys(w.respuestas || {}).length))) : [];
+      const esLunes = hoy.getDay() === 1;
+      return `<div class="head"><div><span class="eyebrow">${saludo()}, ${esc((st.perfil.nombre || 'Flor').split(' ')[0])}</span><h1>Inicio</h1></div></div>
+<p class="identidad" id="ident" title="Tocá para editar">${esc(F.identidad || IDENTIDAD)}</p>
+<section class="card midia">
+  <div class="row between"><h2>Mi día</h2><span class="muted small" id="hab-n">${fecha(hoyI, { weekday: 'long', day: 'numeric' })} · ${n} de 6</span></div>
+  ${fallóAyer ? '<p class="note small">Ayer no se dio, y está bien. Hoy no se falla dos veces: con la versión mínima alcanza.</p>' : ''}
+  ${!st._habOk ? '<p class="note small">Todavía no se puede guardar: falta activar la tabla de hábitos.</p>' : ''}
+  <div class="hab-list">${bloque}</div>
+  <button type="button" class="linkbtn small minima${r.minima ? ' on' : ''}" id="minima" aria-pressed="${!!r.minima}">${r.minima ? '✓ Día difícil: hice la versión mínima (cuenta igual)' : 'Día difícil: hice la versión mínima'}</button>
+  <p class="hab-sec">Esta semana</p>
+  <div class="hab-list">${HAB.semana.map(([k, l]) => item(k, l, sem.hechos[k])).join('')}</div>
+  <div class="hab-sem" id="hab-sem">${dias.map((d) => { const iso = diaISO(d), c = cuenta(iso), m = H[iso] && H[iso].minima; return `<div><span>${d.toLocaleDateString('es', { weekday: 'narrow' })}</span><b class="${c === 6 || m ? 'full' : c ? 'part' : ''}${iso === hoyI ? ' hoy' : ''}" data-dsem="${iso}">${m && c < 6 ? '½' : c || ''}</b></div>`; }).join('')}</div>
+  <p class="muted small hab-pie">Cada tilde es un voto por quien querés ser. Se guarda en tu Notion (“Mis hábitos”).</p>
+</section>
+<div class="grid g-2">
+  <section class="card feature"><span class="eyebrow">Tu única cosa · 30 días</span>
+    ${fo.texto ? `<h2>${esc(fo.texto)}</h2>
+    ${fo.resuelto ? `<p class="small"><b>Resuelto cuando:</b> ${esc(fo.resuelto)}</p>` : ''}
+    ${fo.paso ? `<p class="small"><b>Smart Scale:</b> ${esc(fo.paso)}</p>` : ''}
+    ${diasFoco != null ? `<p class="muted small">${diasFoco ? `Quedan ${diasFoco} días. Una cosa a la vez.` : 'Se cumplieron los 30 días: revisalo en tu Lunes CEO.'}</p>` : ''}`
+    : '<p class="muted">¿Cuál es la única cosa que, si la hacés, hace que todo lo demás sea más fácil o innecesario?</p>'}
+    <div class="row"><button class="btn ghost sm" id="foco-ed">${fo.texto ? 'Cambiar' : 'Definir mi foco'}</button></div>
+    <form class="grid" id="foco-f" style="display:none">
+      <div class="field"><label>Mi única cosa (30 días)</label><input type="text" id="fo-t" value="${esc(fo.texto || '')}" placeholder="Terminar de grabar el Módulo 3"></div>
+      <div class="field"><label>Resuelto cuando (un número)</label><input type="text" id="fo-r" value="${esc(fo.resuelto || '')}" placeholder="8 clases grabadas y subidas"></div>
+      <div class="field"><label>Dónde estoy en Smart Scale</label><input type="text" id="fo-p" value="${esc(fo.paso || '')}" placeholder="Implementación · paso 3"></div>
+      <div class="row"><button class="btn sm" type="submit">Guardar</button></div>
+    </form>
+  </section>
+  <section class="card"><div class="row between"><h3>Hoy en tu negocio</h3><a class="small" href="#progreso">Mis números</a></div>
+    <ul class="neg">
+      <li><a href="#bandeja/weeklies"><b>${pendW}</b> ${pendW === 1 ? 'weekly espera' : 'weeklies esperan'} tu respuesta</a></li>
+      <li><a href="#bandeja/pedidos"><b>${pendT}</b> ${pendT === 1 ? 'tarea espera' : 'tareas esperan'} tu feedback</a></li>
+      <li>${sinW.length ? `<b>${sinW.length}</b> sin weekly esta semana: ${sinW.map((a) => esc(String(a.nombre).split(' ')[0])).join(', ')}` : 'Todas mandaron su weekly'}</li>
+    </ul>
+    ${esLunes ? '<p class="note small"><b>Hoy 15:30, Lunes CEO:</b> mirá tus números, tus hábitos de la semana pasada y tu única cosa. Ajustá una sola cosa.</p>' : ''}
+  </section>
+</div>
+<p class="muted small" style="text-align:center;margin-top:18px"><a href="?demo#semana" target="_blank" rel="noopener">Ver la app como alumna</a> · con datos de ejemplo</p>`;
+    },
+    async mount() {
+      const hoyI = diaISO(new Date()), lun = DB.lunes();
+      const fila = (f) => (st._hab[f] = st._hab[f] || { fecha: f, hechos: {}, minima: false });
+      const guardar = async (f) => { const x = fila(f); try { await DB.marcarHabito(f, x.hechos, x.minima); } catch (e) { toast('No se guardó. Probá de nuevo.', true); } };
+      const pintarHoy = () => {
+        const x = fila(hoyI), n = HAB.dia.filter(([k]) => x.hechos[k]).length;
+        $('#hab-n').textContent = fecha(hoyI, { weekday: 'long', day: 'numeric' }) + ' · ' + n + ' de 6';
+        const dot = $(`[data-dsem="${hoyI}"]`);
+        if (dot) { dot.className = (n === 6 || x.minima ? 'full' : n ? 'part' : '') + ' hoy'; dot.textContent = x.minima && n < 6 ? '½' : n || ''; }
+      };
+      $$('[data-hab]').forEach((bt) => (bt.onclick = () => {
+        const k = bt.dataset.hab, f = k.startsWith('w:') ? lun : hoyI, x = fila(f);
+        x.hechos = { ...x.hechos, [k]: !x.hechos[k] };
+        bt.classList.toggle('on', !!x.hechos[k]); bt.setAttribute('aria-pressed', !!x.hechos[k]);
+        pintarHoy(); guardar(f);
+      }));
+      $('#minima').onclick = () => {
+        const x = fila(hoyI); x.minima = !x.minima;
+        const bt = $('#minima'); bt.classList.toggle('on', x.minima); bt.setAttribute('aria-pressed', x.minima);
+        bt.textContent = x.minima ? '✓ Día difícil: hice la versión mínima (cuenta igual)' : 'Día difícil: hice la versión mínima';
+        pintarHoy(); guardar(hoyI);
+      };
+      $('#ident').onclick = async () => { const t = prompt('¿Quién querés ser? (una frase)', st._flor.identidad || IDENTIDAD); if (t && t.trim()) { await guardarF({ identidad: t.trim() }, 'Guardado'); $('#ident').textContent = t.trim(); } };
+      $('#foco-ed').onclick = () => { const f = $('#foco-f'); f.style.display = f.style.display === 'none' ? '' : 'none'; };
+      $('#foco-f').onsubmit = async (e) => {
+        e.preventDefault();
+        const prev = st._flor.foco || {}, texto = $('#fo-t').value.trim();
+        await guardarF({ foco: { texto, resuelto: $('#fo-r').value.trim(), paso: $('#fo-p').value.trim(), desde: texto !== prev.texto ? hoyI : prev.desde || hoyI } }, 'Guardado');
+        ruta();
+      };
+    }
+  };
 
   // ---------- Bandeja ----------
   V.bandeja = {

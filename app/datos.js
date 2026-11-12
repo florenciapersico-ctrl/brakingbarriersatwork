@@ -107,6 +107,8 @@
         return x;
       },
       async borradores() { return ok(await sb.from('borradores').select('tabla,ref,datos')); },
+      async habitos(desde) { return ok(await sb.from('habitos_flor').select('*').gte('fecha', desde)); },
+      async marcarHabito(fecha, hechos, minima) { ok(await sb.from('habitos_flor').upsert({ fecha, hechos, minima, actualizado: new Date().toISOString() })); },
       async borradoresGmail() { try { const r = await llamar({ modo: 'borradores_gmail' }); const j = await r.json(); return j.borradores || []; } catch (e) { return []; } },
       async borradorMail(q) { const r = await llamar({ modo: 'borrador_mail', ...q }); const j = await r.json().catch(() => ({})); if (!r.ok || !j.ok) throw new Error(j.error || 'No se pudo armar el borrador en Gmail.'); return j; },
       async avisar(q) { try { const r = await llamar({ modo: 'avisar', link: location.origin + location.pathname, ...q }); return r.ok ? r.json() : null; } catch (e) { return null; } },
@@ -260,6 +262,8 @@
       async pedidoDeFlor(p) { S.pedidos.push({ id: id(), estado: 'pendiente', respuesta: null, correcciones: [], creado: new Date().toISOString(), ...p }); save(); },
       async pendientesImportacion() { return []; },
       async borradores() { return []; },
+      async habitos(desde) { return copia((S.habitos || []).filter((r) => r.fecha >= desde)); },
+      async marcarHabito(fecha, hechos, minima) { S.habitos = (S.habitos || []).filter((r) => r.fecha !== fecha).concat([{ fecha, hechos, minima }]); save(); },
       async borradoresGmail() { return []; },
       async borradorMail() { return { ok: true, link: '' }; },
       async avisar() { return null; },
