@@ -1129,6 +1129,26 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
       ['casa', "Cocina + casa 15' + cena resuelta", 'Después de almorzar'], ['grabar', 'GRABAR (antes de cualquier otra cosa en la compu)', 'Después de almorzar']],
     semana: [['w:compras', 'Compras + comida + flores (domingo)'], ['w:amiga', 'Ver a una amiga'], ['w:plataforma', 'Plataforma solo martes y jueves']],
   };
+  // "Tu día": lo que la madrugada dejó listo (clases preparadas, qué grabar, qué subir). Sale de la tabla hoy_flor.
+  function tuDia(L, hoyI) {
+    if (!L || !L.length) return '';
+    const hh = (iso) => (iso ? new Date(iso).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit', hour12: false }) : '');
+    const lk = (u, t, cl = 'btn ghost sm') => (u ? `<a class="${cl}" href="${esc(u)}" target="_blank" rel="noopener">${t}</a>` : '');
+    const copiar = (t, l) => (t ? `<details class="td-txt"><summary>${l}</summary><pre>${esc(t)}</pre><button type="button" class="linkbtn small" data-copiar>Copiar</button></details>` : '');
+    const hecho = (x) => `<button type="button" class="linkbtn small td-ok${x.hecho ? ' on' : ''}" data-tdok="${esc(x.clave)}" aria-pressed="${!!x.hecho}">${x.hecho ? '✓ Hecho' : 'Marcar hecho'}</button>`;
+    const cl = L.filter((x) => x.tipo === 'clase').sort((a, b) => (a.inicio < b.inicio ? -1 : 1));
+    const gr = L.filter((x) => x.tipo === 'grabar'), su = L.filter((x) => x.tipo === 'subir'), ot = L.filter((x) => x.tipo === 'otro');
+    const item = (x) => `<li class="td-i${x.hecho ? ' hecho' : ''}"><div class="row between"><b>${esc(x.titulo || '')}</b>${hecho(x)}</div>
+      ${x.detalle ? `<p class="small muted">${esc(x.detalle)}</p>` : ''}
+      <div class="row" style="gap:8px;flex-wrap:wrap">${lk(x.link, /canva/.test(x.link || '') ? 'Abrir en Canva' : /notion/.test(x.link || '') ? 'Abrir en Notion' : 'Abrir')}${lk(x.link2, /notion/.test(x.link2 || '') ? 'Ver en Notion' : 'Abrir')}</div>
+      ${copiar(x.texto2, 'Prompter para grabar')}${copiar(x.texto, x.tipo === 'grabar' || x.tipo === 'subir' ? 'Caption para copiar' : 'Texto')}</li>`;
+    return `<section class="card tudia"><div class="row between"><h2>Tu día</h2><span class="muted small">Todo lo que quedó listo para hoy</span></div>
+  ${cl.length ? `<p class="hab-sec">Clases</p><ul class="td-l">${cl.map((x) => `<li class="td-i"><div class="row between"><b>${hh(x.inicio)} · ${esc(x.titulo || '')}</b></div>${x.detalle ? `<p class="small muted">${esc(x.detalle)}</p>` : ''}<div class="row" style="gap:8px;flex-wrap:wrap">${lk(x.meet, 'Entrar a la clase', 'btn sm')}${lk(x.link, 'Clase lista')}</div></li>`).join('')}</ul>` : ''}
+  ${gr.length ? `<p class="hab-sec">Para grabar</p><ul class="td-l">${gr.map(item).join('')}</ul>` : ''}
+  ${su.length ? `<p class="hab-sec">Para subir</p><ul class="td-l">${su.map(item).join('')}</ul>` : ''}
+  ${ot.length ? `<p class="hab-sec">Además</p><ul class="td-l">${ot.map(item).join('')}</ul>` : ''}
+</section>`;
+  }
   const IDENTIDAD = 'Soy una mujer que cuida su energía y hace crecer un negocio sano y abundante.';
   V.inicio = {
     async html() {
@@ -1136,7 +1156,8 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
       st._flor = F;
       const hoy = new Date(), hoyI = diaISO(hoy), lun = DB.lunes();
       const desde = new Date(lun + 'T12:00:00'); desde.setDate(desde.getDate() - 7);
-      const [rows, b] = await Promise.all([DB.habitos(diaISO(desde)).catch(() => null), cargarBandeja().catch(() => null)]);
+      const [rows, b, hd] = await Promise.all([DB.habitos(diaISO(desde)).catch(() => null), cargarBandeja().catch(() => null), DB.hoyFlor ? DB.hoyFlor(hoyI).catch(() => []) : []]);
+      st._hoyD = hd || [];
       const H = {}; (rows || []).forEach((r) => { H[r.fecha] = r; });
       st._hab = H; st._habOk = !!rows;
       const r = H[hoyI] || { hechos: {}, minima: false }, sem = H[lun] || { hechos: {} };
@@ -1168,6 +1189,7 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
   <div class="hab-sem" id="hab-sem">${dias.map((d) => { const iso = diaISO(d), c = cuenta(iso), m = H[iso] && H[iso].minima; return `<div><span>${d.toLocaleDateString('es', { weekday: 'narrow' })}</span><b class="${c === 6 || m ? 'full' : c ? 'part' : ''}${iso === hoyI ? ' hoy' : ''}" data-dsem="${iso}">${m && c < 6 ? '½' : c || ''}</b></div>`; }).join('')}</div>
   <p class="muted small hab-pie">Cada tilde es un voto por quien querés ser. Se guarda en tu Notion (“Mis hábitos”).</p>
 </section>
+${tuDia(st._hoyD, hoyI)}
 <div class="grid g-2">
   <section class="card feature"><span class="eyebrow">Tu única cosa · 30 días</span>
     ${fo.texto ? `<h2>${esc(fo.texto)}</h2>
@@ -1216,6 +1238,13 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
         bt.textContent = x.minima ? '✓ Día difícil: hice la versión mínima (cuenta igual)' : 'Día difícil: hice la versión mínima';
         pintarHoy(); guardar(hoyI);
       };
+      $$('[data-copiar]').forEach((bt) => (bt.onclick = async () => { const t = bt.parentElement.querySelector('pre').textContent; try { await navigator.clipboard.writeText(t); toast('Copiado'); } catch (e) { toast('No se pudo copiar', true); } }));
+      $$('[data-tdok]').forEach((bt) => (bt.onclick = async () => {
+        const x = (st._hoyD || []).find((y) => y.clave === bt.dataset.tdok); if (!x) return;
+        x.hecho = !x.hecho; bt.classList.toggle('on', x.hecho); bt.setAttribute('aria-pressed', x.hecho); bt.textContent = x.hecho ? '✓ Hecho' : 'Marcar hecho';
+        bt.closest('.td-i').classList.toggle('hecho', x.hecho);
+        try { await DB.hoyHecho(hoyI, x.clave, x.hecho); } catch (e) { toast('No se guardó. Probá de nuevo.', true); }
+      }));
       const abrirId = (si) => { $('#ident-f').style.display = si ? '' : 'none'; $('#ident').style.display = si ? 'none' : ''; if (si) $('#ident-t').focus(); };
       $('#ident').onclick = () => abrirId(true);
       $('#ident-x').onclick = () => abrirId(false);
@@ -1454,7 +1483,13 @@ ${cuerpo}`;
   // ---------- Alumnas: quién tiene clase hoy y el resumen de cada una (para Flor) ----------
   async function clasesHoy() {
     if (st._clasesHoy && st._clasesHoy.dia === diaISO(new Date())) return st._clasesHoy.clases;
-    const c = DB.clasesHoy ? await DB.clasesHoy().catch(() => null) : null;
+    let c = DB.clasesHoy ? await DB.clasesHoy().catch(() => null) : null;
+    // Respaldo: las clases que dejó cargadas la preparación de la madrugada (tabla hoy_flor)
+    if (!c || !c.length) {
+      const h = DB.hoyFlor ? await DB.hoyFlor(diaISO(new Date())).catch(() => null) : null;
+      const hc = (h || []).filter((x) => x.tipo === 'clase').map((x) => ({ titulo: x.titulo, inicio: x.inicio, meet: x.meet, descripcion: x.link || '', invitadas: (x.invitadas || []).map((m) => String(m).toLowerCase()) }));
+      if (hc.length || !c) c = hc.length ? hc : c;
+    }
     st._clasesHoy = { dia: diaISO(new Date()), clases: c };
     return c;
   }
