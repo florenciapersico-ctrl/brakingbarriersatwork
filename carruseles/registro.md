@@ -41,3 +41,7 @@ Una línea por pieza: fecha · tema · estilo/fondo · foto usada · CTA. Lo lee
 - 10/11 · REEL a cámara «Vocabulario» · banco de reels #10 (hook @hadar.accentsway 23k) · READY por DM
 - 11/11 · Carrusel «Guardar vocabulario no es poder usarlo» · Color Method · plantilla maestra, fotos de la plantilla · guardar + READY
 - 12/11 · REEL a cámara «Tu inglés no está mal, te faltan tres palabras» · clase M4.02 + hook @inglescon_neil 42k · guardar + READY
+- 16/11 · Carrusel «Una idea, una frase» · hook @hadar.accentsway (20k) «Si todavía te trabas cuando hablas…» · plantilla DAHab4L6FCE solo letra, foto de portada de la plantilla (🟡 cambiar) · comentarios
+- 17/11 · REEL a cámara «La cena de después del curso» · decisión en primera persona de Flor · clase grupal del 12/11 (reaccionar, agregar, devolver) · comentarios
+- 18/11 · Carrusel «El líder que eres» · hook @elevate.yourenglish (29k) · hoja de clase del 12/11 (ejemplo en pasado) · foto de portada de la plantilla (🟡 cambiar) · READY por DM
+- 19/11 · REEL a cámara «Hablar UNA sola vez» · decisión en primera persona de Flor · hoja de clase del 11/11 (resumen del mail dicho en voz alta) · comentarios
