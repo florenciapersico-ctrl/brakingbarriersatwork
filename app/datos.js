@@ -48,7 +48,7 @@
         ok(await sb.storage.from('atwork').upload(path, file, { contentType: file.type || undefined }));
         return path;
       },
-      async urlArchivo(path) { const d = ok(await sb.storage.from('atwork').createSignedUrl(path, 3600)); return d.signedUrl; },
+      async urlArchivo(path) { if (/^https?:\/\//.test(path || '')) return path; const d = ok(await sb.storage.from('atwork').createSignedUrl(path, 3600)); return d.signedUrl; },
       async documentos(a = uid) { return ok(await sb.from('documentos').select('*').eq('alumna_id', a).order('creado', { ascending: false })); },
       async subirDocumento(a, file, tipo, nombre) {
         const path = await this.subirArchivo(file, 'documentos', a);

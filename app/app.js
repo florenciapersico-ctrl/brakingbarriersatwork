@@ -682,7 +682,7 @@ ${fb ? `<section class="card">
     async html() {
       const ped = await DB.pedidos();
       return `<div class="head"><div><span class="eyebrow">Directo a Flor</span><h1>Pedir feedback</h1></div></div>
-<p class="muted intro">Mándale a Flor tu práctica o tu material real: un audio, una reunión, un mail. Ella lo lee, te responde acá con tus correcciones y te dice qué clase ver. Si quieres un primer feedback rápido antes, pídeselo a Flor AI.</p>
+<p class="muted intro">Mándale a Flor tu práctica o tu material real: un audio, una reunión, un mail. Ella lo lee, te responde acá con tus correcciones y te dice qué clase ver.</p>
 <div class="grid g-2">
   <form class="card" id="pform" novalidate>
     <div class="field"><label for="ptipo">¿Qué le mandas?</label><select id="ptipo">${TIPOS.map(([v, l]) => `<option value="${v}">${l}</option>`).join('')}</select></div>
@@ -690,7 +690,7 @@ ${fb ? `<section class="card">
     <div class="field"><label for="ptxt">Tu texto o transcript</label><small>Pega el texto. Si es confidencial, cambia nombres y datos. Si es un audio, cuéntale el contexto.</small><textarea id="ptxt" rows="7"></textarea></div>
     <div class="field"><label for="pfile">Sube tu audio, video o documento</label><small>Hasta 50 MB. Desde el celular puedes elegir una nota de voz o una grabación.</small><input id="pfile" type="file" accept="audio/*,video/*,.pdf,.doc,.docx,.txt,image/*"></div>
     <div class="field"><label for="plink">O pega un link (opcional)</label><small>Por ejemplo, de tu Drive, con permiso para que Flor lo vea.</small><input id="plink" type="url" placeholder="https://drive.google.com/…"></div>
-    <div class="row"><button class="btn" type="submit">Enviar a Flor</button><button class="btn ghost" type="button" id="pai">Primero, feedback de Flor AI</button></div>
+    <div class="row"><button class="btn" type="submit">Enviar a Flor</button></div>
   </form>
   <section class="card">
     <h3>Cómo pedir un buen feedback</h3>
@@ -735,7 +735,7 @@ ${fb ? `<section class="card">
         }
         catch (er) { b.disabled = false; b.textContent = 'Enviar a Flor'; }
       };
-      $('#pai').onclick = async () => {
+      if ($('#pai')) $('#pai').onclick = async () => {
         const t = $('#ptxt').value.trim(), file = $('#pfile').files[0];
         const esAudio = file && (/^(audio|video)\//.test(file.type) || /\.(mp3|m4a|wav|ogg|oga|opus|webm|aac|flac|mp4|mov|m4v|3gp|amr)$/i.test(file.name));
         if (!t && !esAudio) return toast('Primero pega tu texto o sube tu audio.', true);
@@ -997,7 +997,8 @@ ${listo ? '' : `<section class="card"><h3>Checklist antes de continuar</h3><p cl
     async html() {
       if (st.admin && !DB.demo) { st._progFlor = true; return progresoFlor(); }
       st._progFlor = false;
-      const [pat, ped, ws] = await Promise.all([DB.patrones(), DB.pedidos(), DB.weeklies()]);
+      const [pat, ped, ws, docs] = await Promise.all([DB.patrones(), DB.pedidos(), DB.weeklies(), DB.documentos().catch(() => [])]);
+      const audio = docs.find((d) => d.tipo === 'starting'), mios = docs.filter((d) => d.tipo === 'material');
       const p = st.perfil;
       const hace28 = Date.now() - 28 * 864e5;
       const reales = ped.filter((x) => ['reunion', 'mail'].includes(x.tipo));
@@ -1010,15 +1011,18 @@ ${listo ? '' : `<section class="card"><h3>Checklist antes de continuar</h3><p cl
 <div class="grid g-3">
   <section class="card"><span class="eyebrow">Cómo me siento al hablar en reuniones</span>
     ${p.confianza_hoy ? `<div class="row" style="gap:10px"><span class="big">${p.confianza_hoy}</span><span class="muted">/10 hoy${p.confianza_inicio ? '<br>empezaste en ' + p.confianza_inicio : ''}</span></div>
-    <div class="meter"><i style="width:${p.confianza_hoy * 10}%"></i></div><div class="scale"><span>1</span><span>5</span><span>10</span></div>` : '<p class="muted small">Flor lo carga con tu punto de partida y lo actualiza en tus check-ins.</p>'}
+    <div class="meter"><i style="width:${p.confianza_hoy * 10}%"></i></div><div class="scale"><span>1</span><span>5</span><span>10</span></div>` : ''}
+    ${p.sentir_inicio ? `<p class="small">${esc(p.sentir_inicio)}</p>` : ''}
+    ${!p.confianza_hoy && !p.sentir_inicio ? '<p class="muted small">Flor lo carga con tu punto de partida y lo actualiza en tus check-ins.</p>' : ''}
   </section>
   <section class="card"><span class="eyebrow">Material real que le mandaste a Flor</span>
     <div class="row" style="gap:10px"><span class="big">${ped.length}</span><span class="muted">en total<br>${recientes} en las últimas 4 semanas</span></div>
     <span class="pill ${recientes >= 4 ? 'ok' : 'warn'}">${recientes >= 4 ? 'Vas al día' : 'Meta: 1 reunión real por semana'}</span>
     <span class="muted small">${reales.length} reuniones o mails reales · ${env} weeklies enviados</span>
+    ${mios.length ? `<ul class="dates">${mios.map((d) => `<li><span><button type="button" class="linkbtn small" data-archivo="${esc(d.path)}">${esc(d.nombre)}</button> <span class="muted small">· ${fecha(d.creado)}</span></span></li>`).join('')}</ul>` : ''}
   </section>
   <section class="card"><span class="eyebrow">Audio de punto de partida</span>
-    ${p.audio_inicio ? `<p><b>Grabado el ${fecha(p.audio_inicio, { day: 'numeric', month: 'long' })}</b></p><p class="muted small">Al cerrar el programa grabas el mismo audio y lo comparan juntas.</p>` : '<p class="muted small">Todavía no está. Grábalo (3–5 min hablando de tu trabajo) y mándaselo a Flor.</p><a class="btn ghost sm" href="#feedback">Mandar mi audio</a>'}
+    ${p.audio_inicio ? `<p><b>Grabado el ${fecha(p.audio_inicio, { day: 'numeric', month: 'long' })}</b></p>${audio ? `<button type="button" class="btn ghost sm" style="align-self:flex-start" data-archivo="${esc(audio.path)}">Escuchar mi punto de partida</button>` : ''}<p class="muted small">Al cerrar el programa grabas el mismo audio y lo comparan juntas.</p>` : '<p class="muted small">Todavía no está. Grábalo (3–5 min hablando de tu trabajo) y mándaselo a Flor.</p><a class="btn ghost sm" href="#feedback">Mandar mi audio</a>'}
   </section>
 </div>
 <section class="card">

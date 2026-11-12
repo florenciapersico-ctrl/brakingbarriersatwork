@@ -1,7 +1,7 @@
 // Service worker mínimo para que la app se pueda instalar en el celular.
 // Siempre va a la red (los datos de cada alumna tienen que estar al día); si no hay internet,
 // muestra la última versión guardada de la página.
-const CACHE = 'atw-app-v21';
+const CACHE = 'atw-app-v22';
 self.addEventListener('install', (e) => { self.skipWaiting(); });
 self.addEventListener('activate', (e) => {
   e.waitUntil(caches.keys().then((ks) => Promise.all(ks.filter((k) => k !== CACHE).map((k) => caches.delete(k)))).then(() => self.clients.claim()));

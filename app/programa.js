@@ -19,7 +19,7 @@ window.PROGRAMA = {
 
   coaches: [
     { id: 'flor', nombre: 'Flor AI', color: 'var(--brand)',
-      desc: 'Empieza aquí. Te dice qué te toca, prepara contigo una situación real y te manda al coach justo. También da un primer feedback de tu tarea.',
+      desc: 'Empieza aquí. Te dice dónde estás en tu proceso y qué te toca, te da feedback sobre una situación real de tu trabajo y te manda al coach justo.',
       frase: '¿Qué me toca esta semana?' },
     { id: 'roleplay', nombre: 'Role Play', color: 'var(--accent)',
       desc: 'Ensaya la reunión, presentación o llamada antes de que pase. Hace de la otra persona y no te corrige durante la escena.',
@@ -43,7 +43,7 @@ window.PROGRAMA = {
     ['Escribí algo y no sé si está bien', 'narrative'],
     ['Está correcto pero suena básico', 'color'],
     ['Me piden que repita o me cuesta entender a nativos (llévalo también a Flor)', 'flor'],
-    ['Quiero un primer feedback de mi tarea', 'flor'],
+    ['Algo me salió mal en el trabajo y no sé cómo seguir', 'flor'],
     ['No sé por dónde empezar', 'flor']
   ],
 
@@ -70,8 +70,8 @@ window.PROGRAMA = {
     ['Soy nueva, quiero hacer mi onboarding', 'Tu bienvenida: dónde está todo y tu primera práctica.'],
     ['¿Qué me toca esta semana?', 'Tu próximo paso según tu foco y tus tareas.'],
     ['Tengo una reunión pronto y me quiero preparar', 'Encontramos dónde te trabas y qué practicar.'],
-    ['Revisa mi tarea: ', 'Pega tu texto y recibe un primer feedback.'],
+    ['¿Dónde estoy en mi proceso?', 'Tu objetivo, lo que acordaste con Flor y lo que viene.'],
     ['Ayúdame con mi weekly report', 'Lo ordenamos juntas antes del lunes.'],
-    ['Prepara mi caso para el lab del sábado', 'Tu situación y tu primera versión lista.']
+    ['Me fue mal en una reunión', 'Lo miramos con el criterio de Flor y vemos cómo seguir.']
   ]
 };
