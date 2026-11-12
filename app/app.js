@@ -23,7 +23,11 @@
 
   // Markdown chico y seguro para las respuestas de Flor AI (negrita, listas, títulos, tablas).
   function inline(s) {
-    return esc(s).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>').replace(/(^|[^*])\*(?!\s)(.+?)\*/g, '$1<i>$2</i>').replace(/`([^`]+)`/g, '<code>$1</code>');
+    const lk = (u, t) => /^#[a-z]+$/.test(u) ? `<a href="${u}">${t}</a>` : `<a href="${u}" target="_blank" rel="noopener">${t}</a>`;
+    return esc(s)
+      .replace(/\[([^\]]+)\]\((https:\/\/[^\s)]+|#[a-z]+)\)/g, (_, t, u) => lk(u, t))
+      .replace(/(^|[\s(])(https:\/\/[^\s<)]+[^\s<).,;:!?])/g, (_, a, u) => a + lk(u, /wa\.me/.test(u) ? 'WhatsApp de Flor' : /academy\./.test(u) ? 'Abrir la clase' : 'Abrir link'))
+      .replace(/\*\*(.+?)\*\*/g, '<b>$1</b>').replace(/(^|[^*])\*(?!\s)(.+?)\*/g, '$1<i>$2</i>').replace(/`([^`]+)`/g, '<code>$1</code>');
   }
   function md(txt) {
     const L = String(txt || '').replace(/\r/g, '').split('\n'); let h = '', i = 0;
