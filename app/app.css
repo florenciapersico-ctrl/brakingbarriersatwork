@@ -378,3 +378,5 @@ button.who{background:none;border:0;color:inherit;font:inherit;cursor:pointer;pa
 .neg a{color:inherit}
 .resu-l{list-style:none;padding:0;margin:10px 0 6px;display:flex;flex-direction:column;gap:9px;font-size:14px}
 .pill.small{font-size:11px;padding:1px 7px;vertical-align:1px}
+/* Alumnas en el celular: primero "Hoy tienen clase" (o la ficha abierta), después la lista */
+@media (max-width: 860px){ #agrid{grid-template-columns:minmax(0,1fr)!important} #agrid > :last-child{order:-1} }
