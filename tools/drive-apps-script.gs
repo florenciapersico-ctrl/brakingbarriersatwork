@@ -29,6 +29,7 @@
  *    (a la alumna, con Flor en CCO). Nunca envía nada: lo revisa y lo manda Flor.
  * 8) La bandeja de la app ve qué borradores de feedback ya hay en Gmail; si Flor arma uno desde la app y ya
  *    existía (por ejemplo, el de la rutina de la mañana), se reemplaza ese en vez de crear otro.
+ * 9) La pantalla Alumnas de la app muestra quién tiene clase hoy, leyendo tu Google Calendar (pide permiso del Calendar).
  * Si ya lo tenías publicado: pegá esta versión y hacé Implementar › Gestionar implementaciones › editar › Versión nueva.
  * El script solo actúa si el secreto coincide: guarda en la carpeta de la alumna que le indica la función
  * y lee únicamente el archivo de audio que le pide la función.
@@ -51,6 +52,9 @@ function doPost(e) {
 
     // 8) La bandeja de la app pregunta qué borradores de feedback ya hay en Gmail (para no armar dos).
     if (p.accion === 'borradores') return salida(listarBorradores(p.mails || []));
+
+    // 9) Las clases de un día (de tu Google Calendar), para la pantalla Alumnas de la app.
+    if (p.accion === 'clases') return salida(clasesDelDia(p.desde, p.hasta));
 
     // 8) Buscar la tarea en la carpeta de la alumna: lista los archivos que subió o cambió desde una fecha.
     if (p.accion === 'buscar') return salida(buscarEnCarpeta(p));
@@ -200,6 +204,23 @@ function armarBorrador(p) {
   hilo.addLabel(rev);
   var link = p.responder && hilo.getMessageCount() > 1 ? hilo.getPermalink() : 'https://mail.google.com/mail/u/0/#drafts?compose=' + borrador.getMessage().getId();
   return { ok: true, asunto: borrador.getMessage().getSubject(), link: link, reemplazado: reemplazado };
+}
+
+// Clases del Calendar entre dos momentos: título, horario, Meet, invitadas y adjuntos (hoja de clase, notas, grabación).
+// Usa la API del Calendar con el permiso del propio script (por eso aparece CalendarApp: así Google pide ese permiso).
+function clasesDelDia(desde, hasta) {
+  CalendarApp.getDefaultCalendar();
+  var url = 'https://www.googleapis.com/calendar/v3/calendars/primary/events?singleEvents=true&orderBy=startTime&maxResults=50' +
+    '&timeMin=' + encodeURIComponent(desde) + '&timeMax=' + encodeURIComponent(hasta);
+  var r = UrlFetchApp.fetch(url, { headers: { Authorization: 'Bearer ' + ScriptApp.getOAuthToken() }, muteHttpExceptions: true });
+  if (r.getResponseCode() !== 200) return { ok: false, error: 'calendar ' + r.getResponseCode() };
+  var evs = (JSON.parse(r.getContentText()).items || []).filter(function (e) { return e.status !== 'cancelled' && (!e.eventType || e.eventType === 'default') && (e.attendees || []).length > 1; });
+  return { ok: true, clases: evs.map(function (e) {
+    return { titulo: e.summary || '', inicio: (e.start || {}).dateTime || (e.start || {}).date, fin: (e.end || {}).dateTime || (e.end || {}).date,
+      meet: e.hangoutLink || '', descripcion: String(e.description || '').slice(0, 3000),
+      invitadas: (e.attendees || []).filter(function (a) { return !a.self && !a.organizer; }).map(function (a) { return String(a.email || '').toLowerCase(); }),
+      adjuntos: (e.attachments || []).map(function (a) { return { titulo: a.title, url: a.fileUrl }; }) };
+  }) };
 }
 
 // Normaliza un asunto para compararlo: sin "Re:", sin emojis ni espacios de más.

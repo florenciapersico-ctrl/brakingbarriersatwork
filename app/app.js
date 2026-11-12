@@ -960,7 +960,8 @@ ${listo ? '' : `<section class="card"><h3>Checklist antes de continuar</h3><p cl
     const nom1 = (n) => esc(String(n || '').split(' ')[0]);
     return `<div class="head"><div><span class="eyebrow">Tu semana como directora de AT WORK · semana del ${fecha(lun, { day: 'numeric', month: 'long' })}</span><h1>Mis números</h1></div></div>
 <section class="card feature"><span class="eyebrow">Tu objetivo</span><h2 id="fobj">${esc(F.objetivo)}</h2>
-  <div class="row"><button class="btn ghost sm" id="fobj-ed">Editar mi objetivo</button></div></section>
+  <div class="row"><button class="btn ghost sm" id="fobj-ed">Editar mi objetivo</button></div>
+  <form id="fobj-f" style="display:none" class="grid"><textarea id="fobj-t" rows="3">${esc(F.objetivo)}</textarea><div class="row"><button class="btn sm" type="submit">Guardar</button><button class="linkbtn small" type="button" id="fobj-x">Cancelar</button></div></form></section>
 <div class="grid g-2">
   <section class="card"><div class="row between"><h3>Esta semana con tus alumnas</h3><a class="small" href="#bandeja">Ir a la bandeja</a></div>
     <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px">
@@ -998,7 +999,10 @@ ${listo ? '' : `<section class="card"><h3>Checklist antes de continuar</h3><p cl
   }
   function montarProgresoFlor() {
     const F = st._flor, lun = DB.lunes();
-    $('#fobj-ed').onclick = async () => { const t = prompt('Tu objetivo', F.objetivo); if (t && t.trim()) { await guardarF({ objetivo: t.trim() }, 'Guardado'); $('#fobj').textContent = t.trim(); } };
+    const abrirObj = (si) => { $('#fobj-f').style.display = si ? '' : 'none'; $('#fobj-ed').style.display = si ? 'none' : ''; if (si) $('#fobj-t').focus(); };
+    $('#fobj-ed').onclick = () => abrirObj(true);
+    $('#fobj-x').onclick = () => abrirObj(false);
+    $('#fobj-f').onsubmit = async (e) => { e.preventDefault(); const t = $('#fobj-t').value.trim(); if (!t) return; await guardarF({ objetivo: t }, 'Guardado'); $('#fobj').textContent = t; abrirObj(false); };
     $('#frec').onclick = async () => { await guardarF({ recordatorios: { ...st._flor.recordatorios, [lun]: !st._flor.recordatorios[lun] } }); ruta(); };
     $('#fdias').onclick = async (e) => {
       const b = e.target.closest('[data-dia]'); if (!b) return;
@@ -1152,6 +1156,7 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
       const esLunes = hoy.getDay() === 1;
       return `<div class="head"><div><span class="eyebrow">${saludo()}, ${esc((st.perfil.nombre || 'Flor').split(' ')[0])}</span><h1>Inicio</h1></div></div>
 <p class="identidad" id="ident" title="Tocá para editar">${esc(F.identidad || IDENTIDAD)}</p>
+<form id="ident-f" style="display:none" class="grid" ><textarea id="ident-t" rows="2">${esc(F.identidad || IDENTIDAD)}</textarea><div class="row"><button class="btn sm" type="submit">Guardar</button><button class="linkbtn small" type="button" id="ident-x">Cancelar</button></div></form>
 <section class="card midia">
   <div class="row between"><h2>Mi día</h2><span class="muted small" id="hab-n">${fecha(hoyI, { weekday: 'long', day: 'numeric' })} · ${n} de 6</span></div>
   ${fallóAyer ? '<p class="note small">Ayer no se dio, y está bien. Hoy no se falla dos veces: con la versión mínima alcanza.</p>' : ''}
@@ -1211,7 +1216,10 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
         bt.textContent = x.minima ? '✓ Día difícil: hice la versión mínima (cuenta igual)' : 'Día difícil: hice la versión mínima';
         pintarHoy(); guardar(hoyI);
       };
-      $('#ident').onclick = async () => { const t = prompt('¿Quién querés ser? (una frase)', st._flor.identidad || IDENTIDAD); if (t && t.trim()) { await guardarF({ identidad: t.trim() }, 'Guardado'); $('#ident').textContent = t.trim(); } };
+      const abrirId = (si) => { $('#ident-f').style.display = si ? '' : 'none'; $('#ident').style.display = si ? 'none' : ''; if (si) $('#ident-t').focus(); };
+      $('#ident').onclick = () => abrirId(true);
+      $('#ident-x').onclick = () => abrirId(false);
+      $('#ident-f').onsubmit = async (e) => { e.preventDefault(); const t = $('#ident-t').value.trim(); if (!t) return; await guardarF({ identidad: t }, 'Guardado'); $('#ident').textContent = t; abrirId(false); };
       $('#foco-ed').onclick = () => { const f = $('#foco-f'); f.style.display = f.style.display === 'none' ? '' : 'none'; };
       $('#foco-f').onsubmit = async (e) => {
         e.preventDefault();
@@ -1443,19 +1451,68 @@ ${cuerpo}`;
   };
 
   // ---------- Alumnas ----------
+  // ---------- Alumnas: quién tiene clase hoy y el resumen de cada una (para Flor) ----------
+  async function clasesHoy() {
+    if (st._clasesHoy && st._clasesHoy.dia === diaISO(new Date())) return st._clasesHoy.clases;
+    const c = DB.clasesHoy ? await DB.clasesHoy().catch(() => null) : null;
+    st._clasesHoy = { dia: diaISO(new Date()), clases: c };
+    return c;
+  }
+  const hora = (iso) => (iso ? new Date(iso).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit', hour12: false }) : '');
+  const hojaDe = (c) => { const m = /(https:\/\/docs\.google\.com\/document\/d\/[\w-]+[^\s"<]*)/.exec(c.descripcion || ''); const a = (c.adjuntos || []).find((x) => !/Recording|Notes by Gemini|Notas de Gemini/i.test(x.titulo || '')); return m ? m[1] : a ? a.url : ''; };
+  async function resumenAlumna(a, b, clase) {
+    const mail = String(a.email || '').toLowerCase(), lun = DB.lunes();
+    const [tareas, resus] = await Promise.all([a.id ? DB.tareas(a.id).catch(() => []) : [], a.id && DB.resumenes ? DB.resumenes(a.id).catch(() => []) : []]);
+    const ws = b.W.filter((w) => String(w.email || '').toLowerCase() === mail).sort((x, y) => (x.semana < y.semana ? 1 : -1));
+    const wEsta = ws.find((w) => w.semana === lun && (w.enviado_en || Object.keys(w.respuestas || {}).length));
+    const ult = ws.find((w) => Object.keys(w.respuestas || {}).length);
+    const pend = b.pend.filter((x) => String((x.perfil || {}).email || x.email || '').toLowerCase() === mail);
+    const fbs = [...ws.filter((w) => w.respuesta_flor).map((w) => ({ f: w.respondido_en || w.semana, t: w.respuesta_flor, de: 'Weekly del ' + fecha(w.semana, { day: 'numeric', month: 'short' }) })),
+      ...b.tResp.filter((x) => String((x.perfil || {}).email || x.email || '').toLowerCase() === mail).map((x) => ({ f: x.respondido_en || x.creado, t: x.respuesta || '', de: x.titulo || tipoNombre(x.tipo) }))]
+      .sort((x, y) => (String(x.f) < String(y.f) ? 1 : -1));
+    const fb = fbs[0], res = resus[0], n = semanaDe(a), mod = P.modulos.find((m) => m.n === +a.modulo_actual);
+    const corto = (t, k = 180) => { t = String(t || '').replace(/\s+/g, ' ').trim(); return t.length > k ? t.slice(0, k) + '…' : t; };
+    const tp = tareas.filter((t) => !t.hecha);
+    const hoja = clase ? hojaDe(clase) : '';
+    return `<section class="card resu">
+  <div class="row between"><h3>${esc(a.nombre || a.email)}</h3>${clase ? `<span class="pill">Hoy ${hora(clase.inicio)}</span>` : ''}</div>
+  ${clase ? `<div class="row" style="gap:8px;flex-wrap:wrap">${clase.meet ? `<a class="btn sm" href="${esc(clase.meet)}" target="_blank" rel="noopener">Entrar a la clase</a>` : ''}${hoja ? `<a class="btn ghost sm" href="${esc(hoja)}" target="_blank" rel="noopener">Hoja de la clase</a>` : ''}${a.drive_url ? `<a class="btn ghost sm" href="${esc(a.drive_url)}" target="_blank" rel="noopener">Su carpeta</a>` : ''}</div>` : ''}
+  <ul class="resu-l">
+    <li><b>Dónde va:</b> ${n ? `semana ${n} de 20` : 'sin fecha de inicio'}${mod ? ` · M${mod.n} ${esc(mod.nombre)}` : ''}${a.foco_titulo ? `<br><span class="muted small">Foco: ${esc(a.foco_titulo)}</span>` : ''}</li>
+    <li><b>Weekly de esta semana:</b> ${wEsta ? (wEsta.respuesta_flor ? '✓ mandado y respondido' : '✓ mandado · <a href="#bandeja/weeklies">te falta responderlo</a>') : '✗ todavía no lo mandó'}</li>
+    ${ult ? `<li><b>Cómo está</b> <span class="muted small">(weekly del ${fecha(ult.semana, { day: 'numeric', month: 'short' })})</span>: ${esc(corto(ult.respuestas.wins || ult.respuestas.donde, 160))}${ult.respuestas.necesito ? `<br><span class="muted small">Necesita: ${esc(corto(ult.respuestas.necesito, 140))}</span>` : ''}</li>` : ''}
+    <li><b>Tareas:</b> ${tp.length ? tp.map((t) => '○ ' + esc(t.texto)).join('<br>') : '✓ nada pendiente'}${pend.length ? `<br><a href="#bandeja/pedidos">${pend.length === 1 ? 'Te mandó 1 cosa' : `Te mandó ${pend.length} cosas`} que espera${pend.length === 1 ? '' : 'n'} tu feedback</a>` : ''}</li>
+    ${res ? `<li><b>Última clase</b> <span class="muted small">(${fecha(res.fecha, { weekday: 'short', day: 'numeric', month: 'short' })})</span>: ${esc(corto(res.texto.replace(/^Hola[^\n]*\n/, ''), 200))}</li>` : ''}
+    ${fb ? `<li><b>Tu último feedback</b> <span class="muted small">(${esc(fb.de)} · ${fecha(fb.f, { day: 'numeric', month: 'short' })})</span>: ${esc(corto(fb.t.replace(/^Hola[^\n]*\n/, ''), 200))}</li>` : ''}
+  </ul>
+  ${a.id ? `<div class="row"><a class="small" href="#alumnas/${a.id}">Abrir su ficha</a></div>` : ''}
+</section>`;
+  }
+
   V.alumnas = {
     async html(sel) {
       const al = (await DB.alumnas()).filter((x) => x.rol !== 'admin' || DB.demo);
       const ya = new Set(al.map((x) => String(x.email || '').toLowerCase()));
       st._pend = DB.pendientesImportacion ? (await DB.pendientesImportacion().catch(() => [])).filter((x) => !ya.has(x.email)) : [];
       const a = al.find((x) => String(x.id) === sel);
-      let det = '<section class="card empty-state"><h3>Elige una alumna</h3><p class="muted small">Desde acá le cargas su foco de la semana, sus tareas, las clases que tiene que ver, su progreso y sus patrones de error. Todo lo ve en su app y lo usa Flor AI.</p></section>';
+      let det = '';
+      const bh = esFlor() ? await cargarBandeja().catch(() => null) : null;
+      const ch = esFlor() ? await clasesHoy() : null;
+      const claseDe = (x) => (ch || []).find((c) => (c.invitadas || []).includes(String(x.email || '').toLowerCase()));
+      if (!a && esFlor()) {
+        const hoyCon = al.filter((x) => x.rol !== 'admin' && claseDe(x)).sort((x, y) => (claseDe(x).inicio < claseDe(y).inicio ? -1 : 1));
+        det = `<section class="card"><div class="row between"><h2>Hoy tienen clase</h2><span class="muted small">${fecha(diaISO(new Date()), { weekday: 'long', day: 'numeric', month: 'long' })}</span></div>
+          ${ch == null ? '<p class="note small">Para ver tus clases de hoy, falta publicar la versión nueva de tu Apps Script (lee tu Google Calendar).</p>' : hoyCon.length ? '' : '<p class="muted">Hoy no tenés clases 1:1 con alumnas.</p>'}</section>`
+          + (bh ? (await Promise.all(hoyCon.map((x) => resumenAlumna(x, bh, claseDe(x))))).join('') : '');
+      }
+      if (!a && !esFlor()) det = '<section class="card empty-state"><h3>Elige una alumna</h3><p class="muted small">Desde acá le cargas su foco de la semana, sus tareas, las clases que tiene que ver, su progreso y sus patrones de error. Todo lo ve en su app y lo usa Flor AI.</p></section>';
+      const resuSel = a && bh ? await resumenAlumna(a, bh, claseDe(a)) : '';
       if (a) {
         const [t, pat, docs, ficha] = await Promise.all([DB.tareas(a.id), DB.patrones(a.id), DB.documentos(a.id), DB.ficha(a.id)]);
         st._docs = docs;
         st._alumna = a;
         const v = (k) => esc(a[k] ?? '');
-        det = `<form class="card" id="aform" novalidate>
+        det = resuSel + `<form class="card" id="aform" novalidate>
   <div class="row between"><h2>${esc(a.nombre || a.email)}</h2><span class="muted small">${esc(a.email || '')}</span></div>
   <div class="grid g-2e">
     <div class="field"><label for="f-nombre">Nombre</label><input id="f-nombre" type="text" value="${v('nombre')}"></div>
@@ -1519,7 +1576,7 @@ ${cuerpo}`;
       <div id="inv-ok" hidden class="note small"></div></form>
     ${st._pend && st._pend.length ? `<section class="card" id="pendcard"><h3>Por crear (${st._pend.length})</h3><p class="muted small">Ya están cargadas con su formato, su carpeta, sus weeklies y tu ficha. Toca «Crear» y mándale el mensaje: cuando entre, ve todo lo suyo.</p>
       <div class="alist">${st._pend.map((x) => `<div class="editrow" data-pend="${esc(x.email)}"><span>${esc(x.nombre)}<br><span class="muted small">${esc(x.datos && x.datos.formato === 'LAB' ? 'Lab' : 'Private')} · ${esc(x.email)}</span></span><button type="button" class="btn sm pend-crear">Crear</button></div>`).join('')}</div></section>` : ''}
-    <div class="alist" id="alist">${al.map((x) => `<button type="button" data-a="${x.id}" ${String(x.id) === sel ? 'aria-current="true"' : ''}><span>${esc(x.nombre || x.email)}${x.activa === false ? ' <span class="muted small">(inactiva)</span>' : ''}</span><span class="muted small">${esc(x.formato || '')}</span></button>`).join('')}</div>
+    <div class="alist" id="alist">${al.map((x) => `<button type="button" data-a="${x.id}" ${String(x.id) === sel ? 'aria-current="true"' : ''}><span>${esc(x.nombre || x.email)}${x.activa === false ? ' <span class="muted small">(inactiva)</span>' : ''}${esFlor() && claseDe(x) ? ` <span class="pill small">hoy ${hora(claseDe(x).inicio)}</span>` : ''}</span><span class="muted small">${esc(x.formato || '')}</span></button>`).join('')}</div>
   </div>
   <div class="grid" style="align-content:start">${det}</div>
 </div>`;

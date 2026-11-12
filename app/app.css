@@ -376,3 +376,5 @@ button.who{background:none;border:0;color:inherit;font:inherit;cursor:pointer;pa
 .hab-pie{text-align:center;margin:12px 0 0}
 .neg{list-style:none;padding:0;margin:8px 0 0;display:flex;flex-direction:column;gap:10px}
 .neg a{color:inherit}
+.resu-l{list-style:none;padding:0;margin:10px 0 6px;display:flex;flex-direction:column;gap:9px;font-size:14px}
+.pill.small{font-size:11px;padding:1px 7px;vertical-align:1px}

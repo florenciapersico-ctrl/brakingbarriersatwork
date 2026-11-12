@@ -691,6 +691,20 @@ Deno.serve(async (req) => {
     } catch (e) { console.error(e); return json({ ok: false }); }
   }
 
+  // ---------- clases_hoy (solo Flor): las clases del día desde su Google Calendar (vía su Apps Script) ----------
+  if (body.modo === "clases_hoy") {
+    if (!(await esAdmin(db, uid))) return json({ error: "Solo Flor puede usar esto." }, 403);
+    const url = Deno.env.get("DRIVE_SCRIPT_URL"), secreto = Deno.env.get("DRIVE_SECRET");
+    if (!url || !secreto) return json({ ok: false, clases: [] });
+    const dia = /^\d{4}-\d{2}-\d{2}$/.test(String(body.dia || "")) ? String(body.dia) : new Date(Date.now() - 3 * 3600e3).toISOString().slice(0, 10);
+    try {
+      const r = await fetch(url, { method: "POST", headers: { "Content-Type": "text/plain" }, body: JSON.stringify({ secreto, accion: "clases", desde: `${dia}T00:00:00-03:00`, hasta: `${dia}T23:59:59-03:00` }) });
+      const out = await r.json().catch(() => ({}));
+      if (!out.ok) return json({ ok: false, clases: [], error: out.error || "Tu Apps Script todavía no tiene la versión nueva." });
+      return json({ ok: true, dia, clases: out.clases || [] });
+    } catch (e) { console.error(e); return json({ ok: false, clases: [] }); }
+  }
+
   // ---------- borradores_gmail (solo Flor): qué borradores de feedback ya hay en su Gmail ----------
   if (body.modo === "borradores_gmail") {
     if (!(await esAdmin(db, uid))) return json({ error: "Solo Flor puede usar esto." }, 403);
