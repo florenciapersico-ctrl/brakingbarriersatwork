@@ -385,6 +385,8 @@
     if (!c.length) { const s = separar(t); if (s.correcciones.length) { t = s.texto; c = s.correcciones; } }
     return parrafos(t) + (c.length ? ejercicioHTML(c, clave, fuente) : '');
   }
+  // Weekly: Flor alienta y dice cómo seguir; no se corrigen errores del weekly (las correcciones son solo de las tareas).
+  const respuestaWeekly = (texto) => parrafos(separar(texto).texto);
   // El weekly como texto, con el nombre de cada parte (para Narrative Flow).
   function weeklyTexto(perfil, w) {
     if (!w || !w.respuestas) return '';
@@ -761,7 +763,7 @@ ${fb ? `<section class="card">
       const hist = ws.filter((x) => x.semana !== sem && x.enviado_en);
       return `<div class="head"><div><span class="eyebrow">Todos los lunes · semana del ${fecha(sem, { day: 'numeric', month: 'long' })}</span><h1>Weekly report</h1></div>${w.enviado_en ? '<span class="pill ok">Enviado</span>' : ''}</div>
 <p class="muted intro">Es tu canal con Flor. Planificas tu semana, cuentas qué hiciste y qué quieres entrenar. Flor lo lee siempre y te responde con tu próximo paso.</p>
-${w.respuesta_flor ? `<section class="card"><div class="reply"><span class="eyebrow">Respuesta de Flor</span>${devolucion(w.respuesta_flor, null, 'weekly:' + w.semana, weeklyTexto(st.perfil, w))}</div></section>` : ''}
+${w.respuesta_flor ? `<section class="card"><div class="reply"><span class="eyebrow">Respuesta de Flor</span>${respuestaWeekly(w.respuesta_flor)}</div></section>` : ''}
 <form class="card" id="wform" novalidate>
   <p class="eyebrow">Weekly report ${st.perfil.formato === '1:1' ? '1:1' : 'LAB'} · Complete every Monday · 5–10 minutes</p>
   <p class="muted small">${esc(P.weeklyIntro)}</p>
@@ -772,7 +774,7 @@ ${w.respuesta_flor ? `<section class="card"><div class="reply"><span class="eyeb
 </form>
 ${hist.length ? `<section class="card"><h3>Tus weeklies anteriores</h3>${hist.map((x) => `<details class="fbitem"><summary><b>Semana del ${fecha(x.semana, { day: 'numeric', month: 'long' })}</b> ${x.respuesta_flor ? '<span class="pill ok">Flor respondió</span>' : ''}</summary>
   ${wq(st.perfil).map(([id, l]) => (x.respuestas[id] ? `<p class="small"><b>${l}</b><br>${esc(x.respuestas[id])}</p>` : '')).join('')}
-  ${x.respuesta_flor ? `<div class="reply"><span class="eyebrow">Flor</span>${devolucion(x.respuesta_flor, null, 'weekly:' + x.semana, weeklyTexto(st.perfil, x))}</div>` : ''}</details>`).join('')}</section>` : ''}`;
+  ${x.respuesta_flor ? `<div class="reply"><span class="eyebrow">Flor</span>${respuestaWeekly(x.respuesta_flor)}</div>` : ''}</details>`).join('')}</section>` : ''}`;
     },
     mount() {
       const f = $('#wform'); if (!f || $('textarea[readonly]', f)) return;
@@ -873,6 +875,7 @@ ${P.camino.map((m) => { const pm = pctMes(m); return `<details class="card mes" 
       const p = st.perfil, docs = await DB.documentos(), n = semanaDe(p);
       const tipo = (t) => (P.tiposDoc.find((x) => x[0] === t) || [, 'Documento'])[1];
       const acuerdo = docs.find((d) => d.tipo === 'acuerdo');
+      const listo = (DB.demo || !st.admin) && onbHecho();
       return `<div class="head"><div><span class="eyebrow">Tu plan de acción</span><h1>Mi proceso</h1></div>${n ? `<span class="pill">Semana ${n} de 20</span>` : ''}</div>
 <div class="grid g-2">
   <section class="card feature"><span class="eyebrow">Tu objetivo a 5 meses</span><h2>${p.objetivo ? esc(p.objetivo) : 'Lo defines en tu onboarding'}</h2>

@@ -144,6 +144,11 @@ antes de enviarlo: nunca le llega directo a la alumna. Aplica la skill filtro-fe
 - Usa los DATOS de la alumna y el PROGRAMA (abajo) para nombrar bien la clase (con su link), el coach o el lab.
 - Si es un WEEKLY REPORT: además del mensaje, propone el foco de la semana y 1 a 3 tareas concretas para su
   "Mi semana" (sacadas del camino o de su situación real), sin inventar clases.
+- WEEKLY REPORT = SIN CORRECCIONES (manda sobre todo lo demás, también sobre las reglas 4 a 6 y la skill). En el weekly
+  NO se corrigen los errores de inglés con que lo escribió: ni citas de sus frases para corregir, ni "¿cómo lo
+  dirías?", ni reglas de gramática. Flor le da feedback de su semana: la alienta con algo concreto que contó, le dice
+  cómo seguir y la conecta con su foco y su tarea. La sección CORRECCIONES va vacía. Las correcciones son SOLO
+  de sus tareas y del material que manda para feedback.
 
 ## REGLAS DE PRECISIÓN (mandan sobre todo lo que dice abajo)
 Flor comparó tus borradores con uno bueno y los tuyos salían genéricos. Para que el feedback sea tan preciso como el suyo:
