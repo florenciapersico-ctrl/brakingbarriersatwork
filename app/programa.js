@@ -19,7 +19,7 @@ window.PROGRAMA = {
       n: 2, nombre: 'Communicate in Real Time',
       desc: 'Construir, ordenar, adaptar y sostener tu mensaje cuando la conversación se sale del guion.',
       logro: 'Puedo construir y sostener mi mensaje en tiempo real.',
-      clases: ['Organiza tus ideas de manera simple', 'Dar un update', 'Presentaciones', 'Preguntas inesperadas', 'Presentarte ante un equipo nuevo', 'Explicar un problema', 'Disentir']
+      clases: ['Organiza tus ideas de manera simple', 'Dar un update', 'Presentaciones', 'Preguntas inesperadas', 'Presentarte ante un equipo nuevo', 'Small Talk & Networking', 'Explicar un problema', 'Disentir']
     },
     {
       n: 3, nombre: 'Polish Your English',
