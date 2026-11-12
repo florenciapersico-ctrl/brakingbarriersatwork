@@ -932,6 +932,26 @@ ${listo ? '' : `<section class="card"><h3>Checklist antes de continuar</h3><p cl
 
   // ---------- Mi progreso de Flor (cuando entra Flor) ----------
   const diaISO = (d) => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+  // Clases en grabación que ya les tocan (o les tocan la semana que viene) a tus alumnas, la más urgente primero
+  const linkGrabar = (F, id) => (F.grabar || {})[id] || (P.grabar || {})[id] || '';
+  function clasesPorGrabar(b, F) {
+    const out = [];
+    if (!b) return out;
+    for (const m of P.camino) for (const s of m.semanas) for (const t of s.tareas) {
+      if (!t.pronto || (F.grabadas || []).includes(t.id)) continue;
+      const desde = Math.min(...s.s);
+      const quienes = b.activas.map((a) => ({ a, n: semanaDe(a.perfil) })).filter((x) => x.n && x.n >= desde - 1 && !((x.a.perfil.camino_hecho || []).includes(t.id)));
+      if (quienes.length) out.push({ t, desde, quienes, ya: quienes.some((x) => x.n >= desde), listo: !!linkGrabar(F, t.id) });
+    }
+    // Primero las que ya les tocan; entre esas, las que tienen el material listo; después, la que va antes en el programa.
+    return out.sort((x, y) => (y.ya - x.ya) || (y.listo - x.listo) || (x.desde - y.desde));
+  }
+  async function pegarLinkGrabar(id) {
+    const u = prompt('Pega el link de la carpeta (Drive o Notion) donde tienes el prompter, la presentación y todo para grabar esta clase:', linkGrabar(st._flor, id));
+    if (u == null) return false;
+    if (u.trim() && !url(u.trim())) { toast('El link tiene que empezar con https://', true); return false; }
+    await guardarF({ grabar: { ...(st._flor.grabar || {}), [id]: u.trim() } }, 'Link guardado'); return true;
+  }
   async function progresoFlor() {
     const b = await cargarBandeja();
     const F = Object.assign({ objetivo: 'Terminar de grabar el programa y crear contenido todos los días', grabadas: [], contenido: {}, recordatorios: {}, links: {} }, st.programa.flor || {});
@@ -943,22 +963,14 @@ ${listo ? '' : `<section class="card"><h3>Checklist antes de continuar</h3><p cl
     const conW = new Set(wEsta.map((w) => String(w.email || '').toLowerCase()));
     const faltan = b.activas.filter((a) => !conW.has(a.email));
     const fbEsta = b.tResp.filter((x) => delaSemana(x.respondido_en));
-    // Clases en grabación que ya les tocan (o les tocan la semana que viene) a tus alumnas
-    const porGrabar = [];
-    for (const m of P.camino) for (const s of m.semanas) for (const t of s.tareas) {
-      if (!t.pronto || (F.grabadas || []).includes(t.id)) continue;
-      const desde = Math.min(...s.s);
-      const quienes = b.activas.map((a) => ({ a, n: semanaDe(a.perfil) })).filter((x) => x.n && x.n >= desde - 1 && !((x.a.perfil.camino_hecho || []).includes(t.id)));
-      if (quienes.length) porGrabar.push({ t, desde, quienes, ya: quienes.some((x) => x.n >= desde) });
-    }
-    porGrabar.sort((x, y) => (y.ya - x.ya) || (x.desde - y.desde));
+    const porGrabar = clasesPorGrabar(b, F);
     const dias = [...Array(7)].map((_, i) => { const d = new Date(lun + 'T12:00:00'); d.setDate(d.getDate() + i); return d; });
     const hechosDias = dias.filter((d) => F.contenido[diaISO(d)]).length;
     const chk = (ok, txt, sub, link) => `<li class="chk"><span class="${ok ? 'ok-i' : 'no-i'}">${ok ? '✓' : '○'}</span><span><b>${txt}</b>${sub ? '<br><span class="muted small">' + sub + '</span>' : ''}${link ? ' ' + link : ''}</span></li>`;
     const lk = F.links || {};
     const enlace = (u, t) => (url(u) ? `<a class="btn ghost sm" href="${esc(u)}" target="_blank" rel="noopener">${t}</a>` : '');
     const nom1 = (n) => esc(String(n || '').split(' ')[0]);
-    const linkGrabar = (id) => (F.grabar || {})[id] || (P.grabar || {})[id] || '';
+    const lkG = (id) => linkGrabar(F, id);
     return `<div class="head"><div><span class="eyebrow">Tu semana como directora de AT WORK · semana del ${fecha(lun, { day: 'numeric', month: 'long' })}</span><h1>Mis números</h1></div></div>
 <section class="card feature"><span class="eyebrow">Tu objetivo</span><h2 id="fobj">${esc(F.objetivo)}</h2>
   <div class="row"><button class="btn ghost sm" id="fobj-ed">Editar mi objetivo</button></div>
@@ -980,11 +992,11 @@ ${listo ? '' : `<section class="card"><h3>Checklist antes de continuar</h3><p cl
   </section>
 </div>
 <section class="card"><div class="row between"><h3>Clases que tienes que grabar</h3>${enlace(lk.notion, 'Notion de grabación')}</div>
-  <p class="muted small">Son las clases que siguen «en grabación» y a las que una alumna ya llegó o llega la semana que viene.</p>
-  ${porGrabar.length ? `<ul class="tasks">${porGrabar.map((g) => `<li><div class="fbitem" style="flex-direction:row;align-items:flex-start;justify-content:space-between;gap:12px"><span><b>${esc(g.t.texto)}</b> ${g.ya ? '<span class="pill warn">Grábala sí o sí</span>' : '<span class="pill">La semana que viene</span>'}<br>
+  <p class="muted small">Ordenadas por urgencia: primero las que ya les tocan y tienen el material listo. Grabá de a una, empezando por la de arriba.</p>
+  ${porGrabar.length ? `<ul class="tasks">${porGrabar.map((g, i) => `${i === 3 ? `</ul><details class="mas-grabar"><summary class="small">Ver las otras ${porGrabar.length - 3}</summary><ul class="tasks">` : ''}<li><div class="fbitem" style="flex-direction:row;align-items:flex-start;justify-content:space-between;gap:12px"><span><b>${esc(g.t.texto)}</b> ${g.ya ? '<span class="pill warn">Grábala sí o sí</span>' : '<span class="pill">La semana que viene</span>'}<br>
     <span class="muted small">Va en la semana ${g.desde}. ${g.quienes.map((x) => nom1(x.a.nombre) + ' (semana ' + x.n + ')').join(', ')} ${g.ya ? (g.quienes.length === 1 ? 'ya llegó' : 'ya llegaron') : 'llega' + (g.quienes.length === 1 ? '' : 'n')}.</span></span>
-    <span class="row" style="gap:6px;flex-wrap:wrap;justify-content:flex-end">${linkGrabar(g.t.id) ? `<a class="btn sm" href="${esc(linkGrabar(g.t.id))}" target="_blank" rel="noopener">🎬 Abrir todo para grabar</a><button type="button" class="linkbtn small" data-glink="${esc(g.t.id)}">Cambiar link</button>` : `<button type="button" class="btn ghost sm" data-glink="${esc(g.t.id)}">+ Pegar link del material</button>`}
-    <button type="button" class="btn ghost sm" data-grab="${esc(g.t.id)}">Ya la grabé</button></span></div></li>`).join('')}</ul>` : '<p class="muted small">Ninguna alumna llegó todavía a una clase en grabación. 🎉</p>'}
+    <span class="row" style="gap:6px;flex-wrap:wrap;justify-content:flex-end">${lkG(g.t.id) ? `<a class="btn sm" href="${esc(lkG(g.t.id))}" target="_blank" rel="noopener">🎬 Abrir todo para grabar</a><button type="button" class="linkbtn small" data-glink="${esc(g.t.id)}">Cambiar link</button>` : `<button type="button" class="btn ghost sm" data-glink="${esc(g.t.id)}">+ Pegar link del material</button>`}
+    <button type="button" class="btn ghost sm" data-grab="${esc(g.t.id)}">Ya la grabé</button></span></div></li>`).join('')}</ul>${porGrabar.length > 3 ? '</details>' : ''}` : '<p class="muted small">Ninguna alumna llegó todavía a una clase en grabación. 🎉</p>'}
 </section>
 <details class="card"><summary><b>Tus links de trabajo</b></summary>
   <form class="grid" id="flinks" novalidate>
@@ -1011,13 +1023,7 @@ ${listo ? '' : `<section class="card"><h3>Checklist antes de continuar</h3><p cl
       const c = { ...st._flor.contenido }; if (c[b.dataset.dia]) delete c[b.dataset.dia]; else c[b.dataset.dia] = true;
       await guardarF({ contenido: c }); ruta();
     };
-    $$('[data-glink]').forEach((b) => (b.onclick = async () => {
-      const id = b.dataset.glink, actual = (st._flor.grabar || {})[id] || (P.grabar || {})[id] || '';
-      const u = prompt('Pega el link de la carpeta (Drive o Notion) donde tienes el prompter, la presentación y todo para grabar esta clase:', actual);
-      if (u == null) return;
-      if (u.trim() && !url(u.trim())) return toast('El link tiene que empezar con https://', true);
-      await guardarF({ grabar: { ...(st._flor.grabar || {}), [id]: u.trim() } }, 'Link guardado'); ruta();
-    }));
+    $$('[data-glink]').forEach((b) => (b.onclick = async () => { if (await pegarLinkGrabar(b.dataset.glink)) ruta(); }));
     $$('[data-grab]').forEach((b) => (b.onclick = async () => { await guardarF({ grabadas: [...(st._flor.grabadas || []), b.dataset.grab] }, 'Anotada como grabada'); ruta(); }));
     $('#flinks').onsubmit = async (e) => { e.preventDefault(); const g = (k) => $('#fl-' + k).value.trim(); await guardarF({ links: { instagram: g('instagram'), contenido: g('contenido'), notion: g('notion') } }, 'Guardado'); ruta(); };
   }
@@ -1139,7 +1145,8 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
     semana: [['w:compras', 'Compras + comida + flores (domingo)'], ['w:amiga', 'Ver a una amiga'], ['w:plataforma', 'Plataforma solo martes y jueves']],
   };
   // "Tu día": lo que la madrugada dejó listo (clases preparadas, qué grabar, qué subir). Sale de la tabla hoy_flor.
-  function tuDia(L, hoyI) {
+  // modo 'clases': solo las clases de hoy (lista); modo 'contenido': qué grabar/subir de redes (lista). Sin modo: la tarjeta entera.
+  function tuDia(L, hoyI, modo) {
     if (!L || !L.length) return '';
     const hh = (iso) => (iso ? new Date(iso).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit', hour12: false }) : '');
     const lk = (u, t, cl = 'btn ghost sm') => (u ? `<a class="${cl}" href="${esc(u)}" target="_blank" rel="noopener">${t}</a>` : '');
@@ -1151,6 +1158,9 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
       ${x.detalle ? `<p class="small muted">${esc(x.detalle)}</p>` : ''}
       <div class="row" style="gap:8px;flex-wrap:wrap">${lk(x.link, /canva/.test(x.link || '') ? 'Abrir en Canva' : /notion/.test(x.link || '') ? 'Abrir en Notion' : 'Abrir')}${lk(x.link2, /notion/.test(x.link2 || '') ? 'Ver en Notion' : 'Abrir')}</div>
       ${copiar(x.texto2, 'Prompter para grabar')}${copiar(x.texto, x.tipo === 'grabar' || x.tipo === 'subir' ? 'Caption para copiar' : 'Texto')}</li>`;
+    const liClase = (x) => `<li class="td-i"><div class="row between"><b>${hh(x.inicio)} · ${esc(x.titulo || '')}</b></div>${x.detalle ? `<p class="small muted">${esc(x.detalle)}</p>` : ''}<div class="row" style="gap:8px;flex-wrap:wrap">${lk(x.meet, 'Entrar a la clase', 'btn sm')}${lk(x.link, 'Clase lista')}</div></li>`;
+    if (modo === 'clases') return cl.length ? `<ul class="td-l">${cl.map(liClase).join('')}</ul>` : '';
+    if (modo === 'contenido') return gr.length || su.length || ot.length ? `${gr.length ? `<p class="hab-sec">Contenido para grabar</p><ul class="td-l">${gr.map(item).join('')}</ul>` : ''}${su.length ? `<p class="hab-sec">Para subir</p><ul class="td-l">${su.map(item).join('')}</ul>` : ''}${ot.length ? `<p class="hab-sec">Además</p><ul class="td-l">${ot.map(item).join('')}</ul>` : ''}` : '';
     return `<section class="card tudia"><div class="row between"><h2>Tu día</h2><span class="muted small">Todo lo que quedó listo para hoy</span></div>
   ${cl.length ? `<p class="hab-sec">Clases</p><ul class="td-l">${cl.map((x) => `<li class="td-i"><div class="row between"><b>${hh(x.inicio)} · ${esc(x.titulo || '')}</b></div>${x.detalle ? `<p class="small muted">${esc(x.detalle)}</p>` : ''}<div class="row" style="gap:8px;flex-wrap:wrap">${lk(x.meet, 'Entrar a la clase', 'btn sm')}${lk(x.link, 'Clase lista')}</div></li>`).join('')}</ul>` : ''}
   ${gr.length ? `<p class="hab-sec">Para grabar</p><ul class="td-l">${gr.map(item).join('')}</ul>` : ''}
@@ -1184,6 +1194,7 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
       const pendW = b ? b.sinResp.length : 0, pendT = b ? b.pend.length : 0;
       const sinW = b ? b.activas.filter((a) => !b.W.some((w) => w.semana === lun && String(w.email || '').toLowerCase() === a.email && (w.enviado_en || Object.keys(w.respuestas || {}).length))) : [];
       const esLunes = hoy.getDay() === 1;
+      const G = clasesPorGrabar(b, F), g0 = G[0];
       return `<div class="head"><div><span class="eyebrow">${saludo()}, ${esc((st.perfil.nombre || 'Flor').split(' ')[0])}</span><h1>Inicio</h1></div></div>
 <p class="identidad" id="ident" title="Tocá para editar">${esc(F.identidad || IDENTIDAD)}</p>
 <form id="ident-f" style="display:none" class="grid" ><textarea id="ident-t" rows="2">${esc(F.identidad || IDENTIDAD)}</textarea><div class="row"><button class="btn sm" type="submit">Guardar</button><button class="linkbtn small" type="button" id="ident-x">Cancelar</button></div></form>
@@ -1198,31 +1209,33 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
   <div class="hab-sem" id="hab-sem">${dias.map((d) => { const iso = diaISO(d), c = cuenta(iso), m = H[iso] && H[iso].minima; return `<div><span>${d.toLocaleDateString('es', { weekday: 'narrow' })}</span><b class="${c === 6 || m ? 'full' : c ? 'part' : ''}${iso === hoyI ? ' hoy' : ''}" data-dsem="${iso}">${m && c < 6 ? '½' : c || ''}</b></div>`; }).join('')}</div>
   <p class="muted small hab-pie">Cada tilde es un voto por quien querés ser. Se guarda en tu Notion (“Mis hábitos”).</p>
 </section>
-${tuDia(st._hoyD, hoyI)}
-<div class="grid g-2">
-  <section class="card feature"><span class="eyebrow">Tu única cosa · 30 días</span>
-    ${fo.texto ? `<h2>${esc(fo.texto)}</h2>
-    ${fo.resuelto ? `<p class="small"><b>Resuelto cuando:</b> ${esc(fo.resuelto)}</p>` : ''}
-    ${fo.paso ? `<p class="small"><b>Smart Scale:</b> ${esc(fo.paso)}</p>` : ''}
-    ${diasFoco != null ? `<p class="muted small">${diasFoco ? `Quedan ${diasFoco} días. Una cosa a la vez.` : 'Se cumplieron los 30 días: revisalo en tu Lunes CEO.'}</p>` : ''}`
-    : '<p class="muted">¿Cuál es la única cosa que, si la hacés, hace que todo lo demás sea más fácil o innecesario?</p>'}
-    <div class="row"><button class="btn ghost sm" id="foco-ed">${fo.texto ? 'Cambiar' : 'Definir mi foco'}</button></div>
-    <form class="grid" id="foco-f" style="display:none">
-      <div class="field"><label>Mi única cosa (30 días)</label><input type="text" id="fo-t" value="${esc(fo.texto || '')}" placeholder="Terminar de grabar el Módulo 3"></div>
-      <div class="field"><label>Resuelto cuando (un número)</label><input type="text" id="fo-r" value="${esc(fo.resuelto || '')}" placeholder="8 clases grabadas y subidas"></div>
+<section class="card feature unica">
+  <span class="eyebrow">Hoy, una sola cosa · grabar</span>
+  ${g0 ? `<h2>${esc(g0.t.texto)}</h2>
+  <p class="small">${g0.ya ? `${g0.quienes.filter((x) => x.n >= g0.desde).length} ${g0.quienes.filter((x) => x.n >= g0.desde).length === 1 ? 'alumna ya llegó' : 'alumnas ya llegaron'} a esta clase (va en la semana ${g0.desde}).` : `La necesitan la semana que viene (semana ${g0.desde}).`}</p>
+  <div class="row" style="gap:8px;flex-wrap:wrap">${linkGrabar(F, g0.t.id) ? `<a class="btn" href="${esc(linkGrabar(F, g0.t.id))}" target="_blank" rel="noopener">🎬 Abrir todo para grabar</a>` : `<button type="button" class="btn" data-glink="${esc(g0.t.id)}">+ Pegar el link del material</button>`}<button type="button" class="btn ghost sm" data-grab="${esc(g0.t.id)}">Ya la grabé</button></div>
+  ${G.length > 1 ? `<p class="muted small" style="margin-top:10px">Después: ${esc(G[1].t.texto)} · <a href="#progreso">quedan ${G.length - 1} más</a>. No las mires hoy: de a una.</p>` : ''}`
+  : '<h2>No hay clases urgentes para grabar 🎉</h2><p class="muted small">Ninguna alumna llegó a una clase en grabación. Hoy grabá contenido.</p>'}
+  ${tuDia(st._hoyD, hoyI, 'contenido')}
+  <details class="foco"><summary class="small">${fo.texto ? `Tu foco de 30 días: <b>${esc(fo.texto)}</b>${diasFoco != null ? ` · ${diasFoco ? 'quedan ' + diasFoco + ' días' : 'revisalo el lunes'}` : ''}` : 'Definí tu foco de 30 días'}</summary>
+    ${fo.resuelto ? `<p class="small"><b>Resuelto cuando:</b> ${esc(fo.resuelto)}</p>` : ''}${fo.paso ? `<p class="small"><b>Smart Scale:</b> ${esc(fo.paso)}</p>` : ''}
+    <form class="grid" id="foco-f">
+      <div class="field"><label>Mi única cosa (30 días)</label><input type="text" id="fo-t" value="${esc(fo.texto || '')}" placeholder="Terminar de grabar el programa"></div>
+      <div class="field"><label>Resuelto cuando (un número)</label><input type="text" id="fo-r" value="${esc(fo.resuelto || '')}" placeholder="Las ${G.length || 'X'} clases en grabación, grabadas y subidas"></div>
       <div class="field"><label>Dónde estoy en Smart Scale</label><input type="text" id="fo-p" value="${esc(fo.paso || '')}" placeholder="Implementación · paso 3"></div>
       <div class="row"><button class="btn sm" type="submit">Guardar</button></div>
-    </form>
-  </section>
-  <section class="card"><div class="row between"><h3>Hoy en tu negocio</h3><a class="small" href="#progreso">Mis números</a></div>
-    <ul class="neg">
-      <li><a href="#bandeja/weeklies"><b>${pendW}</b> ${pendW === 1 ? 'weekly espera' : 'weeklies esperan'} tu respuesta</a></li>
-      <li><a href="#bandeja/pedidos"><b>${pendT}</b> ${pendT === 1 ? 'tarea espera' : 'tareas esperan'} tu feedback</a></li>
-      <li>${sinW.length ? `<b>${sinW.length}</b> sin weekly esta semana: ${sinW.map((a) => esc(String(a.nombre).split(' ')[0])).join(', ')}` : 'Todas mandaron su weekly'}</li>
-    </ul>
-    ${esLunes ? '<p class="note small"><b>Hoy 15:30, Lunes CEO:</b> mirá tus números, tus hábitos de la semana pasada y tu única cosa. Ajustá una sola cosa.</p>' : ''}
-  </section>
-</div>
+    </form></details>
+</section>
+<section class="card"><div class="row between"><h3>Hoy te necesitan</h3><a class="small" href="#alumnas">Alumnas</a></div>
+  ${tuDia(st._hoyD, hoyI, 'clases') || '<p class="muted small">Hoy no tenés clases cargadas.</p>'}
+  <ul class="neg">
+    ${pendW ? `<li><a href="#bandeja/weeklies"><b>${pendW}</b> ${pendW === 1 ? 'weekly espera' : 'weeklies esperan'} tu respuesta</a></li>` : ''}
+    ${pendT ? `<li><a href="#bandeja/pedidos"><b>${pendT}</b> ${pendT === 1 ? 'tarea espera' : 'tareas esperan'} tu feedback</a></li>` : ''}
+    ${!pendW && !pendT ? '<li>La bandeja está al día ✓</li>' : ''}
+    ${esLunes && sinW.length ? `<li><b>${sinW.length}</b> sin weekly: ${sinW.map((a) => esc(String(a.nombre).split(' ')[0])).join(', ')}</li>` : ''}
+  </ul>
+  ${esLunes ? '<p class="note small"><b>Hoy 15:30, Lunes CEO:</b> mirá <a href="#progreso">Mis números</a>, tus hábitos de la semana pasada y tu foco. Ajustá una sola cosa.</p>' : ''}
+</section>
 <p class="muted small" style="text-align:center;margin-top:18px"><a href="?demo#semana" target="_blank" rel="noopener">Ver la app como alumna</a> · con datos de ejemplo</p>`;
     },
     async mount() {
@@ -1258,7 +1271,8 @@ ${tuDia(st._hoyD, hoyI)}
       $('#ident').onclick = () => abrirId(true);
       $('#ident-x').onclick = () => abrirId(false);
       $('#ident-f').onsubmit = async (e) => { e.preventDefault(); const t = $('#ident-t').value.trim(); if (!t) return; await guardarF({ identidad: t }, 'Guardado'); $('#ident').textContent = t; abrirId(false); };
-      $('#foco-ed').onclick = () => { const f = $('#foco-f'); f.style.display = f.style.display === 'none' ? '' : 'none'; };
+      $$('[data-glink]').forEach((bt) => (bt.onclick = async () => { if (await pegarLinkGrabar(bt.dataset.glink)) ruta(); }));
+      $$('[data-grab]').forEach((bt) => (bt.onclick = async () => { await guardarF({ grabadas: [...(st._flor.grabadas || []), bt.dataset.grab] }, '¡Grabada! Una menos.'); ruta(); }));
       $('#foco-f').onsubmit = async (e) => {
         e.preventDefault();
         const prev = st._flor.foco || {}, texto = $('#fo-t').value.trim();

@@ -388,3 +388,18 @@ button.who{background:none;border:0;color:inherit;font:inherit;cursor:pointer;pa
 .td-txt summary{cursor:pointer;font-size:.9rem;font-weight:600}
 .td-txt pre{white-space:pre-wrap;font-family:inherit;font-size:.92rem;background:var(--soft,#f7f2ea);border-radius:10px;padding:10px 12px;margin:8px 0 4px}
 .td-ok.on{font-weight:700}
+/* Inicio de Flor · Hoy, una sola cosa */
+.card.unica h2{margin:6px 0 4px}
+.card.unica a:not(.btn){color:var(--on-brand);text-decoration:underline}
+.card.unica .btn.ghost{background:transparent;color:var(--on-brand);border-color:rgba(255,255,255,.55)}
+.card.unica .hab-sec{color:var(--on-brand);opacity:.8;margin-top:16px}
+.card.unica .td-i{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2);color:var(--on-brand)}
+.card.unica .td-i .muted,.card.unica .td-i .linkbtn,.card.unica .td-txt summary{color:var(--on-brand)}
+.card.unica details.foco{margin-top:16px;border-top:1px solid rgba(255,255,255,.25);padding-top:10px}
+.card.unica details.foco summary{cursor:pointer;color:var(--on-brand)}
+.card.unica details.foco form{margin-top:10px}
+.card.unica details.foco input{background:#fffdf7;color:var(--ink,#2b2118)}
+.card.unica details.foco label{color:var(--on-brand)}
+details.mas-grabar{margin-top:10px}
+details.mas-grabar summary{cursor:pointer}
+.card.unica .td-txt pre{color:#2b2118}
