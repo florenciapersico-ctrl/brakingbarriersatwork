@@ -179,10 +179,11 @@ function armarBorrador(p) {
   var yo = Session.getEffectiveUser().getEmail();
   var op = { htmlBody: p.html || '', bcc: yo, name: 'Florencia Persico' };
   // Si ya hay un borrador para esto (el de la rutina de la mañana o uno anterior de la app), se reemplaza ese: nunca dos.
-  var borrador = buscarBorrador(p), reemplazado = false;
+  var borrador = null, reemplazado = false;
+  try { borrador = buscarBorrador(p); } catch (e) { console.error('buscarBorrador', e); }
   if (borrador) {
-    borrador.update(p.para, borrador.getMessage().getSubject(), p.texto || '', op);
-    reemplazado = true;
+    try { borrador.update(p.para, borrador.getMessage().getSubject(), p.texto || '', op); reemplazado = true; }
+    catch (e) { console.error('update', e); borrador = null; }
   }
   if (!borrador && p.responder) {
     try {
@@ -213,13 +214,15 @@ function buscarBorrador(p) {
   var para = String(p.para || '').toLowerCase(), base = asuntoBase(p.asunto);
   var ds = GmailApp.getDrafts();
   for (var i = 0; i < ds.length; i++) {
-    var m = ds[i].getMessage();
-    if (paraDe(m).indexOf(para) < 0) continue;
-    if (p.responder) {
-      var ids = m.getThread().getMessages().map(function (x) { return x.getId(); });
-      if (ids.indexOf(p.responder) >= 0) return ds[i];
-    }
-    if (base && asuntoBase(m.getSubject()) === base) return ds[i];
+    // Gmail tiene borradores que no se dejan leer ("Argumento inválido: id"): se saltean.
+    var m; try { m = ds[i].getMessage(); if (paraDe(m).indexOf(para) < 0) continue; } catch (e) { continue; }
+    try {
+      if (p.responder) {
+        var ids = m.getThread().getMessages().map(function (x) { return x.getId(); });
+        if (ids.indexOf(p.responder) >= 0) return ds[i];
+      }
+      if (base && asuntoBase(m.getSubject()) === base) return ds[i];
+    } catch (e) { continue; }
   }
   return null;
 }
@@ -228,9 +231,11 @@ function listarBorradores(mails) {
   var quien = {}; mails.forEach(function (x) { quien[String(x).toLowerCase()] = 1; });
   var out = [];
   GmailApp.getDrafts().forEach(function (d) {
-    var m = d.getMessage(), para = paraDe(m).filter(function (x) { return quien[x]; })[0];
+    var m, para;
+    try { m = d.getMessage(); para = paraDe(m).filter(function (x) { return quien[x]; })[0]; } catch (e) { return; }
     if (!para) return;
-    var hilo = m.getThread(), ids = hilo.getMessages().map(function (x) { return x.getId(); }).filter(function (x) { return x !== m.getId(); });
+    var hilo, ids;
+    try { hilo = m.getThread(); ids = hilo.getMessages().map(function (x) { return x.getId(); }).filter(function (x) { return x !== m.getId(); }); } catch (e) { return; }
     out.push({ para: para, asunto: m.getSubject(), hilo: ids, fecha: m.getDate().toISOString(),
       link: ids.length ? hilo.getPermalink() : 'https://mail.google.com/mail/u/0/#drafts?compose=' + m.getId() });
   });
