@@ -1582,7 +1582,16 @@ ${cuerpo}`;
       let det = '';
       const bh = esFlor() ? await cargarBandeja().catch(() => null) : null;
       const ch = esFlor() ? await clasesHoy() : null;
-      const claseDe = (x) => (ch || []).find((c) => (c.invitadas || []).includes(String(x.email || '').toLowerCase()));
+      // Por mail invitado; si no está invitada (p. ej. un grupal con una sola en la invitación), por su nombre o apodo en el título o la descripción ("Lina y Cori").
+      const norm = (t) => String(t || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+      const pila = (x) => norm(String(x.nombre || '').split(' ')[0]);
+      const activasN = al.filter((x) => x.rol !== 'admin' && x.activa !== false);
+      const nombraA = (c, x) => {
+        const n = pila(x); if (n.length < 3) return false;
+        const pal = norm(c.titulo + ' ' + String(c.descripcion || '').split('\n').slice(0, 3).join(' ')).split(/[^a-zñ]+/).filter((w) => w.length >= 4 || w === n);
+        return pal.some((w) => n.startsWith(w) && activasN.filter((y) => pila(y).startsWith(w)).length === 1);
+      };
+      const claseDe = (x) => (ch || []).find((c) => (c.invitadas || []).includes(String(x.email || '').toLowerCase())) || (ch || []).find((c) => nombraA(c, x));
       if (!a && esFlor()) {
         const hoyCon = al.filter((x) => x.rol !== 'admin' && claseDe(x)).sort((x, y) => (claseDe(x).inicio < claseDe(y).inicio ? -1 : 1));
         det = `<section class="card"><div class="row between"><h2>Hoy tienen clase</h2><span class="muted small">${fecha(diaISO(new Date()), { weekday: 'long', day: 'numeric', month: 'long' })}</span></div>
