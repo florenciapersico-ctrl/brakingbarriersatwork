@@ -1122,7 +1122,7 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
       const grupo = (titulo, extra, html) => `<section class="card sem-grupo"><div class="row between"><h3>${esc(titulo)}</h3>${extra || ''}</div>${html}</section>`;
       let cuerpo = '';
       if (tab === 'pedidos') {
-        cuerpo = b.pend.length ? porSemana(b.pend, (x) => lunesDe(x.creado)).map((g) => grupo(nombreSemana(g.s), `<span class="pill warn">${g.items.length}</span>`, g.items.map((x) => x.src === 'app' ? `<div class="fbitem" data-pid="${x.id}" data-aid="${x.alumna_id}" data-tit="${esc(x.titulo || '')}">
+        cuerpo = b.pend.length ? porSemana(b.pend, (x) => lunesDe(x.creado)).map((g) => grupo(nombreSemana(g.s), `<span class="pill warn">${g.items.length}</span>`, g.items.map((x) => x.src === 'app' ? `<div class="fbitem" data-pid="${x.id}" data-aid="${x.alumna_id}" data-tit="${esc(x.titulo || '')}" data-mail="${esc(String((x.perfil || {}).email || '').toLowerCase())}" data-or="${esc(x.origen || '')}" data-mas="${esc(x.mail_asunto || '')}">
         <div class="row between"><b>${esc(x.nombre)} · ${esc(x.titulo || tipoNombre(x.tipo))}</b><span class="muted small">${tipoNombre(x.tipo)} · ${fecha(x.creado, { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}</span></div>
         ${x.mail_borrador ? `<p class="note small gm">Ya armaste el borrador en tu Gmail (${fecha(x.mail_borrador, { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}). Cuando lo mandes, esto se marca respondido solo.</p>` : ''}
         ${x.texto ? `<pre>${esc(x.texto)}</pre>` : ''}${adjunto(x)}${url(x.link) ? ` <a class="small" href="${esc(x.link)}" target="_blank" rel="noopener">Abrir el link que mandó</a>` : ''}
@@ -1133,7 +1133,7 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
         <p class="notas small muted" hidden></p>
         <div class="row"><button class="btn send" type="button">Armar borrador en Gmail</button><button class="btn ghost ia" type="button">Borrador con IA</button><button class="btn ghost ver" type="button">Ver cómo lo ve ella</button><button class="linkbtn small borrarp" type="button">Borrar pedido</button></div>
         <div class="vista" hidden><span class="eyebrow">Así lo ve ella en su app</span><div class="reply"></div></div>
-      </div>` : `<div class="fbitem" data-pimp="${esc(x.email)}" data-origen="${esc(x.origen || '')}">
+      </div>` : `<div class="fbitem" data-pimp="${esc(x.email)}" data-origen="${esc(x.origen || '')}" data-mail="${esc(String(x.email || '').toLowerCase())}" data-or="${esc(x.origen || '')}">
         <div class="row between"><b>${esc(x.nombre)} · ${esc(x.titulo || tipoNombre(x.tipo))}</b><span class="muted small">${tipoNombre(x.tipo)} · ${fecha(x.creado)} · todavía sin cuenta</span></div>
         ${x.texto ? `<pre>${esc(x.texto)}</pre>` : ''}${url(x.link) ? ` <a class="small" href="${esc(x.link)}" target="_blank" rel="noopener">Abrir el link</a>` : ''}
         <div class="field"><label>Tu respuesta</label><textarea class="r" rows="5"></textarea></div>
@@ -1142,7 +1142,7 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
       </div>`).join(''))).join('') : '<section class="card"><p class="muted">No hay pedidos pendientes. 🎉</p></section>';
       }
       if (tab === 'weeklies') {
-        cuerpo = b.sinResp.length ? porSemana(b.sinResp, (x) => x.semana).map((g) => grupo(nombreSemana(g.s), `<span class="pill warn">${g.items.length} sin responder</span>`, g.items.map((x) => `<div class="fbitem" ${x.src === 'app' ? `data-wid="${x.id}" data-aid="${x.aid}"` : `data-wimp="${esc(x.email)}" data-sem="${esc(x.semana)}"`}>
+        cuerpo = b.sinResp.length ? porSemana(b.sinResp, (x) => x.semana).map((g) => grupo(nombreSemana(g.s), `<span class="pill warn">${g.items.length} sin responder</span>`, g.items.map((x) => `<div class="fbitem" ${x.src === 'app' ? `data-wid="${x.id}" data-aid="${x.aid}"` : `data-wimp="${esc(x.email)}"`} data-sem="${esc(x.semana)}" data-mail="${esc(String(x.email || '').toLowerCase())}">
         <div class="row between"><b>${esc(x.nombre)}</b><span class="muted small">${x.enviado_en ? 'Enviado ' + fecha(x.enviado_en, { weekday: 'short', day: 'numeric', month: 'short' }) : 'En su Google Doc'}${x.src === 'imp' ? ' · todavía sin cuenta' : ''}</span></div>
         ${x.mail_borrador ? `<p class="note small gm">Ya armaste el borrador en tu Gmail (${fecha(x.mail_borrador, { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}). Cuando lo mandes, esto se marca respondido solo.</p>` : ''}
         ${resps(x) || '<p class="muted small">(Lo escribió en su doc y todavía no se copió.)</p>'}
@@ -1189,13 +1189,13 @@ ${cuerpo}`;
       // Responder = armar el mail completo como borrador en Gmail. No se le manda nada a la alumna:
       // Flor lo revisa y lo envía desde Gmail, y la sincronización lo marca respondido acá.
       const aGmail = async (it, q, btn) => {
-        if ($('.gm', it) && !confirm('Ya armaste un borrador en Gmail para esto. ¿Armar otro? (Si sí, borra el anterior en Gmail para no mandar dos.)')) return false;
+        if ($('.gm', it) && !confirm('Ya hay un borrador para esto en tu Gmail. ¿Lo reemplazo con lo que escribiste acá? (Si lo editaste en Gmail, esos cambios se pierden.)')) return false;
         const t0 = btn.textContent; btn.disabled = true; btn.textContent = 'Armando el borrador…';
         try {
           const out = await DB.borradorMail(q);
           let n = $('.gm', it);
           if (!n) { $('.row.between', it).insertAdjacentHTML('afterend', '<p class="note small gm"></p>'); n = $('.gm', it); }
-          n.innerHTML = `Listo: el borrador está en tu Gmail${out.link ? ` · <a href="${esc(out.link)}" target="_blank" rel="noopener">Abrirlo</a>` : ''}. Revísalo y mándalo desde ahí: cuando lo mandes, esto se marca respondido solo.`;
+          n.innerHTML = `Listo: ${out.reemplazado ? 'actualicé el borrador que ya tenías' : 'el borrador está'} en tu Gmail${out.link ? ` · <a href="${esc(out.link)}" target="_blank" rel="noopener">Abrirlo</a>` : ''}. Revísalo y mándalo desde ahí: cuando lo mandes, esto se marca respondido solo.`;
           btn.textContent = 'Armar el borrador de nuevo';
           toast('Borrador listo en tu Gmail');
           return true;
@@ -1287,6 +1287,33 @@ ${cuerpo}`;
           await aGmail(it, { imp, respuesta: r }, $('.sendw', it));
         };
       });
+      // ¿Ya hay un borrador en Gmail para esto (el de la rutina de la mañana o uno anterior)? Se marca, para no armar dos.
+      (async () => {
+        const gd = await DB.borradoresGmail().catch(() => []);
+        if (!gd.length) return;
+        const base = (a) => String(a || '').replace(/^\s*((re|rv|fwd?)\s*:\s*)+/i, '').replace(/[^\wÀ-ÿ\/·:.\- ]/g, '').replace(/\s+/g, ' ').trim().toLowerCase();
+        const usados = new Set();
+        const marcar = (it, d) => {
+          if (!document.body.contains(it) || $('.gm', it)) return;
+          $('.row.between', it).insertAdjacentHTML('afterend', `<p class="note small gm">Ya tenés un borrador para esto en tu Gmail${d.link ? ` · <a href="${esc(d.link)}" target="_blank" rel="noopener">Abrirlo</a>` : ''}. Si armás el borrador desde acá, reemplaza ese.</p>`);
+        };
+        $$('[data-mail]').forEach((it) => {
+          const mail = it.dataset.mail, or = String(it.dataset.or || ''), mas = base(it.dataset.mas), sem = it.dataset.sem;
+          const ddmm = sem ? `${sem.slice(8, 10)}/${sem.slice(5, 7)}` : '';
+          const d = gd.find((g) => g.para === mail && (
+            (or.startsWith('mail:') && (g.hilo || []).includes(or.slice(5))) ||
+            (mas && base(g.asunto) === mas) ||
+            (ddmm && /weekly report/i.test(g.asunto) && g.asunto.includes(ddmm))));
+          if (d) { usados.add(d); marcar(it, d); }
+        });
+        // Borradores para una alumna que no se pudieron unir a un pedido: aviso suave en sus pendientes.
+        $$('[data-mail]').forEach((it) => {
+          if ($('.gm', it)) return;
+          const otros = gd.filter((g) => g.para === it.dataset.mail && !usados.has(g));
+          if (otros.length) $('.row.between', it).insertAdjacentHTML('afterend', `<p class="note small gm-otro">Ojo: tenés ${otros.length === 1 ? 'un borrador' : otros.length + ' borradores'} para ella en Gmail (${otros.map((g) => `«${esc(g.asunto)}»`).join(', ')}). Fijate que no sea de esto antes de armar otro.</p>`);
+        });
+      })();
+
       // Borradores: los que ya armó la IA se cargan solos; los que faltan se arman ahora, de a uno.
       const items = $$('[data-pid],[data-wid]');
       if (items.length) {

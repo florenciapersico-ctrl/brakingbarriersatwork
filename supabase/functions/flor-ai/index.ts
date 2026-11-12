@@ -691,6 +691,21 @@ Deno.serve(async (req) => {
     } catch (e) { console.error(e); return json({ ok: false }); }
   }
 
+  // ---------- borradores_gmail (solo Flor): qué borradores de feedback ya hay en su Gmail ----------
+  if (body.modo === "borradores_gmail") {
+    if (!(await esAdmin(db, uid))) return json({ error: "Solo Flor puede usar esto." }, 403);
+    const url = Deno.env.get("DRIVE_SCRIPT_URL"), secreto = Deno.env.get("DRIVE_SECRET");
+    if (!url || !secreto) return json({ ok: false, borradores: [] });
+    const [{ data: ps }, { data: im }] = await Promise.all([admin.from("perfiles").select("email,rol"), admin.from("importacion").select("email")]);
+    // deno-lint-ignore no-explicit-any
+    const mails = [...new Set([...(ps || []).filter((p: any) => p.rol !== "admin").map((p: any) => p.email), ...(im || []).map((i: any) => i.email)].filter(Boolean).map((e: string) => e.toLowerCase()))];
+    try {
+      const r = await fetch(url, { method: "POST", headers: { "Content-Type": "text/plain" }, body: JSON.stringify({ secreto, accion: "borradores", mails }) });
+      const out = await r.json().catch(() => ({}));
+      return json({ ok: !!out.ok, borradores: out.borradores || [] });
+    } catch (e) { console.error(e); return json({ ok: false, borradores: [] }); }
+  }
+
   // ---------- borrador_mail (solo Flor): la respuesta completa queda como borrador en su Gmail ----------
   // No se le manda nada a la alumna: Flor lo revisa y lo envía. Al enviarlo, gmail_enviado lo marca respondido.
   if (body.modo === "borrador_mail") {
@@ -749,7 +764,7 @@ Deno.serve(async (req) => {
         const { data: b } = await admin.from("borradores").select("datos").eq("tabla", tabla).eq("ref", ref).maybeSingle();
         await admin.from("borradores").upsert({ tabla, ref, datos: { ...(b?.datos || {}), respuesta, correcciones: corr }, creado: ahora });
       }
-      return json({ ok: true, link: out.link || "", asunto });
+      return json({ ok: true, link: out.link || "", asunto, reemplazado: !!out.reemplazado });
     } catch (e) { console.error(e); return json({ error: "No pude conectar con tu Gmail. Prueba de nuevo en un rato." }, 502); }
   }
 

@@ -107,6 +107,7 @@
         return x;
       },
       async borradores() { return ok(await sb.from('borradores').select('tabla,ref,datos')); },
+      async borradoresGmail() { try { const r = await llamar({ modo: 'borradores_gmail' }); const j = await r.json(); return j.borradores || []; } catch (e) { return []; } },
       async borradorMail(q) { const r = await llamar({ modo: 'borrador_mail', ...q }); const j = await r.json().catch(() => ({})); if (!r.ok || !j.ok) throw new Error(j.error || 'No se pudo armar el borrador en Gmail.'); return j; },
       async avisar(q) { try { const r = await llamar({ modo: 'avisar', link: location.origin + location.pathname, ...q }); return r.ok ? r.json() : null; } catch (e) { return null; } },
       async pendientesImportacion() { return ok(await sb.from('importacion').select('email,nombre,datos').is('aplicado', null).order('orden')); },
@@ -259,6 +260,7 @@
       async pedidoDeFlor(p) { S.pedidos.push({ id: id(), estado: 'pendiente', respuesta: null, correcciones: [], creado: new Date().toISOString(), ...p }); save(); },
       async pendientesImportacion() { return []; },
       async borradores() { return []; },
+      async borradoresGmail() { return []; },
       async borradorMail() { return { ok: true, link: '' }; },
       async avisar() { return null; },
       async todosPedidos() { return copia(S.pedidos.sort((x, y) => (x.creado < y.creado ? 1 : -1))); },

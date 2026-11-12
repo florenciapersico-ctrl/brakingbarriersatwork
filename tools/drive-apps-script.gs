@@ -27,6 +27,8 @@
  *    La primera vez que se agrega esto hay que ejecutar activarRevision a mano para darle permiso a Gmail.
  * 7) Cuando Flor responde en la bandeja de la app, arma el mail completo como BORRADOR en su Gmail
  *    (a la alumna, con Flor en CCO). Nunca envía nada: lo revisa y lo manda Flor.
+ * 8) La bandeja de la app ve qué borradores de feedback ya hay en Gmail; si Flor arma uno desde la app y ya
+ *    existía (por ejemplo, el de la rutina de la mañana), se reemplaza ese en vez de crear otro.
  * Si ya lo tenías publicado: pegá esta versión y hacé Implementar › Gestionar implementaciones › editar › Versión nueva.
  * El script solo actúa si el secreto coincide: guarda en la carpeta de la alumna que le indica la función
  * y lee únicamente el archivo de audio que le pide la función.
@@ -46,6 +48,9 @@ function doPost(e) {
     // 7) Flor respondió en la app: el mail completo queda como BORRADOR en su Gmail (no se envía nada).
     //    Si la alumna mandó la tarea por mail, el borrador es la respuesta en ese mismo hilo.
     if (p.accion === 'borrador') return salida(armarBorrador(p));
+
+    // 8) La bandeja de la app pregunta qué borradores de feedback ya hay en Gmail (para no armar dos).
+    if (p.accion === 'borradores') return salida(listarBorradores(p.mails || []));
 
     // 8) Buscar la tarea en la carpeta de la alumna: lista los archivos que subió o cambió desde una fecha.
     if (p.accion === 'buscar') return salida(buscarEnCarpeta(p));
@@ -173,8 +178,13 @@ function armarBorrador(p) {
   if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(p.para || '')) return { ok: false, error: 'mail de la alumna' };
   var yo = Session.getEffectiveUser().getEmail();
   var op = { htmlBody: p.html || '', bcc: yo, name: 'Florencia Persico' };
-  var borrador = null;
-  if (p.responder) {
+  // Si ya hay un borrador para esto (el de la rutina de la mañana o uno anterior de la app), se reemplaza ese: nunca dos.
+  var borrador = buscarBorrador(p), reemplazado = false;
+  if (borrador) {
+    borrador.update(p.para, borrador.getMessage().getSubject(), p.texto || '', op);
+    reemplazado = true;
+  }
+  if (!borrador && p.responder) {
     try {
       var original = GmailApp.getMessageById(p.responder);
       if (original && original.getFrom().toLowerCase().indexOf(String(p.para).toLowerCase()) >= 0) borrador = original.createDraftReply(p.texto || '', op);
@@ -188,7 +198,43 @@ function armarBorrador(p) {
   var rev = GmailApp.getUserLabelByName(ETIQUETA_REVISAR) || GmailApp.createLabel(ETIQUETA_REVISAR);
   hilo.addLabel(rev);
   var link = p.responder && hilo.getMessageCount() > 1 ? hilo.getPermalink() : 'https://mail.google.com/mail/u/0/#drafts?compose=' + borrador.getMessage().getId();
-  return { ok: true, asunto: borrador.getMessage().getSubject(), link: link };
+  return { ok: true, asunto: borrador.getMessage().getSubject(), link: link, reemplazado: reemplazado };
+}
+
+// Normaliza un asunto para compararlo: sin "Re:", sin emojis ni espacios de más.
+function asuntoBase(a) {
+  return String(a || '').replace(/^\s*((re|rv|fwd?)\s*:\s*)+/i, '').replace(/[^\wÀ-ÿ\/·:.\- ]/g, '').replace(/\s+/g, ' ').trim().toLowerCase();
+}
+
+function paraDe(m) { return (String(m.getTo()).match(/[^\s<>,;"]+@[^\s<>,;"]+/g) || []).map(function (x) { return x.toLowerCase(); }); }
+
+// El borrador que ya existe para esta respuesta: en el mismo hilo de la tarea que mandó la alumna, o con el mismo asunto.
+function buscarBorrador(p) {
+  var para = String(p.para || '').toLowerCase(), base = asuntoBase(p.asunto);
+  var ds = GmailApp.getDrafts();
+  for (var i = 0; i < ds.length; i++) {
+    var m = ds[i].getMessage();
+    if (paraDe(m).indexOf(para) < 0) continue;
+    if (p.responder) {
+      var ids = m.getThread().getMessages().map(function (x) { return x.getId(); });
+      if (ids.indexOf(p.responder) >= 0) return ds[i];
+    }
+    if (base && asuntoBase(m.getSubject()) === base) return ds[i];
+  }
+  return null;
+}
+
+function listarBorradores(mails) {
+  var quien = {}; mails.forEach(function (x) { quien[String(x).toLowerCase()] = 1; });
+  var out = [];
+  GmailApp.getDrafts().forEach(function (d) {
+    var m = d.getMessage(), para = paraDe(m).filter(function (x) { return quien[x]; })[0];
+    if (!para) return;
+    var hilo = m.getThread(), ids = hilo.getMessages().map(function (x) { return x.getId(); }).filter(function (x) { return x !== m.getId(); });
+    out.push({ para: para, asunto: m.getSubject(), hilo: ids, fecha: m.getDate().toISOString(),
+      link: ids.length ? hilo.getPermalink() : 'https://mail.google.com/mail/u/0/#drafts?compose=' + m.getId() });
+  });
+  return { ok: true, borradores: out };
 }
 
 // Saca del cuerpo el mail anterior que Gmail cita debajo de la respuesta.
