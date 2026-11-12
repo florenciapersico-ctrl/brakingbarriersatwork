@@ -97,9 +97,9 @@ async function contexto(db: any, admin: any, uid: string) {
   const corto = (s: string, n = 600) => (s && s.length > n ? s.slice(0, n) + "…" : s || "");
   // deno-lint-ignore no-explicit-any
   const fb = (pe.data || []).map((x: any) =>
-    `- ${x.creado?.slice(0, 10)} · ${x.titulo || x.tipo} (${x.estado})${x.texto ? `\n  Lo que mandó: ${corto(x.texto, 400)}` : ""}${x.respuesta ? `\n  Flor respondió: ${corto(x.respuesta)}` : ""}${(x.correcciones || []).length ? `\n  Correcciones: ${(x.correcciones || []).map((c: any) => `"${c.mal}" → "${c.bien}"`).join("; ")}` : ""}`).join("\n");
+    `- ${x.creado?.slice(0, 10)} · ${x.titulo || x.tipo} (${x.estado})${x.texto ? `\n  Lo que mandó: ${corto(x.texto, 400)}` : ""}${x.respuesta ? `\n  Flor respondió: ${corto(x.respuesta, 1500)}` : ""}${(x.correcciones || []).length ? `\n  Correcciones: ${(x.correcciones || []).map((c: any) => `"${c.mal}" → "${c.bien}"`).join("; ")}` : ""}`).join("\n");
   // deno-lint-ignore no-explicit-any
-  const ws = (w.data || []).map((x: any) => `- Semana del ${x.semana}${x.enviado_en ? "" : " (borrador)"}: ${Object.entries(x.respuestas || {}).map(([k, v]) => `${ETIQ[k] || k}: ${corto(String(v), 300)}`).join(" | ")}${x.respuesta_flor ? `\n  Flor respondió: ${corto(x.respuesta_flor, 400)}` : ""}`).join("\n");
+  const ws = (w.data || []).map((x: any) => `- Semana del ${x.semana}${x.enviado_en ? "" : " (borrador)"}: ${Object.entries(x.respuestas || {}).map(([k, v]) => `${ETIQ[k] || k}: ${corto(String(v), 300)}`).join(" | ")}${x.respuesta_flor ? `\n  Flor respondió: ${corto(x.respuesta_flor, 1500)}` : ""}`).join("\n");
   const ficha = (f.data && f.data.texto) || "";
   return `DATOS DE LA ALUMNA (hoy es ${hoy}). Son reales: úsalos para guiarla. Si un dato está vacío, no lo inventes.
 Nombre: ${a.nombre || "(sin cargar)"}. Formato: ${a.formato === "1:1" ? "AT WORK Private (1:1)" : "AT WORK Lab (grupal)"}. Trabajo: ${a.trabajo || "(sin cargar)"}.
@@ -353,7 +353,7 @@ ${(x.weeklies || []).filter((e: any) => e.semana < imp.semana).slice(0, 3).map((
     const r = await ia().messages.create({
       model: MODEL,
       max_tokens: 16000,
-      output_config: { effort: "medium" },
+      output_config: { effort: "high" },
       system: [{ type: "text", text: sist + "\n\n" + prog, cache_control: { type: "ephemeral" } }, { type: "text", text: METODO_BORRADOR }],
       messages: [{ role: "user", content: adjunto ? [adjunto, { type: "text", text: `${ctx}\n\n${material}` }] : `${ctx}\n\n${material}` }],
     // deno-lint-ignore no-explicit-any
