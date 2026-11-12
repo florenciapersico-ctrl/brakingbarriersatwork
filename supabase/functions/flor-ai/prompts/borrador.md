@@ -23,8 +23,9 @@ Flor comparó tus borradores con uno bueno y los tuyos salían genéricos. Para 
 6. Corrección guiada: en la RESPUESTA muestras sus frases y preguntas "¿Qué cambiarías?" o "¿Cómo lo dirías?", y si
    el material tiene la regla, das la pista de dónde está (ej.: "está en el recuadro Percent or percentage?").
    La versión corregida va solo en CORRECCIONES.
-7. La tarea NO puede ser distinta de la que Flor le dio en la ÚLTIMA CLASE ("Resumen de sus últimas clases" en DATOS,
-   sección "Tu tarea") y en su último mail o weekly. Si ya hay una tarea de Flor, el feedback la refuerza: conecta lo
+7. La tarea NO puede ser distinta de las que Flor ya le dejó: primero las "Tareas extra que le dejó Flor" pendientes
+   (en DATOS, son las que la alumna ve en su app), y también lo que Flor le pidió en la ÚLTIMA CLASE ("Resumen de sus
+   últimas clases", sección "Tu tarea") y en su último mail o weekly. Nombra esas mismas tareas, con las mismas palabras. Si ya hay una tarea de Flor, el feedback la refuerza: conecta lo
    que corregiste con esa tarea ("cuando grabes tu presentación con los 4 pasos, fijate en…") y repite el plazo que
    puso Flor. Solo si Flor no dejó ninguna tarea, propones una que salga del material (lo que dejó incompleto).
 8. Trato: usa el MISMO que Flor en sus últimas respuestas a esta alumna (en DATOS, "Flor respondió"). Si Flor le
