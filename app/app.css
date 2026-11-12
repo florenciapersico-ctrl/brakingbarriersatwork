@@ -406,3 +406,11 @@ details.mas-grabar summary{cursor:pointer}
 /* Demo: barra para volver al panel de Flor */
 .demobar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;background:var(--brand);color:var(--on-brand);padding:10px 18px;font-size:.92rem}
 .demobar .btn{background:var(--on-brand);color:var(--brand);border-color:var(--on-brand)}
+/* Asistencia y notas internas de Flor */
+.cnotas{margin-top:12px;border-top:1px dashed var(--line,#e6ddd0);padding-top:10px;display:flex;flex-direction:column;gap:8px}
+.cnotas .hab-sec{margin:0}
+.chip{border:1px solid var(--line,#d9cdbb);background:transparent;border-radius:999px;padding:5px 12px;font:inherit;font-size:.88rem;cursor:pointer;color:inherit}
+.chip.on{background:var(--brand);color:var(--on-brand);border-color:var(--brand)}
+.cn-rec{display:inline-flex;gap:6px;flex-wrap:wrap}
+.cn-rec[hidden]{display:none}
+.cnotas textarea{width:100%;font:inherit;border:1px solid var(--line,#e6ddd0);border-radius:10px;padding:8px 10px;background:#fffdf7}

@@ -1546,7 +1546,7 @@ ${cuerpo}`;
   const hojaDe = (c) => { const m = /(https:\/\/docs\.google\.com\/document\/d\/[\w-]+[^\s"<]*)/.exec(c.descripcion || ''); const a = (c.adjuntos || []).find((x) => !/Recording|Notes by Gemini|Notas de Gemini/i.test(x.titulo || '')); return m ? m[1] : a ? a.url : ''; };
   async function resumenAlumna(a, b, clase) {
     const mail = String(a.email || '').toLowerCase(), lun = DB.lunes();
-    const [tareas, resus] = await Promise.all([a.id ? DB.tareas(a.id).catch(() => []) : [], a.id && DB.resumenes ? DB.resumenes(a.id).catch(() => []) : []]);
+    const [tareas, resus, notas] = await Promise.all([a.id ? DB.tareas(a.id).catch(() => []) : [], a.id && DB.resumenes ? DB.resumenes(a.id).catch(() => []) : [], esFlor() || DB.demo ? DB.notasClase(mail).catch(() => null) : []]);
     const ws = b.W.filter((w) => String(w.email || '').toLowerCase() === mail).sort((x, y) => (x.semana < y.semana ? 1 : -1));
     const wEsta = ws.find((w) => w.semana === lun && (w.enviado_en || Object.keys(w.respuestas || {}).length));
     const ult = ws.find((w) => Object.keys(w.respuestas || {}).length);
@@ -1569,8 +1569,38 @@ ${cuerpo}`;
     ${res ? `<li><b>Última clase</b> <span class="muted small">(${fecha(res.fecha, { weekday: 'short', day: 'numeric', month: 'short' })})</span>: ${esc(corto(res.texto.replace(/^Hola[^\n]*\n/, ''), 200))}</li>` : ''}
     ${fb ? `<li><b>Tu último feedback</b> <span class="muted small">(${esc(fb.de)} · ${fecha(fb.f, { day: 'numeric', month: 'short' })})</span>: ${esc(corto(fb.t.replace(/^Hola[^\n]*\n/, ''), 200))}</li>` : ''}
   </ul>
+  ${notasHTML(mail, clase, notas)}
   ${a.id ? `<div class="row"><a class="small" href="#alumnas/${a.id}">Abrir su ficha</a></div>` : ''}
 </section>`;
+  }
+  // Asistencia y notas internas (solo Flor). Con clase hoy: se marca. Siempre: las últimas notas.
+  function notasHTML(mail, clase, notas) {
+    if (notas == null) return '<p class="note small">Para marcar asistencia y dejar notas falta activar la tabla (Supabase).</p>';
+    const hoyI = diaISO(new Date()), r = (notas || []).find((x) => x.fecha === hoyI) || {};
+    const pasadas = (notas || []).filter((x) => x.fecha !== hoyI && (x.vino != null || x.nota));
+    const est = (x) => (x.vino === true ? '✓ vino' : x.vino === false ? '✗ no vino' + (x.recuperar === 'ofrecida' ? ' · le ofreciste recuperar' : x.recuperar === 'no' ? ' · no se recupera' : '') : '');
+    const b = (campo, val, txt, on) => `<button type="button" class="chip${on ? ' on' : ''}" data-cn="${esc(mail)}" data-campo="${campo}" data-val="${val}" aria-pressed="${!!on}">${txt}</button>`;
+    return `<div class="cnotas" data-mail="${esc(mail)}">
+    ${clase ? `<p class="hab-sec">Clase de hoy · solo para vos</p>
+    <div class="row" style="gap:6px;flex-wrap:wrap">${b('vino', 'true', 'Vino', r.vino === true)}${b('vino', 'false', 'No vino', r.vino === false)}
+      <span class="cn-rec" ${r.vino === false ? '' : 'hidden'}>${b('recuperar', 'ofrecida', 'Le ofrecí recuperar', r.recuperar === 'ofrecida')}${b('recuperar', 'no', 'No se recupera', r.recuperar === 'no')}</span></div>
+    <textarea class="cn-t" rows="2" placeholder="Nota para vos: algo para recordar de la clase…">${esc(r.nota || '')}</textarea>
+    <div class="row"><button type="button" class="btn ghost sm" data-cnsave="${esc(mail)}">Guardar nota</button></div>` : ''}
+    ${pasadas.length ? `<details><summary class="small">Tus notas de clases anteriores (${pasadas.length})</summary><ul class="neg">${pasadas.map((x) => `<li class="small"><b>${fecha(x.fecha, { weekday: 'short', day: 'numeric', month: 'short' })}</b> ${est(x)}${x.nota ? '<br>' + esc(x.nota) : ''}</li>`).join('')}</ul></details>` : ''}
+  </div>`;
+  }
+  function montarNotas() {
+    const hoyI = diaISO(new Date());
+    const leer = (box) => ({ email: box.dataset.mail, fecha: hoyI, vino: (box.querySelector('[data-campo="vino"].on') ? box.querySelector('[data-campo="vino"].on').dataset.val === 'true' : null), recuperar: box.querySelector('[data-campo="recuperar"].on') ? box.querySelector('[data-campo="recuperar"].on').dataset.val : null, nota: (box.querySelector('.cn-t') || {}).value || '' });
+    const guardar = async (box, msg) => { try { await DB.guardarNotaClase(leer(box)); if (msg) toast(msg); } catch (e) { toast('No se guardó. Probá de nuevo.', true); } };
+    $$('.cnotas [data-campo]').forEach((bt) => (bt.onclick = () => {
+      const box = bt.closest('.cnotas'), grupo = box.querySelectorAll(`[data-campo="${bt.dataset.campo}"]`), yaOn = bt.classList.contains('on');
+      grupo.forEach((x) => { x.classList.remove('on'); x.setAttribute('aria-pressed', 'false'); });
+      if (!yaOn) { bt.classList.add('on'); bt.setAttribute('aria-pressed', 'true'); }
+      if (bt.dataset.campo === 'vino') { const rec = box.querySelector('.cn-rec'); if (rec) rec.hidden = !(bt.dataset.val === 'false' && !yaOn); if (rec && rec.hidden) rec.querySelectorAll('.chip').forEach((x) => x.classList.remove('on')); }
+      guardar(box, 'Guardado');
+    }));
+    $$('[data-cnsave]').forEach((bt) => (bt.onclick = () => guardar(bt.closest('.cnotas'), 'Nota guardada')));
   }
 
   V.alumnas = {
@@ -1675,6 +1705,7 @@ ${cuerpo}`;
 </div>`;
     },
     mount(sel) {
+      montarNotas();
       if (window.matchMedia('(max-width:860px)').matches) $('#agrid').style.gridTemplateColumns = '1fr';
       $$('[data-a]').forEach((b) => (b.onclick = () => (location.hash = 'alumnas/' + b.dataset.a)));
       const genPw = () => 'atwork-' + Math.random().toString(36).slice(2, 7);
