@@ -352,3 +352,6 @@ button.who{background:none;border:0;color:inherit;font:inherit;cursor:pointer;pa
 .win{display:flex;gap:10px;align-items:flex-start;padding:12px;border-radius:12px;background:var(--surface-2)}
 .win .av{flex:none;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:var(--accent);color:var(--on-brand);font-weight:700;font-size:14px}
 .win p{margin:4px 0 0;font-size:14px}
+.ejer .ej-frases{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;line-height:1.5}
+.ejer .ej-frases b{color:var(--warn,#e0a96d)}
+.ejer details summary{cursor:pointer;color:var(--muted)}

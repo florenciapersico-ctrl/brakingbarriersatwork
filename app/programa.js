@@ -68,10 +68,10 @@ window.PROGRAMA = {
 
   sugerencias: [
     ['Soy nueva, quiero hacer mi onboarding', 'Tu bienvenida: dónde está todo y tu primera práctica.'],
-    ['¿Qué me toca esta semana?', 'Tu próximo paso según tu foco y tus tareas.'],
+    ['¿Qué me toca esta semana?', 'Dónde estás en tu proceso y tu próximo paso.'],
+    ['Delivery Method: ¿dónde estoy trabada?', 'Con el método de Flor vemos qué te frena y qué practicar.'],
     ['Tengo una reunión pronto y me quiero preparar', 'Encontramos dónde te trabas y qué practicar.'],
-    ['¿Dónde estoy en mi proceso?', 'Tu objetivo, lo que acordaste con Flor y lo que viene.'],
-    ['Ayúdame con mi weekly report', 'Lo ordenamos juntas antes del lunes.'],
-    ['Me fue mal en una reunión', 'Lo miramos con el criterio de Flor y vemos cómo seguir.']
+    ['Me fue mal en una reunión', 'Lo miramos con el criterio de Flor y vemos cómo seguir.'],
+    ['Ayúdame con mi weekly report', 'Lo ordenamos juntas antes del lunes.']
   ]
 };

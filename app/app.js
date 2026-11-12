@@ -361,7 +361,7 @@
   // Saca del texto de Flor las líneas "frase de ella → frase corregida. Explicación" (como en sus mails).
   function separar(texto) {
     const L = String(texto || '').replace(/\r/g, '').split('\n'), quedan = [], corr = [];
-    const esCorr = (l) => /\S\s*(→|->)\s*\S/.test(l) && l.length < 600;
+    const esCorr = (l) => /\S\s*(→|->)\s*\S/.test(l) && (l.match(/→|->/g) || []).length === 1 && /[A-Za-zÁÉÍÓÚáéíóúñ]{3,}/.test(l.split(/→|->/)[0]) && l.length < 600;
     const esTit = (l) => l.trim().length > 2 && l.trim().length < 60 && /[A-ZÁÉÍÓÚÑ]{3}/.test(l) && l.trim() === l.trim().toUpperCase() && !/^ACORDATE/i.test(l.trim());
     for (let i = 0; i < L.length; i++) {
       const l = L[i];
@@ -381,7 +381,7 @@
   // La devolución completa, con el ejercicio. clave = 'pedidos:12' o 'weekly:2026-11-09'.
   // fuente = el texto de la alumna donde están esas frases (su tarea o su weekly), para mandárselo a Narrative Flow.
   function devolucion(texto, corrs, clave, fuente) {
-    let t = texto || '', c = (corrs || []).filter((x) => x && x.mal);
+    let t = texto || '', c = (corrs || []).filter(corrValida);
     if (!c.length) { const s = separar(t); if (s.correcciones.length) { t = s.texto; c = s.correcciones; } }
     return parrafos(t) + (c.length ? ejercicioHTML(c, clave, fuente) : '');
   }
@@ -392,57 +392,51 @@
     if (!w || !w.respuestas) return '';
     return wq(perfil).map(([id, l]) => (w.respuestas[id] ? `${l}: ${w.respuestas[id]}` : '')).filter(Boolean).join('\n\n');
   }
+  // Una corrección sirve si la frase de ella tiene palabras (no "%", ",200,000" ni el mapa "Overall → Revenue → …").
+  const corrValida = (x) => x && x.mal && /[A-Za-zÁÉÍÓÚáéíóúñ]{3,}/.test(x.mal) && x.bien;
+  // La oración completa de ella donde está el error, con el error en negrita (Flor, 12/11: "tiene que estar la frase completa").
+  function fraseCompleta(fuente, mal, html) {
+    const m = String(mal || '').replace(/^["“«]|["”»]$/g, '').trim();
+    const norm = (t) => t.toLowerCase().replace(/[“”«»"]/g, '').replace(/\s+/g, ' ');
+    const ors = String(fuente || '').replace(/\r/g, '').split(/(?<=[.!?])\s+|\n+/).map((o) => o.trim()).filter(Boolean);
+    const o = m.length > 2 && ors.find((x) => norm(x).includes(norm(m)));
+    if (!o) return html ? '<b>' + esc(m) + '</b>' : '**' + m + '**';
+    const i = norm(o).indexOf(norm(m)), raw = o.replace(/\s+/g, ' ');
+    const antes = raw.slice(0, i), err = raw.slice(i, i + m.length), despues = raw.slice(i + m.length);
+    return html ? esc(antes) + '<b>' + esc(err) + '</b>' + esc(despues) : antes + '**' + err + '**' + despues;
+  }
+  // El ejercicio se hace con el coach Narrative Flow (no en la app): acá ve sus frases completas con el error en negrita,
+  // copia todo para Narrative Flow y, cuando terminó, puede mirar las correcciones de Flor.
   function ejercicioHTML(c, clave, fuente) {
+    c = (c || []).filter(corrValida);
+    if (!c.length) return '';
     return `<div class="ejer" data-clave="${esc(clave)}" data-c="${esc(JSON.stringify(c))}" data-f="${esc(fuente || '')}">
   <span class="eyebrow">Tu turno · ${c.length === 1 ? 'encuentra el error' : 'encuentra los errores'}</span>
-  <p class="small muted">${c.length === 1 ? 'Esta frase es tuya' : 'Estas frases son tuyas'}. Escribe cómo la dirías bien y por qué. Cuando termines, mira las respuestas.</p>
-  <div class="tbl"><table><thead><tr><th>#</th><th>Tu frase</th><th>¿Cómo la corriges?</th><th>¿Por qué?</th></tr></thead><tbody>
-  ${c.map((x, i) => `<tr><td>${i + 1}</td><td>${esc(x.mal)}</td><td><textarea rows="2" class="ej-bien" data-i="${i}" aria-label="Tu corrección de la frase ${i + 1}"></textarea></td><td><textarea rows="2" class="ej-pq" data-i="${i}" aria-label="Por qué, frase ${i + 1}"></textarea></td></tr>`).join('')}
-  </tbody></table></div>
-  <div class="row"><button type="button" class="btn sm ej-ver">Ver las respuestas</button><button type="button" class="btn ghost sm ej-ai">Copiar para Narrative Flow</button><span class="muted small ej-ok"></span></div>
-  <div class="ej-resp" hidden><span class="eyebrow">Las respuestas</span>
-  <div class="tbl"><table><thead><tr><th>#</th><th>Tu frase</th><th>Lo que pusiste</th><th>Corrección</th><th>Por qué</th></tr></thead><tbody>
-  ${c.map((x, i) => `<tr><td>${i + 1}</td><td><s>${esc(x.mal)}</s></td><td class="ej-tuyo" data-i="${i}"></td><td><b>${esc(x.bien)}</b></td><td>${esc(x.por_que || '')}</td></tr>`).join('')}
-  </tbody></table></div><p class="small muted">Ahora vuelve a decirlo (o a grabarlo) con la corrección: el segundo intento es el que fija.</p></div>
+  <p class="small muted">${c.length === 1 ? 'Esta frase es tuya' : 'Estas frases son tuyas'}: lo que está en negrita tiene un error. Corrígelo con tu coach Narrative Flow: copia todo, ábrelo en Claude y pégalo. Te guía uno por uno, sin darte la respuesta.</p>
+  <ol class="ej-frases">${c.map((x) => `<li>${fraseCompleta(fuente, x.mal, true)}</li>`).join('')}</ol>
+  <div class="row"><button type="button" class="btn sm ej-ai">Practicar con Narrative Flow</button><span class="muted small ej-ok"></span></div>
+  <details class="ej-resp"><summary class="small">Ver las correcciones de Flor (después de practicar)</summary>
+  <div class="tbl"><table><thead><tr><th>#</th><th>Tu frase</th><th>Corrección</th><th>Por qué</th></tr></thead><tbody>
+  ${c.map((x, i) => `<tr><td>${i + 1}</td><td><s>${esc(x.mal)}</s></td><td><b>${esc(x.bien)}</b></td><td>${esc(x.por_que || '')}</td></tr>`).join('')}
+  </tbody></table></div><p class="small muted">Ahora vuelve a decirlo (o a grabarlo) con la corrección: el segundo intento es el que fija.</p></details>
 </div>`;
   }
   async function montarEjercicios(root) {
     for (const el of $$('.ejer', root)) {
-      const clave = el.dataset.clave, c = JSON.parse(el.dataset.c || '[]');
-      const leer = () => c.map((_, i) => ({ bien: $(`.ej-bien[data-i="${i}"]`, el).value.trim(), por_que: $(`.ej-pq[data-i="${i}"]`, el).value.trim() }));
-      const revelar = () => {
-        const r = leer(); $('.ej-resp', el).hidden = false; $('.ej-ver', el).textContent = 'Respuestas abajo ↓';
-        $$('.ej-tuyo', el).forEach((td) => { const x = r[+td.dataset.i]; td.innerHTML = x.bien ? esc(x.bien) + (x.por_que ? '<br><span class="muted small">' + esc(x.por_que) + '</span>' : '') : '<span class="muted small">(sin intento)</span>'; });
-      };
-      const propio = !st.admin || DB.demo;
-      if (propio && clave) {
-        const g = await DB.intento(clave).catch(() => null);
-        if (g) { (g.respuestas || []).forEach((x, i) => { const b = $(`.ej-bien[data-i="${i}"]`, el), p = $(`.ej-pq[data-i="${i}"]`, el); if (b) b.value = x.bien || ''; if (p) p.value = x.por_que || ''; }); if (g.revelado) revelar(); }
-      }
-      let tm;
-      el.addEventListener('input', () => { if (!propio || !clave) return; clearTimeout(tm); tm = setTimeout(() => DB.guardarIntento(clave, leer(), !$('.ej-resp', el).hidden).then(() => { $('.ej-ok', el).textContent = 'Guardado'; }).catch(() => {}), 800); });
-      $('.ej-ver', el).onclick = () => {
-        const r = leer();
-        if (!r.some((x) => x.bien) && !confirm('Todavía no escribiste ningún intento. ¿Quieres ver las respuestas igual? Lo que más te sirve es intentarlo primero.')) return;
-        revelar(); if (propio && clave) DB.guardarIntento(clave, r, true).catch(() => {});
-      };
+      const c = JSON.parse(el.dataset.c || '[]');
       $('.ej-ai', el).onclick = () => {
-        const r = leer();
-        if (!r.some((x) => x.bien)) return toast('Primero escribe tu corrección en la tabla.', true);
-        // Pedido de Flor (12/11): a Narrative Flow le va el PÁRRAFO de la alumna donde están los errores + la tabla de Flor con
-        // sus intentos, para que el coach siga el ejercicio con su criterio (no un "corregime esto").
         const celda = (t) => String(t || '').replace(/\|/g, '/').replace(/\s+/g, ' ').trim();
         const limpio = (t) => String(t || '').replace(/[*_"“”«»]/g, '').replace(/\s+/g, ' ').trim().toLowerCase();
         const fuente = el.dataset.f || '';
         const parrs = fuente.split(/\n{2,}/).map((p) => p.trim()).filter(Boolean);
-        const usados = parrs.filter((p) => c.some((x) => { const m = limpio(x.mal).replace(/\s*\(.*\)$/, ''); return m.length > 3 && limpio(p).includes(m.slice(0, 40)); }));
+        const usados = parrs.filter((p) => c.some((x) => { const m = limpio(x.mal); return m.length > 3 && limpio(p).includes(m.slice(0, 40)); }));
         const texto = (usados.length ? usados : parrs).join('\n\n').slice(0, 6000);
-        const tabla = '| # | Mi frase | Mi corrección | ¿Por qué? |\n|---|---|---|---|\n' + c.map((x, i) => `| ${i + 1} | ${celda(x.mal)} | ${celda(r[i].bien) || 'no sé'} | ${celda(r[i].por_que) || 'no sé'} |`).join('\n');
-        const txt = 'Narrative Flow: te paso un texto mío en el que Flor me marcó algunos errores para que los encuentre yo. ' +
-          'Abajo tienes el texto completo y la tabla con las frases que eligió Flor y lo que intenté corregir. ' +
-          'Sigue el ejercicio con tu método: dime qué encontré bien y en qué me equivoqué, sin darme todavía la respuesta, y guíame para que lo intente de nuevo. ' +
-          'Si en mi texto ves uno o dos errores más que valga la pena trabajar, súmalos a la tabla.\n\n' +
-          (texto ? 'MI TEXTO:\n' + texto + '\n\n' : '') + 'LOS ERRORES QUE ELIGIÓ FLOR, CON MIS INTENTOS:\n' + tabla;
+        const tabla = '| # | Mi frase (el error está en negrita) | ¿Cómo la corrijo? | ¿Por qué? |\n|---|---|---|---|\n' + c.map((x, i) => `| ${i + 1} | ${celda(fraseCompleta(fuente, x.mal, false))} |  |  |`).join('\n');
+        const txt = 'Narrative Flow: Flor me marcó estos errores en un texto mío para que los encuentre y los corrija yo. ' +
+          'Abajo tienes mi texto completo y una tabla con mis frases completas: lo que está en negrita es el error que eligió Flor. ' +
+          'Hagamos el ejercicio con tu método: de a una frase, yo escribo cómo la corrijo y por qué, y tú me dices si está bien, sin darme la respuesta antes de que lo intente. ' +
+          'Si en mi texto ves uno o dos errores más que valga la pena trabajar, súmalos al final de la tabla.\n\n' +
+          (texto ? 'MI TEXTO:\n' + texto + '\n\n' : '') + 'MIS FRASES CON LOS ERRORES QUE ELIGIÓ FLOR:\n' + tabla;
         (navigator.clipboard ? navigator.clipboard.writeText(txt) : Promise.reject()).then(() => toast('Copiado. Abre Claude, elige tu coach Narrative Flow y pégalo.'), () => { prompt('Copia este texto y pégalo en tu coach Narrative Flow:', txt); });
       };
     }
