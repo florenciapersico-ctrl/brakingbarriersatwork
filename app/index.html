@@ -25,6 +25,13 @@
 <script src="camino.js?v=16"></script>
 <script src="datos.js?v=22"></script>
 <script src="app.js?v=24"></script>
-<script>if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});</script>
+<script>
+// Cuando se publica una versión nueva, la app se actualiza sola (sin que la alumna tenga que borrar nada).
+if ('serviceWorker' in navigator) {
+  const habia = !!navigator.serviceWorker.controller; let recargo = false;
+  navigator.serviceWorker.addEventListener('controllerchange', () => { if (habia && !recargo) { recargo = true; location.reload(); } });
+  navigator.serviceWorker.register('sw.js').then((r) => { setInterval(() => r.update().catch(() => {}), 5 * 60 * 1000); document.addEventListener('visibilitychange', () => { if (!document.hidden) r.update().catch(() => {}); }); }).catch(() => {});
+}
+</script>
 </body>
 </html>
