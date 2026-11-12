@@ -436,8 +436,11 @@
         const usados = parrs.filter((p) => c.some((x) => { const m = limpio(x.mal).replace(/\s*\(.*\)$/, ''); return m.length > 3 && limpio(p).includes(m.slice(0, 40)); }));
         const texto = (usados.length ? usados : parrs).join('\n\n').slice(0, 6000);
         const tabla = '| # | Mi frase | Mi corrección | ¿Por qué? |\n|---|---|---|---|\n' + c.map((x, i) => `| ${i + 1} | ${celda(x.mal)} | ${celda(r[i].bien) || 'no sé'} | ${celda(r[i].por_que) || 'no sé'} |`).join('\n');
-        const txt = 'Narrative Flow: Flor me marcó estas frases para que encuentre yo el error. Te paso el texto mío donde aparecen y la tabla con lo que intenté. Sigue el ejercicio con tu método: dime qué encontré bien y en qué me equivoqué, sin darme todavía la respuesta, y guíame para que lo intente de nuevo.\n\n' +
-          (texto ? 'MI TEXTO:\n' + texto + '\n\n' : '') + 'LA TABLA DE FLOR, CON MIS INTENTOS:\n' + tabla;
+        const txt = 'Narrative Flow: te paso un texto mío en el que Flor me marcó algunos errores para que los encuentre yo. ' +
+          'Abajo tienes el texto completo y la tabla con las frases que eligió Flor y lo que intenté corregir. ' +
+          'Sigue el ejercicio con tu método: dime qué encontré bien y en qué me equivoqué, sin darme todavía la respuesta, y guíame para que lo intente de nuevo. ' +
+          'Si en mi texto ves uno o dos errores más que valga la pena trabajar, súmalos a la tabla.\n\n' +
+          (texto ? 'MI TEXTO:\n' + texto + '\n\n' : '') + 'LOS ERRORES QUE ELIGIÓ FLOR, CON MIS INTENTOS:\n' + tabla;
         (navigator.clipboard ? navigator.clipboard.writeText(txt) : Promise.reject()).then(() => toast('Copiado. Abre Claude, elige tu coach Narrative Flow y pégalo.'), () => { prompt('Copia este texto y pégalo en tu coach Narrative Flow:', txt); });
       };
     }
