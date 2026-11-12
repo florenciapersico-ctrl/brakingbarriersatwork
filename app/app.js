@@ -379,13 +379,19 @@
   }
   const parrafos = (t) => esc(t).split(/\n{2,}/).map((p) => '<p>' + p.replace(/\n/g, '<br>') + '</p>').join('');
   // La devolución completa, con el ejercicio. clave = 'pedidos:12' o 'weekly:2026-11-09'.
-  function devolucion(texto, corrs, clave) {
+  // fuente = el texto de la alumna donde están esas frases (su tarea o su weekly), para mandárselo a Narrative Flow.
+  function devolucion(texto, corrs, clave, fuente) {
     let t = texto || '', c = (corrs || []).filter((x) => x && x.mal);
     if (!c.length) { const s = separar(t); if (s.correcciones.length) { t = s.texto; c = s.correcciones; } }
-    return parrafos(t) + (c.length ? ejercicioHTML(c, clave) : '');
+    return parrafos(t) + (c.length ? ejercicioHTML(c, clave, fuente) : '');
   }
-  function ejercicioHTML(c, clave) {
-    return `<div class="ejer" data-clave="${esc(clave)}" data-c="${esc(JSON.stringify(c))}">
+  // El weekly como texto, con el nombre de cada parte (para Narrative Flow).
+  function weeklyTexto(perfil, w) {
+    if (!w || !w.respuestas) return '';
+    return wq(perfil).map(([id, l]) => (w.respuestas[id] ? `${l}: ${w.respuestas[id]}` : '')).filter(Boolean).join('\n\n');
+  }
+  function ejercicioHTML(c, clave, fuente) {
+    return `<div class="ejer" data-clave="${esc(clave)}" data-c="${esc(JSON.stringify(c))}" data-f="${esc(fuente || '')}">
   <span class="eyebrow">Tu turno · ${c.length === 1 ? 'encuentra el error' : 'encuentra los errores'}</span>
   <p class="small muted">${c.length === 1 ? 'Esta frase es tuya' : 'Estas frases son tuyas'}. Escribe cómo la dirías bien y por qué. Cuando termines, mira las respuestas.</p>
   <div class="tbl"><table><thead><tr><th>#</th><th>Tu frase</th><th>¿Cómo la corriges?</th><th>¿Por qué?</th></tr></thead><tbody>
@@ -421,8 +427,17 @@
       $('.ej-ai', el).onclick = () => {
         const r = leer();
         if (!r.some((x) => x.bien)) return toast('Primero escribe tu corrección en la tabla.', true);
-        const filas = c.map((x, i) => `${i + 1}. Mi frase: "${x.mal}"\n   Mi corrección: ${r[i].bien || '(no sé)'}\n   Por qué: ${r[i].por_que || '(no sé)'}`).join('\n');
-        const txt = 'Narrative Flow: hice la tabla de corrección de mi feedback de Flor. ¿Me dices qué encontré bien y en qué me equivoqué, sin darme todavía la respuesta, para que lo intente de nuevo?\n\n' + filas;
+        // Pedido de Flor (12/11): a Narrative Flow le va el PÁRRAFO de la alumna donde están los errores + la tabla de Flor con
+        // sus intentos, para que el coach siga el ejercicio con su criterio (no un "corregime esto").
+        const celda = (t) => String(t || '').replace(/\|/g, '/').replace(/\s+/g, ' ').trim();
+        const limpio = (t) => String(t || '').replace(/[*_"“”«»]/g, '').replace(/\s+/g, ' ').trim().toLowerCase();
+        const fuente = el.dataset.f || '';
+        const parrs = fuente.split(/\n{2,}/).map((p) => p.trim()).filter(Boolean);
+        const usados = parrs.filter((p) => c.some((x) => { const m = limpio(x.mal).replace(/\s*\(.*\)$/, ''); return m.length > 3 && limpio(p).includes(m.slice(0, 40)); }));
+        const texto = (usados.length ? usados : parrs).join('\n\n').slice(0, 6000);
+        const tabla = '| # | Mi frase | Mi corrección | ¿Por qué? |\n|---|---|---|---|\n' + c.map((x, i) => `| ${i + 1} | ${celda(x.mal)} | ${celda(r[i].bien) || 'no sé'} | ${celda(r[i].por_que) || 'no sé'} |`).join('\n');
+        const txt = 'Narrative Flow: Flor me marcó estas frases para que encuentre yo el error. Te paso el texto mío donde aparecen y la tabla con lo que intenté. Sigue el ejercicio con tu método: dime qué encontré bien y en qué me equivoqué, sin darme todavía la respuesta, y guíame para que lo intente de nuevo.\n\n' +
+          (texto ? 'MI TEXTO:\n' + texto + '\n\n' : '') + 'LA TABLA DE FLOR, CON MIS INTENTOS:\n' + tabla;
         (navigator.clipboard ? navigator.clipboard.writeText(txt) : Promise.reject()).then(() => toast('Copiado. Abre Claude, elige tu coach Narrative Flow y pégalo.'), () => { prompt('Copia este texto y pégalo en tu coach Narrative Flow:', txt); });
       };
     }
@@ -519,7 +534,7 @@ ${resumenes.length ? `<section class="card">
 </section>` : ''}
 ${fb ? `<section class="card">
   <div class="row between"><h3>Último feedback de Flor</h3><span class="muted small">Sobre: ${esc(fb.titulo || fb.tipo)}</span></div>
-  <div class="feedback">${devolucion(fb.respuesta, fb.correcciones, 'pedidos:' + fb.id)}</div>
+  <div class="feedback">${devolucion(fb.respuesta, fb.correcciones, 'pedidos:' + fb.id, fb.texto)}</div>
   <a href="#feedback" class="small">Ver todos tus feedbacks</a>
 </section>` : ''}
 <section class="card"><div class="row between"><h3>Tu recorrido</h3><a class="small" href="#camino">Ver detalle</a></div>${etapasHTML(n, p)}</section>
@@ -690,7 +705,7 @@ ${fb ? `<section class="card">
     <details><summary class="small">Lo que mandaste</summary>${x.texto ? `<pre>${esc(x.texto)}</pre>` : ''}${adjunto(x)}${url(x.link) ? ` <a class="small" href="${esc(x.link)}" target="_blank" rel="noopener">Abrir link</a>` : ''}</details>
     ${x.estado !== 'respondido' ? `<div class="row"><button type="button" class="linkbtn small" data-ped-edit="${x.id}">Editar</button><button type="button" class="linkbtn small" data-ped-del="${x.id}">Borrar</button></div>
     <form class="ped-ed grid" data-ped-form="${x.id}" hidden><div class="field"><label>Título</label><input type="text" class="pe-tit" value="${esc(x.titulo || '')}"></div><div class="field"><label>Tu texto</label><textarea class="pe-txt" rows="5">${esc(x.texto || '')}</textarea></div><div class="row"><button class="btn sm" type="submit">Guardar cambios</button><button class="linkbtn small pe-cancel" type="button">Cancelar</button></div></form>` : ''}
-    ${x.respuesta ? `<div class="reply" data-tit="${esc(x.titulo || '')}"><span class="eyebrow">Flor · ${fecha(x.respondido_en)}</span>${devolucion(x.respuesta, x.correcciones, 'pedidos:' + x.id)}</div>` : ''}
+    ${x.respuesta ? `<div class="reply" data-tit="${esc(x.titulo || '')}"><span class="eyebrow">Flor · ${fecha(x.respondido_en)}</span>${devolucion(x.respuesta, x.correcciones, 'pedidos:' + x.id, x.texto)}</div>` : ''}
   </div>`).join('') : '<p class="muted small">Todavía no mandaste nada. Empieza por tu audio de punto de partida.</p>'}
 </section>`;
     },
@@ -743,7 +758,7 @@ ${fb ? `<section class="card">
       const hist = ws.filter((x) => x.semana !== sem && x.enviado_en);
       return `<div class="head"><div><span class="eyebrow">Todos los lunes · semana del ${fecha(sem, { day: 'numeric', month: 'long' })}</span><h1>Weekly report</h1></div>${w.enviado_en ? '<span class="pill ok">Enviado</span>' : ''}</div>
 <p class="muted intro">Es tu canal con Flor. Planificas tu semana, cuentas qué hiciste y qué quieres entrenar. Flor lo lee siempre y te responde con tu próximo paso.</p>
-${w.respuesta_flor ? `<section class="card"><div class="reply"><span class="eyebrow">Respuesta de Flor</span>${devolucion(w.respuesta_flor, null, 'weekly:' + w.semana)}</div></section>` : ''}
+${w.respuesta_flor ? `<section class="card"><div class="reply"><span class="eyebrow">Respuesta de Flor</span>${devolucion(w.respuesta_flor, null, 'weekly:' + w.semana, weeklyTexto(st.perfil, w))}</div></section>` : ''}
 <form class="card" id="wform" novalidate>
   <p class="eyebrow">Weekly report ${st.perfil.formato === '1:1' ? '1:1' : 'LAB'} · Complete every Monday · 5–10 minutes</p>
   <p class="muted small">${esc(P.weeklyIntro)}</p>
@@ -754,7 +769,7 @@ ${w.respuesta_flor ? `<section class="card"><div class="reply"><span class="eyeb
 </form>
 ${hist.length ? `<section class="card"><h3>Tus weeklies anteriores</h3>${hist.map((x) => `<details class="fbitem"><summary><b>Semana del ${fecha(x.semana, { day: 'numeric', month: 'long' })}</b> ${x.respuesta_flor ? '<span class="pill ok">Flor respondió</span>' : ''}</summary>
   ${wq(st.perfil).map(([id, l]) => (x.respuestas[id] ? `<p class="small"><b>${l}</b><br>${esc(x.respuestas[id])}</p>` : '')).join('')}
-  ${x.respuesta_flor ? `<div class="reply"><span class="eyebrow">Flor</span>${devolucion(x.respuesta_flor, null, 'weekly:' + x.semana)}</div>` : ''}</details>`).join('')}</section>` : ''}`;
+  ${x.respuesta_flor ? `<div class="reply"><span class="eyebrow">Flor</span>${devolucion(x.respuesta_flor, null, 'weekly:' + x.semana, weeklyTexto(st.perfil, x))}</div>` : ''}</details>`).join('')}</section>` : ''}`;
     },
     mount() {
       const f = $('#wform'); if (!f || $('textarea[readonly]', f)) return;
