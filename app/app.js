@@ -232,7 +232,9 @@
       (i.weeklies || []).forEach((x) => W.push({ src: 'imp', email: i.email, nombre: i.nombre, perfil, semana: x.semana, respuestas: x.respuestas || {}, enviado_en: x.enviado_en, respuesta_flor: x.respuesta_flor || null, respondido_en: x.respondido_en }));
       ((i.datos || {}).pedidos || []).forEach((x) => T.push({ ...x, src: 'imp', email: i.email, nombre: i.nombre, perfil, estado: x.respuesta ? 'respondido' : 'pendiente' }));
     });
-    const sinResp = W.filter((w) => !w.respuesta_flor && (w.enviado_en || !vacio(w.respuestas)));
+    // Solo los weeklies de esta semana y, a lo sumo, de la semana pasada (Flor, 13/11): lo más viejo ya prescribió.
+    const desdeW = (() => { const d = new Date(DB.lunes() + 'T12:00:00'); d.setDate(d.getDate() - 7); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); })();
+    const sinResp = W.filter((w) => !w.respuesta_flor && (w.enviado_en || !vacio(w.respuestas)) && String(w.semana || '') >= desdeW);
     const resp = W.filter((w) => w.respuesta_flor);
     const orden = (a, b) => (a.semana < b.semana ? 1 : a.semana > b.semana ? -1 : String(a.nombre).localeCompare(String(b.nombre)));
     sinResp.sort(orden); resp.sort(orden);
