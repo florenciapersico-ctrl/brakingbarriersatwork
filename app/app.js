@@ -250,11 +250,15 @@
     const resp = W.filter((w) => w.respuesta_flor);
     const orden = (a, b) => (a.semana < b.semana ? 1 : a.semana > b.semana ? -1 : String(a.nombre).localeCompare(String(b.nombre)));
     sinResp.sort(orden); resp.sort(orden);
-    const pend = T.filter((x) => x.estado === 'pendiente').sort((a, b) => (a.creado < b.creado ? 1 : -1));
+    // Solo lo que mandaron en los últimos 10 días (Flor, 13/11: "no le puedo mandar feedback de algo que subió hace mil
+    // años"). Lo más viejo queda aparte, para borrarlo sin mandar nada.
+    const corte = new Date(Date.now() - 10 * 864e5).toISOString();
+    const pendT = T.filter((x) => x.estado === 'pendiente').sort((a, b) => (a.creado < b.creado ? 1 : -1));
+    const pend = pendT.filter((x) => String(x.creado || '') >= corte), viejos = pendT.filter((x) => String(x.creado || '') < corte);
     const tResp = T.filter((x) => x.estado === 'respondido').sort((a, b) => ((a.respondido_en || a.creado) < (b.respondido_en || b.creado) ? 1 : -1));
     const activas = al.filter((x) => x.rol !== 'admin' && x.activa !== false).map((x) => ({ nombre: x.nombre || x.email, email: (x.email || '').toLowerCase(), perfil: x }))
       .concat(imp.filter((i) => !mails.has(String(i.email).toLowerCase())).map((i) => ({ nombre: i.nombre, email: String(i.email).toLowerCase(), perfil: { ...(i.datos || {}), nombre: i.nombre } })));
-    return { sinResp, resp, pend, tResp, W, T, activas, imp, al };
+    return { sinResp, resp, pend, viejos, tResp, W, T, activas, imp, al };
   }
   // "Esta semana", "Semana pasada", "Semana del 26 de octubre"
   function nombreSemana(lun) {
@@ -1469,6 +1473,8 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
         <div class="row"><button class="btn sendi" type="button">Armar borrador en Gmail</button></div>
       </div>`).join(''))).join('') : '<section class="card"><p class="muted">No hay pedidos pendientes. 🎉</p></section>';
       }
+      if (tab === 'pedidos' && b.viejos && b.viejos.length) cuerpo += `<details class="card viejos"><summary><b>${b.viejos.length} ${b.viejos.length === 1 ? 'pedido viejo' : 'pedidos viejos'}</b> <span class="muted small">· de hace más de 10 días: no se les manda feedback ahora. Borralos si ya los trabajaron.</span></summary>
+          ${b.viejos.map((x) => `<div class="editrow" data-vid="${x.src === 'app' ? x.id : ''}"><span>${esc(x.nombre)} · ${esc(x.titulo || tipoNombre(x.tipo))}<br><span class="muted small">Lo mandó el ${fecha(x.creado, { day: 'numeric', month: 'long' })}</span></span>${x.src === 'app' ? '<button type="button" class="btn ghost sm viejo-borrar">Borrar sin mandar nada</button>' : ''}</div>`).join('')}</details>`;
       if (tab === 'weeklies') {
         cuerpo = b.sinResp.length ? porSemana(b.sinResp, (x) => x.semana).map((g) => grupo(nombreSemana(g.s), `<span class="pill warn">${g.items.length} sin responder</span>`, g.items.map((x) => `<div class="fbitem" ${x.src === 'app' ? `data-wid="${x.id}" data-aid="${x.aid}"` : `data-wimp="${esc(x.email)}"`} data-sem="${esc(x.semana)}" data-mail="${esc(String(x.email || '').toLowerCase())}">
         <div class="row between"><b>${esc(x.nombre)}</b><span class="muted small">${x.enviado_en ? 'Enviado ' + fecha(x.enviado_en, { weekday: 'short', day: 'numeric', month: 'short' }) : 'En su Google Doc'}${x.src === 'imp' ? ' · todavía sin cuenta' : ''}</span></div>
@@ -1509,6 +1515,7 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
 ${cuerpo}`;
     },
     async mount() {
+      $$('.viejo-borrar').forEach((bt) => (bt.onclick = async () => { const row = bt.closest('[data-vid]'); await intentar(() => DB.borrarPedido(+row.dataset.vid), 'Borrado'); row.remove(); }));
       $$('[data-tab]').forEach((b) => (b.onclick = () => (location.hash = 'bandeja/' + b.dataset.tab)));
       const filaCorr = (box, mal = '', bien = '', pq = '') => {
         box.insertAdjacentHTML('beforeend', `<div class="corr"><input type="text" class="mal" placeholder="Lo que dijo" value="${esc(mal)}"><input type="text" class="bien" placeholder="Cómo se dice" value="${esc(bien)}"><input type="text" class="pq" placeholder="Por qué (corto)" value="${esc(pq)}"><button type="button" class="linkbtn small quitar">Quitar</button></div>`);
