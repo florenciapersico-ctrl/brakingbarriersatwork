@@ -51,6 +51,7 @@
       },
       async urlArchivo(path) { if (/^https?:\/\//.test(path || '')) return path; const d = ok(await sb.storage.from('atwork').createSignedUrl(path, 3600)); return d.signedUrl; },
       async documentos(a = uid) { return ok(await sb.from('documentos').select('*').eq('alumna_id', a).order('creado', { ascending: false })); },
+      async agregarDocumento(tipo, nombre, path, a = uid) { ok(await sb.from('documentos').insert({ alumna_id: a, tipo, nombre, path })); },
       async subirDocumento(a, file, tipo, nombre) {
         const path = await this.subirArchivo(file, 'documentos', a);
         const d = ok(await sb.from('documentos').insert({ alumna_id: a, tipo, nombre: nombre || file.name, path }).select().single());
@@ -231,6 +232,7 @@
       async subirArchivo(file, carpeta, a = yo()) { await espera(200); return a + '/' + carpeta + '/' + file.name; },
       async urlArchivo() { return '#'; },
       async documentos(a = yo()) { return copia((S.documentos || []).filter((d) => d.alumna_id === a)); },
+      async agregarDocumento(tipo, nombre, path, a = yo()) { (S.documentos = S.documentos || []).unshift({ id: id(), alumna_id: a, tipo, nombre, path, creado: new Date().toISOString() }); save(); },
       async subirDocumento(a, file, tipo, nombre) { (S.documentos = S.documentos || []).unshift({ id: id(), alumna_id: a, tipo, nombre: nombre || file.name, path: a + '/documentos/' + file.name, creado: new Date().toISOString() }); save(); },
       async borrarDocumento(d) { S.documentos = (S.documentos || []).filter((x) => x.id !== d.id); save(); },
       async tareas(a = yo()) { return copia(S.tareas.filter((t) => t.alumna_id === a).sort((x, y) => x.orden - y.orden)); },

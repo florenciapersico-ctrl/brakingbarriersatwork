@@ -88,7 +88,7 @@ window.PROGRAMA = {
     ['Soy nueva, quiero hacer mi onboarding', 'Tu bienvenida: dónde está todo y tu primera práctica.'],
     ['¿Qué me toca esta semana?', 'Dónde estás en tu proceso y tu próximo paso.'],
     ['Delivery Method: ¿dónde estoy trabada?', 'Con el método de Flor vemos qué te frena y qué practicar.'],
-    ['Tengo una reunión pronto y me quiero preparar', 'Encontramos dónde te trabas y qué practicar.'],
+    ['Revisa mi tarea y dame un primer feedback: ', 'Pega tu tarea o tu playbook y recibe un primer feedback.'],
     ['Me fue mal en una reunión', 'Lo miramos con el criterio de Flor y vemos cómo seguir.'],
     ['Ayúdame con mi weekly report', 'Lo ordenamos juntas antes del lunes.']
   ]

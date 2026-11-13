@@ -74,7 +74,7 @@
   const GRUPOS = [
     ['Tu programa', [['semana', 'Mi semana'], ['camino', 'Mi camino'], ['empieza', 'Empieza acá']]],
     ['Con Flor', [['flor', 'Flor AI'], ['feedback', 'Pedir feedback'], ['weekly', 'Weekly report'], ['wins', 'Wins de todas']]],
-    ['Tu práctica', [['coaches', 'Mis coaches'], ['proceso', 'Mi proceso'], ['progreso', 'Mi progreso']]]
+    ['Tu práctica', [['coaches', 'Mis coaches'], ['progreso', 'Mi progreso']]]
   ];
   const VISTAS = GRUPOS.flatMap((g) => g[1]);
   const TITULOS = Object.fromEntries(VISTAS.concat([['bandeja', 'Bandeja'], ['alumnas', 'Alumnas'], ['ajustes', 'Programa'], ['inicio', 'Inicio']]));
@@ -275,6 +275,7 @@
     const app = $('#app');
     app.innerHTML = '<div class="view"><p class="muted">Cargando…</p></div>';
     try {
+      if ((vista === 'camino' || vista === 'semana') && !st.admin) await cargarEntregas();
       const html = await V[vista].html(...args);
       app.innerHTML = '<div class="view">' + html + '</div>';
       if (V[vista].mount) await V[vista].mount(...args);
@@ -319,12 +320,61 @@
     if (/clase/.test(t.tipo) && !t.pronto) { const l = url(t.link) || url(links().plataforma); return l ? `<a class="linkbtn small" href="${esc(l)}" target="_blank" rel="noopener">Ver clase</a>` : ''; }
     return '';
   }
+  // Entregas desde Mi camino (Flor, 13/11): al lado de cada clase la alumna sube su playbook o su tarea;
+  // le llega a Flor como pedido de feedback (origen 'camino:<id>') y la tarea queda hecha.
+  function entregaDe(t) {
+    if (t.ir === '#weekly' || t.onb) return null;
+    if (t.id === '1.2') return { label: 'Subir mi acuerdo firmado', tipo: 'tarea', doc: 'acuerdo' };
+    if (t.id === '1.3' || t.id === '19.1') return { label: 'Subir mi Starting Point', tipo: 'audio', doc: 'starting' };
+    if (/clase|playbook|worksheet/.test(t.tipo)) return { label: 'Subir mi playbook', tipo: 'playbook' };
+    if (/evidencia|practica|material/.test(t.tipo)) return { label: 'Subir mi tarea', tipo: 'tarea' };
+    return null;
+  }
   function filaTarea(t, hechas) {
     const tags = t.tipo.split(' ').map((x) => TAG[x] || x).join(' + ');
-    return `<li><label><input type="checkbox" data-cam="${t.id}" ${hechas.includes(t.id) ? 'checked' : ''}><div><div class="t">${esc(txtT(t))}</div>
-      <div class="where">${tags} · ${esc(t.donde)} ${t.pronto ? '<span class="pill warn">En grabación · se publica pronto</span>' : ''} ${accionTarea(t)}</div></div></label></li>`;
+    const ent = entregaDe(t), hecha = hechas.includes(t.id);
+    const x = (st._entregas || {})[t.id];
+    const estado = x ? (x.respuesta ? `<span class="pill ok">Entregado ✓</span> <a class="linkbtn small" href="#feedback">Ver el feedback de Flor</a>` : '<span class="pill ok">Entregado ✓</span> <span class="muted small">Esperando a Flor</span>') : '';
+    const subir = !ent || x || st.admin ? '' : `<button type="button" class="btn ghost sm" data-subir="${t.id}">${ent.label}</button>
+      <form class="entrega" data-ent="${t.id}" hidden><input type="file" class="e-file" accept="audio/*,video/*,.pdf,image/*,.doc,.docx,.ppt,.pptx">
+        <input type="url" class="e-link" placeholder="…o pega un link (Drive, Google Docs)"><textarea class="e-txt" rows="2" placeholder="¿Algo que quieras contarle a Flor? (opcional)"></textarea>
+        <div class="row"><button class="btn sm" type="submit">Entregar</button><button type="button" class="linkbtn small e-x">Cancelar</button></div></form>`;
+    const sinEnt = !ent && !hecha && !t.ir && !t.reservar && !t.comunidad ? '<span class="muted small">Sin playbook para esta sesión: márcala tú cuando la termines.</span>' : '';
+    return `<li><label><input type="checkbox" data-cam="${t.id}" ${hecha ? 'checked' : ''}><div><div class="t">${esc(txtT(t))}</div>
+      <div class="where">${tags} · ${esc(t.donde)} ${t.pronto ? '<span class="pill warn">En grabación · se publica pronto</span>' : ''} ${accionTarea(t)} ${sinEnt}</div></div></label>
+      ${estado || subir ? `<div class="ent-row">${estado}${subir}</div>` : ''}</li>`;
+  }
+  async function cargarEntregas() {
+    try { const ped = await DB.pedidos(); const m = {}; ped.forEach((x) => { const k = /^camino:(.+)$/.exec(x.origen || ''); if (k && !m[k[1]]) m[k[1]] = x; }); st._entregas = m; } catch (e) { st._entregas = {}; }
   }
   function montarCamino(root) {
+    if (root._camino) return; root._camino = true; // #app no cambia entre vistas: los listeners se agregan una sola vez
+    root.addEventListener('click', (e) => {
+      const b = e.target.closest('[data-subir]');
+      if (b) { e.preventDefault(); const f = $(`form[data-ent="${b.dataset.subir}"]`, root); b.hidden = true; f.hidden = false; return; }
+      const x = e.target.closest('.e-x');
+      if (x) { e.preventDefault(); const f = x.closest('form'); f.hidden = true; const bb = $(`[data-subir="${f.dataset.ent}"]`, root); if (bb) bb.hidden = false; }
+    });
+    root.addEventListener('submit', async (e) => {
+      const f = e.target.closest('form.entrega'); if (!f) return;
+      e.preventDefault();
+      const id = f.dataset.ent, t = todasTareas().find((y) => y.id === id); if (!t) return;
+      const ent = entregaDe(t) || { tipo: 'tarea' };
+      const file = $('.e-file', f).files[0], link = $('.e-link', f).value.trim(), texto = $('.e-txt', f).value.trim();
+      if (!file && !link) return toast('Sube tu archivo o pega el link.', true);
+      if (link && !url(link)) return toast('El link tiene que empezar con https://', true);
+      if (file && file.size > 50 * 1024 * 1024) return toast('El archivo pesa más de 50 MB: pega un link de Drive.', true);
+      const b = $('button[type=submit]', f); b.disabled = true; b.textContent = file ? 'Subiendo…' : 'Enviando…';
+      try {
+        const archivo = file ? await intentar(() => DB.subirArchivo(file, 'pedidos')) : '';
+        await intentar(() => DB.crearPedido({ tipo: ent.tipo, titulo: (ent.tipo === 'playbook' ? 'Playbook · ' : '') + txtT(t), texto, link, archivo, archivo_nombre: file ? file.name : '', origen: 'camino:' + id }));
+        if (ent.doc) await DB.agregarDocumento(ent.doc, ent.doc === 'acuerdo' ? 'Acuerdo de Trabajo firmado' : 'Mi Starting Point', archivo || link).catch(() => {});
+        const set = new Set(st.perfil.camino_hecho || []); set.add(id); st.perfil.camino_hecho = [...set];
+        await DB.guardarMiPerfil({ camino_hecho: st.perfil.camino_hecho }).catch(() => {});
+        toast('Listo: le llegó a Flor y la tarea quedó hecha ✓');
+        ruta();
+      } catch (er) { b.disabled = false; b.textContent = 'Entregar'; }
+    });
     root.addEventListener('change', (e) => {
       const i = e.target; if (!i.dataset || !i.dataset.cam) return;
       const set = new Set(st.perfil.camino_hecho || []);
@@ -698,13 +748,13 @@ ${fb ? `<section class="card">
   };
 
   // ---------- Pedir feedback ----------
-  const TIPOS = [['audio', 'Audio o video'], ['reunion', 'Reunión real (grabación o transcript)'], ['mail', 'Mail o mensaje'], ['tarea', 'Tarea de una clase'], ['otro', 'Otra cosa']];
+  const TIPOS = [['audio', 'Audio o video'], ['reunion', 'Reunión real (grabación o transcript)'], ['mail', 'Mail o mensaje'], ['tarea', 'Tarea de una clase'], ['playbook', 'Playbook de una clase grabada'], ['otro', 'Otra cosa']];
   const tipoNombre = (t) => (TIPOS.find((x) => x[0] === t) || [, t])[1];
   V.feedback = {
     async html() {
       const ped = await DB.pedidos();
       return `<div class="head"><div><span class="eyebrow">Directo a Flor</span><h1>Pedir feedback</h1></div></div>
-<p class="muted intro">Mándale a Flor tu práctica o tu material real: un audio, una reunión, un mail. Ella lo lee, te responde acá con tus correcciones y te dice qué clase ver.</p>
+<p class="muted intro">Mándale a Flor tu práctica o tu material real: un audio, una reunión, un mail. Ella lo lee, te responde acá con tus correcciones y te dice qué clase ver. Si quieres un primer feedback rápido antes, pídeselo a Flor AI.</p>
 <div class="grid g-2">
   <form class="card" id="pform" novalidate>
     <div class="field"><label for="ptipo">¿Qué le mandas?</label><select id="ptipo">${TIPOS.map(([v, l]) => `<option value="${v}">${l}</option>`).join('')}</select></div>
@@ -712,7 +762,7 @@ ${fb ? `<section class="card">
     <div class="field"><label for="ptxt">Tu texto o transcript</label><small>Pega el texto. Si es confidencial, cambia nombres y datos. Si es un audio, cuéntale el contexto.</small><textarea id="ptxt" rows="7"></textarea></div>
     <div class="field"><label for="pfile">Sube tu audio, video o documento</label><small>Hasta 50 MB. Desde el celular puedes elegir una nota de voz o una grabación.</small><input id="pfile" type="file" accept="audio/*,video/*,.pdf,.doc,.docx,.txt,image/*"></div>
     <div class="field"><label for="plink">O pega un link (opcional)</label><small>Por ejemplo, de tu Drive, con permiso para que Flor lo vea.</small><input id="plink" type="url" placeholder="https://drive.google.com/…"></div>
-    <div class="row"><button class="btn" type="submit">Enviar a Flor</button></div>
+    <div class="row"><button class="btn" type="submit">Enviar a Flor</button><button class="btn ghost" type="button" id="pai">Primero, feedback de Flor AI</button></div>
   </form>
   <section class="card">
     <h3>Cómo pedir un buen feedback</h3>
@@ -778,14 +828,19 @@ ${fb ? `<section class="card">
   // ---------- Weekly report ----------
   V.weekly = {
     async html() {
-      const ws = await DB.weeklies(); const sem = DB.lunes();
+      const ws = await DB.weeklies(); const lun = DB.lunes();
+      const actual = ws.find((x) => x.semana === lun);
+      // Si Flor ya respondió el de esta semana, el formulario es para el weekly nuevo (el del lunes que viene).
+      const prox = (() => { const d = new Date(lun + 'T12:00:00'); d.setDate(d.getDate() + 7); return diaISO(d); })();
+      const sem = actual && actual.respuesta_flor ? prox : lun;
       const w = ws.find((x) => x.semana === sem) || { respuestas: {} };
-      st._weekly = w;
+      st._weekly = w; st._wsem = sem;
       const bloqueado = !!w.respuesta_flor;
       const hist = ws.filter((x) => x.semana !== sem && x.enviado_en);
-      return `<div class="head"><div><span class="eyebrow">Todos los lunes · semana del ${fecha(sem, { day: 'numeric', month: 'long' })}</span><h1>Weekly report</h1></div>${w.enviado_en ? '<span class="pill ok">Enviado</span>' : ''}</div>
+      return `<div class="head"><div><span class="eyebrow">Todos los lunes · ${sem === lun ? 'semana del' : 'tu nuevo weekly · semana del'} ${fecha(sem, { day: 'numeric', month: 'long' })}</span><h1>Weekly report</h1></div>${w.enviado_en ? '<span class="pill ok">Enviado</span>' : bloqueado ? '' : '<a class="btn" href="#wform" onclick="event.preventDefault();document.getElementById(\'wform\').scrollIntoView({behavior:\'smooth\'});setTimeout(()=>{const t=document.querySelector(\'#wform textarea\');t&&t.focus()},400)">+ Cargar mi weekly report</a>'}</div>
 <p class="muted intro">Es tu canal con Flor. Planificas tu semana, cuentas qué hiciste y qué quieres entrenar. Flor lo lee siempre y te responde con tu próximo paso.</p>
 ${w.respuesta_flor ? `<section class="card"><div class="reply"><span class="eyebrow">Respuesta de Flor</span>${respuestaWeekly(w.respuesta_flor)}</div></section>` : ''}
+${sem !== lun ? `<p class="note small">Flor ya respondió tu weekly de esta semana (lo ves abajo, en «Tus weeklies anteriores»). Este es tu weekly nuevo, para la semana del ${fecha(sem, { day: 'numeric', month: 'long' })}: puedes empezarlo cuando quieras y mandarlo el lunes.</p>` : ''}
 <form class="card" id="wform" novalidate>
   <p class="eyebrow">Weekly report ${st.perfil.formato === '1:1' ? '1:1' : 'LAB'} · Complete every Monday · 5–10 minutes</p>
   <p class="muted small">${esc(P.weeklyIntro)}</p>
@@ -805,12 +860,12 @@ ${hist.length ? `<section class="card"><h3>Tus weeklies anteriores</h3>${hist.ma
       f.addEventListener('change', () => f.dispatchEvent(new Event('input')));
       f.addEventListener('input', () => {
         clearTimeout(tm);
-        tm = setTimeout(async () => { try { await DB.guardarWeekly(DB.lunes(), datos(), false); $('#wsave').textContent = 'Borrador guardado.'; } catch (e) { $('#wsave').textContent = 'No se pudo guardar el borrador.'; } }, 900);
+        tm = setTimeout(async () => { try { await DB.guardarWeekly(st._wsem || DB.lunes(), datos(), false); $('#wsave').textContent = 'Borrador guardado.'; } catch (e) { $('#wsave').textContent = 'No se pudo guardar el borrador.'; } }, 900);
       });
       f.onsubmit = async (e) => {
         e.preventDefault(); clearTimeout(tm);
         const d = datos(); if (!d.wins && !d.foco) return toast('Completa al menos tus wins y tu foco de esta semana.', true);
-        await intentar(() => DB.guardarWeekly(DB.lunes(), d, true), 'Listo, tu weekly está enviado. Avisa en la comunidad que ya lo completaste.');
+        await intentar(() => DB.guardarWeekly(st._wsem || DB.lunes(), d, true), 'Listo, tu weekly está enviado. Avisa en la comunidad que ya lo completaste.');
         ruta();
       };
     }
@@ -859,7 +914,7 @@ ${P.camino.map((m) => { const pm = pctMes(m); return `<details class="card mes" 
 
   // ---------- Mis coaches (skills para instalar en Claude) ----------
   const SKILLS = [
-    ['Flor AI', 'Tu consultoría con el criterio de Flor, también dentro de tu Claude: qué entrenar esta semana, dónde te trabas y a qué coach ir.', 'flor-ai.zip', 'Hola Flor, tengo una reunión el jueves y me trabo cuando me preguntan.', 'Empieza acá'],
+    ['Flor English Coach', 'Para practicar inglés en general, no solo del trabajo: una lección del día hecha a tu medida, gramática que todavía te falta pulir, vocabulario y frases del Clarity Bank, shadowing y pronunciación, role plays de cualquier tema y un coaching para tus bloqueos con el idioma.', 'flor-english-coach.zip', 'Your Daily Barrier Lesson 🚀 (o «quiero repasar el present perfect»).', 'Inglés general'],
     ['Onboarding', 'Tu bienvenida a AT WORK: dónde está cada cosa, tu punto de partida y tu primera práctica.', 'onboarding-at-work.zip', 'Hola, soy nueva en AT WORK.', 'Empieza acá'],
     ['Role Play', 'Ensaya tu reunión, presentación o entrevista antes de que pase. Hace de la otra persona y no te corrige durante la escena.', 'at-work-role-play.zip', 'Quiero practicar mi update del lunes con mi jefa.', 'Coach'],
     ['Narrative Flow', 'Corrige la gramática de tu mail, mensaje o transcript. Tú encuentras tus errores, uno por uno.', 'at-work-narrative-flow.zip', 'Pega tu mail o tu reporte.', 'Coach'],
@@ -905,40 +960,8 @@ ${P.camino.map((m) => { const pm = pctMes(m); return `<details class="card mes" 
   };
 
   // ---------- Mi proceso: plan de acción, documentos y compromisos ----------
-  V.proceso = {
-    async html() {
-      const p = st.perfil, docs = await DB.documentos(), n = semanaDe(p);
-      const tipo = (t) => (P.tiposDoc.find((x) => x[0] === t) || [, 'Documento'])[1];
-      const acuerdo = docs.find((d) => d.tipo === 'acuerdo');
-      const listo = (DB.demo || !st.admin) && onbHecho();
-      return `<div class="head"><div><span class="eyebrow">Tu plan de acción</span><h1>Mi proceso</h1></div>${n ? `<span class="pill">Semana ${n} de 20</span>` : ''}</div>
-<div class="grid g-2">
-  <section class="card feature"><span class="eyebrow">Tu objetivo a 5 meses</span><h2>${p.objetivo ? esc(p.objetivo) : 'Lo defines en tu onboarding'}</h2>
-    ${p.foco_titulo ? `<p class="muted">Foco de esta semana: ${esc(p.foco_titulo)}</p>` : ''}
-    <div class="row"><a class="btn" href="#camino">Ver mi camino</a></div></section>
-  <section class="card"><h3>Tu Acuerdo de Trabajo</h3>
-    ${acuerdo ? `<p class="pill ok" style="align-self:flex-start">Firmado</p><button type="button" class="btn ghost sm" style="align-self:flex-start" data-archivo="${esc(acuerdo.path)}">Abrir mi acuerdo</button>`
-      : `<p class="muted small">Cuando lo firmes, súbelo acá (PDF o foto). Flor también puede cargarlo por ti.</p>`}
-  </section>
-</div>
-<section class="card"><div class="row between"><h3>Mis documentos</h3></div>
-  ${docs.length ? `<ul class="dates">${docs.map((d) => `<li><b>${esc(tipo(d.tipo))}</b><span><button type="button" class="linkbtn" data-archivo="${esc(d.path)}">${esc(d.nombre)}</button> <span class="muted small">· ${fecha(d.creado)}</span></span></li>`).join('')}</ul>` : '<p class="muted small">Todavía no hay documentos.</p>'}
-  <form class="editrow" id="dform"><select id="d-tipo">${P.tiposDoc.map(([v, l]) => `<option value="${v}">${l}</option>`).join('')}</select><input type="file" id="d-file" accept=".pdf,image/*,.doc,.docx"><button class="btn sm" type="submit">Subir</button></form>
-</section>
-${listo ? '' : `<section class="card"><h3>Checklist antes de continuar</h3><p class="muted small">Antes de continuar, asegúrate de tener claro que…</p>
-  <ul class="tasks" id="comp">${P.compromisos.map(([t, d], i) => `<li><label><input type="checkbox" data-i="${i}" ${(p.compromisos || []).includes(i) ? 'checked' : ''}><div><div class="t">${esc(t)}</div><div class="where">${esc(d)}</div></div></label></li>`).join('')}</ul>
-</section>`}`;
-    },
-    mount() {
-      montarCompromisos();
-      $('#dform').onsubmit = async (e) => {
-        e.preventDefault(); const f = $('#d-file').files[0]; if (!f) return toast('Elige un archivo.', true);
-        const b = $('#dform button'); b.disabled = true; b.textContent = 'Subiendo…';
-        try { await intentar(() => DB.subirDocumento(st.perfil.id, f, $('#d-tipo').value, f.name), 'Documento subido'); ruta(); }
-        catch (er) { b.disabled = false; b.textContent = 'Subir'; }
-      };
-    }
-  };
+  // "Mi proceso" se juntó con "Mi progreso" (Flor, 13/11): los documentos ahora están ahí.
+  V.proceso = { html: (...x) => V.progreso.html(...x), mount: (...x) => V.progreso.mount(...x) };
   function montarCompromisos() {
     const el = $('#comp'); if (!el) return;
     el.addEventListener('change', () => {
@@ -1056,7 +1079,16 @@ ${listo ? '' : `<section class="card"><h3>Checklist antes de continuar</h3><p cl
 
   // ---------- Mi progreso ----------
   V.progreso = {
-    mount() { if (st._progFlor) montarProgresoFlor(); },
+    mount() {
+      if (st._progFlor) return montarProgresoFlor();
+      const f = $('#dform'); if (!f) return;
+      f.onsubmit = async (e) => {
+        e.preventDefault(); const file = $('#d-file').files[0]; if (!file) return toast('Elige un archivo.', true);
+        const b = $('button', f); b.disabled = true; b.textContent = 'Subiendo…';
+        try { await intentar(() => DB.subirDocumento(st.perfil.id, file, $('#d-tipo').value, file.name), 'Documento subido'); ruta(); }
+        catch (er) { b.disabled = false; b.textContent = 'Subir'; }
+      };
+    },
     async html() {
       if (st.admin && !DB.demo) { st._progFlor = true; return progresoFlor(); }
       st._progFlor = false;
@@ -1093,6 +1125,10 @@ ${listo ? '' : `<section class="card"><h3>Checklist antes de continuar</h3><p cl
   <p class="muted small">Flor separa los errores fosilizados (sabes la regla pero se te escapa) de los que vienen de falta de base (necesitas la explicación).</p>
   ${pat.length ? `<div class="tbl"><table><thead><tr><th>Patrón</th><th>Tipo</th><th>Estado</th></tr></thead><tbody>
     ${pat.map((x) => `<tr><td>${esc(x.patron)}</td><td>${esc(x.tipo)}</td><td><span class="pill ${/resuel/i.test(x.estado) ? 'ok' : 'warn'}">${esc(x.estado)}</span></td></tr>`).join('')}</tbody></table></div>` : '<p class="muted small">Flor los va a ir cargando a medida que vea tu material.</p>'}
+</section>
+<section class="card"><h3>Mis documentos</h3><p class="muted small">Tu Acuerdo de Trabajo, tu Starting Point, tu material y tus prácticas. Todo queda guardado acá y en tu carpeta.</p>
+  ${docs.length ? `<ul class="dates">${docs.map((d) => `<li><b>${esc((P.tiposDoc.find((x) => x[0] === d.tipo) || [, 'Documento'])[1])}</b><span><button type="button" class="linkbtn" data-archivo="${esc(d.path)}">${esc(d.nombre)}</button> <span class="muted small">· ${fecha(d.creado)}</span></span></li>`).join('')}</ul>` : '<p class="muted small">Todavía no hay documentos.</p>'}
+  <form class="editrow" id="dform"><select id="d-tipo">${P.tiposDoc.map(([v, l]) => `<option value="${v}">${l}</option>`).join('')}</select><input type="file" id="d-file" accept=".pdf,image/*,.doc,.docx,audio/*,video/*"><button class="btn sm" type="submit">Subir</button></form>
 </section>`;
     }
   };
@@ -1134,7 +1170,7 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
   ${url(o.links[2][2]) ? `<div class="row"><a class="btn ghost sm" href="${esc(o.links[2][2])}" target="_blank" rel="noopener">Agendar</a></div>` : ''}</section>`}
 <section class="card"><h3>Dónde está cada cosa</h3><p class="muted small">Las clases están en la comunidad AT WORK, dentro de «Learning», y tu camino con los links está en <a href="#camino">Mi camino</a>. Lo tuyo vive en tu carpeta personal de Drive:</p>
   <ul class="dates">${P.carpetas.map(([n, t, d]) => `<li><b>${n} · ${esc(t)}</b><span>${esc(d)}</span></li>`).join('')}</ul>
-  <p class="muted small">Desde <a href="#proceso">Mi proceso</a> y <a href="#feedback">Pedir feedback</a> puedes subir tus archivos y quedan guardados en tu carpeta.</p></section>
+  <p class="muted small">Desde <a href="#progreso">Mi progreso</a> y <a href="#feedback">Pedir feedback</a> puedes subir tus archivos y quedan guardados en tu carpeta.</p></section>
 <section class="card"><h3>Preguntas frecuentes</h3>${o.faq.map(([q, r, ask]) => `<details class="faq"><summary>${esc(q)}</summary><p class="small">${esc(r)}</p>${ask ? `<button type="button" class="btn ghost sm" data-ask="${esc(ask)}">Preguntarle a Flor AI</button>` : ''}</details>`).join('')}
   <p class="muted small">¿Dudas, prácticas, wins? En la comunidad. ¿Temas administrativos o privados? Por WhatsApp. Flor responde de lunes a viernes, en su horario de trabajo.</p></section>
 <section class="card"><h3>Checklist antes de continuar</h3><p class="muted small">Antes de continuar, asegúrate de tener claro que…</p>
@@ -1666,7 +1702,7 @@ ${cuerpo}`;
   <div class="row"><button class="btn" type="submit">Guardar cambios</button><span class="muted small">Onboarding: ${(a.onboarding || []).length} de ${onbDe(a).checklist.length}</span></div>
 </form>
 <section class="card">
-  <h3>Documentos</h3><p class="muted small">Su Acuerdo de Trabajo firmado, su Starting Point, su plan de acción. Ella los ve en “Mi proceso”.</p>
+  <h3>Documentos</h3><p class="muted small">Su Acuerdo de Trabajo firmado, su Starting Point, su plan de acción. Ella los ve en “Mi progreso”.</p>
   ${docs.length ? `<ul class="dates">${docs.map((d) => `<li><b>${esc((P.tiposDoc.find((x) => x[0] === d.tipo) || [, 'Documento'])[1])}</b><span><button type="button" class="linkbtn" data-archivo="${esc(d.path)}">${esc(d.nombre)}</button> <button type="button" class="linkbtn small" data-deldoc="${d.id}">Quitar</button></span></li>`).join('')}</ul>` : '<p class="muted small">Sin documentos.</p>'}
   <form class="editrow" id="adform"><select id="ad-tipo">${P.tiposDoc.map(([v2, l]) => `<option value="${v2}">${l}</option>`).join('')}</select><input type="file" id="ad-file" accept=".pdf,image/*,.doc,.docx"><button class="btn sm" type="submit">Subir</button></form>
 </section>

@@ -52,8 +52,8 @@
     { n: 1, titulo: 'Start Here, tu método y tus coaches', logro: 'Entiendes cómo funciona todo, hiciste tu primer ciclo completo y ya usas tus coaches.', semanas: [
       { s: [1], titulo: 'Tu punto de partida', tareas: [
         T('1.1', 'Ver el onboarding completo, con calma', 'orientacion', 'Start Here', { onb: 'curso' }),
-        T('1.2', 'Firmar tu Acuerdo de Trabajo', 'orientacion', 'Drive · 01', { ir: '#proceso' }),
-        T('1.3', 'Grabar tu Starting Point', 'evidencia', 'Drive · 01', { ir: '#proceso' }),
+        T('1.2', 'Firmar tu Acuerdo de Trabajo', 'orientacion', 'Drive · 01'),
+        T('1.3', 'Grabar tu Starting Point', 'evidencia', 'Drive · 01'),
         T('1.4', 'Agendar tu primer encuentro conmigo', 'orientacion', 'Link de reserva', { reservar: true, privada: 'Avisarle a Flor que terminaste el onboarding (tu primera clase es en tu día y horario fijo)' }),
         T('1.5', 'Reservar 2 o 3 bloques de 30 minutos por semana', 'habito', 'Tu calendario'),
         T('1.6', 'Presentarte en la comunidad', 'comunidad', 'Comunidad', { comunidad: true })
@@ -151,7 +151,7 @@
       ] },
       { s: [19, 20], titulo: 'Tu voz en tu situación más difícil', tareas: [
         T('17.1', 'Hacer tú todo el ciclo con tu situación más difícil', 'practica', 'Coaches', { coaches: true }),
-        T('19.1', 'Grabar tu Starting Point de nuevo', 'evidencia', 'Drive · 01', { ir: '#proceso' }),
+        T('19.1', 'Grabar tu Starting Point de nuevo', 'evidencia', 'Drive · 01'),
         T('20.1', 'Comparar con tu primer Starting Point en tu encuentro', 'evidencia', 'Encuentro en vivo'),
         T('20.2', 'Compartir tu win en la comunidad', 'evidencia', 'Comunidad', { comunidad: true })
       ] }
