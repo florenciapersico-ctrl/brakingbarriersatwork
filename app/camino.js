@@ -105,7 +105,7 @@
         T('9.5', 'M3 · The Verb System · Parte 2: Verbos irregulares', 'clase worksheet', 'Módulo 3', { link: M3('7b1a9231-6500-4722-9ef4-1de448ba745b') }),
         T('9.6', 'M3 · The Verb System · Parte 3: Cuándo uso cada uno', 'clase worksheet', 'Módulo 3', { link: M3('ea11f8ef-dbb7-40af-8c6a-2a10ffbc7d5e') }),
         T('9.3', 'M3 · The Verb System · Parte 4: Future tenses', 'clase worksheet', 'Módulo 3', { link: M3('57e5d9f7-65ce-4e2e-91f7-422defb9d68a') }),
-        T('9.4', 'Desde ahora, en tu Weekly escribes tú primero dónde se rompió', 'habito', 'Weekly report', { ir: '#weekly' })
+        T('9.4', 'Desde ahora, en tu Weekly Report me dices qué trabajar: el qué, el cómo o el quién', 'habito', 'Weekly report', { ir: '#weekly', nota: 'Con el Delivery Method detectamos dónde se rompe tu inglés. El qué: cómo organizas tus ideas, qué dices primero y qué después. El cómo: tus errores fosilizados, cómo armas las oraciones y los verbos. El quién: desde dónde hablas, cómo te sientes con el inglés y cómo te paras en tus reuniones. Desde ahora, en tu Weekly Report escribe en cuál de los tres crees que tienes que trabajar más, así Flor te acompaña y te guía en eso.' })
       ] },
       { s: [10], titulo: 'Mitad del camino', tareas: [
         T('10.1', 'M3 · Verb Patterns: to or ing?', 'clase', 'Módulo 3', { link: M3('3cde7014-d479-45f6-be25-71a780ff177e') }),

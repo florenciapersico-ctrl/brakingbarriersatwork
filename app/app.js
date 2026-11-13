@@ -358,7 +358,7 @@
         <input type="url" class="e-link" placeholder="…o pega un link (Drive, Google Docs)"><textarea class="e-txt" rows="2" placeholder="¿Algo que quieras contarle a Flor? (opcional)"></textarea>
         <div class="row"><button class="btn sm" type="submit">Entregar</button><button type="button" class="linkbtn small e-x">Cancelar</button></div></form>`;
     const sinEnt = !ent && !hecha && !t.ir && !t.reservar && !t.comunidad ? '<span class="muted small">Sin playbook para esta sesión: márcala tú cuando la termines.</span>' : '';
-    return `<li><label><input type="checkbox" data-cam="${t.id}" ${hecha ? 'checked' : ''}><div><div class="t">${esc(txtT(t))}</div>
+    return `<li><label><input type="checkbox" data-cam="${t.id}" ${hecha ? 'checked' : ''}><div><div class="t">${esc(txtT(t))}</div>${t.nota ? `<div class="muted small" style="margin:2px 0 4px">${esc(t.nota)}</div>` : ''}
       <div class="where">${tags} · ${esc(t.donde)} ${t.pronto ? '<span class="pill warn">En grabación · se publica pronto</span>' : ''} ${accionTarea(t)} ${sinEnt}</div></div></label>
       ${estado || subir ? `<div class="ent-row">${estado}${subir}</div>` : ''}</li>`;
   }

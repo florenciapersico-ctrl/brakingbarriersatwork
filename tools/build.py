@@ -64,7 +64,7 @@ for (const m of P.camino) {
     for (const t of s.tareas) {
       let link = t.link || '';
       if (t.onb) link = `Lab: ${P.onbLinks.LAB[t.onb]} | Private: ${P.onbLinks['1:1'][t.onb]}`;
-      L.push(`- ${t.texto} [${t.tipo} · ${t.donde}]${t.pronto ? ' PRONTO' : ''}${link ? ' → ' + link : ''}`);
+      L.push(`- ${t.texto} [${t.tipo} · ${t.donde}]${t.pronto ? ' PRONTO' : ''}${link ? ' → ' + link : ''}${t.nota ? ' (' + t.nota + ')' : ''}`);
     }
   }
 }
