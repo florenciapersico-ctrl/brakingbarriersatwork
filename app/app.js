@@ -1424,11 +1424,34 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
         const ini = new Date(c.inicio), fin = new Date(ini.getTime() + 60 * 60000);
         return new Date(x.creado) < ini && Date.now() < fin ? { c, hora: hora(c.inicio), link: hojaDe(c) || c.descripcion || '', meet: c.meet } : null;
       };
+      // Nota de contexto para Flor (13/11): qué es, cuándo lo subió, antes o después de su clase, si era una tarea suya
+      // y si después ya le respondió otra cosa. Solo la ve Flor.
+      const RES = tab === 'pedidos' && (esFlor() || DB.demo) && DB.todosResumenes ? await DB.todosResumenes().catch(() => []) : [];
+      const fCorta = (d) => fecha(d, { weekday: 'short', day: 'numeric', month: 'short' });
+      const contexto = (x) => {
+        const aid = x.alumna_id || (x.perfil || {}).id, mail = String((x.perfil || {}).email || x.email || '').toLowerCase();
+        const dia = diaISO(new Date(x.creado)), dias = Math.floor((Date.now() - new Date(x.creado)) / 864e5);
+        const cl = RES.filter((r) => r.alumna_id === aid).map((r) => r.fecha).sort();
+        const antes = cl.filter((f) => f < dia).pop(), mismo = cl.includes(dia), despues = cl.filter((f) => f > dia);
+        const rAntes = RES.find((r) => r.alumna_id === aid && r.fecha === antes);
+        const tarea = rAntes ? (() => { const m = /(?:TU TAREA|Tu tarea|TAREA)[^\n]*\n([\s\S]*?)(?:\n\s*\n[A-ZÁÉÍÓÚ]{3}|$)/.exec(rAntes.texto || ''); return m ? m[1].replace(/\s+/g, ' ').trim().slice(0, 220) : ''; })() : '';
+        const resp = b.tResp.filter((y) => String((y.perfil || {}).email || y.email || '').toLowerCase() === mail && (y.respondido_en || '') > x.creado).length
+          + b.W.filter((w) => String(w.email || '').toLowerCase() === mail && w.respuesta_flor && (w.respondido_en || '') > x.creado).length;
+        const via = /^mail:/.test(x.origen || '') ? 'por mail' : /^drive:/.test(x.origen || '') ? 'a su carpeta de Drive' : /^camino:/.test(x.origen || '') ? 'desde Mi camino, al lado de una clase' : 'desde la app';
+        const hoyK = claseHoyDe(x);
+        const cuando = hoyK ? `<b>antes de su clase de hoy (${esc(hoyK.hora)})</b>` : mismo ? 'el mismo día de una clase' : antes ? `después de su clase del ${fCorta(antes)}` : 'antes de su primera clase registrada';
+        const viejo = dias > 21 || despues.length >= 2 || resp > 0;
+        return `<div class="note small ctx"><b>Para vos · qué es:</b> ${esc(tipoNombre(x.tipo))}${x.titulo ? ' · «' + esc(x.titulo) + '»' : ''}. Lo mandó ${via} el <b>${fCorta(dia)}</b> (${dias === 0 ? 'hoy' : dias === 1 ? 'ayer' : 'hace ' + dias + ' días'}), ${cuando}.
+          ${tarea ? `<br><b>En esa clase le habías dejado:</b> ${esc(tarea)}` : antes ? '<br>En el resumen de su clase anterior no figura una tarea: puede ser algo que mandó por su cuenta.' : ''}
+          ${despues.length ? `<br><b>Después:</b> tuvieron ${despues.length === 1 ? 'una clase' : despues.length + ' clases'} (la última, ${fCorta(despues[despues.length - 1])})${resp ? ` y ya le respondiste ${resp} ${resp === 1 ? 'cosa' : 'cosas'}` : ''}.` : resp ? `<br><b>Después</b> ya le respondiste ${resp} ${resp === 1 ? 'cosa' : 'cosas'}.` : ''}
+          ${viejo && !hoyK ? '<br><b>⚠️ Es viejo:</b> probablemente ya lo trabajaron. Si es así, borralo sin mandar nada (abajo, «Borrar pedido»).' : ''}</div>`;
+      };
       if (tab === 'pedidos') {
         cuerpo = b.pend.length ? porSemana(b.pend, (x) => lunesDe(x.creado)).map((g) => grupo(nombreSemana(g.s), `<span class="pill warn">${g.items.length}</span>`, g.items.map((x) => x.src === 'app' ? `<div class="fbitem" data-pid="${x.id}" data-aid="${x.alumna_id}" data-tit="${esc(x.titulo || '')}" data-mail="${esc(String((x.perfil || {}).email || '').toLowerCase())}" data-or="${esc(x.origen || '')}" data-mas="${esc(x.mail_asunto || '')}">
         <div class="row between"><b>${esc(x.nombre)} · ${esc(x.titulo || tipoNombre(x.tipo))}</b><span class="muted small">${tipoNombre(x.tipo)} · ${fecha(x.creado, { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}</span></div>
         ${x.mail_borrador ? `<p class="note small gm">Ya armaste el borrador en tu Gmail (${fecha(x.mail_borrador, { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}). Cuando lo mandes, esto se marca respondido solo.</p>` : ''}
         ${x.texto ? `<pre>${esc(x.texto)}</pre>` : ''}${adjunto(x)}${url(x.link) ? ` <a class="small" href="${esc(x.link)}" target="_blank" rel="noopener">Abrir el link que mandó</a>` : ''}
+        ${esFlor() || DB.demo ? contexto(x) : ''}
         ${(() => { const k = claseHoyDe(x); return k ? `<div class="note enclase"><b>Tiene clase hoy a las ${esc(k.hora)}: trabajalo en clase con ella.</b><br><span class="small">El material ya queda en su clase lista. Después de la clase le mandás el feedback de esto, relacionado con lo que vieron.</span><div class="row" style="gap:8px;margin-top:8px">${url(k.link) ? `<a class="btn sm" href="${esc(k.link)}" target="_blank" rel="noopener">Abrir su clase lista</a>` : ''}${url(k.meet) ? `<a class="btn ghost sm" href="${esc(k.meet)}" target="_blank" rel="noopener">Entrar a la clase</a>` : ''}</div></div><details class="despues"><summary class="small">Armar el feedback igual (mejor después de la clase)</summary>` : ''; })()}
         <p class="aviso-audio note small" hidden></p>
         ${['audio', 'reunion'].includes(x.tipo) || x.archivo || /drive\.google/.test(x.link || '') ? `<div class="field"><label>¿Quién es ella en la grabación?</label><small>Si en la reunión hablan varias personas, escribe su nombre (o "la que presenta el reporte") y toca «Armar de nuevo con IA». Si lo dejas vacío, la IA la busca sola.</small><input type="text" class="quien" placeholder="${esc(String(x.nombre || '').split(' ')[0])}"></div>` : ''}

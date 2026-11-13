@@ -430,3 +430,4 @@ details.mas-grabar summary{cursor:pointer}
 .minima-d{margin-top:8px}.minima-d summary{cursor:pointer;color:var(--brand)}.minima-d ul{margin:8px 0;padding-left:18px}
 .note.enclase{border-left:4px solid var(--brand)}
 details.despues > summary{cursor:pointer;color:var(--muted);margin:6px 0}
+.note.ctx{border-left:4px solid var(--olive);background:var(--surface-2)}
