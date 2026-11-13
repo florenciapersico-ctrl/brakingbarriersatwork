@@ -61,7 +61,7 @@
       { s: [2], titulo: 'Tu método', tareas: [
         T('2.1', 'Ver la clase «Tu método · The Delivery Method™»', 'clase', 'Start Here', { onb: 'metodo' }),
         T('2.2', 'Tu primer Producir: 1 o 2 minutos de una situación real', 'practica', 'Drive · 04', { ir: '#feedback' }),
-        T('2.3', 'Completar tu primer Weekly Report (juntas, en tu primer encuentro)', 'habito', 'Weekly report', { ir: '#weekly' })
+        T('2.3', 'Completar tu primer Weekly Report después de tu primer 1:1 con Flor', 'habito', 'Weekly report', { ir: '#weekly' })
       ] },
       { s: [3], titulo: 'Activa tu inglés', tareas: [
         T('3.1', 'M1.1 · My Professional Context', 'clase', 'Módulo 1', { link: M1('c0502ce4-17fd-441f-b420-8315647966eb') }),
@@ -195,7 +195,7 @@
   const faqComun = [
     ['¿Cómo sé qué tengo que hacer cada semana?', 'Sigues tu camino, con las tareas de cada semana, en orden. Y Flor lo ajusta a ti: si tu trabajo pide otro foco, te lo indica en la respuesta a tu Weekly Report. Nunca vas a tener que adivinar qué te toca. Y si tienes dudas, pregúntale a Flor AI: ella sabe dónde estás y te dice qué te toca esta semana.', '¿Qué me toca hacer esta semana?'],
     ['¿Es una clase grabada por semana?', 'No exactamente. Cada semana tiene sus tareas: a veces una clase, a veces dos, a veces una práctica. Lo importante no es cuántas clases ves, sino usar lo que aprendes en tu trabajo.'],
-    ['¿Cuándo completo el Weekly Report?', 'Los lunes, en la sección Weekly report de esta app. El primero lo completan juntas en tu primer encuentro con Flor.'],
+    ['¿Cuándo completo el Weekly Report?', 'Los lunes, en la sección Weekly report de esta app. El primero lo completas después de tu primer 1:1 con Flor.'],
     ['¿El Weekly Report es de lo que hice o de lo que voy a hacer?', 'De lo que vas a hacer: es tu plan para la semana que empieza. Arriba cuentas un win de la semana pasada; después, qué vas a practicar y qué días; y al final, lo que necesitas de Flor.'],
     ['¿Y si una semana no sé qué poner?', 'Manda la grabación de una reunión o de una práctica desde “Pedir feedback”. Con eso ya están. También puedes pedirle a Flor AI que te ayude a armarlo.', 'Ayúdame a armar mi Weekly Report de esta semana'],
     ['¿Tengo que grabar todas mis reuniones?', 'No. Con una reunión o una situación real por semana alcanza. Si es confidencial, cambia nombres y cifras, o grábate contando lo mismo con otros datos.'],
@@ -226,7 +226,7 @@
         ['Una vez por mes', 'Tu 1:1 de 30 minutos con Flor.'],
         ['Material real', 'Con una reunión o situación por semana alcanza.']
       ],
-      arranque: ['Tu 1:1 de arranque', 'En ese encuentro no recorren la plataforma: definen tu objetivo para los cinco meses, hacen tu primera práctica real y completan juntas tu primer Weekly Report. Trae tu Starting Point hecho, tus dudas anotadas y una situación concreta de tu trabajo en inglés que te pone nerviosa (en vez de «quiero hablar fluido», algo como «me trabo cuando presento los resultados del mes»).'],
+      arranque: ['Tu 1:1 de arranque', 'En ese encuentro no recorren la plataforma: definen tu objetivo para los cinco meses, hacen tu primera práctica real y dejan claro tu primer foco. Después de ese encuentro completas tu primer Weekly Report. Trae tu Starting Point hecho, tus dudas anotadas y una situación concreta de tu trabajo en inglés que te pone nerviosa (en vez de «quiero hablar fluido», algo como «me trabo cuando presento los resultados del mes»).'],
       checklist: [
         'Vi todos los videos del onboarding, en orden',
         'Descargué mi camino y lo tengo a mano',
@@ -261,7 +261,7 @@
         ['Una vez por semana', 'Tu clase 1:1 con Flor, en tu horario fijo.'],
         ['Material real', 'Con una reunión o situación por semana alcanza.']
       ],
-      arranque: ['Tu primera clase', 'Cuando termines el onboarding, avísale a Flor por WhatsApp y se ven en tu primera clase, en el día y horario que ya definieron juntas. No tienes que agendar nada. En esa clase no recorren la plataforma: definen tu objetivo para los cinco meses, hacen tu primera práctica real y completan juntas tu primer Weekly Report. Trae tu Starting Point hecho, tus dudas anotadas y una situación concreta de tu trabajo en inglés que te pone nerviosa (en vez de «quiero hablar fluido», algo como «me trabo cuando presento los resultados del mes»).'],
+      arranque: ['Tu primera clase', 'Cuando termines el onboarding, avísale a Flor por WhatsApp y se ven en tu primera clase, en el día y horario que ya definieron juntas. No tienes que agendar nada. En esa clase no recorren la plataforma: definen tu objetivo para los cinco meses, hacen tu primera práctica real y dejan claro tu primer foco. Después de ese encuentro completas tu primer Weekly Report. Trae tu Starting Point hecho, tus dudas anotadas y una situación concreta de tu trabajo en inglés que te pone nerviosa (en vez de «quiero hablar fluido», algo como «me trabo cuando presento los resultados del mes»).'],
       checklist: [
         'Vi todos los videos del onboarding, en orden',
         'Descargué mi camino y lo tengo a mano',
