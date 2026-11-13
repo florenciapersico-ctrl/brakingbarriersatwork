@@ -1263,6 +1263,30 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
     minima: [['Ordenar escritorio', 'Despejar la mesa: 2 minutos.'], ['Gym o pádel', 'Caminar 10 minutos o estirar 5.'], ['Cocina + casa', 'Lavar lo del día y dejar la cena simple resuelta.'], ['GRABAR', 'Una sola toma de 1 minuto, aunque no la uses.']],
     semana: [['w:compras', 'Compras + comida + flores (domingo)'], ['w:amiga', 'Ver a una amiga'], ['w:plataforma', 'Plataforma solo martes y jueves']],
   };
+  // ---------- OK de la clase (Flor, 13/11): al lado de "Entrar a la clase · Clase lista" ----------
+  // Gris: todavía no se dio. Flor toca OK (o la tarea lo detecta sola con la grabación de Wispr) → verde.
+  // La tarea "🎓 Clases del día" arma el resumen, se lo manda a la alumna por mail (Flor en CCO) y actualiza su app.
+  function okClase(x) {
+    if (!x || !x.clave) return '';
+    const hm = (iso) => (iso ? new Date(iso).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit', hour12: false }) : '');
+    const env = !!x.enviado_en, on = !!x.hecho || env;
+    const est = env ? `✓ Resumen enviado ${hm(x.enviado_en)} · su app ya está al día`
+      : x.estado ? esc(x.estado)
+      : on ? 'Armando el resumen: le llega por mail y se actualiza su app en menos de una hora.'
+      : '';
+    return `<button type="button" class="btn sm okc${on ? ' on' : ''}" data-okc="${esc(x.clave)}" aria-pressed="${on}" ${env ? 'disabled' : ''} title="${on ? 'Clase dada' : 'Tocalo cuando ya diste la clase'}">${on ? '✓ OK' : 'OK'}</button>${est ? `<p class="small okc-e${env ? ' ok' : ''}">${est}</p>` : ''}`;
+  }
+  function montarOk(lista) {
+    $$('[data-okc]').forEach((bt) => (bt.onclick = async () => {
+      const x = (lista() || []).find((y) => y.clave === bt.dataset.okc); if (!x || x.enviado_en) return;
+      x.hecho = !x.hecho;
+      try { await DB.claseOk(x.fecha || diaISO(new Date()), x.clave, x.hecho); toast(x.hecho ? 'Clase dada ✓ El resumen sale solo en menos de una hora.' : 'Desmarcada'); }
+      catch (e) { x.hecho = !x.hecho; toast('No se guardó. Probá de nuevo.', true); }
+      $$(`[data-okc="${CSS.escape(x.clave)}"]`).forEach((b) => { const w = document.createElement('span'); w.innerHTML = okClase(x); const box = b.parentElement; box.querySelectorAll('.okc-e').forEach((e) => e.remove()); b.replaceWith(...w.childNodes); });
+      montarOk(lista);
+    }));
+  }
+
   // "Tu día": lo que la madrugada dejó listo (clases preparadas, qué grabar, qué subir). Sale de la tabla hoy_flor.
   // modo 'clases': solo las clases de hoy (lista); modo 'contenido': qué grabar/subir de redes (lista). Sin modo: la tarjeta entera.
   function tuDia(L, hoyI, modo) {
@@ -1277,11 +1301,11 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
       ${x.detalle ? `<p class="small muted">${esc(x.detalle)}</p>` : ''}
       <div class="row" style="gap:8px;flex-wrap:wrap">${lk(x.link, /canva/.test(x.link || '') ? 'Abrir en Canva' : /notion/.test(x.link || '') ? 'Abrir en Notion' : 'Abrir')}${lk(x.link2, /notion/.test(x.link2 || '') ? 'Ver en Notion' : 'Abrir')}</div>
       ${copiar(x.texto2, 'Prompter para grabar')}${copiar(x.texto, x.tipo === 'grabar' || x.tipo === 'subir' ? 'Caption para copiar' : 'Texto')}</li>`;
-    const liClase = (x) => `<li class="td-i"><div class="row between"><b>${hh(x.inicio)} · ${esc(x.titulo || '')}</b></div>${x.detalle ? `<p class="small muted">${esc(x.detalle)}</p>` : ''}<div class="row" style="gap:8px;flex-wrap:wrap">${lk(x.meet, 'Entrar a la clase', 'btn sm')}${lk(x.link, 'Clase lista')}</div></li>`;
+    const liClase = (x) => `<li class="td-i"><div class="row between"><b>${hh(x.inicio)} · ${esc(x.titulo || '')}</b></div>${x.detalle ? `<p class="small muted">${esc(x.detalle)}</p>` : ''}<div class="row okc-row" style="gap:8px;flex-wrap:wrap;align-items:center">${lk(x.meet, 'Entrar a la clase', 'btn sm')}${lk(x.link, 'Clase lista')}${okClase(x)}</div></li>`;
     if (modo === 'clases') return cl.length ? `<ul class="td-l">${cl.map(liClase).join('')}</ul>` : '';
     if (modo === 'contenido') return gr.length || su.length || ot.length ? `${gr.length ? `<p class="hab-sec">Contenido para grabar</p><ul class="td-l">${gr.map(item).join('')}</ul>` : ''}${su.length ? `<p class="hab-sec">Para subir</p><ul class="td-l">${su.map(item).join('')}</ul>` : ''}${ot.length ? `<p class="hab-sec">Además</p><ul class="td-l">${ot.map(item).join('')}</ul>` : ''}` : '';
     return `<section class="card tudia"><div class="row between"><h2>Tu día</h2><span class="muted small">Todo lo que quedó listo para hoy</span></div>
-  ${cl.length ? `<p class="hab-sec">Clases</p><ul class="td-l">${cl.map((x) => `<li class="td-i"><div class="row between"><b>${hh(x.inicio)} · ${esc(x.titulo || '')}</b></div>${x.detalle ? `<p class="small muted">${esc(x.detalle)}</p>` : ''}<div class="row" style="gap:8px;flex-wrap:wrap">${lk(x.meet, 'Entrar a la clase', 'btn sm')}${lk(x.link, 'Clase lista')}</div></li>`).join('')}</ul>` : ''}
+  ${cl.length ? `<p class="hab-sec">Clases</p><ul class="td-l">${cl.map((x) => `<li class="td-i"><div class="row between"><b>${hh(x.inicio)} · ${esc(x.titulo || '')}</b></div>${x.detalle ? `<p class="small muted">${esc(x.detalle)}</p>` : ''}<div class="row okc-row" style="gap:8px;flex-wrap:wrap;align-items:center">${lk(x.meet, 'Entrar a la clase', 'btn sm')}${lk(x.link, 'Clase lista')}${okClase(x)}</div></li>`).join('')}</ul>` : ''}
   ${gr.length ? `<p class="hab-sec">Para grabar</p><ul class="td-l">${gr.map(item).join('')}</ul>` : ''}
   ${su.length ? `<p class="hab-sec">Para subir</p><ul class="td-l">${su.map(item).join('')}</ul>` : ''}
   ${ot.length ? `<p class="hab-sec">Además</p><ul class="td-l">${ot.map(item).join('')}</ul>` : ''}
@@ -1391,6 +1415,7 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
         bt.closest('.td-i').classList.toggle('hecho', x.hecho);
         try { await DB.hoyHecho(hoyI, x.clave, x.hecho); } catch (e) { toast('No se guardó. Probá de nuevo.', true); }
       }));
+      montarOk(() => st._hoyD);
       const abrirId = (si) => { $('#ident-f').style.display = si ? '' : 'none'; $('#ident').style.display = si ? 'none' : ''; if (si) $('#ident-t').focus(); };
       $('#ident').onclick = () => abrirId(true);
       $('#ident-x').onclick = () => abrirId(false);
@@ -1681,6 +1706,8 @@ ${cuerpo}`;
   }
   const hora = (iso) => (iso ? new Date(iso).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit', hour12: false }) : '');
   const hojaDe = (c) => { const m = /(https:\/\/docs\.google\.com\/document\/d\/[\w-]+[^\s"<]*)/.exec(c.descripcion || ''); const a = (c.adjuntos || []).find((x) => !/Recording|Notes by Gemini|Notas de Gemini/i.test(x.titulo || '')); return m ? m[1] : a ? a.url : ''; };
+  // La fila de hoy_flor de su clase (para el OK): por mail invitado o, si no, por la hora de la clase.
+  const filaHoyDe = (mail, clase) => { const L = (st._hoyA || []).filter((x) => x.tipo === 'clase'); return L.find((x) => (x.invitadas || []).map((m) => String(m).toLowerCase()).includes(mail)) || (clase && clase.inicio ? L.find((x) => x.inicio && Math.abs(new Date(x.inicio) - new Date(clase.inicio)) < 6e4) : null); };
   async function resumenAlumna(a, b, clase) {
     const mail = String(a.email || '').toLowerCase(), lun = DB.lunes();
     const [tareas, resus, notas] = await Promise.all([a.id ? DB.tareas(a.id).catch(() => []) : [], a.id && DB.resumenes ? DB.resumenes(a.id).catch(() => []) : [], esFlor() || DB.demo ? DB.notasClase(mail).catch(() => null) : []]);
@@ -1697,7 +1724,7 @@ ${cuerpo}`;
     const hoja = clase ? hojaDe(clase) : '';
     return `<section class="card resu">
   <div class="row between"><h3>${esc(a.nombre || a.email)}</h3>${clase ? `<span class="pill">Hoy ${hora(clase.inicio)}</span>` : ''}</div>
-  ${clase ? `<div class="row" style="gap:8px;flex-wrap:wrap">${clase.meet ? `<a class="btn sm" href="${esc(clase.meet)}" target="_blank" rel="noopener">Entrar a la clase</a>` : ''}${hoja ? `<a class="btn ghost sm" href="${esc(hoja)}" target="_blank" rel="noopener">Hoja de la clase</a>` : ''}${a.drive_url ? `<a class="btn ghost sm" href="${esc(a.drive_url)}" target="_blank" rel="noopener">Su carpeta</a>` : ''}</div>` : ''}
+  ${clase ? `<div class="row okc-row" style="gap:8px;flex-wrap:wrap;align-items:center">${clase.meet ? `<a class="btn sm" href="${esc(clase.meet)}" target="_blank" rel="noopener">Entrar a la clase</a>` : ''}${hoja ? `<a class="btn ghost sm" href="${esc(hoja)}" target="_blank" rel="noopener">Hoja de la clase</a>` : ''}${a.drive_url ? `<a class="btn ghost sm" href="${esc(a.drive_url)}" target="_blank" rel="noopener">Su carpeta</a>` : ''}${okClase(filaHoyDe(mail, clase))}</div>` : ''}
   <ul class="resu-l">
     <li><b>Dónde va:</b> ${n ? `semana ${n} de 20` : 'sin fecha de inicio'}${mod ? ` · M${mod.n} ${esc(mod.nombre)}` : ''}${a.foco_titulo ? `<br><span class="muted small">Foco: ${esc(a.foco_titulo)}</span>` : ''}</li>
     <li><b>Weekly de esta semana:</b> ${wEsta ? (wEsta.respuesta_flor ? '✓ mandado y respondido' : '✓ mandado · <a href="#bandeja/weeklies">te falta responderlo</a>') : '✗ todavía no lo mandó'}</li>
@@ -1749,6 +1776,7 @@ ${cuerpo}`;
       let det = '';
       const bh = esFlor() ? await cargarBandeja().catch(() => null) : null;
       const ch = esFlor() ? await clasesHoy() : null;
+      st._hoyA = esFlor() && DB.hoyFlor ? await DB.hoyFlor(diaISO(new Date())).catch(() => []) : [];
       // Por mail invitado; si no está invitada (p. ej. un grupal con una sola en la invitación), por su nombre o apodo en el título o la descripción ("Lina y Cori").
       const norm = (t) => String(t || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
       const pila = (x) => norm(String(x.nombre || '').split(' ')[0]);
@@ -1844,6 +1872,7 @@ ${cuerpo}`;
     },
     mount(sel) {
       montarNotas();
+      montarOk(() => st._hoyA);
       if (window.matchMedia('(max-width:860px)').matches) $('#agrid').style.gridTemplateColumns = '1fr';
       $$('[data-a]').forEach((b) => (b.onclick = () => (location.hash = 'alumnas/' + b.dataset.a)));
       const genPw = () => 'atwork-' + Math.random().toString(36).slice(2, 7);

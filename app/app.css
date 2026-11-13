@@ -431,3 +431,9 @@ details.mas-grabar summary{cursor:pointer}
 .note.enclase{border-left:4px solid var(--brand)}
 details.despues > summary{cursor:pointer;color:var(--muted);margin:6px 0}
 .note.ctx{border-left:4px solid var(--olive);background:var(--surface-2)}
+/* OK de la clase (13/11) */
+.okc{background:transparent;color:inherit;border:1px solid var(--line,#d9cdbb)}
+.okc.on{background:#2e7d4f;border-color:#2e7d4f;color:#fff}
+.okc[disabled]{opacity:1;cursor:default}
+.okc-e{flex-basis:100%;margin:2px 0 0;color:var(--muted,#7a6f63)}
+.okc-e.ok{color:#2e7d4f;font-weight:600}

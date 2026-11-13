@@ -114,6 +114,13 @@
       async habitos(desde) { return ok(await sb.from('habitos_flor').select('*').gte('fecha', desde)); },
       async hoyFlor(f) { return ok(await sb.from('hoy_flor').select('*').eq('fecha', f).order('orden')); },
       async hoyHecho(f, clave, hecho) { ok(await sb.from('hoy_flor').update({ hecho, actualizado: new Date().toISOString() }).eq('fecha', f).eq('clave', clave)); },
+      // OK de una clase: la marca como dada. La tarea "🎓 Clases del día" ve el OK, arma el resumen, se lo manda y actualiza su app.
+      // Si la base todavía no tiene la columna ok_en (migración 15), guarda solo el "hecho".
+      async claseOk(f, clave, on) {
+        const base = { hecho: on, actualizado: new Date().toISOString() };
+        const r = await sb.from('hoy_flor').update({ ...base, ok_en: on ? new Date().toISOString() : null }).eq('fecha', f).eq('clave', clave);
+        if (r.error) ok(await sb.from('hoy_flor').update(base).eq('fecha', f).eq('clave', clave));
+      },
       async notasClase(email) { return ok(await sb.from('clase_notas').select('*').eq('email', email).order('fecha', { ascending: false }).limit(10)); },
       async guardarNotaClase(r) { ok(await sb.from('clase_notas').upsert({ ...r, actualizado: new Date().toISOString() })); },
       async marcarHabito(fecha, hechos, minima) { ok(await sb.from('habitos_flor').upsert({ fecha, hechos, minima, actualizado: new Date().toISOString() })); },
@@ -276,6 +283,7 @@
       async habitos(desde) { return copia((S.habitos || []).filter((r) => r.fecha >= desde)); },
       async hoyFlor(f) { const i = new Date(); i.setHours(15, 0, 0, 0); return [{ fecha: f, clave: 'clase:demo', tipo: 'clase', orden: 1, titulo: 'Ana · 1:1 · Week 5 · Dar un update', detalle: 'Objetivo: contar el avance del proyecto en tres frases.', link: 'https://docs.google.com/document/d/demo/edit', meet: 'https://meet.google.com/demo', inicio: i.toISOString(), invitadas: ['ana@demo.com'] }, { fecha: f, clave: 'reel:demo', tipo: 'grabar', orden: 1, titulo: 'Reel a cámara · Te faltan TUS frases', detalle: '≈40 s, vertical, mirá al lente.', link: 'https://www.canva.com/folder/demo', link2: 'https://app.notion.com/p/demo', texto: 'Caption de ejemplo…', texto2: 'Tu inglés en las reuniones no está mal…\nsolo te faltan tres palabras.' }]; },
       async hoyHecho() {},
+      async claseOk() {},
       async notasClase(email) { return copia((S.notas || []).filter((r) => r.email === email)); },
       async guardarNotaClase(r) { S.notas = (S.notas || []).filter((x) => !(x.email === r.email && x.fecha === r.fecha)).concat([r]); save(); },
       async marcarHabito(fecha, hechos, minima) { S.habitos = (S.habitos || []).filter((r) => r.fecha !== fecha).concat([{ fecha, hechos, minima }]); save(); },
