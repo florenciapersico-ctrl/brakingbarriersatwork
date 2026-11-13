@@ -583,57 +583,57 @@
       const enVivo = fmt(p) === '1:1'
         ? { t: 'Tu clase 1:1', d: p.horario_clase ? esc(p.horario_clase) : 'En tu horario fijo con Flor.', link: url(p.link_clase) || '' }
         : { t: l.fecha ? esc(l.fecha) : 'Lab de los sábados', d: l.fecha ? esc(l.horario || '') + (l.tema ? ' · ' + esc(l.tema) : '') : '15:30 a 16:30 de Argentina (12:30 MX y CR, 13:30 CO)', link: url(l.link) || 'https://meet.google.com/gow-vnpg-xhx' };
+      // Mi semana (Flor, 13/11): arriba solo lo que sigue, sus tareas y su foco. Lo demás, abajo y plegado.
+      const sinTareas = n ? (sig && fmt(p) !== '1:1'
+          ? `<h2>${esc(txtT(sig.t))}</h2><p class="muted small">Semana ${sig.s.s.join(' y ')} · ${esc(sig.s.titulo)} · ${esc(sig.t.donde)}</p><div class="row">${accionTarea(sig.t).replace('linkbtn small', 'btn')}<a class="btn ghost" href="#camino">Ver mi camino</a></div>`
+          : '<h2>Estás al día</h2><p class="muted small">Usa esta semana para practicar con tu material real y mandárselo a Flor.</p><div class="row"><a class="btn" href="#feedback">Mandar material real</a></div>')
+        : '<h2>Tu camino de 20 semanas</h2><p class="muted small">Cuando Flor cargue tu fecha de inicio, acá vas a ver exactamente qué te toca.</p><div class="row"><a class="btn ghost" href="#camino">Ver mi camino</a></div>';
       return `
 <div class="hero"><div><h1>${saludo()}${nombre ? ', ' + esc(nombre) : ''}<span class="punto">.</span></h1>
   <p class="muted">${n ? `Semana ${n} de 20 · Mes ${cs.mes.n} · ${esc(cs.mes.titulo)}` : 'Tu espacio de AT WORK: todo lo de tu programa, en un solo lugar.'}</p></div></div>
+${aviso}
+${recW}
+${sinOnb && !weeklies.length ? `<section class="card feature"><span class="eyebrow">Tu primera semana</span><h2>Empieza por tu onboarding</h2><p class="muted">Dónde está cada cosa, tu punto de partida y tu primera práctica. Con calma: entender todo lleva unas dos semanas.</p><div class="row"><a class="btn" href="#empieza">Ir a Empieza acá</a></div></section>` : ''}
+<div class="grid g-2">
+  <section class="card next">
+    <div class="row between"><span class="eyebrow">${tareas.length ? 'Lo que sigue · tus tareas de la última clase' : 'Lo que sigue'}</span>${tareas.length ? '<span class="pill" id="taskCount"></span>' : ''}</div>
+    ${tareas.length ? '<ul class="tasks" id="tasks">' + tareas.map((t) => `<li${t === acordado ? ' class="sigue"' : ''}><label><input type="checkbox" data-id="${t.id}" ${t.hecha ? 'checked' : ''}><div><div class="t">${esc(t.texto)}</div>${t.donde ? '<div class="where">' + linkear(t.donde) + '</div>' : ''}</div></label></li>`).join('') + '</ul><p class="muted small">Te las deja Flor y se actualizan después de cada clase.</p>'
+      : sinTareas}
+  </section>
+  ${p.foco_titulo ? `<section class="card feature"><span class="eyebrow">Tu foco de esta semana · lo eligió Flor</span><h2>${esc(p.foco_titulo)}</h2>${p.foco_texto ? '<p class="muted">' + esc(p.foco_texto) + '</p>' : ''}
+    <div class="row"><button class="btn" type="button" data-ask="¿Dónde y cómo practico mi foco de esta semana (${esc(p.foco_titulo)})?">¿Dónde lo practico?</button><a class="btn ghost" href="#coaches">Mis coaches</a></div></section>`
+    : `<section class="card empty-state"><span class="eyebrow">Tu foco de esta semana</span><h3>Flor lo elige con tu material</h3><p class="muted small">Cuando le mandes una reunión real o una práctica desde “Pedir feedback”, Flor te dice qué entrenar.</p><a class="btn ghost" href="#feedback">Pedir feedback</a></section>`}
+</div>
 <div class="acciones">
   <a class="accion principal" href="#weekly/cargar"><b>${wHoy && wHoy.enviado_en ? 'Actualizar mi weekly report' : 'Subir mi weekly report'}</b><span>${wHoy && wHoy.enviado_en ? 'Ya lo mandaste esta semana ✓' : 'Todos los lunes · 5 a 10 minutos'}</span></a>
   <a class="accion" href="#weekly/anteriores"><b>Ver mis weeklies</b><span>Tus reports y las respuestas de Flor</span></a>
   <a class="accion" href="#feedback"><b>Pedir feedback</b><span>Mándale a Flor una tarea o material real</span></a>
 </div>
-${aviso}
-${recW}
-${sinOnb && !weeklies.length ? `<section class="card feature"><span class="eyebrow">Tu primera semana</span><h2>Empieza por tu onboarding</h2><p class="muted">Dónde está cada cosa, tu punto de partida y tu primera práctica. Con calma: entender todo lleva unas dos semanas.</p><div class="row"><a class="btn" href="#empieza">Ir a Empieza acá</a></div></section>` : ''}
 <div class="kpis">
   <section class="card kpi"><span class="eyebrow">Weekly · constancia</span><div class="kv"><span class="big">${r.actual}</span><span class="muted small">${r.actual === 1 ? 'lunes seguido' : 'lunes seguidos'}<br>Récord: ${r.rec}</span></div>
     <div class="streak">${r.celdas.map((c) => `<div class="${c.on ? 'on' : ''} ${c.hoy ? 'now' : ''}" title="${fecha(c.s)}">${c.on ? '✓' : c.hoy ? 'Hoy' : ''}</div>`).join('')}</div></section>
   <section class="card kpi"><span class="eyebrow">${fmt(p) === '1:1' ? 'En vivo con Flor' : 'Tu próximo lab'}</span><b class="kt">${enVivo.t}</b><span class="muted small">${enVivo.d}</span>${enVivo.link ? `<a class="small" href="${esc(enVivo.link)}" target="_blank" rel="noopener">${fmt(p) === '1:1' ? 'Entrar a tu clase ›' : 'Entrar al lab ›'}</a>` : ''}<a class="small" href="#clases">${fmt(p) === '1:1' ? 'Tus clases anteriores ›' : 'Tus labs anteriores ›'}</a></section>
   <section class="card kpi"><span class="eyebrow">Dónde estás</span><b class="kt">${esc('M' + (P.modulos[p.modulo_actual || 0] || P.modulos[0]).n + ' · ' + (P.modulos[p.modulo_actual || 0] || P.modulos[0]).nombre)}</b><span class="muted small">${(p.clases_asignadas || []).length ? 'Te toca: ' + esc(p.clases_asignadas[p.clases_asignadas.length - 1]) : 'Lo actualiza Flor en tu clase'}</span><a class="small" href="#camino">Ver mi camino ›</a></section>
 </div>
-<div class="grid g-2">
-  <section class="card next"><span class="eyebrow">Lo que sigue · desde tu última clase</span>
-    ${acordado ? `<h2>${esc(acordado.texto)}</h2><p class="muted small">Lo acordamos en tu última clase${acordado.donde ? ' · ' + esc(acordado.donde) : ''}</p><div class="row"><a class="btn ghost" href="#camino">Ver mi camino</a></div>`
-      : sig ? `<h2>${esc(txtT(sig.t))}</h2><p class="muted small">Semana ${sig.s.s.join(' y ')} · ${esc(sig.s.titulo)} · ${esc(sig.t.donde)}</p><div class="row">${accionTarea(sig.t).replace('linkbtn small', 'btn')}<a class="btn ghost" href="#camino">Ver mi camino</a></div>`
-      : n ? '<h2>Estás al día con tu camino</h2><p class="muted small">Usa esta semana para practicar con tu material real y mandárselo a Flor.</p><div class="row"><a class="btn" href="#feedback">Mandar material real</a></div>'
-        : '<h2>Tu camino de 20 semanas</h2><p class="muted small">Cuando Flor cargue tu fecha de inicio, acá vas a ver exactamente qué te toca.</p><div class="row"><a class="btn ghost" href="#camino">Ver mi camino</a></div>'}
-  </section>
-  ${p.foco_titulo ? `<section class="card feature"><span class="eyebrow">Tu foco de esta semana · lo eligió Flor</span><h2>${esc(p.foco_titulo)}</h2>${p.foco_texto ? '<p class="muted">' + esc(p.foco_texto) + '</p>' : ''}
-    <div class="row"><button class="btn" type="button" data-ask="¿Dónde y cómo practico mi foco de esta semana (${esc(p.foco_titulo)})?">¿Dónde lo practico?</button><a class="btn ghost" href="#coaches">Mis coaches</a></div></section>`
-    : `<section class="card empty-state"><span class="eyebrow">Tu foco de esta semana</span><h3>Flor lo elige con tu material</h3><p class="muted small">Cuando le mandes una reunión real o una práctica desde “Pedir feedback”, Flor te dice qué entrenar.</p><a class="btn ghost" href="#feedback">Pedir feedback</a></section>`}
-</div>
-<div class="grid g-2">
-  <section class="card">
-    <div class="row between"><h3>Tareas que te dejó Flor</h3><span class="pill" id="taskCount"></span></div>
-    <p class="muted small">Se actualizan después de cada clase.</p>
-    ${tareas.length ? '<ul class="tasks" id="tasks">' + tareas.map((t) => `<li><label><input type="checkbox" data-id="${t.id}" ${t.hecha ? 'checked' : ''}><div><div class="t">${esc(t.texto)}</div>${t.donde ? '<div class="where">' + linkear(t.donde) + '</div>' : ''}</div></label></li>`).join('') + '</ul>'
-      : '<p class="muted small">Esta semana no hay tareas extra: sigue tu camino y completa tu weekly report.</p>'}
-  </section>
+${fmt(p) === '1:1' ? '' : caminoSemanaHTML(p)}
+<details class="card mas"><summary><b>Flor AI, tu recorrido y tus accesos</b><span class="muted small">Abrir</span></summary>
+<div class="grid g-2" style="margin-top:12px">
   <section class="card ask"><span class="eyebrow">Flor AI</span><h3>¿Por dónde seguimos?</h3><p class="muted small">Conoce tu semana, tu foco, tu feedback y tu progreso. Te guía con el criterio de Flor.</p>
     <div class="asklist">
       <button type="button" data-ask="¿Qué me toca esta semana?"><b>¿Qué me toca esta semana?</b><span>Tu próximo paso según tu camino y tu foco.</span></button>
       <button type="button" data-ask="Tengo una reunión pronto y me quiero preparar"><b>Tengo una reunión pronto</b><span>Encontramos dónde te trabas y qué practicar.</span></button>
       <button type="button" data-ask="Ayúdame con mi weekly report"><b>Ayúdame con mi weekly</b><span>Lo ordenamos juntas antes del lunes.</span></button>
     </div></section>
-</div>
-${fmt(p) === '1:1' ? '' : caminoSemanaHTML(p)}
 <section class="card"><div class="row between"><h3>Tu recorrido</h3><a class="small" href="#camino">Ver detalle</a></div>${etapasHTML(n, p)}</section>
+</div>
 <section class="grid">
   <span class="eyebrow">A mano</span>
   <div class="quick">
     ${fmt(p) === '1:1' ? qa((links().whatsapp_flor || 'https://wa.me/5491144101209'), 'Avisarle a Flor', 'WhatsApp') : qa(enVivo.link, 'Link del lab', 'Sábados') + qa('https://calendar.app.google/kxnVBHB5XJam7JG69', 'Reservar mi 1:1', '30 min, 1 por mes')}
     ${qa(st.perfil.drive_url, 'Mi carpeta de Drive', 'Prácticas y material')}${qa(links().comunidad || 'https://chat.whatsapp.com/EKffC7cix6oDfeCCvfKGYv', 'Comunidad', 'Grupo de WhatsApp')}${qa((P.onbLinks[fmt(p)] || {}).curso ? 'https://academy.breakingbarriers.site/courses/products/6863ca67-9163-40bd-98de-f0c450d87919' : '', 'Curso AT WORK', 'Ver las clases')}
   </div>
-</section>`;
+</section>
+</details>`;
     },
     mount() {
       montarCamino($('#app'));
@@ -649,7 +649,7 @@ ${fmt(p) === '1:1' ? '' : caminoSemanaHTML(p)}
     const c = semanaCamino(n);
     return `<section class="card"><div class="row between"><div><span class="eyebrow">Tu camino · semana ${n} de 20 · mes ${c.mes.n}</span><h3>${esc(c.sem.titulo)}</h3></div><a class="small" href="#camino">Ver todo mi camino</a></div>
       <ul class="tasks">${c.sem.tareas.map((t) => filaTarea(t, p.camino_hecho || [])).join('')}</ul>
-      ${n >= 2 ? `<details open><summary class="small muted">Tus hábitos de todas las semanas</summary><ul class="tasks" style="margin-top:8px">${P.habitos.tareas.map((t) => `<li><div class="fbitem"><b>${esc(t.texto)}</b><span class="where muted small">${esc(t.donde)} ${accionTarea(t)}</span></div></li>`).join('')}</ul></details>` : ''}
+      ${n >= 2 ? `<details><summary class="small muted">Tus hábitos de todas las semanas</summary><ul class="tasks" style="margin-top:8px">${P.habitos.tareas.map((t) => `<li><div class="fbitem"><b>${esc(t.texto)}</b><span class="where muted small">${esc(t.donde)} ${accionTarea(t)}</span></div></li>`).join('')}</ul></details>` : ''}
     </section>`;
   }
   function qa(link, t, s) {

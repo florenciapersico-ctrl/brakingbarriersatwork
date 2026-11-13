@@ -69,7 +69,6 @@ window.PROGRAMA = {
   // Carpeta de Drive con todo listo para grabar (prompter, presentación, worksheet) de cada clase en grabación.
   // Flor puede cambiar o agregar el link desde "Mi progreso" (se guarda aparte y gana sobre esto).
   grabar: {
-    '8.2': 'https://drive.google.com/drive/folders/1kA8rZ1Bxp7Yoo71IjsxhgQoTh5qdd-W1',
     '12.2': 'https://drive.google.com/drive/folders/15LYmigofQcKaUos2Iy7lgyVwOvUv0y3-',
     '12.3': 'https://drive.google.com/drive/folders/1PbpMB2q1Zk11sIhsbtvmUCdj5Zq22jS_',
     '12.4': 'https://drive.google.com/drive/folders/1ptvkOrkOIng2sOK656xHRKzxR2xuCuig',

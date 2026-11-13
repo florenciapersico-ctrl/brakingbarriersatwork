@@ -437,3 +437,9 @@ details.despues > summary{cursor:pointer;color:var(--muted);margin:6px 0}
 .okc[disabled]{opacity:1;cursor:default}
 .okc-e{flex-basis:100%;margin:2px 0 0;color:var(--muted,#7a6f63)}
 .okc-e.ok{color:#2e7d4f;font-weight:600}
+
+/* Mi semana (13/11): la próxima tarea resaltada y el bloque plegado de abajo */
+.tasks li.sigue{border-color:var(--brand);box-shadow:0 0 0 1px var(--brand) inset}
+details.mas>summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:12px}
+details.mas>summary::-webkit-details-marker{display:none}
+details.mas[open]>summary span{visibility:hidden}

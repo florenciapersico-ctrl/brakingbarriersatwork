@@ -92,7 +92,7 @@
         T('7.3', 'M2 · Presentaciones: parte 2', 'clase playbook', 'Módulo 2', { link: M2('363344d6-a536-4ed7-97df-15565cbd16f3') })
       ] },
       { s: [8], titulo: 'Conectar y sostener la conversación', tareas: [
-        T('8.2', 'M2 · Small Talk & Networking', 'clase', 'Módulo 2', { pronto: true }),
+        T('8.2', 'M2 · Small Talk & Networking', 'clase playbook', 'Módulo 2', { link: M2('50ec7aca-66df-4039-ba90-c82a8a4185e5') }),
         T('8.4', 'M2 · Expresar desacuerdo', 'clase', 'Módulo 2', { pronto: true }),
         T('8.5', 'M2 · Responder preguntas inesperadas', 'clase', 'Módulo 2', { pronto: true }),
         T('8.3', 'Comparar tu primer y tu último intento del mes y compartir tu win', 'evidencia', 'Comunidad', { comunidad: true })
