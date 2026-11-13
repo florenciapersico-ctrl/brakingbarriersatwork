@@ -21,12 +21,18 @@
     try { const r = await fn(); if (okMsg) toast(okMsg); return r; } catch (e) { console.error(e); toast(e.message || 'Algo falló. Intenta de nuevo.', true); throw e; }
   }
 
+  // Nombre claro para cada link (Flor, 13/11: todo link de un feedback se tiene que poder tocar y llevar a algún lado).
+  function rotuloLink(u) {
+    return /wa\.me/.test(u) ? 'WhatsApp de Flor' : /academy\./.test(u) ? 'Abrir la clase' : /docs\.google\.com\/document/.test(u) ? 'Abrir el documento'
+      : /docs\.google\.com\/presentation/.test(u) ? 'Abrir la presentación' : /docs\.google\.com\/spreadsheets/.test(u) ? 'Abrir la planilla'
+      : /drive\.google/.test(u) ? 'Abrir en Drive' : /meet\.google/.test(u) ? 'Entrar a la reunión' : /app\.breakingbarriers\.site/.test(u) ? 'Abrir en tu app' : 'Abrir el link';
+  }
   // Markdown chico y seguro para las respuestas de Flor AI (negrita, listas, títulos, tablas).
   function inline(s) {
     const lk = (u, t) => /^#[a-z]+$/.test(u) ? `<a href="${u}">${t}</a>` : `<a href="${u}" target="_blank" rel="noopener">${t}</a>`;
     return esc(s)
       .replace(/\[([^\]]+)\]\((https:\/\/[^\s)]+|#[a-z]+)\)/g, (_, t, u) => lk(u, t))
-      .replace(/(^|[\s(])(https:\/\/[^\s<)]+[^\s<).,;:!?])/g, (_, a, u) => a + lk(u, /wa\.me/.test(u) ? 'WhatsApp de Flor' : /academy\./.test(u) ? 'Abrir la clase' : 'Abrir link'))
+      .replace(/(^|[\s(:])(https:\/\/[^\s<)\]]+[^\s<).,;:!?\]])/g, (_, a, u) => a + lk(u, rotuloLink(u)))
       .replace(/\*\*(.+?)\*\*/g, '<b>$1</b>').replace(/(^|[^*])\*(?!\s)(.+?)\*/g, '$1<i>$2</i>').replace(/`([^`]+)`/g, '<code>$1</code>');
   }
   const linkear = (t) => inline(t);
@@ -463,7 +469,7 @@
     }
     return { texto: quedan.join('\n').replace(/\n{3,}/g, '\n\n').trim(), correcciones: corr };
   }
-  const parrafos = (t) => esc(t).split(/\n{2,}/).map((p) => '<p>' + p.replace(/\n/g, '<br>') + '</p>').join('');
+  const parrafos = (t) => String(t || '').split(/\n{2,}/).map((p) => '<p>' + p.split('\n').map(inline).join('<br>') + '</p>').join('');
   // La devolución completa, con el ejercicio. clave = 'pedidos:12' o 'weekly:2026-11-09'.
   // fuente = el texto de la alumna donde están esas frases (su tarea o su weekly), para mandárselo a Narrative Flow.
   function devolucion(texto, corrs, clave, fuente) {

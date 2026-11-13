@@ -795,9 +795,15 @@ Deno.serve(async (req) => {
     const cierre = ps.length > 1 && ps[ps.length - 1].length <= 160 ? ps.pop()! : "";
     // deno-lint-ignore no-explicit-any
     const lineas = corr.map((c: any) => `${String(c.mal).trim()} → ${String(c.bien).trim()}.${c.por_que ? " " + String(c.por_que).trim() : ""}`.replace(/\.\./g, "."));
-    const texto = [...ps, ...lineas, cierre].filter(Boolean).join("\n\n");
+    const texto = [...ps, ...lineas, cierre].filter(Boolean).join("\n\n").replace(/\[([^\]]+)\]\((https:\/\/[^\s)]+)\)/g, "$1: $2");
     const esc = (t: string) => t.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]!));
-    const p = (t: string) => `<p>${esc(t).replace(/\n/g, "<br>")}</p>`;
+    // Links que se tocan (Flor, 13/11): [nombre](url) y las URL sueltas se convierten en <a>.
+    const nombreLink = (u: string) => /academy\./.test(u) ? "Abrir la clase" : /docs\.google\.com\/document/.test(u) ? "Abrir el documento" : /drive\.google/.test(u) ? "Abrir en Drive" : /app\.breakingbarriers\.site/.test(u) ? "Abrir en tu app" : "Abrir el link";
+    const a = (u: string, t: string) => `<a href="${u}" style="color:#82552E;font-weight:bold">${t}</a>`;
+    const links = (h: string) => h
+      .replace(/\[([^\]]+)\]\((https:\/\/[^\s)]+)\)/g, (_m, t, u) => a(u, t))
+      .replace(/(^|[\s(:])(https:\/\/[^\s<)\]]+[^\s<).,;:!?\]])/g, (_m, pre, u) => pre + a(u, nombreLink(u)));
+    const p = (t: string) => `<p>${links(esc(t)).replace(/\n/g, "<br>")}</p>`;
     // deno-lint-ignore no-explicit-any
     const htmlCorr = corr.map((c: any) => `<p><i>${esc(String(c.mal).trim())}</i> → <i><b>${esc(String(c.bien).trim())}</b></i>.${c.por_que ? " " + esc(String(c.por_que).trim()) : ""}</p>`).join("\n");
     const html = `<div style="font-family:'Open Sans',Arial,sans-serif;font-size:15px;color:#333;line-height:1.55;max-width:640px">\n${ps.map(p).join("\n")}\n${htmlCorr}\n${cierre ? p(cierre) : ""}\n</div>`;
