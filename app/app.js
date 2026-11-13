@@ -565,6 +565,24 @@
       const sinOnb = (p.onboarding || []).length < onbDe(p).checklist.length;
       const cs = n ? semanaCamino(n) : null;
       const hechasSem = cs ? cs.sem.tareas.filter((t) => (p.camino_hecho || []).includes(t.id)).length : 0;
+      // Tu última clase / tu último lab (Flor, 13/11): el resumen que le mandó Flor, lo que trabajaron y el material.
+      // El material va en el resumen como una línea "Material de la clase: <link>" (o cualquier link de Drive/Docs).
+      const ultimaClase = (() => {
+        if (!resumenes.length) return '';
+        const verRes = (r) => {
+          const t = String(r.texto || '');
+          const links = [...t.matchAll(/https:\/\/(?:docs|drive)\.google\.com\/[^\s)>\]]+/g)].map((m) => m[0].split(/&(?:amp;)?(?:sa|source|ust|usg)=/)[0]);
+          const sin = t.replace(/^.*(Material|Worksheet|Playbook|Documento)[^:\n]*:\s*https:\/\/\S+\s*$/gim, '').trim();
+          return { cuerpo: md(sin), links: [...new Set(links)] };
+        };
+        const u = verRes(resumenes[0]), lab = fmt(p) !== '1:1';
+        return `<section class="card ultima"><div class="row between"><div><span class="eyebrow">${lab ? 'Tu último lab' : 'Tu última clase'} · ${esc(fecha(resumenes[0].fecha, { weekday: 'long', day: 'numeric', month: 'long' }))}</span><h3>Lo que trabajamos</h3></div>
+  ${u.links.length ? `<a class="btn" href="${esc(u.links[0])}" target="_blank" rel="noopener">Abrir el material de la clase</a>` : ''}</div>
+  <div class="feedback">${u.cuerpo}</div>
+  ${u.links.length > 1 ? `<div class="row" style="gap:8px;flex-wrap:wrap">${u.links.slice(1).map((l, i) => `<a class="btn ghost sm" href="${esc(l)}" target="_blank" rel="noopener">Material ${i + 2}</a>`).join('')}</div>` : ''}
+  ${resumenes.length > 1 ? `<details class="resumen small"><summary>${lab ? 'Labs' : 'Clases'} anteriores (${resumenes.length - 1})</summary>${resumenes.slice(1).map((r) => { const x = verRes(r); return `<details><summary>${esc(fecha(r.fecha, { weekday: 'long', day: 'numeric', month: 'long' }))}</summary><div class="feedback">${x.cuerpo}</div>${x.links.length ? `<a class="btn ghost sm" href="${esc(x.links[0])}" target="_blank" rel="noopener">Abrir el material</a>` : ''}</details>`; }).join('')}</details>` : ''}
+</section>`;
+      })();
       const enVivo = fmt(p) === '1:1'
         ? { t: 'Tu clase 1:1', d: p.horario_clase ? esc(p.horario_clase) : 'En tu horario fijo con Flor.', link: url(p.link_clase) || '' }
         : { t: l.fecha ? esc(l.fecha) : 'Lab de los sábados', d: l.fecha ? esc(l.horario || '') + (l.tema ? ' · ' + esc(l.tema) : '') : '15:30 a 16:30 de Argentina (12:30 MX y CR, 13:30 CO)', link: url(l.link) || 'https://meet.google.com/gow-vnpg-xhx' };
@@ -573,6 +591,7 @@
   <p class="muted">${n ? `Semana ${n} de 20 · Mes ${cs.mes.n} · ${esc(cs.mes.titulo)}` : 'Tu espacio de AT WORK: todo lo de tu programa, en un solo lugar.'}</p></div>
   <div class="row"><a class="btn ghost" href="#weekly">${r.hoyHecho ? 'Ver mi weekly' : 'Completar mi weekly'}</a><a class="btn" href="#feedback">Pedir feedback</a></div></div>
 ${aviso}
+${ultimaClase}
 ${recW}
 ${sinOnb && !weeklies.length ? `<section class="card feature"><span class="eyebrow">Tu primera semana</span><h2>Empieza por tu onboarding</h2><p class="muted">Dónde está cada cosa, tu punto de partida y tu primera práctica. Con calma: entender todo lleva unas dos semanas.</p><div class="row"><a class="btn" href="#empieza">Ir a Empieza acá</a></div></section>` : ''}
 <div class="kpis">
@@ -606,11 +625,7 @@ ${caminoSemanaHTML(p)}
       <button type="button" data-ask="Ayúdame con mi weekly report"><b>Ayúdame con mi weekly</b><span>Lo ordenamos juntas antes del lunes.</span></button>
     </div></section>
 </div>
-${resumenes.length ? `<section class="card">
-  <div class="row between"><h3>Tu última clase</h3><span class="muted small">${esc(fecha(resumenes[0].fecha, { weekday: 'long', day: 'numeric', month: 'long' }))}</span></div>
-  <details class="resumen"><summary>Ver el resumen que te mandó Flor</summary><div class="feedback">${parrafos(resumenes[0].texto)}</div></details>
-  ${resumenes.length > 1 ? `<details class="resumen small"><summary>Clases anteriores (${resumenes.length - 1})</summary>${resumenes.slice(1).map((r) => `<details><summary>${esc(fecha(r.fecha, { weekday: 'long', day: 'numeric', month: 'long' }))}</summary><div class="feedback">${parrafos(r.texto)}</div></details>`).join('')}</details>` : ''}
-</section>` : ''}
+${ultimaClase}
 ${fb ? `<section class="card">
   <div class="row between"><h3>Último feedback de Flor</h3><span class="muted small">Sobre: ${esc(fb.titulo || fb.tipo)}</span></div>
   <div class="feedback">${devolucion(fb.respuesta, fb.correcciones, 'pedidos:' + fb.id, fb.texto)}</div>
