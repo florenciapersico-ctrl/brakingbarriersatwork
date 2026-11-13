@@ -625,7 +625,7 @@ ${sinOnb && !weeklies.length ? `<section class="card feature"><span class="eyebr
       <button type="button" data-ask="Ayúdame con mi weekly report"><b>Ayúdame con mi weekly</b><span>Lo ordenamos juntas antes del lunes.</span></button>
     </div></section>
 </div>
-${caminoSemanaHTML(p)}
+${fmt(p) === '1:1' ? '' : caminoSemanaHTML(p)}
 <section class="card"><div class="row between"><h3>Tu recorrido</h3><a class="small" href="#camino">Ver detalle</a></div>${etapasHTML(n, p)}</section>
 <section class="grid">
   <span class="eyebrow">A mano</span>
