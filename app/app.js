@@ -625,7 +625,6 @@ ${caminoSemanaHTML(p)}
       <button type="button" data-ask="Ayúdame con mi weekly report"><b>Ayúdame con mi weekly</b><span>Lo ordenamos juntas antes del lunes.</span></button>
     </div></section>
 </div>
-${ultimaClase}
 ${fb ? `<section class="card">
   <div class="row between"><h3>Último feedback de Flor</h3><span class="muted small">Sobre: ${esc(fb.titulo || fb.tipo)}</span></div>
   <div class="feedback">${devolucion(fb.respuesta, fb.correcciones, 'pedidos:' + fb.id, fb.texto)}</div>
