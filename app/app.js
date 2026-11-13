@@ -579,7 +579,7 @@
 <div class="acciones">
   <a class="accion principal" href="#weekly/cargar"><b>${wHoy && wHoy.enviado_en ? 'Actualizar mi weekly report' : 'Subir mi weekly report'}</b><span>${wHoy && wHoy.enviado_en ? 'Ya lo mandaste esta semana ✓' : 'Todos los lunes · 5 a 10 minutos'}</span></a>
   <a class="accion" href="#weekly/anteriores"><b>Ver mis weeklies</b><span>Tus reports y las respuestas de Flor</span></a>
-  <a class="accion" href="#feedback"><b>Pedir feedback</b><span>Mandale a Flor una tarea o material real</span></a>
+  <a class="accion" href="#feedback"><b>Pedir feedback</b><span>Mándale a Flor una tarea o material real</span></a>
 </div>
 ${aviso}
 ${recW}
@@ -839,7 +839,10 @@ ${caminoSemanaHTML(p)}
   V.clases = {
     async html() {
       const p = st.perfil, esLab = fmt(p) !== '1:1';
-      const [res, tareas] = await Promise.all([DB.resumenes ? DB.resumenes().catch(() => []) : [], DB.tareas().catch(() => [])]);
+      const [res0, tareas] = await Promise.all([DB.resumenes ? DB.resumenes().catch(() => []) : [], DB.tareas().catch(() => [])]);
+      // Uno por clase: si el mismo día hay el resumen automático (Wispr) y el mail de Flor, queda el de Flor.
+      const porDia = {}; res0.forEach((r) => { const k = r.fecha + (/lab/i.test(r.asunto || '') ? ':lab' : ''); const y = porDia[k]; if (!y || (/^wispr:/.test(y.origen || '') && !/^wispr:/.test(r.origen || ''))) porDia[k] = r; });
+      const res = Object.values(porDia).sort((a, b) => (a.fecha < b.fecha ? 1 : -1));
       const l = labAlDia() || lab();
       const prox = esLab
         ? { t: l.fecha ? esc(l.fecha) : 'Lab de los sábados', d: l.fecha ? esc(l.horario || '') + (l.tema ? ' · ' + esc(l.tema) : '') : '15:30 a 16:30 de Argentina', link: url(l.link) || 'https://meet.google.com/gow-vnpg-xhx' }
