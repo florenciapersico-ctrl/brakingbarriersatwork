@@ -150,6 +150,7 @@
   async function entrar() {
     try {
       [st.perfil, st.programa] = await Promise.all([DB.miPerfil(), DB.programa().catch(() => ({}))]);
+      setTimeout(() => DB.backupDiario && DB.backupDiario(), 8000);
     } catch (e) {
       root.innerHTML = '<div class="auth"><div class="card"><h2>No pudimos cargar tu espacio</h2><p class="muted">' + esc(e.message) + '</p><button class="btn" id="re">Reintentar</button><button class="linkbtn small" id="out">Salir</button></div></div>';
       $('#re').onclick = entrar; $('#out').onclick = () => DB.logout();

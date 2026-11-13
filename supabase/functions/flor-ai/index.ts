@@ -614,6 +614,41 @@ Deno.serve(async (req) => {
   }
 
   // ---------- drive: copia un archivo subido a la carpeta de Drive de la alumna ----------
+  // ---------- copia de seguridad diaria (Flor, 13/11): toda la base de la app en un JSON ----------
+  // La dispara la app una vez por día (cualquier usuaria logueada). No devuelve datos: guarda la copia en el
+  // almacenamiento privado (_backups/AAAA-MM-DD.json) y la manda a la carpeta de Drive "AT WORK · Copias de la app".
+  if (body.modo === "backup") {
+    const hoy = new Date().toLocaleDateString("sv-SE", { timeZone: "America/Argentina/Buenos_Aires" });
+    const path = `_backups/${hoy}.json`;
+    const { data: ya } = await admin.storage.from("atwork").list("_backups", { search: hoy });
+    if ((ya || []).some((f: { name: string }) => f.name === `${hoy}.json`)) return json({ ok: true, ya: true });
+    const TABLAS = ["perfiles", "weekly", "pedidos", "tareas", "patrones", "documentos", "resumenes", "importacion", "borradores", "fichas", "chats", "mensajes", "programa", "intentos", "hoy_flor", "habitos_flor"];
+    const copia: Record<string, unknown> = { fecha: new Date().toISOString(), proyecto: "at-work-app", tablas: {} };
+    for (const t of TABLAS) {
+      const filas: unknown[] = [];
+      for (let desde = 0; ; desde += 1000) {
+        const { data, error } = await admin.from(t).select("*").range(desde, desde + 999);
+        if (error) { (copia.tablas as Record<string, unknown>)[t] = { error: error.message }; break; }
+        filas.push(...(data || []));
+        if (!data || data.length < 1000) { (copia.tablas as Record<string, unknown>)[t] = filas; break; }
+      }
+    }
+    const blob = new Blob([JSON.stringify(copia)], { type: "application/json" });
+    const { error: eUp } = await admin.storage.from("atwork").upload(path, blob, { contentType: "application/json", upsert: false });
+    if (eUp && !/exists/i.test(eUp.message)) return json({ ok: false, motivo: eUp.message });
+    let drive = "sin_configurar";
+    const url = Deno.env.get("DRIVE_SCRIPT_URL"), secreto = Deno.env.get("DRIVE_SECRET");
+    if (url && secreto) {
+      const { data: firmada } = await admin.storage.from("atwork").createSignedUrl(path, 600);
+      try {
+        const r = await fetch(url, { method: "POST", headers: { "Content-Type": "text/plain" }, body: JSON.stringify({ secreto, carpeta: "1X68p6bdwMBf4RSVdEMBpJBRSgGbyk408", subcarpeta: "__ninguna__", url: firmada?.signedUrl, nombre: "Copia de la app AT WORK.json" }) });
+        const out = await r.json().catch(() => ({}));
+        drive = out.ok ? "ok" : String(out.error || "error");
+      } catch (_e) { drive = "error"; }
+    }
+    return json({ ok: true, drive });
+  }
+
   if (body.modo === "drive") {
     const url = Deno.env.get("DRIVE_SCRIPT_URL"), secreto = Deno.env.get("DRIVE_SECRET");
     if (!url || !secreto) return json({ ok: false, motivo: "sin_configurar" });

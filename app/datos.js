@@ -58,6 +58,8 @@
         this.copiarDrive({ path, tipo, nombre: nombre || file.name, tabla: 'documentos', id: d.id });
       },
       // Copia a la carpeta de Drive de la alumna (si Flor lo configuró). Nunca frena a la alumna si falla.
+      // Copia de seguridad diaria de toda la app (la hace la función; acá solo se dispara, una vez por día y por navegador).
+      async backupDiario() { try { const k = 'atw-backup', hoy = new Date().toISOString().slice(0, 10); if (localStorage.getItem(k) === hoy) return; const r = await llamar({ modo: 'backup' }); if (r.ok) localStorage.setItem(k, hoy); } catch (e) { /* nunca frena la app */ } },
       async copiarDrive(q) { try { const r = await llamar({ modo: 'drive', ...q }); return r.ok ? r.json() : null; } catch (e) { return null; } },
       async borrarDocumento(d) { await sb.storage.from('atwork').remove([d.path]); ok(await sb.from('documentos').delete().eq('id', d.id)); },
       async tareas(a = uid) { return ok(await sb.from('tareas').select('*').eq('alumna_id', a).order('orden').order('id')); },
@@ -294,6 +296,7 @@
       async borrador() { await espera(400); return { respuesta: '(Demo) Acá aparece el borrador que arma la IA con tu voz y tu criterio. Lo editas y lo envías.', correcciones: [{ mal: 'if is possible', bien: 'if it is possible' }, { mal: 'we dont have', bien: "we don't have" }], foco: 'Ordenar tu update antes de hablar', foco_texto: 'Tu mensaje se pierde cuando arrancas por el detalle.', tareas: [{ texto: 'Ver M2 · The Message Map', donde: 'Módulo 2' }], notas: '(Demo) Notas para ti.' }; },
       async ficha(a) { return (S.fichas || {})[a] || ''; },
       async guardarFicha(a, t) { (S.fichas = S.fichas || {})[a] = t; save(); },
+      async backupDiario() { return null; },
       async copiarDrive() { return null; },
       async importacionTodas() { return []; },
       async todosWeekliesAdmin() { return copia(S.weekly); },
