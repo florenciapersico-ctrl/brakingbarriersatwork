@@ -275,7 +275,7 @@
     const app = $('#app');
     app.innerHTML = '<div class="view"><p class="muted">Cargando…</p></div>';
     try {
-      if ((vista === 'camino' || vista === 'semana') && !st.admin) await cargarEntregas();
+      if ((vista === 'camino' || vista === 'semana') && (!st.admin || DB.demo)) await cargarEntregas();
       const html = await V[vista].html(...args);
       app.innerHTML = '<div class="view">' + html + '</div>';
       if (V[vista].mount) await V[vista].mount(...args);
@@ -335,7 +335,7 @@
     const ent = entregaDe(t), hecha = hechas.includes(t.id);
     const x = (st._entregas || {})[t.id];
     const estado = x ? (x.respuesta ? `<span class="pill ok">Entregado ✓</span> <a class="linkbtn small" href="#feedback">Ver el feedback de Flor</a>` : '<span class="pill ok">Entregado ✓</span> <span class="muted small">Esperando a Flor</span>') : '';
-    const subir = !ent || x || st.admin ? '' : `<button type="button" class="btn ghost sm" data-subir="${t.id}">${ent.label}</button>
+    const subir = !ent || x || (st.admin && !DB.demo) ? '' : `<button type="button" class="btn ghost sm" data-subir="${t.id}">${ent.label}</button>
       <form class="entrega" data-ent="${t.id}" hidden><input type="file" class="e-file" accept="audio/*,video/*,.pdf,image/*,.doc,.docx,.ppt,.pptx">
         <input type="url" class="e-link" placeholder="…o pega un link (Drive, Google Docs)"><textarea class="e-txt" rows="2" placeholder="¿Algo que quieras contarle a Flor? (opcional)"></textarea>
         <div class="row"><button class="btn sm" type="submit">Entregar</button><button type="button" class="linkbtn small e-x">Cancelar</button></div></form>`;
