@@ -29,6 +29,9 @@
       .replace(/(^|[\s(])(https:\/\/[^\s<)]+[^\s<).,;:!?])/g, (_, a, u) => a + lk(u, /wa\.me/.test(u) ? 'WhatsApp de Flor' : /academy\./.test(u) ? 'Abrir la clase' : 'Abrir link'))
       .replace(/\*\*(.+?)\*\*/g, '<b>$1</b>').replace(/(^|[^*])\*(?!\s)(.+?)\*/g, '$1<i>$2</i>').replace(/`([^`]+)`/g, '<code>$1</code>');
   }
+  const linkear = (t) => inline(t);
+  // Nombre corto y simpático para el saludo: su apodo (lo carga Flor en la ficha) o su primer nombre.
+  function apodoDe(p) { return String((p && (p.apodo || p.nombre)) || '').trim().split(' ')[0]; }
   function md(txt) {
     const L = String(txt || '').replace(/\r/g, '').split('\n'); let h = '', i = 0;
     while (i < L.length) {
@@ -65,6 +68,7 @@
     wins: '<path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M17 5h3a3 3 0 0 1-3 4M7 5H4a3 3 0 0 0 3 4"/>',
     empieza: '<path d="M5 21V4h11l-2 4 2 4H5"/>',
     proceso: '<path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M10 13h6M10 17h4"/>',
+    clases: '<rect x="3" y="5" width="13" height="14" rx="2"/><path d="M16 10l5-3v10l-5-3"/>',
     inicio: '<path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-5h4v5"/>',
     bandeja: '<path d="M3 13l3-8h12l3 8v6a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/><path d="M3 13h5l1 3h6l1-3h5"/>',
     alumnas: '<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><circle cx="17.5" cy="9" r="2.5"/><path d="M16 14.2a5 5 0 0 1 5.5 5.8"/>',
@@ -72,7 +76,7 @@
   };
   const svg = (k) => '<svg viewBox="0 0 24 24" aria-hidden="true">' + I[k] + '</svg>';
   const GRUPOS = [
-    ['Tu programa', [['semana', 'Mi semana'], ['camino', 'Mi camino'], ['empieza', 'Empieza acá']]],
+    ['Tu programa', [['semana', 'Mi semana'], ['clases', 'Tus clases'], ['camino', 'Mi camino'], ['empieza', 'Empieza acá']]],
     ['Con Flor', [['flor', 'Flor AI'], ['feedback', 'Pedir feedback'], ['weekly', 'Weekly report'], ['wins', 'Wins de todas']]],
     ['Tu práctica', [['coaches', 'Mis coaches'], ['progreso', 'Mi progreso']]]
   ];
@@ -233,9 +237,10 @@
       (i.weeklies || []).forEach((x) => W.push({ src: 'imp', email: i.email, nombre: i.nombre, perfil, semana: x.semana, respuestas: x.respuestas || {}, enviado_en: x.enviado_en, respuesta_flor: x.respuesta_flor || null, respondido_en: x.respondido_en }));
       ((i.datos || {}).pedidos || []).forEach((x) => T.push({ ...x, src: 'imp', email: i.email, nombre: i.nombre, perfil, estado: x.respuesta ? 'respondido' : 'pendiente' }));
     });
-    // Solo los weeklies de esta semana y, a lo sumo, de la semana pasada (Flor, 13/11): lo más viejo ya prescribió.
-    const desdeW = (() => { const d = new Date(DB.lunes() + 'T12:00:00'); d.setDate(d.getDate() - 7); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); })();
-    const sinResp = W.filter((w) => !w.respuesta_flor && (w.enviado_en || !vacio(w.respuestas)) && String(w.semana || '') >= desdeW);
+    // Solo los weeklies de esta semana (Flor, 13/11). Y si a esa alumna ya le respondiste uno posterior, el viejo no aparece.
+    const desdeW = DB.lunes();
+    const respDespues = (w) => W.some((y) => y.respuesta_flor && String(y.email || '').toLowerCase() === String(w.email || '').toLowerCase() && String(y.semana) > String(w.semana));
+    const sinResp = W.filter((w) => !w.respuesta_flor && (w.enviado_en || !vacio(w.respuestas)) && String(w.semana || '') >= desdeW && !respDespues(w));
     const resp = W.filter((w) => w.respuesta_flor);
     const orden = (a, b) => (a.semana < b.semana ? 1 : a.semana > b.semana ? -1 : String(a.nombre).localeCompare(String(b.nombre)));
     sinResp.sort(orden); resp.sort(orden);
@@ -552,12 +557,11 @@
 
   V.semana = {
     async html() {
-      const [tareas, weeklies, pedidos, resumenes] = await Promise.all([DB.tareas(), DB.weeklies(), DB.pedidos(), DB.resumenes ? DB.resumenes().catch(() => []) : []]);
+      const [tareas, weeklies] = await Promise.all([DB.tareas(), DB.weeklies()]);
       st._tareas = tareas;
       const p = st.perfil, r = racha(weeklies), l = labAlDia() || lab(), n = semanaDe(p), av = avanceCamino(p), sig = loQueSigue(p);
-      const fb = pedidos.find((x) => x.estado === 'respondido');
       const acordado = tareas.find((t) => !t.hecha);
-      const nombre = (p.nombre || '').split(' ')[0];
+      const nombre = apodoDe(p);
       const aviso = st.programa.aviso ? '<p class="note">' + esc(st.programa.aviso) + '</p>' : '';
       // Recordatorio del weekly: si todavía no mandó el de esta semana (y ya terminó el onboarding o empezó el camino)
       const wHoy = weeklies.find((w) => w.semana === DB.lunes());
@@ -566,43 +570,28 @@
       const sinOnb = (p.onboarding || []).length < onbDe(p).checklist.length;
       const cs = n ? semanaCamino(n) : null;
       const hechasSem = cs ? cs.sem.tareas.filter((t) => (p.camino_hecho || []).includes(t.id)).length : 0;
-      // Tu última clase / tu último lab (Flor, 13/11): el resumen que le mandó Flor, lo que trabajaron y el material.
-      // El material va en el resumen como una línea "Material de la clase: <link>" (o cualquier link de Drive/Docs).
-      const ultimaClase = (() => {
-        if (!resumenes.length) return '';
-        const verRes = (r) => {
-          const t = String(r.texto || '');
-          const links = [...t.matchAll(/https:\/\/(?:docs|drive)\.google\.com\/[^\s)>\]]+/g)].map((m) => m[0].split(/&(?:amp;)?(?:sa|source|ust|usg)=/)[0]);
-          const sin = t.replace(/^.*(Material|Worksheet|Playbook|Documento)[^:\n]*:\s*https:\/\/\S+\s*$/gim, '').trim();
-          return { cuerpo: md(sin), links: [...new Set(links)] };
-        };
-        const u = verRes(resumenes[0]), lab = fmt(p) !== '1:1';
-        return `<section class="card ultima"><div class="row between"><div><span class="eyebrow">${lab ? 'Tu último lab' : 'Tu última clase'} · ${esc(fecha(resumenes[0].fecha, { weekday: 'long', day: 'numeric', month: 'long' }))}</span><h3>Lo que trabajamos</h3></div>
-  ${u.links.length ? `<a class="btn" href="${esc(u.links[0])}" target="_blank" rel="noopener">Abrir el material de la clase</a>` : ''}</div>
-  <div class="feedback">${u.cuerpo}</div>
-  ${u.links.length > 1 ? `<div class="row" style="gap:8px;flex-wrap:wrap">${u.links.slice(1).map((l, i) => `<a class="btn ghost sm" href="${esc(l)}" target="_blank" rel="noopener">Material ${i + 2}</a>`).join('')}</div>` : ''}
-  ${resumenes.length > 1 ? `<details class="resumen small"><summary>${lab ? 'Labs' : 'Clases'} anteriores (${resumenes.length - 1})</summary>${resumenes.slice(1).map((r) => { const x = verRes(r); return `<details><summary>${esc(fecha(r.fecha, { weekday: 'long', day: 'numeric', month: 'long' }))}</summary><div class="feedback">${x.cuerpo}</div>${x.links.length ? `<a class="btn ghost sm" href="${esc(x.links[0])}" target="_blank" rel="noopener">Abrir el material</a>` : ''}</details>`; }).join('')}</details>` : ''}
-</section>`;
-      })();
       const enVivo = fmt(p) === '1:1'
         ? { t: 'Tu clase 1:1', d: p.horario_clase ? esc(p.horario_clase) : 'En tu horario fijo con Flor.', link: url(p.link_clase) || '' }
         : { t: l.fecha ? esc(l.fecha) : 'Lab de los sábados', d: l.fecha ? esc(l.horario || '') + (l.tema ? ' · ' + esc(l.tema) : '') : '15:30 a 16:30 de Argentina (12:30 MX y CR, 13:30 CO)', link: url(l.link) || 'https://meet.google.com/gow-vnpg-xhx' };
       return `
 <div class="hero"><div><h1>${saludo()}${nombre ? ', ' + esc(nombre) : ''}<span class="punto">.</span></h1>
-  <p class="muted">${n ? `Semana ${n} de 20 · Mes ${cs.mes.n} · ${esc(cs.mes.titulo)}` : 'Tu espacio de AT WORK: todo lo de tu programa, en un solo lugar.'}</p></div>
-  <div class="row"><a class="btn ghost" href="#weekly">${r.hoyHecho ? 'Ver mi weekly' : 'Completar mi weekly'}</a><a class="btn" href="#feedback">Pedir feedback</a></div></div>
+  <p class="muted">${n ? `Semana ${n} de 20 · Mes ${cs.mes.n} · ${esc(cs.mes.titulo)}` : 'Tu espacio de AT WORK: todo lo de tu programa, en un solo lugar.'}</p></div></div>
+<div class="acciones">
+  <a class="accion principal" href="#weekly/cargar"><b>${wHoy && wHoy.enviado_en ? 'Actualizar mi weekly report' : 'Subir mi weekly report'}</b><span>${wHoy && wHoy.enviado_en ? 'Ya lo mandaste esta semana ✓' : 'Todos los lunes · 5 a 10 minutos'}</span></a>
+  <a class="accion" href="#weekly/anteriores"><b>Ver mis weeklies</b><span>Tus reports y las respuestas de Flor</span></a>
+  <a class="accion" href="#feedback"><b>Pedir feedback</b><span>Mandale a Flor una tarea o material real</span></a>
+</div>
 ${aviso}
-${ultimaClase}
 ${recW}
 ${sinOnb && !weeklies.length ? `<section class="card feature"><span class="eyebrow">Tu primera semana</span><h2>Empieza por tu onboarding</h2><p class="muted">Dónde está cada cosa, tu punto de partida y tu primera práctica. Con calma: entender todo lleva unas dos semanas.</p><div class="row"><a class="btn" href="#empieza">Ir a Empieza acá</a></div></section>` : ''}
 <div class="kpis">
-  <section class="card kpi"><span class="eyebrow">Dónde estás</span><b class="kt">${esc('M' + (P.modulos[p.modulo_actual || 0] || P.modulos[0]).n + ' · ' + (P.modulos[p.modulo_actual || 0] || P.modulos[0]).nombre)}</b><span class="muted small">${(p.clases_asignadas || []).length ? 'Te toca: ' + esc(p.clases_asignadas[p.clases_asignadas.length - 1]) : 'Lo actualiza Flor en tu clase'}</span><a class="small" href="#camino">Ver mi camino ›</a></section>
   <section class="card kpi"><span class="eyebrow">Weekly · constancia</span><div class="kv"><span class="big">${r.actual}</span><span class="muted small">${r.actual === 1 ? 'lunes seguido' : 'lunes seguidos'}<br>Récord: ${r.rec}</span></div>
     <div class="streak">${r.celdas.map((c) => `<div class="${c.on ? 'on' : ''} ${c.hoy ? 'now' : ''}" title="${fecha(c.s)}">${c.on ? '✓' : c.hoy ? 'Hoy' : ''}</div>`).join('')}</div></section>
-  <section class="card kpi"><span class="eyebrow">${fmt(p) === '1:1' ? 'En vivo con Flor' : 'Tu próximo lab'}</span><b class="kt">${enVivo.t}</b><span class="muted small">${enVivo.d}</span>${enVivo.link ? `<a class="small" href="${esc(enVivo.link)}" target="_blank" rel="noopener">${fmt(p) === '1:1' ? 'Entrar a tu clase ›' : 'Entrar al lab ›'}</a>` : ''}</section>
+  <section class="card kpi"><span class="eyebrow">${fmt(p) === '1:1' ? 'En vivo con Flor' : 'Tu próximo lab'}</span><b class="kt">${enVivo.t}</b><span class="muted small">${enVivo.d}</span>${enVivo.link ? `<a class="small" href="${esc(enVivo.link)}" target="_blank" rel="noopener">${fmt(p) === '1:1' ? 'Entrar a tu clase ›' : 'Entrar al lab ›'}</a>` : ''}<a class="small" href="#clases">${fmt(p) === '1:1' ? 'Tus clases anteriores ›' : 'Tus labs anteriores ›'}</a></section>
+  <section class="card kpi"><span class="eyebrow">Dónde estás</span><b class="kt">${esc('M' + (P.modulos[p.modulo_actual || 0] || P.modulos[0]).n + ' · ' + (P.modulos[p.modulo_actual || 0] || P.modulos[0]).nombre)}</b><span class="muted small">${(p.clases_asignadas || []).length ? 'Te toca: ' + esc(p.clases_asignadas[p.clases_asignadas.length - 1]) : 'Lo actualiza Flor en tu clase'}</span><a class="small" href="#camino">Ver mi camino ›</a></section>
 </div>
 <div class="grid g-2">
-  <section class="card next"><span class="eyebrow">Lo que sigue</span>
+  <section class="card next"><span class="eyebrow">Lo que sigue · desde tu última clase</span>
     ${acordado ? `<h2>${esc(acordado.texto)}</h2><p class="muted small">Lo acordamos en tu última clase${acordado.donde ? ' · ' + esc(acordado.donde) : ''}</p><div class="row"><a class="btn ghost" href="#camino">Ver mi camino</a></div>`
       : sig ? `<h2>${esc(txtT(sig.t))}</h2><p class="muted small">Semana ${sig.s.s.join(' y ')} · ${esc(sig.s.titulo)} · ${esc(sig.t.donde)}</p><div class="row">${accionTarea(sig.t).replace('linkbtn small', 'btn')}<a class="btn ghost" href="#camino">Ver mi camino</a></div>`
       : n ? '<h2>Estás al día con tu camino</h2><p class="muted small">Usa esta semana para practicar con tu material real y mandárselo a Flor.</p><div class="row"><a class="btn" href="#feedback">Mandar material real</a></div>'
@@ -612,11 +601,11 @@ ${sinOnb && !weeklies.length ? `<section class="card feature"><span class="eyebr
     <div class="row"><button class="btn" type="button" data-ask="¿Dónde y cómo practico mi foco de esta semana (${esc(p.foco_titulo)})?">¿Dónde lo practico?</button><a class="btn ghost" href="#coaches">Mis coaches</a></div></section>`
     : `<section class="card empty-state"><span class="eyebrow">Tu foco de esta semana</span><h3>Flor lo elige con tu material</h3><p class="muted small">Cuando le mandes una reunión real o una práctica desde “Pedir feedback”, Flor te dice qué entrenar.</p><a class="btn ghost" href="#feedback">Pedir feedback</a></section>`}
 </div>
-${caminoSemanaHTML(p)}
 <div class="grid g-2">
   <section class="card">
     <div class="row between"><h3>Tareas que te dejó Flor</h3><span class="pill" id="taskCount"></span></div>
-    ${tareas.length ? '<ul class="tasks" id="tasks">' + tareas.map((t) => `<li><label><input type="checkbox" data-id="${t.id}" ${t.hecha ? 'checked' : ''}><div><div class="t">${esc(t.texto)}</div>${t.donde ? '<div class="where">' + esc(t.donde) + '</div>' : ''}</div></label></li>`).join('') + '</ul>'
+    <p class="muted small">Se actualizan después de cada clase.</p>
+    ${tareas.length ? '<ul class="tasks" id="tasks">' + tareas.map((t) => `<li><label><input type="checkbox" data-id="${t.id}" ${t.hecha ? 'checked' : ''}><div><div class="t">${esc(t.texto)}</div>${t.donde ? '<div class="where">' + linkear(t.donde) + '</div>' : ''}</div></label></li>`).join('') + '</ul>'
       : '<p class="muted small">Esta semana no hay tareas extra: sigue tu camino y completa tu weekly report.</p>'}
   </section>
   <section class="card ask"><span class="eyebrow">Flor AI</span><h3>¿Por dónde seguimos?</h3><p class="muted small">Conoce tu semana, tu foco, tu feedback y tu progreso. Te guía con el criterio de Flor.</p>
@@ -626,11 +615,7 @@ ${caminoSemanaHTML(p)}
       <button type="button" data-ask="Ayúdame con mi weekly report"><b>Ayúdame con mi weekly</b><span>Lo ordenamos juntas antes del lunes.</span></button>
     </div></section>
 </div>
-${fb ? `<section class="card">
-  <div class="row between"><h3>Último feedback de Flor</h3><span class="muted small">Sobre: ${esc(fb.titulo || fb.tipo)}</span></div>
-  <div class="feedback">${devolucion(fb.respuesta, fb.correcciones, 'pedidos:' + fb.id, fb.texto)}</div>
-  <a href="#feedback" class="small">Ver todos tus feedbacks</a>
-</section>` : ''}
+${caminoSemanaHTML(p)}
 <section class="card"><div class="row between"><h3>Tu recorrido</h3><a class="small" href="#camino">Ver detalle</a></div>${etapasHTML(n, p)}</section>
 <section class="grid">
   <span class="eyebrow">A mano</span>
@@ -843,9 +828,42 @@ ${fb ? `<section class="card">
   };
 
   // ---------- Weekly report ----------
+  // ---------- Tus clases (Flor, 13/11): el registro de cada clase o lab, con su resumen, su material y sus tareas ----------
+  function verResumen(r) {
+    const t = String(r.texto || '');
+    const links = [...t.matchAll(/https:\/\/[^\s)>\]]+/g)].map((m) => m[0].split(/&(?:amp;)?(?:sa|source|ust|usg)=/)[0].replace(/[.,;]+$/, ''));
+    const rotulo = (u) => /meet\.google|\.mp4|grabaci|recording|loom|youtu|vimeo/i.test(u) ? 'Ver la grabación' : /academy\./.test(u) ? 'Ver la clase del programa' : /docs\.google\.com\/(document|presentation)|drive\.google/.test(u) ? 'Abrir el material' : 'Abrir link';
+    const sin = t.replace(/^.*(Material|Worksheet|Playbook|Documento|Grabaci[oó]n|Recording)[^:\n]*:\s*https:\/\/\S+\s*$/gim, '').trim();
+    return { cuerpo: md(sin), links: [...new Set(links)].map((u) => ({ u, t: rotulo(u) })) };
+  }
+  V.clases = {
+    async html() {
+      const p = st.perfil, esLab = fmt(p) !== '1:1';
+      const [res, tareas] = await Promise.all([DB.resumenes ? DB.resumenes().catch(() => []) : [], DB.tareas().catch(() => [])]);
+      const l = labAlDia() || lab();
+      const prox = esLab
+        ? { t: l.fecha ? esc(l.fecha) : 'Lab de los sábados', d: l.fecha ? esc(l.horario || '') + (l.tema ? ' · ' + esc(l.tema) : '') : '15:30 a 16:30 de Argentina', link: url(l.link) || 'https://meet.google.com/gow-vnpg-xhx' }
+        : { t: 'Tu clase 1:1 con Flor', d: p.horario_clase ? esc(p.horario_clase) : 'En tu horario fijo con Flor.', link: url(p.link_clase) || '' };
+      const pend = tareas.filter((t) => !t.hecha);
+      const btns = (ls) => ls.length ? `<div class="row" style="gap:8px;flex-wrap:wrap">${ls.map((x, i) => `<a class="btn ${i ? 'ghost ' : ''}sm" href="${esc(x.u)}" target="_blank" rel="noopener">${esc(x.t)}</a>`).join('')}</div>` : '';
+      const tit = (r) => esc(r.asunto && !/^resumen de tu clase$/i.test(r.asunto.trim()) ? r.asunto.replace(/^(Re:\s*)?Resumen de tu (clase|lab)\s*[·:\-–]?\s*/i, '') : (esLab ? 'Lab' : 'Clase'));
+      return `<div class="head"><div><span class="eyebrow">${esLab ? 'Tus labs' : 'Tus clases en vivo'}</span><h1>Tus clases</h1></div></div>
+<p class="muted intro">Cada ${esLab ? 'lab' : 'clase'} queda guardad${esLab ? 'o' : 'a'} acá: lo que trabajamos, el material, la grabación si la hay y lo que te quedó para hacer.</p>
+<section class="card feature"><span class="eyebrow">${esLab ? 'Tu próximo lab' : 'Tu próxima clase'}</span><h2>${prox.t}</h2><p class="muted">${prox.d}</p>${prox.link ? `<div class="row"><a class="btn" href="${esc(prox.link)}" target="_blank" rel="noopener">${esLab ? 'Entrar al lab' : 'Entrar a tu clase'}</a></div>` : ''}</section>
+${res.length ? res.map((r, i) => { const x = verResumen(r); return `<section class="card ${i ? '' : 'ultima'}">
+  <details ${i ? '' : 'open'}><summary><div class="row between" style="width:100%"><div><span class="eyebrow">${i ? '' : (esLab ? 'Último lab · ' : 'Última clase · ')}${esc(fecha(r.fecha, { weekday: 'long', day: 'numeric', month: 'long' }))}</span><h3>${tit(r)}</h3></div></div></summary>
+  ${btns(x.links)}
+  <div class="feedback">${x.cuerpo}</div>
+  ${!i && pend.length ? `<div class="reply"><span class="eyebrow">Lo que te quedó para hacer</span><ul>${pend.map((t) => `<li>${esc(t.texto)}${t.donde ? ' <span class="muted small">· ' + linkear(t.donde) + '</span>' : ''}</li>`).join('')}</ul><a class="small" href="#semana">Tildarlas en Mi semana ›</a></div>` : ''}
+  </details></section>`; }).join('')
+  : `<section class="card empty-state"><h3>Todavía no hay ${esLab ? 'labs' : 'clases'} guardad${esLab ? 'os' : 'as'}</h3><p class="muted small">Después de cada ${esLab ? 'lab' : 'clase'} con Flor, acá aparece el resumen con el material y tus tareas.</p></section>`}`;
+    }
+  };
+
   V.weekly = {
     async html() {
-      const ws = await DB.weeklies(); const lun = DB.lunes();
+      const [ws, peds] = await Promise.all([DB.weeklies(), DB.pedidos().catch(() => [])]); const lun = DB.lunes();
+      const fb = peds.find((x) => x.estado === 'respondido');
       const actual = ws.find((x) => x.semana === lun);
       // Si Flor ya respondió el de esta semana, el formulario es para el weekly nuevo (el del lunes que viene).
       const prox = (() => { const d = new Date(lun + 'T12:00:00'); d.setDate(d.getDate() + 7); return diaISO(d); })();
@@ -866,11 +884,16 @@ ${sem !== lun ? `<p class="note small">Flor ya respondió tu weekly de esta sema
   <p class="eyebrow">${P.weeklyLema}</p>
   ${bloqueado ? '' : `<div class="row"><button class="btn" type="submit">${w.enviado_en ? 'Actualizar mi weekly' : 'Enviar a Flor'}</button><button class="btn ghost" type="button" data-ask="Ayúdame con mi weekly report">Ordenarlo con Flor AI</button><span class="muted small" id="wsave">Tu borrador se guarda solo.</span></div>`}
 </form>
-${hist.length ? `<section class="card"><h3>Tus weeklies anteriores</h3>${hist.map((x) => `<details class="fbitem"><summary><b>Semana del ${fecha(x.semana, { day: 'numeric', month: 'long' })}</b> ${x.respuesta_flor ? '<span class="pill ok">Flor respondió</span>' : ''}</summary>
+${fb ? `<section class="card" id="ultimofb">
+  <div class="row between"><div><span class="eyebrow">Último feedback de Flor${fb.respondido_en ? ' · ' + fecha(String(fb.respondido_en).slice(0, 10), { day: 'numeric', month: 'long' }) : ''}</span><h3>${esc(fb.titulo || fb.tipo || 'Tu tarea')}</h3></div><a href="#feedback" class="small">Ver todos tus feedbacks ›</a></div>
+  <div class="feedback">${devolucion(fb.respuesta, fb.correcciones, 'pedidos:' + fb.id, fb.texto)}</div>
+</section>` : ''}
+${hist.length ? `<section class="card" id="whist"><h3>Tus weeklies anteriores</h3>${hist.map((x) => `<details class="fbitem"><summary><b>Semana del ${fecha(x.semana, { day: 'numeric', month: 'long' })}</b> ${x.respuesta_flor ? '<span class="pill ok">Flor respondió</span>' : ''}</summary>
   ${wq(st.perfil).map(([id, l]) => (x.respuestas[id] ? `<p class="small"><b>${l}</b><br>${esc(x.respuestas[id])}</p>` : '')).join('')}
   ${x.respuesta_flor ? `<div class="reply"><span class="eyebrow">Flor</span>${respuestaWeekly(x.respuesta_flor)}</div>` : ''}</details>`).join('')}</section>` : ''}`;
     },
-    mount() {
+    mount(ir) {
+      if (ir) setTimeout(() => { const el = ir === 'anteriores' ? ($('#whist') || $('#ultimofb')) : $('#wform'); if (el) el.scrollIntoView({ behavior: 'smooth' }); if (ir === 'cargar') { const t = $('#wform textarea:not([readonly])'); if (t) t.focus({ preventScroll: true }); } }, 120);
       const f = $('#wform'); if (!f || $('textarea[readonly]', f)) return;
       const datos = () => { const r = {}; $$('textarea', f).forEach((t) => { if (t.value.trim()) r[t.dataset.k] = t.value; }); if ($('#w-compartir') && !$('#w-compartir').checked) r.compartir_wins = 'no'; return r; };
       let tm;
@@ -1219,8 +1242,12 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
   // Criterio: Ann (una sola cosa a la vez, con métrica de "resuelto") + Hábitos Atómicos (identidad, versión mínima,
   // nunca fallar dos veces, mínima fricción). Mi día se tilda en menos de 30 segundos.
   const HAB = {
-    dia: [['escritorio', 'Escritorio + medicación', 'Mañana'], ['meditar', 'Meditar', 'Mañana'], ['leer', 'Leer y escribir', 'Mañana'], ['mover', 'Gym o pádel', 'Mañana'],
+    dia: [['escritorio', 'Ordenar escritorio', 'Mañana'], ['mover', 'Gym o pádel', 'Mañana'],
       ['casa', "Cocina + casa 15' + cena resuelta", 'Después de almorzar'], ['grabar', 'GRABAR (antes de cualquier otra cosa en la compu)', 'Después de almorzar']],
+    // Suman si se dan, pero no cuentan para el día: a veces se puede y a veces no (Flor, 13/11).
+    extra: [['meditar', 'Meditar'], ['leer', 'Leer y escribir']],
+    // La versión mínima de cada hábito para un día difícil.
+    minima: [['Ordenar escritorio', 'Despejar la mesa: 2 minutos.'], ['Gym o pádel', 'Caminar 10 minutos o estirar 5.'], ['Cocina + casa', 'Lavar lo del día y dejar la cena simple resuelta.'], ['GRABAR', 'Una sola toma de 1 minuto, aunque no la uses.']],
     semana: [['w:compras', 'Compras + comida + flores (domingo)'], ['w:amiga', 'Ver a una amiga'], ['w:plataforma', 'Plataforma solo martes y jueves']],
   };
   // "Tu día": lo que la madrugada dejó listo (clases preparadas, qué grabar, qué subir). Sale de la tabla hoy_flor.
@@ -1278,14 +1305,19 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
 <p class="identidad" id="ident" title="Tocá para editar">${esc(F.identidad || IDENTIDAD)}</p>
 <form id="ident-f" style="display:none" class="grid" ><textarea id="ident-t" rows="2">${esc(F.identidad || IDENTIDAD)}</textarea><div class="row"><button class="btn sm" type="submit">Guardar</button><button class="linkbtn small" type="button" id="ident-x">Cancelar</button></div></form>
 <section class="card midia">
-  <div class="row between"><h2>Mi día</h2><span class="muted small" id="hab-n">${fecha(hoyI, { weekday: 'long', day: 'numeric' })} · ${n} de 6</span></div>
+  <div class="row between"><h2>Mi día</h2><span class="muted small" id="hab-n">${fecha(hoyI, { weekday: 'long', day: 'numeric' })} · ${n} de ${HAB.dia.length}</span></div>
   ${fallóAyer ? '<p class="note small">Ayer no se dio, y está bien. Hoy no se falla dos veces: con la versión mínima alcanza.</p>' : ''}
   ${!st._habOk ? '<p class="note small">Todavía no se puede guardar: falta activar la tabla de hábitos.</p>' : ''}
   <div class="hab-list">${bloque}</div>
-  <button type="button" class="linkbtn small minima${r.minima ? ' on' : ''}" id="minima" aria-pressed="${!!r.minima}">${r.minima ? '✓ Día difícil: hice la versión mínima (cuenta igual)' : 'Día difícil: hice la versión mínima'}</button>
+  <p class="hab-sec">Si se da (no cuenta para el día)</p>
+  <div class="hab-list">${HAB.extra.map(([k, l]) => item(k, l, r.hechos[k])).join('')}</div>
+  <details class="minima-d"${r.minima ? ' open' : ''}><summary class="small">Día difícil · ver la versión mínima</summary>
+    <ul class="small">${HAB.minima.map(([h, m]) => `<li><b>${esc(h)}:</b> ${esc(m)}</li>`).join('')}</ul>
+    <button type="button" class="linkbtn small minima${r.minima ? ' on' : ''}" id="minima" aria-pressed="${!!r.minima}">${r.minima ? '✓ Hice la versión mínima (cuenta igual)' : 'Hice la versión mínima'}</button>
+  </details>
   <p class="hab-sec">Esta semana</p>
   <div class="hab-list">${HAB.semana.map(([k, l]) => item(k, l, sem.hechos[k])).join('')}</div>
-  <div class="hab-sem" id="hab-sem">${dias.map((d) => { const iso = diaISO(d), c = cuenta(iso), m = H[iso] && H[iso].minima; return `<div><span>${d.toLocaleDateString('es', { weekday: 'narrow' })}</span><b class="${c === 6 || m ? 'full' : c ? 'part' : ''}${iso === hoyI ? ' hoy' : ''}" data-dsem="${iso}">${m && c < 6 ? '½' : c || ''}</b></div>`; }).join('')}</div>
+  <div class="hab-sem" id="hab-sem">${dias.map((d) => { const iso = diaISO(d), c = cuenta(iso), m = H[iso] && H[iso].minima; return `<div><span>${d.toLocaleDateString('es', { weekday: 'narrow' })}</span><b class="${c === HAB.dia.length || m ? 'full' : c ? 'part' : ''}${iso === hoyI ? ' hoy' : ''}" data-dsem="${iso}">${m && c < HAB.dia.length ? '½' : c || ''}</b></div>`; }).join('')}</div>
   <p class="muted small hab-pie">Cada tilde es un voto por quien querés ser. Se guarda en tu Notion (“Mis hábitos”).</p>
 </section>
 <section class="card feature unica">
@@ -1323,9 +1355,9 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
       const guardar = async (f) => { const x = fila(f); try { await DB.marcarHabito(f, x.hechos, x.minima); } catch (e) { toast('No se guardó. Probá de nuevo.', true); } };
       const pintarHoy = () => {
         const x = fila(hoyI), n = HAB.dia.filter(([k]) => x.hechos[k]).length;
-        $('#hab-n').textContent = fecha(hoyI, { weekday: 'long', day: 'numeric' }) + ' · ' + n + ' de 6';
+        $('#hab-n').textContent = fecha(hoyI, { weekday: 'long', day: 'numeric' }) + ' · ' + n + ' de ' + HAB.dia.length;
         const dot = $(`[data-dsem="${hoyI}"]`);
-        if (dot) { dot.className = (n === 6 || x.minima ? 'full' : n ? 'part' : '') + ' hoy'; dot.textContent = x.minima && n < 6 ? '½' : n || ''; }
+        if (dot) { dot.className = (n === HAB.dia.length || x.minima ? 'full' : n ? 'part' : '') + ' hoy'; dot.textContent = x.minima && n < HAB.dia.length ? '½' : n || ''; }
       };
       $$('[data-hab]').forEach((bt) => (bt.onclick = () => {
         const k = bt.dataset.hab, f = k.startsWith('w:') ? lun : hoyI, x = fila(f);
@@ -1336,7 +1368,7 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
       $('#minima').onclick = () => {
         const x = fila(hoyI); x.minima = !x.minima;
         const bt = $('#minima'); bt.classList.toggle('on', x.minima); bt.setAttribute('aria-pressed', x.minima);
-        bt.textContent = x.minima ? '✓ Día difícil: hice la versión mínima (cuenta igual)' : 'Día difícil: hice la versión mínima';
+        bt.textContent = x.minima ? '✓ Hice la versión mínima (cuenta igual)' : 'Hice la versión mínima';
         pintarHoy(); guardar(hoyI);
       };
       $$('[data-copiar]').forEach((bt) => (bt.onclick = async () => { const t = bt.parentElement.querySelector('pre').textContent; try { await navigator.clipboard.writeText(t); toast('Copiado'); } catch (e) { toast('No se pudo copiar', true); } }));
@@ -1372,11 +1404,23 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
       const porMail = (t) => /^flor te respondi[oó] por mail\.?$/i.test(String(t || '').trim());
       const grupo = (titulo, extra, html) => `<section class="card sem-grupo"><div class="row between"><h3>${esc(titulo)}</h3>${extra || ''}</div>${html}</section>`;
       let cuerpo = '';
+      // Si la alumna lo subió el día de su clase, antes de la clase: se trabaja EN la clase y el feedback va después (Flor, 13/11).
+      const ch = tab === 'pedidos' && esFlor() ? await clasesHoy().catch(() => null) : null;
+      const normN = (t) => String(t || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+      const claseHoyDe = (x) => {
+        if (!ch || !ch.length || diaISO(new Date(x.creado)) !== diaISO(new Date())) return null;
+        const m = String((x.perfil || {}).email || x.email || '').toLowerCase(), n = normN(apodoDe(x.perfil || { nombre: x.nombre }));
+        const c = ch.find((y) => (y.invitadas || []).includes(m)) || (n.length >= 3 ? ch.find((y) => normN(y.titulo).split(/[^a-zñ]+/).includes(n)) : null);
+        if (!c || !c.inicio) return null;
+        const ini = new Date(c.inicio), fin = new Date(ini.getTime() + 60 * 60000);
+        return new Date(x.creado) < ini && Date.now() < fin ? { c, hora: hora(c.inicio), link: hojaDe(c) || c.descripcion || '', meet: c.meet } : null;
+      };
       if (tab === 'pedidos') {
         cuerpo = b.pend.length ? porSemana(b.pend, (x) => lunesDe(x.creado)).map((g) => grupo(nombreSemana(g.s), `<span class="pill warn">${g.items.length}</span>`, g.items.map((x) => x.src === 'app' ? `<div class="fbitem" data-pid="${x.id}" data-aid="${x.alumna_id}" data-tit="${esc(x.titulo || '')}" data-mail="${esc(String((x.perfil || {}).email || '').toLowerCase())}" data-or="${esc(x.origen || '')}" data-mas="${esc(x.mail_asunto || '')}">
         <div class="row between"><b>${esc(x.nombre)} · ${esc(x.titulo || tipoNombre(x.tipo))}</b><span class="muted small">${tipoNombre(x.tipo)} · ${fecha(x.creado, { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}</span></div>
         ${x.mail_borrador ? `<p class="note small gm">Ya armaste el borrador en tu Gmail (${fecha(x.mail_borrador, { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}). Cuando lo mandes, esto se marca respondido solo.</p>` : ''}
         ${x.texto ? `<pre>${esc(x.texto)}</pre>` : ''}${adjunto(x)}${url(x.link) ? ` <a class="small" href="${esc(x.link)}" target="_blank" rel="noopener">Abrir el link que mandó</a>` : ''}
+        ${(() => { const k = claseHoyDe(x); return k ? `<div class="note enclase"><b>Tiene clase hoy a las ${esc(k.hora)}: trabajalo en clase con ella.</b><br><span class="small">El material ya queda en su clase lista. Después de la clase le mandás el feedback de esto, relacionado con lo que vieron.</span><div class="row" style="gap:8px;margin-top:8px">${url(k.link) ? `<a class="btn sm" href="${esc(k.link)}" target="_blank" rel="noopener">Abrir su clase lista</a>` : ''}${url(k.meet) ? `<a class="btn ghost sm" href="${esc(k.meet)}" target="_blank" rel="noopener">Entrar a la clase</a>` : ''}</div></div><details class="despues"><summary class="small">Armar el feedback igual (mejor después de la clase)</summary>` : ''; })()}
         <p class="aviso-audio note small" hidden></p>
         ${['audio', 'reunion'].includes(x.tipo) || x.archivo || /drive\.google/.test(x.link || '') ? `<div class="field"><label>¿Quién es ella en la grabación?</label><small>Si en la reunión hablan varias personas, escribe su nombre (o "la que presenta el reporte") y toca «Armar de nuevo con IA». Si lo dejas vacío, la IA la busca sola.</small><input type="text" class="quien" placeholder="${esc(String(x.nombre || '').split(' ')[0])}"></div>` : ''}
         <div class="field"><label>Tu respuesta</label><small>Lo que funcionó, tu foco para ella y qué clase ver. Las correcciones van abajo: ella las ve como ejercicio (primero las encuentra, después ve tus respuestas).</small><textarea class="r" rows="6"></textarea></div>
@@ -1384,6 +1428,7 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
         <p class="notas small muted" hidden></p>
         <div class="row"><button class="btn send" type="button">Armar borrador en Gmail</button><button class="btn ghost ia" type="button">Borrador con IA</button><button class="btn ghost ver" type="button">Ver cómo lo ve ella</button><button class="linkbtn small borrarp" type="button">Borrar pedido</button></div>
         <div class="vista" hidden><span class="eyebrow">Así lo ve ella en su app</span><div class="reply"></div></div>
+        ${claseHoyDe(x) ? '</details>' : ''}
       </div>` : `<div class="fbitem" data-pimp="${esc(x.email)}" data-origen="${esc(x.origen || '')}" data-mail="${esc(String(x.email || '').toLowerCase())}" data-or="${esc(x.origen || '')}">
         <div class="row between"><b>${esc(x.nombre)} · ${esc(x.titulo || tipoNombre(x.tipo))}</b><span class="muted small">${tipoNombre(x.tipo)} · ${fecha(x.creado)} · todavía sin cuenta</span></div>
         ${x.texto ? `<pre>${esc(x.texto)}</pre>` : ''}${url(x.link) ? ` <a class="small" href="${esc(x.link)}" target="_blank" rel="noopener">Abrir el link</a>` : ''}
@@ -1694,6 +1739,7 @@ ${cuerpo}`;
     <div class="field"><label for="f-nombre">Nombre</label><input id="f-nombre" type="text" value="${v('nombre')}"></div>
     <div class="field"><label for="f-formato">Formato</label><select id="f-formato">${['LAB', '1:1'].map((o) => `<option ${a.formato === o ? 'selected' : ''}>${o}</option>`).join('')}</select></div>
   </div>
+  ${'apodo' in a ? `<div class="field"><label for="f-apodo">Cómo la llamás</label><small>Su nombre corto para el saludo de su inicio. Ej.: Vir, Lau, Gaby</small><input id="f-apodo" type="text" value="${v('apodo')}"></div>` : ''}
   <div class="field"><label for="f-trabajo">Su trabajo</label><small>A qué se dedica, con quién habla en inglés. Lo usa Flor AI.</small><input id="f-trabajo" type="text" value="${v('trabajo')}"></div>
   <div class="field"><label for="f-objetivo">Objetivo a 5 meses</label><textarea id="f-objetivo" rows="2">${v('objetivo')}</textarea></div>
   <div class="field"><label for="f-ficha">Lo que sabes de ella</label><small>Solo lo ves tú y lo usa Flor AI para guiarla como tú: su historia, su contexto, cómo trabaja, qué le funciona, qué la frena. Ella no lo ve.</small><textarea id="f-ficha" rows="6">${esc(ficha)}</textarea></div>
@@ -1829,6 +1875,7 @@ ${cuerpo}`;
           drive_url: g('drive_url'), activa: $('#f-activa').checked, fecha_inicio: g('fecha_inicio') || null,
           horario_clase: g('horario_clase'), link_clase: g('link_clase')
         };
+        if ($('#f-apodo')) c.apodo = g('apodo') || null;
         await intentar(() => Promise.all([DB.actualizarPerfil(aid, c), DB.guardarFicha(aid, $('#f-ficha').value)]), 'Guardado');
         if (aid === st.perfil.id) Object.assign(st.perfil, c);
       };

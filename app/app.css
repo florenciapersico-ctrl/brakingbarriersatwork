@@ -420,3 +420,13 @@ details.mas-grabar summary{cursor:pointer}
 .tasks form.entrega input[type=url],.tasks form.entrega textarea{font:inherit;font-size:14px;padding:6px 8px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--fg)}
 .card.ultima .feedback h4{margin:12px 0 4px}
 .card.ultima .feedback ul,.card.ultima .feedback ol{margin:4px 0 8px;padding-left:20px}
+/* Inicio de la alumna: tres accesos directos arriba (Flor, 13/11) */
+.acciones{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:4px 0 16px}
+.accion{display:flex;flex-direction:column;gap:4px;padding:16px 18px;border:1px solid var(--line);border-radius:14px;background:var(--surface);text-decoration:none;color:var(--fg)}
+.accion b{font-size:16px}.accion span{font-size:13px;color:var(--muted)}
+.accion:hover{border-color:var(--accent)}
+.accion.principal{background:var(--brand);border-color:var(--brand);color:var(--on-brand,#fff)}.accion.principal span{color:inherit;opacity:.85}
+@media (max-width:720px){.acciones{grid-template-columns:1fr}}
+.minima-d{margin-top:8px}.minima-d summary{cursor:pointer;color:var(--brand)}.minima-d ul{margin:8px 0;padding-left:18px}
+.note.enclase{border-left:4px solid var(--brand)}
+details.despues > summary{cursor:pointer;color:var(--muted);margin:6px 0}
