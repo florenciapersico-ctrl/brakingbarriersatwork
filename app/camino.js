@@ -91,8 +91,7 @@
         T('7.2', 'M2 · Presentaciones: parte 1', 'clase playbook', 'Módulo 2', { link: M2('ecdd7925-c11f-4276-9db3-e985ff8be613') }),
         T('7.3', 'M2 · Presentaciones: parte 2', 'clase playbook', 'Módulo 2', { link: M2('363344d6-a536-4ed7-97df-15565cbd16f3') })
       ] },
-      { s: [8], titulo: 'Presentarte y conectar', tareas: [
-        T('8.1', 'M2 · Presentarte: a un equipo nuevo o en una entrevista', 'clase', 'Módulo 2', { pronto: true }),
+      { s: [8], titulo: 'Conectar y sostener la conversación', tareas: [
         T('8.2', 'M2 · Small Talk & Networking', 'clase', 'Módulo 2', { pronto: true }),
         T('8.4', 'M2 · Expresar desacuerdo', 'clase', 'Módulo 2', { pronto: true }),
         T('8.5', 'M2 · Responder preguntas inesperadas', 'clase', 'Módulo 2', { pronto: true }),
