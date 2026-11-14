@@ -29,6 +29,13 @@ Lo lee la tarea programada "🧪 Lab del sábado" antes de armar cada lab. Se ac
     carpeta del lab en Drive, y lo que ven las alumnas en programa.proximo_lab (tema, objetivo, preparar, lab_sheet).
     Se le avisa a Flor por mail con el link, el jueves.
 
+11. **La Lab Sheet de las alumnas es un Google Doc** (no Canva), en inglés simple, que cada una copia y completa
+    durante el lab (14/11). Sigue los pasos del guion: su Delivery Method (qué/cómo/quién), su primer puntaje, el
+    mapa o la estructura con frases, la gramática en una tabla, "Find the mistake", su Mission Card en blanco
+    (Nivel 1 + Nivel 2), sus correcciones (dije / correcto / por qué), su segundo puntaje y "My week".
+    Se guarda en la carpeta del lab y el link que se da es el de copia: …/document/d/<id>/copy
+    (va a programa.proximo_lab.lab_sheet). Modelo: LAB 02 · Lab Sheet (Drive › Labs › LAB 02).
+
 ## Feedback de cada lab
 
 (La tarea agrega acá, con fecha, lo que Flor dejó en la app sobre cada lab.)
