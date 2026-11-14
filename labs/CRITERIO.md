@@ -36,19 +36,18 @@ Lo lee la tarea programada "🧪 Lab del sábado" antes de armar cada lab. Se ac
     Se guarda en la carpeta del lab y el link que se da es el de copia: …/document/d/<id>/copy
     (va a programa.proximo_lab.lab_sheet). Modelo: LAB 02 · Lab Sheet (Drive › Labs › LAB 02).
 
-12. **La presentación: liviana, como las clases de AT WORK** (14/11: "me gustan más las presentaciones menos
-    cargadas, como las que hago para AT WORK. Los tonos me encantan, pero es demasiado cargado"). Base: su clase
-    "Presentación - Módulo 0 - Clase 1" en Canva (design DAHByKDAR_Y). Fondo beige, título grande marrón, una
-    línea en terracota y UNA frase corta debajo; foto de Flor a la derecha o, sin foto, título a la izquierda y dos
-    bloques chicos (subtítulo + una o dos líneas) a la derecha. Nada de recuadros, viñetas ni tablas en la
-    diapositiva: lo largo va en las **notas del orador** (lo que Flor dice, en inglés, + notas cortas en español) y
-    en la Lab Sheet. Cómo: copy-design de DAHByKDAR_Y y merge-designs (create_new_design, una sola operación
-    insert_pages) con las páginas 1 (portada), 2/4/5/6 (título + subtítulo + frase + foto) y 3 (título + dos bloques),
-    repetidas en el orden que haga falta; después edit-design (replace_text y replace_speaker_notes) y commit.
-    Modelo: "LAB 02 · Give an Update That Lands · AT WORK" (https://www.canva.com/d/qKCjs50KI70dfE5), 12 diapositivas:
-    portada · Today's goal · Where do you get stuck? (Delivery Method) · Your first try · Headline first · The
-    Update Map · Listen (el modelo) · Four tenses · Find the mistake · Your mission · Second try · Your week.
-    La plantilla "Breaking Barriers at work - ppt Template" (DAHVqyTt-3c) queda para portadas de módulos, no para labs.
+12. **La presentación va con el branding de Flor** (14/11: "el deck no tiene nada que ver con mi estilo"). Se arma
+    en Canva a partir de SU plantilla "Breaking Barriers at work by Flor Pérsico - ppt Template" (design DAHVqyTt-3c):
+    copy-design de la plantilla y después merge-designs (create_new_design) con las páginas que hagan falta, y se
+    cambian solo los textos (edit-design, replace_text). Páginas de la plantilla: 1 portada (logo; se agrega abajo
+    "WORKING LAB NN · TEMA" y la fecha), 2 título + recuadro con 4 ítems (objetivo, mapas, puntajes), 8 dos columnas
+    (método, tablas cortas), 4–7 separador marrón con foto (THE WHAT / THE HOW / THE WHO), 9 cita (el modelo para leer).
+    Modelo: "LAB 02 · Give an Update That Lands · Breaking Barriers" (https://www.canva.com/d/24Y_jEfTp8zAGWM),
+    14 diapositivas: portada · Today's goal · The Delivery Method · Your first try · THE WHAT · el mapa · el modelo ·
+    THE HOW · la gramática · Find the mistake · THE WHO · Your Mission + las rondas · Your second try · Your week.
+    Tiene que guiar sola: cada diapositiva dice qué hacen ellas, todo en inglés, con información que les sirva en el
+    trabajo. En las **notas del orador** de cada diapositiva va lo que Flor dice (en inglés) y sus notas cortas en
+    español. Textos cortos para que no se desborden. (14/11: Flor probó una versión liviana con el estilo de sus clases de AT WORK y eligió esta: se queda la plantilla de Breaking Barriers.) (los separadores, máximo ~22 caracteres por línea).
 
 ## Feedback de cada lab
 
