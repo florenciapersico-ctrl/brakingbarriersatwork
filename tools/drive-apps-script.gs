@@ -30,6 +30,8 @@
  * 8) La bandeja de la app ve qué borradores de feedback ya hay en Gmail; si Flor arma uno desde la app y ya
  *    existía (por ejemplo, el de la rutina de la mañana), se reemplaza ese en vez de crear otro.
  * 9) La pantalla Alumnas de la app muestra quién tiene clase hoy, leyendo tu Google Calendar (pide permiso del Calendar).
+ * 10) Las clases 1:1 se cierran solas: busca las notas de Gemini, la app arma y revisa el resumen, y el mail sale desde tu Gmail.
+ *    Para prenderlo: elegí la función activarClases y tocá Ejecutar (una sola vez).
  * Si ya lo tenías publicado: pegá esta versión y hacé Implementar › Gestionar implementaciones › editar › Versión nueva.
  * El script solo actúa si el secreto coincide: guarda en la carpeta de la alumna que le indica la función
  * y lee únicamente el archivo de audio que le pide la función.
@@ -308,4 +310,77 @@ function crearCarpetaAlumna(nombre, email) {
   nombres.forEach(function (n) { if (!carpeta.getFoldersByName(n).hasNext()) carpeta.createFolder(n); });
   if (email) { try { carpeta.addEditor(email); } catch (e) { console.error('compartir', e); } }
   return { ok: true, link: carpeta.getUrl(), id: carpeta.getId() };
+}
+
+// ---------- 10) Clases 1:1 que se cierran solas (sin depender de Claude en la nube) ----------
+// Cada 5 minutos: busca la transcripción (notas de Gemini) de cada clase 1:1 de hoy que ya terminó y se la pasa a la app.
+// La app arma el resumen con tu método, lo revisa contra la transcripción y carga tareas, foco y patrones.
+// Cuando el resumen está listo y revisado, este script le manda el mail a la alumna DESDE TU GMAIL, con vos en CCO,
+// y el botón OK de la app queda verde ("Resumen enviado"). Los labs nunca llevan resumen ni mail.
+// Para prenderlo: en el editor elegí la función activarClases y tocá Ejecutar (una sola vez). Pide permiso de Gmail, Drive y Calendar.
+// Requisito: que la clase se grabe con "Tomar notas con Gemini" + transcripción en el Meet.
+function activarClases() {
+  ScriptApp.getProjectTriggers().forEach(function (t) { if (t.getHandlerFunction() === 'revisarClases') ScriptApp.deleteTrigger(t); });
+  ScriptApp.newTrigger('revisarClases').timeBased().everyMinutes(5).create();
+  revisarClases();
+}
+
+var ZONA = 'America/Argentina/Buenos_Aires';
+function esLab(t) { return /(^|\s)(🧪|working\s+lab|lab\s*\d|lab\b)/i.test(String(t || '')); }
+function norm(s) { return String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, ' ').trim(); }
+
+function revisarClases() {
+  var lock = LockService.getScriptLock();
+  if (!lock.tryLock(1000)) return; // ya hay una corrida en curso
+  try {
+    var props = PropertiesService.getScriptProperties();
+    var ahora = new Date(), hoy = Utilities.formatDate(ahora, ZONA, 'yyyy-MM-dd');
+    var r = clasesDelDia(hoy + 'T00:00:00-03:00', Utilities.formatDate(ahora, ZONA, "yyyy-MM-dd'T'HH:mm:ss") + '-03:00');
+    (r.clases || []).forEach(function (c) {
+      if (esLab(c.titulo) || !c.invitadas.length || c.invitadas.length > 2) return;
+      if (new Date(c.fin).getTime() > ahora.getTime() - 10 * 60 * 1000) return; // todavía no terminó
+      var email = c.invitadas[0], marca = 'CL_' + hoy + '_' + email;
+      if (props.getProperty(marca)) return;
+      var t = buscarTranscripcion(c, hoy);
+      if (!t) return; // la próxima corrida vuelve a buscar (Gemini tarda unos minutos en dejar las notas)
+      var hoja = ((c.descripcion || '').match(/https:\/\/docs\.google\.com\/document\/d\/[\w-]+[^\s"<]*/) || [''])[0];
+      var res = llamar({ modo: 'clase_fuente', email: email, fecha: hoy, titulo: c.titulo, texto: t.texto, fuente: t.fuente, hoja: hoja });
+      if (res && res.ok) props.setProperty(marca, '1'); else console.warn('clase_fuente', email, JSON.stringify(res));
+    });
+
+    // Los resúmenes que ya están listos y revisados: sale el mail desde tu Gmail.
+    var m = llamar({ modo: 'clase_mails' });
+    (m.mails || []).forEach(function (x) {
+      var ya = GmailApp.search('in:sent to:' + x.email + ' subject:"' + x.asunto.replace(/"/g, '') + '" newer_than:3d', 0, 1);
+      if (!ya.length) GmailApp.sendEmail(x.email, x.asunto, x.texto, { htmlBody: x.html, bcc: Session.getEffectiveUser().getEmail(), name: 'Flor Pérsico' });
+      llamar({ modo: 'clase_enviado', fecha: x.fecha, clave: x.clave });
+    });
+  } finally { lock.releaseLock(); }
+}
+
+// Busca las notas de Gemini de ESTA clase de HOY: primero las adjuntas al evento (si fueron creadas hoy),
+// después en Drive por título. Devuelve el texto de todas las pestañas (resumen + transcripción).
+function buscarTranscripcion(c, hoy) {
+  var ids = [];
+  (c.adjuntos || []).forEach(function (a) {
+    if (!/gemini/i.test(a.titulo || '')) return;
+    var id = (String(a.url || '').match(/\/d\/([\w-]+)/) || String(a.url || '').match(/[?&]id=([\w-]+)/) || [])[1];
+    if (id) ids.push(id);
+  });
+  var pref = norm(c.titulo).slice(0, 25);
+  var it = DriveApp.searchFiles('title contains "Gemini" and modifiedDate > "' + hoy + 'T00:00:00" and mimeType = "application/vnd.google-apps.document"');
+  while (it.hasNext()) { var f = it.next(); if (norm(f.getName()).indexOf(pref) === 0) ids.push(f.getId()); }
+  var mejor = null;
+  ids.forEach(function (id) {
+    try {
+      var f = DriveApp.getFileById(id);
+      if (Utilities.formatDate(f.getDateCreated(), ZONA, 'yyyy-MM-dd') !== hoy) return; // adjunto de una clase vieja
+      var doc = DocumentApp.openById(id), partes = [];
+      var juntar = function (tabs) { tabs.forEach(function (tb) { partes.push(tb.asDocumentTab().getBody().getText()); juntar(tb.getChildTabs()); }); };
+      if (doc.getTabs) juntar(doc.getTabs()); else partes.push(doc.getBody().getText());
+      var texto = partes.join('\n\n');
+      if (texto.length > 500 && (!mejor || texto.length > mejor.texto.length)) mejor = { texto: texto, fuente: 'gemini:' + id };
+    } catch (e) { console.warn('gemini', id, e); }
+  });
+  return mejor;
 }

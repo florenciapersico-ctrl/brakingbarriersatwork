@@ -8,6 +8,7 @@
 // - modo escuchar: transcribe un audio de la alumna para que Flor AI le dé feedback.
 // - modos drive_lista / drive_nuevo: el Apps Script de Flor carga en la app lo que las alumnas suben a Drive.
 // - modo borrador_mail: solo Flor. Arma en su Gmail el borrador completo de la respuesta (lo manda ella).
+// - modos clase_fuente / clase_mails / clase_enviado: las clases 1:1 se cierran solas (ver clases.ts).
 // - modo gmail_enviado: el Apps Script de Flor avisa los feedbacks que ella mandó por mail y la app los marca respondidos.
 //
 // Las instrucciones viven en el repo (supabase/functions/flor-ai/prompts/*.md, se arman con tools/build.py)
@@ -25,6 +26,7 @@
 import Anthropic from "npm:@anthropic-ai/sdk";
 import { createClient } from "npm:@supabase/supabase-js@2";
 import { unzipSync, strFromU8 } from "npm:fflate@0.8.2";
+import { claseFuente, claseMails, claseEnviado } from "./clases.ts";
 
 const CORS = {
   "Access-Control-Allow-Origin": "*",
@@ -431,6 +433,20 @@ Deno.serve(async (req) => {
   // deno-lint-ignore no-explicit-any
   let body: any;
   try { body = await req.json(); } catch { return json({ error: "Pedido inválido" }, 400); }
+
+  // ---------- Clases 1:1 que se cierran solas (Apps Script de Flor → app → mail desde su Gmail) ----------
+  if (typeof body.modo === "string" && body.modo.startsWith("clase_")) {
+    const secreto = Deno.env.get("DRIVE_SECRET");
+    if (!secreto || body.secreto !== secreto) return json({ ok: false, error: "secreto" }, 403);
+    if (!Deno.env.get("ANTHROPIC_API_KEY")) return json({ ok: false, error: "falta ANTHROPIC_API_KEY" }, 503);
+    const c = { admin, ia, prompt, model: MODEL };
+    try {
+      if (body.modo === "clase_fuente") return json(await claseFuente(c, body));
+      if (body.modo === "clase_mails") return json(await claseMails(c));
+      if (body.modo === "clase_enviado") return json(await claseEnviado(c, body));
+    } catch (e) { console.error(body.modo, e); return json({ ok: false, error: String((e as Error).message).slice(0, 200) }, 500); }
+    return json({ ok: false, error: "modo" }, 400);
+  }
 
   // ---------- Gmail → app: Flor respondió por mail (como siempre) y la app se pone al día sola ----------
   // El Apps Script de Flor manda cada mail suyo con la etiqueta "AT WORK/Enviado a alumnas":
