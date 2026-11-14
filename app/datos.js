@@ -114,10 +114,18 @@
       async habitos(desde) { return ok(await sb.from('habitos_flor').select('*').gte('fecha', desde)); },
       // Lo de hoy + el video de YouTube de la semana (se carga un día y vale para toda la semana).
       async hoyFlor(f) {
-        const [d, y] = await Promise.all([sb.from('hoy_flor').select('*').eq('fecha', f).order('orden'), sb.from('hoy_flor').select('*').like('clave', 'youtube:%').gte('fecha', lunes(new Date(f + 'T12:00:00'))).lte('fecha', f).order('fecha', { ascending: false })]);
+        const [d, y] = await Promise.all([sb.from('hoy_flor').select('*').eq('fecha', f).not('clave', 'like', 'lab:%').order('orden'), sb.from('hoy_flor').select('*').like('clave', 'youtube:%').gte('fecha', lunes(new Date(f + 'T12:00:00'))).lte('fecha', f).order('fecha', { ascending: false })]);
         const L = ok(d) || [];
         const yt = (y.data || []).find((x) => !L.some((z) => z.clave === x.clave));
         return yt ? L.concat(yt) : L;
+      },
+      // Labs (panel de Flor): filas de hoy_flor con clave 'lab:guion' (guion + feedback) y 'lab:registro' (qué se hizo), tipo 'otro'.
+      async labsFlor() { return ok(await sb.from('hoy_flor').select('*').like('clave', 'lab:%').order('fecha', { ascending: false }).limit(200)); },
+      async guardarLabFlor(f, clave, c) {
+        const fila = { fecha: f, clave, tipo: 'otro', orden: 99, actualizado: new Date().toISOString(), ...c };
+        const r = await sb.from('hoy_flor').update(c).eq('fecha', f).eq('clave', clave).select('clave');
+        if (r.error) throw new Error(r.error.message);
+        if (!r.data || !r.data.length) ok(await sb.from('hoy_flor').insert(fila));
       },
       async hoyHecho(f, clave, hecho) { ok(await sb.from('hoy_flor').update({ hecho, actualizado: new Date().toISOString() }).eq('fecha', f).eq('clave', clave)); },
       // OK de una clase: la marca como dada. La tarea "🎓 Clases del día" ve el OK, arma el resumen, se lo manda y actualiza su app.
@@ -289,6 +297,8 @@
       async habitos(desde) { return copia((S.habitos || []).filter((r) => r.fecha >= desde)); },
       async hoyFlor(f) { const i = new Date(); i.setHours(15, 0, 0, 0); return [{ fecha: f, clave: 'clase:demo', tipo: 'clase', orden: 1, titulo: 'Ana · 1:1 · Week 5 · Dar un update', detalle: 'Objetivo: contar el avance del proyecto en tres frases.', link: 'https://docs.google.com/document/d/demo/edit', meet: 'https://meet.google.com/demo', inicio: i.toISOString(), invitadas: ['ana@demo.com'] }, { fecha: f, clave: 'reel:demo', tipo: 'grabar', orden: 1, titulo: 'Reel a cámara · Te faltan TUS frases', detalle: '≈40 s, vertical, mirá al lente.', link: 'https://www.canva.com/folder/demo', link2: 'https://app.notion.com/p/demo', texto: 'Caption de ejemplo…', texto2: 'Tu inglés en las reuniones no está mal…\nsolo te faltan tres palabras.' }]; },
       async hoyHecho() {},
+      async labsFlor() { return copia(S.labs || [{ fecha: S.programa.proximo_lab.iso || lunes(), clave: 'lab:guion', tipo: 'otro', titulo: 'Lab de ejemplo', texto: '## Step 1 · Welcome\n- **"Hi everyone!"**\n- Paste in the chat: A, B or C', texto2: '', link: 'https://docs.google.com/document/d/demo/edit' }]); },
+      async guardarLabFlor(f, clave, c) { S.labs = S.labs || []; let x = S.labs.find((r) => r.fecha === f && r.clave === clave); if (!x) S.labs.push((x = { fecha: f, clave, tipo: 'otro' })); Object.assign(x, c); save(); },
       async claseOk() {},
       async notasClase(email) { return copia((S.notas || []).filter((r) => r.email === email)); },
       async guardarNotaClase(r) { S.notas = (S.notas || []).filter((x) => !(x.email === r.email && x.fecha === r.fecha)).concat([r]); save(); },

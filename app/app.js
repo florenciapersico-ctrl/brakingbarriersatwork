@@ -76,22 +76,27 @@
     proceso: '<path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M10 13h6M10 17h4"/>',
     clases: '<rect x="3" y="5" width="13" height="14" rx="2"/><path d="M16 10l5-3v10l-5-3"/>',
     inicio: '<path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-5h4v5"/>',
+    labs: '<path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 1.7 3h10.6a2 2 0 0 0 1.7-3l-5-9V3"/><path d="M7.2 14h9.6"/>',
+    lab: '<path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 1.7 3h10.6a2 2 0 0 0 1.7-3l-5-9V3"/><path d="M7.2 14h9.6"/>',
     bandeja: '<path d="M3 13l3-8h12l3 8v6a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/><path d="M3 13h5l1 3h6l1-3h5"/>',
     alumnas: '<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><circle cx="17.5" cy="9" r="2.5"/><path d="M16 14.2a5 5 0 0 1 5.5 5.8"/>',
     ajustes: '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-2.7 1.1V21a2 2 0 0 1-4 0v-.1a1.6 1.6 0 0 0-2.7-1.1l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1A1.6 1.6 0 0 0 3.6 15H3a2 2 0 0 1 0-4h.1a1.6 1.6 0 0 0 1.1-2.7l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1A1.6 1.6 0 0 0 9.7 4.4V3a2 2 0 0 1 4 0v.1a1.6 1.6 0 0 0 2.7 1.1l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0 1.1 2.7H21a2 2 0 0 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1.3z"/>'
   };
   const svg = (k) => '<svg viewBox="0 0 24 24" aria-hidden="true">' + I[k] + '</svg>';
   const GRUPOS = [
-    ['Tu programa', [['semana', 'Mi semana'], ['clases', 'Tus clases'], ['camino', 'Mi camino'], ['empieza', 'Empieza acá']]],
+    ['Tu programa', [['semana', 'Mi semana'], ['lab', 'Mi lab'], ['clases', 'Tus clases'], ['camino', 'Mi camino'], ['empieza', 'Empieza acá']]],
     ['Con Flor', [['flor', 'Flor AI'], ['feedback', 'Pedir feedback'], ['weekly', 'Weekly report'], ['wins', 'Wins de todas']]],
     ['Tu práctica', [['coaches', 'Mis coaches'], ['progreso', 'Mi progreso']]]
   ];
   const VISTAS = GRUPOS.flatMap((g) => g[1]);
-  const TITULOS = Object.fromEntries(VISTAS.concat([['bandeja', 'Bandeja'], ['alumnas', 'Alumnas'], ['ajustes', 'Programa'], ['inicio', 'Inicio']]));
+  const TITULOS = Object.fromEntries(VISTAS.concat([['bandeja', 'Bandeja'], ['alumnas', 'Alumnas'], ['ajustes', 'Programa'], ['inicio', 'Inicio'], ['labs', 'Labs']]));
   const ADMIN = [['bandeja', 'Bandeja'], ['alumnas', 'Alumnas'], ['ajustes', 'Programa']];
   // Menú propio de Flor (administradora): nada de "tu programa" de alumna. Para ver lo de ellas: "Ver la app como alumna".
-  const MENU_FLOR = [['inicio', 'Inicio'], ['bandeja', 'Bandeja'], ['alumnas', 'Alumnas'], ['progreso', 'Mis números'], ['wins', 'Wins de alumnas'], ['ajustes', 'Programa']];
+  const MENU_FLOR = [['inicio', 'Inicio'], ['bandeja', 'Bandeja'], ['labs', 'Labs'], ['alumnas', 'Alumnas'], ['progreso', 'Mis números'], ['wins', 'Wins de alumnas'], ['ajustes', 'Programa']];
   const esFlor = () => st.admin && !DB.demo;
+  // "Mi lab" solo aparece en el menú de las alumnas del formato LAB (Flor, 14/11). Las 1:1 van al lab como invitadas.
+  const conLab = () => !st.perfil || st.perfil.formato !== '1:1';
+  const vistaOk = ([id]) => id !== 'lab' || conLab();
 
   // ---------- arranque y sesión ----------
   const hashInicial = location.hash;
@@ -201,9 +206,9 @@
     // En el celular la barra de abajo se corta: Flor AI va adelante para que siempre se vea.
     const ORDEN = ['bandeja', 'flor', 'semana', 'alumnas', 'feedback', 'weekly', 'camino'];
     const rank = (id) => { const i = ORDEN.indexOf(id); return i < 0 ? 99 : i; };
-    if (esFlor()) return MENU_FLOR.slice(0, tab ? 5 : 6).map(it).join('') + (tab ? '' : '<div class="sep">Tus alumnas</div><a href="?demo#semana" target="_blank" rel="noopener">' + svg('alumnas') + '<span>Ver la app como alumna</span></a>');
-    if (tab) return (st.admin && !DB.demo ? ADMIN.concat(VISTAS) : VISTAS).slice().sort((a, b) => rank(a[0]) - rank(b[0])).map(it).join('');
-    return GRUPOS.map(([g, vs]) => '<div class="sep">' + g + '</div>' + vs.map(it).join('')).join('') + (st.admin ? '<div class="sep">Panel de Flor</div>' + ADMIN.map(it).join('') : '');
+    if (esFlor()) return MENU_FLOR.slice(0, tab ? 5 : MENU_FLOR.length).map(it).join('') + (tab ? '' : '<div class="sep">Tus alumnas</div><a href="?demo#semana" target="_blank" rel="noopener">' + svg('alumnas') + '<span>Ver la app como alumna</span></a>');
+    if (tab) return (st.admin && !DB.demo ? ADMIN.concat(VISTAS) : VISTAS).filter(vistaOk).sort((a, b) => rank(a[0]) - rank(b[0])).map(it).join('');
+    return GRUPOS.map(([g, vs]) => '<div class="sep">' + g + '</div>' + vs.filter(vistaOk).map(it).join('')).join('') + (st.admin ? '<div class="sep">Panel de Flor</div>' + ADMIN.map(it).join('') : '');
   }
   // ¿Ya hizo el onboarding? (checklist completo o la primera tarea del camino tildada)
   function onbHecho(p) { p = p || st.perfil || {}; return (p.onboarding || []).length >= onbDe(p).checklist.length || (p.camino_hecho || []).includes('1.1'); }
@@ -305,6 +310,7 @@
     const [v, ...args] = location.hash.replace(/^#/, '').split('/');
     let vista = V[v] && (!ADMIN.some(([id]) => id === v) || st.admin) ? v : 'semana';
     if (vista === 'inicio' && !esFlor()) vista = 'semana';
+    if ((vista === 'lab' && !conLab()) || (vista === 'labs' && !st.admin)) vista = 'semana';
     if (esFlor() && !MENU_FLOR.some(([id]) => id === vista)) vista = 'inicio';
     $$('nav a').forEach((a) => (a.dataset.v === vista ? a.setAttribute('aria-current', 'page') : a.removeAttribute('aria-current')));
     if ($('#tbt')) $('#tbt').textContent = esFlor() && (MENU_FLOR.find(([id]) => id === vista) || [])[1] ? MENU_FLOR.find(([id]) => id === vista)[1] : vista === 'empieza' && (DB.demo || !st.admin) && onbHecho() ? 'Cómo funciona' : (TITULOS[vista] || '');
@@ -889,6 +895,74 @@ ${res.length ? res.map((r, i) => { const x = verResumen(r); return `<section cla
   ${!i && pend.length ? `<div class="reply"><span class="eyebrow">Lo que te quedó para hacer</span><ul>${pend.map((t) => `<li>${esc(t.texto)}${t.donde ? ' <span class="muted small">· ' + linkear(t.donde) + '</span>' : ''}</li>`).join('')}</ul><a class="small" href="#semana">Tildarlas en Mi semana ›</a></div>` : ''}
   </details></section>`; }).join('')
   : `<section class="card empty-state"><h3>Todavía no hay ${esLab ? 'labs' : 'clases'} guardad${esLab ? 'os' : 'as'}</h3><p class="muted small">Después de cada ${esLab ? 'lab' : 'clase'} con Flor, acá aparece el resumen con el material y tus tareas.</p></section>`}`;
+    }
+  };
+
+  // ---------- Mi lab (alumnas del formato LAB, Flor 14/11): el próximo lab listo, su material, lo que les queda y el registro de cada lab ----------
+  const btnsLinks = (ls) => ls.length ? `<div class="row" style="gap:8px;flex-wrap:wrap">${ls.map((x, i) => `<a class="btn ${i ? 'ghost ' : ''}sm" href="${esc(x.u)}" target="_blank" rel="noopener">${esc(x.t)}</a>`).join('')}</div>` : '';
+  V.lab = {
+    async html() {
+      const l = labAlDia() || lab();
+      const [res0, tareas] = await Promise.all([DB.resumenes().catch(() => []), DB.tareas().catch(() => [])]);
+      const labs = res0.filter((r) => /lab/i.test(r.asunto || '') || /lab/i.test(r.origen || ''));
+      const pend = tareas.filter((t) => !t.hecha && /lab/i.test(t.donde || ''));
+      const mat = [url(l.lab_sheet) && { t: 'Tu Lab Sheet', u: l.lab_sheet }].concat((l.para_alumnas || []).map((x) => url(x.u) && x)).filter(Boolean);
+      return `<div class="head"><div><span class="eyebrow">Working Lab · los sábados</span><h1>Mi lab</h1></div></div>
+<p class="muted intro">Todo lo de tus labs en un lugar: el próximo, qué traer, el material y lo que trabajamos en cada uno.</p>
+<section class="card feature"><span class="eyebrow">Tu próximo lab${l.fecha ? ' · ' + esc(l.fecha) : ''}</span><h2>${esc(l.tema || 'Working Lab')}</h2>
+  <p class="muted">${esc(l.horario || HORARIO_LAB)}</p>
+  ${l.objetivo ? `<p><b>Al terminar vas a poder:</b> ${linkear(l.objetivo)}</p>` : ''}
+  <div class="row"><a class="btn" href="${esc(url(l.link) || MEET_LAB)}" target="_blank" rel="noopener">Entrar al lab</a></div>
+  ${l.preparar ? `<div class="reply"><span class="eyebrow">Para traer al lab</span>${md(l.preparar)}</div>` : ''}
+  ${btnsLinks(mat)}
+</section>
+${pend.length ? `<section class="card"><h3>Lo que te quedó de tus labs</h3><ul>${pend.map((t) => `<li>${esc(t.texto)}${t.donde ? ' <span class="muted small">· ' + linkear(t.donde) + '</span>' : ''}</li>`).join('')}</ul><a class="small" href="#semana">Tildarlas en Mi semana ›</a></section>` : ''}
+<h3 style="margin:22px 0 8px">Tus labs</h3>
+${labs.length ? labs.map((r, i) => { const x = verResumen(r); return `<section class="card ${i ? '' : 'ultima'}"><details class="lb" ${i ? '' : 'open'}><summary><div><span class="eyebrow">${i ? '' : 'Último lab · '}${esc(fecha(r.fecha, { weekday: 'long', day: 'numeric', month: 'long' }))}</span><h3>${esc(String(r.asunto || 'Lab').replace(/^(Re:\s*)?Resumen del? (tu )?lab\s*[·:\-–]?\s*/i, '') || 'Lab')}</h3></div></summary>${btnsLinks(x.links)}<div class="feedback">${x.cuerpo}</div></details></section>`; }).join('')
+  : `<section class="card empty-state"><h3>Todavía no hay labs guardados</h3><p class="muted small">Después de cada lab, acá aparece lo que trabajamos, el material y lo que te queda para hacer.</p></section>`}`;
+    }
+  };
+
+  // ---------- Labs (panel de Flor, 14/11): el lab de la semana listo para dar, tu feedback para el próximo y el registro de cada lab ----------
+  // Se guarda en hoy_flor (solo la ve Flor, tipo 'otro'): clave 'lab:guion' (texto = guion, texto2 = feedback de Flor, link = guion en Docs, link2 = deck)
+  // y 'lab:registro' (texto = qué se hizo, invitadas = las que vinieron). Lo llenan las tareas "🧪 Lab del sábado" y "🧪 Registro del lab".
+  V.labs = {
+    async html() {
+      const l = labAlDia() || lab(), rows = await DB.labsFlor().catch(() => []);
+      const G = {}; rows.forEach((r) => { (G[r.fecha] = G[r.fecha] || {})[r.clave === 'lab:registro' ? 'reg' : 'g'] = r; });
+      const iso = l.iso || proximoSabado().iso, cur = G[iso] || {}, g = cur.g || {}, reg = cur.reg || {};
+      st._labIso = iso;
+      const links = [url(l.link) && { t: 'Entrar al Meet', u: l.link }, url(g.link) && { t: 'Guion en Google Docs', u: g.link }, url(g.link2 || l.deck) && { t: 'Deck', u: g.link2 || l.deck }, url(l.lab_sheet) && { t: 'Lab Sheet', u: l.lab_sheet }, url(l.material) && { t: 'Carpeta del lab', u: l.material }].filter(Boolean);
+      const pasados = Object.keys(G).filter((f) => f < iso).sort().reverse();
+      return `<div class="head"><div><span class="eyebrow">Working Labs · sábados 15:30</span><h1>Labs</h1></div></div>
+<section class="card feature"><span class="eyebrow">${l.iso === diaISO(new Date()) ? 'Hoy · ' : 'Próximo lab · '}${esc(l.fecha || iso)}</span><h2>${esc(l.tema || 'Todavía sin tema')}</h2>
+  <p class="muted">${esc(l.horario || HORARIO_LAB)}</p>
+  ${l.objetivo ? `<p><b>Objetivo:</b> ${linkear(l.objetivo)}</p>` : ''}${l.porque ? `<p class="muted small"><b>Por qué este tema:</b> ${linkear(l.porque)}</p>` : ''}
+  ${btnsLinks(links)}
+</section>
+<section class="card"><details class="lb" open><summary><h3>Guion para dar el lab</h3></summary>
+  ${g.texto ? `<div class="feedback">${md(g.texto)}</div>` : `<p class="muted">Todavía no está el guion. La tarea "🧪 Lab del sábado" lo arma los jueves y lo deja acá.</p>`}
+</details></section>
+<section class="card"><h3>Tu feedback para el próximo lab</h3><p class="muted small">Lo que querés que cambie. La tarea del jueves lo lee antes de armar el próximo lab, así cada lab sale mejor.</p>
+  <div class="field"><textarea id="labfb" rows="4" placeholder="Ej.: más práctica entre ellas, menos teoría; todo lo que digo, en inglés…">${esc(g.texto2 || '')}</textarea></div>
+  <div class="row"><button class="btn sm" id="labfbok" type="button">Guardar feedback</button></div></section>
+<section class="card"><h3>Registro de este lab</h3><p class="muted small">Qué se hizo y quiénes vinieron. Se completa solo después del lab (con la grabación); lo podés corregir acá.</p>
+  <div class="field"><textarea id="labreg" rows="5" placeholder="Qué trabajamos, qué salió bien, qué ajustar.">${esc(reg.texto || '')}</textarea></div>
+  ${(reg.invitadas || []).length ? `<p class="muted small"><b>Vinieron:</b> ${esc((reg.invitadas || []).join(', '))}</p>` : ''}
+  <div class="row"><button class="btn sm" id="labregok" type="button">Guardar registro</button></div></section>
+<h3 style="margin:22px 0 8px">Labs anteriores</h3>
+${pasados.length ? pasados.map((f) => { const x = G[f], gg = x.g || {}, rr = x.reg || {}; return `<section class="card"><details class="lb"><summary><div><span class="eyebrow">${esc(fecha(f, { weekday: 'long', day: 'numeric', month: 'long' }))}</span><h3>${esc(gg.titulo || rr.titulo || 'Lab')}</h3></div></summary>
+  ${btnsLinks([url(gg.link) && { t: 'Guion', u: gg.link }, url(gg.link2) && { t: 'Deck', u: gg.link2 }].filter(Boolean))}
+  ${rr.texto ? `<span class="eyebrow">Qué se hizo</span><div class="feedback">${md(rr.texto)}</div>` : '<p class="muted small">Sin registro.</p>'}
+  ${(rr.invitadas || []).length ? `<p class="muted small"><b>Vinieron:</b> ${esc(rr.invitadas.join(', '))}</p>` : ''}
+  ${gg.texto2 ? `<span class="eyebrow">Tu feedback</span><p>${linkear(gg.texto2)}</p>` : ''}
+  ${gg.texto ? `<details><summary class="small">Ver el guion</summary><div class="feedback">${md(gg.texto)}</div></details>` : ''}
+</details></section>`; }).join('') : '<p class="muted small">Todavía no hay labs anteriores registrados.</p>'}`;
+    },
+    mount() {
+      const iso = st._labIso, l = labAlDia() || lab();
+      $('#labfbok').onclick = () => intentar(() => DB.guardarLabFlor(iso, 'lab:guion', { texto2: $('#labfb').value.trim(), titulo: l.tema || 'Lab' }), 'Guardado. El próximo lab lo va a tener en cuenta.');
+      $('#labregok').onclick = () => intentar(() => DB.guardarLabFlor(iso, 'lab:registro', { texto: $('#labreg').value.trim(), titulo: l.tema || 'Lab' }), 'Registro guardado.');
     }
   };
 

@@ -443,3 +443,8 @@ details.despues > summary{cursor:pointer;color:var(--muted);margin:6px 0}
 details.mas>summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:12px}
 details.mas>summary::-webkit-details-marker{display:none}
 details.mas[open]>summary span{visibility:hidden}
+/* Labs (14/11): desplegables con flecha */
+details.lb>summary{cursor:pointer;list-style:none}
+details.lb>summary::-webkit-details-marker{display:none}
+details.lb>summary h3::after{content:" ›";color:var(--muted)}
+details.lb[open]>summary h3::after{content:" ⌄"}
