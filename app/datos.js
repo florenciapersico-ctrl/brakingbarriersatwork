@@ -71,7 +71,7 @@
         const w = ok(await sb.from('weekly').upsert(fila, { onConflict: 'alumna_id,semana' }).select('id').single());
         if (enviar && w) llamar({ modo: 'auto', weekly_id: w.id }).catch(() => {});
       },
-      async todosResumenes() { try { return ok(await sb.from('resumenes').select('alumna_id, fecha, asunto, texto').order('fecha', { ascending: false }).limit(1000)); } catch (e) { return []; } },
+      async todosResumenes() { try { return ok(await sb.from('resumenes').select('alumna_id, fecha, asunto, texto, creado').order('fecha', { ascending: false }).limit(1000)); } catch (e) { return []; } },
       async resumenes(a = uid) { try { return ok(await sb.from('resumenes').select('*').eq('alumna_id', a).order('fecha', { ascending: false }).limit(60)); } catch (e) { return []; } },
       async pedidos(a = uid) { return ok(await sb.from('pedidos').select('*').eq('alumna_id', a).order('creado', { ascending: false }).limit(50)); },
       async crearPedido(p) {

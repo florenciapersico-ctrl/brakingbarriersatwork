@@ -230,7 +230,7 @@
 
   // Todo lo de la bandeja junto: alumnas con cuenta + las que siguen en importación (sin repetir).
   async function cargarBandeja() {
-    const [ped, ws, al, imp] = await Promise.all([DB.todosPedidosAdmin(), DB.todosWeekliesAdmin(), DB.alumnas(), DB.importacionTodas().catch(() => [])]);
+    const [ped, ws, al, imp, res] = await Promise.all([DB.todosPedidosAdmin(), DB.todosWeekliesAdmin(), DB.alumnas(), DB.importacionTodas().catch(() => []), DB.todosResumenes ? DB.todosResumenes().catch(() => []) : []]);
     const porId = {}, mails = new Set();
     al.forEach((x) => { porId[x.id] = x; if (x.email) mails.add(x.email.toLowerCase()); });
     const vacio = (r) => !r || !Object.values(r).some((v) => String(v || '').trim());
@@ -243,22 +243,41 @@
       (i.weeklies || []).forEach((x) => W.push({ src: 'imp', email: i.email, nombre: i.nombre, perfil, semana: x.semana, respuestas: x.respuestas || {}, enviado_en: x.enviado_en, respuesta_flor: x.respuesta_flor || null, respondido_en: x.respondido_en }));
       ((i.datos || {}).pedidos || []).forEach((x) => T.push({ ...x, src: 'imp', email: i.email, nombre: i.nombre, perfil, estado: x.respuesta ? 'respondido' : 'pendiente' }));
     });
-    // Solo los weeklies de esta semana (Flor, 13/11). Y si a esa alumna ya le respondiste uno posterior, el viejo no aparece.
-    const desdeW = DB.lunes();
-    const respDespues = (w) => W.some((y) => y.respuesta_flor && String(y.email || '').toLowerCase() === String(w.email || '').toLowerCase() && String(y.semana) > String(w.semana));
-    const sinResp = W.filter((w) => !w.respuesta_flor && (w.enviado_en || !vacio(w.respuestas)) && String(w.semana || '') >= desdeW && !respDespues(w));
+    // Ventana de la bandeja (Flor, 14/11): solo lo de esta semana; a lo sumo lo de la semana pasada, con aviso.
+    // Lo más viejo no se responde: queda aparte, para borrarlo sin mandar nada.
+    const lunHoy = DB.lunes(), desde = DB.lunes(new Date(new Date(lunHoy + 'T12:00:00').getTime() - 7 * 864e5));
+    const mailDe = (x) => String((x.perfil || {}).email || x.email || '').toLowerCase();
+    // Clases con resumen ya mandado: si después de que lo subió tuvo clase y le mandaste el resumen, ya lo vieron en clase.
+    const clasesDe = (x) => { const aid = x.alumna_id || x.aid || (x.perfil || {}).id; return aid ? res.filter((r) => r.alumna_id === aid) : []; };
+    const claseDespues = (x, cuando) => clasesDe(x).filter((r) => String(r.creado || r.fecha) > String(cuando || '')).sort((a, b) => (a.fecha < b.fecha ? -1 : 1))[0] || null;
+    const respDespues = (x, cuando) => W.some((y) => y.respuesta_flor && String(y.email || '').toLowerCase() === mailDe(x) && String(y.respondido_en || y.semana) > String(cuando || ''))
+      || T.some((y) => y.estado === 'respondido' && mailDe(y) === mailDe(x) && String(y.respondido_en || '') > String(cuando || ''));
+    const wsPend = W.filter((w) => !w.respuesta_flor && (w.enviado_en || !vacio(w.respuestas)));
+    // Un weekly se responde solo si es de esta semana o de la pasada, y si no hay uno más nuevo de ella (respondido o no).
+    const hayMasNuevo = (w) => W.some((y) => String(y.email || '').toLowerCase() === String(w.email || '').toLowerCase() && String(y.semana) > String(w.semana) && (y.enviado_en || y.respuesta_flor));
+    const sinResp = wsPend.filter((w) => String(w.semana || '') >= desde && !hayMasNuevo(w)).map((w) => {
+      if (w.semana >= lunHoy) return w;
+      const cl = claseDespues(w, w.enviado_en || w.semana + 'T23:59');
+      return { ...w, pasada: { clase: cl ? cl.fecha : null, resp: respDespues(w, w.enviado_en || w.semana) } };
+    });
+    const wViejos = wsPend.filter((w) => !sinResp.includes(w) && !sinResp.some((y) => y.id && y.id === w.id));
     const resp = W.filter((w) => w.respuesta_flor);
     const orden = (a, b) => (a.semana < b.semana ? 1 : a.semana > b.semana ? -1 : String(a.nombre).localeCompare(String(b.nombre)));
-    sinResp.sort(orden); resp.sort(orden);
-    // Solo lo que mandaron en los últimos 10 días (Flor, 13/11: "no le puedo mandar feedback de algo que subió hace mil
-    // años"). Lo más viejo queda aparte, para borrarlo sin mandar nada.
-    const corte = new Date(Date.now() - 10 * 864e5).toISOString();
+    sinResp.sort(orden); resp.sort(orden); wViejos.sort(orden);
+    // Tareas: lo mismo. Y si después de subirla ya tuvo clase y le mandaste el resumen, ya la vieron en clase:
+    // no se manda otro feedback (Flor, 14/11). Va a «Ya lo vieron en clase», para borrarla.
     const pendT = T.filter((x) => x.estado === 'pendiente').sort((a, b) => (a.creado < b.creado ? 1 : -1));
-    const pend = pendT.filter((x) => String(x.creado || '') >= corte), viejos = pendT.filter((x) => String(x.creado || '') < corte);
+    const enClase = [], viejos = [], pend = [];
+    pendT.forEach((x) => {
+      const cl = claseDespues(x, x.creado);
+      if (cl) enClase.push({ ...x, clase: cl.fecha });
+      else if (lunesDe(x.creado) < desde) viejos.push(x);
+      else pend.push(x);
+    });
     const tResp = T.filter((x) => x.estado === 'respondido').sort((a, b) => ((a.respondido_en || a.creado) < (b.respondido_en || b.creado) ? 1 : -1));
     const activas = al.filter((x) => x.rol !== 'admin' && x.activa !== false).map((x) => ({ nombre: x.nombre || x.email, email: (x.email || '').toLowerCase(), perfil: x }))
       .concat(imp.filter((i) => !mails.has(String(i.email).toLowerCase())).map((i) => ({ nombre: i.nombre, email: String(i.email).toLowerCase(), perfil: { ...(i.datos || {}), nombre: i.nombre } })));
-    return { sinResp, resp, pend, viejos, tResp, W, T, activas, imp, al };
+    return { sinResp, resp, pend, viejos, enClase, wViejos, tResp, W, T, activas, imp, al };
   }
   // "Esta semana", "Semana pasada", "Semana del 26 de octubre"
   function nombreSemana(lun) {
@@ -1498,11 +1517,15 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
         <div class="row"><button class="btn sendi" type="button">Armar borrador en Gmail</button></div>
       </div>`).join(''))).join('') : '<section class="card"><p class="muted">No hay pedidos pendientes. 🎉</p></section>';
       }
-      if (tab === 'pedidos' && b.viejos && b.viejos.length) cuerpo += `<details class="card viejos"><summary><b>${b.viejos.length} ${b.viejos.length === 1 ? 'pedido viejo' : 'pedidos viejos'}</b> <span class="muted small">· de hace más de 10 días: no se les manda feedback ahora. Borralos si ya los trabajaron.</span></summary>
-          ${b.viejos.map((x) => `<div class="editrow" data-vid="${x.src === 'app' ? x.id : ''}"><span>${esc(x.nombre)} · ${esc(x.titulo || tipoNombre(x.tipo))}<br><span class="muted small">Lo mandó el ${fecha(x.creado, { day: 'numeric', month: 'long' })}</span></span>${x.src === 'app' ? '<button type="button" class="btn ghost sm viejo-borrar">Borrar sin mandar nada</button>' : ''}</div>`).join('')}</details>`;
+      const filaBorrar = (x, linea) => `<div class="editrow" data-vid="${x.src === 'app' ? x.id : ''}"><span>${esc(x.nombre)} · ${esc(x.titulo || tipoNombre(x.tipo))}<br><span class="muted small">${linea}</span></span>${x.src === 'app' ? '<button type="button" class="btn ghost sm viejo-borrar">Borrar sin mandar nada</button>' : ''}</div>`;
+      if (tab === 'pedidos' && b.enClase && b.enClase.length) cuerpo += `<details class="card viejos" open><summary><b>${b.enClase.length === 1 ? '1 ya lo vieron en clase' : b.enClase.length + ' ya los vieron en clase'}</b> <span class="muted small">· después de que lo subió tuvo clase y ya le mandaste el resumen: no va otro feedback. Borralo.</span></summary>
+          ${b.enClase.map((x) => filaBorrar(x, `Lo mandó el ${fecha(x.creado, { day: 'numeric', month: 'long' })} · clase y resumen del ${fecha(x.clase, { day: 'numeric', month: 'long' })}`)).join('')}</details>`;
+      if (tab === 'pedidos' && b.viejos && b.viejos.length) cuerpo += `<details class="card viejos"><summary><b>${b.viejos.length} ${b.viejos.length === 1 ? 'pedido viejo' : 'pedidos viejos'}</b> <span class="muted small">· de antes de la semana pasada: no se les manda feedback. Borralos.</span></summary>
+          ${b.viejos.map((x) => filaBorrar(x, `Lo mandó el ${fecha(x.creado, { day: 'numeric', month: 'long' })}`)).join('')}</details>`;
       if (tab === 'weeklies') {
         cuerpo = b.sinResp.length ? porSemana(b.sinResp, (x) => x.semana).map((g) => grupo(nombreSemana(g.s), `<span class="pill warn">${g.items.length} sin responder</span>`, g.items.map((x) => `<div class="fbitem" ${x.src === 'app' ? `data-wid="${x.id}" data-aid="${x.aid}"` : `data-wimp="${esc(x.email)}"`} data-sem="${esc(x.semana)}" data-mail="${esc(String(x.email || '').toLowerCase())}">
         <div class="row between"><b>${esc(x.nombre)}</b><span class="muted small">${x.enviado_en ? 'Enviado ' + fecha(x.enviado_en, { weekday: 'short', day: 'numeric', month: 'short' }) : 'En su Google Doc'}${x.src === 'imp' ? ' · todavía sin cuenta' : ''}</span></div>
+        ${x.pasada ? `<div class="note small ctx"><b>⚠️ Es de la semana pasada</b> (lo mandó el ${fecha(x.enviado_en || x.semana, { weekday: 'short', day: 'numeric', month: 'short' })}). ${x.pasada.clase ? `Después ya tuvieron clase (${fecha(x.pasada.clase, { weekday: 'short', day: 'numeric', month: 'short' })}) y le mandaste el resumen.` : 'Después no tuvieron clase con resumen.'} ${x.pasada.resp ? 'Y después ya le respondiste otra cosa.' : 'Después no le respondiste nada.'}${x.pasada.clase || x.pasada.resp ? ' Si ya está cubierto, no hace falta responderlo.' : ''}</div>` : ''}
         ${x.mail_borrador ? `<p class="note small gm">Ya armaste el borrador en tu Gmail (${fecha(x.mail_borrador, { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}). Cuando lo mandes, esto se marca respondido solo.</p>` : ''}
         ${resps(x) || '<p class="muted small">(Lo escribió en su doc y todavía no se copió.)</p>'}
         <div class="field"><label>Tu respuesta</label><textarea class="r" rows="6" placeholder="Su próximo paso para esta semana. Si le corriges frases, escríbelas así: frase de ella → frase corregida. Por qué. Ella las ve como ejercicio."></textarea></div>
@@ -1514,6 +1537,7 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
         <p class="notas small muted" hidden></p>
         <div class="row"><button class="btn sendw" type="button">Armar borrador en Gmail</button><button class="btn ghost iaw" type="button">Borrador con IA</button></div>
       </div>`).join(''))).join('') : '<section class="card"><p class="muted">No hay weeklies sin responder. 🎉</p></section>';
+        if (b.wViejos && b.wViejos.length) cuerpo += `<details class="card viejos"><summary><b>${b.wViejos.length} ${b.wViejos.length === 1 ? 'weekly viejo' : 'weeklies viejos'} sin responder</b> <span class="muted small">· de antes de la semana pasada o con uno más nuevo de ella: no se responden y no cuentan como pendientes.</span></summary><p class="small muted">${b.wViejos.map((x) => esc(String(x.nombre).split(' ')[0]) + ' (' + fecha(x.semana, { day: 'numeric', month: 'short' }) + ')').join(', ')}</p></details>`;
       }
       if (tab === 'respondidos') {
         const gs = porSemana(b.resp, (x) => x.semana);
