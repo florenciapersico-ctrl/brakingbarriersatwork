@@ -112,7 +112,13 @@
       },
       async borradores() { return ok(await sb.from('borradores').select('tabla,ref,datos')); },
       async habitos(desde) { return ok(await sb.from('habitos_flor').select('*').gte('fecha', desde)); },
-      async hoyFlor(f) { return ok(await sb.from('hoy_flor').select('*').eq('fecha', f).order('orden')); },
+      // Lo de hoy + el video de YouTube de la semana (se carga un día y vale para toda la semana).
+      async hoyFlor(f) {
+        const [d, y] = await Promise.all([sb.from('hoy_flor').select('*').eq('fecha', f).order('orden'), sb.from('hoy_flor').select('*').like('clave', 'youtube:%').gte('fecha', lunes(new Date(f + 'T12:00:00'))).lte('fecha', f).order('fecha', { ascending: false })]);
+        const L = ok(d) || [];
+        const yt = (y.data || []).find((x) => !L.some((z) => z.clave === x.clave));
+        return yt ? L.concat(yt) : L;
+      },
       async hoyHecho(f, clave, hecho) { ok(await sb.from('hoy_flor').update({ hecho, actualizado: new Date().toISOString() }).eq('fecha', f).eq('clave', clave)); },
       // OK de una clase: la marca como dada. La tarea "🎓 Clases del día" ve el OK, arma el resumen, se lo manda y actualiza su app.
       // Si la base todavía no tiene la columna ok_en (migración 15), guarda solo el "hecho".

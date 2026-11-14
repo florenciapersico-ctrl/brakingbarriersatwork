@@ -1309,7 +1309,8 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
   // "Tu día": lo que la madrugada dejó listo (clases preparadas, qué grabar, qué subir). Sale de la tabla hoy_flor.
   // modo 'clases': solo las clases de hoy (lista); modo 'contenido': qué grabar/subir de redes (lista). Sin modo: la tarjeta entera.
   function tuDia(L, hoyI, modo) {
-    if (!L || !L.length) return '';
+    L = L || [];
+    if (!L.length && modo !== 'contenido') return '';
     const hh = (iso) => (iso ? new Date(iso).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit', hour12: false }) : '');
     const lk = (u, t, cl = 'btn ghost sm') => (u ? `<a class="${cl}" href="${esc(u)}" target="_blank" rel="noopener">${t}</a>` : '');
     const copiar = (t, l) => (t ? `<details class="td-txt"><summary>${l}</summary><pre>${esc(t)}</pre><button type="button" class="linkbtn small" data-copiar>Copiar</button></details>` : '');
@@ -1322,7 +1323,15 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
       ${copiar(x.texto2, 'Prompter para grabar')}${copiar(x.texto, x.tipo === 'grabar' || x.tipo === 'subir' ? 'Caption para copiar' : 'Texto')}</li>`;
     const liClase = (x) => `<li class="td-i"><div class="row between"><b>${hh(x.inicio)} · ${esc(x.titulo || '')}</b></div>${x.detalle ? `<p class="small muted">${esc(x.detalle)}</p>` : ''}<div class="row okc-row" style="gap:8px;flex-wrap:wrap;align-items:center">${lk(x.meet, 'Entrar a la clase', 'btn sm')}${lk(x.link, 'Clase lista')}${okClase(x)}</div></li>`;
     if (modo === 'clases') return cl.length ? `<ul class="td-l">${cl.map(liClase).join('')}</ul>` : '';
-    if (modo === 'contenido') return gr.length || su.length || ot.length ? `${gr.length ? `<p class="hab-sec">Contenido para grabar</p><ul class="td-l">${gr.map(item).join('')}</ul>` : ''}${su.length ? `<p class="hab-sec">Para subir</p><ul class="td-l">${su.map(item).join('')}</ul>` : ''}${ot.length ? `<p class="hab-sec">Además</p><ul class="td-l">${ot.map(item).join('')}</ul>` : ''}` : '';
+    if (modo === 'contenido') {
+      // Siempre a la vista (Flor, 14/11): Instagram de hoy y el YouTube de la semana. Si todavía no se cargó, lo dice.
+      const esYT = (x) => /^youtube:/.test(x.clave || ''), esProg = (x) => /^programa:/.test(x.clave || '');
+      const ig = gr.concat(su).filter((x) => !esYT(x) && !esProg(x)), yt = L.filter(esYT), prog = gr.filter(esProg);
+      const falta = (t, u, l) => `<li class="td-i"><p class="small muted">${t}</p>${u ? `<div class="row">${lk(u, l)}</div>` : ''}</li>`;
+      return `<p class="hab-sec">Instagram de hoy</p><ul class="td-l">${ig.length ? ig.map(item).join('') : falta('Todavía no está lista la pieza de hoy (se carga a las 7:41 con su caption y su Canva o su prompter).', 'https://app.notion.com/p/fc35708d644883bf9a3e07edd62e7e62', 'Ver el calendario en Notion')}</ul>
+  <p class="hab-sec">YouTube · el video de la semana</p><ul class="td-l">${yt.length ? yt.map(item).join('') : falta('Todavía no está cargado el video de esta semana.', 'https://app.notion.com/p/4155708d644881f5bd88c7664cf930a6', 'Abrir mi plan de YouTube')}</ul>
+  ${prog.length ? `<p class="hab-sec">Clases del programa</p><ul class="td-l">${prog.map(item).join('')}</ul>` : ''}${ot.length ? `<p class="hab-sec">Además</p><ul class="td-l">${ot.map(item).join('')}</ul>` : ''}`;
+    }
     return `<section class="card tudia"><div class="row between"><h2>Tu día</h2><span class="muted small">Todo lo que quedó listo para hoy</span></div>
   ${cl.length ? `<p class="hab-sec">Clases</p><ul class="td-l">${cl.map((x) => `<li class="td-i"><div class="row between"><b>${hh(x.inicio)} · ${esc(x.titulo || '')}</b></div>${x.detalle ? `<p class="small muted">${esc(x.detalle)}</p>` : ''}<div class="row okc-row" style="gap:8px;flex-wrap:wrap;align-items:center">${lk(x.meet, 'Entrar a la clase', 'btn sm')}${lk(x.link, 'Clase lista')}${okClase(x)}</div></li>`).join('')}</ul>` : ''}
   ${gr.length ? `<p class="hab-sec">Para grabar</p><ul class="td-l">${gr.map(item).join('')}</ul>` : ''}
@@ -1432,7 +1441,7 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
         const x = (st._hoyD || []).find((y) => y.clave === bt.dataset.tdok); if (!x) return;
         x.hecho = !x.hecho; bt.classList.toggle('on', x.hecho); bt.setAttribute('aria-pressed', x.hecho); bt.textContent = x.hecho ? '✓ Hecho' : 'Marcar hecho';
         bt.closest('.td-i').classList.toggle('hecho', x.hecho);
-        try { await DB.hoyHecho(hoyI, x.clave, x.hecho); } catch (e) { toast('No se guardó. Probá de nuevo.', true); }
+        try { await DB.hoyHecho(x.fecha || hoyI, x.clave, x.hecho); } catch (e) { toast('No se guardó. Probá de nuevo.', true); }
       }));
       montarOk(() => st._hoyD);
       const abrirId = (si) => { $('#ident-f').style.display = si ? '' : 'none'; $('#ident').style.display = si ? 'none' : ''; if (si) $('#ident-t').focus(); };
