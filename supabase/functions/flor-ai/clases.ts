@@ -127,7 +127,8 @@ async function armarBorrador(c: Ctx, f: any, perfil: any) {
   const ahora = () => new Date().toISOString();
   await c.admin.from("hoy_flor").update({ estado: "Armando el resumen…", actualizado: ahora() }).eq("fecha", f.fecha).eq("clave", f.clave);
   try {
-    const sist = await c.prompt("resumen-clase.md");
+    // El método del resumen viaja con este mismo código (mismo commit), así nunca queda desfasado.
+    const sist = await fetch(new URL("./prompts/resumen-clase.md", import.meta.url)).then((r) => (r.ok ? r.text() : c.prompt("resumen-clase.md")));
     const j = await pedir(c, sist, await contextoAlumna(c, f, perfil), "medium");
     await c.admin.from("hoy_flor").update({ texto2: JSON.stringify(j), estado: "Revisando el resumen (control de calidad)…", actualizado: new Date(Date.now() - 7 * 60 * 1000).toISOString() }).eq("fecha", f.fecha).eq("clave", f.clave);
   } catch (e) {
