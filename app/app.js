@@ -940,6 +940,7 @@ ${labs.length ? labs.map((r, i) => { const x = verResumen(r); return `<section c
   ${l.objetivo ? `<p><b>Objetivo:</b> ${linkear(l.objetivo)}</p>` : ''}${l.porque ? `<p class="muted small"><b>Por qué este tema:</b> ${linkear(l.porque)}</p>` : ''}
   ${btnsLinks(links)}
 </section>
+${url(l.lab_sheet) ? `<section class="card"><p class="note enclase" style="margin:0">En el lab, pegá en el chat este link (a cada una le pide hacer su copia):<br><b style="word-break:break-all" id="labsheetlink">${esc(l.lab_sheet)}</b><br><button type="button" class="btn sm" id="labsheetcopy" style="margin-top:8px">Copiar link</button></p><p class="muted small" style="margin:8px 0 0">¡Que te vaya genial! 💙</p></section>` : ''}
 <section class="card"><details class="lb" open><summary><h3>Guion para dar el lab</h3></summary>
   ${g.texto ? `<div class="feedback">${md(g.texto)}</div>` : `<p class="muted">Todavía no está el guion. La tarea "🧪 Lab del sábado" lo arma los jueves y lo deja acá.</p>`}
 </details></section>
@@ -961,6 +962,7 @@ ${pasados.length ? pasados.map((f) => { const x = G[f], gg = x.g || {}, rr = x.r
     },
     mount() {
       const iso = st._labIso, l = labAlDia() || lab();
+      if ($('#labsheetcopy')) $('#labsheetcopy').onclick = async () => { try { await navigator.clipboard.writeText($('#labsheetlink').textContent); toast('Link copiado. Pegalo en el chat del Meet.'); } catch (e) { toast('No se pudo copiar: seleccioná el link y copialo.', true); } };
       $('#labfbok').onclick = () => intentar(() => DB.guardarLabFlor(iso, 'lab:guion', { texto2: $('#labfb').value.trim(), titulo: l.tema || 'Lab' }), 'Guardado. El próximo lab lo va a tener en cuenta.');
       $('#labregok').onclick = () => intentar(() => DB.guardarLabFlor(iso, 'lab:registro', { texto: $('#labreg').value.trim(), titulo: l.tema || 'Lab' }), 'Registro guardado.');
     }
