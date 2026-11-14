@@ -36,6 +36,19 @@ Lo lee la tarea programada "🧪 Lab del sábado" antes de armar cada lab. Se ac
     Se guarda en la carpeta del lab y el link que se da es el de copia: …/document/d/<id>/copy
     (va a programa.proximo_lab.lab_sheet). Modelo: LAB 02 · Lab Sheet (Drive › Labs › LAB 02).
 
+12. **La presentación va con el branding de Flor** (14/11: "el deck no tiene nada que ver con mi estilo"). Se arma
+    en Canva a partir de SU plantilla "Breaking Barriers at work by Flor Pérsico - ppt Template" (design DAHVqyTt-3c):
+    copy-design de la plantilla y después merge-designs (create_new_design) con las páginas que hagan falta, y se
+    cambian solo los textos (edit-design, replace_text). Páginas de la plantilla: 1 portada (logo; se agrega abajo
+    "WORKING LAB NN · TEMA" y la fecha), 2 título + recuadro con 4 ítems (objetivo, mapas, puntajes), 8 dos columnas
+    (método, tablas cortas), 4–7 separador marrón con foto (THE WHAT / THE HOW / THE WHO), 9 cita (el modelo para leer).
+    Modelo: "LAB 02 · Give an Update That Lands · Breaking Barriers" (https://www.canva.com/d/24Y_jEfTp8zAGWM),
+    14 diapositivas: portada · Today's goal · The Delivery Method · Your first try · THE WHAT · el mapa · el modelo ·
+    THE HOW · la gramática · Find the mistake · THE WHO · Your Mission + las rondas · Your second try · Your week.
+    Tiene que guiar sola: cada diapositiva dice qué hacen ellas, todo en inglés, con información que les sirva en el
+    trabajo. En las **notas del orador** de cada diapositiva va lo que Flor dice (en inglés) y sus notas cortas en
+    español. Textos cortos para que no se desborden (los separadores, máximo ~22 caracteres por línea).
+
 ## Feedback de cada lab
 
 (La tarea agrega acá, con fecha, lo que Flor dejó en la app sobre cada lab.)

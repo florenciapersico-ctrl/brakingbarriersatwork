@@ -906,7 +906,7 @@ ${res.length ? res.map((r, i) => { const x = verResumen(r); return `<section cla
       const [res0, tareas] = await Promise.all([DB.resumenes().catch(() => []), DB.tareas().catch(() => [])]);
       const labs = res0.filter((r) => /lab/i.test(r.asunto || '') || /lab/i.test(r.origen || ''));
       const pend = tareas.filter((t) => !t.hecha && /lab/i.test(t.donde || ''));
-      const mat = [url(l.lab_sheet) && { t: 'Tu Lab Sheet', u: l.lab_sheet }].concat((l.para_alumnas || []).map((x) => url(x.u) && x)).filter(Boolean);
+      const mat = [url(l.lab_sheet) && { t: 'Tu Lab Sheet (haz tu copia)', u: l.lab_sheet }].concat((l.para_alumnas || []).map((x) => url(x.u) && x)).filter(Boolean);
       return `<div class="head"><div><span class="eyebrow">Working Lab · los sábados</span><h1>Mi lab</h1></div></div>
 <p class="muted intro">Todo lo de tus labs en un lugar: el próximo, qué traer, el material y lo que trabajamos en cada uno.</p>
 <section class="card feature"><span class="eyebrow">Tu próximo lab${l.fecha ? ' · ' + esc(l.fecha) : ''}</span><h2>${esc(l.tema || 'Working Lab')}</h2>
@@ -932,7 +932,7 @@ ${labs.length ? labs.map((r, i) => { const x = verResumen(r); return `<section c
       const G = {}; rows.forEach((r) => { (G[r.fecha] = G[r.fecha] || {})[r.clave === 'lab:registro' ? 'reg' : 'g'] = r; });
       const iso = l.iso || proximoSabado().iso, cur = G[iso] || {}, g = cur.g || {}, reg = cur.reg || {};
       st._labIso = iso;
-      const links = [url(l.link) && { t: 'Entrar al Meet', u: l.link }, url(g.link) && { t: 'Guion en Google Docs', u: g.link }, url(g.link2 || l.deck) && { t: 'Deck', u: g.link2 || l.deck }, url(l.lab_sheet) && { t: 'Lab Sheet', u: l.lab_sheet }, url(l.material) && { t: 'Carpeta del lab', u: l.material }].filter(Boolean);
+      const links = [url(l.link) && { t: 'Entrar al Meet', u: l.link }, url(g.link) && { t: 'Guion en Google Docs', u: g.link }, url(g.link2 || l.deck) && { t: 'Presentación (Canva)', u: g.link2 || l.deck }, url(l.lab_sheet) && { t: 'Lab Sheet de las alumnas', u: l.lab_sheet }, url(l.material) && { t: 'Carpeta del lab', u: l.material }].filter(Boolean);
       const pasados = Object.keys(G).filter((f) => f < iso).sort().reverse();
       return `<div class="head"><div><span class="eyebrow">Working Labs · sábados 15:30</span><h1>Labs</h1></div></div>
 <section class="card feature"><span class="eyebrow">${l.iso === diaISO(new Date()) ? 'Hoy · ' : 'Próximo lab · '}${esc(l.fecha || iso)}</span><h2>${esc(l.tema || 'Todavía sin tema')}</h2>
@@ -952,7 +952,7 @@ ${labs.length ? labs.map((r, i) => { const x = verResumen(r); return `<section c
   <div class="row"><button class="btn sm" id="labregok" type="button">Guardar registro</button></div></section>
 <h3 style="margin:22px 0 8px">Labs anteriores</h3>
 ${pasados.length ? pasados.map((f) => { const x = G[f], gg = x.g || {}, rr = x.reg || {}; return `<section class="card"><details class="lb"><summary><div><span class="eyebrow">${esc(fecha(f, { weekday: 'long', day: 'numeric', month: 'long' }))}</span><h3>${esc(gg.titulo || rr.titulo || 'Lab')}</h3></div></summary>
-  ${btnsLinks([url(gg.link) && { t: 'Guion', u: gg.link }, url(gg.link2) && { t: 'Deck', u: gg.link2 }].filter(Boolean))}
+  ${btnsLinks([url(gg.link) && { t: 'Guion', u: gg.link }, url(gg.link2) && { t: 'Presentación', u: gg.link2 }].filter(Boolean))}
   ${rr.texto ? `<span class="eyebrow">Qué se hizo</span><div class="feedback">${md(rr.texto)}</div>` : '<p class="muted small">Sin registro.</p>'}
   ${(rr.invitadas || []).length ? `<p class="muted small"><b>Vinieron:</b> ${esc(rr.invitadas.join(', '))}</p>` : ''}
   ${gg.texto2 ? `<span class="eyebrow">Tu feedback</span><p>${linkear(gg.texto2)}</p>` : ''}
