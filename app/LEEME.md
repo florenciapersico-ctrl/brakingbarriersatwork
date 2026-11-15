@@ -58,3 +58,11 @@ contraseña y entra directo a "Empieza acá".
 - Para sumar clases nuevas que grabes: editá la lista `clases` del módulo en `app/programa.js`.
 - Para cambiar cómo responden Flor AI o los coaches: `supabase/functions/flor-ai/prompts.ts`
   y volvés a publicar la función.
+
+## Instalarla como app en el celular
+
+- La app es instalable (PWA): `manifest.webmanifest`, `sw.js` e íconos en `app/`.
+- iPhone: abrir el link en Safari → Compartir → "Agregar a inicio". En iPhone aparece
+  solo un aviso que lo explica; se puede cerrar y no vuelve.
+- Android (Chrome): menú ⋮ → "Instalar app".
+- Si agregás un archivo a `app/`, sumalo a `SHELL` en `app/sw.js` y subí la versión de `CACHE`.

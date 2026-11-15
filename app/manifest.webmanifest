@@ -1,0 +1,18 @@
+{
+  "name": "AT WORK · Tu espacio",
+  "short_name": "AT WORK",
+  "description": "Tu espacio de AT WORK: tu semana, Flor AI, tus coaches, tu feedback y tu progreso.",
+  "lang": "es",
+  "dir": "ltr",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FFF8E7",
+  "theme_color": "#82552E",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
