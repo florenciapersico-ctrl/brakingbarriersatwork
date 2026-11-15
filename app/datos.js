@@ -138,7 +138,7 @@
       async notasClase(email) { return ok(await sb.from('clase_notas').select('*').eq('email', email).order('fecha', { ascending: false }).limit(10)); },
       async guardarNotaClase(r) { ok(await sb.from('clase_notas').upsert({ ...r, actualizado: new Date().toISOString() })); },
       async marcarHabito(fecha, hechos, minima) { ok(await sb.from('habitos_flor').upsert({ fecha, hechos, minima, actualizado: new Date().toISOString() })); },
-      async clasesHoy() { const r = await llamar({ modo: 'clases_hoy' }); const j = await r.json().catch(() => ({})); return j.ok ? j.clases || [] : null; },
+      async clasesHoy() { const r = await llamar({ modo: 'clases_hoy' }); const j = await r.json().catch(() => ({})); this.errClases = j.ok ? '' : String(j.error || (r.ok ? '' : 'error ' + r.status)); return j.ok ? j.clases || [] : null; },
       async borradoresGmail() { try { const r = await llamar({ modo: 'borradores_gmail' }); const j = await r.json(); return j.borradores || []; } catch (e) { return []; } },
       async borradorMail(q) { const r = await llamar({ modo: 'borrador_mail', ...q }); const j = await r.json().catch(() => ({})); if (!r.ok || !j.ok) throw new Error(j.error || 'No se pudo armar el borrador en Gmail.'); return j; },
       async avisar(q) { try { const r = await llamar({ modo: 'avisar', link: location.origin + location.pathname, ...q }); return r.ok ? r.json() : null; } catch (e) { return null; } },

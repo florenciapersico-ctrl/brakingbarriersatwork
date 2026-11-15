@@ -1415,6 +1415,8 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
   ${ot.length ? `<p class="hab-sec">Además</p><ul class="td-l">${ot.map(item).join('')}</ul>` : ''}
 </section>`;
   }
+  // Domingo: día de descanso de Flor (15/11). No hay clases, ni hábitos del día, ni nada para grabar.
+  const esDomingo = (d) => (d || new Date()).getDay() === 0;
   const IDENTIDAD = 'Soy una mujer que cuida su energía y hace crecer un negocio sano y abundante.';
   V.inicio = {
     async html() {
@@ -1432,7 +1434,7 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
       const cuenta = (iso) => { const x = H[iso]; return x ? HAB.dia.filter(([k]) => x.hechos[k]).length : 0; };
       const ayer = new Date(hoy); ayer.setDate(ayer.getDate() - 1); const ayI = diaISO(ayer);
       const yaEmpezo = Object.keys(H).some((f) => f < ayI);
-      const fallóAyer = st._habOk && yaEmpezo && cuenta(ayI) === 0 && !(H[ayI] && H[ayI].minima) && n === 0 && !r.minima;
+      const fallóAyer = !esDomingo(hoy) && !esDomingo(ayer) && st._habOk && yaEmpezo && cuenta(ayI) === 0 && !(H[ayI] && H[ayI].minima) && n === 0 && !r.minima;
       const item = (k, l, on) => `<button type="button" class="hab${on ? ' on' : ''}" data-hab="${k}" aria-pressed="${!!on}"><span class="hab-box" aria-hidden="true">✓</span><span class="hab-t">${esc(l)}</span></button>`;
       let bloque = '';
       HAB.dia.forEach(([k, l, g], i) => { if (i === 0 || HAB.dia[i - 1][2] !== g) bloque += `<p class="hab-sec">${g}</p>`; bloque += item(k, l, r.hechos[k]); });
@@ -1446,29 +1448,30 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
 <p class="identidad" id="ident" title="Tocá para editar">${esc(F.identidad || IDENTIDAD)}</p>
 <form id="ident-f" style="display:none" class="grid" ><textarea id="ident-t" rows="2">${esc(F.identidad || IDENTIDAD)}</textarea><div class="row"><button class="btn sm" type="submit">Guardar</button><button class="linkbtn small" type="button" id="ident-x">Cancelar</button></div></form>
 <section class="card midia">
-  <div class="row between"><h2>Mi día</h2><span class="muted small" id="hab-n">${fecha(hoyI, { weekday: 'long', day: 'numeric' })} · ${n} de ${HAB.dia.length}</span></div>
+  <div class="row between"><h2>Mi día</h2><span class="muted small" id="hab-n">${fecha(hoyI, { weekday: 'long', day: 'numeric' })} · ${esDomingo(hoy) ? 'descanso' : `${n} de ${HAB.dia.length}`}</span></div>
+  ${esDomingo(hoy) ? '<p class="descanso">Hoy es domingo, tu día de descanso 🌿<br><span class="muted small">No hay hábitos para tildar ni nada que grabar. Si querés, hacé las compras y dejá lista la semana.</span></p>' : ''}
   ${fallóAyer ? '<p class="note small">Ayer no se dio, y está bien. Hoy no se falla dos veces: con la versión mínima alcanza.</p>' : ''}
   ${!st._habOk ? '<p class="note small">Todavía no se puede guardar: falta activar la tabla de hábitos.</p>' : ''}
-  <div class="hab-list">${bloque}</div>
+  ${esDomingo(hoy) ? '' : `<div class="hab-list">${bloque}</div>
   <p class="hab-sec">Si se da (no cuenta para el día)</p>
-  <div class="hab-list">${HAB.extra.map(([k, l]) => item(k, l, r.hechos[k])).join('')}</div>
-  <details class="minima-d"${r.minima ? ' open' : ''}><summary class="small">Día difícil · ver la versión mínima</summary>
+  <div class="hab-list">${HAB.extra.map(([k, l]) => item(k, l, r.hechos[k])).join('')}</div>`}
+  <details class="minima-d"${r.minima ? ' open' : ''}${esDomingo(hoy) ? ' hidden' : ''}><summary class="small">Día difícil · ver la versión mínima</summary>
     <ul class="small">${HAB.minima.map(([h, m]) => `<li><b>${esc(h)}:</b> ${esc(m)}</li>`).join('')}</ul>
     <button type="button" class="linkbtn small minima${r.minima ? ' on' : ''}" id="minima" aria-pressed="${!!r.minima}">${r.minima ? '✓ Hice la versión mínima (cuenta igual)' : 'Hice la versión mínima'}</button>
   </details>
   <p class="hab-sec">Esta semana</p>
   <div class="hab-list">${HAB.semana.map(([k, l]) => item(k, l, sem.hechos[k])).join('')}</div>
-  <div class="hab-sem" id="hab-sem">${dias.map((d) => { const iso = diaISO(d), c = cuenta(iso), m = H[iso] && H[iso].minima; return `<div><span>${d.toLocaleDateString('es', { weekday: 'narrow' })}</span><b class="${c === HAB.dia.length || m ? 'full' : c ? 'part' : ''}${iso === hoyI ? ' hoy' : ''}" data-dsem="${iso}">${m && c < HAB.dia.length ? '½' : c || ''}</b></div>`; }).join('')}</div>
+  <div class="hab-sem" id="hab-sem">${dias.map((d) => { const iso = diaISO(d), c = cuenta(iso), m = H[iso] && H[iso].minima; if (esDomingo(d) && !c) return `<div><span>${d.toLocaleDateString('es', { weekday: 'narrow' })}</span><b class="desc${iso === hoyI ? ' hoy' : ''}" data-dsem="${iso}" title="Descanso">🌿</b></div>`; return `<div><span>${d.toLocaleDateString('es', { weekday: 'narrow' })}</span><b class="${c === HAB.dia.length || m ? 'full' : c ? 'part' : ''}${iso === hoyI ? ' hoy' : ''}" data-dsem="${iso}">${m && c < HAB.dia.length ? '½' : c || ''}</b></div>`; }).join('')}</div>
   <p class="muted small hab-pie">Cada tilde es un voto por quien querés ser. Se guarda en tu Notion (“Mis hábitos”).</p>
 </section>
-<section class="card feature unica">
-  <span class="eyebrow">Hoy, una sola cosa · grabar</span>
+<section class="card${esDomingo(hoy) ? '' : ' feature'} unica">
+  ${esDomingo(hoy) ? '<span class="eyebrow">Domingo · descanso</span><p class="small muted">Hoy no hay nada para grabar. Si te sirve, mirá tu foco para arrancar el lunes.</p>' : `<span class="eyebrow">Hoy, una sola cosa · grabar</span>
   ${g0 ? `<h2>${esc(g0.t.texto)}</h2>
   <p class="small">${g0.ya ? `${g0.quienes.filter((x) => x.n >= g0.desde).length} ${g0.quienes.filter((x) => x.n >= g0.desde).length === 1 ? 'alumna ya llegó' : 'alumnas ya llegaron'} a esta clase (va en la semana ${g0.desde}).` : `La necesitan la semana que viene (semana ${g0.desde}).`}</p>
   <div class="row" style="gap:8px;flex-wrap:wrap">${linkGrabar(F, g0.t.id) ? `<a class="btn" href="${esc(linkGrabar(F, g0.t.id))}" target="_blank" rel="noopener">🎬 Abrir todo para grabar</a>` : `<button type="button" class="btn" data-glink="${esc(g0.t.id)}">+ Pegar el link del material</button>`}<button type="button" class="btn ghost sm" data-grab="${esc(g0.t.id)}">Ya la grabé</button></div>
   ${G.length > 1 ? `<p class="muted small" style="margin-top:10px">Después: ${esc(G[1].t.texto)} · <a href="#progreso">quedan ${G.length - 1} más</a>. No las mires hoy: de a una.</p>` : ''}`
   : '<h2>No hay clases urgentes para grabar 🎉</h2><p class="muted small">Ninguna alumna llegó a una clase en grabación. Hoy grabá contenido.</p>'}
-  ${tuDia(st._hoyD, hoyI, 'contenido')}
+  ${tuDia(st._hoyD, hoyI, 'contenido')}`}
   <details class="foco"><summary class="small">${fo.texto ? `Tu foco de 30 días: <b>${esc(fo.texto)}</b>${diasFoco != null ? ` · ${diasFoco ? 'quedan ' + diasFoco + ' días' : 'revisalo el lunes'}` : ''}` : 'Definí tu foco de 30 días'}</summary>
     ${fo.resuelto ? `<p class="small"><b>Resuelto cuando:</b> ${esc(fo.resuelto)}</p>` : ''}${fo.paso ? `<p class="small"><b>Smart Scale:</b> ${esc(fo.paso)}</p>` : ''}
     <form class="grid" id="foco-f">
@@ -1478,8 +1481,8 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
       <div class="row"><button class="btn sm" type="submit">Guardar</button></div>
     </form></details>
 </section>
-<section class="card"><div class="row between"><h3>Hoy te necesitan</h3><a class="small" href="#alumnas">Alumnas</a></div>
-  ${tuDia(st._hoyD, hoyI, 'clases') || '<p class="muted small">Hoy no tenés clases cargadas.</p>'}
+<section class="card"><div class="row between"><h3>${esDomingo(hoy) ? 'El lunes te esperan' : 'Hoy te necesitan'}</h3><a class="small" href="#alumnas">Alumnas</a></div>
+  ${esDomingo(hoy) ? '<p class="muted small">Hoy no se trabaja: esto queda para el lunes.</p>' : tuDia(st._hoyD, hoyI, 'clases') || '<p class="muted small">Hoy no tenés clases cargadas.</p>'}
   <ul class="neg">
     ${pendW ? `<li><a href="#bandeja/weeklies"><b>${pendW}</b> ${pendW === 1 ? 'weekly espera' : 'weeklies esperan'} tu respuesta</a></li>` : ''}
     ${pendT ? `<li><a href="#bandeja/pedidos"><b>${pendT}</b> ${pendT === 1 ? 'tarea espera' : 'tareas esperan'} tu feedback</a></li>` : ''}
@@ -1496,9 +1499,9 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
       const guardar = async (f) => { const x = fila(f); try { await DB.marcarHabito(f, x.hechos, x.minima); } catch (e) { toast('No se guardó. Probá de nuevo.', true); } };
       const pintarHoy = () => {
         const x = fila(hoyI), n = HAB.dia.filter(([k]) => x.hechos[k]).length;
-        $('#hab-n').textContent = fecha(hoyI, { weekday: 'long', day: 'numeric' }) + ' · ' + n + ' de ' + HAB.dia.length;
+        if (!esDomingo()) $('#hab-n').textContent = fecha(hoyI, { weekday: 'long', day: 'numeric' }) + ' · ' + n + ' de ' + HAB.dia.length;
         const dot = $(`[data-dsem="${hoyI}"]`);
-        if (dot) { dot.className = (n === HAB.dia.length || x.minima ? 'full' : n ? 'part' : '') + ' hoy'; dot.textContent = x.minima && n < HAB.dia.length ? '½' : n || ''; }
+        if (dot && !esDomingo()) { dot.className = (n === HAB.dia.length || x.minima ? 'full' : n ? 'part' : '') + ' hoy'; dot.textContent = x.minima && n < HAB.dia.length ? '½' : n || ''; }
       };
       $$('[data-hab]').forEach((bt) => (bt.onclick = () => {
         const k = bt.dataset.hab, f = k.startsWith('w:') ? lun : hoyI, x = fila(f);
@@ -1802,6 +1805,7 @@ ${cuerpo}`;
   // ---------- Alumnas ----------
   // ---------- Alumnas: quién tiene clase hoy y el resumen de cada una (para Flor) ----------
   async function clasesHoy() {
+    if (esDomingo()) return [];
     if (st._clasesHoy && st._clasesHoy.dia === diaISO(new Date())) return st._clasesHoy.clases;
     let c = DB.clasesHoy ? await DB.clasesHoy().catch(() => null) : null;
     // Respaldo: las clases que dejó cargadas la preparación de la madrugada (tabla hoy_flor)
@@ -1899,7 +1903,7 @@ ${cuerpo}`;
       if (!a && esFlor()) {
         const hoyCon = al.filter((x) => x.rol !== 'admin' && claseDe(x)).sort((x, y) => (claseDe(x).inicio < claseDe(y).inicio ? -1 : 1));
         det = `<section class="card"><div class="row between"><h2>Hoy tienen clase</h2><span class="muted small">${fecha(diaISO(new Date()), { weekday: 'long', day: 'numeric', month: 'long' })}</span></div>
-          ${ch == null ? '<p class="note small">Para ver tus clases de hoy, falta publicar la versión nueva de tu Apps Script (lee tu Google Calendar).</p>' : hoyCon.length ? '' : '<p class="muted">Hoy no tenés clases 1:1 con alumnas.</p>'}</section>`
+          ${esDomingo() ? '<p class="muted">Hoy es domingo, tu día de descanso 🌿 No hay clases.</p>' : ch == null ? `<p class="note small">No pude leer tu Google Calendar${DB.errClases ? ` (${esc(DB.errClases)})` : ''}. Volvé a publicar tu Apps Script: Implementar › Gestionar implementaciones › ✏️ › Versión nueva › Implementar.</p>` : hoyCon.length ? '' : '<p class="muted">Hoy no tenés clases 1:1 con alumnas.</p>'}</section>`
           + (bh ? (await Promise.all(hoyCon.map((x) => resumenAlumna(x, bh, claseDe(x))))).join('') : '');
       }
       if (!a && !esFlor()) det = '<section class="card empty-state"><h3>Elige una alumna</h3><p class="muted small">Desde acá le cargas su foco de la semana, sus tareas, las clases que tiene que ver, su progreso y sus patrones de error. Todo lo ve en su app y lo usa Flor AI.</p></section>';
