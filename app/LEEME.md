@@ -62,7 +62,7 @@ contraseña y entra directo a "Empieza acá".
 ## Instalarla como app en el celular
 
 - La app es instalable (PWA): `manifest.webmanifest`, `sw.js` e íconos en `app/`.
-- iPhone: abrir el link en Safari → Compartir → "Agregar a inicio". En iPhone aparece
+- iPhone: abrir el link en Safari → Compartir → "Agregar a inicio". En iPhone y Android aparece
   solo un aviso que lo explica; se puede cerrar y no vuelve.
-- Android (Chrome): menú ⋮ → "Instalar app".
+- Android (Chrome): el aviso trae un botón "Instalar"; si no, menú ⋮ → "Instalar app".
 - Si agregás un archivo a `app/`, sumalo a `SHELL` en `app/sw.js` y subí la versión de `CACHE`.

@@ -27,8 +27,9 @@
 <script src="datos.js"></script>
 <script src="app.js"></script>
 
-<!-- Instalar en el iPhone: aviso que solo aparece en Safari de iPhone/iPad
-     cuando la app todavía no está en la pantalla de inicio. -->
+<!-- Instalar en el celular: aviso que aparece solo en iPhone/iPad y Android
+     cuando la app todavía no está instalada. En Android con Chrome trae un
+     botón que instala con un toque; en iPhone explica Compartir → Agregar a inicio. -->
 <style>
   .instalar{position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:50;
     max-width:460px;margin:0 auto;display:flex;gap:12px;align-items:flex-start;padding:14px 14px 14px 12px;
@@ -37,9 +38,11 @@
   .instalar img{width:44px;height:44px;border-radius:10px;flex:none}
   .instalar b{display:block;font-family:var(--display);font-size:17px;margin-bottom:2px}
   .instalar p{margin:0}
-  .instalar .compartir{display:inline-block;width:15px;height:15px;vertical-align:-2px;color:var(--brand)}
-  .instalar button{flex:none;margin:-4px -2px 0 auto;padding:4px 8px;border:0;background:none;
+  .instalar svg{display:inline-block;width:15px;height:15px;vertical-align:-2px;color:var(--brand)}
+  .instalar .cerrar{flex:none;margin:-4px -2px 0 auto;padding:4px 8px;border:0;background:none;
     color:var(--muted);font-size:22px;line-height:1;cursor:pointer}
+  .instalar .si{margin-top:10px;padding:9px 18px;border:0;border-radius:999px;background:var(--brand);
+    color:var(--on-brand);font:600 14px var(--body);cursor:pointer}
 </style>
 <script>
 (function () {
@@ -51,27 +54,75 @@
 
   var ua = navigator.userAgent;
   var esIOS = /iPhone|iPad|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-  var esSafari = /Safari/.test(ua) && !/CriOS|FxiOS|EdgiOS|GSA/.test(ua);
+  var esAndroid = /Android/.test(ua);
   var instalada = window.navigator.standalone === true || matchMedia('(display-mode: standalone)').matches;
-  if (!esIOS || instalada) return;
+  if ((!esIOS && !esAndroid) || instalada) return;
   try { if (localStorage.getItem('atwork-instalar-cerrado')) return; } catch (e) {}
 
-  var icono = '<svg class="compartir" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M8 7l4-4 4 4"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></svg>';
-  var aviso = document.createElement('div');
-  aviso.className = 'instalar';
-  aviso.setAttribute('role', 'dialog');
-  aviso.setAttribute('aria-label', 'Instalar AT WORK en tu iPhone');
-  aviso.innerHTML = '<img src="apple-touch-icon.png" alt="">' +
-    '<div><b>Tenla como app en tu iPhone</b><p>' +
-    (esSafari
-      ? 'Toca ' + icono + ' <strong>Compartir</strong> abajo y elige <strong>“Agregar a inicio”</strong>. Desde ahí se abre directo, sin Safari.'
-      : 'Abre este link en <strong>Safari</strong>, toca ' + icono + ' <strong>Compartir</strong> y elige <strong>“Agregar a inicio”</strong>.') +
-    '</p></div><button type="button" aria-label="Cerrar">×</button>';
-  aviso.querySelector('button').addEventListener('click', function () {
-    aviso.remove();
-    try { localStorage.setItem('atwork-instalar-cerrado', '1'); } catch (e) {}
+  var compartir = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M8 7l4-4 4 4"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></svg>';
+  var menu = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg>';
+  var aviso = null, pedido = null;
+
+  function cerrar(recordar) {
+    if (aviso) { aviso.remove(); aviso = null; }
+    if (recordar) { try { localStorage.setItem('atwork-instalar-cerrado', '1'); } catch (e) {} }
+  }
+
+  function mostrar(texto, conBoton) {
+    if (aviso) aviso.remove();
+    aviso = document.createElement('div');
+    aviso.className = 'instalar';
+    aviso.setAttribute('role', 'dialog');
+    aviso.setAttribute('aria-label', 'Instalar AT WORK en tu celular');
+    aviso.innerHTML = '<img src="apple-touch-icon.png" alt="">' +
+      '<div><b>Tenla como app en tu celular</b><p>' + texto + '</p>' +
+      (conBoton ? '<button type="button" class="si">Instalar</button>' : '') +
+      '</div><button type="button" class="cerrar" aria-label="Cerrar">×</button>';
+    aviso.querySelector('.cerrar').addEventListener('click', function () { cerrar(true); });
+    if (conBoton) aviso.querySelector('.si').addEventListener('click', function () {
+      if (!pedido) return;
+      pedido.prompt();
+      pedido.userChoice.then(function (r) { if (r.outcome === 'accepted') cerrar(true); });
+      pedido = null;
+    });
+    document.body.appendChild(aviso);
+  }
+
+  function alCargar(fn) {
+    if (document.readyState === 'complete') fn(); else window.addEventListener('load', fn);
+  }
+
+  if (esIOS) {
+    var esSafari = /Safari/.test(ua) && !/CriOS|FxiOS|EdgiOS|GSA|Instagram|FBAN|FBAV/.test(ua);
+    alCargar(function () {
+      mostrar(esSafari
+        ? 'Toca ' + compartir + ' <strong>Compartir</strong> y elige <strong>“Agregar a inicio”</strong>. Desde ahí se abre directo, sin Safari.'
+        : 'Abre este link en <strong>Safari</strong>, toca ' + compartir + ' <strong>Compartir</strong> y elige <strong>“Agregar a inicio”</strong>.');
+    });
+    return;
+  }
+
+  // Android: Chrome ofrece instalar con un toque. Si en unos segundos no lo
+  // ofrece (por ejemplo, abrió el link desde Instagram o WhatsApp), le
+  // explicamos cómo hacerlo a mano.
+  window.addEventListener('beforeinstallprompt', function (e) {
+    e.preventDefault();
+    pedido = e;
+    alCargar(function () { mostrar('Instálala y ábrela directo desde tu pantalla de inicio, como cualquier app.', true); });
   });
-  window.addEventListener('load', function () { document.body.appendChild(aviso); });
+  window.addEventListener('appinstalled', function () { cerrar(true); });
+  alCargar(function () {
+    setTimeout(function () {
+      if (pedido || aviso) return;
+      var dentroDeOtraApp = /; wv\)|Instagram|FBAN|FBAV|WhatsApp/.test(ua);
+      var esSamsung = /SamsungBrowser/.test(ua);
+      mostrar(dentroDeOtraApp
+        ? 'Abre este link en <strong>Chrome</strong>, toca ' + menu + ' arriba a la derecha y elige <strong>“Instalar app”</strong>.'
+        : esSamsung
+          ? 'Toca el menú <strong>☰</strong> abajo y elige <strong>“Agregar página a”</strong> → <strong>“Pantalla de inicio”</strong>.'
+          : 'Toca ' + menu + ' arriba a la derecha y elige <strong>“Instalar app”</strong> o <strong>“Agregar a la pantalla principal”</strong>.');
+    }, 4000);
+  });
 })();
 </script>
 </body>
