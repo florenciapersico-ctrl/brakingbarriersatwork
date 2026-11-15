@@ -1903,7 +1903,7 @@ ${cuerpo}`;
       if (!a && esFlor()) {
         const hoyCon = al.filter((x) => x.rol !== 'admin' && claseDe(x)).sort((x, y) => (claseDe(x).inicio < claseDe(y).inicio ? -1 : 1));
         det = `<section class="card"><div class="row between"><h2>Hoy tienen clase</h2><span class="muted small">${fecha(diaISO(new Date()), { weekday: 'long', day: 'numeric', month: 'long' })}</span></div>
-          ${esDomingo() ? '<p class="muted">Hoy es domingo, tu día de descanso 🌿 No hay clases.</p>' : ch == null ? `<p class="note small">No pude leer tu Google Calendar${DB.errClases ? ` (${esc(DB.errClases)})` : ''}. Volvé a publicar tu Apps Script: Implementar › Gestionar implementaciones › ✏️ › Versión nueva › Implementar.</p>` : hoyCon.length ? '' : '<p class="muted">Hoy no tenés clases 1:1 con alumnas.</p>'}</section>`
+          ${esDomingo() ? '<p class="muted">Hoy es domingo, tu día de descanso 🌿 No hay clases.</p>' : ch == null ? `<p class="note small">Hoy no pude ver tu calendario. No es urgente: avisale a Claude y lo resolvemos.${DB.errClases ? `<br><span class="muted">Para Claude: ${esc(DB.errClases)}</span>` : ''}</p>` : hoyCon.length ? '' : '<p class="muted">Hoy no tenés clases 1:1 con alumnas.</p>'}</section>`
           + (bh ? (await Promise.all(hoyCon.map((x) => resumenAlumna(x, bh, claseDe(x))))).join('') : '');
       }
       if (!a && !esFlor()) det = '<section class="card empty-state"><h3>Elige una alumna</h3><p class="muted small">Desde acá le cargas su foco de la semana, sus tareas, las clases que tiene que ver, su progreso y sus patrones de error. Todo lo ve en su app y lo usa Flor AI.</p></section>';
