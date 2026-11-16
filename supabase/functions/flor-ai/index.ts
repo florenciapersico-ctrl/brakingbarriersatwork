@@ -255,6 +255,7 @@ async function alumnasConApp(admin: any): Promise<boolean> {
 // deno-lint-ignore no-explicit-any
 async function generarBorrador(admin: any, tabla: string, ref: number, imp?: { email: string; semana: string }, quien?: string) {
     let alumnaId = "", material = "", transcripcion = "", aviso = "", sinAudio = false, ctxImp = "";
+    let hermanos: number[] = []; // otras tomas de la misma práctica (Flor, 16/11: varias tomas = un solo feedback)
     // deno-lint-ignore no-explicit-any
     let adjunto: any = null;
     if (tabla === "pedidos") {
@@ -336,6 +337,38 @@ async function generarBorrador(admin: any, tabla: string, ref: number, imp?: { e
         aviso = "⚠️ NO TENGO LA TAREA: solo me llegó el aviso de que la subió, no el archivo. No armé el borrador para no mandarle un feedback sin haberla visto. " +
           (x.link ? "No pude abrir el link que tiene el pedido: revisá que sea el archivo correcto (Doc, PDF, Word o audio)." : "La busqué en su carpeta de Drive y no encontré nada nuevo desde una semana antes del pedido. Pegá el link del archivo en el pedido y tocá «Armar de nuevo con IA».");
       }
+      // VARIAS TOMAS (Flor, 16/11): si en los mismos días mandó otros audios pendientes, los escucho todos y armo UN solo borrador.
+      if (!sinAudio && transcripcion) {
+        try {
+          const t0 = new Date(x.creado || Date.now()).getTime();
+          const { data: otros } = await admin.from("pedidos").select("id,titulo,texto,link,origen,tipo,creado,archivo,archivo_nombre")
+            .eq("alumna_id", x.alumna_id).eq("estado", "pendiente").neq("id", x.id)
+            .gte("creado", new Date(t0 - 3 * 864e5).toISOString()).lte("creado", new Date(t0 + 3 * 864e5).toISOString()).order("titulo");
+          // deno-lint-ignore no-explicit-any
+          for (const o of (otros || []) as any[]) {
+            if (hermanos.length >= 5) break;
+            const esAudio = o.tipo === "audio" || o.tipo === "reunion" || AUDIO.test(`${o.titulo || ""} ${o.archivo_nombre || ""} ${o.archivo || ""}`);
+            if (!esAudio) continue;
+            let tr = "";
+            const { data: bo } = await admin.from("borradores").select("datos").eq("tabla", "pedidos").eq("ref", o.id).maybeSingle();
+            tr = String(bo?.datos?.transcripcion || "");
+            if (!tr) {
+              const id = DRIVE_ID(`${o.link || ""}`) || (/^drive:([\w-]{20,})/.exec(String(o.origen || ""))?.[1] || "");
+              if (id) { try { tr = await transcribir(await bajarDeDrive(id)); } catch (e) { console.error("toma", o.id, e); } }
+              else if (o.archivo) {
+                const { data: f } = await admin.storage.from("atwork").createSignedUrl(o.archivo, 900);
+                if (f?.signedUrl) { try { tr = await transcribir(f.signedUrl); } catch (e) { console.error("toma", o.id, e); } }
+              }
+            }
+            if (!tr) continue;
+            hermanos.push(o.id);
+            material += `\n\nOTRA TOMA QUE MANDÓ EN LOS MISMOS DÍAS (pedido ${o.id}: ${o.titulo}).\n${tr}`;
+          }
+          if (hermanos.length) {
+            material = `ATENCIÓN: son ${hermanos.length + 1} audios de la misma práctica (tomas o versiones). Escribí UN SOLO feedback para todas: compará la primera toma con la última (qué mejoró), elegí el foco que se repite en las tomas y citá frases de cualquiera de ellas. En NOTAS PARA FLOR, arriba de todo: "Feedback único de ${hermanos.length + 1} audios: se guarda en todos los pedidos; mandalo una sola vez".\n\n` + material;
+          }
+        } catch (e) { console.error("tomas", e); }
+      }
     } else if (imp) {
       // Alumna que todavía no creó su cuenta: su weekly vive en la tabla importacion.
       const { data: x } = await admin.from("importacion").select("nombre,datos,weeklies").eq("email", imp.email.toLowerCase()).single();
@@ -393,6 +426,10 @@ ${(x.weeklies || []).filter((e: any) => e.semana < imp.semana).slice(0, 3).map((
       transcripcion,
     };
     if (!imp) await admin.from("borradores").upsert({ tabla, ref, datos, creado: new Date().toISOString() });
+    // El mismo borrador queda en las otras tomas, para que Flor lo mande una vez y cierre las demás.
+    for (const h of hermanos) {
+      await admin.from("borradores").upsert({ tabla, ref: h, datos: { ...datos, unificado_con: ref }, creado: new Date().toISOString() });
+    }
     return datos;
 }
 
