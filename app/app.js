@@ -2087,8 +2087,13 @@ ${cuerpo}`;
       const a = al.find((x) => String(x.id) === sel);
       let det = '';
       const bh = esFlor() ? await cargarBandeja().catch(() => null) : null;
-      const ch = esFlor() ? await clasesHoy() : null;
+      let ch = esFlor() ? await clasesHoy() : null;
       st._hoyA = esFlor() && DB.hoyFlor ? await DB.hoyFlor(diaISO(new Date())).catch(() => []) : [];
+      // Si el calendario no respondió, las clases de hoy salen de lo que cargaron las tareas automáticas (hoy_flor).
+      if (esFlor() && (!ch || !ch.length)) {
+        const hc = (st._hoyA || []).filter((x) => x.tipo === 'clase').map((x) => ({ titulo: x.titulo, inicio: x.inicio, meet: x.meet, descripcion: x.link || '', invitadas: (x.invitadas || []).map((m) => String(m).toLowerCase()) }));
+        if (hc.length) ch = hc;
+      }
       // Por mail invitado; si no está invitada (p. ej. un grupal con una sola en la invitación), por su nombre o apodo en el título o la descripción ("Lina y Cori").
       const norm = (t) => String(t || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
       const pila = (x) => norm(String(x.nombre || '').split(' ')[0]);
