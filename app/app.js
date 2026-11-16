@@ -2012,7 +2012,8 @@ ${cuerpo}`;
       const hc = (h || []).filter((x) => x.tipo === 'clase').map((x) => ({ titulo: x.titulo, inicio: x.inicio, meet: x.meet, descripcion: x.link || '', invitadas: (x.invitadas || []).map((m) => String(m).toLowerCase()) }));
       if (hc.length || !c) c = hc.length ? hc : c;
     }
-    st._clasesHoy = { dia: diaISO(new Date()), clases: c };
+    // Solo se guarda si hay clases: si el calendario falló o todavía no se cargaron, se vuelve a buscar en la próxima vista.
+    if (c && c.length) st._clasesHoy = { dia: diaISO(new Date()), clases: c };
     return c;
   }
   const hora = (iso) => (iso ? new Date(iso).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit', hour12: false }) : '');
