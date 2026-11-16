@@ -1402,6 +1402,42 @@ ${r.texto}`;
     }
   };
 
+
+  // ---------- Semáforo (Flor, 16/11): ¿corrió todo lo automático? ----------
+  // Sale de dos lados: lo que se ve en los datos (clases sin resumen, Tu día sin cargar) y el "latido" que deja cada tarea al terminar.
+  const LATIDOS = [['prep', '🌙 Preparación de clases (3 am)'], ['tudia', '📌 Tu día (7:41)'], ['clases', '🎓 Clases del día (cada hora)'], ['sync', '📲 Feedbacks y weeklies (21:13)'], ['control', '🛟 Control de clases (22:43)'], ['mantenimiento', '🛠️ Mantenimiento (6:23)']];
+  async function semaforoHTML(hoyD) {
+    const hoy = new Date(), hoyI = diaISO(hoy), ayer = new Date(hoy); ayer.setDate(ayer.getDate() - 1);
+    if (ayer.getDay() === 0) ayer.setDate(ayer.getDate() - 1);
+    const ayI = diaISO(ayer);
+    const [lat, cAyer] = await Promise.all([DB.latidos ? DB.latidos() : null, DB.clasesDe ? DB.clasesDe(ayI) : []]);
+    const hh = (iso) => new Date(iso).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit', hour12: false });
+    const nom = (t) => esc(String(t || '').split(' ')[0]);
+    const exento = (x) => /vacaciones|no vino|no mandar/i.test(x.estado || '');
+    const rojos = [], amarillos = [];
+    // Clases de hoy que ya terminaron hace más de 90 minutos y no tienen el resumen enviado
+    (hoyD || []).filter((x) => x.tipo === 'clase' && x.inicio && !x.enviado_en && !exento(x) && Date.now() - new Date(x.inicio) > 150 * 60e3)
+      .forEach((x) => rojos.push(`Clase de ${nom(x.titulo)} (${hh(x.inicio)}): sin resumen enviado.${x.estado ? ' ' + esc(x.estado) : ''}`));
+    (cAyer || []).filter((x) => !x.enviado_en && !exento(x)).forEach((x) => rojos.push(`Clase de ayer de ${nom(x.titulo)}: sin resumen enviado.`));
+    if (hoy.getDay() !== 0 && hoy.getHours() >= 9 && !(hoyD || []).some((x) => x.tipo !== 'clase' || x.clave.startsWith('clase:'))) rojos.push('Tu día de hoy no se cargó (clases y contenido).');
+    if (lat) {
+      const porK = {}; lat.forEach((l) => (porK[l.clave] = l));
+      LATIDOS.forEach(([k, n]) => {
+        const l = porK[k];
+        if (!l) return; // todavía no dejó su primera marca
+        if (!l.ok) return rojos.push(`${n}: ${esc(l.mensaje || 'falló')} (${fecha(l.cuando, { weekday: 'short' })} ${hh(l.cuando)})`);
+        const horas = (Date.now() - new Date(l.cuando)) / 36e5;
+        if (horas > (hoy.getDay() === 1 ? 54 : 30)) amarillos.push(`${n}: no corre desde el ${fecha(l.cuando, { weekday: 'long', day: 'numeric' })}.`);
+      });
+    }
+    const verde = !rojos.length && !amarillos.length;
+    return `<section class="card semaforo ${verde ? 'ok' : rojos.length ? 'mal' : 'medio'}">
+  <div class="row between"><h3>${verde ? '🟢 Todo lo automático está al día' : rojos.length ? '🔴 Algo no corrió' : '🟡 Revisar'}</h3><span class="muted small">${hh(new Date())}</span></div>
+  ${verde ? '<p class="muted small">Clases con su resumen, Tu día cargado y todas las tareas corrieron.</p>' : `<ul class="neg small">${rojos.map((t) => `<li>🔴 ${t}</li>`).join('')}${amarillos.map((t) => `<li>🟡 ${t}</li>`).join('')}</ul>
+  <p class="small">Para arreglarlo: abrí Claude en el proyecto «app de at work» y escribí <b>«arreglá lo que está en rojo»</b>. ${lat == null ? '<br><span class="muted">(Falta activar la tabla del semáforo.)</span>' : ''}</p>`}
+</section>`;
+  }
+
   // ---------- Semana de prueba de Flor (16 al 21/11) ----------
   const PRUEBA_HASTA = '2026-11-22';
   const PRUEBA = [['inicio', 'Arrancar el día desde Inicio (Mi día y la una sola cosa)'], ['ok', 'Después de cada clase: OK y fijarme que diga «Resumen enviado»'], ['bandeja', 'Responder weeklies y tareas desde la Bandeja'], ['ficha', 'Abrir la ficha de una alumna antes de su clase'], ['alumna', 'Ver la app como alumna y anotar lo que confunde']];
@@ -1622,6 +1658,7 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
       const desde = new Date(lun + 'T12:00:00'); desde.setDate(desde.getDate() - 7);
       const [rows, b, hd] = await Promise.all([DB.habitos(diaISO(desde)).catch(() => null), cargarBandeja().catch(() => null), DB.hoyFlor ? DB.hoyFlor(hoyI).catch(() => []) : []]);
       st._hoyD = hd || [];
+      const semaf = await semaforoHTML(st._hoyD).catch(() => '');
       const H = {}; (rows || []).forEach((r) => { H[r.fecha] = r; });
       st._hab = H; st._habOk = !!rows;
       const r = H[hoyI] || { hechos: {}, minima: false }, sem = H[lun] || { hechos: {} };
@@ -1643,6 +1680,7 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
       return `<div class="head"><div><span class="eyebrow">${saludo()}, ${esc((st.perfil.nombre || 'Flor').split(' ')[0])}</span><h1>Inicio</h1></div></div>
 <p class="identidad" id="ident" title="Tocá para editar">${esc(F.identidad || IDENTIDAD)}</p>
 <form id="ident-f" style="display:none" class="grid" ><textarea id="ident-t" rows="2">${esc(F.identidad || IDENTIDAD)}</textarea><div class="row"><button class="btn sm" type="submit">Guardar</button><button class="linkbtn small" type="button" id="ident-x">Cancelar</button></div></form>
+${semaf}
 <section class="card midia">
   <div class="row between"><h2>Mi día</h2><span class="muted small" id="hab-n">${fecha(hoyI, { weekday: 'long', day: 'numeric' })} · ${esDomingo(hoy) ? 'descanso' : `${n} de ${HAB.dia.length}`}</span></div>
   ${esDomingo(hoy) ? '<p class="descanso">Hoy es domingo, tu día de descanso 🌿<br><span class="muted small">No hay hábitos para tildar ni nada que grabar. Si querés, hacé las compras y dejá lista la semana.</span></p>' : ''}

@@ -127,6 +127,9 @@
         if (r.error) throw new Error(r.error.message);
         if (!r.data || !r.data.length) ok(await sb.from('hoy_flor').insert(fila));
       },
+      // Semáforo (migración 18): el último "latido" de cada tarea automática.
+      async latidos() { try { return ok(await sb.from('latidos').select('*')) || []; } catch (e) { return null; } },
+      async clasesDe(f) { try { return ok(await sb.from('hoy_flor').select('clave, titulo, inicio, hecho, enviado_en, estado').eq('fecha', f).eq('tipo', 'clase')) || []; } catch (e) { return []; } },
       async hoyHecho(f, clave, hecho) { ok(await sb.from('hoy_flor').update({ hecho, actualizado: new Date().toISOString() }).eq('fecha', f).eq('clave', clave)); },
       // OK de una clase: la marca como dada. La tarea "🎓 Clases del día" ve el OK, arma el resumen, se lo manda y actualiza su app.
       // Si la base todavía no tiene la columna ok_en (migración 15), guarda solo el "hecho".
@@ -295,6 +298,8 @@
       async pendientesImportacion() { return []; },
       async borradores() { return []; },
       async habitos(desde) { return copia((S.habitos || []).filter((r) => r.fecha >= desde)); },
+      async latidos() { const h = new Date().toISOString(); return [{ clave: 'tudia', nombre: '📌 Tu día', ok: true, mensaje: '', cuando: h }, { clave: 'clases', nombre: '🎓 Clases del día', ok: true, mensaje: '', cuando: h }]; },
+      async clasesDe() { return []; },
       async hoyFlor(f) { const i = new Date(); i.setHours(15, 0, 0, 0); return [{ fecha: f, clave: 'clase:demo', tipo: 'clase', orden: 1, titulo: 'Ana · 1:1 · Week 5 · Dar un update', detalle: 'Objetivo: contar el avance del proyecto en tres frases.', link: 'https://docs.google.com/document/d/demo/edit', meet: 'https://meet.google.com/demo', inicio: i.toISOString(), invitadas: ['ana@demo.com'] }, { fecha: f, clave: 'reel:demo', tipo: 'grabar', orden: 1, titulo: 'Reel a cámara · Te faltan TUS frases', detalle: '≈40 s, vertical, mirá al lente.', link: 'https://www.canva.com/folder/demo', link2: 'https://app.notion.com/p/demo', texto: 'Caption de ejemplo…', texto2: 'Tu inglés en las reuniones no está mal…\nsolo te faltan tres palabras.' }]; },
       async hoyHecho() {},
       async labsFlor() { return copia(S.labs || [{ fecha: S.programa.proximo_lab.iso || lunes(), clave: 'lab:guion', tipo: 'otro', titulo: 'Lab de ejemplo', texto: '## Step 1 · Welcome\n- **"Hi everyone!"**\n- Paste in the chat: A, B or C', texto2: '', link: 'https://docs.google.com/document/d/demo/edit' }]); },

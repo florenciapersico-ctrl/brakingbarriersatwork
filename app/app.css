@@ -451,3 +451,9 @@ details.lb>summary{cursor:pointer;list-style:none}
 details.lb>summary::-webkit-details-marker{display:none}
 details.lb>summary h3::after{content:" ›";color:var(--muted)}
 details.lb[open]>summary h3::after{content:" ⌄"}
+/* Semáforo del panel de Flor (16/11) */
+.semaforo.ok{border-left:4px solid #1e7b34}
+.semaforo.medio{border-left:4px solid #c9a227}
+.semaforo.mal{border-left:4px solid #b3261e}
+.semaforo h3{margin:0}
+.semaforo ul{margin:6px 0}
