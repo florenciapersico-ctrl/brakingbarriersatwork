@@ -225,11 +225,11 @@ const METODO_BORRADOR = `MÉTODO DE CORRECCIÓN DE FLOR (manda sobre cualquier o
 - En la app la alumna ve primero tu RESPUESTA y después una tabla con SUS frases para que ELLA encuentre el error y diga por qué. Recién después ve la tabla con las respuestas. Por eso:
   · En RESPUESTA no escribas las correcciones ni las frases corregidas: anticipa que abajo tiene sus frases para encontrar el error ("Abajo te dejo X frases tuyas: encontrá el error y decime por qué antes de mirar la respuesta").
   · En CORRECCIONES, una por línea, con este formato exacto: frase textual de ella => frase corregida || por qué, en una línea corta y en la voz de Flor (la regla en español, sin tecnicismos).
-- Si hay transcripción de un audio: tú SÍ lo escuchaste a través de la transcripción. Nunca escribas que no lo escuchaste, que no pudiste escucharlo o que lo vas a escuchar después. Comenta momentos concretos (con su frase o el minuto) y da feedback de PRONUNCIACIÓN:
-  · Las palabras marcadas [así?] son las que el sistema no entendió con claridad: casi siempre es un sonido que hay que trabajar. Y una palabra que no tiene sentido en el contexto (ej.: "road" donde iba "row", "reminding" donde iba "remaining") es la pista de que la pronunció de otra forma: corrígela como Flor ("ROW, NO ROAD: la fila del Excel es row y se dice 'rou'").
-  · Da el respelling a la española con la sílaba fuerte en mayúsculas ("ri-MÉI-ning"), el acento de la oración y el connected speech cuando haga falta. Máximo 3 puntos de pronunciación; el objetivo es que se entienda, no borrar el acento.
-  · Las correcciones de pronunciación también van en CORRECCIONES: cómo sonó (entre comillas, ej. "road") => cómo va (row, "rou") || por qué.
-  · En NOTAS PARA FLOR: los minutos que conviene que Flor escuche ella misma (las palabras [así?] más dudosas).
+- Si hay transcripción de un audio: es una TRANSCRIPCIÓN AUTOMÁTICA, no lo escuchaste. Sirve para la gramática, el orden de las ideas, el vocabulario y la fluidez (recomienzos, muletillas), y para comentar momentos concretos con su frase o el minuto. Nunca escribas que no pudiste escucharlo.
+- PRONUNCIACIÓN (Flor, 16/11): con una transcripción automática NO se puede saber cómo pronunció. Las palabras marcadas [así?] son las que el sistema transcribió con poca seguridad, y eso pasa por el audio comprimido de WhatsApp, el ruido, hablar rápido o el acento: NO prueban que la dijo mal. Una palabra rara en la transcripción (ej. "solar" donde iba "software") tampoco: puede ser error del sistema. Por eso:
+  · En la RESPUESTA y en CORRECCIONES no va NINGUNA corrección de pronunciación sacada de la transcripción. Solo si Flor ya trabajó ese sonido con ella en clase (está en sus resúmenes o patrones) Y la palabra sale dudosa o mal transcripta en más de una toma, va a NOTAS PARA FLOR como "para escuchar vos: minuto X, «bank» (salió [ban?])".
+  · Si la misma palabra sale bien transcripta en otra parte del audio o en otra toma, no hay nada que señalar.
+  · En NOTAS PARA FLOR: los minutos que conviene que Flor escuche ella misma antes de mandar.
 - REUNIONES CON VARIAS PERSONAS: la transcripción separa a cada una como [Persona 1], [Persona 2]… Tu trabajo es encontrar cuál es la alumna (su nombre está en DATOS DE LA ALUMNA o en "ALUMNA EN LA GRABACIÓN"). Pistas: alguien la llama por su nombre o ella se presenta; habla de su rol o su equipo; es la que habla inglés como segunda lengua (más palabras dudosas, estructuras del español); el contexto de su trabajo. Da feedback SOLO de lo que dijo ella. NUNCA le preguntes a la alumna en qué minutos habla ni le digas que no la pudiste distinguir: decide tú con las pistas. En NOTAS PARA FLOR escribe "La alumna es la Persona N (por: …)" y, si no estás segura, "Chequear: creo que es la Persona N", para que Flor lo confirme antes de enviar.`;
 
 const METODO_CHAT = `MÉTODO DE CORRECCIÓN DE FLOR (en el chat, siempre en este orden):
@@ -237,7 +237,19 @@ const METODO_CHAT = `MÉTODO DE CORRECCIÓN DE FLOR (en el chat, siempre en este
 2. Después una tabla con SUS frases con error para que ella las corrija: | # | Tu frase | ¿Dónde está el error? | ¿Por qué? |, con las dos últimas columnas vacías. Pídele que la complete y te la mande.
 3. Cuando te responde, le dices qué encontró bien y en qué se equivocó, y recién ahí le das la tabla con las respuestas: | # | Tu frase | Corrección | Por qué |.
 Nunca le des la corrección antes de que lo intente ella, salvo que te la pida.
-Si su mensaje trae una TRANSCRIPCIÓN AUTOMÁTICA de un audio: lo escuchaste a través de esa transcripción, nunca digas que no pudiste escucharlo. Si hablan varias personas ([Persona 1], [Persona 2]…), identifica cuál es ella (la llaman por su nombre, habla de su rol, es la que habla inglés como segunda lengua) y comenta solo lo suyo; si dudas, dile en una línea a quién estás tomando como ella (\"Te tomo como la Persona 2, la que presenta el reporte\") y sigue. Comenta momentos concretos y da feedback de pronunciación: las palabras marcadas [así?] son las que no se entendieron con claridad, y una palabra que no tiene sentido en el contexto es la pista de que la pronunció de otra forma. Da el respelling con la sílaba fuerte en mayúsculas ("ri-MÉI-ning"). Máximo 3 puntos; el objetivo es que se entienda, no borrar el acento. Después, que lo vuelva a grabar.`;
+Si su mensaje trae una TRANSCRIPCIÓN AUTOMÁTICA de un audio: lo escuchaste a través de esa transcripción, nunca digas que no pudiste escucharlo. Si hablan varias personas ([Persona 1], [Persona 2]…), identifica cuál es ella (la llaman por su nombre, habla de su rol, es la que habla inglés como segunda lengua) y comenta solo lo suyo; si dudas, dile en una línea a quién estás tomando como ella (\"Te tomo como la Persona 2, la que presenta el reporte\") y sigue. Comenta momentos concretos de gramática, orden y vocabulario. NO corrijas pronunciación a partir de la transcripción: las palabras marcadas [así?] son las que el sistema entendió con poca seguridad (audio comprimido, ruido, acento) y no prueban que las dijo mal. Si quiere trabajar pronunciación, mándala al coach Pronunciation con la frase escrita. Después, que lo vuelva a grabar.`;
+
+// Hasta que Flor diga que las alumnas ya tienen la app (programa.flor.alumnas_con_app = true), el feedback no la nombra.
+const SIN_APP = `LAS ALUMNAS TODAVÍA NO USAN LA APP (Flor, 16/11; manda sobre cualquier otra regla): el feedback va por mail. Nunca nombres la app ni sus partes: nada de "Pedir feedback", "Mi camino", "Mi semana", "Tu camino", "la bandeja", "Flor AI", "subilo en la app" ni "en la plataforma". Tampoco en TAREAS (la columna "dónde" dice "Clase de hoy", "En tu trabajo", "Tu carpeta de Drive" o queda vacía). Si de verdad hay que entregar algo, se dice "subilo a tu carpeta de Drive" o "mandámelo por mail".`;
+const ENTREGAS = `CUANDO YA ENTREGÓ (Flor, 16/11; manda sobre "un paso concreto para el segundo intento" y sobre "que lo vuelva a grabar"):
+- Si ya mandó la práctica (un audio, una grabación, la tarea), la práctica está hecha. NO le pidas que la vuelva a grabar, a mandar ni a subir "mejor". El paso siguiente es la clase ("lo trabajamos en clase") o usarlo en su trabajo real (su próxima reunión o presentación).
+- Si mandó varias tomas (una primera y otra versión), es UNA sola entrega: un solo feedback que compara las tomas.
+- Solo se pide otra entrega si Flor ya la dejó como tarea en su último resumen de clase, con esas palabras.
+- Si tiene clase hoy o antes de que se mande este mail (mirá su horario en DATOS), el feedback es corto: lo que funcionó + "lo seguimos hoy en la clase". Las correcciones se trabajan en clase; en NOTAS PARA FLOR: "Tiene clase <día>: quizás conviene trabajarlo en clase y no mandar mail".`;
+
+async function alumnasConApp(admin: any): Promise<boolean> {
+  try { const { data } = await admin.from("programa").select("flor").eq("id", 1).single(); return data?.flor?.alumnas_con_app === true; } catch { return false; }
+}
 
 // ---------- borrador de feedback (se guarda en borradores; solo lo ve Flor) ----------
 // deno-lint-ignore no-explicit-any
@@ -350,12 +362,12 @@ ${(x.weeklies || []).filter((e: any) => e.semana < imp.semana).slice(0, 3).map((
     }
 
     if (!Deno.env.get("ANTHROPIC_API_KEY")) throw new Error("FALTA_CLAVE");
-    const [sist, prog, ctx] = await Promise.all([prompt("borrador.md"), prompt("programa.md"), imp ? Promise.resolve(ctxImp) : contexto(admin, admin, alumnaId)]);
+    const [sist, prog, ctx, conApp] = await Promise.all([prompt("borrador.md"), prompt("programa.md"), imp ? Promise.resolve(ctxImp) : contexto(admin, admin, alumnaId), alumnasConApp(admin)]);
     const r = await ia().messages.create({
       model: MODEL,
       max_tokens: 16000,
       output_config: { effort: "high" },
-      system: [{ type: "text", text: sist + "\n\n" + prog, cache_control: { type: "ephemeral" } }, { type: "text", text: METODO_BORRADOR }],
+      system: [{ type: "text", text: sist + "\n\n" + prog, cache_control: { type: "ephemeral" } }, { type: "text", text: METODO_BORRADOR + "\n\n" + ENTREGAS + (conApp ? "" : "\n\n" + SIN_APP) }],
       messages: [{ role: "user", content: adjunto ? [adjunto, { type: "text", text: `${ctx}\n\n${material}` }] : `${ctx}\n\n${material}` }],
     // deno-lint-ignore no-explicit-any
     } as any);

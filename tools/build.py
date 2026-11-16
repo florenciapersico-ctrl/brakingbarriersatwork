@@ -305,7 +305,8 @@ Flor comparó tus borradores con uno bueno y los tuyos salían genéricos. Para 
    (en DATOS, son las que la alumna ve en su app), y también lo que Flor le pidió en la ÚLTIMA CLASE ("Resumen de sus
    últimas clases", sección "Tu tarea") y en su último mail o weekly. Nombra esas mismas tareas, con las mismas palabras. Si ya hay una tarea de Flor, el feedback la refuerza: conecta lo
    que corregiste con esa tarea ("cuando grabes tu presentación con los 4 pasos, fijate en…") y repite el plazo que
-   puso Flor. Solo si Flor no dejó ninguna tarea, propones una que salga del material (lo que dejó incompleto).
+   puso Flor. PERO si lo que mandó ES esa tarea (la grabación que Flor le pidió), ya la cumplió: no se la vuelvas a
+   pedir; y no repitas tareas que ya entregó o que ya respondió Flor. Solo si Flor no dejó ninguna tarea, propones una que salga del material (lo que dejó incompleto).
 8. Trato: usa el MISMO que Flor en sus últimas respuestas a esta alumna (en DATOS, "Flor respondió"). Si Flor le
    escribe con vos ("fijate", "mandás", "completala"), escribe con vos; si con tú, con tú. Esto manda sobre
    "español neutro con tú". Mismo saludo y mismo estilo de cierre que Flor usa con ella.
@@ -313,8 +314,8 @@ Flor comparó tus borradores con uno bueno y los tuyos salían genéricos. Para 
 10. LINKS QUE SE TOCAN (Flor, 13/11): todo link va en formato [nombre](https://…), nunca la URL suelta. Una clase del
     programa se nombra con su nombre exacto y SU link de la plataforma (el de PROGRAMA o "Mi camino"), ej.:
     "[Walk Them Through It, Then Handle the Questions](https://academy…)". Si Flor dejó otro link en la tarea (un Drive),
-    usalo con un nombre claro: "[tu documento de práctica](https://drive…)". Para entregar algo: "subilo en Mi camino,
-    al lado de esa clase" o "mandámelo desde Pedir feedback".
+    usalo con un nombre claro: "[tu documento de práctica](https://drive…)". Para entregar algo (solo si Flor lo
+    pidió): "subilo a tu carpeta de Drive" o "mandámelo por mail". Mientras las alumnas no usen la app, nunca la nombres.
 11. MATERIAL VIEJO: si lo que mandó tiene más de 3 semanas, o después ya hubo clases, weeklies o feedbacks de Flor sobre
     otra cosa, NO escribas el mensaje: RESPUESTA vacía y en NOTAS PARA FLOR "Es de <fecha>; después ya trabajaron <…>.
     Sugiero cerrarlo sin mandar nada o retomarlo en clase." No le hables de algo que ella ya no tiene en la cabeza.
@@ -344,17 +345,17 @@ NOTAS PARA FLOR:
     filtro += """
 
 # CUANDO EL PEDIDO TRAE UN AUDIO O UN VIDEO
-Vas a recibir la TRANSCRIPCIÓN AUTOMÁTICA con las palabras que el sistema entendió con poca seguridad marcadas así:
-[palabra?]. Eso es tu pista de pronunciación: si una palabra de uso común sale marcada o mal transcripta, lo más
-probable es que no se haya entendido como ella la dijo. Trabaja así:
+Vas a recibir la TRANSCRIPCIÓN AUTOMÁTICA (no escuchaste el audio). Las palabras marcadas [palabra?] son las que el
+sistema transcribió con poca seguridad: pasa por el audio de WhatsApp, el ruido, la velocidad o el acento, y NO prueba
+que la haya pronunciado mal (Flor, 16/11). Trabaja así:
 - Gramática y orden de la frase: con el criterio de Narrative Flow (abajo), sobre la transcripción.
 - Vocabulario: con el criterio de Color Method (abajo), solo 1 o 2 upgrades útiles para su trabajo.
-- Pronunciación: con el criterio del coach Pronunciation (abajo). Elige las 2 o 3 palabras o frases que más afectan
-  que la entiendan (no todas las marcadas), da el respelling y el tip. Nunca afirmes con certeza cómo sonó algo que
-  solo deduces de la transcripción: si dudas, escríbelo en NOTAS PARA FLOR como "chequear al escuchar: …".
+- Pronunciación: NO la corrijas desde la transcripción, ni en la respuesta ni en CORRECCIONES. Si un sonido ya lo
+  trabajó Flor con ella y sale dudoso en más de una toma, va solo a NOTAS PARA FLOR: "para escuchar vos: minuto X, «…»".
 - Fluidez: si la transcripción muestra muletillas, frases cortadas o recomienzos, nómbralo en una línea.
 - El feedback sigue el formato y la voz del filtro de Flor (arriba): primero lo que salió bien, después 2 o 3
-  correcciones que más le cambian el resultado, y un paso concreto para el segundo intento.
+  correcciones que más le cambian el resultado, y cómo sigue: en la clase o en su trabajo real. Si ya mandó la
+  grabación, la práctica está hecha: NO le pidas que la vuelva a grabar ni a mandar. Varias tomas = un solo feedback.
 - En NOTAS PARA FLOR: los minutos o frases que conviene que Flor escuche ella misma antes de enviar.
 """
     for sk, tit in (('at-work-narrative-flow', 'Narrative Flow (gramática)'), ('at-work-color-method', 'Color Method (vocabulario)'), ('at-work-pronunciation', 'Pronunciation (pronunciación)')):
