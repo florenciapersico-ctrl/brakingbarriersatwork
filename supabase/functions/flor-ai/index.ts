@@ -245,7 +245,29 @@ const ENTREGAS = `CUANDO YA ENTREGÓ (Flor, 16/11; manda sobre "un paso concreto
 - Si ya mandó la práctica (un audio, una grabación, la tarea), la práctica está hecha. NO le pidas que la vuelva a grabar, a mandar ni a subir "mejor". El paso siguiente es la clase ("lo trabajamos en clase") o usarlo en su trabajo real (su próxima reunión o presentación).
 - Si mandó varias tomas (una primera y otra versión), es UNA sola entrega: un solo feedback que compara las tomas.
 - Solo se pide otra entrega si Flor ya la dejó como tarea en su último resumen de clase, con esas palabras.
-- Si tiene clase hoy o antes de que se mande este mail (mirá su horario en DATOS), el feedback es corto: lo que funcionó + "lo seguimos hoy en la clase". Las correcciones se trabajan en clase; en NOTAS PARA FLOR: "Tiene clase <día>: quizás conviene trabajarlo en clase y no mandar mail".`;
+- Si tiene clase hoy, seguí el bloque "TIENE CLASE HOY" (más abajo): feedback corto + link a su hoja de la clase, sin correcciones en el mail.`;
+
+// Clase de HOY de la alumna (hora Argentina), todavía sin resumen: el feedback es corto y la manda a su hoja de la clase.
+// deno-lint-ignore no-explicit-any
+async function claseDeHoy(admin: any, alumnaId: string): Promise<string> {
+  try {
+    if (!alumnaId) return "";
+    const { data: al } = await admin.from("perfiles").select("email").eq("id", alumnaId).single();
+    const email = String(al?.email || "").toLowerCase();
+    if (!email) return "";
+    const hoy = new Date(Date.now() - 3 * 3600e3).toISOString().slice(0, 10);
+    const { data: c } = await admin.from("hoy_flor").select("titulo,link,inicio,enviado_en").eq("fecha", hoy).eq("tipo", "clase")
+      .contains("invitadas", [email]).is("enviado_en", null).order("inicio").limit(1).maybeSingle();
+    if (!c) return "";
+    const hora = c.inicio ? new Date(c.inicio).toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit", timeZone: "America/Argentina/Buenos_Aires" }) : "";
+    return `TIENE CLASE HOY${hora ? ` a las ${hora} (hora Argentina)` : ""}: ${c.titulo || ""}.${c.link ? ` Su hoja de la clase de hoy: ${c.link}` : ""}
+CRITERIO DE FLOR CUANDO TIENE CLASE EL MISMO DÍA (16/11; manda sobre el largo, el método de las tablas y las tareas):
+- Lo que mandó se trabaja HOY en la clase: su hoja de la clase lleva sus frases y las correcciones. El mail NO repite las correcciones.
+- RESPUESTA corta (90 a 140 palabras): lo que funcionó, concreto y con evidencia de lo que mandó (si hay varias tomas, qué mejoró de una a otra) + "Con esto ya hiciste la práctica. Hoy en la clase arrancamos desde ahí: tus frases, con las correcciones, ya están en [tu hoja de la clase de hoy](${c.link || "LINK"})" (con su trato) + cierre "Nos vemos hoy! 💙" y la firma.
+- CORRECCIONES: ninguna (van en la hoja). TAREAS: ninguna.
+- NOTAS PARA FLOR, arriba de todo: "Tiene clase hoy${hora ? ` a las ${hora}` : ""}: mandalo ANTES de la clase. Chequeá que su hoja tenga lo que mandó (si no, la tarea 🎓 Clases del día lo agrega 3 horas antes)." Y abajo, las frases con error que viste, para que Flor confirme que están en la hoja.`;
+  } catch { return ""; }
+}
 
 async function alumnasConApp(admin: any): Promise<boolean> {
   try { const { data } = await admin.from("programa").select("flor").eq("id", 1).single(); return data?.flor?.alumnas_con_app === true; } catch { return false; }
@@ -395,12 +417,12 @@ ${(x.weeklies || []).filter((e: any) => e.semana < imp.semana).slice(0, 3).map((
     }
 
     if (!Deno.env.get("ANTHROPIC_API_KEY")) throw new Error("FALTA_CLAVE");
-    const [sist, prog, ctx, conApp] = await Promise.all([prompt("borrador.md"), prompt("programa.md"), imp ? Promise.resolve(ctxImp) : contexto(admin, admin, alumnaId), alumnasConApp(admin)]);
+    const [sist, prog, ctx, conApp, hoyClase] = await Promise.all([prompt("borrador.md"), prompt("programa.md"), imp ? Promise.resolve(ctxImp) : contexto(admin, admin, alumnaId), alumnasConApp(admin), tabla === "pedidos" ? claseDeHoy(admin, alumnaId) : Promise.resolve("")]);
     const r = await ia().messages.create({
       model: MODEL,
       max_tokens: 16000,
       output_config: { effort: "high" },
-      system: [{ type: "text", text: sist + "\n\n" + prog, cache_control: { type: "ephemeral" } }, { type: "text", text: METODO_BORRADOR + "\n\n" + ENTREGAS + (conApp ? "" : "\n\n" + SIN_APP) }],
+      system: [{ type: "text", text: sist + "\n\n" + prog, cache_control: { type: "ephemeral" } }, { type: "text", text: METODO_BORRADOR + "\n\n" + ENTREGAS + (conApp ? "" : "\n\n" + SIN_APP) + (hoyClase ? "\n\n" + hoyClase : "") }],
       messages: [{ role: "user", content: adjunto ? [adjunto, { type: "text", text: `${ctx}\n\n${material}` }] : `${ctx}\n\n${material}` }],
     // deno-lint-ignore no-explicit-any
     } as any);
