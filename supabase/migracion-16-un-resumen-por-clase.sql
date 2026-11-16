@@ -1,4 +1,4 @@
--- Migración 16 (13/11/2026): un solo resumen por alumna y por día.
+-- Migración 16 (13/11/2026, aplicada el 14/11 con el OK de Flor): un solo resumen por alumna y por día.
 -- Dos tareas pueden cargar el resumen de la misma clase (la de cada hora, desde Wispr, y la de la noche,
 -- desde el mail enviado). Si ya hay uno de esa alumna en esa fecha, el segundo INSERT se ignora sin error.
 create or replace function public.resumen_unico() returns trigger

@@ -76,6 +76,8 @@
     proceso: '<path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M10 13h6M10 17h4"/>',
     clases: '<rect x="3" y="5" width="13" height="14" rx="2"/><path d="M16 10l5-3v10l-5-3"/>',
     inicio: '<path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-5h4v5"/>',
+    atwork: '<rect x="3" y="5" width="13" height="14" rx="2"/><path d="M16 10l5-3v10l-5-3"/><circle cx="9.5" cy="12" r="2"/>',
+    contenido: '<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/>',
     labs: '<path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 1.7 3h10.6a2 2 0 0 0 1.7-3l-5-9V3"/><path d="M7.2 14h9.6"/>',
     lab: '<path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 1.7 3h10.6a2 2 0 0 0 1.7-3l-5-9V3"/><path d="M7.2 14h9.6"/>',
     bandeja: '<path d="M3 13l3-8h12l3 8v6a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/><path d="M3 13h5l1 3h6l1-3h5"/>',
@@ -89,10 +91,10 @@
     ['Tu práctica', [['coaches', 'Mis coaches'], ['progreso', 'Mi progreso']]]
   ];
   const VISTAS = GRUPOS.flatMap((g) => g[1]);
-  const TITULOS = Object.fromEntries(VISTAS.concat([['bandeja', 'Bandeja'], ['alumnas', 'Alumnas'], ['ajustes', 'Programa'], ['inicio', 'Inicio'], ['labs', 'Labs']]));
+  const TITULOS = Object.fromEntries(VISTAS.concat([['bandeja', 'Bandeja'], ['alumnas', 'Alumnas'], ['ajustes', 'Programa'], ['inicio', 'Inicio'], ['labs', 'Labs'], ['atwork', 'AT WORK'], ['contenido', 'Contenido']]));
   const ADMIN = [['bandeja', 'Bandeja'], ['alumnas', 'Alumnas'], ['ajustes', 'Programa']];
   // Menú propio de Flor (administradora): nada de "tu programa" de alumna. Para ver lo de ellas: "Ver la app como alumna".
-  const MENU_FLOR = [['inicio', 'Inicio'], ['bandeja', 'Bandeja'], ['labs', 'Labs'], ['alumnas', 'Alumnas'], ['progreso', 'Mis números'], ['wins', 'Wins de alumnas'], ['ajustes', 'Programa']];
+  const MENU_FLOR = [['inicio', 'Inicio'], ['bandeja', 'Bandeja'], ['alumnas', 'Alumnas'], ['atwork', 'AT WORK'], ['contenido', 'Contenido'], ['labs', 'Labs'], ['progreso', 'Mis números'], ['wins', 'Wins de alumnas'], ['ajustes', 'Programa']];
   const esFlor = () => st.admin && !DB.demo;
   // "Mi lab" solo aparece en el menú de las alumnas del formato LAB (Flor, 14/11). Las 1:1 van al lab como invitadas.
   const conLab = () => !st.perfil || st.perfil.formato !== '1:1';
@@ -310,7 +312,7 @@
     const [v, ...args] = location.hash.replace(/^#/, '').split('/');
     let vista = V[v] && (!ADMIN.some(([id]) => id === v) || st.admin) ? v : 'semana';
     if (vista === 'inicio' && !esFlor()) vista = 'semana';
-    if ((vista === 'lab' && !conLab()) || (vista === 'labs' && !st.admin)) vista = 'semana';
+    if ((vista === 'lab' && !conLab()) || (['labs', 'atwork', 'contenido'].includes(vista) && !st.admin)) vista = 'semana';
     if (esFlor() && !MENU_FLOR.some(([id]) => id === vista)) vista = 'inicio';
     $$('nav a').forEach((a) => (a.dataset.v === vista ? a.setAttribute('aria-current', 'page') : a.removeAttribute('aria-current')));
     if ($('#tbt')) $('#tbt').textContent = esFlor() && (MENU_FLOR.find(([id]) => id === vista) || [])[1] ? MENU_FLOR.find(([id]) => id === vista)[1] : vista === 'empieza' && (DB.demo || !st.admin) && onbHecho() ? 'Cómo funciona' : (TITULOS[vista] || '');
@@ -1225,6 +1227,200 @@ ${P.camino.map((m) => { const pm = pctMes(m); return `<details class="card mes" 
     $('#flinks').onsubmit = async (e) => { e.preventDefault(); const g = (k) => $('#fl-' + k).value.trim(); await guardarF({ links: { instagram: g('instagram'), contenido: g('contenido'), notion: g('notion') } }, 'Guardado'); ruta(); };
   }
 
+
+  // ---------- AT WORK desde el lado de Flor (pedido de Flor, 14/11) ----------
+  // Todo el programa en una sola lista: qué está publicado, qué grabar primero y dónde está cada cosa.
+  const CB_WS = 'https://drive.google.com/drive/folders/1MAmSBiOUgRV_Z-pKl1YEX9SzA_uBEeDY';
+  const CB = {
+    '12.3': { ws: 'Worksheet 1 · Reported Speech', vid: 'Clarity Bank 1.0, 1.A, 1.B y 1.C' },
+    '12.2': { ws: 'Worksheet 2 · Conditionals', vid: 'Clarity Bank 2.0 a 2.5' },
+    '11.3': { ws: 'Worksheet 3 · Modals', vid: 'Clarity Bank 3.0 a 3.5 (falta reeditar el 3.2)' },
+    '12.5': { ws: 'Worksheet 4 · Passive Voice', vid: 'Sin video todavía (grabar el 4.1)' },
+    '7.1': { ws: 'Worksheet 5 · Comparatives (para profundizar)', vid: 'Clarity Bank 5.1 (cortar el final)' }
+  };
+  function estadoClase(t, F, G) {
+    const g = G.find((x) => x.t.id === t.id);
+    if (!t.pronto) return { k: 'pub', pill: '<span class="pill ok">Publicada</span>', orden: 9 };
+    if ((F.grabadas || []).includes(t.id)) return { k: 'grab', pill: '<span class="pill">Grabada · falta subirla</span>', orden: 5 };
+    if ((F.salteadas || []).includes(t.id)) return { k: 'salt', pill: '<span class="pill">No la grabo</span>', orden: 8 };
+    if (g && g.ya) return { k: 'urg', pill: '<span class="pill warn">Urgente</span>', orden: 0, g };
+    if (g) return { k: 'prox', pill: '<span class="pill warn">La semana que viene</span>', orden: 1, g };
+    return { k: 'falta', pill: '<span class="pill">Por grabar</span>', orden: 3 };
+  }
+  V.atwork = {
+    async html() {
+      const b = await cargarBandeja();
+      const F = Object.assign({ grabadas: [], salteadas: [] }, st.programa.flor || {});
+      st._flor = F;
+      const G = clasesPorGrabar(b, F);
+      const nom1 = (n) => esc(String(n || '').split(' ')[0]);
+      const clases = [];
+      P.camino.forEach((m) => m.semanas.forEach((s) => s.tareas.forEach((t) => { if (/clase/.test(t.tipo) && !t.onb) clases.push({ t, m, s, e: estadoClase(t, F, G) }); })));
+      const n = (k) => clases.filter((c) => c.e.k === k).length;
+      const porGrabar = clases.filter((c) => ['urg', 'prox', 'falta'].includes(c.e.k));
+      const g0 = G[0];
+      // Dónde están tus alumnas: cuántas en cada etapa del recorrido
+      const etapas = P.recorrido.map((r) => ({ r, quienes: [] }));
+      b.activas.forEach((a) => { const w = semanaDe(a.perfil); if (!w) return; const i = w <= 2 ? 0 : w <= 4 ? 1 : w <= 8 ? 2 : w <= 12 ? 3 : w <= 16 ? 4 : 5; etapas[i].quienes.push({ a, w }); });
+      const fila = (c) => {
+        const { t, e } = c, lk = linkGrabar(F, t.id), cb = CB[t.id];
+        const quien = e.g ? `<br><span class="muted small">${e.g.quienes.map((x) => nom1(x.a.nombre) + ' (sem. ' + x.n + ')').join(', ')}</span>` : '';
+        const botones = e.k === 'pub' ? (t.link ? `<a class="btn ghost sm" href="${esc(t.link)}" target="_blank" rel="noopener">Ver la clase</a>` : '')
+          : e.k === 'grab' ? `<span class="muted small">Cuando la subas a la academia, avisame y la paso a «Publicada».</span><button type="button" class="linkbtn small" data-desgrab="${esc(t.id)}">Deshacer</button>`
+          : e.k === 'salt' ? `<button type="button" class="linkbtn small" data-dessaltar="${esc(t.id)}">Volver a la lista</button>`
+          : `${lk ? `<a class="btn sm" href="${esc(lk)}" target="_blank" rel="noopener">🎬 Abrir todo para grabar</a><button type="button" class="linkbtn small" data-glink="${esc(t.id)}">Cambiar link</button>` : `<button type="button" class="btn ghost sm" data-glink="${esc(t.id)}">+ Link del material</button>`}<button type="button" class="btn ghost sm" data-grab="${esc(t.id)}">Ya la grabé</button><button type="button" class="linkbtn small" data-saltar="${esc(t.id)}">No la grabo</button>`;
+        return `<li><div class="fbitem" style="flex-direction:row;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap"><span><b>${esc(t.texto)}</b> ${e.pill}${quien}
+          ${cb ? `<br><span class="muted small">📄 ${esc(cb.ws)} · 🎥 ${esc(cb.vid)} · <a href="${CB_WS}" target="_blank" rel="noopener">Worksheets</a></span>` : ''}</span>
+          <span class="row" style="gap:6px;flex-wrap:wrap;justify-content:flex-end">${botones}</span></div></li>`;
+      };
+      return `<div class="head"><div><span class="eyebrow">El programa desde tu lado</span><h1>AT WORK</h1></div></div>
+<div class="grid g-3">
+  <section class="card"><span class="eyebrow">Publicadas</span><span class="big">${n('pub')}</span><span class="muted small">de ${clases.length} clases del programa</span></section>
+  <section class="card"><span class="eyebrow">Por grabar</span><span class="big">${porGrabar.length}</span><span class="muted small">${n('urg')} urgentes · ${n('prox')} para la semana que viene</span></section>
+  <section class="card"><span class="eyebrow">Grabadas, falta subir</span><span class="big">${n('grab')}</span><span class="muted small">${n('salt') ? n('salt') + ' que decidiste no grabar' : 'Subilas a la academia'}</span></section>
+</div>
+<section class="card feature"><span class="eyebrow">Lo próximo que grabás</span>
+  ${g0 ? `<h2>${esc(g0.t.texto)}</h2><p class="small">${g0.ya ? 'Ya la necesitan: ' : 'La necesitan la semana que viene: '}${g0.quienes.map((x) => nom1(x.a.nombre)).join(', ')}.</p>
+  <div class="row" style="gap:8px;flex-wrap:wrap">${linkGrabar(F, g0.t.id) ? `<a class="btn" href="${esc(linkGrabar(F, g0.t.id))}" target="_blank" rel="noopener">🎬 Abrir todo para grabar</a>` : `<button type="button" class="btn" data-glink="${esc(g0.t.id)}">+ Pegar el link del material</button>`}<button type="button" class="btn ghost" data-grab="${esc(g0.t.id)}">Ya la grabé</button></div>
+  <p class="muted small">De a una. Cuando la grabes, la siguiente sube sola a este lugar.</p>`
+  : '<h2>Ninguna alumna está esperando una clase sin grabar 🎉</h2><p class="muted small">Si querés adelantar, abajo están las que faltan, en orden del programa.</p>'}
+</section>
+<section class="card"><h3>Dónde están tus alumnas</h3>
+  <ul class="dates">${etapas.map((x) => `<li><b>${esc(x.r.cuando)} · ${esc(x.r.etapa)}</b><span>${x.quienes.length ? x.quienes.map((q) => nom1(q.a.nombre)).join(', ') : '<span class="muted small">nadie</span>'}</span></li>`).join('')}</ul>
+  <p class="muted small">Sale de la fecha de inicio de cada una. Por eso sabés qué clase necesitan primero.</p>
+</section>
+${P.camino.map((m) => { const cs = clases.filter((c) => c.m === m).sort((x, y) => x.e.orden - y.e.orden); if (!cs.length) return ''; const pend = cs.filter((c) => ['urg', 'prox', 'falta'].includes(c.e.k)).length;
+  return `<details class="card"${pend ? ' open' : ''}><summary><b>${esc(m.titulo || m.nombre || m.mes || '')}</b> <span class="muted small">· ${cs.length - pend} de ${cs.length} listas${pend ? ' · ' + pend + ' por grabar' : ''}</span></summary><ul class="tasks">${cs.map(fila).join('')}</ul></details>`; }).join('')}
+<section class="card"><h3>Material de apoyo</h3>
+  <ul class="neg">
+    <li><a href="${CB_WS}" target="_blank" rel="noopener">Worksheets para la app · AT WORK × Clarity Bank</a> <span class="muted small">(Drive)</span></li>
+    <li><a href="#labs">Labs: el próximo lab y el registro de los anteriores</a></li>
+    <li><span class="muted small">Pendientes del Clarity Bank: reeditar el 3.2, grabar Passive 4.1, cortar el final del 5.1.</span></li>
+  </ul>
+</section>`;
+    },
+    mount() { montarGrabar(); }
+  };
+  function montarGrabar() {
+    const tx = (id) => ((P.camino.flatMap((m) => m.semanas.flatMap((x) => x.tareas)).find((t) => t.id === id) || {}).texto || '');
+    const sacar = (k, id) => (st._flor[k] || []).filter((x) => x !== id);
+    $$('[data-glink]').forEach((b) => (b.onclick = async () => { if (await pegarLinkGrabar(b.dataset.glink)) ruta(); }));
+    $$('[data-grab]').forEach((b) => (b.onclick = async () => { await guardarF({ grabadas: [...(st._flor.grabadas || []), b.dataset.grab] }, '✓ Grabada: ' + tx(b.dataset.grab)); ruta(); }));
+    $$('[data-desgrab]').forEach((b) => (b.onclick = async () => { await guardarF({ grabadas: sacar('grabadas', b.dataset.desgrab) }, 'Vuelve a la lista para grabar'); ruta(); }));
+    $$('[data-saltar]').forEach((b) => (b.onclick = async () => { await guardarF({ salteadas: [...(st._flor.salteadas || []), b.dataset.saltar] }, 'Sale de tu lista para grabar'); ruta(); }));
+    $$('[data-dessaltar]').forEach((b) => (b.onclick = async () => { await guardarF({ salteadas: sacar('salteadas', b.dataset.dessaltar) }, 'Vuelve a la lista para grabar'); ruta(); }));
+  }
+
+  // ---------- Contenido (pedido de Flor, 14/11) ----------
+  // Lo de hoy, tu semana circular (YouTube → email → reels y carruseles que llevan al video),
+  // ideas que salen de tus clases y a quién pedirle testimonio. Las piezas se arman con Claude (tu plan), no gastan créditos de la app.
+  const LOOP = [['yt', '🎬 Grabar el video de YouTube de la semana'], ['mail', '✉️ Escribir el email (el Play) que lleva al video'], ['r1', 'Reel hablado 1'], ['r2', 'Reel hablado 2'], ['c1', 'Carrusel 1'], ['c2', 'Carrusel 2'], ['st', 'Stories o research (un día)']];
+  const pedidoContenido = (r, nombreTrabajo) => `Usá mi skill de contenido (AT WORK). Con lo que pasó en esta clase, armame UNA pieza de Instagram:
+- Elegí UNA situación real de la clase y decime si sirve más como carrusel o como reel hablado.
+- Carrusel: el texto placa por placa y el caption. Reel: el prompter corto para leer a cámara y el caption.
+- La alumna es anónima (${nombreTrabajo}): sin su nombre, sin empresas, sin datos sensibles.
+- Pasala por la auditoría de contenido hasta que dé 10/10. Un solo CTA: escribir READY por DM a @ysi_speakenglish.
+
+Resumen de la clase (${r.fecha}):
+${r.texto}`;
+  const pedidoTestimonio = (ap) => `Hola ${ap}! Estoy juntando historias reales de alumnas de AT WORK y me encantaría que la tuya esté. ¿Me contarías en 3 o 4 líneas (o en un audio de un minuto) cómo te sentías al hablar en inglés en el trabajo cuando empezaste, qué cambió y una situación concreta en la que lo notaste? Si te animas a grabarlo en video, mejor, pero escrito está perfecto. ¡Gracias! 💙`;
+  V.contenido = {
+    async html() {
+      const F = Object.assign({ contenido: {}, loop: {}, testimonios: {} }, st.programa.flor || {});
+      st._flor = F;
+      const hoy = new Date(), hoyI = diaISO(hoy), lun = DB.lunes();
+      const hace7 = new Date(Date.now() - 7 * 864e5).toISOString().slice(0, 10);
+      const [hd, b, res, wins] = await Promise.all([DB.hoyFlor ? DB.hoyFlor(hoyI).catch(() => []) : [], cargarBandeja().catch(() => null), DB.todosResumenes ? DB.todosResumenes().catch(() => []) : [], DB.winsComunidad().catch(() => [])]);
+      st._hoyD = hd || [];
+      const porId = {}; ((b && b.activas) || []).forEach((a) => { if (a.perfil && a.perfil.id) porId[a.perfil.id] = a; });
+      const nom1 = (n) => String(n || '').split(' ')[0];
+      const apodo = (a) => (a.perfil && a.perfil.apodo) || nom1(a.nombre);
+      const recientes = (res || []).filter((r) => r.fecha >= hace7 && porId[r.alumna_id]).sort((x, y) => (x.fecha < y.fecha ? 1 : -1));
+      st._resC = recientes;
+      const L = F.loop[lun] || {};
+      const hechosLoop = LOOP.filter(([k]) => L[k]).length;
+      const dias = [...Array(7)].map((_, i) => { const d = new Date(lun + 'T12:00:00'); d.setDate(d.getDate() + i); return d; });
+      const hechosDias = dias.filter((d) => F.contenido[diaISO(d)]).length;
+      // Testimonios: alumnas con 4 semanas o más, sin pedido en los últimos 60 días. Primero las que tienen un win.
+      const T = F.testimonios || {};
+      const winDe = (a) => (wins || []).filter((w) => w.nombre === a.nombre && w.wins).sort((x, y) => (x.semana < y.semana ? 1 : -1))[0];
+      const cand = ((b && b.activas) || []).map((a) => ({ a, w: semanaDe(a.perfil), t: T[a.email] || {}, win: winDe(a) }))
+        .filter((x) => x.w && x.w >= 4 && !x.t.recibido && !(x.t.pedido && Date.now() - new Date(x.t.pedido) < 60 * 864e5))
+        .sort((x, y) => (!!y.win - !!x.win) || (y.w - x.w));
+      const pedidas = ((b && b.activas) || []).filter((a) => (T[a.email] || {}).pedido && !(T[a.email] || {}).recibido);
+      const recibidas = ((b && b.activas) || []).filter((a) => (T[a.email] || {}).recibido);
+      st._cand = cand;
+      return `<div class="head"><div><span class="eyebrow">Tu contenido sale de tus clases</span><h1>Contenido</h1></div></div>
+<section class="card"><div class="row between"><h2>Hoy</h2><span class="muted small">${fecha(hoyI, { weekday: 'long', day: 'numeric' })}</span></div>
+  ${hoy.getDay() === 0 ? '<p class="muted small">Domingo: descanso. Nada para publicar.</p>' : tuDia(st._hoyD, hoyI, 'contenido')}
+</section>
+<section class="card"><div class="row between"><h3>Tu semana circular</h3><span class="muted small">${hechosLoop} de ${LOOP.length}</span></div>
+  <p class="muted small">Un video largo por semana y todo lo demás lleva a ese video: el email, dos reels, dos carruseles y un día de stories. De martes a sábado.</p>
+  <div class="hab-list">${LOOP.map(([k, l]) => `<button type="button" class="hab${L[k] ? ' on' : ''}" data-loop="${k}" aria-pressed="${!!L[k]}"><span class="hab-box" aria-hidden="true">✓</span><span class="hab-t">${esc(l)}</span></button>`).join('')}</div>
+  <div class="row" style="gap:10px;margin-top:10px"><span class="big">${hechosDias}</span><span class="muted small">días con algo publicado esta semana</span></div>
+  <div class="dias" id="cdias">${dias.map((d) => `<button type="button" data-dia="${diaISO(d)}" aria-pressed="${!!F.contenido[diaISO(d)]}" title="${fecha(diaISO(d), { weekday: 'long', day: 'numeric' })}">${d.toLocaleDateString('es', { weekday: 'short' }).slice(0, 2)}<br>${d.getDate()}</button>`).join('')}</div>
+  <p class="muted small">Tocá el día cuando publicás. <a href="https://app.notion.com/p/4155708d644881f5bd88c7664cf930a6" target="_blank" rel="noopener">Mi plan de YouTube</a> · <a href="https://app.notion.com/p/fc35708d644883bf9a3e07edd62e7e62" target="_blank" rel="noopener">Calendario en Notion</a></p>
+</section>
+<section class="card"><h3>Ideas que salen de tus clases de esta semana</h3>
+  <p class="muted small">Cada clase es una pieza posible. Tocá «Copiar pedido», pegalo en Claude (en este proyecto) y te devuelve el carrusel o el prompter, anónimo y auditado 10/10.</p>
+  ${recientes.length ? `<ul class="tasks">${recientes.map((r, i) => { const a = porId[r.alumna_id]; const pr = (a.perfil.trabajo || '').split(/[.;\n]/)[0]; return `<li><div class="fbitem" style="flex-direction:row;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:flex-start"><span><b>${esc(nom1(a.nombre))} · ${fecha(r.fecha, { weekday: 'short', day: 'numeric' })}</b><br><span class="muted small">${esc(String(r.texto || '').split('\n').filter((x) => x.trim() && !/^hola/i.test(x.trim()))[0] || r.asunto || '').slice(0, 160)}${pr ? ' · ' + esc(pr.slice(0, 60)) : ''}</span></span><button type="button" class="btn ghost sm" data-cpedido="${i}">Copiar pedido</button></div></li>`; }).join('')}</ul>`
+  : '<p class="muted small">Todavía no hay resúmenes de clase de esta semana.</p>'}
+</section>
+<section class="card"><div class="row between"><h3>Testimonios</h3><span class="muted small">${recibidas.length} recibidos · ${pedidas.length} pedidos</span></div>
+  <p class="muted small">A partir de la semana 4, una por vez. Primero las que acaban de contar un win: es el mejor momento para pedírselo.</p>
+  ${cand.length ? `<ul class="tasks">${cand.slice(0, 4).map((x, i) => `<li><div class="fbitem" style="flex-direction:row;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:flex-start"><span><b>${esc(nom1(x.a.nombre))}</b> <span class="muted small">· semana ${x.w}</span>${x.win ? `<br><span class="small">Su win: «${esc(String(x.win.wins).slice(0, 140))}»</span>` : ''}</span>
+    <span class="row" style="gap:6px;flex-wrap:wrap;justify-content:flex-end"><button type="button" class="btn ghost sm" data-ctest="${i}">Copiar mensaje</button><button type="button" class="linkbtn small" data-tpedido="${esc(x.a.email)}">Ya se lo pedí</button></span></div></li>`).join('')}</ul>${cand.length > 4 ? `<p class="muted small">Y ${cand.length - 4} más. De a una.</p>` : ''}`
+  : '<p class="muted small">Nadie para pedirle ahora.</p>'}
+  ${pedidas.length ? `<p class="hab-sec">Esperando su testimonio</p><ul class="neg">${pedidas.map((a) => `<li class="row between"><span>${esc(nom1(a.nombre))} <span class="muted small">· se lo pediste el ${fecha(T[a.email].pedido)}</span></span><button type="button" class="linkbtn small" data-trecibido="${esc(a.email)}">Ya me lo mandó</button></li>`).join('')}</ul>` : ''}
+</section>
+<p class="muted small" style="text-align:center">Email marketing a tu lista: queda para después de que las alumnas tengan la app.</p>`;
+    },
+    mount() {
+      const lun = DB.lunes();
+      const copiar = async (t, msg) => { try { await navigator.clipboard.writeText(t); toast(msg); } catch (e) { toast('No se pudo copiar', true); } };
+      $$('[data-copiar]').forEach((bt) => (bt.onclick = () => copiar(bt.parentElement.querySelector('pre').textContent, 'Copiado')));
+      $$('[data-tdok]').forEach((bt) => (bt.onclick = async () => {
+        const x = (st._hoyD || []).find((y) => y.clave === bt.dataset.tdok); if (!x) return;
+        x.hecho = !x.hecho; bt.classList.toggle('on', x.hecho); bt.setAttribute('aria-pressed', x.hecho); bt.textContent = x.hecho ? '✓ Hecho' : 'Marcar hecho';
+        bt.closest('.td-i').classList.toggle('hecho', x.hecho);
+        try { await DB.hoyHecho(x.fecha || diaISO(new Date()), x.clave, x.hecho); } catch (e) { toast('No se guardó. Probá de nuevo.', true); }
+      }));
+      $$('[data-loop]').forEach((bt) => (bt.onclick = async () => {
+        const L = { ...((st._flor.loop || {})[lun] || {}) }; L[bt.dataset.loop] = !L[bt.dataset.loop];
+        await guardarF({ loop: { ...(st._flor.loop || {}), [lun]: L } }); ruta();
+      }));
+      const cd = $('#cdias'); if (cd) cd.onclick = async (e) => {
+        const b = e.target.closest('[data-dia]'); if (!b) return;
+        const c = { ...(st._flor.contenido || {}) }; if (c[b.dataset.dia]) delete c[b.dataset.dia]; else c[b.dataset.dia] = true;
+        await guardarF({ contenido: c }); ruta();
+      };
+      $$('[data-cpedido]').forEach((bt) => (bt.onclick = () => { const r = st._resC[+bt.dataset.cpedido]; if (!r) return; copiar(pedidoContenido(r, 'una alumna profesional'), 'Pedido copiado: pegalo en Claude'); }));
+      $$('[data-ctest]').forEach((bt) => (bt.onclick = () => { const x = st._cand[+bt.dataset.ctest]; if (!x) return; copiar(pedidoTestimonio((x.a.perfil && x.a.perfil.apodo) || String(x.a.nombre).split(' ')[0]), 'Mensaje copiado'); }));
+      const marcarT = async (mail, cambio, msg) => { const T = { ...(st._flor.testimonios || {}) }; T[mail] = { ...(T[mail] || {}), ...cambio }; await guardarF({ testimonios: T }, msg); ruta(); };
+      $$('[data-tpedido]').forEach((bt) => (bt.onclick = () => marcarT(bt.dataset.tpedido, { pedido: diaISO(new Date()) }, 'Anotado: se lo pediste hoy')));
+      $$('[data-trecibido]').forEach((bt) => (bt.onclick = () => marcarT(bt.dataset.trecibido, { recibido: diaISO(new Date()) }, '¡Testimonio recibido! 💙')));
+    }
+  };
+
+  // ---------- Semana de prueba de Flor (16 al 21/11) ----------
+  const PRUEBA_HASTA = '2026-11-22';
+  const PRUEBA = [['inicio', 'Arrancar el día desde Inicio (Mi día y la una sola cosa)'], ['ok', 'Después de cada clase: OK y fijarme que diga «Resumen enviado»'], ['bandeja', 'Responder weeklies y tareas desde la Bandeja'], ['ficha', 'Abrir la ficha de una alumna antes de su clase'], ['alumna', 'Ver la app como alumna y anotar lo que confunde']];
+  function pruebaHTML() {
+    const hoyI = diaISO(new Date()); if (hoyI >= PRUEBA_HASTA) return '';
+    const F = st._flor || {}, P2 = F.prueba || {}, H2 = P2.hechos || {}, notas = P2.notas || [];
+    return `<section class="card"><div class="row between"><h3>Tu semana de prueba</h3><span class="muted small">hasta el sábado 21/11</span></div>
+  <p class="muted small">Hacé todo desde la app. Lo que falle o moleste, anotalo acá: el mantenimiento de cada mañana lo lee y lo arregla.</p>
+  <div class="hab-list">${PRUEBA.map(([k, l]) => `<button type="button" class="hab${H2[k] ? ' on' : ''}" data-prueba="${k}" aria-pressed="${!!H2[k]}"><span class="hab-box" aria-hidden="true">✓</span><span class="hab-t">${esc(l)}</span></button>`).join('')}</div>
+  <form id="prueba-f" class="grid" style="margin-top:8px"><textarea id="prueba-t" rows="2" placeholder="Algo que falló, que no encontré o que me molestó…"></textarea><div class="row"><button class="btn sm" type="submit">Anotar</button></div></form>
+  ${notas.length ? `<ul class="neg small">${notas.slice(-5).reverse().map((x) => `<li>${esc(fecha(x.fecha))} · ${esc(x.texto)}${x.resuelto ? ' <span class="pill ok">Arreglado</span>' : ''}</li>`).join('')}</ul>` : ''}
+</section>`;
+  }
+  function montarPrueba() {
+    if (!$('#prueba-f')) return;
+    $$('[data-prueba]').forEach((bt) => (bt.onclick = async () => { const P2 = { hechos: {}, notas: [], ...(st._flor.prueba || {}) }; P2.hechos = { ...P2.hechos, [bt.dataset.prueba]: !P2.hechos[bt.dataset.prueba] }; await guardarF({ prueba: P2 }); bt.classList.toggle('on'); bt.setAttribute('aria-pressed', !!P2.hechos[bt.dataset.prueba]); }));
+    $('#prueba-f').onsubmit = async (e) => { e.preventDefault(); const t = $('#prueba-t').value.trim(); if (!t) return; const P2 = { hechos: {}, notas: [], ...(st._flor.prueba || {}) }; P2.notas = [...(P2.notas || []), { fecha: diaISO(new Date()), texto: t }]; await guardarF({ prueba: P2 }, 'Anotado. Mañana a primera hora se revisa.'); ruta(); };
+  }
+
   // ---------- Mi progreso ----------
   V.progreso = {
     mount() {
@@ -1471,7 +1667,7 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
   <div class="row" style="gap:8px;flex-wrap:wrap">${linkGrabar(F, g0.t.id) ? `<a class="btn" href="${esc(linkGrabar(F, g0.t.id))}" target="_blank" rel="noopener">🎬 Abrir todo para grabar</a>` : `<button type="button" class="btn" data-glink="${esc(g0.t.id)}">+ Pegar el link del material</button>`}<button type="button" class="btn ghost sm" data-grab="${esc(g0.t.id)}">Ya la grabé</button></div>
   ${G.length > 1 ? `<p class="muted small" style="margin-top:10px">Después: ${esc(G[1].t.texto)} · <a href="#progreso">quedan ${G.length - 1} más</a>. No las mires hoy: de a una.</p>` : ''}`
   : '<h2>No hay clases urgentes para grabar 🎉</h2><p class="muted small">Ninguna alumna llegó a una clase en grabación. Hoy grabá contenido.</p>'}
-  ${tuDia(st._hoyD, hoyI, 'contenido')}`}
+  <p class="small" style="margin-top:10px"><a href="#contenido">📲 Contenido de hoy →</a> · <a href="#atwork">🎬 Todo el programa →</a></p>`}
   <details class="foco"><summary class="small">${fo.texto ? `Tu foco de 30 días: <b>${esc(fo.texto)}</b>${diasFoco != null ? ` · ${diasFoco ? 'quedan ' + diasFoco + ' días' : 'revisalo el lunes'}` : ''}` : 'Definí tu foco de 30 días'}</summary>
     ${fo.resuelto ? `<p class="small"><b>Resuelto cuando:</b> ${esc(fo.resuelto)}</p>` : ''}${fo.paso ? `<p class="small"><b>Smart Scale:</b> ${esc(fo.paso)}</p>` : ''}
     <form class="grid" id="foco-f">
@@ -1481,6 +1677,7 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
       <div class="row"><button class="btn sm" type="submit">Guardar</button></div>
     </form></details>
 </section>
+${pruebaHTML()}
 <section class="card"><div class="row between"><h3>${esDomingo(hoy) ? 'El lunes te esperan' : 'Hoy te necesitan'}</h3><a class="small" href="#alumnas">Alumnas</a></div>
   ${esDomingo(hoy) ? '<p class="muted small">Hoy no se trabaja: esto queda para el lunes.</p>' : tuDia(st._hoyD, hoyI, 'clases') || '<p class="muted small">Hoy no tenés clases cargadas.</p>'}
   <ul class="neg">
@@ -1523,6 +1720,7 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
         try { await DB.hoyHecho(x.fecha || hoyI, x.clave, x.hecho); } catch (e) { toast('No se guardó. Probá de nuevo.', true); }
       }));
       montarOk(() => st._hoyD);
+      montarPrueba();
       const abrirId = (si) => { $('#ident-f').style.display = si ? '' : 'none'; $('#ident').style.display = si ? 'none' : ''; if (si) $('#ident-t').focus(); };
       $('#ident').onclick = () => abrirId(true);
       $('#ident-x').onclick = () => abrirId(false);
