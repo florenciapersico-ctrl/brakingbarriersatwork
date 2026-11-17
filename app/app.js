@@ -1446,9 +1446,21 @@ ${r.texto}`;
     return `<section class="card semaforo ${verde ? 'ok' : rojos.length ? 'mal' : 'medio'}">
   <div class="row between"><h3>${verde ? '🟢 Todo lo automático está al día' : rojos.length ? '🔴 Algo no corrió' : '🟡 Revisar'}</h3><span class="muted small">${hh(new Date())}</span></div>
   ${verde ? '<p class="muted small">Clases con su resumen, Tu día cargado y todas las tareas corrieron.</p>' : `<ul class="neg small">${rojos.map((t) => `<li>🔴 ${t}</li>`).join('')}${amarillos.map((t) => `<li>🟡 ${t}</li>`).join('')}</ul>
-  <p class="small">Para arreglarlo: abrí Claude en el proyecto «app de at work» y escribí <b>«arreglá lo que está en rojo»</b>. ${lat == null ? '<br><span class="muted">(Falta activar la tabla del semáforo.)</span>' : ''}</p>`}
+  <p class="small">No tenés que hacer nada: «🔁 Reintentos» lo vuelve a correr solo cada 2 horas (8:13 a 22:13) y esto se pone verde cuando sale. Si a la noche sigue en rojo, abrí Claude en el proyecto «app de at work» y escribí <b>«arreglá lo que está en rojo»</b>. ${lat == null ? '<br><span class="muted">(Falta activar la tabla del semáforo.)</span>' : ''}</p>`}
 </section>`;
   }
+
+  // El semáforo se refresca solo cuando volvés a la app (Flor, 17/11: veía el rojo viejo con la pestaña abierta).
+  document.addEventListener('visibilitychange', async () => {
+    if (document.visibilityState !== 'visible' || !st.perfil) return;
+    const el = document.querySelector('section.semaforo'); if (!el) return;
+    try {
+      const hd = DB.hoyFlor ? await DB.hoyFlor(diaISO(new Date())) : st._hoyD;
+      st._hoyD = hd || st._hoyD;
+      const t = document.createElement('div'); t.innerHTML = await semaforoHTML(st._hoyD);
+      if (t.firstElementChild) el.replaceWith(t.firstElementChild);
+    } catch (e) { /* si falla, queda lo que había */ }
+  });
 
   // ---------- Semana de prueba de Flor (16 al 21/11) ----------
   const PRUEBA_HASTA = '2026-11-22';
