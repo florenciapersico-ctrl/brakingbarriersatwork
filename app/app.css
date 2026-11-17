@@ -464,3 +464,21 @@ details.lb[open]>summary h3::after{content:" ⌄"}
 .tlink{display:inline-flex;align-items:center;padding:5px 12px;border-radius:999px;border:1px solid var(--brand);color:var(--brand);font-size:13px;font-weight:600;text-decoration:none;background:transparent}
 .tlink:hover{background:var(--surface-2)}
 .reply li,.card li{overflow-wrap:anywhere}
+/* Ritual de la mañana (Flor, 17/11) */
+.ritual h2{font-size:22px}
+.ritual h3{font-size:15px;margin:0 0 2px}
+.rit-barra{height:6px;border-radius:999px;background:var(--surface-2);overflow:hidden;margin:8px 0 10px}
+.rit-barra i{display:block;height:100%;background:var(--olive);border-radius:inherit}
+.rit-p{border-top:1px solid var(--line);padding:12px 0 10px;display:flex;flex-direction:column;gap:6px}
+.rit-p h3::after{content:'';display:inline-block;width:8px;height:8px;border-radius:50%;margin-left:8px;border:1.5px solid var(--muted);vertical-align:middle}
+.rit-p.on h3::after{background:var(--olive);border-color:var(--olive)}
+.rit-p input[type=text],.rit-p textarea{width:100%}
+.rit-chk{display:flex;align-items:center;gap:8px;font-size:15px;cursor:pointer}
+.rit-acc{display:flex;align-items:center;gap:8px}
+.rit-acc input[type=checkbox]{width:20px;height:20px;flex:none}
+.rit-acc.on input[type=text]{text-decoration:line-through;color:var(--muted)}
+.rit-pie{margin-top:10px;gap:10px}
+.rit-yo{font-family:var(--display);font-size:17px;color:var(--brand);margin:12px 0 8px}
+.rit-foco{margin-top:12px}
+.rit-foco summary{list-style:none;display:inline-flex;cursor:pointer}
+.rit-foco summary::-webkit-details-marker{display:none}
