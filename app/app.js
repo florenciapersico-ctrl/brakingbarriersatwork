@@ -702,7 +702,7 @@ ${fmt(p) === '1:1' ? '' : caminoSemanaHTML(p)}
 <section class="card feature"><span class="eyebrow">Muy pronto acá</span><h2>Flor AI te va a guiar desde esta app</h2>
   <p class="muted">Te va a decir qué te toca, dónde estás en tu camino y cómo prepararte para tu próxima situación real, y va a hacer tu onboarding contigo.</p>
   <div class="row"><a class="btn" href="#camino">Mientras tanto, mira tu camino</a></div></section>
-<section class="card"><h3>Para practicar, usa tus coaches</h3><p class="muted small">Role Play, Narrative Flow, Color Method y Career Coach se instalan una sola vez en Claude.</p><div class="row"><a class="btn ghost" href="#coaches">Ver mis coaches</a></div></section>`;
+<section class="card"><h3>Para practicar, usa tus coaches</h3><p class="muted small">Role Play, Narrative Flow, Color Method y Career Coach se instalan una sola vez en Claude (los tres primeros también en ChatGPT).</p><div class="row"><a class="btn ghost" href="#coaches">Ver mis coaches</a></div></section>`;
   }
 
   V.flor = {
@@ -1083,10 +1083,16 @@ ${P.camino.map((m) => { const pm = pctMes(m); return `<details class="card mes" 
     ['Color Method', 'Haz que lo que dices y escribes suene más profesional, con las expresiones de tu trabajo.', 'at-work-color-method.zip', 'Pega tu texto o el transcript de tu reunión.', 'Coach'],
     ['Interview Me · Career Coach', 'Si estás preparando entrevistas: analiza el aviso, arma tus respuestas STAR, revisa tu CV y tu LinkedIn.', 'career-coach-pro.zip', 'Pega el aviso del puesto y tu CV.', 'Opcional']
   ];
+  // Versión ChatGPT (plugins) de los 3 coaches, para quien prefiere ChatGPT en vez de Claude (Flor, 17/11).
+  const SKILLS_GPT = [
+    ['Role Play', 'role-play-chatgpt.zip', 'I have a meeting this week I want to practice.'],
+    ['Narrative Flow', 'narrative-flow-chatgpt.zip', 'I have a text from work I want to review.'],
+    ['Color Method', 'color-method-chatgpt.zip', 'Tengo un texto de mi trabajo para analizar.']
+  ];
   V.coaches = {
     html() {
       return `<div class="head"><div><span class="eyebrow">Tu práctica entre clases</span><h1>Mis coaches</h1></div></div>
-<p class="muted intro">Adentro de esta app te guía Flor AI. Para practicar sola entre sesiones, con situaciones reales de tu trabajo, instalas los coaches en tu propio Claude, como skills: una sola vez y unos 10 minutos desde la computadora. Se usan desde el Módulo 1.</p>
+<p class="muted intro">Adentro de esta app te guía Flor AI. Para practicar sola entre sesiones, con situaciones reales de tu trabajo, instalas los coaches en tu propio Claude (o en ChatGPT, si lo prefieres): una sola vez y unos 10 minutos desde la computadora. Se usan desde el Módulo 1.</p>
 <section class="card"><span class="eyebrow">Míralo primero · 6 minutos</span><h3>El paso a paso en video</h3><p class="muted small">Te muestro cómo descargar, instalar y usar tus coaches. Puedes pausarlo e ir haciéndolo conmigo.</p>
   <div style="position:relative;padding-top:56.25%;border-radius:12px;overflow:hidden;background:var(--surface-2)"><iframe src="https://drive.google.com/file/d/1kvQouR-hqDktK28UFj8RQ9W4hFM5us78/preview" allow="autoplay; fullscreen" allowfullscreen loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;border:0" title="Video: cómo descargar, instalar y usar tus coaches"></iframe></div>
 </section>
@@ -1103,10 +1109,21 @@ ${P.camino.map((m) => { const pm = pctMes(m); return `<details class="card mes" 
 <section class="card"><h3>3 · Úsalos</h3><p class="small">Abre un chat nuevo en Claude, escribe <b>/</b> y elige tu coach. Después cuéntale qué traes. Así arranca cada uno:</p>
   <ul class="dates">${SKILLS.map(([n, , , f]) => `<li><b>${n}</b><span>${esc(f)}</span></li>`).join('')}</ul>
   <p class="muted small">Para cambiar de coach no necesitas otro chat: escribe “pasemos a Role Play”, “pasemos a Narrative Flow” o “pasemos a Color Method”.</p></section>
+<section class="card" id="chatgpt"><span class="eyebrow">¿Prefieres ChatGPT?</span><h3>Tus coaches en ChatGPT</h3>
+  <p class="muted small">Si ya usas ChatGPT y no quieres abrir otra cuenta, Role Play, Narrative Flow y Color Method también están para ChatGPT, como plugins. Flor English Coach, Onboarding e Interview Me, por ahora, solo están en Claude. <b>No descomprimas</b> los archivos .zip.</p>
+  <div class="skills">${SKILLS_GPT.map(([n, zip]) => `<div class="skill"><span class="tag">ChatGPT</span><b>${esc(n)}</b><a class="btn ghost sm" href="${COACHES_URL}chatgpt/${zip}" download>↓ Descargar</a></div>`).join('')}</div>
+  <ol class="pasos">
+    <li>Entra a <a href="https://chatgpt.com" target="_blank" rel="noopener">chatgpt.com</a> desde la computadora, con tu cuenta.</li>
+    <li>Abre <b>Plugins</b> en el menú de la izquierda (o entra a <a href="https://chatgpt.com/plugins" target="_blank" rel="noopener">chatgpt.com/plugins</a>).</li>
+    <li>Busca la opción para <b>subir un plugin (.zip)</b> y elige uno de los archivos que descargaste. Repite con cada coach.</li>
+    <li>Para usarlo, abre un chat nuevo, escribe <b>@</b> y elige tu coach.</li>
+  </ol>
+  <ul class="dates">${SKILLS_GPT.map(([n, , f]) => `<li><b>${n}</b><span>${esc(f)}</span></li>`).join('')}</ul>
+  <p class="note small">Si en tu cuenta no aparece la opción para subir el .zip, avísale a Flor desde <a href="#feedback">Pedir feedback</a> y te ayuda.</p></section>
 <section class="card feature" id="coaches-ok"><span class="eyebrow">4 · Avísale a Flor AI</span>
   ${st.perfil.coaches_instalados
     ? `<h3>Ya instalaste tus coaches ✓</h3><p class="muted small">Flor AI ya lo sabe: cuando te mande a practicar, te dice qué coach abrir y qué pegarle.</p><div class="row"><button type="button" class="linkbtn small" id="coaches-no">Todavía no los tengo</button></div>`
-    : `<h3>¿Ya los instalaste?</h3><p class="small">Cuando hayas instalado tus coaches y los veas al escribir <b>/</b> en Claude, toca este botón. Así Flor AI sabe que los tienes y te guía para practicar con ellos.</p><div class="row"><button type="button" class="btn" id="coaches-si">Ya instalé mis coaches</button></div>`}
+    : `<h3>¿Ya los instalaste?</h3><p class="small">Cuando hayas instalado tus coaches y los veas al escribir <b>/</b> en Claude (o <b>@</b> en ChatGPT), toca este botón. Así Flor AI sabe que los tienes y te guía para practicar con ellos.</p><div class="row"><button type="button" class="btn" id="coaches-si">Ya instalé mis coaches</button></div>`}
 </section>
 <section class="card"><h3>¿Cuál uso hoy?</h3><ul class="dates">${P.situaciones.map(([s, c]) => `<li><b>${c === 'flor' ? 'Flor AI' : (P.coaches.find((x) => x.id === c) || {}).nombre || c}</b><span>${esc(s)}</span></li>`).join('')}</ul>
   <p class="muted small">Flor AI vive en esta app: te dice qué te toca y te guía. Lo importante, mándaselo a Flor desde <a href="#feedback">Pedir feedback</a>.</p></section>`;
