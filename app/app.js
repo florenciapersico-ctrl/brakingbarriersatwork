@@ -1706,7 +1706,7 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
     const dom = esDomingo();
     const ejes = dom ? [['Disfrutar', 'Algo que disfruto hoy'], ['Ordenar', 'Compras, comida, flores: dejar lista la semana'], ['Cuidarme', 'Un descanso que protejo']]
       : [['Construir', foco ? 'Mi foco (' + foco + '): …' : 'GRABAR: …'], ['Ordenar', 'Lo único de admin que sí resuelvo hoy'], ['Cuidarme', 'Gym o pádel, comida, un descanso que protejo']];
-    const acciones = r.acciones.map((a, i) => `<label class="rit-acc${a.h ? ' on' : ''}"><input type="checkbox" data-racc="${i}"${a.h ? ' checked' : ''}><span class="rit-eje">${ejes[i][0]}</span><input type="text" data-rat="${i}" value="${esc(a.t)}" placeholder="${esc(ejes[i][1])}"></label>`).join('');
+    const acciones = r.acciones.map((a, i) => `<div class="rit-acc${a.h ? ' on' : ''}"><label class="rit-eje"><input type="checkbox" data-racc="${i}"${a.h ? ' checked' : ''}> ${ejes[i][0]}</label><textarea class="rit-auto" data-rat="${i}" rows="1" placeholder="${esc(ejes[i][1])}">${esc(a.t)}</textarea></div>`).join('');
     if (r.hecho) {
       return `<section class="card ritual hecho" id="ritual">
   <div class="row between"><h2>☀️ Ritual hecho${r.minima ? ' · versión mínima' : ''}</h2><span class="muted small">día ${n} de ${RIT_DIAS}</span></div>${barra}
@@ -1725,14 +1725,14 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
   <div class="row between"><h2>☀️ Ritual de la mañana</h2><span class="muted small">día ${n + 1} de ${RIT_DIAS}</span></div>${barra}
   <p class="muted small">Apenas te despertás, a tu hora, antes que nada. Es tu journaling y tus minutos de presencia: cinco pilares, menos de 30 minutos.</p>
   <div class="rit-p${ok('despierta')}" data-pil="despierta"><h3>${PILARES[0][1]}</h3><p class="muted small">${PILARES[0][2]}</p>
-    <input type="text" id="rit-quien" value="${esc(r.quien)}" placeholder="Energía 7/10 · hoy quiero ser…"></div>
+    <textarea class="rit-auto" id="rit-quien" rows="1" placeholder="Energía 7/10 · hoy quiero ser…">${esc(r.quien)}</textarea></div>
   <div class="rit-p${ok('gracias')}" data-pil="gracias"><h3>${PILARES[1][1]}</h3><p class="muted small">${PILARES[1][2]}</p>
-    ${r.gracias.map((g, i) => `<input type="text" data-rg="${i}" value="${esc(g)}" placeholder="Agradezco…">`).join('')}</div>
+    ${r.gracias.map((g, i) => `<textarea class="rit-auto" data-rg="${i}" rows="1" placeholder="Agradezco…">${esc(g)}</textarea>`).join('')}</div>
   <div class="rit-p${ok('vision')}" data-pil="vision"><h3>${PILARES[2][1]}</h3><p class="muted small">${PILARES[2][2]}</p>
-    <textarea id="rit-vis" rows="3" placeholder="Hoy me siento a…, después…, y estoy de buen humor.">${esc(r.vision)}</textarea></div>
+    <textarea class="rit-auto" id="rit-vis" rows="3" placeholder="Hoy me siento a…, después…, y estoy de buen humor.">${esc(r.vision)}</textarea></div>
   <div class="rit-p${ok('acciones')}" data-pil="acciones"><h3>${PILARES[3][1]}</h3><p class="muted small">${PILARES[3][2]}</p>${acciones}</div>
   <div class="rit-p${ok('identidad')}" data-pil="identidad"><h3>${PILARES[4][1]}</h3><p class="muted small">${PILARES[4][2]}</p>
-    <textarea id="rit-id" rows="2">${esc(r.identidad || ident)}</textarea>
+    <textarea class="rit-auto" id="rit-id" rows="2">${esc(r.identidad || ident)}</textarea>
     <label class="rit-chk"><input type="checkbox" id="rit-dicha"${r.dicha ? ' checked' : ''}> La dije en voz alta</label></div>
   <div class="row between rit-pie"><span class="muted small" id="rit-est"></span><button type="button" class="btn" id="rit-ok"${ritCompleto(r) ? '' : ' disabled'}>Ritual hecho ✓</button></div>
   <p class="small rit-min">Día difícil: con una gratitud, tu acción de ${dom ? 'hoy' : 'Construir'} y la frase dicha, <button type="button" class="linkbtn small" id="rit-min"${ritMinimo(r) ? '' : ' disabled'}>hice la versión mínima (cuenta igual)</button></p>
@@ -1754,6 +1754,10 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
     };
     const cambio = (fn) => { const r = getR(); fn(r); setR(r); repintar(); guardar(); };
     const on = (sel, ev, fn) => $$(sel, box).forEach((el) => el.addEventListener(ev, () => fn(el)));
+    // En el celu: cada campo crece con lo que escribís, para leerlo entero.
+    const alto = (el) => { el.style.height = 'auto'; el.style.height = el.scrollHeight + 2 + 'px'; };
+    $$('.rit-auto', box).forEach((el) => { alto(el); el.addEventListener('input', () => alto(el)); });
+    requestAnimationFrame(() => $$('.rit-auto', box).forEach(alto));
     on('#rit-quien', 'input', (el) => cambio((r) => { r.quien = el.value; }));
     on('[data-rg]', 'input', (el) => cambio((r) => { r.gracias[+el.dataset.rg] = el.value; }));
     on('#rit-vis', 'input', (el) => cambio((r) => { r.vision = el.value; }));
