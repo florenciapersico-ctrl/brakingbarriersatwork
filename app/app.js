@@ -1678,22 +1678,24 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
   // Se completa en el Inicio antes que todo. Se guarda en habitos_flor.ritual (migración 19), una fila por día.
   const RIT_DIAS = 66;
   const PILARES = [
-    ['despierta', '1 · Despertar consciente', '6 AM, sin excusa. Antes del celular, todavía en la cama: ¿quién querés ser hoy?'],
+    ['despierta', '1 · Despertar consciente', 'A tu hora, sin apuro. Antes del celular: ¿cómo está tu energía real y quién querés ser hoy?'],
     ['gracias', '2 · Programación de gratitud', 'Tres cosas concretas por las que agradecés hoy.'],
-    ['vision', '3 · Visualización de resultados', 'Cinco minutos con los ojos cerrados: cómo va a ser HOY. Qué hacés, en qué orden y con qué humor.'],
-    ['acciones', '4 · Compromiso de acción', 'Tres acciones concretas para lograrlo. La primera mueve tu foco de 30 días; una puede ser tuya (moverte, tu humor).'],
+    ['vision', '3 · Visualización de resultados', 'Cinco minutos con los ojos cerrados: cómo va a ser HOY. Tus clases, tu bloque de grabar, con qué humor, y a qué hora cerrás la compu.'],
+    ['acciones', '4 · Compromiso de acción', 'Tres acciones concretas, una por eje. Las clases ya están (Cumplir): acá va lo que depende de vos.'],
     ['identidad', '5 · Declaración de identidad', 'Hoy soy… Leela en voz alta. Si en el día te vas de foco, volvé acá.'],
   ];
   const ritVacio = () => ({ despierta: false, quien: '', gracias: ['', '', ''], vision: '', acciones: [{ t: '', h: false }, { t: '', h: false }, { t: '', h: false }], identidad: '', dicha: false, hecho: false });
   const ritNorm = (r) => { const v = ritVacio(), x = Object.assign(v, r || {}); x.gracias = [0, 1, 2].map((i) => (x.gracias || [])[i] || ''); x.acciones = [0, 1, 2].map((i) => Object.assign({ t: '', h: false }, (x.acciones || [])[i])); return x; };
   const ritPilar = (r, k) => ({
-    despierta: !!r.despierta && !!r.quien.trim(),
+    despierta: !!r.quien.trim(),
     gracias: r.gracias.every((g) => g.trim()),
     vision: !!r.vision.trim(),
     acciones: r.acciones.every((a) => a.t.trim()),
     identidad: !!r.identidad.trim() && !!r.dicha,
   })[k];
   const ritCompleto = (r) => PILARES.every(([k]) => ritPilar(r, k));
+  // Día difícil (sus reglas: versión mínima y cuenta igual): una gratitud, la acción de Construir y la identidad dicha.
+  const ritMinimo = (r) => !!r.gracias.some((g) => g.trim()) && !!r.acciones[0].t.trim() && !!r.dicha;
   function ritDia(dias, hoyI, r) {
     const hechos = (dias || []).filter((d) => d.fecha !== hoyI && d.ritual && d.ritual.hecho).length + (r.hecho ? 1 : 0);
     return Math.min(hechos, RIT_DIAS);
@@ -1701,11 +1703,14 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
   function ritualHTML(r, n, ident, foco) {
     const ok = (k) => (ritPilar(r, k) ? ' on' : '');
     const barra = `<div class="rit-barra" aria-label="${n} de ${RIT_DIAS} días"><i style="width:${Math.round((n / RIT_DIAS) * 100)}%"></i></div>`;
-    const acciones = r.acciones.map((a, i) => `<label class="rit-acc${a.h ? ' on' : ''}"><input type="checkbox" data-racc="${i}"${a.h ? ' checked' : ''}><input type="text" data-rat="${i}" value="${esc(a.t)}" placeholder="${i === 0 && foco ? esc('Para mi foco (' + foco + '): …') : 'Acción ' + (i + 1)}"></label>`).join('');
+    const dom = esDomingo();
+    const ejes = dom ? [['Disfrutar', 'Algo que disfruto hoy'], ['Ordenar', 'Compras, comida, flores: dejar lista la semana'], ['Cuidarme', 'Un descanso que protejo']]
+      : [['Construir', foco ? 'Mi foco (' + foco + '): …' : 'GRABAR: …'], ['Ordenar', 'Lo único de admin que sí resuelvo hoy'], ['Cuidarme', 'Gym o pádel, comida, un descanso que protejo']];
+    const acciones = r.acciones.map((a, i) => `<label class="rit-acc${a.h ? ' on' : ''}"><input type="checkbox" data-racc="${i}"${a.h ? ' checked' : ''}><span class="rit-eje">${ejes[i][0]}</span><input type="text" data-rat="${i}" value="${esc(a.t)}" placeholder="${esc(ejes[i][1])}"></label>`).join('');
     if (r.hecho) {
       return `<section class="card ritual hecho" id="ritual">
-  <div class="row between"><h2>☀️ Ritual hecho</h2><span class="muted small">día ${n} de ${RIT_DIAS}</span></div>${barra}
-  <p class="hab-sec">Tus 3 acciones de hoy</p><div class="rit-accs">${r.acciones.map((a, i) => `<button type="button" class="hab${a.h ? ' on' : ''}" data-racc2="${i}" aria-pressed="${!!a.h}"><span class="hab-box" aria-hidden="true">✓</span><span class="hab-t">${esc(a.t)}</span></button>`).join('')}</div>
+  <div class="row between"><h2>☀️ Ritual hecho${r.minima ? ' · versión mínima' : ''}</h2><span class="muted small">día ${n} de ${RIT_DIAS}</span></div>${barra}
+  <p class="hab-sec">Tus 3 acciones de hoy</p><div class="rit-accs">${r.acciones.map((a, i) => `<button type="button" class="hab${a.h ? ' on' : ''}" data-racc2="${i}" aria-pressed="${!!a.h}"><span class="hab-box" aria-hidden="true">✓</span><span class="hab-t">${esc(a.t)}</span></button>`).filter((_, i) => r.acciones[i].t.trim()).join('')}</div>
   <details class="rit-foco"><summary class="btn ghost sm">🧭 Me fui de foco: leer mi ritual</summary>
     <p class="rit-yo">${esc(r.identidad)}</p>
     ${r.quien ? `<p class="small"><b>Quién quiero ser hoy:</b> ${esc(r.quien)}</p>` : ''}
@@ -1718,10 +1723,9 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
     }
     return `<section class="card ritual" id="ritual">
   <div class="row between"><h2>☀️ Ritual de la mañana</h2><span class="muted small">día ${n + 1} de ${RIT_DIAS}</span></div>${barra}
-  <p class="muted small">Apenas te despertás, antes que nada. Simple: cinco pilares, menos de 30 minutos.</p>
+  <p class="muted small">Apenas te despertás, a tu hora, antes que nada. Es tu journaling y tus minutos de presencia: cinco pilares, menos de 30 minutos.</p>
   <div class="rit-p${ok('despierta')}" data-pil="despierta"><h3>${PILARES[0][1]}</h3><p class="muted small">${PILARES[0][2]}</p>
-    <label class="rit-chk"><input type="checkbox" id="rit-desp"${r.despierta ? ' checked' : ''}> Me levanté a las 6, sin excusa</label>
-    <input type="text" id="rit-quien" value="${esc(r.quien)}" placeholder="Hoy quiero ser una mujer que…"></div>
+    <input type="text" id="rit-quien" value="${esc(r.quien)}" placeholder="Energía 7/10 · hoy quiero ser…"></div>
   <div class="rit-p${ok('gracias')}" data-pil="gracias"><h3>${PILARES[1][1]}</h3><p class="muted small">${PILARES[1][2]}</p>
     ${r.gracias.map((g, i) => `<input type="text" data-rg="${i}" value="${esc(g)}" placeholder="Agradezco…">`).join('')}</div>
   <div class="rit-p${ok('vision')}" data-pil="vision"><h3>${PILARES[2][1]}</h3><p class="muted small">${PILARES[2][2]}</p>
@@ -1731,6 +1735,7 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
     <textarea id="rit-id" rows="2">${esc(r.identidad || ident)}</textarea>
     <label class="rit-chk"><input type="checkbox" id="rit-dicha"${r.dicha ? ' checked' : ''}> La dije en voz alta</label></div>
   <div class="row between rit-pie"><span class="muted small" id="rit-est"></span><button type="button" class="btn" id="rit-ok"${ritCompleto(r) ? '' : ' disabled'}>Ritual hecho ✓</button></div>
+  <p class="small rit-min">Día difícil: con una gratitud, tu acción de ${dom ? 'hoy' : 'Construir'} y la frase dicha, <button type="button" class="linkbtn small" id="rit-min"${ritMinimo(r) ? '' : ' disabled'}>hice la versión mínima (cuenta igual)</button></p>
 </section>`;
   }
   function montarRitual(hoyI, getR, setR, ident) {
@@ -1745,10 +1750,10 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
       const r = getR();
       $$('.rit-p', box).forEach((p) => p.classList.toggle('on', !!ritPilar(r, p.dataset.pil)));
       if ($('#rit-ok')) $('#rit-ok').disabled = !ritCompleto(r);
+      if ($('#rit-min')) $('#rit-min').disabled = !ritMinimo(r);
     };
     const cambio = (fn) => { const r = getR(); fn(r); setR(r); repintar(); guardar(); };
     const on = (sel, ev, fn) => $$(sel, box).forEach((el) => el.addEventListener(ev, () => fn(el)));
-    on('#rit-desp', 'change', (el) => cambio((r) => { r.despierta = el.checked; }));
     on('#rit-quien', 'input', (el) => cambio((r) => { r.quien = el.value; }));
     on('[data-rg]', 'input', (el) => cambio((r) => { r.gracias[+el.dataset.rg] = el.value; }));
     on('#rit-vis', 'input', (el) => cambio((r) => { r.vision = el.value; }));
@@ -1757,7 +1762,8 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
     on('#rit-id', 'input', (el) => cambio((r) => { r.identidad = el.value; }));
     on('#rit-dicha', 'change', (el) => cambio((r) => { r.dicha = el.checked; if (!r.identidad.trim()) r.identidad = $('#rit-id').value || ident; }));
     if ($('#rit-ok')) $('#rit-ok').onclick = async () => { const r = getR(); if (!ritCompleto(r)) return; r.hecho = true; r.hecho_en = new Date().toISOString(); setR(r); await guardar(true); toast('Ritual hecho ✓ Un día más de 66.'); ruta(); };
-    if ($('#rit-abrir')) $('#rit-abrir').onclick = async () => { const r = getR(); r.hecho = false; setR(r); await guardar(true); ruta(); };
+    if ($('#rit-min')) $('#rit-min').onclick = async () => { const r = getR(); if (!ritMinimo(r)) return; r.hecho = true; r.minima = true; r.hecho_en = new Date().toISOString(); setR(r); await guardar(true); toast('Versión mínima ✓ Cuenta igual. Nunca dos días seguidos sin ritual.'); ruta(); };
+    if ($('#rit-abrir')) $('#rit-abrir').onclick = async () => { const r = getR(); r.hecho = false; r.minima = false; setR(r); await guardar(true); ruta(); };
     on('[data-racc2]', 'click', (el) => cambio((r) => { const a = r.acciones[+el.dataset.racc2]; a.h = !a.h; el.classList.toggle('on', a.h); el.setAttribute('aria-pressed', a.h); }));
   }
   V.inicio = {

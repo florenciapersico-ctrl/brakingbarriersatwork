@@ -482,3 +482,6 @@ details.lb[open]>summary h3::after{content:" ⌄"}
 .rit-foco{margin-top:12px}
 .rit-foco summary{list-style:none;display:inline-flex;cursor:pointer}
 .rit-foco summary::-webkit-details-marker{display:none}
+.rit-eje{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--olive);width:74px;flex:none}
+.rit-min{margin:10px 0 0;color:var(--muted)}
+.rit-min .linkbtn:disabled{opacity:.5;cursor:default}
