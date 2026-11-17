@@ -36,6 +36,18 @@
       .replace(/\*\*(.+?)\*\*/g, '<b>$1</b>').replace(/(^|[^*])\*(?!\s)(.+?)\*/g, '$1<i>$2</i>').replace(/`([^`]+)`/g, '<code>$1</code>');
   }
   const linkear = (t) => inline(t);
+  // Tareas (Flor, 17/11): el link largo no se muestra en el texto; va abajo como botón corto («Abrir la clase ↗»).
+  function desenvolver(u) { try { const x = new URL(u); if (/(^|\.)google\.[a-z.]+$/.test(x.hostname) && x.pathname === '/url' && x.searchParams.get('q')) return x.searchParams.get('q'); } catch (e) {} return u; }
+  function tareaHTML(s) {
+    const urls = [];
+    let t = String(s || '').replace(/\s*:?\s*\(?(https?:\/\/[^\s)<\]]+[^\s)<\].,;:!?])\)?/g, (_, u) => { urls.push(desenvolver(u)); return '\u0001'; });
+    t = t.replace(/\s*\u0001+\s*$/, '').replace(/([^.!?:;,\s])\s*\u0001+\s*/g, '$1. ').replace(/\s*\u0001+\s*/g, ' ')
+      .replace(/\s+([.,;!?])/g, '$1').replace(/\s{2,}/g, ' ').trim();
+    if (urls.length && /[\p{L}\p{N}"»)]$/u.test(t)) t += '.';
+    const vistos = [...new Set(urls)].filter((u) => /^https:\/\//i.test(u));
+    return { txt: inline(t), links: vistos.length ? '<span class="tlinks">' + vistos.map((u) => `<a class="tlink" href="${esc(u)}" target="_blank" rel="noopener">${rotuloLink(u)} ↗</a>`).join('') + '</span>' : '' };
+  }
+  const tareaLinea = (s) => { const r = tareaHTML(s); return r.txt + (r.links ? ' ' + r.links : ''); };
   // Nombre corto y simpático para el saludo: su apodo (lo carga Flor en la ficha) o su primer nombre.
   function apodoDe(p) { return String((p && (p.apodo || p.nombre)) || '').trim().split(' ')[0]; }
   function md(txt) {
@@ -624,7 +636,7 @@ ${sinOnb && !weeklies.length ? `<section class="card feature"><span class="eyebr
 <div class="grid g-2">
   <section class="card next">
     <div class="row between"><span class="eyebrow">${tareas.length ? 'Lo que sigue · tus tareas de la última clase' : 'Lo que sigue'}</span>${tareas.length ? '<span class="pill" id="taskCount"></span>' : ''}</div>
-    ${tareas.length ? '<ul class="tasks" id="tasks">' + tareas.map((t) => `<li${t === acordado ? ' class="sigue"' : ''}><label><input type="checkbox" data-id="${t.id}" ${t.hecha ? 'checked' : ''}><div><div class="t">${esc(t.texto)}</div>${t.donde ? '<div class="where">' + linkear(t.donde) + '</div>' : ''}</div></label></li>`).join('') + '</ul><p class="muted small">Te las deja Flor y se actualizan después de cada clase.</p>'
+    ${tareas.length ? '<ul class="tasks" id="tasks">' + tareas.map((t) => `<li${t === acordado ? ' class="sigue"' : ''}><label><input type="checkbox" data-id="${t.id}" ${t.hecha ? 'checked' : ''}><div>${(() => { const r = tareaHTML(t.texto); return `<div class="t">${r.txt}</div>${r.links}`; })()}${t.donde ? '<div class="where">' + linkear(t.donde) + '</div>' : ''}</div></label></li>`).join('') + '</ul><p class="muted small">Te las deja Flor y se actualizan después de cada clase.</p>'
       : sinTareas}
   </section>
   ${p.foco_titulo ? `<section class="card feature"><span class="eyebrow">Tu foco de esta semana · lo eligió Flor</span><h2>${esc(p.foco_titulo)}</h2>${p.foco_texto ? '<p class="muted">' + esc(p.foco_texto) + '</p>' : ''}
@@ -894,7 +906,7 @@ ${res.length ? res.map((r, i) => { const x = verResumen(r); return `<section cla
   <details ${i ? '' : 'open'}><summary><div class="row between" style="width:100%"><div><span class="eyebrow">${i ? '' : (esLab ? 'Último lab · ' : 'Última clase · ')}${esc(fecha(r.fecha, { weekday: 'long', day: 'numeric', month: 'long' }))}</span><h3>${tit(r)}</h3></div></div></summary>
   ${btns(x.links)}
   <div class="feedback">${x.cuerpo}</div>
-  ${!i && pend.length ? `<div class="reply"><span class="eyebrow">Lo que te quedó para hacer</span><ul>${pend.map((t) => `<li>${esc(t.texto)}${t.donde ? ' <span class="muted small">· ' + linkear(t.donde) + '</span>' : ''}</li>`).join('')}</ul><a class="small" href="#semana">Tildarlas en Mi semana ›</a></div>` : ''}
+  ${!i && pend.length ? `<div class="reply"><span class="eyebrow">Lo que te quedó para hacer</span><ul>${pend.map((t) => `<li>${tareaLinea(t.texto)}${t.donde ? ' <span class="muted small">· ' + linkear(t.donde) + '</span>' : ''}</li>`).join('')}</ul><a class="small" href="#semana">Tildarlas en Mi semana ›</a></div>` : ''}
   </details></section>`; }).join('')
   : `<section class="card empty-state"><h3>Todavía no hay ${esLab ? 'labs' : 'clases'} guardad${esLab ? 'os' : 'as'}</h3><p class="muted small">Después de cada ${esLab ? 'lab' : 'clase'} con Flor, acá aparece el resumen con el material y tus tareas.</p></section>`}`;
     }
@@ -918,7 +930,7 @@ ${res.length ? res.map((r, i) => { const x = verResumen(r); return `<section cla
   ${l.preparar ? `<div class="reply"><span class="eyebrow">Para traer al lab</span>${md(l.preparar)}</div>` : ''}
   ${btnsLinks(mat)}
 </section>
-${pend.length ? `<section class="card"><h3>Lo que te quedó de tus labs</h3><ul>${pend.map((t) => `<li>${esc(t.texto)}${t.donde ? ' <span class="muted small">· ' + linkear(t.donde) + '</span>' : ''}</li>`).join('')}</ul><a class="small" href="#semana">Tildarlas en Mi semana ›</a></section>` : ''}
+${pend.length ? `<section class="card"><h3>Lo que te quedó de tus labs</h3><ul>${pend.map((t) => `<li>${tareaLinea(t.texto)}${t.donde ? ' <span class="muted small">· ' + linkear(t.donde) + '</span>' : ''}</li>`).join('')}</ul><a class="small" href="#semana">Tildarlas en Mi semana ›</a></section>` : ''}
 <h3 style="margin:22px 0 8px">Tus labs</h3>
 ${labs.length ? labs.map((r, i) => { const x = verResumen(r); return `<section class="card ${i ? '' : 'ultima'}"><details class="lb" ${i ? '' : 'open'}><summary><div><span class="eyebrow">${i ? '' : 'Último lab · '}${esc(fecha(r.fecha, { weekday: 'long', day: 'numeric', month: 'long' }))}</span><h3>${esc(String(r.asunto || 'Lab').replace(/^(Re:\s*)?Resumen del? (tu )?lab\s*[·:\-–]?\s*/i, '') || 'Lab')}</h3></div></summary>${btnsLinks(x.links)}<div class="feedback">${x.cuerpo}</div></details></section>`; }).join('')
   : `<section class="card empty-state"><h3>Todavía no hay labs guardados</h3><p class="muted small">Después de cada lab, acá aparece lo que trabajamos, el material y lo que te queda para hacer.</p></section>`}`;

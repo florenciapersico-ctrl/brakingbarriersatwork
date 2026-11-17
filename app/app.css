@@ -457,3 +457,10 @@ details.lb[open]>summary h3::after{content:" ⌄"}
 .semaforo.mal{border-left:4px solid #b3261e}
 .semaforo h3{margin:0}
 .semaforo ul{margin:6px 0}
+
+/* Tareas con links (17/11): nada se sale del recuadro y el link es un botón corto */
+.tasks label>div{min-width:0;flex:1;overflow-wrap:anywhere}
+.tlinks{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 4px}
+.tlink{display:inline-flex;align-items:center;padding:5px 12px;border-radius:999px;border:1px solid var(--brand);color:var(--brand);font-size:13px;font-weight:600;text-decoration:none;background:transparent}
+.tlink:hover{background:var(--surface-2)}
+.reply li,.card li{overflow-wrap:anywhere}
