@@ -1114,12 +1114,14 @@ ${P.camino.map((m) => { const pm = pctMes(m); return `<details class="card mes" 
   <div class="skills">${SKILLS_GPT.map(([n, zip]) => `<div class="skill"><span class="tag">ChatGPT</span><b>${esc(n)}</b><a class="btn ghost sm" href="${COACHES_URL}chatgpt/${zip}" download>↓ Descargar</a></div>`).join('')}</div>
   <ol class="pasos">
     <li>Entra a <a href="https://chatgpt.com" target="_blank" rel="noopener">chatgpt.com</a> desde la computadora, con tu cuenta.</li>
-    <li>Abre <b>Plugins</b> en el menú de la izquierda (o entra a <a href="https://chatgpt.com/plugins" target="_blank" rel="noopener">chatgpt.com/plugins</a>).</li>
-    <li>Busca la opción para <b>subir un plugin (.zip)</b> y elige uno de los archivos que descargaste. Repite con cada coach.</li>
-    <li>Para usarlo, abre un chat nuevo, escribe <b>@</b> y elige tu coach.</li>
+    <li>Abajo a la izquierda, toca tu nombre y entra a <b>Configuración</b> (Settings).</li>
+    <li>Ve a <b>Complementos</b> (Plugins) y toca <b>Explorar</b>.</li>
+    <li>Arriba a la derecha toca <b>Añadir</b> y después <b>Cargar archivo de complemento</b>. Arrastra uno de los .zip que descargaste.</li>
+    <li>Toca <b>Agregar complemento</b> y después <b>Instalar complemento</b>. Repite con cada coach.</li>
+    <li>Para usarlo, abre un chat nuevo, escribe <b>@</b> y elige tu coach. La primera vez te pide tu nombre y tu perfil.</li>
   </ol>
   <ul class="dates">${SKILLS_GPT.map(([n, , f]) => `<li><b>${n}</b><span>${esc(f)}</span></li>`).join('')}</ul>
-  <p class="note small">Si en tu cuenta no aparece la opción para subir el .zip, avísale a Flor desde <a href="#feedback">Pedir feedback</a> y te ayuda.</p></section>
+  <p class="note small">Si no encuentras algún paso, avísale a Flor desde <a href="#feedback">Pedir feedback</a> y te ayuda.</p></section>
 <section class="card feature" id="coaches-ok"><span class="eyebrow">4 · Avísale a Flor AI</span>
   ${st.perfil.coaches_instalados
     ? `<h3>Ya instalaste tus coaches ✓</h3><p class="muted small">Flor AI ya lo sabe: cuando te mande a practicar, te dice qué coach abrir y qué pegarle.</p><div class="row"><button type="button" class="linkbtn small" id="coaches-no">Todavía no los tengo</button></div>`
