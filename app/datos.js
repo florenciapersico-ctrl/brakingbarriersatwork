@@ -21,9 +21,25 @@
     let uid = null;
     const fn = cfg.SUPABASE_URL.replace(/\/$/, '') + '/functions/v1/flor-ai';
 
-    async function token() { const { data } = await sb.auth.getSession(); return data.session && data.session.access_token; }
+    // La sesión se renueva sola, pero si la pestaña quedó abierta (o la compu dormida) el token puede estar vencido:
+    // lo renovamos antes de llamar a la función y, si igual da 401, renovamos y reintentamos una vez (Flor, 17/11).
+    async function token(forzar) {
+      const { data } = await sb.auth.getSession();
+      const s = data.session;
+      if (!s) return null;
+      if (forzar || !s.expires_at || s.expires_at * 1000 - Date.now() < 120000) {
+        const { data: r } = await sb.auth.refreshSession();
+        if (r && r.session) return r.session.access_token;
+      }
+      return s.access_token;
+    }
     async function llamar(body) {
-      const r = await fetch(fn, { method: 'POST', headers: { 'Content-Type': 'application/json', apikey: cfg.SUPABASE_ANON_KEY, Authorization: 'Bearer ' + await token() }, body: JSON.stringify(body) });
+      const ir = async (t) => fetch(fn, { method: 'POST', headers: { 'Content-Type': 'application/json', apikey: cfg.SUPABASE_ANON_KEY, Authorization: 'Bearer ' + t }, body: JSON.stringify(body) });
+      let r = await ir(await token());
+      if (r.status === 401) {
+        const t = await token(true);
+        if (t) r = await ir(t);
+      }
       return r;
     }
     async function errorDe(r) { try { const j = await r.json(); return j.error || ('Error ' + r.status); } catch (e) { return 'Error ' + r.status; } }
