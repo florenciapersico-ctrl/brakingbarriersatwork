@@ -1342,7 +1342,10 @@ ${r.texto}`;
       st._flor = F;
       const hoy = new Date(), hoyI = diaISO(hoy), lun = DB.lunes();
       const hace7 = new Date(Date.now() - 7 * 864e5).toISOString().slice(0, 10);
-      const [hd, b, res, wins] = await Promise.all([DB.hoyFlor ? DB.hoyFlor(hoyI).catch(() => []) : [], cargarBandeja().catch(() => null), DB.todosResumenes ? DB.todosResumenes().catch(() => []) : [], DB.winsComunidad().catch(() => [])]);
+      const lunProx = (() => { const d = new Date(lun + 'T12:00:00'); d.setDate(d.getDate() + 7); return diaISO(d); })();
+      const sabProx = (() => { const d = new Date(lunProx + 'T12:00:00'); d.setDate(d.getDate() + 5); return diaISO(d); })();
+      const [hd, b, res, wins, sem] = await Promise.all([DB.hoyFlor ? DB.hoyFlor(hoyI).catch(() => []) : [], cargarBandeja().catch(() => null), DB.todosResumenes ? DB.todosResumenes().catch(() => []) : [], DB.winsComunidad().catch(() => []), DB.contenidoSemana ? DB.contenidoSemana(lun, sabProx).catch(() => []) : []]);
+      st._semC = sem || [];
       st._hoyD = hd || [];
       const porId = {}; ((b && b.activas) || []).forEach((a) => { if (a.perfil && a.perfil.id) porId[a.perfil.id] = a; });
       const nom1 = (n) => String(n || '').split(' ')[0];
@@ -1366,6 +1369,7 @@ ${r.texto}`;
 <section class="card"><div class="row between"><h2>Hoy</h2><span class="muted small">${fecha(hoyI, { weekday: 'long', day: 'numeric' })}</span></div>
   ${hoy.getDay() === 0 ? '<p class="muted small">Domingo: descanso. Nada para publicar.</p>' : tuDia(st._hoyD, hoyI, 'contenido')}
 </section>
+${semanaContenido(st._semC, lun, lunProx, hoyI)}
 <section class="card"><div class="row between"><h3>Tu semana circular</h3><span class="muted small">${hechosLoop} de ${LOOP.length}</span></div>
   <p class="muted small">Un video largo por semana y todo lo demás lleva a ese video: el email, dos reels, dos carruseles y un día de stories. De martes a sábado.</p>
   <div class="hab-list">${LOOP.map(([k, l]) => `<button type="button" class="hab${L[k] ? ' on' : ''}" data-loop="${k}" aria-pressed="${!!L[k]}"><span class="hab-box" aria-hidden="true">✓</span><span class="hab-t">${esc(l)}</span></button>`).join('')}</div>
@@ -1392,7 +1396,7 @@ ${r.texto}`;
       const copiar = async (t, msg) => { try { await navigator.clipboard.writeText(t); toast(msg); } catch (e) { toast('No se pudo copiar', true); } };
       $$('[data-copiar]').forEach((bt) => (bt.onclick = () => copiar(bt.parentElement.querySelector('pre').textContent, 'Copiado')));
       $$('[data-tdok]').forEach((bt) => (bt.onclick = async () => {
-        const x = (st._hoyD || []).find((y) => y.clave === bt.dataset.tdok); if (!x) return;
+        const x = (st._hoyD || []).concat(st._semC || []).find((y) => y.clave === bt.dataset.tdok && (!bt.dataset.tdf || y.fecha === bt.dataset.tdf)); if (!x) return;
         x.hecho = !x.hecho; bt.classList.toggle('on', x.hecho); bt.setAttribute('aria-pressed', x.hecho); bt.textContent = x.hecho ? '✓ Hecho' : 'Marcar hecho';
         bt.closest('.td-i').classList.toggle('hecho', x.hecho);
         try { await DB.hoyHecho(x.fecha || diaISO(new Date()), x.clave, x.hecho); } catch (e) { toast('No se guardó. Probá de nuevo.', true); }
@@ -1638,6 +1642,28 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
     }));
   }
 
+  // Contenido de la semana (Flor, 17/11): martes a sábado, día por día, con su prompter o sus placas, el caption y las historias.
+  // Sale de hoy_flor (piezas 'pieza:', 'historias:', 'youtube:', 'programa:'). Lo carga la tarea "🎬 Tu semana de contenido" (domingos).
+  function semanaContenido(L, lun, lunProx, hoyI) {
+    L = L || [];
+    const lk = (u, t) => (u ? `<a class="btn ghost sm" href="${esc(u)}" target="_blank" rel="noopener">${t}</a>` : '');
+    const copiar = (t, l) => (t ? `<details class="td-txt"><summary>${l}</summary><pre>${esc(t)}</pre><button type="button" class="linkbtn small" data-copiar>Copiar</button></details>` : '');
+    const tipoT = (x) => (/^youtube:/.test(x.clave) ? '🎬 YouTube' : /^programa:/.test(x.clave) ? '🎓 Programa' : x.tipo === 'grabar' ? '🎥 Grabar' : x.tipo === 'subir' ? '🖼️ Subir' : '📱 Historias');
+    const item = (x) => `<li class="td-i${x.hecho ? ' hecho' : ''}"><div class="row between"><b><span class="muted small">${tipoT(x)}</span> · ${esc(x.titulo || '')}</b><button type="button" class="linkbtn small td-ok${x.hecho ? ' on' : ''}" data-tdok="${esc(x.clave)}" data-tdf="${esc(x.fecha)}" aria-pressed="${!!x.hecho}">${x.hecho ? '✓ Hecho' : 'Marcar hecho'}</button></div>
+      ${x.detalle ? `<p class="small muted">${esc(x.detalle)}</p>` : ''}
+      <div class="row" style="gap:8px;flex-wrap:wrap">${lk(x.link, /canva/.test(x.link || '') ? 'Abrir en Canva' : /notion/.test(x.link || '') ? 'Abrir en Notion' : 'Abrir')}${lk(x.link2, /notion/.test(x.link2 || '') ? 'Ver en Notion' : 'Abrir')}</div>
+      ${copiar(x.texto2, x.tipo === 'subir' ? 'Placas e historias' : x.tipo === 'grabar' ? 'Prompter e historias' : 'Secuencia')}${copiar(x.texto, 'Caption para copiar')}</li>`;
+    const semana = (desde, titulo) => {
+      const dias = [1, 2, 3, 4, 5].map((i) => { const d = new Date(desde + 'T12:00:00'); d.setDate(d.getDate() + i); return diaISO(d); });
+      const filas = dias.map((f) => ({ f, xs: L.filter((x) => x.fecha === f) }));
+      const total = filas.reduce((n, d) => n + d.xs.length, 0), hechas = filas.reduce((n, d) => n + d.xs.filter((x) => x.hecho).length, 0);
+      return `<section class="card"><div class="row between"><h3>${titulo}</h3><span class="muted small">${total ? `${hechas} de ${total} hechas` : 'Todavía no está armada'}</span></div>
+  ${total ? filas.map((d) => `<p class="hab-sec">${fecha(d.f, { weekday: 'long', day: 'numeric', month: 'short' })}${d.f === hoyI ? ' · hoy' : ''}</p>${d.xs.length ? `<ul class="td-l">${d.xs.map(item).join('')}</ul>` : '<p class="muted small">Nada cargado.</p>'}`).join('')
+    : '<p class="muted small">La tarea «🎬 Tu semana de contenido» la deja lista el domingo a la tarde: una pieza por día de martes a sábado, con su prompter o sus placas, el caption y las historias.</p>'}
+</section>`;
+    };
+    return semana(lun, 'Tu semana de contenido') + semana(lunProx, 'La semana que viene');
+  }
   // "Tu día": lo que la madrugada dejó listo (clases preparadas, qué grabar, qué subir). Sale de la tabla hoy_flor.
   // modo 'clases': solo las clases de hoy (lista); modo 'contenido': qué grabar/subir de redes (lista). Sin modo: la tarjeta entera.
   function tuDia(L, hoyI, modo) {
@@ -1652,7 +1678,7 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
     const item = (x) => `<li class="td-i${x.hecho ? ' hecho' : ''}"><div class="row between"><b>${esc(x.titulo || '')}</b>${hecho(x)}</div>
       ${x.detalle ? `<p class="small muted">${esc(x.detalle)}</p>` : ''}
       <div class="row" style="gap:8px;flex-wrap:wrap">${lk(x.link, /canva/.test(x.link || '') ? 'Abrir en Canva' : /notion/.test(x.link || '') ? 'Abrir en Notion' : 'Abrir')}${lk(x.link2, /notion/.test(x.link2 || '') ? 'Ver en Notion' : 'Abrir')}</div>
-      ${copiar(x.texto2, 'Prompter para grabar')}${copiar(x.texto, x.tipo === 'grabar' || x.tipo === 'subir' ? 'Caption para copiar' : 'Texto')}</li>`;
+      ${copiar(x.texto2, x.tipo === 'subir' ? 'Placas e historias' : x.tipo === 'grabar' ? 'Prompter e historias' : 'Secuencia')}${copiar(x.texto, x.tipo === 'grabar' || x.tipo === 'subir' ? 'Caption para copiar' : 'Texto')}</li>`;
     const liClase = (x) => `<li class="td-i"><div class="row between"><b>${hh(x.inicio)} · ${esc(x.titulo || '')}</b></div>${x.detalle ? `<p class="small muted">${esc(x.detalle)}</p>` : ''}<div class="row okc-row" style="gap:8px;flex-wrap:wrap;align-items:center">${lk(x.meet, 'Entrar a la clase', 'btn sm')}${lk(x.link, 'Clase lista')}${okClase(x)}</div></li>`;
     if (modo === 'clases') return cl.length ? `<ul class="td-l">${cl.map(liClase).join('')}</ul>` : '';
     if (modo === 'contenido') {
