@@ -66,14 +66,15 @@ window.PROGRAMA = {
     'Completar tu primer weekly report'
   ],
 
-  // Carpeta de Drive con todo listo para grabar (prompter, presentación, worksheet) de cada clase en grabación.
+  // Carpeta de Drive con todo listo para grabar de cada clase en grabación: prompter, presentación en Google Slides («PRESENTACIÓN · … · para grabar») y worksheet.
+  // M3 (12.x): las carpetas reales están en «Módulo 3» (NO las de «🗑️ BORRAR»). Revisado 17/11.
   // Flor puede cambiar o agregar el link desde "Mi progreso" (se guarda aparte y gana sobre esto).
   grabar: {
-    '12.2': 'https://drive.google.com/drive/folders/15LYmigofQcKaUos2Iy7lgyVwOvUv0y3-',
-    '12.3': 'https://drive.google.com/drive/folders/1PbpMB2q1Zk11sIhsbtvmUCdj5Zq22jS_',
-    '12.4': 'https://drive.google.com/drive/folders/1ptvkOrkOIng2sOK656xHRKzxR2xuCuig',
-    '12.5': 'https://drive.google.com/drive/folders/1vk9RgIcrLSLB8DJwaHr_rN1mOTRDq4P-',
-    '12.6': 'https://drive.google.com/drive/folders/1b9EU8QIH9Wmco9bMOREUj1844-LPk29X',
+    '12.2': 'https://drive.google.com/drive/folders/1WLWELXatIAQwJIgF6FDQQ2jBgLU2NDdG',
+    '12.3': 'https://drive.google.com/drive/folders/1pWUwLvRO6FJD0jWWVpB0M6Yab8LVuxh0',
+    '12.4': 'https://drive.google.com/drive/folders/15FAOR8Hdk_P5CoWu9nfNf3l-_IfR9hNm',
+    '12.5': 'https://drive.google.com/drive/folders/1qNeXyDZZqVLC3K3wqNMpfJ9GRPLfbm3k',
+    '12.6': 'https://drive.google.com/drive/folders/1QLOCMhFq5qyneYtRFOMcOqNnwjryvJHc',
     '13.1': 'https://drive.google.com/drive/folders/1KkixW6PyUMHbLyWJWWlxSrVJxZ01OMTn',
     '13.2': 'https://drive.google.com/drive/folders/1VidSlgWCWfnz74_U0u1dJ_tTozGSttCm',
     '14.1': 'https://drive.google.com/drive/folders/11if3ZWqzcgsMloOWOCa9FhUL4rhRYyow',
