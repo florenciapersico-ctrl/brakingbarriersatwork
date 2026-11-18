@@ -1730,11 +1730,18 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
   }
   const ritCuenta = (c, hoy) => `día ${c.n + (hoy ? 1 : 0)}${c.racha > 1 ? ` · 🔥 ${c.racha} seguidos` : ''}`;
   // Mi registro (Flor, 18/11): ver los rituales anteriores y, por semana, las acciones hechas y los logros.
-  function registroHTML(dias, hoyI, rHoy) {
+  function registroHTML(dias, hoyI, rHoy, H) {
     const T = ritTodos(dias, hoyI, rHoy).filter((x) => x.r.hecho || x.r.gracias.some((g) => g.trim()) || x.r.acciones.some((a) => a.t.trim()));
-    if (!T.length) return '';
     const lunDe = (f) => { const d = new Date(f + 'T12:00:00'); const w = (d.getDay() + 6) % 7; d.setDate(d.getDate() - w); return diaISO(d); };
+    // Los hábitos de Mi día también suman a los logros (Flor, 18/11: «no pusiste que vi a una amiga»).
+    const HS = {}; Object.values(H || {}).forEach((x) => { if (x && x.hechos && Object.values(x.hechos).some(Boolean)) (HS[lunDe(x.fecha)] = HS[lunDe(x.fecha)] || []).push(x); });
     const S = {}; T.forEach((x) => { (S[lunDe(x.fecha)] = S[lunDe(x.fecha)] || []).push(x); });
+    Object.keys(HS).forEach((l) => { S[l] = S[l] || []; });
+    if (!Object.keys(S).length) return '';
+    const habLogros = (l) => { const L = HS[l] || [], out = [];
+      HAB.semana.forEach(([k, t]) => { if (L.some((x) => x.hechos[k])) out.push('✅ ' + t.replace(/ \(.*\)$/, '')); });
+      HAB.dia.concat(HAB.extra).forEach(([k, t]) => { const n = L.filter((x) => x.hechos[k]).length; if (n) out.push(`💪 ${t.replace(/ \(.*\)$/, '')}: ${n} ${n === 1 ? 'día' : 'días'}`); });
+      return out; };
     const semanas = Object.keys(S).sort().reverse();
     const dia = (x) => { const r = x.r, acc = r.acciones.filter((a) => a.t.trim());
       return `<details class="reg-dia"><summary><b>${esc(fecha(x.fecha, { weekday: 'long', day: 'numeric', month: 'short' }))}</b> ${r.hecho ? (r.minima ? '· ½ mínima' : '· ✓') : '· sin terminar'}${r.logro && r.logro.trim() ? ' · 🏆' : ''}</summary>
@@ -1747,11 +1754,11 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
 </details>`; };
     const sem = (l, i) => { const L = S[l], hechos = L.filter((x) => x.r.hecho).length;
       const acc = L.flatMap((x) => x.r.acciones.filter((a) => a.t.trim())), ok = acc.filter((a) => a.h);
-      const logros = L.filter((x) => x.r.logro && x.r.logro.trim());
+      const logros = L.filter((x) => x.r.logro && x.r.logro.trim()), hl = habLogros(l);
       const fin = new Date(l + 'T12:00:00'); fin.setDate(fin.getDate() + 6);
       return `<details class="reg-sem"${i === 0 ? ' open' : ''}><summary><b>${i === 0 && l === lunDe(hoyI) ? 'Esta semana' : 'Semana del ' + esc(fecha(l))}</b> <span class="muted small">· ${hechos} ${hechos === 1 ? 'ritual' : 'rituales'} · ${ok.length} de ${acc.length} acciones</span></summary>
-  ${logros.length || ok.length ? `<p class="hab-sec">🏆 Logros de la semana</p><ul class="small reg-acc">${logros.map((x) => `<li><b>${esc(fecha(x.fecha, { weekday: 'short' }))}:</b> ${esc(x.r.logro)}</li>`).join('')}${ok.map((a) => `<li>✅ ${esc(a.t)}</li>`).join('')}</ul>` : '<p class="muted small">Todavía no hay acciones tildadas esta semana.</p>'}
-  <p class="hab-sec">Día por día</p>${L.map(dia).join('')}
+  ${logros.length || ok.length || hl.length ? `<p class="hab-sec">🏆 Logros de la semana</p><ul class="small reg-acc">${logros.map((x) => `<li>🏆 <b>${esc(fecha(x.fecha, { weekday: 'short' }))}:</b> ${esc(x.r.logro)}</li>`).join('')}${ok.map((a) => `<li>✅ ${esc(a.t)}</li>`).join('')}${hl.map((t) => `<li>${esc(t)}</li>`).join('')}</ul>` : '<p class="muted small">Todavía no hay nada tildado esta semana.</p>'}
+  ${L.length ? `<p class="hab-sec">Día por día</p>${L.map(dia).join('')}` : ''}
 </details>`; };
     return `<section class="card registro" id="registro"><div class="row between"><h2>📖 Mi registro</h2><span class="muted small">${T.filter((x) => x.r.hecho).length} rituales</span></div>
   <p class="muted small">Tus rituales anteriores y, por semana, lo que hiciste y lo que lograste.</p>
@@ -1837,7 +1844,7 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
       const F = Object.assign({ foco: {} }, st.programa.flor || {});
       st._flor = F;
       const hoy = new Date(), hoyI = diaISO(hoy), lun = DB.lunes();
-      const desde = new Date(lun + 'T12:00:00'); desde.setDate(desde.getDate() - 7);
+      const desde = new Date(lun + 'T12:00:00'); desde.setDate(desde.getDate() - 56);
       const [rows, b, hd, rd] = await Promise.all([DB.habitos(diaISO(desde)).catch(() => null), cargarBandeja().catch(() => null), DB.hoyFlor ? DB.hoyFlor(hoyI).catch(() => []) : [], DB.ritualDias ? DB.ritualDias().catch(() => []) : []]);
       st._hoyD = hd || [];
       const semaf = await semaforoHTML(st._hoyD).catch(() => '');
@@ -1865,7 +1872,7 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
 <p class="identidad" id="ident" title="Tocá para editar">${esc(F.identidad || IDENTIDAD)}</p>
 <form id="ident-f" style="display:none" class="grid" ><textarea id="ident-t" rows="2">${esc(F.identidad || IDENTIDAD)}</textarea><div class="row"><button class="btn sm" type="submit">Guardar</button><button class="linkbtn small" type="button" id="ident-x">Cancelar</button></div></form>
 ${ritualHTML(st._rit, ritN, F.identidad || IDENTIDAD, (F.foco || {}).texto || '')}
-${registroHTML(rd, hoyI, st._rit)}
+${registroHTML(rd, hoyI, st._rit, H)}
 ${semaf}
 <section class="card midia">
   <div class="row between"><h2>Mi día</h2><span class="muted small" id="hab-n">${fecha(hoyI, { weekday: 'long', day: 'numeric' })} · ${esDomingo(hoy) ? 'descanso' : `${n} de ${HAB.dia.length}`}</span></div>
