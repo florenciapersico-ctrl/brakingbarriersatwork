@@ -1345,15 +1345,19 @@ ${P.camino.map((m) => { const cs = clases.filter((c) => c.m === m).sort((x, y) =
   // ---------- Contenido (pedido de Flor, 14/11) ----------
   // Lo de hoy, tu semana circular (YouTube → email → reels y carruseles que llevan al video),
   // ideas que salen de tus clases y a quién pedirle testimonio. Las piezas se arman con Claude (tu plan), no gastan créditos de la app.
-  const LOOP = [['yt', '🎬 Grabar el video de YouTube de la semana'], ['mail', '✉️ Escribir el email (el Play) que lleva al video'], ['r1', 'Reel hablado 1'], ['r2', 'Reel hablado 2'], ['c1', 'Carrusel 1'], ['c2', 'Carrusel 2'], ['st', 'Stories o research (un día)']];
-  const pedidoContenido = (r, nombreTrabajo) => `Usá mi skill de contenido (AT WORK). Con lo que pasó en esta clase, armame UNA pieza de Instagram:
-- Elegí UNA situación real de la clase y decime si sirve más como carrusel o como reel hablado.
-- Carrusel: el texto placa por placa y el caption. Reel: el prompter corto para leer a cámara y el caption.
-- La alumna es anónima (${nombreTrabajo}): sin su nombre, sin empresas, sin datos sensibles.
-- Pasala por la auditoría de contenido hasta que dé 10/10. Un solo CTA: escribir READY por DM a @ysi_speakenglish.
+  const LOOP = [['yt', '🎬 Grabar el video de YouTube de la semana'], ['r1', 'Reel hablado 1'], ['r2', 'Reel hablado 2'], ['c1', 'Carrusel 1'], ['c2', 'Carrusel 2'], ['st', 'Stories o research (un día)']];
+  const pedidoContenido = (r, nombreTrabajo) => `Proyecto Contenido y marca. Con lo que pasó en esta clase, armame UNA pieza de Instagram con mis reglas:
+- Elegí UN momento real de la clase (una escena con día y presión) y decime si sirve más como carrusel o como reel hablado. Si no da para una pieza fuerte, decímelo y no la armes.
+- Conectala con la Gran Idea de esta semana (la de mi video de YouTube).
+- Le habla a mi clienta ideal: mujer profesional B1-B2 que YA trabaja en inglés en relación de dependencia (no dueña de empresa ni emprendedora). Todo en femenino y con TÚ.
+- Hook: usá la ESTRUCTURA de un hook validado de una referente, no su texto; la escena es mía.
+- Lo práctico (gramática, listas) máximo 1 de cada 4 piezas: si sale práctica, que no sea la de conversión.
+- La alumna es anónima (${nombreTrabajo}): sin su nombre, sin empresas, sin detalles que la identifiquen ni que solo le sirvan a ella (su charla, su viaje). Nada de citas textuales suyas salvo que yo tenga su ok por escrito.
+- Carrusel: placas una por línea y el caption. Reel: prompter corto y caption. Las historias del día, aparte.
+- Auditala (Brecha, ICP, creencia, CTA) hasta 10/10. CTA de venta (READY por DM a @ysi_speakenglish) solo si es la pieza de conversión de la semana.
 
-Resumen de la clase (${r.fecha}):
-${r.texto}`;
+Resumen de la clase (${r.fecha}), solo para que entiendas qué pasó:
+${String(r.texto || '').replace(/^\s*[¡!]?\s*hola[^\n]*\n/i, '')}`;
   const pedidoTestimonio = (ap) => `Hola ${ap}! Estoy juntando historias reales de alumnas de AT WORK y me encantaría que la tuya esté. ¿Me contarías en 3 o 4 líneas (o en un audio de un minuto) cómo te sentías al hablar en inglés en el trabajo cuando empezaste, qué cambió y una situación concreta en la que lo notaste? Si te animas a grabarlo en video, mejor, pero escrito está perfecto. ¡Gracias! 💙`;
   V.contenido = {
     async html() {
@@ -1366,8 +1370,15 @@ ${r.texto}`;
       const porId = {}; ((b && b.activas) || []).forEach((a) => { if (a.perfil && a.perfil.id) porId[a.perfil.id] = a; });
       const nom1 = (n) => String(n || '').split(' ')[0];
       const apodo = (a) => (a.perfil && a.perfil.apodo) || nom1(a.nombre);
-      const recientes = (res || []).filter((r) => r.fecha >= hace7 && porId[r.alumna_id]).sort((x, y) => (x.fecha < y.fecha ? 1 : -1));
-      st._resC = recientes;
+      // Ideas de clases (Flor, 18/11): solo alumnas que encajan con la clienta ideal, una por clase (los labs y las clases grupales no se repiten), sin saludos.
+      const FUERA = /rossi|maribel|luz ca[ñn]as|roberto/i;
+      const vistos = new Set();
+      const recientes = (res || []).filter((r) => r.fecha >= hace7 && porId[r.alumna_id] && !FUERA.test(porId[r.alumna_id].nombre || '') && !/decorad|dise[ñn]o de interiores/i.test((porId[r.alumna_id].perfil || {}).trabajo || ''))
+        .sort((x, y) => (x.fecha < y.fecha ? 1 : -1))
+        .filter((r) => { const k1 = r.alumna_id + '|' + r.fecha, k2 = r.fecha + '|' + String(r.texto || '').replace(/^[^\n]*\n/, '').slice(0, 160); if (vistos.has(k1) || vistos.has(k2)) return false; vistos.add(k1); vistos.add(k2); return true; });
+      const ideaDe = (r) => { const ls = String(r.texto || '').split('\n').map((x) => x.trim()).filter((x) => x && !/^[¡!]?\s*hola\b/i.test(x) && !/^[#*\-–]*\s*[A-ZÁÉÍÓÚÑ ·]{6,}:?$/.test(x)); const t = (ls[0] || r.asunto || '').replace(/^(hoy|en la clase del \w+)\s*/i, ''); if (t.length <= 170) return t; const c = t.slice(0, 170); return c.slice(0, c.lastIndexOf(' ')) + '…'; };
+      const corto = (t, n) => { t = String(t || '').split(/[.;\n]/)[0]; if (t.length <= n) return t; const c = t.slice(0, n); return c.slice(0, c.lastIndexOf(' ')) + '…'; };
+      st._resC = recientes; st._porIdC = porId;
       const L = F.loop[lun] || {};
       const hechosLoop = LOOP.filter(([k]) => L[k]).length;
       const dias = [...Array(7)].map((_, i) => { const d = new Date(lun + 'T12:00:00'); d.setDate(d.getDate() + i); return d; });
@@ -1375,7 +1386,7 @@ ${r.texto}`;
       // Testimonios: alumnas con 4 semanas o más, sin pedido en los últimos 60 días. Primero las que tienen un win.
       const T = F.testimonios || {};
       const winDe = (a) => (wins || []).filter((w) => w.nombre === a.nombre && w.wins).sort((x, y) => (x.semana < y.semana ? 1 : -1))[0];
-      const cand = ((b && b.activas) || []).map((a) => ({ a, w: semanaDe(a.perfil), t: T[a.email] || {}, win: winDe(a) }))
+      const cand = ((b && b.activas) || []).filter((a) => !/rossi|maribel|roberto/i.test(a.nombre || '')).map((a) => ({ a, w: semanaDe(a.perfil), t: T[a.email] || {}, win: winDe(a) }))
         .filter((x) => x.w && x.w >= 4 && !x.t.recibido && !(x.t.pedido && Date.now() - new Date(x.t.pedido) < 60 * 864e5))
         .sort((x, y) => (!!y.win - !!x.win) || (y.w - x.w));
       const pedidas = ((b && b.activas) || []).filter((a) => (T[a.email] || {}).pedido && !(T[a.email] || {}).recibido);
@@ -1386,20 +1397,20 @@ ${r.texto}`;
   ${hoy.getDay() === 0 ? '<p class="muted small">Domingo: descanso. Nada para publicar.</p>' : tuDia(st._hoyD, hoyI, 'contenido')}
 </section>
 <section class="card"><div class="row between"><h3>Tu semana circular</h3><span class="muted small">${hechosLoop} de ${LOOP.length}</span></div>
-  <p class="muted small">Un video largo por semana y todo lo demás lleva a ese video: el email, dos reels, dos carruseles y un día de stories. De martes a sábado.</p>
+  <p class="muted small">Un video largo por semana y todo lo demás lleva a esa misma idea: dos reels, dos carruseles y un día de stories. De martes a sábado. (El email queda para cuando arranque el email marketing.)</p>
   <div class="hab-list">${LOOP.map(([k, l]) => `<button type="button" class="hab${L[k] ? ' on' : ''}" data-loop="${k}" aria-pressed="${!!L[k]}"><span class="hab-box" aria-hidden="true">✓</span><span class="hab-t">${esc(l)}</span></button>`).join('')}</div>
   <div class="row" style="gap:10px;margin-top:10px"><span class="big">${hechosDias}</span><span class="muted small">días con algo publicado esta semana</span></div>
   <div class="dias" id="cdias">${dias.map((d) => `<button type="button" data-dia="${diaISO(d)}" aria-pressed="${!!F.contenido[diaISO(d)]}" title="${fecha(diaISO(d), { weekday: 'long', day: 'numeric' })}">${d.toLocaleDateString('es', { weekday: 'short' }).slice(0, 2)}<br>${d.getDate()}</button>`).join('')}</div>
   <p class="muted small">Tocá el día cuando publicás. <a href="https://app.notion.com/p/4155708d644881f5bd88c7664cf930a6" target="_blank" rel="noopener">Mi plan de YouTube</a> · <a href="https://app.notion.com/p/fc35708d644883bf9a3e07edd62e7e62" target="_blank" rel="noopener">Calendario en Notion</a></p>
 </section>
 <section class="card"><h3>Ideas que salen de tus clases de esta semana</h3>
-  <p class="muted small">Cada clase es una pieza posible. Tocá «Copiar pedido», pegalo en Claude (en este proyecto) y te devuelve el carrusel o el prompter, anónimo y auditado 10/10.</p>
-  ${recientes.length ? `<ul class="tasks">${recientes.map((r, i) => { const a = porId[r.alumna_id]; const pr = (a.perfil.trabajo || '').split(/[.;\n]/)[0]; return `<li><div class="fbitem" style="flex-direction:row;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:flex-start"><span><b>${esc(nom1(a.nombre))} · ${fecha(r.fecha, { weekday: 'short', day: 'numeric' })}</b><br><span class="muted small">${esc(String(r.texto || '').split('\n').filter((x) => x.trim() && !/^hola/i.test(x.trim()))[0] || r.asunto || '').slice(0, 160)}${pr ? ' · ' + esc(pr.slice(0, 60)) : ''}</span></span><button type="button" class="btn ghost sm" data-cpedido="${i}">Copiar pedido</button></div></li>`; }).join('')}</ul>`
+  <p class="muted small">Una por clase, solo de alumnas que son tu clienta ideal. Tocá «Copiar pedido» y pegalo en Claude (proyecto Contenido y marca): te dice si da para una pieza fuerte y, si da, te la arma anónima, conectada con la idea de la semana y auditada.</p>
+  ${recientes.length ? `<ul class="tasks">${recientes.map((r, i) => { const a = porId[r.alumna_id]; const pr = corto(a.perfil.trabajo, 70); return `<li><div class="fbitem" style="flex-direction:row;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:flex-start"><span style="flex:1;min-width:220px"><b>${esc(apodo(a))} · ${fecha(r.fecha, { weekday: 'short', day: 'numeric' })}</b>${pr ? ` <span class="muted small">· ${esc(pr)}</span>` : ''}<br><span class="small">${esc(ideaDe(r))}</span></span><button type="button" class="btn ghost sm" data-cpedido="${i}">Copiar pedido</button></div></li>`; }).join('')}</ul>`
   : '<p class="muted small">Todavía no hay resúmenes de clase de esta semana.</p>'}
 </section>
 <section class="card"><div class="row between"><h3>Testimonios</h3><span class="muted small">${recibidas.length} recibidos · ${pedidas.length} pedidos</span></div>
   <p class="muted small">A partir de la semana 4, una por vez. Primero las que acaban de contar un win: es el mejor momento para pedírselo.</p>
-  ${cand.length ? `<ul class="tasks">${cand.slice(0, 4).map((x, i) => `<li><div class="fbitem" style="flex-direction:row;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:flex-start"><span><b>${esc(nom1(x.a.nombre))}</b> <span class="muted small">· semana ${x.w}</span>${x.win ? `<br><span class="small">Su win: «${esc(String(x.win.wins).slice(0, 140))}»</span>` : ''}</span>
+  ${cand.length ? `<ul class="tasks">${cand.slice(0, 4).map((x, i) => `<li><div class="fbitem" style="flex-direction:row;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:flex-start"><span><b>${esc(apodo(x.a))}</b> <span class="muted small">${(() => { const n = String(x.a.nombre || '').split(' ').slice(0, 2).join(' '); return n && n !== apodo(x.a) ? '· ' + esc(n) + ' ' : ''; })()}· semana ${x.w}</span>${x.win ? `<br><span class="small">Su win: «${esc(String(x.win.wins).slice(0, 140))}»</span>` : ''}</span>
     <span class="row" style="gap:6px;flex-wrap:wrap;justify-content:flex-end"><button type="button" class="btn ghost sm" data-ctest="${i}">Copiar mensaje</button><button type="button" class="linkbtn small" data-tpedido="${esc(x.a.email)}">Ya se lo pedí</button></span></div></li>`).join('')}</ul>${cand.length > 4 ? `<p class="muted small">Y ${cand.length - 4} más. De a una.</p>` : ''}`
   : '<p class="muted small">Nadie para pedirle ahora.</p>'}
   ${pedidas.length ? `<p class="hab-sec">Esperando su testimonio</p><ul class="neg">${pedidas.map((a) => `<li class="row between"><span>${esc(nom1(a.nombre))} <span class="muted small">· se lo pediste el ${fecha(T[a.email].pedido)}</span></span><button type="button" class="linkbtn small" data-trecibido="${esc(a.email)}">Ya me lo mandó</button></li>`).join('')}</ul>` : ''}
@@ -1425,7 +1436,8 @@ ${r.texto}`;
         const c = { ...(st._flor.contenido || {}) }; if (c[b.dataset.dia]) delete c[b.dataset.dia]; else c[b.dataset.dia] = true;
         await guardarF({ contenido: c }); ruta();
       };
-      $$('[data-cpedido]').forEach((bt) => (bt.onclick = () => { const r = st._resC[+bt.dataset.cpedido]; if (!r) return; copiar(pedidoContenido(r, 'una alumna profesional'), 'Pedido copiado: pegalo en Claude'); }));
+      const porIdC = st._porIdC || {};
+      $$('[data-cpedido]').forEach((bt) => (bt.onclick = () => { const r = st._resC[+bt.dataset.cpedido]; if (!r) return; copiar(pedidoContenido(r, 'una alumna que trabaja como ' + (String(((porIdC[r.alumna_id] || {}).perfil || {}).trabajo || 'profesional').split(/[.;:\n(]/)[0].replace(/\s+en\s+[A-Z][\w&.]*.*$/, '').trim() || 'profesional')), 'Pedido copiado: pegalo en Claude'); }));
       $$('[data-ctest]').forEach((bt) => (bt.onclick = () => { const x = st._cand[+bt.dataset.ctest]; if (!x) return; copiar(pedidoTestimonio((x.a.perfil && x.a.perfil.apodo) || String(x.a.nombre).split(' ')[0]), 'Mensaje copiado'); }));
       const marcarT = async (mail, cambio, msg) => { const T = { ...(st._flor.testimonios || {}) }; T[mail] = { ...(T[mail] || {}), ...cambio }; await guardarF({ testimonios: T }, msg); ruta(); };
       $$('[data-tpedido]').forEach((bt) => (bt.onclick = () => marcarT(bt.dataset.tpedido, { pedido: diaISO(new Date()) }, 'Anotado: se lo pediste hoy')));
@@ -1665,13 +1677,22 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
     const hh = (iso) => (iso ? new Date(iso).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit', hour12: false }) : '');
     const lk = (u, t, cl = 'btn ghost sm') => (u ? `<a class="${cl}" href="${esc(u)}" target="_blank" rel="noopener">${t}</a>` : '');
     const copiar = (t, l) => (t ? `<details class="td-txt"><summary>${l}</summary><pre>${esc(t)}</pre><button type="button" class="linkbtn small" data-copiar>Copiar</button></details>` : '');
+    // Flor, 18/11: el carrusel no tiene prompter. Placas (o prompter del reel) por un lado y las historias del día por otro.
+    const partes = (x) => {
+      const t = String(x.texto2 || ''); if (!t.trim()) return [];
+      const i = t.search(/📱\s*HISTORIAS DEL D[IÍ]A/i);
+      const a = (i >= 0 ? t.slice(0, i) : t).trim(), h = i >= 0 ? t.slice(i).trim() : '';
+      const esHist = /^historias:/.test(x.clave || '');
+      const la = esHist ? 'Historias del día' : x.tipo === 'subir' ? 'Placas del carrusel' : x.tipo === 'grabar' ? 'Prompter para grabar' : 'Detalle';
+      return [[a.replace(/^PLACAS:\s*están en Canva[^\n]*\n?/i, '').trim(), la], [h, 'Historias del día']].filter(([z]) => z);
+    };
     const hecho = (x) => `<button type="button" class="linkbtn small td-ok${x.hecho ? ' on' : ''}" data-tdok="${esc(x.clave)}" aria-pressed="${!!x.hecho}">${x.hecho ? '✓ Hecho' : 'Marcar hecho'}</button>`;
     const cl = L.filter((x) => x.tipo === 'clase').sort((a, b) => (a.inicio < b.inicio ? -1 : 1));
     const gr = L.filter((x) => x.tipo === 'grabar'), su = L.filter((x) => x.tipo === 'subir'), ot = L.filter((x) => x.tipo === 'otro');
     const item = (x) => `<li class="td-i${x.hecho ? ' hecho' : ''}"><div class="row between"><b>${esc(x.titulo || '')}</b>${hecho(x)}</div>
       ${x.detalle ? `<p class="small muted">${esc(x.detalle)}</p>` : ''}
       <div class="row" style="gap:8px;flex-wrap:wrap">${lk(x.link, /canva/.test(x.link || '') ? 'Abrir en Canva' : /notion/.test(x.link || '') ? 'Abrir en Notion' : 'Abrir')}${lk(x.link2, /notion/.test(x.link2 || '') ? 'Ver en Notion' : 'Abrir')}</div>
-      ${copiar(x.texto2, 'Prompter para grabar')}${copiar(x.texto, x.tipo === 'grabar' || x.tipo === 'subir' ? 'Caption para copiar' : 'Texto')}</li>`;
+      ${partes(x).map(([t, l]) => copiar(t, l)).join('')}${copiar(x.texto, x.tipo === 'grabar' || x.tipo === 'subir' ? 'Caption para copiar' : 'Texto')}</li>`;
     const liClase = (x) => `<li class="td-i"><div class="row between"><b>${hh(x.inicio)} · ${esc(x.titulo || '')}</b></div>${x.detalle ? `<p class="small muted">${esc(x.detalle)}</p>` : ''}<div class="row okc-row" style="gap:8px;flex-wrap:wrap;align-items:center">${lk(x.meet, 'Entrar a la clase', 'btn sm')}${lk(x.link, 'Clase lista')}${okClase(x)}</div></li>`;
     if (modo === 'clases') return cl.length ? `<ul class="td-l">${cl.map(liClase).join('')}</ul>` : '';
     if (modo === 'contenido') {
