@@ -1364,7 +1364,9 @@ ${String(r.texto || '').replace(/^\s*[¡!]?\s*hola[^\n]*\n/i, '')}`;
       st._flor = F;
       const hoy = new Date(), hoyI = diaISO(hoy), lun = DB.lunes();
       const hace7 = new Date(Date.now() - 7 * 864e5).toISOString().slice(0, 10);
-      const [hd, b, res, wins] = await Promise.all([DB.hoyFlor ? DB.hoyFlor(hoyI).catch(() => []) : [], cargarBandeja().catch(() => null), DB.todosResumenes ? DB.todosResumenes().catch(() => []) : [], DB.winsComunidad().catch(() => [])]);
+      const finSig = (() => { const d = new Date(lun + 'T12:00:00'); d.setDate(d.getDate() + 13); return diaISO(d); })();
+      const [hd, b, res, wins, semC] = await Promise.all([DB.hoyFlor ? DB.hoyFlor(hoyI).catch(() => []) : [], cargarBandeja().catch(() => null), DB.todosResumenes ? DB.todosResumenes().catch(() => []) : [], DB.winsComunidad().catch(() => []), DB.contenidoRango ? DB.contenidoRango(lun, finSig).catch(() => []) : []]);
+      st._semC = semC || [];
       st._hoyD = hd || [];
       const porId = {}; ((b && b.activas) || []).forEach((a) => { if (a.perfil && a.perfil.id) porId[a.perfil.id] = a; });
       const nom1 = (n) => String(n || '').split(' ')[0];
@@ -1395,6 +1397,8 @@ ${String(r.texto || '').replace(/^\s*[¡!]?\s*hola[^\n]*\n/i, '')}`;
 <section class="card"><div class="row between"><h2>Hoy</h2><span class="muted small">${fecha(hoyI, { weekday: 'long', day: 'numeric' })}</span></div>
   ${hoy.getDay() === 0 ? '<p class="muted small">Domingo: descanso. Nada para publicar.</p>' : tuDia(st._hoyD, hoyI, 'contenido')}
 </section>
+${semanaContenido(st._semC, lun, 'Tu semana de contenido', hoyI)}
+${semanaContenido(st._semC, (() => { const d = new Date(lun + 'T12:00:00'); d.setDate(d.getDate() + 7); return diaISO(d); })(), 'La semana que viene', hoyI)}
 <section class="card"><div class="row between"><h3>Tu semana circular</h3><span class="muted small">${hechosLoop} de ${LOOP.length}</span></div>
   <p class="muted small">Un video largo por semana y todo lo demás lleva a esa misma idea: dos reels, dos carruseles y un día de stories. De martes a sábado. (El email queda para cuando arranque el email marketing.)</p>
   <div class="hab-list">${LOOP.map(([k, l]) => `<button type="button" class="hab${L[k] ? ' on' : ''}" data-loop="${k}" aria-pressed="${!!L[k]}"><span class="hab-box" aria-hidden="true">✓</span><span class="hab-t">${esc(l)}</span></button>`).join('')}</div>
@@ -1421,9 +1425,10 @@ ${String(r.texto || '').replace(/^\s*[¡!]?\s*hola[^\n]*\n/i, '')}`;
       const copiar = async (t, msg) => { try { await navigator.clipboard.writeText(t); toast(msg); } catch (e) { toast('No se pudo copiar', true); } };
       $$('[data-copiar]').forEach((bt) => (bt.onclick = () => copiar(bt.parentElement.querySelector('pre').textContent, 'Copiado')));
       $$('[data-tdok]').forEach((bt) => (bt.onclick = async () => {
-        const x = (st._hoyD || []).find((y) => y.clave === bt.dataset.tdok); if (!x) return;
-        x.hecho = !x.hecho; bt.classList.toggle('on', x.hecho); bt.setAttribute('aria-pressed', x.hecho); bt.textContent = x.hecho ? '✓ Hecho' : 'Marcar hecho';
-        bt.closest('.td-i').classList.toggle('hecho', x.hecho);
+        const fe = bt.dataset.tdf;
+        const x = (fe ? (st._semC || []).find((y) => y.clave === bt.dataset.tdok && y.fecha === fe) : null) || (st._hoyD || []).find((y) => y.clave === bt.dataset.tdok); if (!x) return;
+        x.hecho = !x.hecho;
+        $$(`[data-tdok="${bt.dataset.tdok}"]`).forEach((b2) => { b2.classList.toggle('on', x.hecho); b2.setAttribute('aria-pressed', x.hecho); b2.textContent = x.hecho ? '✓ Hecho' : 'Marcar hecho'; const li = b2.closest('.td-i'); if (li) li.classList.toggle('hecho', x.hecho); });
         try { await DB.hoyHecho(x.fecha || diaISO(new Date()), x.clave, x.hecho); } catch (e) { toast('No se guardó. Probá de nuevo.', true); }
       }));
       $$('[data-loop]').forEach((bt) => (bt.onclick = async () => {
@@ -1668,6 +1673,24 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
     }));
   }
 
+  // Semana de contenido (Flor, 18/11): de martes a sábado, cada día con su pieza (Canva, caption, placas o prompter, historias) y el YouTube de la semana.
+  function semanaContenido(R, lun, titulo, hoyI) {
+    const DN = ['Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+    const dias = DN.map((n, i) => { const d = new Date(lun + 'T12:00:00'); d.setDate(d.getDate() + i + 1); return [n, diaISO(d)]; });
+    const fin = dias[4][1];
+    const yt = (R || []).filter((x) => /^youtube:/.test(x.clave || '') && x.fecha >= lun && x.fecha <= fin);
+    const hay = (R || []).some((x) => x.fecha >= lun && x.fecha <= fin && !/^youtube:/.test(x.clave || ''));
+    const tipoDe = (x) => { const m = String(x.detalle || '').match(/^(Valor \+ Crecimiento|Valor|Educa|Crecimiento|Demanda|Inspira|Conversión)/i); return m ? m[1] : ''; };
+    const dia = ([n, f]) => {
+      const L = (R || []).filter((x) => x.fecha === f && !/^youtube:/.test(x.clave || ''));
+      const res = L.map((x) => `${esc(x.titulo || '').replace(/^(Reel a cámara|Carrusel|Historias) · /, (m) => `<span class="muted">${m}</span>`)}${tipoDe(x) ? ` <span class="pill">${esc(tipoDe(x))}</span>` : ''}${x.hecho ? ' <span class="pill">✓</span>' : ''}`).join('<br>');
+      return `<details class="sem-dia"${f === hoyI ? ' open' : ''}><summary><b>${n} ${fecha(f, { day: 'numeric', month: 'numeric' })}</b>${f === hoyI ? ' <span class="pill warn">Hoy</span>' : ''}<br><span class="small">${res || '<span class="muted">Todavía sin pieza</span>'}</span></summary>${L.length ? tuDia(L, f, 'dia') : ''}</details>`;
+    };
+    return `<section class="card"><div class="row between"><h3>${titulo}</h3><span class="muted small">${fecha(dias[0][1], { day: 'numeric', month: 'numeric' })} al ${fecha(fin, { day: 'numeric', month: 'numeric' })}</span></div>
+  ${hay ? dias.map(dia).join('') : '<p class="muted small">Todavía no está armada. Se arma sola el domingo a la tarde.</p>'}
+  ${yt.length ? `<details class="sem-dia"><summary><b>YouTube · el video de la semana</b><br><span class="small">${esc(yt[0].titulo || '')}</span></summary>${tuDia(yt, yt[0].fecha, 'dia')}</details>` : ''}
+</section>`;
+  }
   // "Tu día": lo que la madrugada dejó listo (clases preparadas, qué grabar, qué subir). Sale de la tabla hoy_flor.
   // modo 'clases': solo las clases de hoy (lista); modo 'contenido': qué grabar/subir de redes (lista). Sin modo: la tarjeta entera.
   function tuDia(L, hoyI, modo) {
@@ -1685,7 +1708,7 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
       const la = esHist ? 'Historias del día' : x.tipo === 'subir' ? 'Placas del carrusel' : x.tipo === 'grabar' ? 'Prompter para grabar' : 'Detalle';
       return [[a.replace(/^PLACAS:\s*están en Canva[^\n]*\n?/i, '').trim(), la], [h, 'Historias del día']].filter(([z]) => z);
     };
-    const hecho = (x) => `<button type="button" class="linkbtn small td-ok${x.hecho ? ' on' : ''}" data-tdok="${esc(x.clave)}" aria-pressed="${!!x.hecho}">${x.hecho ? '✓ Hecho' : 'Marcar hecho'}</button>`;
+    const hecho = (x) => `<button type="button" class="linkbtn small td-ok${x.hecho ? ' on' : ''}" data-tdok="${esc(x.clave)}"${modo === 'dia' ? ` data-tdf="${esc(x.fecha || '')}"` : ''} aria-pressed="${!!x.hecho}">${x.hecho ? '✓ Hecho' : 'Marcar hecho'}</button>`;
     const cl = L.filter((x) => x.tipo === 'clase').sort((a, b) => (a.inicio < b.inicio ? -1 : 1));
     const gr = L.filter((x) => x.tipo === 'grabar'), su = L.filter((x) => x.tipo === 'subir'), ot = L.filter((x) => x.tipo === 'otro');
     const item = (x) => `<li class="td-i${x.hecho ? ' hecho' : ''}"><div class="row between"><b>${esc(x.titulo || '')}</b>${hecho(x)}</div>
@@ -1694,6 +1717,7 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
       ${partes(x).map(([t, l]) => copiar(t, l)).join('')}${copiar(x.texto, x.tipo === 'grabar' || x.tipo === 'subir' ? 'Caption para copiar' : 'Texto')}</li>`;
     const liClase = (x) => `<li class="td-i"><div class="row between"><b>${hh(x.inicio)} · ${esc(x.titulo || '')}</b></div>${x.detalle ? `<p class="small muted">${esc(x.detalle)}</p>` : ''}<div class="row okc-row" style="gap:8px;flex-wrap:wrap;align-items:center">${lk(x.meet, 'Entrar a la clase', 'btn sm')}${lk(x.link, 'Clase lista')}${okClase(x)}</div></li>`;
     if (modo === 'clases') return cl.length ? `<ul class="td-l">${cl.map(liClase).join('')}</ul>` : '';
+    if (modo === 'dia') return `<ul class="td-l">${L.filter((x) => x.tipo !== 'clase').map(item).join('')}</ul>`;
     if (modo === 'contenido') {
       // Siempre a la vista (Flor, 14/11): Instagram de hoy y el YouTube de la semana. Si todavía no se cargó, lo dice.
       const esYT = (x) => /^youtube:/.test(x.clave || ''), esProg = (x) => /^programa:/.test(x.clave || '');

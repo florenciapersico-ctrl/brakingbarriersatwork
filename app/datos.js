@@ -135,6 +135,10 @@
         const yt = (y.data || []).find((x) => !L.some((z) => z.clave === x.clave));
         return yt ? L.concat(yt) : L;
       },
+      // La semana de contenido completa (Flor, 18/11: «me tiene que aparecer toda la semana ya lista, no solo lo que toca en el día»).
+      async contenidoRango(desde, hasta) {
+        return ok(await sb.from('hoy_flor').select('*').gte('fecha', desde).lte('fecha', hasta).or('clave.like.pieza:%,clave.like.historias:%,clave.like.youtube:%').order('fecha').order('orden'));
+      },
       // Labs (panel de Flor): filas de hoy_flor con clave 'lab:guion' (guion + feedback) y 'lab:registro' (qué se hizo), tipo 'otro'.
       async labsFlor() { return ok(await sb.from('hoy_flor').select('*').like('clave', 'lab:%').order('fecha', { ascending: false }).limit(200)); },
       async guardarLabFlor(f, clave, c) {

@@ -493,3 +493,8 @@ details.lb[open]>summary h3::after{content:" ⌄"}
 .registro .reg-dia>summary{cursor:pointer;font-size:14px;text-transform:none}
 .registro .reg-acc{margin:4px 0;padding-left:4px;list-style:none}
 .rit-logro{margin-top:12px}
+/* Semana de contenido (18/11) */
+.sem-dia{border-top:1px solid rgba(0,0,0,.08);padding:10px 0}
+.sem-dia>summary{cursor:pointer;list-style:none;line-height:1.5}
+.sem-dia>summary::-webkit-details-marker{display:none}
+.sem-dia[open]>summary{margin-bottom:6px}
