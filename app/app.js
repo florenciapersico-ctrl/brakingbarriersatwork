@@ -1347,14 +1347,13 @@ ${P.camino.map((m) => { const cs = clases.filter((c) => c.m === m).sort((x, y) =
   // ideas que salen de tus clases y a quién pedirle testimonio. Las piezas se arman con Claude (tu plan), no gastan créditos de la app.
   const LOOP = [['yt', '🎬 Grabar el video de YouTube de la semana'], ['r1', 'Reel hablado 1'], ['r2', 'Reel hablado 2'], ['c1', 'Carrusel 1'], ['c2', 'Carrusel 2'], ['st', 'Stories o research (un día)']];
   const pedidoContenido = (r, nombreTrabajo) => `Proyecto Contenido y marca. Con lo que pasó en esta clase, armame UNA pieza de Instagram con mis reglas:
-- Elegí UN momento real de la clase (una escena con día y presión) y decime si sirve más como carrusel o como reel hablado. Si no da para una pieza fuerte, decímelo y no la armes.
-- Conectala con la Gran Idea de esta semana (la de mi video de YouTube).
+- Elegí UN momento real de la clase y decime qué TIPO de pieza da mejor: EDUCA/VALOR (algo concreto que usa mañana en su reunión), DEMANDA (cambia una creencia: cómo lo hace hoy, cómo podría ser y qué cambió en la alumna), CRECIMIENTO (un formato viral de una referente puesto en su realidad) o INSPIRA (mi historia, mi forma de trabajar). Y si va como carrusel o reel hablado. Si no da para una pieza fuerte, decímelo y no la armes.
 - Le habla a mi clienta ideal: mujer profesional B1-B2 que YA trabaja en inglés en relación de dependencia (no dueña de empresa ni emprendedora). Todo en femenino y con TÚ.
-- Hook: usá la ESTRUCTURA de un hook validado de una referente, no su texto; la escena es mía.
-- Lo práctico (gramática, listas) máximo 1 de cada 4 piezas: si sale práctica, que no sea la de conversión.
-- La alumna es anónima (${nombreTrabajo}): sin su nombre, sin empresas, sin detalles que la identifiquen ni que solo le sirvan a ella (su charla, su viaje). Nada de citas textuales suyas salvo que yo tenga su ok por escrito.
+- Hook: la ESTRUCTURA de un hook validado de una referente, no su texto; la escena es mía.
+- CTA según el tipo: valor → «guárdalo» o «sígueme»; crecimiento → «sígueme» o mi video de YouTube; demanda → ninguno o una pregunta; inspira → una pregunta. READY solo si estoy en mi semana de puertas abiertas (te aviso).
+- La alumna es anónima (${nombreTrabajo}): sin su nombre, sin empresas, sin detalles que la identifiquen ni que solo le sirvan a ella. Nada de citas textuales suyas salvo que yo tenga su ok por escrito.
 - Carrusel: placas una por línea y el caption. Reel: prompter corto y caption. Las historias del día, aparte.
-- Auditala (Brecha, ICP, creencia, CTA) hasta 10/10. CTA de venta (READY por DM a @ysi_speakenglish) solo si es la pieza de conversión de la semana.
+- Auditala según su tipo hasta 9/10 o más.
 
 Resumen de la clase (${r.fecha}), solo para que entiendas qué pasó:
 ${String(r.texto || '').replace(/^\s*[¡!]?\s*hola[^\n]*\n/i, '')}`;
