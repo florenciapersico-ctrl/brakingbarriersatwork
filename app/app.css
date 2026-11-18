@@ -486,3 +486,10 @@ details.lb[open]>summary h3::after{content:" ⌄"}
 .rit-auto{resize:none;overflow:hidden;min-height:44px;line-height:1.4;font-size:16px}
 .rit-min{margin:10px 0 0;color:var(--muted)}
 .rit-min .linkbtn:disabled{opacity:.5;cursor:default}
+/* Mi registro (18/11) */
+.registro .reg-sem{border-top:1px solid var(--line,rgba(255,255,255,.08));padding:10px 0}
+.registro .reg-sem>summary{cursor:pointer;list-style:none}
+.registro .reg-dia{margin:6px 0 6px 4px;padding:6px 10px;border-radius:10px;background:var(--surface-2)}
+.registro .reg-dia>summary{cursor:pointer;font-size:14px;text-transform:none}
+.registro .reg-acc{margin:4px 0;padding-left:4px;list-style:none}
+.rit-logro{margin-top:12px}

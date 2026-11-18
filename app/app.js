@@ -1693,9 +1693,8 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
   // Domingo: día de descanso de Flor (15/11). No hay clases, ni hábitos del día, ni nada para grabar.
   const esDomingo = (d) => (d || new Date()).getDay() === 0;
   const IDENTIDAD = 'Soy una mujer que cuida su energía y hace crecer un negocio sano y abundante.';
-  // ---------- Ritual de la mañana (Flor, 17/11): 5 pilares, 66 días, apenas se despierta ----------
+  // ---------- Ritual de la mañana (Flor, 17/11): 5 pilares, apenas se despierta. Sin fin (Flor, 18/11): cuenta días y racha ----------
   // Se completa en el Inicio antes que todo. Se guarda en habitos_flor.ritual (migración 19), una fila por día.
-  const RIT_DIAS = 66;
   const PILARES = [
     ['despierta', '1 · Despertar consciente', 'A tu hora, sin apuro. Antes del celular: ¿cómo está tu energía real y quién querés ser hoy?'],
     ['gracias', '2 · Programación de gratitud', 'Tres cosas concretas por las que agradecés hoy.'],
@@ -1703,7 +1702,7 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
     ['acciones', '4 · Compromiso de acción', 'Tres acciones concretas, una por eje. Las clases ya están (Cumplir): acá va lo que depende de vos.'],
     ['identidad', '5 · Declaración de identidad', 'Hoy soy… Leela en voz alta. Si en el día te vas de foco, volvé acá.'],
   ];
-  const ritVacio = () => ({ despierta: false, quien: '', gracias: ['', '', ''], vision: '', acciones: [{ t: '', h: false }, { t: '', h: false }, { t: '', h: false }], identidad: '', dicha: false, hecho: false });
+  const ritVacio = () => ({ logro: '', despierta: false, quien: '', gracias: ['', '', ''], vision: '', acciones: [{ t: '', h: false }, { t: '', h: false }, { t: '', h: false }], identidad: '', dicha: false, hecho: false });
   const ritNorm = (r) => { const v = ritVacio(), x = Object.assign(v, r || {}); x.gracias = [0, 1, 2].map((i) => (x.gracias || [])[i] || ''); x.acciones = [0, 1, 2].map((i) => Object.assign({ t: '', h: false }, (x.acciones || [])[i])); return x; };
   const ritPilar = (r, k) => ({
     despierta: !!r.quien.trim(),
@@ -1715,21 +1714,64 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
   const ritCompleto = (r) => PILARES.every(([k]) => ritPilar(r, k));
   // Día difícil (sus reglas: versión mínima y cuenta igual): una gratitud, la acción de Construir y la identidad dicha.
   const ritMinimo = (r) => !!r.gracias.some((g) => g.trim()) && !!r.acciones[0].t.trim() && !!r.dicha;
-  function ritDia(dias, hoyI, r) {
-    const hechos = (dias || []).filter((d) => d.fecha !== hoyI && d.ritual && d.ritual.hecho).length + (r.hecho ? 1 : 0);
-    return Math.min(hechos, RIT_DIAS);
+  // Todos los días del ritual, con el de hoy actualizado. Más reciente primero.
+  function ritTodos(dias, hoyI, r) {
+    const m = {}; (dias || []).forEach((d) => { if (d.ritual) m[d.fecha] = ritNorm(d.ritual); });
+    m[hoyI] = r;
+    return Object.keys(m).sort().reverse().map((f) => ({ fecha: f, r: m[f] }));
   }
-  function ritualHTML(r, n, ident, foco) {
+  function ritDia(dias, hoyI, r) {
+    const T = ritTodos(dias, hoyI, r), n = T.filter((x) => x.r.hecho).length;
+    // Racha: días seguidos con ritual, contando desde hoy (o desde ayer si hoy todavía no está hecho).
+    const hecho = new Set(T.filter((x) => x.r.hecho).map((x) => x.fecha));
+    const d = new Date(hoyI + 'T12:00:00'); if (!hecho.has(hoyI)) d.setDate(d.getDate() - 1);
+    let racha = 0; while (hecho.has(diaISO(d))) { racha++; d.setDate(d.getDate() - 1); }
+    return { n, racha };
+  }
+  const ritCuenta = (c, hoy) => `día ${c.n + (hoy ? 1 : 0)}${c.racha > 1 ? ` · 🔥 ${c.racha} seguidos` : ''}`;
+  // Mi registro (Flor, 18/11): ver los rituales anteriores y, por semana, las acciones hechas y los logros.
+  function registroHTML(dias, hoyI, rHoy) {
+    const T = ritTodos(dias, hoyI, rHoy).filter((x) => x.r.hecho || x.r.gracias.some((g) => g.trim()) || x.r.acciones.some((a) => a.t.trim()));
+    if (!T.length) return '';
+    const lunDe = (f) => { const d = new Date(f + 'T12:00:00'); const w = (d.getDay() + 6) % 7; d.setDate(d.getDate() - w); return diaISO(d); };
+    const S = {}; T.forEach((x) => { (S[lunDe(x.fecha)] = S[lunDe(x.fecha)] || []).push(x); });
+    const semanas = Object.keys(S).sort().reverse();
+    const dia = (x) => { const r = x.r, acc = r.acciones.filter((a) => a.t.trim());
+      return `<details class="reg-dia"><summary><b>${esc(fecha(x.fecha, { weekday: 'long', day: 'numeric', month: 'short' }))}</b> ${r.hecho ? (r.minima ? '· ½ mínima' : '· ✓') : '· sin terminar'}${r.logro && r.logro.trim() ? ' · 🏆' : ''}</summary>
+  ${r.quien ? `<p class="small"><b>Quién quise ser:</b> ${esc(r.quien)}</p>` : ''}
+  ${r.gracias.some((g) => g.trim()) ? `<p class="small"><b>Agradecí:</b> ${r.gracias.filter((g) => g.trim()).map(esc).join(' · ')}</p>` : ''}
+  ${r.vision ? `<p class="small"><b>Cómo iba a ser el día:</b> ${esc(r.vision)}</p>` : ''}
+  ${acc.length ? `<ul class="small reg-acc">${acc.map((a) => `<li>${a.h ? '✅' : '⬜'} ${esc(a.t)}</li>`).join('')}</ul>` : ''}
+  ${r.logro && r.logro.trim() ? `<p class="small"><b>🏆 Logro:</b> ${esc(r.logro)}</p>` : ''}
+  ${r.identidad ? `<p class="small muted"><i>${esc(r.identidad)}</i></p>` : ''}
+</details>`; };
+    const sem = (l, i) => { const L = S[l], hechos = L.filter((x) => x.r.hecho).length;
+      const acc = L.flatMap((x) => x.r.acciones.filter((a) => a.t.trim())), ok = acc.filter((a) => a.h);
+      const logros = L.filter((x) => x.r.logro && x.r.logro.trim());
+      const fin = new Date(l + 'T12:00:00'); fin.setDate(fin.getDate() + 6);
+      return `<details class="reg-sem"${i === 0 ? ' open' : ''}><summary><b>${i === 0 && l === lunDe(hoyI) ? 'Esta semana' : 'Semana del ' + esc(fecha(l))}</b> <span class="muted small">· ${hechos} ${hechos === 1 ? 'ritual' : 'rituales'} · ${ok.length} de ${acc.length} acciones</span></summary>
+  ${logros.length || ok.length ? `<p class="hab-sec">🏆 Logros de la semana</p><ul class="small reg-acc">${logros.map((x) => `<li><b>${esc(fecha(x.fecha, { weekday: 'short' }))}:</b> ${esc(x.r.logro)}</li>`).join('')}${ok.map((a) => `<li>✅ ${esc(a.t)}</li>`).join('')}</ul>` : '<p class="muted small">Todavía no hay acciones tildadas esta semana.</p>'}
+  <p class="hab-sec">Día por día</p>${L.map(dia).join('')}
+</details>`; };
+    return `<section class="card registro" id="registro"><div class="row between"><h2>📖 Mi registro</h2><span class="muted small">${T.filter((x) => x.r.hecho).length} rituales</span></div>
+  <p class="muted small">Tus rituales anteriores y, por semana, lo que hiciste y lo que lograste.</p>
+  ${semanas.slice(0, 8).map(sem).join('')}
+  ${semanas.length > 8 ? `<p class="muted small">Se muestran las últimas 8 semanas.</p>` : ''}
+</section>`;
+  }
+  function ritualHTML(r, c, ident, foco) {
     const ok = (k) => (ritPilar(r, k) ? ' on' : '');
-    const barra = `<div class="rit-barra" aria-label="${n} de ${RIT_DIAS} días"><i style="width:${Math.round((n / RIT_DIAS) * 100)}%"></i></div>`;
+    const barra = '';
     const dom = esDomingo();
     const ejes = dom ? [['Disfrutar', 'Algo que disfruto hoy'], ['Ordenar', 'Compras, comida, flores: dejar lista la semana'], ['Cuidarme', 'Un descanso que protejo']]
       : [['Construir', foco ? 'Mi foco (' + foco + '): …' : 'GRABAR: …'], ['Ordenar', 'Lo único de admin que sí resuelvo hoy'], ['Cuidarme', 'Gym o pádel, comida, un descanso que protejo']];
     const acciones = r.acciones.map((a, i) => `<div class="rit-acc${a.h ? ' on' : ''}"><label class="rit-eje"><input type="checkbox" data-racc="${i}"${a.h ? ' checked' : ''}> ${ejes[i][0]}</label><textarea class="rit-auto" data-rat="${i}" rows="1" placeholder="${esc(ejes[i][1])}">${esc(a.t)}</textarea></div>`).join('');
     if (r.hecho) {
       return `<section class="card ritual hecho" id="ritual">
-  <div class="row between"><h2>☀️ Ritual hecho${r.minima ? ' · versión mínima' : ''}</h2><span class="muted small">día ${n} de ${RIT_DIAS}</span></div>${barra}
+  <div class="row between"><h2>☀️ Ritual hecho${r.minima ? ' · versión mínima' : ''}</h2><span class="muted small">${ritCuenta(c, false)}</span></div>${barra}
   <p class="hab-sec">Tus 3 acciones de hoy</p><div class="rit-accs">${r.acciones.map((a, i) => `<button type="button" class="hab${a.h ? ' on' : ''}" data-racc2="${i}" aria-pressed="${!!a.h}"><span class="hab-box" aria-hidden="true">✓</span><span class="hab-t">${esc(a.t)}</span></button>`).filter((_, i) => r.acciones[i].t.trim()).join('')}</div>
+  <div class="rit-p rit-logro"><h3>🏆 Logro de hoy</h3><p class="muted small">A la tarde o a la noche: algo que salió bien, aunque sea chico. Queda en tu registro.</p>
+    <textarea class="rit-auto" id="rit-logro" rows="1" placeholder="Hoy logré…">${esc(r.logro || '')}</textarea><span class="muted small" id="rit-est"></span></div>
   <details class="rit-foco"><summary class="btn ghost sm">🧭 Me fui de foco: leer mi ritual</summary>
     <p class="rit-yo">${esc(r.identidad)}</p>
     ${r.quien ? `<p class="small"><b>Quién quiero ser hoy:</b> ${esc(r.quien)}</p>` : ''}
@@ -1741,7 +1783,7 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
 </section>`;
     }
     return `<section class="card ritual" id="ritual">
-  <div class="row between"><h2>☀️ Ritual de la mañana</h2><span class="muted small">día ${n + 1} de ${RIT_DIAS}</span></div>${barra}
+  <div class="row between"><h2>☀️ Ritual de la mañana</h2><span class="muted small">${ritCuenta(c, true)}</span></div>${barra}
   <p class="muted small">Apenas te despertás, a tu hora, antes que nada. Es tu journaling y tus minutos de presencia: cinco pilares, menos de 30 minutos.</p>
   <div class="rit-p${ok('despierta')}" data-pil="despierta"><h3>${PILARES[0][1]}</h3><p class="muted small">${PILARES[0][2]}</p>
     <textarea class="rit-auto" id="rit-quien" rows="1" placeholder="Energía 7/10 · hoy quiero ser…">${esc(r.quien)}</textarea></div>
@@ -1783,8 +1825,9 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
     on('[data-rat]', 'input', (el) => cambio((r) => { r.acciones[+el.dataset.rat].t = el.value; }));
     on('[data-racc]', 'change', (el) => cambio((r) => { r.acciones[+el.dataset.racc].h = el.checked; el.closest('.rit-acc').classList.toggle('on', el.checked); }));
     on('#rit-id', 'input', (el) => cambio((r) => { r.identidad = el.value; }));
+    on('#rit-logro', 'input', (el) => cambio((r) => { r.logro = el.value; }));
     on('#rit-dicha', 'change', (el) => cambio((r) => { r.dicha = el.checked; if (!r.identidad.trim()) r.identidad = $('#rit-id').value || ident; }));
-    if ($('#rit-ok')) $('#rit-ok').onclick = async () => { const r = getR(); if (!ritCompleto(r)) return; r.hecho = true; r.hecho_en = new Date().toISOString(); setR(r); await guardar(true); toast('Ritual hecho ✓ Un día más de 66.'); ruta(); };
+    if ($('#rit-ok')) $('#rit-ok').onclick = async () => { const r = getR(); if (!ritCompleto(r)) return; r.hecho = true; r.hecho_en = new Date().toISOString(); setR(r); await guardar(true); toast('Ritual hecho ✓ Un día más.'); ruta(); };
     if ($('#rit-min')) $('#rit-min').onclick = async () => { const r = getR(); if (!ritMinimo(r)) return; r.hecho = true; r.minima = true; r.hecho_en = new Date().toISOString(); setR(r); await guardar(true); toast('Versión mínima ✓ Cuenta igual. Nunca dos días seguidos sin ritual.'); ruta(); };
     if ($('#rit-abrir')) $('#rit-abrir').onclick = async () => { const r = getR(); r.hecho = false; r.minima = false; setR(r); await guardar(true); ruta(); };
     on('[data-racc2]', 'click', (el) => cambio((r) => { const a = r.acciones[+el.dataset.racc2]; a.h = !a.h; el.classList.toggle('on', a.h); el.setAttribute('aria-pressed', a.h); }));
@@ -1822,6 +1865,7 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
 <p class="identidad" id="ident" title="Tocá para editar">${esc(F.identidad || IDENTIDAD)}</p>
 <form id="ident-f" style="display:none" class="grid" ><textarea id="ident-t" rows="2">${esc(F.identidad || IDENTIDAD)}</textarea><div class="row"><button class="btn sm" type="submit">Guardar</button><button class="linkbtn small" type="button" id="ident-x">Cancelar</button></div></form>
 ${ritualHTML(st._rit, ritN, F.identidad || IDENTIDAD, (F.foco || {}).texto || '')}
+${registroHTML(rd, hoyI, st._rit)}
 ${semaf}
 <section class="card midia">
   <div class="row between"><h2>Mi día</h2><span class="muted small" id="hab-n">${fecha(hoyI, { weekday: 'long', day: 'numeric' })} · ${esDomingo(hoy) ? 'descanso' : `${n} de ${HAB.dia.length}`}</span></div>
