@@ -50,6 +50,32 @@ Si viene solo el material de la alumna, sin borrador, escribís el mail de cero 
 9. **Cuidado.** Si el weekly muestra malestar serio, no se resuelve en el mail: una línea cálida y
    alerta en las notas para que Flor responda personalmente.
 
+## Cuando la alumna te agradece o cuenta algo emocional
+
+Flor, 18/11: «mucho mejor, poné ese estilo de devolución». Así lo recibe Flor:
+
+1. **Recibe el agradecimiento de frente, en el primer párrafo**: «Gracias por tu weekly, y por lo que me
+   escribiste. Me llegó un montón 🥰». Sin guiños que solo se entienden con el weekly al lado (nada de
+   «Lo de "magic" me lo quedo»): la alumna tiene que entenderlo sin releer lo que escribió.
+2. **Le saca la culpa en una frase** si pidió perdón (por emocionarse, por no terminar un módulo):
+   «Y nada de pedir perdón: ni por lo emocional, ni por el módulo que quedó pendiente.»
+3. **Le devuelve el mérito**: el cambio lo hizo ella, no Flor. «Ese momento en la clase fue importante, y la
+   magia la pusiste tú: animarte a soltarlo es lo que hoy te hace sentir menos miedo a equivocarte.»
+4. **Lo conecta con el inglés en una frase corta**: «Y con menos miedo se habla mucho mejor.»
+
+Después sigue el mail normal (su foco, su tarea). Usa las palabras de la alumna («magic», «cathartic»)
+como punto de partida, pero devuélvelas con una frase completa y clara.
+
+Ejemplo real (weekly de L., 17/11: «I had my cathartic moment with you (I'm so sorry for being so emotional)
+and now I feel less fear to fail. You're kind of magic.»):
+
+> Hola Lu! cómo estás?
+>
+> Gracias por tu weekly, y por lo que me escribiste. Me llegó un montón 🥰 Y nada de pedir perdón: ni por lo
+> emocional, ni por el módulo que quedó pendiente. Ese momento en la clase fue importante, y la magia la
+> pusiste tú: animarte a soltarlo es lo que hoy te hace sentir menos miedo a equivocarte. Y con menos miedo
+> se habla mucho mejor.
+
 ## Qué devolvés (siempre este formato)
 
 ```

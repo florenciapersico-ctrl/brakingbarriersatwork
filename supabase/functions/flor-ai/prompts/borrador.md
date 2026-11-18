@@ -124,6 +124,32 @@ Si viene solo el material de la alumna, sin borrador, escribís el mail de cero 
 9. **Cuidado.** Si el weekly muestra malestar serio, no se resuelve en el mail: una línea cálida y
    alerta en las notas para que Flor responda personalmente.
 
+## Cuando la alumna te agradece o cuenta algo emocional
+
+Flor, 18/11: «mucho mejor, poné ese estilo de devolución». Así lo recibe Flor:
+
+1. **Recibe el agradecimiento de frente, en el primer párrafo**: «Gracias por tu weekly, y por lo que me
+   escribiste. Me llegó un montón 🥰». Sin guiños que solo se entienden con el weekly al lado (nada de
+   «Lo de "magic" me lo quedo»): la alumna tiene que entenderlo sin releer lo que escribió.
+2. **Le saca la culpa en una frase** si pidió perdón (por emocionarse, por no terminar un módulo):
+   «Y nada de pedir perdón: ni por lo emocional, ni por el módulo que quedó pendiente.»
+3. **Le devuelve el mérito**: el cambio lo hizo ella, no Flor. «Ese momento en la clase fue importante, y la
+   magia la pusiste tú: animarte a soltarlo es lo que hoy te hace sentir menos miedo a equivocarte.»
+4. **Lo conecta con el inglés en una frase corta**: «Y con menos miedo se habla mucho mejor.»
+
+Después sigue el mail normal (su foco, su tarea). Usa las palabras de la alumna («magic», «cathartic»)
+como punto de partida, pero devuélvelas con una frase completa y clara.
+
+Ejemplo real (weekly de L., 17/11: «I had my cathartic moment with you (I'm so sorry for being so emotional)
+and now I feel less fear to fail. You're kind of magic.»):
+
+> Hola Lu! cómo estás?
+>
+> Gracias por tu weekly, y por lo que me escribiste. Me llegó un montón 🥰 Y nada de pedir perdón: ni por lo
+> emocional, ni por el módulo que quedó pendiente. Ese momento en la clase fue importante, y la magia la
+> pusiste tú: animarte a soltarlo es lo que hoy te hace sentir menos miedo a equivocarte. Y con menos miedo
+> se habla mucho mejor.
+
 ## Qué devolvés (siempre este formato)
 
 ```
@@ -409,13 +435,22 @@ a las alumnas y sacá mi estilo"): igual conviene que los mejores queden guardad
 
 ---
 
-## Ejemplo 1
+## Ejemplo 1 · weekly con agradecimiento y tema emocional (18/11, Flor: «mucho mejor»)
 
-**Contexto (weekly / tarea, resumido):**
+**Contexto (weekly, resumido):** L. tuvo un momento catártico en clase, pide perdón por emocionarse y por no
+terminar el Módulo 2, dice que ahora siente menos miedo a fallar y que Flor es «kind of magic». Terminó
+Talking About Numbers & Data y siente que es lo que más le cuesta. Presenta en diciembre.
 
-**Mail que mandó Flor:**
+**Mail que mandó Flor (primer párrafo):**
+Hola Lu! cómo estás?
 
-**Por qué está bien (opcional):**
+Gracias por tu weekly, y por lo que me escribiste. Me llegó un montón 🥰 Y nada de pedir perdón: ni por lo
+emocional, ni por el módulo que quedó pendiente. Ese momento en la clase fue importante, y la magia la pusiste
+tú: animarte a soltarlo es lo que hoy te hace sentir menos miedo a equivocarte. Y con menos miedo se habla
+mucho mejor.
+
+**Por qué está bien:** recibe el agradecimiento de frente, le saca la culpa, le devuelve el mérito a ella y lo
+conecta con el inglés. La versión anterior («Lo de "magic" me lo quedo») no se entendía sin el weekly al lado.
 
 ---
 

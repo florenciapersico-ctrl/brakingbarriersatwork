@@ -16,13 +16,22 @@ a las alumnas y sacá mi estilo"): igual conviene que los mejores queden guardad
 
 ---
 
-## Ejemplo 1
+## Ejemplo 1 · weekly con agradecimiento y tema emocional (18/11, Flor: «mucho mejor»)
 
-**Contexto (weekly / tarea, resumido):**
+**Contexto (weekly, resumido):** L. tuvo un momento catártico en clase, pide perdón por emocionarse y por no
+terminar el Módulo 2, dice que ahora siente menos miedo a fallar y que Flor es «kind of magic». Terminó
+Talking About Numbers & Data y siente que es lo que más le cuesta. Presenta en diciembre.
 
-**Mail que mandó Flor:**
+**Mail que mandó Flor (primer párrafo):**
+Hola Lu! cómo estás?
 
-**Por qué está bien (opcional):**
+Gracias por tu weekly, y por lo que me escribiste. Me llegó un montón 🥰 Y nada de pedir perdón: ni por lo
+emocional, ni por el módulo que quedó pendiente. Ese momento en la clase fue importante, y la magia la pusiste
+tú: animarte a soltarlo es lo que hoy te hace sentir menos miedo a equivocarte. Y con menos miedo se habla
+mucho mejor.
+
+**Por qué está bien:** recibe el agradecimiento de frente, le saca la culpa, le devuelve el mérito a ella y lo
+conecta con el inglés. La versión anterior («Lo de "magic" me lo quedo») no se entendía sin el weekly al lado.
 
 ---
 
