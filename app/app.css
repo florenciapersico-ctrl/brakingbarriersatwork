@@ -498,3 +498,15 @@ details.lb[open]>summary h3::after{content:" ⌄"}
 .sem-dia>summary{cursor:pointer;list-style:none;line-height:1.5}
 .sem-dia>summary::-webkit-details-marker{display:none}
 .sem-dia[open]>summary{margin-bottom:6px}
+/* My Day (alumnas, migración 20) */
+.md-en{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 6px}
+.md-en button{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--fg);font:inherit;font-size:14px;font-weight:600;cursor:pointer}
+.md-en button.on{background:var(--olive);border-color:var(--olive);color:#fff}
+.md-print-head{display:none}
+@media print{
+  body.md-imprimir .side,body.md-imprimir .topbar,body.md-imprimir .tabbar,body.md-imprimir .demobar,body.md-imprimir .md-noprint,body.md-imprimir .toast{display:none!important}
+  body.md-imprimir .md-print-head{display:flex;justify-content:space-between;border-bottom:1px solid #999;padding-bottom:6px;margin-bottom:10px}
+  body.md-imprimir .card{box-shadow:none;break-inside:avoid;border:1px solid #ccc}
+  body.md-imprimir .rit-auto{border:0;padding:0;min-height:0}
+  body.md-imprimir .shell,body.md-imprimir .mainwrap{display:block}
+}

@@ -164,6 +164,9 @@
       // Ritual de la mañana (migración 19): va en la fila del día de habitos_flor.
       async guardarRitual(fecha, ritual) { ok(await sb.from('habitos_flor').upsert({ fecha, ritual, actualizado: new Date().toISOString() })); },
       async ritualDias() { return (ok(await sb.from('habitos_flor').select('fecha, ritual').not('ritual', 'is', null).order('fecha')) || []); },
+      // My Day de la alumna (migración 20): una fila por día, privada de ella.
+      async miDia(desde) { return (ok(await sb.from('mi_dia').select('fecha, datos').eq('alumna_id', uid).gte('fecha', desde).order('fecha')) || []); },
+      async guardarMiDia(fecha, datos) { ok(await sb.from('mi_dia').upsert({ alumna_id: uid, fecha, datos, actualizado: new Date().toISOString() })); },
       async clasesHoy() { const r = await llamar({ modo: 'clases_hoy' }); const j = await r.json().catch(() => ({})); this.errClases = j.ok ? '' : String(j.error || (r.ok ? '' : 'error ' + r.status)); return j.ok ? j.clases || [] : null; },
       async borradoresGmail() { try { const r = await llamar({ modo: 'borradores_gmail' }); const j = await r.json(); return j.borradores || []; } catch (e) { return []; } },
       async borradorMail(q) { const r = await llamar({ modo: 'borrador_mail', ...q }); const j = await r.json().catch(() => ({})); if (!r.ok || !j.ok) throw new Error(j.error || 'No se pudo armar el borrador en Gmail.'); return j; },
@@ -333,6 +336,8 @@
       async marcarHabito(fecha, hechos, minima) { const v = (S.habitos || []).find((r) => r.fecha === fecha) || {}; S.habitos = (S.habitos || []).filter((r) => r.fecha !== fecha).concat([{ ...v, fecha, hechos, minima }]); save(); },
       async guardarRitual(fecha, ritual) { const v = (S.habitos || []).find((r) => r.fecha === fecha) || { hechos: {}, minima: false }; S.habitos = (S.habitos || []).filter((r) => r.fecha !== fecha).concat([{ ...v, fecha, ritual }]); save(); },
       async ritualDias() { return copia((S.habitos || []).filter((r) => r.ritual).sort((x, y) => (x.fecha < y.fecha ? -1 : 1))); },
+      async miDia(desde) { return copia((S.midia || []).filter((r) => r.alumna_id === yo() && r.fecha >= desde).sort((x, y) => (x.fecha < y.fecha ? -1 : 1))); },
+      async guardarMiDia(fecha, datos) { S.midia = (S.midia || []).filter((r) => !(r.alumna_id === yo() && r.fecha === fecha)).concat([{ alumna_id: yo(), fecha, datos }]); save(); },
       async clasesHoy() { return []; },
       async borradoresGmail() { return []; },
       async borradorMail() { return { ok: true, link: '' }; },

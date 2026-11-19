@@ -78,6 +78,7 @@
   }
 
   const I = {
+    myday: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
     semana: '<path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>',
     flor: '<path d="M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z"/><path d="M18 15l.8 2.2L21 18l-2.2.8L18 21l-.8-2.2L15 18l2.2-.8z"/>',
     feedback: '<path d="M4 4h16v12H8l-4 4z"/><path d="M9 10l2 2 4-4"/>',
@@ -100,7 +101,7 @@
   };
   const svg = (k) => '<svg viewBox="0 0 24 24" aria-hidden="true">' + I[k] + '</svg>';
   const GRUPOS = [
-    ['Tu programa', [['semana', 'Mi semana'], ['lab', 'Mi lab'], ['clases', 'Tus clases'], ['camino', 'Mi camino'], ['empieza', 'Empieza acá']]],
+    ['Tu programa', [['semana', 'Mi semana'], ['myday', 'My Day'], ['lab', 'Mi lab'], ['clases', 'Tus clases'], ['camino', 'Mi camino'], ['empieza', 'Empieza acá']]],
     ['Con Flor', [['flor', 'Flor AI'], ['feedback', 'Pedir feedback'], ['weekly', 'Weekly report'], ['wins', 'Wins de todas']]],
     ['Tu práctica', [['coaches', 'Mis coaches'], ['progreso', 'Mi progreso']]]
   ];
@@ -220,7 +221,7 @@
   function navHTML(tab) {
     const it = ([id, l]) => (l = id === 'empieza' && (DB.demo || !st.admin) && onbHecho() ? 'Cómo funciona' : l, '<a href="#' + id + '" data-v="' + id + '">' + svg(id) + '<span>' + l + '</span>' + (id === 'bandeja' ? '<span class="badge"' + (tab ? '' : ' id="bdg"') + ' hidden></span>' : '') + (id === 'feedback' || id === 'weekly' ? '<span class="badge nuevo-' + id + '" hidden>Nuevo</span>' : '') + '</a>');
     // En el celular la barra de abajo se corta: Flor AI va adelante para que siempre se vea.
-    const ORDEN = ['bandeja', 'flor', 'semana', 'alumnas', 'feedback', 'weekly', 'camino'];
+    const ORDEN = ['bandeja', 'flor', 'semana', 'myday', 'alumnas', 'feedback', 'weekly', 'camino'];
     const rank = (id) => { const i = ORDEN.indexOf(id); return i < 0 ? 99 : i; };
     if (esFlor()) return MENU_FLOR.slice(0, tab ? 5 : MENU_FLOR.length).map(it).join('') + (tab ? '' : '<div class="sep">Tus alumnas</div><a href="?demo#semana" target="_blank" rel="noopener">' + svg('alumnas') + '<span>Ver la app como alumna</span></a>');
     if (tab) return (st.admin && !DB.demo ? ADMIN.concat(VISTAS) : VISTAS).filter(vistaOk).sort((a, b) => rank(a[0]) - rank(b[0])).map(it).join('');
@@ -981,6 +982,185 @@ ${pasados.length ? pasados.map((f) => { const x = G[f], gg = x.g || {}, rr = x.r
       if ($('#labsheetcopy')) $('#labsheetcopy').onclick = async () => { try { await navigator.clipboard.writeText($('#labsheetlink').textContent); toast('Link copiado. Pegalo en el chat del Meet.'); } catch (e) { toast('No se pudo copiar: seleccioná el link y copialo.', true); } };
       $('#labfbok').onclick = () => intentar(() => DB.guardarLabFlor(iso, 'lab:guion', { texto2: $('#labfb').value.trim(), titulo: l.tema || 'Lab' }), 'Guardado. El próximo lab lo va a tener en cuenta.');
       $('#labregok').onclick = () => intentar(() => DB.guardarLabFlor(iso, 'lab:registro', { texto: $('#labreg').value.trim(), titulo: l.tema || 'Lab' }), 'Registro guardado.');
+    }
+  };
+
+  // ---------- My Day (alumnas · pedido de Gisela 17/11, Flor 19/11: «fundamental») ----------
+  // Planner diario TODO en inglés: ritual corto de la mañana, el momento en inglés del día, 3 prioridades
+  // (Work · English · Me), lo de AT WORK de hoy y el cierre del día. Se baja en PDF o se manda por mail.
+  // Se guarda en mi_dia (migración 20), una fila por día, privada de cada alumna.
+  const MD_DIAS = ['dom', 'lun', 'mar', 'mi[eé]', 'jue', 'vie', 's[aá]b'];
+  const mdVacio = () => ({ energia: 0, quien: '', gracias: ['', '', ''], momento: '', frase: '', prioridades: [{ t: '', h: false }, { t: '', h: false }, { t: '', h: false }], identidad: '', dicha: false, hecho: false, minima: false, win: '', ingles: '', manana: '' });
+  const mdNorm = (d) => { const x = Object.assign(mdVacio(), d || {}); x.gracias = [0, 1, 2].map((i) => (x.gracias || [])[i] || ''); x.prioridades = [0, 1, 2].map((i) => Object.assign({ t: '', h: false }, (x.prioridades || [])[i])); return x; };
+  const MD_ID = "I'm a professional who speaks up in English, even when it isn't perfect.";
+  const MD_EJES = [['Work', 'The one work thing that matters most today'], ['English', 'One English action (e.g. 10 min with Role Play, send that email)'], ['Me', 'Something that takes care of you (a walk, a real lunch, rest)']];
+  const mdPaso = (d, k) => ({
+    checkin: !!d.energia && !!d.quien.trim(),
+    gracias: d.gracias.some((g) => g.trim()),
+    momento: !!d.momento.trim(),
+    prioridades: d.prioridades.every((p) => p.t.trim()),
+    identidad: !!d.dicha,
+  })[k];
+  const MD_PASOS = ['checkin', 'gracias', 'momento', 'prioridades', 'identidad'];
+  const mdCompleto = (d) => MD_PASOS.every((k) => mdPaso(d, k));
+  const mdMinimo = (d) => !!d.energia && !!d.momento.trim() && !!d.prioridades[0].t.trim();
+  // ¿Tiene clase hoy? Lee su horario («mar 19:00», «jue 18:30 o sáb», «Lab B sáb 15:30»).
+  function mdClaseHoy(p) {
+    const h = String((p && p.horario_clase) || '').toLowerCase(); if (!h) return null;
+    const re = new RegExp('(^|[^a-zé])' + MD_DIAS[new Date().getDay()] + '[a-zé]*\\.?\\s*(\\d{1,2}[:.]\\d{2})?', 'i');
+    const m = h.match(re); if (!m) return null;
+    return { hora: m[2] ? m[2].replace('.', ':') : '', link: url(p.link_clase) };
+  }
+  const mdFecha = (iso, o = { weekday: 'long', day: 'numeric', month: 'long' }) => new Date(iso + 'T12:00:00').toLocaleDateString('en-US', o);
+  // Texto plano del día, para mandárselo por mail a ella misma.
+  function mdTexto(f, d, nom) {
+    const L = [`MY DAY · ${mdFecha(f)}${nom ? ' · ' + nom : ''}`, ''];
+    if (d.energia || d.quien) L.push(`Energy: ${d.energia || '-'}/10${d.quien ? ' · Today I want to be: ' + d.quien : ''}`);
+    const g = d.gracias.filter((x) => x.trim()); if (g.length) L.push('', "I'm grateful for:", ...g.map((x) => '- ' + x));
+    if (d.momento) L.push('', 'My English moment today: ' + d.momento);
+    if (d.frase) L.push('The phrase I\'ll use: "' + d.frase + '"');
+    const pr = d.prioridades.map((p, i) => [p, MD_EJES[i][0]]).filter(([p]) => p.t.trim());
+    if (pr.length) L.push('', 'My 3 priorities:', ...pr.map(([p, e]) => `[${p.h ? 'x' : ' '}] ${e}: ${p.t}`));
+    if (d.dicha) L.push('', d.identidad || MD_ID);
+    if (d.win || d.ingles || d.manana) L.push('', 'END OF DAY');
+    if (d.win) L.push("Today's win: " + d.win);
+    if (d.ingles) L.push('English that worked: ' + d.ingles);
+    if (d.manana) L.push('Tomorrow I will: ' + d.manana);
+    L.push('', '— AT WORK · My Day · https://app.breakingbarriers.site/#myday');
+    return L.join('\n');
+  }
+  function mdRacha(dias, hoyI) {
+    const h = new Set(dias.filter((x) => x.d.hecho).map((x) => x.fecha));
+    const t = new Date(hoyI + 'T12:00:00'); if (!h.has(hoyI)) t.setDate(t.getDate() - 1);
+    let n = 0; while (h.has(diaISO(t))) { n++; t.setDate(t.getDate() - 1); }
+    return n;
+  }
+  // My log: los días anteriores y, por semana, lo que logró (para usar en su Weekly report).
+  function mdLogHTML(dias, hoyI) {
+    const T = dias.filter((x) => x.d.hecho || x.d.win.trim() || x.d.prioridades.some((p) => p.t.trim())).slice().sort((a, b) => (a.fecha < b.fecha ? 1 : -1));
+    if (!T.length) return '';
+    const lunDe = (f) => DB.lunes(new Date(f + 'T12:00:00'));
+    const S = {}; T.forEach((x) => { (S[lunDe(x.fecha)] = S[lunDe(x.fecha)] || []).push(x); });
+    const sems = Object.keys(S).sort().reverse().slice(0, 8);
+    const dia = (x) => { const d = x.d, pr = d.prioridades.map((p, i) => [p, MD_EJES[i][0]]).filter(([p]) => p.t.trim());
+      return `<details class="reg-dia"><summary><b>${esc(mdFecha(x.fecha, { weekday: 'long', day: 'numeric', month: 'short' }))}</b> ${d.hecho ? (d.minima ? '· ½ quick version' : '· ✓') : '· not finished'}${d.win.trim() ? ' · 🏆' : ''}</summary>
+  ${d.energia ? `<p class="small"><b>Energy:</b> ${d.energia}/10${d.quien ? ' · ' + esc(d.quien) : ''}</p>` : ''}
+  ${d.gracias.some((g) => g.trim()) ? `<p class="small"><b>Grateful for:</b> ${d.gracias.filter((g) => g.trim()).map(esc).join(' · ')}</p>` : ''}
+  ${d.momento ? `<p class="small"><b>English moment:</b> ${esc(d.momento)}${d.frase ? ` · <i>"${esc(d.frase)}"</i>` : ''}</p>` : ''}
+  ${pr.length ? `<ul class="small reg-acc">${pr.map(([p, e]) => `<li>${p.h ? '✅' : '⬜'} <b>${e}:</b> ${esc(p.t)}</li>`).join('')}</ul>` : ''}
+  ${d.win.trim() ? `<p class="small"><b>🏆 Win:</b> ${esc(d.win)}</p>` : ''}
+  ${d.ingles.trim() ? `<p class="small"><b>English that worked:</b> ${esc(d.ingles)}</p>` : ''}
+</details>`; };
+    const sem = (l, i) => { const L = S[l], hechos = L.filter((x) => x.d.hecho).length;
+      const pr = L.flatMap((x) => x.d.prioridades.filter((p) => p.t.trim())), ok = pr.filter((p) => p.h);
+      const wins = L.filter((x) => x.d.win.trim()), eng = L.filter((x) => x.d.ingles.trim());
+      const txtW = wins.map((x) => '- ' + x.d.win.trim()).concat(eng.map((x) => '- English that worked: ' + x.d.ingles.trim())).join('\n');
+      return `<details class="reg-sem"${i === 0 ? ' open' : ''}><summary><b>${l === lunDe(hoyI) ? 'This week' : 'Week of ' + esc(mdFecha(l, { month: 'short', day: 'numeric' }))}</b> <span class="muted small">· ${hechos} ${hechos === 1 ? 'day' : 'days'} · ${ok.length} of ${pr.length} priorities done</span></summary>
+  ${wins.length || eng.length ? `<p class="hab-sec">🏆 Wins of the week</p><ul class="small reg-acc">${wins.map((x) => `<li>🏆 <b>${esc(mdFecha(x.fecha, { weekday: 'short' }))}:</b> ${esc(x.d.win)}</li>`).join('')}${eng.map((x) => `<li>🗣️ <b>${esc(mdFecha(x.fecha, { weekday: 'short' }))}:</b> ${esc(x.d.ingles)}</li>`).join('')}</ul>
+  <div class="row" style="gap:8px;flex-wrap:wrap"><button type="button" class="btn ghost sm" data-mdcopy="${esc(txtW)}">Copy my wins</button><a class="btn ghost sm" href="#weekly">Open my Weekly report</a></div>` : '<p class="muted small">No wins written yet this week.</p>'}
+  <p class="hab-sec">Day by day</p>${L.map(dia).join('')}
+</details>`; };
+    return `<section class="card registro md-noprint" id="mdlog"><div class="row between"><h2>📖 My log</h2><span class="muted small">${T.filter((x) => x.d.hecho).length} days</span></div>
+  <p class="muted small">Your past days and, week by week, what you achieved. Use it for your Weekly report.</p>
+  ${sems.map(sem).join('')}
+</section>`;
+  }
+
+  V.myday = {
+    async html() {
+      const p = st.perfil || {}, hoy = new Date(), hoyI = diaISO(hoy);
+      const desde = new Date(hoy); desde.setDate(desde.getDate() - 70);
+      const [rows, tareas] = await Promise.all([DB.miDia ? DB.miDia(diaISO(desde)).catch((e) => { console.error(e); return null; }) : null, DB.tareas().catch(() => [])]);
+      if (rows === null) throw new Error('My Day is not ready yet. Try again in a few minutes.');
+      const dias = rows.map((r) => ({ fecha: r.fecha, d: mdNorm(r.datos) }));
+      let hoyD = dias.find((x) => x.fecha === hoyI);
+      if (!hoyD) { hoyD = { fecha: hoyI, d: mdVacio() }; dias.push(hoyD); }
+      const d = hoyD.d; st._md = { f: hoyI, d };
+      const racha = mdRacha(dias, hoyI), nDias = dias.filter((x) => x.d.hecho).length;
+      const nom = apodoDe(p), h = hoy.getHours(), hola = h < 12 ? 'Good morning' : h < 19 ? 'Good afternoon' : 'Good evening';
+      const clase = mdClaseHoy(p), pend = (tareas || []).filter((t) => !t.hecha);
+      const on = (k) => (mdPaso(d, k) ? ' on' : '');
+      const ta = (id, v, ph, rows = 1) => `<textarea class="rit-auto" ${id} rows="${rows}" placeholder="${esc(ph)}">${esc(v)}</textarea>`;
+      const cuenta = nDias ? `${nDias} ${nDias === 1 ? 'day' : 'days'}${racha > 1 ? ` · 🔥 ${racha} in a row` : ''}` : '';
+      const energia = `<div class="md-en" role="group" aria-label="Energy from 1 to 10">${[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((n) => `<button type="button" data-en="${n}" aria-pressed="${d.energia === n}" class="${d.energia === n ? 'on' : ''}">${n}</button>`).join('')}</div>`;
+      const prio = d.prioridades.map((x, i) => `<div class="rit-acc${x.h ? ' on' : ''}"><label class="rit-eje"><input type="checkbox" data-mdph="${i}"${x.h ? ' checked' : ''}> ${MD_EJES[i][0]}</label>${ta(`data-mdp="${i}"`, x.t, MD_EJES[i][1])}</div>`).join('');
+      const ritual = d.hecho
+        ? `<section class="card ritual hecho" id="mdrit"><div class="row between"><h2>☀️ Morning done${d.minima ? ' · quick version' : ''}</h2><span class="muted small">${cuenta}</span></div>
+  <p class="rit-yo">${esc(d.identidad || MD_ID)}</p>
+  ${d.momento ? `<p class="small"><b>My English moment today:</b> ${esc(d.momento)}${d.frase ? ` · <i>"${esc(d.frase)}"</i>` : ''}</p>` : ''}
+  <p class="hab-sec">My 3 priorities</p><div class="rit-accs">${d.prioridades.map((x, i) => (x.t.trim() ? `<button type="button" class="hab${x.h ? ' on' : ''}" data-mdp2="${i}" aria-pressed="${!!x.h}"><span class="hab-box" aria-hidden="true">✓</span><span class="hab-t"><b>${MD_EJES[i][0]}:</b> ${esc(x.t)}</span></button>` : '')).join('')}</div>
+  <button type="button" class="linkbtn small md-noprint" id="md-edit">Edit this morning</button>
+</section>`
+        : `<section class="card ritual" id="mdrit"><div class="row between"><h2>☀️ Morning ritual</h2><span class="muted small">${cuenta || '5 minutes'}</span></div>
+  <p class="muted small">Before email and meetings. Five quick steps to start your day on purpose, in English.</p>
+  <div class="rit-p${on('checkin')}" data-paso="checkin"><h3>1 · Check in</h3><p class="muted small">How is your energy today, from 1 to 10? And who do you want to be today?</p>${energia}${ta('id="md-quien"', d.quien, 'Today I want to be calm and clear…')}</div>
+  <div class="rit-p${on('gracias')}" data-paso="gracias"><h3>2 · Gratitude</h3><p class="muted small">Up to three things you're grateful for today. Small is fine.</p>${d.gracias.map((g, i) => ta(`data-mdg="${i}"`, g, "I'm grateful for…")).join('')}</div>
+  <div class="rit-p${on('momento')}" data-paso="momento"><h3>3 · My English moment today</h3><p class="muted small">Where will you use English today? A meeting, a call, an email… Then one phrase you want to use there.</p>${ta('id="md-mom"', d.momento, 'The 10:00 call with the US team…')}${ta('id="md-frase"', d.frase, 'The phrase I\'ll use: "The short answer is…"')}</div>
+  <div class="rit-p${on('prioridades')}" data-paso="prioridades"><h3>4 · My 3 priorities</h3><p class="muted small">One for work, one for your English, one for you. Tick them during the day.</p>${prio}</div>
+  <div class="rit-p${on('identidad')}" data-paso="identidad"><h3>5 · Say it out loud</h3><p class="muted small">Read it out loud, in English. Change it so it sounds like you.</p>${ta('id="md-id"', d.identidad || MD_ID, '', 2)}<label class="rit-chk"><input type="checkbox" id="md-dicha"${d.dicha ? ' checked' : ''}> I said it out loud</label></div>
+  <div class="row between rit-pie"><span class="muted small" id="md-est"></span><button type="button" class="btn" id="md-ok"${mdCompleto(d) ? '' : ' disabled'}>Ready for my day ✓</button></div>
+  <p class="small rit-min">Busy morning? With your energy, your English moment and your work priority, <button type="button" class="linkbtn small" id="md-min"${mdMinimo(d) ? '' : ' disabled'}>do the 1-minute version (it counts)</button></p>
+</section>`;
+      const atw = `<section class="card"><h2>📌 Today in AT WORK</h2>
+  ${clase ? `<div class="td-i"><b>🎥 Class with Flor today${clase.hora ? ' · ' + esc(clase.hora) + ' (Argentina time)' : ''}</b>${clase.link ? `<div class="row md-noprint"><a class="btn sm" href="${esc(clase.link)}" target="_blank" rel="noopener">Join the class</a></div>` : ''}</div>` : ''}
+  ${p.foco_titulo ? `<p class="small"><b>Focus of the week:</b> ${esc(p.foco_titulo)}</p>` : ''}
+  ${pend.length ? `<p class="hab-sec">Your tasks from Flor</p><ul class="small reg-acc">${pend.slice(0, 4).map((t) => `<li>⬜ ${tareaLinea(t.texto)}</li>`).join('')}</ul>${pend.length > 4 ? `<p class="muted small">+${pend.length - 4} more in Mi semana.</p>` : ''}<div class="row md-noprint"><a class="btn ghost sm" href="#semana">Open Mi semana</a></div>` : '<p class="muted small">No pending tasks from your last class. 🎉</p>'}
+</section>`;
+      const cierre = `<section class="card ritual" id="mdfin"><h2>🌙 End of day</h2><p class="muted small">Two minutes before you close the laptop. It goes to your log and helps you write your Weekly report.</p>
+  <div class="rit-p${d.win.trim() ? ' on' : ''}" data-paso2="win"><h3>Today's win</h3>${ta('id="md-win"', d.win, 'Today I… (even a small one)')}</div>
+  <div class="rit-p${d.ingles.trim() ? ' on' : ''}" data-paso2="ingles"><h3>English that worked</h3><p class="muted small">A phrase you used, or one you want to use next time.</p>${ta('id="md-ing"', d.ingles, '"Let me check and get back to you by Friday."')}</div>
+  <div class="rit-p${d.manana.trim() ? ' on' : ''}" data-paso2="manana"><h3>Tomorrow I will…</h3>${ta('id="md-man"', d.manana, 'Send the summary email before 11.')}</div>
+  <span class="muted small" id="md-est2"></span>
+</section>`;
+      return `<div class="head"><div><span class="eyebrow">${esc(mdFecha(hoyI))}</span><h1>${hola}${nom ? ', ' + esc(nom) : ''}</h1></div>
+  <div class="row md-noprint" style="gap:8px;flex-wrap:wrap"><button type="button" class="btn ghost sm" id="md-pdf">Download PDF</button><button type="button" class="btn ghost sm" id="md-mail">Email it</button></div></div>
+<p class="muted intro md-noprint">Your daily planner, in English. Start here in the morning, tick your priorities during the day, and close the day with your win.</p>
+<div class="md-print-head"><b>AT WORK · My Day</b><span>${esc(nom)} · ${esc(mdFecha(hoyI))}</span></div>
+${ritual}${atw}${cierre}${mdLogHTML(dias, hoyI)}`;
+    },
+    mount() {
+      const M = st._md; if (!M) return;
+      const d = M.d; let t;
+      const est = (x) => $$('#md-est, #md-est2').forEach((e) => (e.textContent = x));
+      const guardar = (ya) => {
+        clearTimeout(t);
+        const go = async () => { try { await DB.guardarMiDia(M.f, d); est('Saved'); } catch (e) { console.error(e); toast("My Day didn't save. Try again.", true); } };
+        if (ya) return go(); est('Saving…'); t = setTimeout(go, 700);
+      };
+      const repintar = () => {
+        $$('#mdrit .rit-p').forEach((x) => x.classList.toggle('on', !!mdPaso(d, x.dataset.paso)));
+        $$('#mdfin .rit-p').forEach((x) => x.classList.toggle('on', !!String(d[x.dataset.paso2] || '').trim()));
+        if ($('#md-ok')) $('#md-ok').disabled = !mdCompleto(d);
+        if ($('#md-min')) $('#md-min').disabled = !mdMinimo(d);
+      };
+      const cambio = (fn) => { fn(d); repintar(); guardar(); };
+      const on = (sel, ev, fn) => $$(sel).forEach((el) => el.addEventListener(ev, () => fn(el)));
+      const alto = (el) => { el.style.height = 'auto'; el.style.height = el.scrollHeight + 2 + 'px'; };
+      $$('.view .rit-auto').forEach((el) => { alto(el); el.addEventListener('input', () => alto(el)); });
+      requestAnimationFrame(() => $$('.view .rit-auto').forEach(alto));
+      on('[data-en]', 'click', (el) => cambio((x) => { x.energia = +el.dataset.en; $$('[data-en]').forEach((b) => { const s = +b.dataset.en === x.energia; b.classList.toggle('on', s); b.setAttribute('aria-pressed', s); }); }));
+      on('#md-quien', 'input', (el) => cambio((x) => { x.quien = el.value; }));
+      on('[data-mdg]', 'input', (el) => cambio((x) => { x.gracias[+el.dataset.mdg] = el.value; }));
+      on('#md-mom', 'input', (el) => cambio((x) => { x.momento = el.value; }));
+      on('#md-frase', 'input', (el) => cambio((x) => { x.frase = el.value; }));
+      on('[data-mdp]', 'input', (el) => cambio((x) => { x.prioridades[+el.dataset.mdp].t = el.value; }));
+      on('[data-mdph]', 'change', (el) => cambio((x) => { x.prioridades[+el.dataset.mdph].h = el.checked; el.closest('.rit-acc').classList.toggle('on', el.checked); }));
+      on('#md-id', 'input', (el) => cambio((x) => { x.identidad = el.value; }));
+      on('#md-dicha', 'change', (el) => cambio((x) => { x.dicha = el.checked; if (!x.identidad.trim()) x.identidad = ($('#md-id') || {}).value || MD_ID; }));
+      on('#md-win', 'input', (el) => cambio((x) => { x.win = el.value; }));
+      on('#md-ing', 'input', (el) => cambio((x) => { x.ingles = el.value; }));
+      on('#md-man', 'input', (el) => cambio((x) => { x.manana = el.value; }));
+      on('[data-mdp2]', 'click', (el) => cambio((x) => { const p = x.prioridades[+el.dataset.mdp2]; p.h = !p.h; el.classList.toggle('on', p.h); el.setAttribute('aria-pressed', p.h); }));
+      const terminar = async (min) => { if (min ? !mdMinimo(d) : !mdCompleto(d)) return; if (!d.identidad.trim()) d.identidad = MD_ID; d.hecho = true; d.minima = !!min; d.hecho_en = new Date().toISOString(); await guardar(true); toast(min ? 'Quick version ✓ It counts.' : 'Ready for your day ✓'); ruta(); };
+      if ($('#md-ok')) $('#md-ok').onclick = () => terminar(false);
+      if ($('#md-min')) $('#md-min').onclick = () => terminar(true);
+      if ($('#md-edit')) $('#md-edit').onclick = async () => { d.hecho = false; d.minima = false; await guardar(true); ruta(); };
+      $('#md-pdf').onclick = () => { document.body.classList.add('md-imprimir'); window.addEventListener('afterprint', () => document.body.classList.remove('md-imprimir'), { once: true }); setTimeout(() => window.print(), 50); };
+      // Abre su propio programa de mail con el día ya escrito; ella elige a quién mandarlo (la app no envía nada).
+      $('#md-mail').onclick = () => {
+        location.href = 'mailto:?subject=' + encodeURIComponent('My Day · ' + mdFecha(M.f, { weekday: 'long', day: 'numeric', month: 'short' })) + '&body=' + encodeURIComponent(mdTexto(M.f, d, apodoDe(st.perfil)));
+      };
+      $$('[data-mdcopy]').forEach((b) => (b.onclick = async () => { try { await navigator.clipboard.writeText(b.dataset.mdcopy); toast('Copied. Paste it in your Weekly report (01 · My wins).'); } catch (e) { toast("Couldn't copy. Select the text and copy it.", true); } }));
     }
   };
 
