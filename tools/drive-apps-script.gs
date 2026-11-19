@@ -185,8 +185,12 @@ function armarBorrador(p) {
   // Si ya hay un borrador para esto (el de la rutina de la mañana o uno anterior de la app), se reemplaza ese: nunca dos.
   var borrador = null, reemplazado = false;
   try { borrador = buscarBorrador(p); } catch (e) { console.error('buscarBorrador', e); }
-  if (borrador) {
-    try { borrador.update(p.para, borrador.getMessage().getSubject(), p.texto || '', op); reemplazado = true; }
+  // Emojis (Flor, 19/11): GmailApp rompe los emojis (llegaban como «������»). El borrador se arma con la API de Gmail
+  // y un mensaje en UTF-8; si la API falla, se usa GmailApp como antes (sin emojis rotos no queda, pero no se pierde el borrador).
+  var porApi = false;
+  try { var api = borradorApi(p, yo, borrador); if (api) { porApi = true; reemplazado = !!borrador; borrador = api; } } catch (e) { console.error('borradorApi', e); }
+  if (borrador && !porApi) {
+    try { borrador.update(p.para, asuntoSano(borrador.getMessage().getSubject(), p.asunto), p.texto || '', op); reemplazado = true; }
     catch (e) { console.error('update', e); borrador = null; }
   }
   if (!borrador && p.responder) {
@@ -202,8 +206,60 @@ function armarBorrador(p) {
   // Y la etiqueta "AT WORK/Feedback para revisar": ahí quedan todos los borradores que arma la app, para que Flor los revise y los mande.
   var rev = GmailApp.getUserLabelByName(ETIQUETA_REVISAR) || GmailApp.createLabel(ETIQUETA_REVISAR);
   hilo.addLabel(rev);
-  var link = p.responder && hilo.getMessageCount() > 1 ? hilo.getPermalink() : 'https://mail.google.com/mail/u/0/#drafts?compose=' + borrador.getMessage().getId();
-  return { ok: true, asunto: borrador.getMessage().getSubject(), link: link, reemplazado: reemplazado };
+  return { ok: true, asunto: borrador.getMessage().getSubject(), link: linkBorrador(borrador.getMessage(), hilo, yo), reemplazado: reemplazado };
+}
+
+// Link para abrir el borrador directo, en la cuenta de Flor (no en la primera cuenta del navegador).
+function linkBorrador(m, hilo, yo) {
+  var base = 'https://mail.google.com/mail/?authuser=' + encodeURIComponent(yo || Session.getEffectiveUser().getEmail());
+  return hilo && hilo.getMessageCount() > 1 ? base + '#all/' + hilo.getId() : base + '#drafts?compose=' + m.getId();
+}
+
+// Si el asunto guardado quedó con emojis rotos, se usa el asunto que manda la app.
+function asuntoSano(actual, nuevo) { return /\uFFFD/.test(String(actual || '')) || !actual ? (nuevo || actual || 'Feedback') : actual; }
+
+// Arma (o reemplaza) el borrador con la API de Gmail, en UTF-8, para que los emojis lleguen bien.
+// Devuelve el GmailDraft o null si no pudo.
+function borradorApi(p, yo, existente) {
+  var token = ScriptApp.getOAuthToken();
+  var threadId = '', asunto = p.asunto || 'Feedback', inReply = '', refs = '';
+  var previo = function (h) {
+    // El último mensaje del hilo que no es borrador: a ese se responde (así el borrador queda en el mismo hilo).
+    var ms = h.getMessages().filter(function (x) { return !x.isDraft(); });
+    if (!ms.length) return;
+    var u = ms[ms.length - 1];
+    inReply = u.getHeader('Message-ID') || ''; refs = ((u.getHeader('References') || '') + ' ' + inReply).trim();
+    asunto = /^\s*re\s*:/i.test(u.getSubject()) ? u.getSubject() : 'Re: ' + u.getSubject();
+  };
+  if (existente) {
+    var em = existente.getMessage(), eh = em.getThread();
+    threadId = eh.getId(); asunto = asuntoSano(em.getSubject(), p.asunto);
+    if (eh.getMessageCount() > 1) previo(eh);
+  } else if (p.responder) {
+    try {
+      var o = GmailApp.getMessageById(p.responder);
+      if (o && o.getFrom().toLowerCase().indexOf(String(p.para).toLowerCase()) >= 0) { threadId = o.getThread().getId(); previo(o.getThread()); }
+    } catch (e) { console.error('responder api', e); }
+  }
+  var raw = Utilities.base64EncodeWebSafe(Utilities.newBlob(mimeUtf8(yo, p.para, asunto, p.texto || '', p.html || '', inReply, refs)).getBytes());
+  var msg = { raw: raw }; if (threadId) msg.threadId = threadId;
+  var url = 'https://gmail.googleapis.com/gmail/v1/users/me/drafts' + (existente ? '/' + encodeURIComponent(existente.getId()) : '');
+  var r = UrlFetchApp.fetch(url, { method: existente ? 'put' : 'post', contentType: 'application/json', payload: JSON.stringify(existente ? { id: existente.getId(), message: msg } : { message: msg }),
+    headers: { Authorization: 'Bearer ' + token }, muteHttpExceptions: true });
+  if (r.getResponseCode() !== 200) { console.error('drafts api', r.getResponseCode(), r.getContentText().slice(0, 300)); return null; }
+  return GmailApp.getDraft(JSON.parse(r.getContentText()).id);
+}
+
+function b64Lineas(s) { return Utilities.base64Encode(s, Utilities.Charset.UTF_8).replace(/(.{76})/g, '$1\r\n'); }
+function cabeceraUtf8(s) { return /^[\x20-\x7E]*$/.test(s) ? s : '=?UTF-8?B?' + Utilities.base64Encode(s, Utilities.Charset.UTF_8) + '?='; }
+
+function mimeUtf8(yo, para, asunto, texto, html, inReply, refs) {
+  var b = 'atw' + Utilities.getUuid().replace(/-/g, '');
+  var h = ['From: ' + cabeceraUtf8('Florencia Persico') + ' <' + yo + '>', 'To: ' + para, 'Bcc: ' + yo, 'Subject: ' + cabeceraUtf8(asunto), 'MIME-Version: 1.0'];
+  if (inReply) { h.push('In-Reply-To: ' + inReply); h.push('References: ' + refs); }
+  h.push('Content-Type: multipart/alternative; boundary="' + b + '"');
+  var parte = function (tipo, c) { return '--' + b + '\r\nContent-Type: ' + tipo + '; charset="UTF-8"\r\nContent-Transfer-Encoding: base64\r\n\r\n' + b64Lineas(c) + '\r\n'; };
+  return h.join('\r\n') + '\r\n\r\n' + parte('text/plain', texto) + (html ? parte('text/html', html) : '') + '--' + b + '--';
 }
 
 // Clases del Calendar entre dos momentos: título, horario, Meet, invitadas y adjuntos (hoja de clase, notas, grabación).
@@ -249,6 +305,7 @@ function buscarBorrador(p) {
 }
 
 function listarBorradores(mails) {
+  var yo = Session.getEffectiveUser().getEmail();
   var quien = {}; mails.forEach(function (x) { quien[String(x).toLowerCase()] = 1; });
   var out = [];
   GmailApp.getDrafts().forEach(function (d) {
@@ -257,8 +314,8 @@ function listarBorradores(mails) {
     if (!para) return;
     var hilo, ids;
     try { hilo = m.getThread(); ids = hilo.getMessages().map(function (x) { return x.getId(); }).filter(function (x) { return x !== m.getId(); }); } catch (e) { return; }
-    out.push({ para: para, asunto: m.getSubject(), hilo: ids, fecha: m.getDate().toISOString(),
-      link: ids.length ? hilo.getPermalink() : 'https://mail.google.com/mail/u/0/#drafts?compose=' + m.getId() });
+    out.push({ para: para, asunto: m.getSubject(), hilo: ids, fecha: m.getDate().toISOString(), roto: /\uFFFD/.test(m.getSubject() + m.getPlainBody()),
+      link: linkBorrador(m, hilo, yo) });
   });
   return { ok: true, borradores: out };
 }

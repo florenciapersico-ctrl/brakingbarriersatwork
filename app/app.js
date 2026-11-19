@@ -7,6 +7,8 @@
 
   // ---------- utilidades ----------
   const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  // Links de Gmail en la cuenta de Flor (con «u/0» se abría la primera cuenta del navegador, que puede no ser la suya).
+  const gmLink = (l) => String(l || '').replace('https://mail.google.com/mail/u/0/', 'https://mail.google.com/mail/?authuser=florenciapersico%40breakingbarriers.site');
   const $ = (s, el = document) => el.querySelector(s);
   const $$ = (s, el = document) => [...el.querySelectorAll(s)];
   const fecha = (iso, opt = { day: 'numeric', month: 'short' }) => { if (!iso) return ''; const d = new Date(iso.length === 10 ? iso + 'T12:00:00' : iso); return d.toLocaleDateString('es', opt); };
@@ -2141,7 +2143,7 @@ ${cuerpo}`;
           const out = await DB.borradorMail(q);
           let n = $('.gm', it);
           if (!n) { $('.row.between', it).insertAdjacentHTML('afterend', '<p class="note small gm"></p>'); n = $('.gm', it); }
-          n.innerHTML = `Listo: ${out.reemplazado ? 'actualicé el borrador que ya tenías' : 'el borrador está'} en tu Gmail${out.link ? ` · <a href="${esc(out.link)}" target="_blank" rel="noopener">Abrirlo</a>` : ''}. Revísalo y mándalo desde ahí: cuando lo mandes, esto se marca respondido solo.`;
+          n.innerHTML = `Listo: ${out.reemplazado ? 'actualicé el borrador que ya tenías' : 'el borrador está'} en tu Gmail${out.link ? ` · <a href="${esc(gmLink(out.link))}" target="_blank" rel="noopener"><b>Abrir el borrador</b></a>` : ''}. Revísalo y mándalo desde ahí: cuando lo mandes, esto se marca respondido solo.`;
           btn.textContent = 'Armar el borrador de nuevo';
           toast('Borrador listo en tu Gmail');
           return true;
@@ -2239,9 +2241,14 @@ ${cuerpo}`;
         if (!gd.length) return;
         const base = (a) => String(a || '').replace(/^\s*((re|rv|fwd?)\s*:\s*)+/i, '').replace(/[^\wÀ-ÿ\/·:.\- ]/g, '').replace(/\s+/g, ' ').trim().toLowerCase();
         const usados = new Set();
+        // Abrir el borrador directo desde la app (Flor, 19/11), también en los weeklies y cuando ya lo habías armado.
+        const abrir = (d) => d.link ? ` · <a class="gm-abrir" href="${esc(gmLink(d.link))}" target="_blank" rel="noopener"><b>Abrir el borrador</b></a>` : '';
+        const roto = (d) => d.roto ? ' <b>⚠️ Tiene emojis rotos:</b> tocá «Armar borrador en Gmail» de nuevo y queda bien.' : '';
         const marcar = (it, d) => {
-          if (!document.body.contains(it) || $('.gm', it)) return;
-          $('.row.between', it).insertAdjacentHTML('afterend', `<p class="note small gm">Ya tenés un borrador para esto en tu Gmail${d.link ? ` · <a href="${esc(d.link)}" target="_blank" rel="noopener">Abrirlo</a>` : ''}. Si armás el borrador desde acá, reemplaza ese.</p>`);
+          if (!document.body.contains(it)) return;
+          const ya = $('.gm', it);
+          if (ya) { if (!$('.gm-abrir', ya)) ya.insertAdjacentHTML('beforeend', abrir(d) + roto(d)); return; }
+          $('.row.between', it).insertAdjacentHTML('afterend', `<p class="note small gm">Ya tenés un borrador para esto en tu Gmail${abrir(d)}. Si armás el borrador desde acá, reemplaza ese.${roto(d)}</p>`);
         };
         $$('[data-mail]').forEach((it) => {
           const mail = it.dataset.mail, or = String(it.dataset.or || ''), mas = base(it.dataset.mas), sem = it.dataset.sem;
@@ -2256,7 +2263,7 @@ ${cuerpo}`;
         $$('[data-mail]').forEach((it) => {
           if ($('.gm', it)) return;
           const otros = gd.filter((g) => g.para === it.dataset.mail && !usados.has(g));
-          if (otros.length) $('.row.between', it).insertAdjacentHTML('afterend', `<p class="note small gm-otro">Ojo: tenés ${otros.length === 1 ? 'un borrador' : otros.length + ' borradores'} para ella en Gmail (${otros.map((g) => `«${esc(g.asunto)}»`).join(', ')}). Fijate que no sea de esto antes de armar otro.</p>`);
+          if (otros.length) $('.row.between', it).insertAdjacentHTML('afterend', `<p class="note small gm-otro">Ojo: tenés ${otros.length === 1 ? 'un borrador' : otros.length + ' borradores'} para ella en Gmail (${otros.map((g) => g.link ? `<a href="${esc(gmLink(g.link))}" target="_blank" rel="noopener">«${esc(g.asunto)}»</a>` : `«${esc(g.asunto)}»`).join(', ')}). Fijate que no sea de esto antes de armar otro.</p>`);
         });
       })();
 
