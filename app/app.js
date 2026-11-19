@@ -1060,7 +1060,7 @@ ${pasados.length ? pasados.map((f) => { const x = G[f], gg = x.g || {}, rr = x.r
   <div class="row" style="gap:8px;flex-wrap:wrap"><button type="button" class="btn ghost sm" data-mdcopy="${esc(txtW)}">Copy my wins</button><a class="btn ghost sm" href="#weekly">Open my Weekly report</a></div>` : '<p class="muted small">No wins written yet this week.</p>'}
   <p class="hab-sec">Day by day</p>${L.map(dia).join('')}
 </details>`; };
-    return `<section class="card registro md-noprint" id="mdlog"><div class="row between"><h2>📖 My log</h2><span class="muted small">${T.filter((x) => x.d.hecho).length} days</span></div>
+    return `<section class="card registro md-noprint" id="mdlog"><div class="row between"><h2>📖 My log</h2><span class="muted small">${((n) => n + (n === 1 ? ' day' : ' days'))(T.filter((x) => x.d.hecho).length)}</span></div>
   <p class="muted small">Your past days and, week by week, what you achieved. Use it for your Weekly report.</p>
   ${sems.map(sem).join('')}
 </section>`;
