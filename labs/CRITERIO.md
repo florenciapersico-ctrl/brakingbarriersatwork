@@ -52,3 +52,20 @@ Lo lee la tarea programada "🧪 Lab del sábado" antes de armar cada lab. Se ac
 ## Feedback de cada lab
 
 (La tarea agrega acá, con fecha, lo que Flor dejó en la app sobre cada lab.)
+
+### Lab 02 · 14/11 (del registro del lab, "Qué ajustar" y "Para el próximo lab"; agregado el 19/11)
+
+- **Un solo tema y un ciclo completo para todas**: el Lab 02 abarcó demasiados temas y no todas hicieron
+  producción → feedback → segundo intento. Si no entra, se recorta contenido, no el ciclo.
+- **Teoría 5 minutos como máximo por bloque y arrancar directo con la práctica**: la consigna de práctica
+  tiene que llegar antes del minuto 10.
+- **Cronometrar los 60 segundos** y **hacer siempre la ronda de pregunta inesperada** (en el Lab 02 quedó afuera).
+- **Hot seat**: una alumna presenta algo de su trabajo "para dummies" (algo útil de su rubro, para compañeras
+  de otras industrias) y las demás le preguntan y le dan feedback. Todas dijeron que sí.
+- **Links de copia** (/copy) y compartidos como "Cualquier persona con el enlace · Lector" (el doc no abría:
+  "need access"). **Plan para la que entra desde el celular**: lo dice en voz alta y Flor lo escribe en el chat.
+- **Correcciones con criterio preparado**: no marcar como error algo correcto (pasó con *advise/advice*).
+  Llevar las correcciones dudosas resueltas en el guion. advise (con S) = verbo; advice (con C) = sustantivo.
+- Lo que funcionó y se repite: el aviso de que "los errores son información, no es personal, es un espacio
+  seguro", y que se expliquen cosas entre ellas.
+- Pedidos del grupo: moverse entre los tiempos verbales, estructura del mensaje y tips simples de pronunciación.
