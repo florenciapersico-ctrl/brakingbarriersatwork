@@ -1815,7 +1815,10 @@ ${semanaContenido(st._semC, (() => { const d = new Date(lun + 'T12:00:00'); d.se
     async html() {
       if (st.admin && !DB.demo) { st._progFlor = true; return progresoFlor(); }
       st._progFlor = false;
-      const [pat, ped, ws, docs] = await Promise.all([DB.patrones(), DB.pedidos(), DB.weeklies(), DB.documentos().catch(() => [])]);
+      let [pat, ped, ws, docs] = await Promise.all([DB.patrones(), DB.pedidos(), DB.weeklies(), DB.documentos().catch(() => [])]);
+      // Las grabaciones de las clases NUNCA se muestran a las alumnas (Flor, 20/11). El Starting Point es solo su audio.
+      const esGrab = (d) => /recording|grabaci[oó]n de (tu|la|su) (primera )?clase|class .*recording/i.test(String(d.nombre || '') + ' ' + String(d.path || ''));
+      docs = docs.filter((d) => !esGrab(d));
       const audio = docs.find((d) => d.tipo === 'starting'), mios = docs.filter((d) => d.tipo === 'material');
       const p = st.perfil;
       const hace28 = Date.now() - 28 * 864e5;
@@ -1841,7 +1844,7 @@ ${semanaContenido(st._semC, (() => { const d = new Date(lun + 'T12:00:00'); d.se
     ${mios.length ? `<ul class="dates">${mios.map((d) => `<li><span><button type="button" class="linkbtn small" data-archivo="${esc(d.path)}">${esc(d.nombre)}</button> <span class="muted small">· ${fecha(d.creado)}</span></span></li>`).join('')}</ul>` : ''}
   </section>
   <section class="card"><span class="eyebrow">Audio de punto de partida</span>
-    ${p.audio_inicio ? `<p><b>Grabado el ${fecha(p.audio_inicio, { day: 'numeric', month: 'long' })}</b></p>${audio ? `<button type="button" class="btn ghost sm" style="align-self:flex-start" data-archivo="${esc(audio.path)}">Escuchar mi punto de partida</button>` : ''}<p class="muted small">Al cerrar el programa grabas el mismo audio y lo comparan juntas.</p>` : '<p class="muted small">Todavía no está. Grábalo (3–5 min hablando de tu trabajo) y mándaselo a Flor.</p><a class="btn ghost sm" href="#feedback">Mandar mi audio</a>'}
+    ${p.audio_inicio ? `<p><b>Grabado el ${fecha(p.audio_inicio, { day: 'numeric', month: 'long' })}</b></p>${audio ? `<button type="button" class="btn ghost sm" style="align-self:flex-start" data-archivo="${esc(audio.path)}">Escuchar mi punto de partida</button>` : ''}<p class="muted small">Al cerrar el programa grabas el mismo audio y lo comparan juntas.</p>` : '<p class="muted small">Todavía no está. Sube tu primer audio del programa para tu Starting Point: 3 a 5 minutos hablando de tu trabajo, en inglés.</p><a class="btn ghost sm" href="#feedback">Subir mi primer audio</a>'}
   </section>
 </div>
 <section class="card">
