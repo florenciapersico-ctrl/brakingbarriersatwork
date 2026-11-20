@@ -1684,6 +1684,26 @@ ${semanaContenido(st._semC, (() => { const d = new Date(lun + 'T12:00:00'); d.se
     } catch (e) { /* si falla, queda lo que había */ }
   });
 
+  // La app queda abierta en el celular (Flor, 20/11): cuando vuelve a la pantalla después de 3 minutos o más,
+  // trae de nuevo el perfil y lo del programa y vuelve a dibujar la pantalla. Solo en pantallas de lectura:
+  // donde se escribe (weekly, feedback, My Day, Flor AI, fichas) no se toca nada, para no perder lo escrito.
+  const SE_REFRESCAN = ['semana', 'clases', 'camino', 'inicio', 'progreso', 'empieza', 'coaches'];
+  let ocultaDesde = 0;
+  document.addEventListener('visibilitychange', async () => {
+    if (document.visibilityState === 'hidden') { ocultaDesde = Date.now(); return; }
+    const pasaron = ocultaDesde ? Date.now() - ocultaDesde : 0; ocultaDesde = 0;
+    if (!st.perfil || pasaron < 3 * 6e4) return;
+    try {
+      const [p, pr] = await Promise.all([DB.miPerfil(), DB.programa().catch(() => null)]);
+      if (p) st.perfil = p; if (pr) st.programa = pr;
+      st._clasesHoy = null; // «Hoy tienen clase» de Flor: se vuelve a leer el Calendar
+      const v = location.hash.replace(/^#/, '').split('/')[0] || 'semana';
+      const enfocado = document.activeElement && /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName);
+      const sinGuardar = [...document.querySelectorAll('#app textarea, #app input[type="text"]')].some((x) => x.value !== x.defaultValue);
+      if (SE_REFRESCAN.includes(v) && !enfocado && !sinGuardar) await ruta();
+    } catch (e) { /* sin conexión: queda lo que había */ }
+  });
+
   // ---------- Semana de prueba de Flor (16 al 21/11) ----------
   const PRUEBA_HASTA = '2026-11-22';
   const PRUEBA = [['inicio', 'Arrancar el día desde Inicio (Mi día y la una sola cosa)'], ['ok', 'Después de cada clase: OK y fijarme que diga «Resumen enviado»'], ['bandeja', 'Responder weeklies y tareas desde la Bandeja'], ['ficha', 'Abrir la ficha de una alumna antes de su clase'], ['alumna', 'Ver la app como alumna y anotar lo que confunde']];
