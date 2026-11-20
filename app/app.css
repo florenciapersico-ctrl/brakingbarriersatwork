@@ -510,3 +510,10 @@ details.lb[open]>summary h3::after{content:" ⌄"}
   body.md-imprimir .rit-auto{border:0;padding:0;min-height:0}
   body.md-imprimir .shell,body.md-imprimir .mainwrap{display:block}
 }
+
+/* Celular (20/11): ningún texto largo puede ensanchar la página.
+   Las pastillas largas (p. ej. «Video en grabación · ya puedes trabajarla…») se parten en líneas. */
+.pill{max-width:100%;min-width:0}
+.tasks .pill,.semana .pill{white-space:normal;line-height:1.35;text-align:left}
+main{overflow-wrap:break-word}
+.mainwrap{overflow-x:clip}
