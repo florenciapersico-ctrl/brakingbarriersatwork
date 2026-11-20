@@ -125,7 +125,7 @@
         T('6.4', 'M2 · Explicar ideas', 'clase', 'Módulo 2', { pronto: true })
       ] },
       { s: [7], titulo: 'Tu situación de trabajo', tareas: [
-        T('7.1', 'M2 · Talking About Numbers & Data', 'clase', 'Módulo 2', { link: M2('3b4e5f4e-1fde-4974-a59f-651260ae4a6d') }),
+        T('7.1', 'M2 · Talking About Numbers & Data', 'clase', 'Módulo 2', { link: M2('3b4e5f4e-1fde-4974-a59f-651260ae4a6d'), ws: 'https://docs.google.com/document/d/1S9b9mv_-zyozXJlcdZ2Xh463GCoWk2sJSrJ_32ZW1cQ/copy', wsExtra: true }),
         T('7.2', 'M2 · Presentaciones: parte 1', 'clase playbook', 'Módulo 2', { link: M2('ecdd7925-c11f-4276-9db3-e985ff8be613') }),
         T('7.3', 'M2 · Presentaciones: parte 2', 'clase playbook', 'Módulo 2', { link: M2('363344d6-a536-4ed7-97df-15565cbd16f3') })
       ] },
@@ -153,13 +153,13 @@
       { s: [11], titulo: 'Precisión', tareas: [
         T('11.1', 'M3 · Nouns, Articles & Agreement', 'clase', 'Módulo 3', { link: M3('99891d26-ef2b-469c-b27c-1a0a496c6edc') }),
         T('11.2', 'M3 · Relative Clauses: who, which, that', 'clase', 'Módulo 3', { link: M3('c4a14c4d-2aac-46aa-881d-314b173296bc') }),
-        T('11.3', 'M3 · Modals: Say How Strong You Mean It', 'clase', 'Módulo 3', { link: M3('038f2779-dc42-4a35-bdce-3a2e94dcb655'), cb: cb('mod','m1','m2','m3','m4','m5') })
+        T('11.3', 'M3 · Modals: Say How Strong You Mean It', 'clase', 'Módulo 3', { link: M3('038f2779-dc42-4a35-bdce-3a2e94dcb655'), ws: 'https://docs.google.com/document/d/1MAWnadKruW95_8WlKmuf5kD3_u8_aTUuWT4UvOsLaRk/copy', cb: cb('mod','m1','m2','m3','m4','m5') })
       ] },
       { s: [12], titulo: 'Preguntar y reportar', tareas: [
         T('12.1', 'M3 · Questions & Indirect Questions', 'clase', 'Módulo 3', { link: M3('6eb79084-3227-4ab0-bfbb-03cb0d9cc256'), cb: cb('rsQ') }),
-        T('12.2', 'M3 · Conditionals for Real Work Situations', 'clase', 'Módulo 3', { pronto: true, cb: cb('cond','c0','c1','c2','c3','cM') }),
-        T('12.3', 'M3 · Reported Speech & Reporting Information', 'clase', 'Módulo 3', { pronto: true, cb: cb('rs','rsQ','rsC','rsV') }),
-        T('12.5', 'M3 · Passive Voice for Processes & Reporting', 'clase', 'Módulo 3', { pronto: true, cb: cb('pas') }),
+        T('12.2', 'M3 · Conditionals for Real Work Situations', 'clase', 'Módulo 3', { pronto: true, ws: 'https://docs.google.com/document/d/1VJOClcnOwTYyiJu7muBc8KsVDMQzeaE8AgX9nR6kx8A/copy', cb: cb('cond','c0','c1','c2','c3','cM') }),
+        T('12.3', 'M3 · Reported Speech & Reporting Information', 'clase', 'Módulo 3', { pronto: true, ws: 'https://docs.google.com/document/d/113cL_En2vfJ3VGIiqYjv07Gpb-D1A_q67pOsKsCgK5E/copy', cb: cb('rs','rsQ','rsC','rsV') }),
+        T('12.5', 'M3 · Passive Voice for Processes & Reporting', 'clase', 'Módulo 3', { pronto: true, ws: 'https://docs.google.com/document/d/1r3h2FYyk6XES7uzAn7aEKNbb906VpJ1bI_hm5NRAUzM/copy', cb: cb('pas') }),
         T('12.6', 'M3 · Word Families & Nominalization', 'clase', 'Módulo 3', { pronto: true }),
         T('12.4', 'M3 · The Accuracy Challenge: tu Error Radar', 'clase evidencia', 'Módulo 3', { pronto: true })
       ] }
