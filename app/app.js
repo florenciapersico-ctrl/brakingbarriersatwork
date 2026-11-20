@@ -386,7 +386,9 @@
     if (t.ir === '#weekly' || t.onb) return null;
     if (t.id === '1.2') return { label: 'Subir mi acuerdo firmado', tipo: 'tarea', doc: 'acuerdo' };
     if (t.id === '1.3' || t.id === '19.1') return { label: 'Subir mi Starting Point', tipo: 'audio', doc: 'starting' };
-    if (/clase|playbook|worksheet/.test(t.tipo)) return { label: 'Subir mi playbook', tipo: 'playbook' };
+    if (t.entrega) return { label: t.entrega, tipo: 'playbook' };
+    // Desde el 14/11 se usan worksheets (no playbooks): si la clase tiene worksheet, se sube la worksheet.
+    if (/clase|playbook|worksheet/.test(t.tipo)) return { label: t.ws && !t.wsExtra ? 'Subir mi worksheet' : 'Subir mi playbook', tipo: 'playbook' };
     if (/evidencia|practica|material/.test(t.tipo)) return { label: 'Subir mi tarea', tipo: 'tarea' };
     return null;
   }
