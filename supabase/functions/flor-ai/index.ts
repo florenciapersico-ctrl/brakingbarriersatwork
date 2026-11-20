@@ -63,6 +63,30 @@ async function prompt(nombre: string): Promise<string> {
   }
 }
 
+// Clases que Flor publicó desde el panel («Ya la grabé» + link de la academia, 20/11): ganan sobre el PRONTO de programa.md.
+// deno-lint-ignore no-explicit-any
+async function programaVigente(db: any): Promise<string> {
+  const prog = await prompt("programa.md");
+  try {
+    const { data } = await db.from("programa").select("flor").eq("id", 1).single();
+    const pub = (data?.flor?.publicadas || {}) as Record<string, { link?: string; texto?: string } | string>;
+    let out = prog;
+    const extra: string[] = [];
+    for (const v of Object.values(pub)) {
+      const link = typeof v === "string" ? v : v?.link;
+      const texto = typeof v === "string" ? "" : v?.texto || "";
+      if (!link || !texto) continue;
+      const linea = out.split("\n").find((l) => l.startsWith("- " + texto + " [") && l.includes(" PRONTO"));
+      if (linea) out = out.replace(linea, linea.split(" PRONTO")[0] + " → " + link);
+      else if (!out.includes(link)) extra.push(`- ${texto} → ${link}`);
+    }
+    return extra.length ? out + "\n\n## Clases publicadas hace poco (ya no están en grabación)\n" + extra.join("\n") : out;
+  } catch (e) {
+    console.error("programaVigente", e);
+    return prog;
+  }
+}
+
 function json(body: unknown, status = 200) {
   return new Response(JSON.stringify(body), { status, headers: { ...CORS, "Content-Type": "application/json" } });
 }
@@ -417,7 +441,7 @@ ${(x.weeklies || []).filter((e: any) => e.semana < imp.semana).slice(0, 3).map((
     }
 
     if (!Deno.env.get("ANTHROPIC_API_KEY")) throw new Error("FALTA_CLAVE");
-    const [sist, prog, ctx, conApp, hoyClase] = await Promise.all([prompt("borrador.md"), prompt("programa.md"), imp ? Promise.resolve(ctxImp) : contexto(admin, admin, alumnaId), alumnasConApp(admin), tabla === "pedidos" ? claseDeHoy(admin, alumnaId) : Promise.resolve("")]);
+    const [sist, prog, ctx, conApp, hoyClase] = await Promise.all([prompt("borrador.md"), programaVigente(admin), imp ? Promise.resolve(ctxImp) : contexto(admin, admin, alumnaId), alumnasConApp(admin), tabla === "pedidos" ? claseDeHoy(admin, alumnaId) : Promise.resolve("")]);
     const r = await ia().messages.create({
       model: MODEL,
       max_tokens: 16000,
@@ -950,7 +974,7 @@ Deno.serve(async (req) => {
   await db.from("mensajes").insert({ chat_id: chat.id, rol: "user", contenido: mensaje });
   if (!previos.length) await db.from("chats").update({ titulo: mensaje.slice(0, 60) }).eq("id", chat.id);
 
-  const [flor, prog, ctx] = await Promise.all([prompt("flor-ai.md"), prompt("programa.md"), contexto(db, admin, uid)]);
+  const [flor, prog, ctx] = await Promise.all([prompt("flor-ai.md"), programaVigente(admin), contexto(db, admin, uid)]);
   const messages = [...previos.map((m: { rol: string; contenido: string }) => ({ role: m.rol, content: m.contenido })), { role: "user", content: mensaje }];
   const params = {
     model: MODEL,

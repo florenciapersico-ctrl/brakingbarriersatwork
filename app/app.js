@@ -323,7 +323,19 @@
 
   window.addEventListener('hashchange', () => { if (st.perfil) ruta(); });
 
+  // Clases publicadas desde el panel (Flor, 20/11): cuando Flor marca «Ya la grabé» y pega el link de la academia,
+  // la clase deja de estar «en grabación» para todas (Mi camino, Mi semana, Flor AI) sin tocar el código.
+  function aplicarPublicadas() {
+    const pub = ((st.programa || {}).flor || {}).publicadas || {};
+    for (const m of P.camino) for (const s of m.semanas) for (const t of s.tareas) {
+      if (!('_pronto0' in t)) { t._pronto0 = !!t.pronto; t._link0 = t.link; }
+      const l = pub[t.id] && (pub[t.id].link || pub[t.id]);
+      if (t._pronto0 && typeof l === 'string' && url(l)) { t.pronto = false; t.link = l; }
+      else { t.pronto = t._pronto0; t.link = t._link0; }
+    }
+  }
   async function ruta() {
+    aplicarPublicadas();
     const [v, ...args] = location.hash.replace(/^#/, '').split('/');
     let vista = V[v] && (!ADMIN.some(([id]) => id === v) || st.admin) ? v : 'semana';
     if (vista === 'inicio' && !esFlor()) vista = 'semana';
@@ -1366,6 +1378,44 @@ ${P.camino.map((m) => { const pm = pctMes(m); return `<details class="card mes" 
     if (u.trim() && !url(u.trim())) { toast('El link tiene que empezar con https://', true); return false; }
     await guardarF({ grabar: { ...(st._flor.grabar || {}), [id]: u.trim() } }, 'Link guardado'); return true;
   }
+  const textoClase = (id) => ((P.camino.flatMap((m) => m.semanas.flatMap((x) => x.tareas)).find((t) => t.id === id) || {}).texto || '');
+  const ACADEMIA = 'https://academy.breakingbarriers.site/';
+  // «Ya la grabé»: si ya la subiste, pegás el link de la academia y queda publicada para todas tus alumnas.
+  async function marcarGrabada(id) {
+    const u = prompt('¿Ya la subiste a la academia? Pega el link de la clase y se publica sola para todas tus alumnas (Mi camino, su roadmap y Flor AI).\n\nSi todavía no la subiste, déjalo vacío: queda como «Grabada · falta subirla» y pegas el link después.', '');
+    if (u == null) return;
+    const l = u.trim();
+    if (l && !l.startsWith(ACADEMIA)) { toast('Tiene que ser el link de la clase en la academia (' + ACADEMIA + '…)', true); return; }
+    const grabadas = (st._flor.grabadas || []).includes(id) ? st._flor.grabadas : [...(st._flor.grabadas || []), id];
+    const cambios = { grabadas };
+    if (l) cambios.publicadas = { ...(st._flor.publicadas || {}), [id]: { link: l, texto: textoClase(id) } };
+    await guardarF(cambios, l ? '✓ Publicada: ' + textoClase(id) + '. Ya la ven tus alumnas.' : '✓ Grabada: ' + textoClase(id) + '. Cuando la subas, pega el link.');
+    ruta();
+  }
+  async function publicarClase(id) {
+    const ya = ((st._flor || {}).publicadas || {})[id];
+    const u = prompt('Pega el link de la clase en la academia. Se publica sola para todas tus alumnas:', (ya && (ya.link || ya)) || '');
+    if (u == null) return;
+    const l = u.trim();
+    const pub = { ...((st._flor || {}).publicadas || {}) };
+    if (!l) delete pub[id];
+    else if (!l.startsWith(ACADEMIA)) { toast('Tiene que ser el link de la clase en la academia (' + ACADEMIA + '…)', true); return; }
+    else pub[id] = { link: l, texto: textoClase(id) };
+    await guardarF({ publicadas: pub }, l ? '✓ Publicada: ' + textoClase(id) : 'Vuelve a «Grabada · falta subirla»');
+    ruta();
+  }
+  async function desmarcarGrabada(id) {
+    const pub = { ...((st._flor || {}).publicadas || {}) }; delete pub[id];
+    await guardarF({ grabadas: (st._flor.grabadas || []).filter((x) => x !== id), publicadas: pub }, 'Vuelve a la lista para grabar');
+    ruta();
+  }
+  document.addEventListener('click', (e) => {
+    const b = e.target.closest('[data-grab],[data-desgrab],[data-publicar]'); if (!b || !st._flor) return;
+    e.preventDefault(); e.stopImmediatePropagation();
+    if (b.dataset.grab) marcarGrabada(b.dataset.grab);
+    else if (b.dataset.desgrab) desmarcarGrabada(b.dataset.desgrab);
+    else publicarClase(b.dataset.publicar);
+  }, true);
   async function progresoFlor() {
     const b = await cargarBandeja();
     const F = Object.assign({ objetivo: 'Terminar de grabar el programa y crear contenido todos los días', grabadas: [], contenido: {}, recordatorios: {}, links: {} }, st.programa.flor || {});
@@ -1414,7 +1464,7 @@ ${P.camino.map((m) => { const pm = pctMes(m); return `<details class="card mes" 
     <span class="muted small">Va en la semana ${g.desde}. ${g.quienes.map((x) => nom1(x.a.nombre) + ' (semana ' + x.n + ')').join(', ')} ${g.ya ? (g.quienes.length === 1 ? 'ya llegó' : 'ya llegaron') : 'llega' + (g.quienes.length === 1 ? '' : 'n')}.</span></span>
     <span class="row" style="gap:6px;flex-wrap:wrap;justify-content:flex-end">${lkG(g.t.id) ? `<a class="btn sm" href="${esc(lkG(g.t.id))}" target="_blank" rel="noopener">🎬 Abrir todo para grabar</a><button type="button" class="linkbtn small" data-glink="${esc(g.t.id)}">Cambiar link</button>` : `<button type="button" class="btn ghost sm" data-glink="${esc(g.t.id)}">+ Pegar link del material</button>`}
     <button type="button" class="btn ghost sm" data-grab="${esc(g.t.id)}">Ya la grabé</button><button type="button" class="linkbtn small" data-saltar="${esc(g.t.id)}">No la grabo</button></span></div></li>`).join('')}</ul>${porGrabar.length > 3 ? '</details>' : ''}` : '<p class="muted small">Ninguna alumna llegó todavía a una clase en grabación. 🎉</p>'}
-  ${hechasG.length ? `<details class="mas-grabar"><summary class="small">✓ Ya grabadas (${hechasG.length})</summary><ul class="neg">${hechasG.map((t) => `<li class="row between"><span>${esc(t.texto)}</span><button type="button" class="linkbtn small" data-desgrab="${esc(t.id)}">Deshacer</button></li>`).join('')}</ul></details>` : ''}
+  ${hechasG.length ? `<details class="mas-grabar"><summary class="small">✓ Ya grabadas (${hechasG.length})</summary><ul class="neg">${hechasG.map((t) => `<li class="row between"><span>${esc(t.texto)}</span><span class="row" style="gap:6px">${t.pronto ? `<button type="button" class="btn ghost sm" data-publicar="${esc(t.id)}">Ya la subí: pegar el link</button>` : '<span class="pill ok">Publicada</span>'}<button type="button" class="linkbtn small" data-desgrab="${esc(t.id)}">Deshacer</button></span></li>`).join('')}</ul></details>` : ''}
   ${salteadasG.length ? `<details class="mas-grabar"><summary class="small">No las grabo (${salteadasG.length})</summary><ul class="neg">${salteadasG.map((t) => `<li class="row between"><span>${esc(t.texto)}</span><button type="button" class="linkbtn small" data-dessaltar="${esc(t.id)}">Volver a la lista</button></li>`).join('')}</ul></details>` : ''}
 </section>
 <details class="card"><summary><b>Tus links de trabajo</b></summary>
@@ -1489,8 +1539,8 @@ ${P.camino.map((m) => { const pm = pctMes(m); return `<details class="card mes" 
       const fila = (c) => {
         const { t, e } = c, lk = linkGrabar(F, t.id), cb = CB[t.id];
         const quien = e.g ? `<br><span class="muted small">${e.g.quienes.map((x) => nom1(x.a.nombre) + ' (sem. ' + x.n + ')').join(', ')}</span>` : '';
-        const botones = e.k === 'pub' ? (t.link ? `<a class="btn ghost sm" href="${esc(t.link)}" target="_blank" rel="noopener">Ver la clase</a>` : '')
-          : e.k === 'grab' ? `<span class="muted small">Cuando la subas a la academia, avisame y la paso a «Publicada».</span><button type="button" class="linkbtn small" data-desgrab="${esc(t.id)}">Deshacer</button>`
+        const botones = e.k === 'pub' ? (t.link ? `<a class="btn ghost sm" href="${esc(t.link)}" target="_blank" rel="noopener">Ver la clase</a>` : '') + ((F.publicadas || {})[t.id] ? `<button type="button" class="linkbtn small" data-publicar="${esc(t.id)}">Cambiar link</button>` : '')
+          : e.k === 'grab' ? `<button type="button" class="btn sm" data-publicar="${esc(t.id)}">Ya la subí: pegar el link</button><button type="button" class="linkbtn small" data-desgrab="${esc(t.id)}">Deshacer</button>`
           : e.k === 'salt' ? `<button type="button" class="linkbtn small" data-dessaltar="${esc(t.id)}">Volver a la lista</button>`
           : `${lk ? `<a class="btn sm" href="${esc(lk)}" target="_blank" rel="noopener">🎬 Abrir todo para grabar</a><button type="button" class="linkbtn small" data-glink="${esc(t.id)}">Cambiar link</button>` : `<button type="button" class="btn ghost sm" data-glink="${esc(t.id)}">+ Link del material</button>`}<button type="button" class="btn ghost sm" data-grab="${esc(t.id)}">Ya la grabé</button><button type="button" class="linkbtn small" data-saltar="${esc(t.id)}">No la grabo</button>`;
         return `<li><div class="fbitem" style="flex-direction:row;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap"><span><b>${esc(t.texto)}</b> ${e.pill}${quien}
