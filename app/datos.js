@@ -57,7 +57,7 @@
       // ---- alumna ----
       async miPerfil() { return ok(await sb.from('perfiles').select('*').eq('id', uid).single()); },
       async marcarCoaches(si) { ok(await sb.rpc('marcar_coaches', { p_instalados: !!si })); },
-      async guardarMiPerfil(c) { ok(await sb.rpc('guardar_mi_perfil', { p_nombre: c.nombre ?? null, p_objetivo: c.objetivo ?? null, p_onboarding: c.onboarding ?? null, p_camino: c.camino_hecho ?? null, p_compromisos: c.compromisos ?? null })); },
+      async guardarMiPerfil(c) { ok(await sb.rpc('guardar_mi_perfil', { p_nombre: c.nombre ?? null, p_objetivo: c.objetivo ?? null, p_onboarding: c.onboarding ?? null, p_camino: c.camino_hecho ?? null, p_compromisos: c.compromisos ?? null, p_modulo: c.modulo_actual ?? null, p_sentir: c.sentir_inicio ?? null })); },
       // ---- archivos y documentos (bucket privado "atwork", carpeta = id de la alumna) ----
       async subirArchivo(file, carpeta, a = uid) {
         const limpio = file.name.normalize('NFD').replace(/[^\w.\-]+/g, '_').slice(-80);
@@ -281,7 +281,7 @@
       async recuperar() {}, async cambiarClave() {},
       async miPerfil() { const p = copia(S.perfiles.find((x) => x.id === yo())); if (p.id === 'val') p.rol = 'admin'; return p; },
       async marcarCoaches(si) { const p = S.perfiles.find((x) => x.id === yo()); p.coaches_instalados = si ? new Date().toISOString() : null; save(); },
-      async guardarMiPerfil(c) { const p = S.perfiles.find((x) => x.id === yo()); for (const k of ['nombre', 'objetivo', 'onboarding', 'camino_hecho', 'compromisos']) if (c[k] != null) p[k] = c[k]; save(); },
+      async guardarMiPerfil(c) { const p = S.perfiles.find((x) => x.id === yo()); for (const k of ['nombre', 'objetivo', 'onboarding', 'camino_hecho', 'compromisos', 'modulo_actual', 'sentir_inicio']) if (c[k] != null) p[k] = c[k]; save(); },
       async subirArchivo(file, carpeta, a = yo()) { await espera(200); return a + '/' + carpeta + '/' + file.name; },
       async urlArchivo() { return '#'; },
       async documentos(a = yo()) { return copia((S.documentos || []).filter((d) => d.alumna_id === a)); },

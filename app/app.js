@@ -655,7 +655,9 @@ ${sinOnb && !weeklies.length ? `<section class="card feature"><span class="eyebr
   <section class="card kpi"><span class="eyebrow">Weekly · constancia</span><div class="kv"><span class="big">${r.actual}</span><span class="muted small">${r.actual === 1 ? 'lunes seguido' : 'lunes seguidos'}<br>Récord: ${r.rec}</span></div>
     <div class="streak">${r.celdas.map((c) => `<div class="${c.on ? 'on' : ''} ${c.hoy ? 'now' : ''}" title="${fecha(c.s)}">${c.on ? '✓' : c.hoy ? 'Hoy' : ''}</div>`).join('')}</div></section>
   <section class="card kpi"><span class="eyebrow">${fmt(p) === '1:1' ? 'En vivo con Flor' : 'Tu próximo lab'}</span><b class="kt">${enVivo.t}</b><span class="muted small">${enVivo.d}</span>${enVivo.link ? `<a class="small" href="${esc(enVivo.link)}" target="_blank" rel="noopener">${fmt(p) === '1:1' ? 'Entrar a tu clase ›' : 'Entrar al lab ›'}</a>` : ''}<a class="small" href="#clases">${fmt(p) === '1:1' ? 'Tus clases anteriores ›' : 'Tus labs anteriores ›'}</a></section>
-  <section class="card kpi"><span class="eyebrow">Dónde estás</span><b class="kt">${esc('M' + (P.modulos[p.modulo_actual || 0] || P.modulos[0]).n + ' · ' + (P.modulos[p.modulo_actual || 0] || P.modulos[0]).nombre)}</b><span class="muted small">${(p.clases_asignadas || []).length ? 'Te toca: ' + esc(p.clases_asignadas[p.clases_asignadas.length - 1]) : 'Lo actualiza Flor en tu clase'}</span><a class="small" href="#camino">Ver mi camino ›</a></section>
+  <section class="card kpi"><span class="eyebrow">Dónde estás</span><b class="kt" id="mod-t">${esc('M' + (P.modulos[p.modulo_actual || 0] || P.modulos[0]).n + ' · ' + (P.modulos[p.modulo_actual || 0] || P.modulos[0]).nombre)}</b><span class="muted small">${(p.clases_asignadas || []).length ? 'Te toca: ' + esc(p.clases_asignadas[p.clases_asignadas.length - 1]) : 'Elige tú en qué módulo estás; Flor también lo puede cambiar.'}</span>
+    <label class="small muted" for="mod-yo">¿En qué módulo estás?</label><select id="mod-yo" class="sm">${P.modulos.map((m) => `<option value="${m.n}"${+(p.modulo_actual || 0) === m.n ? ' selected' : ''}>M${m.n} · ${esc(m.nombre)}</option>`).join('')}</select>
+    <a class="small" href="#camino">Ver mi camino ›</a></section>
 </div>
 ${fmt(p) === '1:1' ? '' : caminoSemanaHTML(p)}
 <details class="card mas"><summary><b>Flor AI, tu recorrido y tus accesos</b><span class="muted small">Abrir</span></summary>
@@ -679,6 +681,13 @@ ${fmt(p) === '1:1' ? '' : caminoSemanaHTML(p)}
     },
     mount() {
       montarCamino($('#app'));
+      // La alumna elige ella misma su módulo (migración 21); Flor lo puede seguir cambiando desde su panel.
+      if ($('#mod-yo')) $('#mod-yo').onchange = async (e) => {
+        const n = +e.target.value, m = P.modulos.find((x) => x.n === n) || P.modulos[0], antes = st.perfil.modulo_actual;
+        st.perfil.modulo_actual = n; $('#mod-t').textContent = 'M' + m.n + ' · ' + m.nombre;
+        try { await intentar(() => DB.guardarMiPerfil({ modulo_actual: n }), 'Listo, quedó guardado'); }
+        catch (er) { st.perfil.modulo_actual = antes; e.target.value = String(antes || 0); }
+      };
       const el = $('#tasks'); if (!el) return ($('#taskCount') ? ($('#taskCount').textContent = '0') : null);
       const count = () => { $('#taskCount').textContent = el.querySelectorAll('input:checked').length + ' de ' + el.querySelectorAll('input').length; };
       el.addEventListener('change', (e) => { const i = e.target; intentar(() => DB.marcarTarea(+i.dataset.id || i.dataset.id, i.checked)).catch(() => { i.checked = !i.checked; count(); }); count(); });
@@ -1702,6 +1711,10 @@ ${semanaContenido(st._semC, (() => { const d = new Date(lun + 'T12:00:00'); d.se
   V.progreso = {
     mount() {
       if (st._progFlor) return montarProgresoFlor();
+      if ($('#sentir-f')) $('#sentir-f').onsubmit = async (e) => {
+        e.preventDefault(); const t = $('#sentir-t').value.trim(); if (!t) return toast('Escribe cómo te sentías al empezar.', true);
+        try { await intentar(() => DB.guardarMiPerfil({ sentir_inicio: t }), 'Guardado'); st.perfil.sentir_inicio = t; } catch (er) {}
+      };
       const f = $('#dform'); if (!f) return;
       f.onsubmit = async (e) => {
         e.preventDefault(); const file = $('#d-file').files[0]; if (!file) return toast('Elige un archivo.', true);
@@ -1728,8 +1741,9 @@ ${semanaContenido(st._semC, (() => { const d = new Date(lun + 'T12:00:00'); d.se
   <section class="card"><span class="eyebrow">Cómo me siento al hablar en reuniones</span>
     ${p.confianza_hoy ? `<div class="row" style="gap:10px"><span class="big">${p.confianza_hoy}</span><span class="muted">/10 hoy${p.confianza_inicio ? '<br>empezaste en ' + p.confianza_inicio : ''}</span></div>
     <div class="meter"><i style="width:${p.confianza_hoy * 10}%"></i></div><div class="scale"><span>1</span><span>5</span><span>10</span></div>` : ''}
-    ${p.sentir_inicio ? `<p class="small">${esc(p.sentir_inicio)}</p>` : ''}
-    ${!p.confianza_hoy && !p.sentir_inicio ? '<p class="muted small">Flor lo carga con tu punto de partida y lo actualiza en tus check-ins.</p>' : ''}
+    <form id="sentir-f" class="grid" style="gap:6px"><label class="small muted" for="sentir-t">Cómo me sentía al empezar el programa</label>
+      <textarea id="sentir-t" rows="3" maxlength="1000" placeholder="Por ejemplo: me congelaba cuando me hacían una pregunta en una reunión…">${esc(p.sentir_inicio || '')}</textarea>
+      <div class="row"><button class="btn ghost sm" type="submit">Guardar</button></div></form>
   </section>
   <section class="card"><span class="eyebrow">Material real que le mandaste a Flor</span>
     <div class="row" style="gap:10px"><span class="big">${ped.length}</span><span class="muted">en total<br>${recientes} en las últimas 4 semanas</span></div>
