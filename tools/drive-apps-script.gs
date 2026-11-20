@@ -65,7 +65,13 @@ function doPost(e) {
     if (p.accion === 'leer') {
       var f0 = DriveApp.getFileById(p.id);
       if (f0.getMimeType() === 'application/vnd.google-apps.document') {
-        return salida({ ok: true, nombre: f0.getName(), mime: 'text/plain', texto: DocumentApp.openById(p.id).getBody().getText().slice(0, 60000) });
+        // Todas las pestañas (las notas de Gemini traen la transcripción en una pestaña aparte; 20/11).
+        var doc0 = DocumentApp.openById(p.id), partes = [];
+        try {
+          (function rec(tabs) { tabs.forEach(function (t) { try { partes.push('### ' + t.getTitle() + '\n' + t.asDocumentTab().getBody().getText()); } catch (e) {} rec(t.getChildTabs()); }); })(doc0.getTabs());
+        } catch (e) { partes = []; }
+        var texto0 = partes.length ? partes.join('\n\n') : doc0.getBody().getText();
+        return salida({ ok: true, nombre: f0.getName(), mime: 'text/plain', texto: texto0.slice(0, 120000) });
       }
       if (f0.getSize() > 30 * 1024 * 1024) return salida({ ok: false, error: 'el archivo pesa más de 30 MB' });
       var b0 = f0.getBlob();
@@ -269,7 +275,8 @@ function clasesDelDia(desde, hasta) {
   var url = 'https://www.googleapis.com/calendar/v3/calendars/primary/events?singleEvents=true&orderBy=startTime&maxResults=50' +
     '&timeMin=' + encodeURIComponent(desde) + '&timeMax=' + encodeURIComponent(hasta);
   var r = UrlFetchApp.fetch(url, { headers: { Authorization: 'Bearer ' + ScriptApp.getOAuthToken() }, muteHttpExceptions: true });
-  if (r.getResponseCode() !== 200) return { ok: false, error: 'calendar ' + r.getResponseCode() };
+  // Si la API del Calendar no responde (403: API no habilitada en el proyecto del script), se usa CalendarApp (20/11).
+  if (r.getResponseCode() !== 200) return clasesConCalendarApp(desde, hasta, r.getResponseCode());
   var evs = (JSON.parse(r.getContentText()).items || []).filter(function (e) { return e.status !== 'cancelled' && (!e.eventType || e.eventType === 'default') && (e.attendees || []).length > 1; });
   return { ok: true, clases: evs.map(function (e) {
     return { titulo: e.summary || '', inicio: (e.start || {}).dateTime || (e.start || {}).date, fin: (e.end || {}).dateTime || (e.end || {}).date,
@@ -277,6 +284,23 @@ function clasesDelDia(desde, hasta) {
       invitadas: (e.attendees || []).filter(function (a) { return !a.self && !a.organizer; }).map(function (a) { return String(a.email || '').toLowerCase(); }),
       adjuntos: (e.attachments || []).map(function (a) { return { titulo: a.title, url: a.fileUrl }; }) };
   }) };
+}
+
+// Respaldo de clasesDelDia con CalendarApp (no necesita la API del Calendar habilitada). Sin Meet ni adjuntos:
+// el Meet sale del perfil de la alumna y las notas de Gemini se buscan en Drive (acción buscar).
+function clasesConCalendarApp(desde, hasta, codigo) {
+  var evs = CalendarApp.getDefaultCalendar().getEvents(new Date(desde), new Date(hasta));
+  var yo = Session.getEffectiveUser().getEmail().toLowerCase();
+  var out = [];
+  evs.forEach(function (e) {
+    var inv = e.getGuestList().map(function (g) { return String(g.getEmail() || '').toLowerCase(); }).filter(function (m) { return m && m !== yo; });
+    if (!inv.length) return;
+    var mio = e.getMyStatus && e.getMyStatus();
+    if (mio === CalendarApp.GuestStatus.NO) return; // las que Flor rechazó
+    out.push({ titulo: e.getTitle() || '', inicio: e.getStartTime().toISOString(), fin: e.getEndTime().toISOString(), meet: '',
+      descripcion: String(e.getDescription() || '').slice(0, 3000), invitadas: inv, adjuntos: [] });
+  });
+  return { ok: true, clases: out, via: 'CalendarApp', api: codigo };
 }
 
 // Normaliza un asunto para compararlo: sin "Re:", sin emojis ni espacios de más.
