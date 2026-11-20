@@ -48,6 +48,44 @@
     '1:1': { curso: ONB['1:1']('e096e38e-8550-4c9b-a8b4-ce33e1be5e6c'), metodo: ONB['1:1']('cf00b0b4-6117-460e-8783-212393c40bf3') }
   };
 
+
+  // Clarity Bank (pedido de Flor, 20/11): material de consulta para profundizar la gramática de cada clase.
+  // Cada clase lleva  cb: [...]  con las lecciones del Clarity Bank que tratan el mismo tema.
+  const CBG = (p) => 'https://academy.breakingbarriers.site/courses/products/7aa0f32b-5f93-48fa-b34e-41f0f3c58ef9/categories/0bf7abf7-cdcb-41ed-b3ee-8f80a7a5c1e4/posts/' + p; // Break the Grammar Barrier
+  const CBT = (p) => 'https://academy.breakingbarriers.site/courses/products/7aa0f32b-5f93-48fa-b34e-41f0f3c58ef9/categories/daf19e03-1347-4333-8123-66cf09a6b8c4/posts/' + p; // Master Tenses
+  const L = (t, u) => ({ t, u });
+  const CB = {
+    rs: L('Reported Speech', CBG('8cd2da4d-fcbc-4624-8450-f5151864fbba')),
+    rsQ: L('Reported Speech: Questions', CBG('b9ee6a9f-341e-48f6-8652-72102eb9242d')),
+    rsC: L('Reported Commands', CBG('d6269596-f359-4078-a9f5-f76d1e4d589d')),
+    rsV: L('Reporting Verbs', CBG('c051fac0-3499-4f3c-8854-def7fcccfaeb')),
+    cond: L('Conditionals · introducción', CBG('797ad75d-6977-4637-a1b0-0c1fc88afbda')),
+    c0: L('Zero Conditional', CBG('90573dec-a35d-4a10-8376-a5561fdbf721')),
+    c1: L('First Conditional', CBG('6da4afb8-b27e-4329-b9ca-f740c249d817')),
+    c2: L('Second Conditional', CBG('4e974442-08ee-46cd-b27b-bfd8111b5b91')),
+    c3: L('Third Conditional', CBG('8c89b6a1-329d-4bd5-8a46-66447a338b70')),
+    cM: L('Mixed Conditionals', CBG('be04b9c9-c4bf-4e40-b0e2-23c09fa142f2')),
+    mod: L('Modal Verbs · introducción', CBG('ebb82853-e352-4b25-853b-612ecab62909')),
+    m1: L('Can, could, be able to', CBG('9d6de9c6-684a-4c45-9d11-c2567f950d65')),
+    m2: L('May, might, could', CBG('d02bec0f-a4fd-421b-9810-960a5d35098e')),
+    m3: L('Should, ought to, had better, would rather', CBG('338cda25-570a-44d7-980d-32e202a3e79a')),
+    m4: L('Must vs. have to', CBG('e345a27e-1a7e-41a4-b9a9-f9e8c55f0524')),
+    m5: L('Modales perfectos', CBG('49a30bfe-189e-452d-aa6d-dc2f9bf717cc')),
+    pas: L('Passive Voice', CBG('5ba38a80-c2a1-48da-bc7b-5394d9d93fef')),
+    t1: L('Simple Present', CBT('7821316c-c38c-46c4-a8f0-9fdeb2808967')),
+    t2: L('Present Continuous', CBT('5a9d51a9-68d0-4fb1-b3aa-3576e5faa1cf')),
+    t3: L('Present Perfect', CBT('5f2f392b-4a90-43da-8fbf-501738de7b2b')),
+    t4: L('Present Perfect Continuous', CBT('c3eaf553-be54-4b49-b573-400a5b28f718')),
+    t5: L('Simple Past', CBT('f9a3bc22-b28a-460c-993b-16e11ab33141')),
+    t6: L('Past Continuous', CBT('03b2d1f0-8a47-4032-a603-cd080bd46f88')),
+    t7: L('Past Perfect', CBT('ddc3bd34-5152-45af-9016-666f62de9242')),
+    t8: L('Future: will vs. going to', CBT('e913ea8d-cf2a-4e34-972a-ee034c3c8a76')),
+    t9: L('Future Continuous', CBT('d9d8dc4e-a306-4d15-bcf8-b22a96c4ddcb')),
+    t10: L('Future Perfect', CBT('ec2afcde-4c6e-4cce-a2e0-80fff487f22c')),
+    t11: L('Future Perfect Continuous', CBT('4fb68751-d897-4b2e-b431-9d66a3e18225'))
+  };
+  const cb = (...k) => k.map((x) => CB[x]);
+
   P.camino = [
     { n: 1, titulo: 'Start Here, tu método y tus coaches', logro: 'Entiendes cómo funciona todo, hiciste tu primer ciclo completo y ya usas tus coaches.', semanas: [
       { s: [1], titulo: 'Tu punto de partida', tareas: [
@@ -101,10 +139,10 @@
     { n: 3, titulo: 'Pule tu inglés · el CÓMO', logro: 'Detectas tú misma dónde se rompe tu inglés y lo corriges en el segundo intento.', semanas: [
       { s: [9], titulo: 'Tu sistema verbal', tareas: [
         T('9.1', 'M3 · Welcome to Polish Your English', 'clase', 'Módulo 3', { link: M3('4a72ce98-a576-41fc-9aa5-6d88bc5770b9') }),
-        T('9.2', 'M3 · The Verb System · Parte 1: Cómo se construyen', 'clase worksheet', 'Módulo 3', { link: M3('a2555410-ddfe-4d41-a7fe-8a7124046bd4') }),
-        T('9.5', 'M3 · The Verb System · Parte 2: Verbos irregulares', 'clase worksheet', 'Módulo 3', { link: M3('7b1a9231-6500-4722-9ef4-1de448ba745b') }),
-        T('9.6', 'M3 · The Verb System · Parte 3: Cuándo uso cada uno', 'clase worksheet', 'Módulo 3', { link: M3('ea11f8ef-dbb7-40af-8c6a-2a10ffbc7d5e') }),
-        T('9.3', 'M3 · The Verb System · Parte 4: Future tenses', 'clase worksheet', 'Módulo 3', { link: M3('57e5d9f7-65ce-4e2e-91f7-422defb9d68a') }),
+        T('9.2', 'M3 · The Verb System · Parte 1: Cómo se construyen', 'clase worksheet', 'Módulo 3', { link: M3('a2555410-ddfe-4d41-a7fe-8a7124046bd4'), cb: cb('t1','t2','t3','t4','t5','t6','t7') }),
+        T('9.5', 'M3 · The Verb System · Parte 2: Verbos irregulares', 'clase worksheet', 'Módulo 3', { link: M3('7b1a9231-6500-4722-9ef4-1de448ba745b'), cb: cb('t5') }),
+        T('9.6', 'M3 · The Verb System · Parte 3: Cuándo uso cada uno', 'clase worksheet', 'Módulo 3', { link: M3('ea11f8ef-dbb7-40af-8c6a-2a10ffbc7d5e'), cb: cb('t3','t4','t5','t6','t7') }),
+        T('9.3', 'M3 · The Verb System · Parte 4: Future tenses', 'clase worksheet', 'Módulo 3', { link: M3('57e5d9f7-65ce-4e2e-91f7-422defb9d68a'), cb: cb('t8','t9','t10','t11') }),
         T('9.4', 'Desde ahora, en tu Weekly Report me dices qué trabajar: el qué, el cómo o el quién', 'habito', 'Weekly report', { ir: '#weekly', nota: 'Con el Delivery Method detectamos dónde se rompe tu inglés. El qué: cómo organizas tus ideas, qué dices primero y qué después. El cómo: tus errores fosilizados, cómo armas las oraciones y los verbos. El quién: desde dónde hablas, cómo te sientes con el inglés y cómo te paras en tus reuniones. Desde ahora, en tu Weekly Report escribe en cuál de los tres crees que tienes que trabajar más, así Flor te acompaña y te guía en eso.' })
       ] },
       { s: [10], titulo: 'Mitad del camino', tareas: [
@@ -115,13 +153,13 @@
       { s: [11], titulo: 'Precisión', tareas: [
         T('11.1', 'M3 · Nouns, Articles & Agreement', 'clase', 'Módulo 3', { link: M3('99891d26-ef2b-469c-b27c-1a0a496c6edc') }),
         T('11.2', 'M3 · Relative Clauses: who, which, that', 'clase', 'Módulo 3', { link: M3('c4a14c4d-2aac-46aa-881d-314b173296bc') }),
-        T('11.3', 'M3 · Modals: Say How Strong You Mean It', 'clase', 'Módulo 3', { link: M3('038f2779-dc42-4a35-bdce-3a2e94dcb655') })
+        T('11.3', 'M3 · Modals: Say How Strong You Mean It', 'clase', 'Módulo 3', { link: M3('038f2779-dc42-4a35-bdce-3a2e94dcb655'), cb: cb('mod','m1','m2','m3','m4','m5') })
       ] },
       { s: [12], titulo: 'Preguntar y reportar', tareas: [
-        T('12.1', 'M3 · Questions & Indirect Questions', 'clase', 'Módulo 3', { link: M3('6eb79084-3227-4ab0-bfbb-03cb0d9cc256') }),
-        T('12.2', 'M3 · Conditionals for Real Work Situations', 'clase', 'Módulo 3', { pronto: true }),
-        T('12.3', 'M3 · Reported Speech & Reporting Information', 'clase', 'Módulo 3', { pronto: true }),
-        T('12.5', 'M3 · Passive Voice for Processes & Reporting', 'clase', 'Módulo 3', { pronto: true }),
+        T('12.1', 'M3 · Questions & Indirect Questions', 'clase', 'Módulo 3', { link: M3('6eb79084-3227-4ab0-bfbb-03cb0d9cc256'), cb: cb('rsQ') }),
+        T('12.2', 'M3 · Conditionals for Real Work Situations', 'clase', 'Módulo 3', { pronto: true, cb: cb('cond','c0','c1','c2','c3','cM') }),
+        T('12.3', 'M3 · Reported Speech & Reporting Information', 'clase', 'Módulo 3', { pronto: true, cb: cb('rs','rsQ','rsC','rsV') }),
+        T('12.5', 'M3 · Passive Voice for Processes & Reporting', 'clase', 'Módulo 3', { pronto: true, cb: cb('pas') }),
         T('12.6', 'M3 · Word Families & Nominalization', 'clase', 'Módulo 3', { pronto: true }),
         T('12.4', 'M3 · The Accuracy Challenge: tu Error Radar', 'clase evidencia', 'Módulo 3', { pronto: true })
       ] }

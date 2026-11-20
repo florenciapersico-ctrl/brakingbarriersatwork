@@ -402,6 +402,9 @@
     const sinEnt = !ent && !hecha && !t.ir && !t.reservar && !t.comunidad ? '<span class="muted small">Sin playbook para esta sesión: márcala tú cuando la termines.</span>' : '';
     return `<li><label><input type="checkbox" data-cam="${t.id}" ${hecha ? 'checked' : ''}><div><div class="t">${esc(txtT(t))}</div>${t.nota ? `<div class="muted small" style="margin:2px 0 4px">${esc(t.nota)}</div>` : ''}
       <div class="where">${tags} · ${esc(t.donde)} ${t.pronto ? '<span class="pill warn">En grabación · se publica pronto</span>' : ''} ${accionTarea(t)} ${sinEnt}</div></div></label>
+      ${(t.cb || []).length ? `<details class="cb-extra"><summary class="small">📚 Para profundizar · Clarity Bank (${t.cb.length})</summary>
+        <p class="muted small" style="margin:4px 0">Material de consulta: si quieres repasar la regla con más detalle, aquí está cada tema explicado paso a paso.</p>
+        <ul class="small" style="margin:0;padding-left:18px">${t.cb.map((c) => `<li><a href="${esc(c.u)}" target="_blank" rel="noopener">${esc(c.t)}</a></li>`).join('')}</ul></details>` : ''}
       ${estado || subir ? `<div class="ent-row">${estado}${subir}</div>` : ''}</li>`;
   }
   async function cargarEntregas() {
