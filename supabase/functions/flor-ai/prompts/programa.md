@@ -63,7 +63,7 @@ Semana 11 · Precisión:
 - M3 · Modals: Say How Strong You Mean It [clase · Módulo 3] → https://academy.breakingbarriers.site/courses/products/6863ca67-9163-40bd-98de-f0c450d87919/categories/3aa37c22-88dd-460b-bbc6-bb5a22c0e9eb/posts/038f2779-dc42-4a35-bdce-3a2e94dcb655
 Semana 12 · Preguntar y reportar:
 - M3 · Questions & Indirect Questions [clase · Módulo 3] → https://academy.breakingbarriers.site/courses/products/6863ca67-9163-40bd-98de-f0c450d87919/categories/3aa37c22-88dd-460b-bbc6-bb5a22c0e9eb/posts/6eb79084-3227-4ab0-bfbb-03cb0d9cc256
-- M3 · Conditionals for Real Work Situations [clase · Módulo 3] PRONTO
+- M3 · Conditionals for Real Work Situations [clase · Módulo 3] → https://academy.breakingbarriers.site/courses/products/6863ca67-9163-40bd-98de-f0c450d87919/categories/3aa37c22-88dd-460b-bbc6-bb5a22c0e9eb/posts/e5e8c0cf-ba24-490e-a2e8-70f4aa642dc0
 - M3 · Reported Speech & Reporting Information [clase · Módulo 3] PRONTO
 - M3 · Passive Voice for Processes & Reporting [clase · Módulo 3] PRONTO
 - M3 · Word Families & Nominalization [clase · Módulo 3] PRONTO

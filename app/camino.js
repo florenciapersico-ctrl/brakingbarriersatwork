@@ -59,18 +59,18 @@
     rsQ: L('Reported Speech: Questions', CBG('b9ee6a9f-341e-48f6-8652-72102eb9242d')),
     rsC: L('Reported Commands', CBG('d6269596-f359-4078-a9f5-f76d1e4d589d')),
     rsV: L('Reporting Verbs', CBG('c051fac0-3499-4f3c-8854-def7fcccfaeb')),
-    cond: L('Conditionals · introducción', CBG('797ad75d-6977-4637-a1b0-0c1fc88afbda')),
-    c0: L('Zero Conditional', CBG('90573dec-a35d-4a10-8376-a5561fdbf721')),
-    c1: L('First Conditional', CBG('6da4afb8-b27e-4329-b9ca-f740c249d817')),
-    c2: L('Second Conditional', CBG('4e974442-08ee-46cd-b27b-bfd8111b5b91')),
-    c3: L('Third Conditional', CBG('8c89b6a1-329d-4bd5-8a46-66447a338b70')),
-    cM: L('Mixed Conditionals', CBG('be04b9c9-c4bf-4e40-b0e2-23c09fa142f2')),
+    cond: L('Conditionals', CBG('797ad75d-6977-4637-a1b0-0c1fc88afbda')),
+    c0: L('2.1 Zero conditional', CBG('90573dec-a35d-4a10-8376-a5561fdbf721')),
+    c1: L('2.2 First conditional', CBG('6da4afb8-b27e-4329-b9ca-f740c249d817')),
+    c2: L('2.3 Second conditional', CBG('4e974442-08ee-46cd-b27b-bfd8111b5b91')),
+    c3: L('2.4 Third conditional', CBG('8c89b6a1-329d-4bd5-8a46-66447a338b70')),
+    cM: L('2.5 Mixed conditionals', CBG('be04b9c9-c4bf-4e40-b0e2-23c09fa142f2')),
     mod: L('Modal Verbs · introducción', CBG('ebb82853-e352-4b25-853b-612ecab62909')),
     m1: L('Can, could, be able to', CBG('9d6de9c6-684a-4c45-9d11-c2567f950d65')),
-    m2: L('May, might, could', CBG('d02bec0f-a4fd-421b-9810-960a5d35098e')),
+    m2: L('3.2 May, Might, Could', CBG('d02bec0f-a4fd-421b-9810-960a5d35098e')),
     m3: L('Should, ought to, had better, would rather', CBG('338cda25-570a-44d7-980d-32e202a3e79a')),
     m4: L('Must vs. have to', CBG('e345a27e-1a7e-41a4-b9a9-f9e8c55f0524')),
-    m5: L('Modales perfectos', CBG('49a30bfe-189e-452d-aa6d-dc2f9bf717cc')),
+    m5: L('3.5 Modales perfectos', CBG('49a30bfe-189e-452d-aa6d-dc2f9bf717cc')),
     pas: L('Passive Voice', CBG('5ba38a80-c2a1-48da-bc7b-5394d9d93fef')),
     t1: L('Simple Present', CBT('7821316c-c38c-46c4-a8f0-9fdeb2808967')),
     t2: L('Present Continuous', CBT('5a9d51a9-68d0-4fb1-b3aa-3576e5faa1cf')),
@@ -85,6 +85,7 @@
     t11: L('Future Perfect Continuous', CBT('4fb68751-d897-4b2e-b431-9d66a3e18225'))
   };
   const cb = (...k) => k.map((x) => CB[x]);
+  const D = (k, d) => ({ ...CB[k], d }); // lección del Clarity Bank con su para qué
 
   P.camino = [
     { n: 1, titulo: 'Start Here, tu método y tus coaches', logro: 'Entiendes cómo funciona todo, hiciste tu primer ciclo completo y ya usas tus coaches.', semanas: [
@@ -157,7 +158,7 @@
       ] },
       { s: [12], titulo: 'Preguntar y reportar', tareas: [
         T('12.1', 'M3 · Questions & Indirect Questions', 'clase', 'Módulo 3', { link: M3('6eb79084-3227-4ab0-bfbb-03cb0d9cc256'), cb: cb('rsQ') }),
-        T('12.2', 'M3 · Conditionals for Real Work Situations', 'clase', 'Módulo 3', { pronto: true, ws: 'https://docs.google.com/document/d/1VJOClcnOwTYyiJu7muBc8KsVDMQzeaE8AgX9nR6kx8A/copy', cb: cb('cond','c0','c1','c2','c3','cM') }),
+        T('12.2', 'M3 · Conditionals for Real Work Situations', 'clase', 'Módulo 3', { link: M3('e5e8c0cf-ba24-490e-a2e8-70f4aa642dc0'), ws: 'https://docs.google.com/document/d/1VJOClcnOwTYyiJu7muBc8KsVDMQzeaE8AgX9nR6kx8A/copy', cbIntro: 'Si te sientes perdida con algún condicional, mira la clase de cada uno:', cb: [D('cond', 'la introducción'), D('c0', 'procesos y reglas'), D('c1', 'planes, plazos y riesgos'), D('c2', 'escenarios y propuestas'), D('c3', 'lecciones aprendidas'), D('cM', 'lo que pasó y todavía se nota hoy')], cbMas: [D('m2', 'para el might de los riesgos'), D('m5', 'para el would have de las lecciones aprendidas')] }),
         T('12.3', 'M3 · Reported Speech & Reporting Information', 'clase', 'Módulo 3', { pronto: true, ws: 'https://docs.google.com/document/d/113cL_En2vfJ3VGIiqYjv07Gpb-D1A_q67pOsKsCgK5E/copy', cb: cb('rs','rsQ','rsC','rsV') }),
         T('12.5', 'M3 · Passive Voice for Processes & Reporting', 'clase', 'Módulo 3', { pronto: true, ws: 'https://docs.google.com/document/d/1r3h2FYyk6XES7uzAn7aEKNbb906VpJ1bI_hm5NRAUzM/copy', cb: cb('pas') }),
         T('12.6', 'M3 · Word Families & Nominalization', 'clase', 'Módulo 3', { pronto: true }),
