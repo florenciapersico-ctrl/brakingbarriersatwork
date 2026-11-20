@@ -24,8 +24,10 @@
 <script src="programa.js?v=69"></script>
 <script src="camino.js?v=69"></script>
 <script src="datos.js?v=71"></script>
-<script src="app.js?v=87"></script>
+<script src="app.js?v=88"></script>
 <script>
+// Si el navegador muestra la página guardada al tocar «atrás» (por ejemplo, después de cerrar sesión), se recarga para chequear la sesión.
+window.addEventListener('pageshow', (e) => { if (e.persisted) location.reload(); });
 // Cuando se publica una versión nueva, la app se actualiza sola (sin que la alumna tenga que borrar nada).
 if ('serviceWorker' in navigator) {
   const habia = !!navigator.serviceWorker.controller; let recargo = false;

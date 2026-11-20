@@ -144,8 +144,13 @@
       $('#volver').onclick = () => pantallaLogin();
       f.onsubmit = async (e) => {
         e.preventDefault();
-        try { await DB.recuperar($('#em').value.trim()); $('#msg').textContent = 'Listo. Revisa tu mail (y la carpeta de spam).'; }
+        const m = $('#em').value.trim(), b = $('button[type=submit]', f);
+        if (!m) { $('#msg').innerHTML = '<span class="err-text">Escribe tu mail para mandarte el link.</span>'; $('#em').focus(); return; }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(m)) { $('#msg').innerHTML = '<span class="err-text">Revisa el mail: parece que le falta algo.</span>'; $('#em').focus(); return; }
+        b.disabled = true; $('#msg').textContent = 'Enviando…';
+        try { await DB.recuperar(m); $('#msg').textContent = 'Listo. Revisa tu mail (y la carpeta de spam).'; }
         catch (er) { $('#msg').innerHTML = '<span class="err-text">' + esc(er.message) + '</span>'; }
+        b.disabled = false;
       };
       return;
     }
@@ -862,7 +867,7 @@ ${fmt(p) === '1:1' ? '' : caminoSemanaHTML(p)}
     <span class="muted small">${tipoNombre(x.tipo)} · ${fecha(x.creado)}</span>
     <details><summary class="small">Lo que mandaste</summary>${x.texto ? `<pre>${esc(x.texto)}</pre>` : ''}${adjunto(x)}${url(x.link) ? ` <a class="small" href="${esc(x.link)}" target="_blank" rel="noopener">Abrir link</a>` : ''}</details>
     ${x.estado !== 'respondido' ? `<div class="row"><button type="button" class="linkbtn small" data-ped-edit="${x.id}">Editar</button><button type="button" class="linkbtn small" data-ped-del="${x.id}">Borrar</button></div>
-    <form class="ped-ed grid" data-ped-form="${x.id}" hidden><div class="field"><label>Título</label><input type="text" class="pe-tit" value="${esc(x.titulo || '')}"></div><div class="field"><label>Tu texto</label><textarea class="pe-txt" rows="5">${esc(x.texto || '')}</textarea></div><div class="row"><button class="btn sm" type="submit">Guardar cambios</button><button class="linkbtn small pe-cancel" type="button">Cancelar</button></div></form>` : ''}
+    <form class="ped-ed grid" data-ped-form="${x.id}" hidden><div class="field"><label for="pe-tit-${x.id}">Título</label><input type="text" id="pe-tit-${x.id}" class="pe-tit" value="${esc(x.titulo || '')}"></div><div class="field"><label for="pe-txt-${x.id}">Tu texto</label><textarea id="pe-txt-${x.id}" class="pe-txt" rows="5">${esc(x.texto || '')}</textarea></div><div class="row"><button class="btn sm" type="submit" disabled>Guardar cambios</button><button class="linkbtn small pe-cancel" type="button">Cancelar</button></div></form>` : ''}
     ${x.respuesta ? `<div class="reply" data-tit="${esc(x.titulo || '')}"><span class="eyebrow">Flor · ${fecha(x.respondido_en)}</span>${devolucion(x.respuesta, x.correcciones, 'pedidos:' + x.id, x.texto)}</div>` : ''}
   </div>`).join('') : '<p class="muted small">Todavía no mandaste nada. Empieza por tu audio de punto de partida.</p>'}
 </section>`;
@@ -870,8 +875,12 @@ ${fmt(p) === '1:1' ? '' : caminoSemanaHTML(p)}
     mount() {
       $$('[data-ped-edit]').forEach((bt) => (bt.onclick = () => { const fm = $(`[data-ped-form="${bt.dataset.pedEdit}"]`); fm.hidden = !fm.hidden; }));
       $$('[data-ped-form]').forEach((fm) => {
-        $('.pe-cancel', fm).onclick = () => { fm.hidden = true; };
-        fm.onsubmit = async (e) => { e.preventDefault(); await intentar(() => DB.editarPedido(+fm.dataset.pedForm || fm.dataset.pedForm, { titulo: $('.pe-tit', fm).value.trim(), texto: $('.pe-txt', fm).value.trim() }), 'Cambios guardados'); ruta(); };
+        // «Guardar cambios» se prende solo cuando algo cambió de verdad.
+        const t0 = $('.pe-tit', fm).value, x0 = $('.pe-txt', fm).value, bG = $('button[type="submit"]', fm);
+        const cambio = () => $('.pe-tit', fm).value !== t0 || $('.pe-txt', fm).value !== x0;
+        fm.addEventListener('input', () => { bG.disabled = !cambio(); });
+        $('.pe-cancel', fm).onclick = () => { $('.pe-tit', fm).value = t0; $('.pe-txt', fm).value = x0; bG.disabled = true; fm.hidden = true; };
+        fm.onsubmit = async (e) => { e.preventDefault(); if (!cambio()) return; await intentar(() => DB.editarPedido(+fm.dataset.pedForm || fm.dataset.pedForm, { titulo: $('.pe-tit', fm).value.trim(), texto: $('.pe-txt', fm).value.trim() }), 'Cambios guardados'); ruta(); };
       });
       $$('[data-ped-del]').forEach((bt) => (bt.onclick = async () => { if (!confirm('¿Borrar este pedido? Flor ya no lo va a ver.')) return; await intentar(() => DB.borrarPedido(+bt.dataset.pedDel || bt.dataset.pedDel), 'Pedido borrado'); ruta(); }));
       const f = $('#pform');
@@ -1107,10 +1116,10 @@ ${pasados.length ? pasados.map((f) => { const x = G[f], gg = x.g || {}, rr = x.r
       const nom = apodoDe(p), h = hoy.getHours(), hola = h < 12 ? 'Good morning' : h < 19 ? 'Good afternoon' : 'Good evening';
       const clase = mdClaseHoy(p), pend = (tareas || []).filter((t) => !t.hecha);
       const on = (k) => (mdPaso(d, k) ? ' on' : '');
-      const ta = (id, v, ph, rows = 1) => `<textarea class="rit-auto" ${id} rows="${rows}" placeholder="${esc(ph)}">${esc(v)}</textarea>`;
+      const ta = (id, v, ph, rows = 1, lab = '') => `<textarea class="rit-auto" ${id} rows="${rows}" placeholder="${esc(ph)}" aria-label="${esc(lab || ph)}">${esc(v)}</textarea>`;
       const cuenta = nDias ? `${nDias} ${nDias === 1 ? 'day' : 'days'}${racha > 1 ? ` · 🔥 ${racha} in a row` : ''}` : '';
       const energia = `<div class="md-en" role="group" aria-label="Energy from 1 to 10">${[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((n) => `<button type="button" data-en="${n}" aria-pressed="${d.energia === n}" class="${d.energia === n ? 'on' : ''}">${n}</button>`).join('')}</div>`;
-      const prio = d.prioridades.map((x, i) => `<div class="rit-acc${x.h ? ' on' : ''}"><label class="rit-eje"><input type="checkbox" data-mdph="${i}"${x.h ? ' checked' : ''}> ${MD_EJES[i][0]}</label>${ta(`data-mdp="${i}"`, x.t, MD_EJES[i][1])}</div>`).join('');
+      const prio = d.prioridades.map((x, i) => `<div class="rit-acc${x.h ? ' on' : ''}"><label class="rit-eje"><input type="checkbox" data-mdph="${i}"${x.h ? ' checked' : ''}> ${MD_EJES[i][0]}</label>${ta(`data-mdp="${i}"`, x.t, MD_EJES[i][1], 1, 'Priority: ' + MD_EJES[i][0])}</div>`).join('');
       const ritual = d.hecho
         ? `<section class="card ritual hecho" id="mdrit"><div class="row between"><h2>☀️ Morning done${d.minima ? ' · quick version' : ''}</h2><span class="muted small">${cuenta}</span></div>
   <p class="rit-yo">${esc(d.identidad || MD_ID)}</p>
@@ -1120,11 +1129,11 @@ ${pasados.length ? pasados.map((f) => { const x = G[f], gg = x.g || {}, rr = x.r
 </section>`
         : `<section class="card ritual" id="mdrit"><div class="row between"><h2>☀️ Morning ritual</h2><span class="muted small">${cuenta || '5 minutes'}</span></div>
   <p class="muted small">Before email and meetings. Five quick steps to start your day on purpose, in English.</p>
-  <div class="rit-p${on('checkin')}" data-paso="checkin"><h3>1 · Check in</h3><p class="muted small">How is your energy today, from 1 to 10? And who do you want to be today?</p>${energia}${ta('id="md-quien"', d.quien, 'Today I want to be calm and clear…')}</div>
-  <div class="rit-p${on('gracias')}" data-paso="gracias"><h3>2 · Gratitude</h3><p class="muted small">Up to three things you're grateful for today. Small is fine.</p>${d.gracias.map((g, i) => ta(`data-mdg="${i}"`, g, "I'm grateful for…")).join('')}</div>
-  <div class="rit-p${on('momento')}" data-paso="momento"><h3>3 · My English moment today</h3><p class="muted small">Where will you use English today? A meeting, a call, an email… Then one phrase you want to use there.</p>${ta('id="md-mom"', d.momento, 'The 10:00 call with the US team…')}${ta('id="md-frase"', d.frase, 'The phrase I\'ll use: "The short answer is…"')}</div>
+  <div class="rit-p${on('checkin')}" data-paso="checkin"><h3>1 · Check in</h3><p class="muted small">How is your energy today, from 1 to 10? And who do you want to be today?</p>${energia}${ta('id="md-quien"', d.quien, 'Today I want to be calm and clear…', 1, 'Who do you want to be today?')}</div>
+  <div class="rit-p${on('gracias')}" data-paso="gracias"><h3>2 · Gratitude</h3><p class="muted small">Up to three things you're grateful for today. Small is fine.</p>${d.gracias.map((g, i) => ta(`data-mdg="${i}"`, g, "I'm grateful for…", 1, 'Gratitude ' + (i + 1))).join('')}</div>
+  <div class="rit-p${on('momento')}" data-paso="momento"><h3>3 · My English moment today</h3><p class="muted small">Where will you use English today? A meeting, a call, an email… Then one phrase you want to use there.</p>${ta('id="md-mom"', d.momento, 'The 10:00 call with the US team…', 1, 'Where will you use English today?')}${ta('id="md-frase"', d.frase, 'The phrase I\'ll use: "The short answer is…"', 1, 'The phrase you want to use')}</div>
   <div class="rit-p${on('prioridades')}" data-paso="prioridades"><h3>4 · My 3 priorities</h3><p class="muted small">One for work, one for your English, one for you. Tick them during the day.</p>${prio}</div>
-  <div class="rit-p${on('identidad')}" data-paso="identidad"><h3>5 · Say it out loud</h3><p class="muted small">Read it out loud, in English. Change it so it sounds like you.</p>${ta('id="md-id"', d.identidad || MD_ID, '', 2)}<label class="rit-chk"><input type="checkbox" id="md-dicha"${d.dicha ? ' checked' : ''}> I said it out loud</label></div>
+  <div class="rit-p${on('identidad')}" data-paso="identidad"><h3>5 · Say it out loud</h3><p class="muted small">Read it out loud, in English. Change it so it sounds like you.</p>${ta('id="md-id"', d.identidad || MD_ID, '', 2, 'Your statement, to say out loud')}<label class="rit-chk"><input type="checkbox" id="md-dicha"${d.dicha ? ' checked' : ''}> I said it out loud</label></div>
   <div class="row between rit-pie"><span class="muted small" id="md-est"></span><button type="button" class="btn" id="md-ok"${mdCompleto(d) ? '' : ' disabled'}>Ready for my day ✓</button></div>
   <p class="small rit-min">Busy morning? With your energy, your English moment and your work priority, <button type="button" class="linkbtn small" id="md-min"${mdMinimo(d) ? '' : ' disabled'}>do the 1-minute version (it counts)</button></p>
 </section>`;
@@ -1134,9 +1143,9 @@ ${pasados.length ? pasados.map((f) => { const x = G[f], gg = x.g || {}, rr = x.r
   ${pend.length ? `<p class="hab-sec">Your tasks from Flor</p><ul class="small reg-acc">${pend.slice(0, 4).map((t) => `<li>⬜ ${tareaLinea(t.texto)}</li>`).join('')}</ul>${pend.length > 4 ? `<p class="muted small">+${pend.length - 4} more in Mi semana.</p>` : ''}<div class="row md-noprint"><a class="btn ghost sm" href="#semana">Open Mi semana</a></div>` : '<p class="muted small">No pending tasks from your last class. 🎉</p>'}
 </section>`;
       const cierre = `<section class="card ritual" id="mdfin"><h2>🌙 End of day</h2><p class="muted small">Two minutes before you close the laptop. It goes to your log and helps you write your Weekly report.</p>
-  <div class="rit-p${d.win.trim() ? ' on' : ''}" data-paso2="win"><h3>Today's win</h3>${ta('id="md-win"', d.win, 'Today I… (even a small one)')}</div>
-  <div class="rit-p${d.ingles.trim() ? ' on' : ''}" data-paso2="ingles"><h3>English that worked</h3><p class="muted small">A phrase you used, or one you want to use next time.</p>${ta('id="md-ing"', d.ingles, '"Let me check and get back to you by Friday."')}</div>
-  <div class="rit-p${d.manana.trim() ? ' on' : ''}" data-paso2="manana"><h3>Tomorrow I will…</h3>${ta('id="md-man"', d.manana, 'Send the summary email before 11.')}</div>
+  <div class="rit-p${d.win.trim() ? ' on' : ''}" data-paso2="win"><h3>Today's win</h3>${ta('id="md-win"', d.win, 'Today I… (even a small one)', 1, "Today's win")}</div>
+  <div class="rit-p${d.ingles.trim() ? ' on' : ''}" data-paso2="ingles"><h3>English that worked</h3><p class="muted small">A phrase you used, or one you want to use next time.</p>${ta('id="md-ing"', d.ingles, '"Let me check and get back to you by Friday."', 1, 'English that worked')}</div>
+  <div class="rit-p${d.manana.trim() ? ' on' : ''}" data-paso2="manana"><h3>Tomorrow I will…</h3>${ta('id="md-man"', d.manana, 'Send the summary email before 11.', 1, 'Tomorrow I will')}</div>
   <span class="muted small" id="md-est2"></span>
 </section>`;
       return `<div class="head"><div><span class="eyebrow">${esc(mdFecha(hoyI))}</span><h1>${hola}${nom ? ', ' + esc(nom) : ''}</h1></div>
@@ -1213,7 +1222,9 @@ ${sem !== lun ? `<p class="note small">Flor ya respondió tu weekly de esta sema
   ${wq(st.perfil).map(([id, l, h]) => `<div class="field"><label for="w-${id}">${l}</label><small>${h}</small><textarea id="w-${id}" data-k="${id}" rows="${/training/.test(id) ? 2 : 3}" ${bloqueado ? 'readonly' : ''}>${esc(w.respuestas[id] || '')}</textarea></div>`).join('')}
   <label class="row small"><input type="checkbox" id="w-compartir" ${w.respuestas.compartir_wins === 'no' ? '' : 'checked'} ${bloqueado ? 'disabled' : ''}> Compartir mi win en «Wins de todas» (solo tu nombre y tu win)</label>
   <p class="eyebrow">${P.weeklyLema}</p>
-  ${bloqueado ? '' : `<div class="row"><button class="btn" type="submit">${w.enviado_en ? 'Actualizar mi weekly' : 'Enviar a Flor'}</button><button class="btn ghost" type="button" data-ask="Ayúdame con mi weekly report">Ordenarlo con Flor AI</button><span class="muted small" id="wsave">Tu borrador se guarda solo.</span></div>`}
+  ${bloqueado ? '' : sem > lun && !w.enviado_en
+    ? `<div class="row"><button class="btn" type="submit">Guardar borrador</button><button class="btn ghost" type="button" data-ask="Ayúdame con mi weekly report">Ordenarlo con Flor AI</button><span class="muted small" id="wsave">Tu borrador se guarda solo. Podrás mandárselo a Flor desde el lunes ${fecha(sem, { day: 'numeric', month: 'long' })}.</span></div>`
+    : `<div class="row"><button class="btn" type="submit">${w.enviado_en ? 'Actualizar mi weekly' : 'Enviar a Flor'}</button><button class="btn ghost" type="button" data-ask="Ayúdame con mi weekly report">Ordenarlo con Flor AI</button><span class="muted small" id="wsave">Tu borrador se guarda solo.</span></div>`}
 </form>
 ${fb ? `<section class="card" id="ultimofb">
   <div class="row between"><div><span class="eyebrow">Último feedback de Flor${fb.respondido_en ? ' · ' + fecha(String(fb.respondido_en).slice(0, 10), { day: 'numeric', month: 'long' }) : ''}</span><h3>${esc(fb.titulo || fb.tipo || 'Tu tarea')}</h3></div><a href="#feedback" class="small">Ver todos tus feedbacks ›</a></div>
@@ -1235,7 +1246,13 @@ ${hist.length ? `<section class="card" id="whist"><h3>Tus weeklies anteriores</h
       });
       f.onsubmit = async (e) => {
         e.preventDefault(); clearTimeout(tm);
-        const d = datos(); if (!d.wins && !d.foco) return toast('Completa al menos tus wins y tu foco de esta semana.', true);
+        const d = datos();
+        // El weekly de la semana que viene se guarda como borrador; se manda recién ese lunes.
+        if ((st._wsem || DB.lunes()) > DB.lunes() && !(st._weekly && st._weekly.enviado_en)) {
+          await intentar(() => DB.guardarWeekly(st._wsem, d, false), 'Borrador guardado. El lunes lo encuentras acá, listo para mandárselo a Flor.');
+          return;
+        }
+        if (!d.wins && !d.foco) return toast('Completa al menos tus wins y tu foco de esta semana.', true);
         await intentar(() => DB.guardarWeekly(st._wsem || DB.lunes(), d, true), 'Listo, tu weekly está enviado. Avisa en la comunidad que ya lo completaste.');
         ruta();
       };
