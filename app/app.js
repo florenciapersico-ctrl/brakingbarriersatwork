@@ -220,8 +220,8 @@
 
   function navHTML(tab) {
     const it = ([id, l]) => (l = id === 'empieza' && (DB.demo || !st.admin) && onbHecho() ? 'Cómo funciona' : l, '<a href="#' + id + '" data-v="' + id + '">' + svg(id) + '<span>' + l + '</span>' + (id === 'bandeja' ? '<span class="badge"' + (tab ? '' : ' id="bdg"') + ' hidden></span>' : '') + (id === 'feedback' || id === 'weekly' ? '<span class="badge nuevo-' + id + '" hidden>Nuevo</span>' : '') + '</a>');
-    // En el celular la barra de abajo se corta: Flor AI va adelante para que siempre se vea.
-    const ORDEN = ['bandeja', 'flor', 'semana', 'myday', 'alumnas', 'feedback', 'weekly', 'camino'];
+    // En el celular, lo primero es Mi semana (Flor, 20/11). Flor AI sigue entre las primeras para que se vea.
+    const ORDEN = ['bandeja', 'semana', 'myday', 'flor', 'alumnas', 'feedback', 'weekly', 'camino'];
     const rank = (id) => { const i = ORDEN.indexOf(id); return i < 0 ? 99 : i; };
     if (esFlor()) return MENU_FLOR.slice(0, tab ? 5 : MENU_FLOR.length).map(it).join('') + (tab ? '' : '<div class="sep">Tus alumnas</div><a href="?demo#semana" target="_blank" rel="noopener">' + svg('alumnas') + '<span>Ver la app como alumna</span></a>');
     if (tab) return (st.admin && !DB.demo ? ADMIN.concat(VISTAS) : VISTAS).filter(vistaOk).sort((a, b) => rank(a[0]) - rank(b[0])).map(it).join('');
