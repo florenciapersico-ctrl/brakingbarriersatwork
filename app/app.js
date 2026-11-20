@@ -1242,16 +1242,12 @@ ${grupos.length ? grupos.map((g) => `<section class="card sem-grupo"><div class=
   // ---------- Mi camino ----------
   V.camino = {
     html() {
-      const p = st.perfil, n = semanaDe(p), hechas = p.camino_hecho || [], av = avanceCamino(p), sig = loQueSigue(p);
+      // Sin la tarjeta de «X de 60 tareas / Lo que sigue» (Flor, 20/11: no tenía sentido).
+      const p = st.perfil, n = semanaDe(p), hechas = p.camino_hecho || [];
       const mesActual = n ? semanaCamino(n).mes.n : 1;
       const pctMes = (m) => { const ts = m.semanas.flatMap((x) => x.tareas); return { h: ts.filter((t) => hechas.includes(t.id)).length, t: ts.length }; };
       return `<div class="head"><div><span class="eyebrow">Tu implementación, mes a mes, durante 5 meses</span><h1>Mi camino</h1></div></div>
 <p class="muted intro">El programa paso a paso. Enfócate en la semana en la que estás: lo demás espera. Si tu diagnóstico pide otro foco, Flor te lo indica en la respuesta a tu Weekly Report.</p>
-<section class="card progress-top">
-  <div><span class="eyebrow" data-camcount>${contarCamino()}</span><div class="meter"><i style="width:${av.pct}%"></i></div>${n ? `<span class="small muted">Estás en la semana ${n} de 20</span>` : ''}</div>
-  <div class="sig"><span class="eyebrow">Lo que sigue</span>${sig ? `<b>${esc(sig.t.texto)}</b><span class="small muted">Mes ${sig.m.n} · Semana ${sig.s.s.join(' y ')}</span>` : '<b>Estás al día</b>'}</div>
-  ${sig ? `<div>${accionTarea(sig.t).replace('linkbtn small', 'btn')}</div>` : ''}
-</section>
 <section class="card"><h3>Tu recorrido</h3>${etapasHTML(n)}<p class="muted small">${esc(P.recorridoNota)}</p></section>
 ${P.camino.map((m) => { const pm = pctMes(m); return `<details class="card mes" ${m.n === mesActual ? 'open' : ''}><summary><span class="mesnum"><small>MES</small>0${m.n}</span><span class="mestit"><h2>${esc(m.titulo)}</h2><span class="muted small">${pm.h} de ${pm.t} tareas · Al final del mes: ${esc(m.logro)}</span></span>${ring(pm.t ? (100 * pm.h) / pm.t : 0)}</summary>
   ${m.semanas.map((s) => `<div class="semana ${n && s.s.includes(n) ? 'actual' : ''}"><div class="row between"><b class="semtit"><span>SEMANA${s.s.length > 1 ? 'S' : ''} ${s.s.join(' Y ')}</span> ${esc(s.titulo)}</b>${n && s.s.includes(n) ? '<span class="pill warn">Esta semana</span>' : ''}</div>
