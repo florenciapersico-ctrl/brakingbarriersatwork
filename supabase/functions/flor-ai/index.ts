@@ -503,6 +503,25 @@ Deno.serve(async (req) => {
   let body: any;
   try { body = await req.json(); } catch { return json({ error: "Pedido inválido" }, 400); }
 
+  // ---------- Camino propio a Google para las tareas programadas (Flor, 20/11) ----------
+  // Las tareas programadas a veces arrancan sin los conectores de Gmail, Calendar, Drive y Docs.
+  // Este camino no depende de ellos: la tarea llama desde Supabase a public.google(accion, params)
+  // y acá se reenvía al Apps Script «AT WORK · Drive», que corre con la cuenta de Google de Flor.
+  // Solo lectura del Calendar y de Drive, y borradores de Gmail: nunca manda mails.
+  if (body.modo === "tareas_google") {
+    const token = Deno.env.get("TAREAS_TOKEN");
+    if (!token || req.headers.get("x-tareas") !== token) return json({ ok: false, error: "token" }, 403);
+    const accion = String(body.accion || "");
+    if (!["clases", "buscar", "leer", "borrador", "borradores"].includes(accion)) return json({ ok: false, error: "acción no permitida" }, 400);
+    const url = Deno.env.get("DRIVE_SCRIPT_URL"), secreto = Deno.env.get("DRIVE_SECRET");
+    if (!url || !secreto) return json({ ok: false, error: "falta el Apps Script" }, 500);
+    try {
+      const r = await fetch(url, { method: "POST", headers: { "Content-Type": "text/plain" }, body: JSON.stringify({ ...(body.params || {}), secreto, accion }) });
+      const out = await r.json().catch(() => ({ ok: false, error: "respuesta inválida del Apps Script" }));
+      return json(out);
+    } catch (e) { return json({ ok: false, error: String(e) }, 502); }
+  }
+
   // ---------- Gmail → app: Flor respondió por mail (como siempre) y la app se pone al día sola ----------
   // El Apps Script de Flor manda cada mail suyo con la etiqueta "AT WORK/Enviado a alumnas":
   // { email, asunto, fecha, texto, id, hilo: [ids de los mails del hilo] }.
