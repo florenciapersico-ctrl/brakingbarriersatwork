@@ -509,7 +509,9 @@ Deno.serve(async (req) => {
   // y acá se reenvía al Apps Script «AT WORK · Drive», que corre con la cuenta de Google de Flor.
   // Solo lectura del Calendar y de Drive, y borradores de Gmail: nunca manda mails.
   if (body.modo === "tareas_google") {
-    const token = Deno.env.get("TAREAS_TOKEN");
+    // El token vive en public.config_tareas (RLS sin políticas: solo lo lee el service role) y lo usa public.google().
+    const { data: cfg } = await admin.from("config_tareas").select("valor").eq("clave", "token").maybeSingle();
+    const token = cfg?.valor ? String(cfg.valor) : "";
     if (!token || req.headers.get("x-tareas") !== token) return json({ ok: false, error: "token" }, 403);
     const accion = String(body.accion || "");
     if (!["clases", "buscar", "leer", "borrador", "borradores"].includes(accion)) return json({ ok: false, error: "acción no permitida" }, 400);
