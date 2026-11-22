@@ -1456,14 +1456,17 @@ ${P.camino.map((m) => { const pm = pctMes(m); if (!pm.t) return ''; return `<det
   function clasesPorGrabar(b, F) {
     const out = [];
     if (!b) return out;
+    // Flor (21/11): el camino va por módulos, no por semanas. Siempre se listan TODAS las clases que faltan grabar
+    // (sin las ocultas); la urgencia sale del módulo en el que está cada alumna (perfiles.modulo_actual).
     for (const m of P.camino) for (const s of m.semanas) for (const t of s.tareas) {
-      if (!t.pronto || (F.grabadas || []).includes(t.id) || (F.salteadas || []).includes(t.id)) continue;
+      if (!t.pronto || !/clase/.test(t.tipo) || t.onb || t.oculta || (F.grabadas || []).includes(t.id) || (F.salteadas || []).includes(t.id)) continue;
       const desde = Math.min(...s.s);
-      const quienes = b.activas.map((a) => ({ a, n: semanaDe(a.perfil) })).filter((x) => x.n && x.n >= desde - 1 && !((x.a.perfil.camino_hecho || []).includes(t.id)));
-      if (quienes.length) out.push({ t, desde, quienes, ya: quienes.some((x) => x.n >= desde), listo: !!linkGrabar(F, t.id) });
+      const quienes = b.activas.map((a) => ({ a, n: Number(a.perfil.modulo_actual) || 0 }))
+        .filter((x) => x.n && x.n >= m.n - 1 && !((x.a.perfil.camino_hecho || []).includes(t.id)));
+      out.push({ t, desde, mod: m.n, quienes, ya: quienes.some((x) => x.n >= m.n), listo: !!linkGrabar(F, t.id) });
     }
-    // Primero las que ya les tocan; entre esas, las que tienen el material listo; después, la que va antes en el programa.
-    return out.sort((x, y) => (y.ya - x.ya) || (y.listo - x.listo) || (x.desde - y.desde));
+    // Primero las que ya les tocan; después las del módulo que sigue; entre esas, las que tienen el material listo; después, el orden del programa.
+    return out.sort((x, y) => (y.ya - x.ya) || ((y.quienes.length > 0) - (x.quienes.length > 0)) || (y.listo - x.listo) || (x.desde - y.desde));
   }
   async function pegarLinkGrabar(id) {
     const u = prompt('Pega el link de la carpeta (Drive o Notion) donde tienes el prompter, la presentación y todo para grabar esta clase:', linkGrabar(st._flor, id));
@@ -1536,6 +1539,7 @@ ${P.camino.map((m) => { const pm = pctMes(m); if (!pm.t) return ''; return `<det
     const faltan = b.activas.filter((a) => !conW.has(a.email));
     const fbEsta = b.tResp.filter((x) => delaSemana(x.respondido_en));
     const porGrabar = clasesPorGrabar(b, F);
+    const primeroPend = (F.primero || []).filter((x) => !x.hecho);
     const todasT = P.camino.flatMap((m) => m.semanas.flatMap((x) => x.tareas));
     const hechasG = (F.grabadas || []).map((id) => todasT.find((t) => t.id === id)).filter(Boolean);
     const salteadasG = (F.salteadas || []).map((id) => todasT.find((t) => t.id === id)).filter(Boolean);
@@ -1567,11 +1571,13 @@ ${P.camino.map((m) => { const pm = pctMes(m); if (!pm.t) return ''; return `<det
   </section>
 </div>
 <section class="card"><div class="row between"><h3>Clases que tienes que grabar</h3>${enlace(lk.notion, 'Notion de grabación')}</div>
-  <p class="muted small">Ordenadas por urgencia: primero las que ya les tocan y tienen el material listo. Grabá de a una, empezando por la de arriba.</p>
-  ${porGrabar.length ? `<ul class="tasks">${porGrabar.map((g, i) => `${i === 3 ? `</ul><details class="mas-grabar"><summary class="small">Ver las otras ${porGrabar.length - 3}</summary><ul class="tasks">` : ''}<li><div class="fbitem" style="flex-direction:row;align-items:flex-start;justify-content:space-between;gap:12px"><span><b>${esc(g.t.texto)}</b> ${g.ya ? '<span class="pill warn">Grábala sí o sí</span>' : '<span class="pill">La semana que viene</span>'}<br>
-    <span class="muted small">Va en la semana ${g.desde}. ${g.quienes.map((x) => nom1(x.a.nombre) + ' (semana ' + x.n + ')').join(', ')} ${g.ya ? (g.quienes.length === 1 ? 'ya llegó' : 'ya llegaron') : 'llega' + (g.quienes.length === 1 ? '' : 'n')}.</span></span>
+  <p class="muted small">Te ${porGrabar.length + primeroPend.length === 1 ? 'falta' : 'faltan'} <b>${porGrabar.length + primeroPend.length}</b> ${porGrabar.length + primeroPend.length === 1 ? 'video' : 'videos'} para terminar el programa${primeroPend.length ? ` (${primeroPend.length} del onboarding y ${porGrabar.length} ${porGrabar.length === 1 ? 'clase' : 'clases'})` : ''}. Primero los del onboarding; después, las clases del módulo en el que ya están tus alumnas. Grabá de a uno, empezando por el de arriba.</p>
+  ${primeroPend.length ? `<ul class="tasks">${primeroPend.map((x) => `<li><div class="fbitem" style="flex-direction:row;align-items:flex-start;justify-content:space-between;gap:12px"><span><b>${esc(x.texto)}</b> <span class="pill warn">Onboarding · primero</span>${x.nota ? `<br><span class="muted small">${esc(x.nota)}</span>` : ''}</span>
+    <span class="row" style="gap:6px;flex-wrap:wrap;justify-content:flex-end">${x.link ? `<a class="btn sm" href="${esc(x.link)}" target="_blank" rel="noopener">🎬 Abrir todo para grabar</a>` : ''}<button type="button" class="btn ghost sm" data-primok="${esc(x.id)}">Ya lo grabé</button></span></div></li>`).join('')}</ul>` : ''}
+  ${porGrabar.length ? `<ul class="tasks">${porGrabar.map((g, i) => `${i === 10 ? `</ul><details class="mas-grabar"><summary class="small">Ver las otras ${porGrabar.length - 10}</summary><ul class="tasks">` : ''}<li><div class="fbitem" style="flex-direction:row;align-items:flex-start;justify-content:space-between;gap:12px"><span><b>${esc(g.t.texto)}</b> ${g.ya ? '<span class="pill warn">Grábala sí o sí</span>' : g.quienes.length ? '<span class="pill">La que sigue</span>' : '<span class="pill">Por grabar</span>'}<br>
+    <span class="muted small">Módulo ${g.mod}.${g.quienes.length ? ' ' + g.quienes.map((x) => nom1(x.a.nombre) + ' (M' + x.n + ')').join(', ') + (g.ya ? (g.quienes.length === 1 ? ' ya está en este módulo.' : ' ya están en este módulo.') : (g.quienes.length === 1 ? ' está en el módulo anterior.' : ' están en el módulo anterior.')) : ' Ninguna alumna llegó todavía.'}</span></span>
     <span class="row" style="gap:6px;flex-wrap:wrap;justify-content:flex-end">${lkG(g.t.id) ? `<a class="btn sm" href="${esc(lkG(g.t.id))}" target="_blank" rel="noopener">🎬 Abrir todo para grabar</a><button type="button" class="linkbtn small" data-glink="${esc(g.t.id)}">Cambiar link</button>` : `<button type="button" class="btn ghost sm" data-glink="${esc(g.t.id)}">+ Pegar link del material</button>`}
-    <button type="button" class="btn ghost sm" data-grab="${esc(g.t.id)}">Ya la grabé</button><button type="button" class="linkbtn small" data-saltar="${esc(g.t.id)}">No la grabo</button></span></div></li>`).join('')}</ul>${porGrabar.length > 3 ? '</details>' : ''}` : '<p class="muted small">Ninguna alumna llegó todavía a una clase en grabación. 🎉</p>'}
+    <button type="button" class="btn ghost sm" data-grab="${esc(g.t.id)}">Ya la grabé</button><button type="button" class="linkbtn small" data-saltar="${esc(g.t.id)}">No la grabo</button></span></div></li>`).join('')}</ul>${porGrabar.length > 10 ? '</details>' : ''}` : primeroPend.length ? '' : '<p class="muted small">No te queda nada por grabar: el programa está completo. 🎉</p>'}
   ${hechasG.length ? `<details class="mas-grabar"><summary class="small">✓ Ya grabadas (${hechasG.length})</summary><ul class="neg">${hechasG.map((t) => `<li class="row between"><span>${esc(t.texto)}</span><span class="row" style="gap:6px">${t.pronto ? `<button type="button" class="btn ghost sm" data-publicar="${esc(t.id)}">Ya la subí: pegar el link</button>` : '<span class="pill ok">Publicada</span>'}<button type="button" class="linkbtn small" data-desgrab="${esc(t.id)}">Deshacer</button></span></li>`).join('')}</ul></details>` : ''}
   ${salteadasG.length ? `<details class="mas-grabar"><summary class="small">No las grabo (${salteadasG.length})</summary><ul class="neg">${salteadasG.map((t) => `<li class="row between"><span>${esc(t.texto)}</span><button type="button" class="linkbtn small" data-dessaltar="${esc(t.id)}">Volver a la lista</button></li>`).join('')}</ul></details>` : ''}
 </section>
@@ -1626,7 +1632,7 @@ ${P.camino.map((m) => { const pm = pctMes(m); if (!pm.t) return ''; return `<det
     if ((F.grabadas || []).includes(t.id)) return { k: 'grab', pill: '<span class="pill">Grabada · falta subirla</span>', orden: 5 };
     if ((F.salteadas || []).includes(t.id)) return { k: 'salt', pill: '<span class="pill">No la grabo</span>', orden: 8 };
     if (g && g.ya) return { k: 'urg', pill: '<span class="pill warn">Urgente</span>', orden: 0, g };
-    if (g) return { k: 'prox', pill: '<span class="pill warn">La semana que viene</span>', orden: 1, g };
+    if (g && g.quienes.length) return { k: 'prox', pill: '<span class="pill warn">La que sigue</span>', orden: 1, g };
     return { k: 'falta', pill: '<span class="pill">Por grabar</span>', orden: 3 };
   }
   V.atwork = {
@@ -1646,7 +1652,7 @@ ${P.camino.map((m) => { const pm = pctMes(m); if (!pm.t) return ''; return `<det
       b.activas.forEach((a) => { const w = semanaDe(a.perfil); if (!w) return; const i = w <= 2 ? 0 : w <= 4 ? 1 : w <= 8 ? 2 : w <= 12 ? 3 : w <= 16 ? 4 : 5; etapas[i].quienes.push({ a, w }); });
       const fila = (c) => {
         const { t, e } = c, lk = linkGrabar(F, t.id), cb = CB[t.id];
-        const quien = e.g ? `<br><span class="muted small">${e.g.quienes.map((x) => nom1(x.a.nombre) + ' (sem. ' + x.n + ')').join(', ')}</span>` : '';
+        const quien = e.g && e.g.quienes.length ? `<br><span class="muted small">${e.g.quienes.map((x) => nom1(x.a.nombre) + ' (M' + x.n + ')').join(', ')}</span>` : '';
         const botones = e.k === 'pub' ? (t.link ? `<a class="btn ghost sm" href="${esc(t.link)}" target="_blank" rel="noopener">Ver la clase</a>` : '') + ((F.publicadas || {})[t.id] ? `<button type="button" class="linkbtn small" data-publicar="${esc(t.id)}">Cambiar link</button>` : '')
           : e.k === 'grab' ? `<button type="button" class="btn sm" data-publicar="${esc(t.id)}">Ya la subí: pegar el link</button><button type="button" class="linkbtn small" data-desgrab="${esc(t.id)}">Deshacer</button>`
           : e.k === 'salt' ? `<button type="button" class="linkbtn small" data-dessaltar="${esc(t.id)}">Volver a la lista</button>`
@@ -1658,7 +1664,7 @@ ${P.camino.map((m) => { const pm = pctMes(m); if (!pm.t) return ''; return `<det
       return `<div class="head"><div><span class="eyebrow">El programa desde tu lado</span><h1>AT WORK</h1></div></div>
 <div class="grid g-3">
   <section class="card"><span class="eyebrow">Publicadas</span><span class="big">${n('pub')}</span><span class="muted small">de ${clases.length} clases del programa</span></section>
-  <section class="card"><span class="eyebrow">Por grabar</span><span class="big">${porGrabar.length}</span><span class="muted small">${n('urg')} urgentes · ${n('prox')} para la semana que viene</span></section>
+  <section class="card"><span class="eyebrow">Por grabar</span><span class="big">${porGrabar.length + (F.primero || []).filter((x) => !x.hecho).length}</span><span class="muted small">${(F.primero || []).filter((x) => !x.hecho).length ? (F.primero || []).filter((x) => !x.hecho).length + ' del onboarding · ' : ''}${n('urg')} urgentes · ${n('prox')} las que siguen</span></section>
   <section class="card"><span class="eyebrow">Grabadas, falta subir</span><span class="big">${n('grab')}</span><span class="muted small">${n('salt') ? n('salt') + ' que decidiste no grabar' : 'Subilas a la academia'}</span></section>
 </div>
 ${primeroHTML(F)}
@@ -2527,10 +2533,10 @@ ${primeroHTML(F)}
 <section class="card${esDomingo(hoy) ? '' : ' feature'} unica">
   ${esDomingo(hoy) ? '<span class="eyebrow">Domingo · descanso</span><p class="small muted">Hoy no hay nada para grabar. Si te sirve, mirá tu foco para arrancar el lunes.</p>' : `<span class="eyebrow">Hoy, una sola cosa · grabar</span>
   ${g0 ? `<h2>${esc(g0.t.texto)}</h2>
-  <p class="small">${g0.ya ? `${g0.quienes.filter((x) => x.n >= g0.desde).length} ${g0.quienes.filter((x) => x.n >= g0.desde).length === 1 ? 'alumna ya llegó' : 'alumnas ya llegaron'} a esta clase (va en la semana ${g0.desde}).` : `La necesitan la semana que viene (semana ${g0.desde}).`}</p>
+  <p class="small">${g0.ya ? `${g0.quienes.filter((x) => x.n >= g0.mod).length} ${g0.quienes.filter((x) => x.n >= g0.mod).length === 1 ? 'alumna ya está' : 'alumnas ya están'} en el Módulo ${g0.mod}.` : g0.quienes.length ? `Es del Módulo ${g0.mod}: la necesitan las que están terminando el módulo anterior.` : `Es del Módulo ${g0.mod}. Te ${G.length === 1 ? 'queda esta sola' : 'quedan ' + G.length} para terminar el programa.`}</p>
   <div class="row" style="gap:8px;flex-wrap:wrap">${linkGrabar(F, g0.t.id) ? `<a class="btn" href="${esc(linkGrabar(F, g0.t.id))}" target="_blank" rel="noopener">🎬 Abrir todo para grabar</a>` : `<button type="button" class="btn" data-glink="${esc(g0.t.id)}">+ Pegar el link del material</button>`}<button type="button" class="btn ghost sm" data-grab="${esc(g0.t.id)}">Ya la grabé</button></div>
   ${G.length > 1 ? `<p class="muted small" style="margin-top:10px">Después: ${esc(G[1].t.texto)} · <a href="#progreso">quedan ${G.length - 1} más</a>. No las mires hoy: de a una.</p>` : ''}`
-  : '<h2>No hay clases urgentes para grabar 🎉</h2><p class="muted small">Ninguna alumna llegó a una clase en grabación. Hoy grabá contenido.</p>'}
+  : '<h2>No te queda ninguna clase por grabar 🎉</h2><p class="muted small">El programa está completo. Hoy grabá contenido.</p>'}
   <p class="small" style="margin-top:10px"><a href="#contenido">📲 Contenido de hoy →</a> · <a href="#atwork">🎬 Todo el programa →</a></p>`}
   <details class="foco"><summary class="small">${fo.texto ? `Tu foco de 30 días: <b>${esc(fo.texto)}</b>${diasFoco != null ? ` · ${diasFoco ? 'quedan ' + diasFoco + ' días' : 'revisalo el lunes'}` : ''}` : 'Definí tu foco de 30 días'}</summary>
     ${fo.resuelto ? `<p class="small"><b>Resuelto cuando:</b> ${esc(fo.resuelto)}</p>` : ''}${fo.paso ? `<p class="small"><b>Smart Scale:</b> ${esc(fo.paso)}</p>` : ''}
