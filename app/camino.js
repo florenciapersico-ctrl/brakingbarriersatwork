@@ -122,8 +122,6 @@
       { s: [6], titulo: 'Tu mapa del mensaje', tareas: [
         T('6.1', 'M2 · The Message Map + úsalo en tu próximo update', 'clase practica', 'Módulo 2', { link: M2('88302d24-8b19-4f36-b37b-2c2b97ecd28e') }),
         T('6.2', 'M2 · Manage the Interaction', 'clase', 'Módulo 2', { link: M2('7c133d1d-a777-4f96-9441-92b00c3db78e') }),
-        T('6.3', 'M2 · Dar tu opinión', 'clase', 'Módulo 2', { pronto: true }),
-        T('6.4', 'M2 · Explicar ideas', 'clase', 'Módulo 2', { pronto: true })
       ] },
       { s: [7], titulo: 'Tu situación de trabajo', tareas: [
         T('7.1', 'M2 · Talking About Numbers & Data', 'clase', 'Módulo 2', { link: M2('3b4e5f4e-1fde-4974-a59f-651260ae4a6d'), ws: 'https://docs.google.com/document/d/1S9b9mv_-zyozXJlcdZ2Xh463GCoWk2sJSrJ_32ZW1cQ/copy', wsExtra: true }),
@@ -135,8 +133,6 @@
         // «Tus reuniones» (material del 19/11): reemplaza a «Presentarte» (inventario del 21/11).
         T('8.6', 'M2 · Tus reuniones · Parte 1', 'clase', 'Módulo 2', { pronto: true }),
         T('8.7', 'M2 · Tus reuniones · Parte 2', 'clase', 'Módulo 2', { pronto: true }),
-        T('8.4', 'M2 · Expresar desacuerdo', 'clase', 'Módulo 2', { pronto: true }),
-        T('8.5', 'M2 · Responder preguntas inesperadas', 'clase', 'Módulo 2', { pronto: true }),
         T('8.3', 'Comparar tu primer y tu último intento del mes y compartir tu win', 'evidencia', 'Comunidad', { comunidad: true })
       ] }
     ] },

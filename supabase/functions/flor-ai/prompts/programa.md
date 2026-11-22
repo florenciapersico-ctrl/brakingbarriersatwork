@@ -33,16 +33,12 @@ Semana 5 · Decir las ideas simple:
 Semana 6 · Tu mapa del mensaje:
 - M2 · The Message Map + úsalo en tu próximo update [clase practica · Módulo 2] → https://academy.breakingbarriers.site/courses/products/6863ca67-9163-40bd-98de-f0c450d87919/categories/686e786a-3975-437e-98a7-b60a7f115798/posts/88302d24-8b19-4f36-b37b-2c2b97ecd28e
 - M2 · Manage the Interaction [clase · Módulo 2] → https://academy.breakingbarriers.site/courses/products/6863ca67-9163-40bd-98de-f0c450d87919/categories/686e786a-3975-437e-98a7-b60a7f115798/posts/7c133d1d-a777-4f96-9441-92b00c3db78e
-- M2 · Dar tu opinión [clase · Módulo 2] PRONTO
-- M2 · Explicar ideas [clase · Módulo 2] PRONTO
 Semana 7 · Tu situación de trabajo:
 - M2 · Talking About Numbers & Data [clase · Módulo 2] → https://academy.breakingbarriers.site/courses/products/6863ca67-9163-40bd-98de-f0c450d87919/categories/686e786a-3975-437e-98a7-b60a7f115798/posts/3b4e5f4e-1fde-4974-a59f-651260ae4a6d
 - M2 · Presentaciones: parte 1 [clase playbook · Módulo 2] → https://academy.breakingbarriers.site/courses/products/6863ca67-9163-40bd-98de-f0c450d87919/categories/686e786a-3975-437e-98a7-b60a7f115798/posts/ecdd7925-c11f-4276-9db3-e985ff8be613
 - M2 · Presentaciones: parte 2 [clase playbook · Módulo 2] → https://academy.breakingbarriers.site/courses/products/6863ca67-9163-40bd-98de-f0c450d87919/categories/686e786a-3975-437e-98a7-b60a7f115798/posts/363344d6-a536-4ed7-97df-15565cbd16f3
 Semana 8 · Conectar y sostener la conversación:
 - M2 · Small Talk & Networking [clase playbook · Módulo 2] → https://academy.breakingbarriers.site/courses/products/6863ca67-9163-40bd-98de-f0c450d87919/categories/686e786a-3975-437e-98a7-b60a7f115798/posts/50ec7aca-66df-4039-ba90-c82a8a4185e5
-- M2 · Expresar desacuerdo [clase · Módulo 2] PRONTO
-- M2 · Responder preguntas inesperadas [clase · Módulo 2] PRONTO
 - M2 · Tus reuniones · Parte 1 [clase · Módulo 2] PRONTO
 - M2 · Tus reuniones · Parte 2 [clase · Módulo 2] PRONTO
 - Comparar tu primer y tu último intento del mes y compartir tu win [evidencia · Comunidad]
