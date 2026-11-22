@@ -614,6 +614,19 @@ Deno.serve(async (req) => {
       return json({ ok: true, que: "resumen", fecha: fechaClase });
     }
 
+    // Feedback de Flor con «Tu tarea» (Flor, 21/11): sus tareas de la semana se actualizan con lo que Flor le pidió
+    // en ESE mail, textual. Se suman a las de la clase (sin repetir); nunca se agrega nada que Flor no haya escrito.
+    if (perfil) {
+      const nuevas = tareasDelResumen(texto);
+      if (nuevas.length) {
+        const { data: tiene } = await admin.from("tareas").select("texto").eq("alumna_id", perfil.id).eq("hecha", false);
+        const ya = new Set((tiene || []).map((x: { texto: string }) => x.texto.trim().toLowerCase()));
+        const dia = `${String(fecha.getUTCDate()).padStart(2, "0")}/${String(fecha.getUTCMonth() + 1).padStart(2, "0")}`;
+        const filas = nuevas.filter((t) => !ya.has(t.trim().toLowerCase())).map((t, i) => ({ alumna_id: perfil.id, texto: t, donde: `Feedback de Flor del ${dia}`, hecha: false, orden: 100 + i }));
+        if (filas.length) await admin.from("tareas").insert(filas);
+      }
+    }
+
     // 1) respuesta en el mismo hilo de una tarea que mandó por mail
     const hilo = (Array.isArray(body.hilo) ? body.hilo : []).map((x: unknown) => "mail:" + String(x));
     if (perfil && hilo.length) {

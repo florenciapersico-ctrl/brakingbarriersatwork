@@ -70,7 +70,7 @@ FOCO:
 POR QUÉ:
 (una o dos frases de por qué ese foco, o vacío)
 TAREAS:
-(una por línea: texto | dónde. Máximo 3. O "ninguna")
+(SOLO lo que la RESPUESTA le pide hacer, con las mismas palabras: una por línea, texto | dónde. Nunca agregues una tarea que no esté escrita en la RESPUESTA. Si la RESPUESTA no le pide nada concreto: "ninguna")
 NOTAS PARA FLOR:
 (qué dejaste afuera, qué chequear, alertas de cuidado)
 
