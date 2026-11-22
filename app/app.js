@@ -2712,7 +2712,7 @@ ${pruebaHTML()}
         <div class="field"><label>Tu respuesta</label><small>Lo que funcionó, tu foco para ella y qué clase ver. Las correcciones van abajo: ella las ve como ejercicio (primero las encuentra, después ve tus respuestas).</small><textarea class="r" rows="6"></textarea></div>
         <div class="field"><label>Correcciones · solo las ves tú así</label><small>Ella primero ve solo su frase, la corrige y dice por qué; recién después ve tu corrección y tu por qué. Toca «Ver cómo lo ve ella».</small><div class="corrs"></div><button type="button" class="linkbtn small addc">+ Agregar corrección</button></div>
         <p class="notas small muted" hidden></p>
-        <div class="row"><button class="btn send-ya" type="button">Enviar ya</button><button class="btn ghost send" type="button">Armar borrador en Gmail</button><button class="btn ghost ia" type="button">Borrador con IA</button><button class="btn ghost ver" type="button">Ver cómo lo ve ella</button><button class="linkbtn small borrarp" type="button">${x._grupo && x._grupo.length > 1 ? `Borrar los ${x._grupo.length}` : 'Borrar pedido'}</button></div>
+        <div class="row"><button class="btn send-ya" type="button">Enviar ya</button><button class="btn ghost send" type="button">Armar borrador en Gmail</button><button class="btn ghost ia" type="button">Borrador con IA</button><button class="btn ghost ver" type="button">Ver cómo lo ve ella</button><button class="btn ghost borrarp" type="button">🗑️ ${x._grupo && x._grupo.length > 1 ? `Borrar los ${x._grupo.length}` : 'Borrar'}</button></div>
         <div class="vista" hidden><span class="eyebrow">Así lo ve ella en su app</span><div class="reply"></div></div>
         ${claseHoyDe(x) ? '</details>' : ''}
       </div>` : `<div class="fbitem" data-pimp="${esc(x.email)}" data-origen="${esc(x.origen || '')}" data-mail="${esc(String(x.email || '').toLowerCase())}" data-or="${esc(x.origen || '')}">
@@ -2741,7 +2741,7 @@ ${pruebaHTML()}
           <div class="field"><label>Tareas (una por línea: tarea | dónde)</label><textarea class="pt" rows="3"></textarea></div>
           <label class="row small"><input type="checkbox" class="aplicar" checked> Cargarle este foco y estas tareas al enviar</label></div>` : ''}
         <p class="notas small muted" hidden></p>
-        <div class="row"><button class="btn sendw-ya" type="button">Enviar ya</button><button class="btn ghost sendw" type="button">Armar borrador en Gmail</button><button class="btn ghost iaw" type="button">Borrador con IA</button></div>
+        <div class="row"><button class="btn sendw-ya" type="button">Enviar ya</button><button class="btn ghost sendw" type="button">Armar borrador en Gmail</button><button class="btn ghost iaw" type="button">Borrador con IA</button>${x.src === 'app' ? '<button class="btn ghost wlisto" type="button">🗑️ Borrar</button>' : ''}</div>
       </div>`).join(''))).join('') : '<section class="card"><p class="muted">No hay weeklies sin responder. 🎉</p></section>';
         if (b.wViejos && b.wViejos.length) cuerpo += `<details class="card viejos"><summary><b>${b.wViejos.length} ${b.wViejos.length === 1 ? 'weekly viejo' : 'weeklies viejos'} sin responder</b> <span class="muted small">· de antes de la semana pasada o con uno más nuevo de ella: no se responden y no cuentan como pendientes.</span></summary><p class="small muted">${b.wViejos.map((x) => esc(String(x.nombre).split(' ')[0]) + ' (' + fecha(x.semana, { day: 'numeric', month: 'short' }) + ')').join(', ')}</p></details>`;
       }
@@ -2799,6 +2799,13 @@ ${cuerpo}`;
         finally { btn.disabled = false; }
       };
       const quitarDeLista = (it) => { const g = it.closest('.sem-grupo'); it.remove(); if (g && !$('.fbitem', g)) g.remove(); contarBandeja(); };
+      // Borrar un weekly de la bandeja (Flor, 22/11: si ya le respondió por otro lado): no se le manda nada, queda como respondido.
+      $$('[data-wid] .wlisto').forEach((bt) => (bt.onclick = async () => {
+        if (!confirm('¿Lo saco de la bandeja sin mandarle nada? (Por ejemplo, si ya le respondiste por otro lado.)')) return;
+        const it = bt.closest('[data-wid]');
+        await intentar(() => DB.responderWeekly(+it.dataset.wid || it.dataset.wid, 'Flor te respondió por mail.'), 'Sacado de la bandeja');
+        quitarDeLista(it);
+      }));
       $$('[data-resp-edit]').forEach((bt) => (bt.onclick = () => { const fm = $(`[data-resp-form="${bt.dataset.respEdit}"]`); fm.hidden = !fm.hidden; }));
       $$('[data-resp-form]').forEach((fm) => (fm.onsubmit = async (e) => { e.preventDefault(); await intentar(() => DB.editarPedido(+fm.dataset.respForm || fm.dataset.respForm, { respuesta: $('.re-txt', fm).value.trim() }), 'Respuesta actualizada'); ruta(); }));
       $$('[data-resp-del]').forEach((bt) => (bt.onclick = async () => { if (!confirm('¿Borrar este pedido y tu respuesta? Ella tampoco lo va a ver más.')) return; await intentar(() => DB.borrarPedido(+bt.dataset.respDel || bt.dataset.respDel), 'Borrado'); ruta(); }));

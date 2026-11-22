@@ -206,20 +206,35 @@ function armarBorrador(p) {
     } catch (e) { console.error('responder', e); }
   }
   if (!borrador) borrador = GmailApp.createDraft(p.para, p.asunto || 'Feedback', p.texto || '', op);
+  // Enviar ya desde la app (Flor, 22/11: "saltarme un paso"): el mismo mail, con Flor en copia oculta, sale directo.
+  // Se envía con la API de Gmail por id: si el borrador se acaba de reemplazar, GmailApp a veces no lo encuentra («Não encontrado»).
+  if (p.enviar) return enviarBorrador(borrador, p);
   var hilo = borrador.getMessage().getThread();
   var et = GmailApp.getUserLabelByName(ETIQUETA_ENVIADOS) || GmailApp.createLabel(ETIQUETA_ENVIADOS);
   hilo.addLabel(et); // así, cuando Flor lo manda, la revisión de Enviados lo encuentra
   // Y la etiqueta "AT WORK/Feedback para revisar": ahí quedan todos los borradores que arma la app, para que Flor los revise y los mande.
-  // Enviar ya desde la app (Flor, 22/11: "saltarme un paso"): el mismo mail, con Flor en copia oculta, sale directo.
-  if (p.enviar) {
-    var asuntoEnv = borrador.getMessage().getSubject();
-    borrador.send();
-    try { hilo.removeLabel(GmailApp.getUserLabelByName(ETIQUETA_REVISAR)); } catch (e) {}
-    return { ok: true, enviado: true, asunto: asuntoEnv };
-  }
   var rev = GmailApp.getUserLabelByName(ETIQUETA_REVISAR) || GmailApp.createLabel(ETIQUETA_REVISAR);
   hilo.addLabel(rev);
   return { ok: true, asunto: borrador.getMessage().getSubject(), link: linkBorrador(borrador.getMessage(), hilo, yo), reemplazado: reemplazado };
+}
+
+function enviarBorrador(borrador, p) {
+  var id = borrador.getId();
+  var r = UrlFetchApp.fetch('https://gmail.googleapis.com/gmail/v1/users/me/drafts/send', { method: 'post', contentType: 'application/json',
+    payload: JSON.stringify({ id: id }), headers: { Authorization: 'Bearer ' + ScriptApp.getOAuthToken() }, muteHttpExceptions: true });
+  var threadId = '';
+  if (r.getResponseCode() === 200) threadId = JSON.parse(r.getContentText()).threadId || '';
+  else {
+    console.error('drafts send', r.getResponseCode(), r.getContentText().slice(0, 300));
+    try { var d = GmailApp.getDraft(id); threadId = d.getMessage().getThread().getId(); d.send(); }
+    catch (e) { return { ok: false, error: 'enviar ' + r.getResponseCode() + ': ' + String(e).slice(0, 100) }; }
+  }
+  try {
+    var h = GmailApp.getThreadById(threadId);
+    h.addLabel(GmailApp.getUserLabelByName(ETIQUETA_ENVIADOS) || GmailApp.createLabel(ETIQUETA_ENVIADOS));
+    var rev = GmailApp.getUserLabelByName(ETIQUETA_REVISAR); if (rev) h.removeLabel(rev);
+  } catch (e) { console.error('etiquetas envio', e); }
+  return { ok: true, enviado: true, asunto: p.asunto || '' };
 }
 
 // Link para abrir el borrador directo, en la cuenta de Flor (no en la primera cuenta del navegador).
