@@ -353,6 +353,7 @@
         if ('nota' in c) t.nota = c.nota || undefined;
         if ('pronto' in c) t.pronto = !!c.pronto;
       }
+      t.sube = c && c.sube ? c.sube : undefined;
       t.oculta = t.id in ocultas;
       // Antes de grabarla, la alumna la ve solo si Flor lo eligió (tiene worksheet o teoría para hacer mientras tanto).
       t.antes = c && 'anticipo' in c ? !!c.anticipo : !!t._o.anticipo0;
@@ -428,9 +429,15 @@
     if (t.ir === '#weekly' || t.onb) return null;
     if (t.id === '1.2') return { label: 'Subir mi acuerdo firmado', tipo: 'tarea', doc: 'acuerdo' };
     if (t.id === '1.3' || t.id === '19.1') return { label: 'Subir mi Starting Point', tipo: 'audio', doc: 'starting' };
+    // Lo que eligió Flor desde su panel gana (21/11): 'no' | 'playbook' | 'worksheet' | 'tarea'.
+    if (t.sube === 'no') return null;
+    if (t.sube === 'playbook') return { label: 'Subir mi playbook', tipo: 'playbook' };
+    if (t.sube === 'worksheet') return { label: 'Subir mi worksheet', tipo: 'playbook' };
+    if (t.sube === 'tarea') return { label: 'Subir mi tarea', tipo: 'tarea' };
     if (t.entrega) return { label: t.entrega, tipo: 'playbook' };
-    // Desde el 14/11 se usan worksheets (no playbooks): si la clase tiene worksheet, se sube la worksheet.
-    if (/clase|playbook|worksheet/.test(t.tipo)) return { label: t.ws && !t.wsExtra ? 'Subir mi worksheet' : 'Subir mi playbook', tipo: 'playbook' };
+    // Solo si la clase TIENE playbook o worksheet (Flor, 21/11: antes salía «Subir mi playbook» en todas).
+    if ((t.ws && !t.wsExtra) || /worksheet/.test(t.tipo)) return { label: 'Subir mi worksheet', tipo: 'playbook' };
+    if (/playbook/.test(t.tipo)) return { label: 'Subir mi playbook', tipo: 'playbook' };
     if (/evidencia|practica|material/.test(t.tipo)) return { label: 'Subir mi tarea', tipo: 'tarea' };
     return null;
   }
@@ -443,9 +450,9 @@
       <form class="entrega" data-ent="${t.id}" hidden><input type="file" class="e-file" accept="audio/*,video/*,.pdf,image/*,.doc,.docx,.ppt,.pptx">
         <input type="url" class="e-link" placeholder="…o pega un link (Drive, Google Docs)"><textarea class="e-txt" rows="2" placeholder="¿Algo que quieras contarle a Flor? (opcional)"></textarea>
         <div class="row"><button class="btn sm" type="submit">Entregar</button><button type="button" class="linkbtn small e-x">Cancelar</button></div></form>`;
-    const sinEnt = !ent && !hecha && !t.ir && !t.reservar && !t.comunidad ? '<span class="muted small">Sin playbook para esta sesión: márcala tú cuando la termines.</span>' : '';
+    const sinEnt = !ent && !hecha && !t.ir && !t.reservar && !t.comunidad ? (/clase/.test(t.tipo) ? '<span class="muted small">Esta clase no tiene playbook: márcala cuando la termines.</span>' : '<span class="muted small">Márcala cuando la termines.</span>') : '';
     return `<li><label><input type="checkbox" data-cam="${t.id}" ${hecha ? 'checked' : ''}><div><div class="t">${esc(txtT(t))}</div>${t.nota ? `<div class="muted small" style="margin:2px 0 4px">${esc(t.nota)}</div>` : ''}
-      <div class="where">${tags} · ${esc(t.donde)} ${t.pronto ? (t.ws || (t.cb || []).length ? '<span class="pill warn">Video en grabación · ya puedes trabajarla con el worksheet y la teoría</span>' : '<span class="pill warn">En grabación · se publica pronto</span>') : ''} ${accionTarea(t)} ${t.ws ? `<a class="linkbtn small" href="${esc(t.ws)}" target="_blank" rel="noopener">📄 ${t.wsExtra ? 'Worksheet para profundizar' : 'Tu worksheet'}</a>` : ''} ${sinEnt}</div></div></label>
+      <div class="where">${tags} · ${esc(t.donde)} ${t.pronto ? (t.ws || (t.cb || []).length ? '<span class="pill warn">Video en grabación · ya puedes trabajarla con el worksheet y la teoría</span>' : '<span class="pill warn">En grabación · se publica pronto</span>') : ''} ${accionTarea(t)} ${t.ws ? `<a class="linkbtn small" href="${esc(t.ws)}" target="_blank" rel="noopener" title="Se guarda una copia en tu Drive para que la completes">⬇️ ${t.wsExtra ? 'Descargar worksheet para profundizar' : 'Descargar tu ' + (t.sube === 'playbook' ? 'playbook' : 'worksheet')}</a>` : ''} ${sinEnt}</div></div></label>
       ${(t.cb || []).length ? `<details class="cb-extra"><summary class="small">📚 Para profundizar · Clarity Bank (${t.cb.length + (t.cbMas || []).length})</summary>
         <p class="muted small" style="margin:4px 0">${esc(t.cbIntro || 'Material de consulta: si quieres repasar la regla con más detalle, aquí está cada tema explicado paso a paso.')}</p>
         <ul class="small" style="margin:0;padding-left:18px">${t.cb.map((c) => `<li><a href="${esc(c.u)}" target="_blank" rel="noopener">${esc(c.t)}</a>${c.d ? ': ' + esc(c.d) : ''}</li>`).join('')}</ul>
@@ -641,16 +648,27 @@
     const hechas = ids.filter((x) => h.has(x)).length;
     return { hechas, total: ids.length, pct: ids.length ? (100 * hechas) / ids.length : 0 };
   }
+  // Dónde está (Flor, 21/11: módulos, no meses): el módulo que eligió ella en «Dónde estás»;
+  // si no eligió, el que le toca por su fecha de inicio; si no hay fecha, el Módulo 1.
+  function moduloDe(p) {
+    p = p || {};
+    if (p.modulo_actual != null && p.modulo_actual !== '') return Math.max(1, Math.min(5, +p.modulo_actual || 1));
+    const n = semanaDe(p), c = n ? semanaCamino(n) : null; return c ? c.mes.n : 1;
+  }
+  // Lo que sigue: el primer bloque de su módulo (o de los siguientes) con algo sin hacer.
+  function bloqueActual(p) {
+    const h = new Set((p && p.camino_hecho) || []), m0 = moduloDe(p);
+    for (const m of P.camino) { if (m.n < m0) continue; for (const s of m.semanas) if (s.tareas.some((t) => !h.has(t.id))) return { mes: m, sem: s }; }
+    const m = P.camino.find((x) => x.n === m0), ss = m ? m.semanas.filter((s) => s.tareas.length) : [];
+    return ss.length ? { mes: m, sem: ss[ss.length - 1] } : null;
+  }
   function loQueSigue(p) {
-    const n = semanaDe(p) || 1, h = new Set(p.camino_hecho || []);
-    for (const m of P.camino) for (const s of m.semanas) for (const t of s.tareas) {
-      if (Math.min(...s.s) > n) return null;
-      if (!h.has(t.id) && !t.pronto) return { t, s, m };
-    }
+    const h = new Set(p.camino_hecho || []), m0 = moduloDe(p);
+    for (const m of P.camino) { if (m.n < m0) continue; for (const s of m.semanas) for (const t of s.tareas) if (!h.has(t.id) && !t.pronto) return { t, s, m }; }
     return null;
   }
   function etapasHTML(n, p) {
-    const e = n ? etapaDe(n) : -1, h = new Set((p && p.camino_hecho) || []);
+    const e = p && (p.modulo_actual === 0 || p.modulo_actual === '0') ? 0 : p ? moduloDe(p) : n ? etapaDe(n) : -1, h = new Set((p && p.camino_hecho) || []);
     const completa = (i) => { let hay = false; for (const m of P.camino) for (const s of m.semanas) if (etapaDe(Math.min(...s.s)) === i) for (const t of s.tareas) { if (t.pronto) continue; hay = true; if (!h.has(t.id)) return false; } return hay; };
     return `<div class="stepper">${P.recorrido.map((r, i) => `<div class="${completa(i) ? 'done' : i === e ? 'on' : ''}"><i>${completa(i) ? '✓' : i}</i><b>${esc(r.etapa)}</b><span>${esc(r.cuando)}</span></div>`).join('')}</div>`;
   }
@@ -668,19 +686,18 @@
       const faltaW = !(wHoy && wHoy.enviado_en) && (onbHecho(p) || weeklies.length > 0) && !st.admin;
       const recW = faltaW ? `<section class="card feature recw"><span class="eyebrow">Recordatorio · weekly report</span><h2>${wHoy && Object.keys(wHoy.respuestas || {}).length ? 'Tu weekly está a medias' : 'Todavía no mandaste tu weekly de esta semana'}</h2><p class="muted">Son 5 a 10 minutos y es lo que le permite a Flor guiarte esta semana: tus wins, tu foco y qué necesitas de ella.</p><div class="row"><a class="btn" href="#weekly">${wHoy && Object.keys(wHoy.respuestas || {}).length ? 'Terminarlo ahora' : 'Completarlo ahora'}</a></div></section>` : '';
       const sinOnb = (p.onboarding || []).length < onbDe(p).checklist.length;
-      const cs = n ? semanaCamino(n) : null;
+      const cs = bloqueActual(p);
       const hechasSem = cs ? cs.sem.tareas.filter((t) => (p.camino_hecho || []).includes(t.id)).length : 0;
       const enVivo = fmt(p) === '1:1'
         ? { t: 'Tu clase 1:1', d: p.horario_clase ? esc(p.horario_clase) : 'En tu horario fijo con Flor.', link: url(p.link_clase) || '' }
         : { t: l.fecha ? esc(l.fecha) : 'Lab de los sábados', d: l.fecha ? esc(l.horario || '') + (l.tema ? ' · ' + esc(l.tema) : '') : '15:30 a 16:30 de Argentina (12:30 MX y CR, 13:30 CO)', link: url(l.link) || 'https://meet.google.com/gow-vnpg-xhx' };
       // Mi semana (Flor, 13/11): arriba solo lo que sigue, sus tareas y su foco. Lo demás, abajo y plegado.
-      const sinTareas = n ? (sig && fmt(p) !== '1:1'
-          ? `<h2>${esc(txtT(sig.t))}</h2><p class="muted small">Semana ${sig.s.s.join(' y ')} · ${esc(sig.s.titulo)} · ${esc(sig.t.donde)}</p><div class="row">${accionTarea(sig.t).replace('linkbtn small', 'btn')}<a class="btn ghost" href="#camino">Ver mi camino</a></div>`
-          : '<h2>Estás al día</h2><p class="muted small">Usa esta semana para practicar con tu material real y mandárselo a Flor.</p><div class="row"><a class="btn" href="#feedback">Mandar material real</a></div>')
-        : '<h2>Tu camino de 20 semanas</h2><p class="muted small">Cuando Flor cargue tu fecha de inicio, acá vas a ver exactamente qué te toca.</p><div class="row"><a class="btn ghost" href="#camino">Ver mi camino</a></div>';
+      const sinTareas = sig && fmt(p) !== '1:1'
+          ? `<h2>${esc(txtT(sig.t))}</h2><p class="muted small">Módulo ${sig.m.n} · ${esc(sig.s.titulo)} · ${esc(sig.t.donde)}</p><div class="row">${accionTarea(sig.t).replace('linkbtn small', 'btn')}<a class="btn ghost" href="#camino">Ver mi camino</a></div>`
+          : '<h2>Estás al día</h2><p class="muted small">Usa esta semana para practicar con tu material real y mandárselo a Flor.</p><div class="row"><a class="btn" href="#feedback">Mandar material real</a></div>';
       return `
 <div class="hero"><div><h1>${saludo()}${nombre ? ', ' + esc(nombre) : ''}<span class="punto">.</span></h1>
-  <p class="muted">${n ? `Semana ${n} de 20 · Mes ${cs.mes.n} · ${esc(cs.mes.titulo)}` : 'Tu espacio de AT WORK: todo lo de tu programa, en un solo lugar.'}</p></div></div>
+  <p class="muted">${cs ? `Módulo ${cs.mes.n} · ${esc(cs.mes.titulo)}` : 'Tu espacio de AT WORK: todo lo de tu programa, en un solo lugar.'}</p></div></div>
 ${aviso}
 ${recW}
 ${sinOnb && !weeklies.length ? `<section class="card feature"><span class="eyebrow">Tu primera semana</span><h2>Empieza por tu onboarding</h2><p class="muted">Dónde está cada cosa, tu punto de partida y tu primera práctica. Con calma: entender todo lleva unas dos semanas.</p><div class="row"><a class="btn" href="#empieza">Ir a Empieza acá</a></div></section>` : ''}
@@ -743,12 +760,11 @@ ${fmt(p) === '1:1' ? '' : caminoSemanaHTML(p)}
     }
   };
   function caminoSemanaHTML(p) {
-    const n = semanaDe(p);
-    if (!n) return `<section class="card empty-state"><span class="eyebrow">Tu camino AT WORK</span><h3>Tus 5 meses, semana por semana</h3><p class="muted small">Cuando Flor cargue tu fecha de inicio, acá vas a ver exactamente qué te toca esta semana.</p><a class="btn ghost" href="#camino">Ver mi camino</a></section>`;
-    const c = semanaCamino(n);
-    return `<section class="card"><div class="row between"><div><span class="eyebrow">Tu camino · semana ${n} de 20 · mes ${c.mes.n}</span><h3>${esc(c.sem.titulo)}</h3></div><a class="small" href="#camino">Ver todo mi camino</a></div>
-      ${c.sem.tareas.length ? `<ul class="tasks">${c.sem.tareas.map((t) => filaTarea(t, p.camino_hecho || [])).join('')}</ul>` : '<p class="muted small">Esta semana es para aplicar en tu trabajo lo que ya viste: practícalo con tus coaches y cuéntaselo a Flor en tu Weekly Report.</p>'}
-      ${n >= 2 ? `<details><summary class="small muted">Tus hábitos de todas las semanas</summary><ul class="tasks" style="margin-top:8px">${P.habitos.tareas.map((t) => `<li><div class="fbitem"><b>${esc(t.texto)}</b><span class="where muted small">${esc(t.donde)} ${accionTarea(t)}</span></div></li>`).join('')}</ul></details>` : ''}
+    const c = bloqueActual(p);
+    if (!c) return '';
+    return `<section class="card"><div class="row between"><div><span class="eyebrow">Tu camino · Módulo ${c.mes.n} · lo que sigue</span><h3>${esc(c.sem.titulo)}</h3></div><a class="small" href="#camino">Ver todo mi camino</a></div>
+      ${c.sem.tareas.length ? `<ul class="tasks">${c.sem.tareas.map((t) => filaTarea(t, p.camino_hecho || [])).join('')}</ul>` : '<p class="muted small">Ahora es momento de aplicar en tu trabajo lo que ya viste: practícalo con tus coaches y cuéntaselo a Flor en tu Weekly Report.</p>'}
+      ${onbHecho(p) ? `<details><summary class="small muted">Tus hábitos de todas las semanas</summary><ul class="tasks" style="margin-top:8px">${P.habitos.tareas.map((t) => `<li><div class="fbitem"><b>${esc(t.texto)}</b><span class="where muted small">${esc(t.donde)} ${accionTarea(t)}</span></div></li>`).join('')}</ul></details>` : ''}
     </section>`;
   }
   function qa(link, t, s) {
@@ -1303,15 +1319,16 @@ ${grupos.length ? grupos.map((g) => `<section class="card sem-grupo"><div class=
   V.camino = {
     html() {
       // Sin la tarjeta de «X de 60 tareas / Lo que sigue» (Flor, 20/11: no tenía sentido).
-      const p = st.perfil, n = semanaDe(p), hechas = p.camino_hecho || [];
-      const mesActual = n ? semanaCamino(n).mes.n : 1;
+      // Proceso por módulos, no por meses ni semanas (Flor, 21/11): cada una avanza a su ritmo y muchas renuevan.
+      const p = st.perfil, hechas = p.camino_hecho || [];
+      const modActual = moduloDe(p), ba = bloqueActual(p);
       const pctMes = (m) => { const ts = m.semanas.flatMap((x) => x.tareas); return { h: ts.filter((t) => hechas.includes(t.id)).length, t: ts.length }; };
-      return `<div class="head"><div><span class="eyebrow">Tu implementación, mes a mes, durante 5 meses</span><h1>Mi camino</h1></div></div>
-<p class="muted intro">El programa paso a paso. Enfócate en la semana en la que estás: lo demás espera. Si tu diagnóstico pide otro foco, Flor te lo indica en la respuesta a tu Weekly Report.</p>
-<section class="card"><h3>Tu recorrido</h3>${etapasHTML(n)}<p class="muted small">${esc(P.recorridoNota)}</p></section>
-${P.camino.map((m) => { const pm = pctMes(m); return `<details class="card mes" ${m.n === mesActual ? 'open' : ''}><summary><span class="mesnum"><small>MES</small>0${m.n}</span><span class="mestit"><h2>${esc(m.titulo)}</h2><span class="muted small">${pm.h} de ${pm.t} tareas · Al final del mes: ${esc(m.logro)}</span></span>${ring(pm.t ? (100 * pm.h) / pm.t : 0)}</summary>
-  ${m.semanas.filter((s) => s.tareas.length).map((s) => `<div class="semana ${n && s.s.includes(n) ? 'actual' : ''}"><div class="row between"><b class="semtit"><span>SEMANA${s.s.length > 1 ? 'S' : ''} ${s.s.join(' Y ')}</span> ${esc(s.titulo)}</b>${n && s.s.includes(n) ? '<span class="pill warn">Esta semana</span>' : ''}</div>
-    <ul class="tasks">${s.tareas.map((t) => filaTarea(t, hechas)).join('')}</ul></div>`).join('')}
+      return `<div class="head"><div><span class="eyebrow">Tu proceso, módulo a módulo</span><h1>Mi camino</h1></div></div>
+<p class="muted intro">El programa paso a paso. Enfócate en el módulo en el que estás: lo demás espera. Si tu diagnóstico pide otro foco, Flor te lo indica en la respuesta a tu Weekly Report.</p>
+<section class="card"><h3>Tu recorrido</h3>${etapasHTML(null, p)}<p class="muted small">${esc(P.recorridoNota)}</p></section>
+${P.camino.map((m) => { const pm = pctMes(m); if (!pm.t) return ''; return `<details class="card mes" ${m.n === modActual ? 'open' : ''}><summary><span class="mesnum"><small>MÓDULO</small>${m.n}</span><span class="mestit"><h2>${esc(m.titulo)}</h2><span class="muted small">${pm.h} de ${pm.t} tareas · Al terminar el módulo: ${esc(m.logro)}</span></span>${ring(pm.t ? (100 * pm.h) / pm.t : 0)}</summary>
+  ${m.semanas.filter((s) => s.tareas.length).map((s) => { const aq = ba && ba.sem === s; return `<div class="semana ${aq ? 'actual' : ''}"><div class="row between"><b class="semtit">${esc(s.titulo)}</b>${aq ? '<span class="pill warn">Lo que sigue</span>' : ''}</div>
+    <ul class="tasks">${s.tareas.map((t) => filaTarea(t, hechas)).join('')}</ul></div>`; }).join('')}
 </details>`; }).join('')}
 <section class="card"><span class="eyebrow">${esc(P.habitos.titulo)}</span><h3>${esc(P.habitos.ciclo)}</h3>
   <ul class="dates">${P.habitos.tareas.map((t) => `<li><b>${esc(t.donde)}</b><span>${esc(t.texto)} ${accionTarea(t)}</span></li>`).join('')}</ul>
@@ -1730,7 +1747,7 @@ ${nOc ? `<p class="muted small">Las clases que ocultaste no entran en esta lista
       }
 
       // Modo edición
-      const filtro = (t) => mc.filtro === 'todo' || (mc.filtro === 'grab' && /clase/.test(t.tipo) && t.pronto) || (mc.filtro === 'oc' && t.oculta) || (mc.filtro === 'ed' && cambios[t.id]);
+      const filtro = (t) => mc.filtro === 'todo' || (mc.filtro === 'grab' && /clase/.test(t.tipo) && t.pronto) || (mc.filtro === 'oc' && t.oculta) || (mc.filtro === 'ed' && cambios[t.id]) || (mc.filtro === 'sinpb' && /clase/.test(t.tipo) && !t.onb && !entregaDe(t));
       const filaEd = (t) => {
         const c = cambios[t.id] || {}, o = t._o || {};
         const pills = (t.oculta ? '<span class="pill bad">Oculta</span> ' : '') + (/clase/.test(t.tipo) && !t.onb ? (t.pronto ? (t.antes ? '<span class="pill warn">Por grabar · ya la ven (con su worksheet)</span>' : '<span class="pill warn">Por grabar · solo la ves tú</span>') : '<span class="pill ok">Publicada · la ven</span>') : '') + (cambios[t.id] ? ' <span class="pill">Editada</span>' : '');
@@ -1740,6 +1757,7 @@ ${nOc ? `<p class="muted small">Las clases que ocultaste no entran en esta lista
   <div class="row between" style="gap:8px;flex-wrap:wrap;align-items:flex-start"><span><span class="muted small">${esc(t.id)}</span> <b>${esc(t.texto)}</b> ${pills}</span>
     <span class="row" style="gap:8px;flex-wrap:wrap"><label class="small"><input type="checkbox" data-mcver="${esc(t.id)}" ${t.oculta ? '' : 'checked'}> Se muestra</label><button type="button" class="btn ghost sm" data-mced="${esc(t.id)}">Editar</button>${cambios[t.id] ? `<button type="button" class="linkbtn small" data-mcorig="${esc(t.id)}">Volver al original</button>` : ''}</span></div>
   <span class="where muted small">${esc(t.donde)} ${links}</span>
+  ${/clase|evidencia|practica|material/.test(t.tipo) && !t.onb ? (() => { const en = entregaDe(t); return en ? `<span class="small">📤 La alumna ve: «${esc(en.label)}»</span>` : `<span class="small">⚠️ Sin nada para subir${/clase/.test(t.tipo) ? ': esta clase no tiene playbook ni worksheet' : ''}</span>`; })() : ''}
   ${t.nota ? `<span class="muted small">Nota para la alumna: ${esc(t.nota)}</span>` : ''}
   ${notas[t.id] ? `<span class="small">🔒 Por qué (solo tú): ${esc(notas[t.id])}</span>` : ''}
   <form class="mc-form grid" data-mcf="${esc(t.id)}" hidden novalidate>
@@ -1748,6 +1766,7 @@ ${nOc ? `<p class="muted small">Las clases que ocultaste no entran en esta lista
     <label class="small"><input type="checkbox" class="f-pronto" ${t.pronto ? 'checked' : ''}> Todavía no está grabada</label>
     <label class="small"><input type="checkbox" class="f-antes" ${t.antes ? 'checked' : ''}> Mostrársela a las alumnas antes de grabarla (solo si ya tiene worksheet o teoría para hacer)</label>` : ''}
     <div class="field"><label>Worksheet (link /copy)</label><input class="f-ws" type="url" value="${esc(url(t.ws) || '')}" placeholder="https://docs.google.com/document/d/…/copy"></div>
+    <div class="field"><label>Qué sube la alumna</label><select class="f-sube">${[['', 'Automático (según tenga playbook o worksheet)'], ['playbook', 'Su playbook'], ['worksheet', 'Su worksheet'], ['tarea', 'Su tarea'], ['no', 'Nada: esta clase no tiene playbook']].map(([k, l]) => `<option value="${k}" ${(t.sube || '') === k ? 'selected' : ''}>${l}</option>`).join('')}</select></div>
     <div class="field"><label>Nota para la alumna (opcional)</label><textarea class="f-nota" rows="2">${esc(t.nota || '')}</textarea></div>
     <div class="field"><label>Por qué lo cambias (solo lo ves tú)</label><input class="f-por" type="text" value="${esc(notas[t.id] || '')}"></div>
     <div class="row"><button class="btn sm" type="submit">Guardar</button><button type="button" class="linkbtn small f-x">Cancelar</button></div>
@@ -1755,9 +1774,9 @@ ${nOc ? `<p class="muted small">Las clases que ocultaste no entran en esta lista
       };
       const cuerpo = P._caminoBase.map((m) => {
         const sems = m.semanas.map((s) => { const ts = s.tareas.filter(filtro); return ts.length ? `<div class="semana"><b class="semtit"><span>SEMANA${s.s.length > 1 ? 'S' : ''} ${s.s.join(' Y ')}</span> ${esc(s.titulo)}</b><ul class="tasks">${ts.map(filaEd).join('')}</ul></div>` : ''; }).join('');
-        return sems ? `<details class="card mes" open><summary><span class="mesnum"><small>MES</small>0${m.n}</span><span class="mestit"><h2>${esc(m.titulo)}</h2></span></summary>${sems}</details>` : '';
+        return sems ? `<details class="card mes" open><summary><span class="mesnum"><small>MÓDULO</small>${m.n}</span><span class="mestit"><h2>${esc(m.titulo)}</h2></span></summary>${sems}</details>` : '';
       }).join('');
-      return head + `<section class="card"><div class="row" style="gap:10px;flex-wrap:wrap;align-items:flex-end"><div class="field" style="margin:0"><label for="mc-filtro">Mostrar</label><select id="mc-filtro">${[['todo', 'Todo el camino'], ['grab', 'Clases en grabación'], ['oc', 'Lo que ocultaste'], ['ed', 'Lo que editaste']].map(([k, l]) => `<option value="${k}" ${mc.filtro === k ? 'selected' : ''}>${l}</option>`).join('')}</select></div></div>
+      return head + `<section class="card"><div class="row" style="gap:10px;flex-wrap:wrap;align-items:flex-end"><div class="field" style="margin:0"><label for="mc-filtro">Mostrar</label><select id="mc-filtro">${[['todo', 'Todo el camino'], ['grab', 'Clases en grabación'], ['oc', 'Lo que ocultaste'], ['ed', 'Lo que editaste'], ['sinpb', 'Clases sin playbook ni worksheet']].map(([k, l]) => `<option value="${k}" ${mc.filtro === k ? 'selected' : ''}>${l}</option>`).join('')}</select></div></div>
   <p class="muted small" style="margin-top:8px">Destilda «Se muestra» para sacar una tarea del camino de todas (Flor AI tampoco la recomienda). Con «Editar» cambias lo que ven y dejas el porqué.</p></section>
 ${cuerpo || '<section class="card"><p class="muted">Nada para mostrar con este filtro.</p></section>'}`;
     },
@@ -1808,6 +1827,8 @@ ${cuerpo || '<section class="card"><p class="muted">Nada para mostrar con este f
         if (ws !== (url(t.ws) || '')) n.ws = ws;
         if (nota !== (t.nota || '')) n.nota = nota;
         if (pronto !== undefined && pronto !== !!t.pronto) n.pronto = pronto;
+        const sube = val('sube');
+        if (sube !== (t.sube || '')) n.sube = sube;
         const antes = val('antes');
         if (antes !== undefined && antes !== !!t.antes) n.anticipo = antes;
         const prev = c.cambios[id] || {}, junto = { ...prev, ...n };
@@ -1816,6 +1837,7 @@ ${cuerpo || '<section class="card"><p class="muted">Nada para mostrar con este f
         if ('link' in junto && (junto.link || '') === (o.link || '')) delete junto.link;
         if ('pronto' in junto && !!junto.pronto === !!o.pronto && !('link' in junto)) delete junto.pronto;
         if ('anticipo' in junto && !!junto.anticipo === !!o.anticipo0) delete junto.anticipo;
+        if ('sube' in junto && !junto.sube) delete junto.sube;
         delete junto.de;
         if (Object.keys(junto).length) c.cambios[id] = { ...junto, de: o.texto }; else delete c.cambios[id];
         if (por) c.notas[id] = por; else delete c.notas[id];
@@ -2049,7 +2071,7 @@ ${semanaContenido(st._semC, (() => { const d = new Date(lun + 'T12:00:00'); d.se
       const recientes = ped.filter((x) => new Date(x.creado) > hace28).length;
       const env = ws.filter((w) => w.enviado_en).length;
       return `<div class="head"><div><span class="eyebrow">Evidencia real, no sensaciones</span><h1>Mi progreso</h1></div></div>
-<section class="card feature"><span class="eyebrow">Tu objetivo a 5 meses</span>
+<section class="card feature"><span class="eyebrow">Tu objetivo en AT WORK</span>
   ${p.objetivo ? `<h2>${esc(p.objetivo)}</h2>` : '<h2>Todavía no lo definiste</h2><p class="muted">Lo armas en tu onboarding con Flor AI.</p><div class="row"><button class="btn" data-ask="Quiero definir mi objetivo a 5 meses">Definirlo con Flor AI</button></div>'}
 </section>
 <div class="grid g-3">

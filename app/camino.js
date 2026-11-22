@@ -13,14 +13,14 @@
   const T = (id, texto, tipo, donde, extra) => Object.assign({ id, texto, tipo, donde }, extra || {});
 
   P.recorrido = [
-    { cuando: 'Semanas 1–2', etapa: 'Start Here', logro: 'Tu sistema de trabajo queda instalado y tienes tu Starting Point.' },
-    { cuando: 'Semanas 3–4', etapa: 'Activate Your English', logro: 'Conviertes situaciones reales de tu trabajo en práctica con tus coaches.' },
-    { cuando: 'Semanas 5–8', etapa: 'Communicate in Real Time', logro: 'El QUÉ: armas tu mensaje antes de hablar, aunque no lo tengas preparado.' },
-    { cuando: 'Semanas 9–12', etapa: 'Polish Your English', logro: 'El CÓMO: detectas dónde se rompe tu inglés y lo corriges.' },
-    { cuando: 'Semanas 13–16', etapa: 'Understand & Be Understood', logro: 'Entiendes más en reuniones y te entienden a la primera.' },
-    { cuando: 'Semanas 17–20', etapa: 'Own Your Voice', logro: 'El QUIÉN: hablas aunque no sea perfecto.' }
+    { cuando: 'Tu punto de partida', etapa: 'Start Here', logro: 'Tu sistema de trabajo queda instalado y tienes tu Starting Point.' },
+    { cuando: 'Módulo 1', etapa: 'Activate Your English', logro: 'Conviertes situaciones reales de tu trabajo en práctica con tus coaches.' },
+    { cuando: 'Módulo 2', etapa: 'Communicate in Real Time', logro: 'El QUÉ: armas tu mensaje antes de hablar, aunque no lo tengas preparado.' },
+    { cuando: 'Módulo 3', etapa: 'Polish Your English', logro: 'El CÓMO: detectas dónde se rompe tu inglés y lo corriges.' },
+    { cuando: 'Módulo 4', etapa: 'Understand & Be Understood', logro: 'Entiendes más en reuniones y te entienden a la primera.' },
+    { cuando: 'Módulo 5', etapa: 'Own Your Voice', logro: 'El QUIÉN: hablas aunque no sea perfecto.' }
   ];
-  P.recorridoNota = 'Si tu diagnóstico pide otro foco, Flor te lo indica en la respuesta a tu Weekly Report y cambian el orden. Cada etapa marca el foco principal, no un límite.';
+  P.recorridoNota = 'Es un proceso: cada una avanza a su ritmo y puede llevarte más o menos tiempo. Lo importante no es terminar rápido, sino llevar cada módulo a tu trabajo. Si tu diagnóstico pide otro foco, Flor te lo indica en la respuesta a tu Weekly Report.';
 
   P.habitos = {
     titulo: 'Tu semana · todas las semanas, desde la semana 2',
@@ -105,11 +105,11 @@
       { s: [3], titulo: 'Activa tu inglés', tareas: [
         T('3.1', 'M1.1 · My Professional Context', 'clase', 'Módulo 1', { link: M1('c0502ce4-17fd-441f-b420-8315647966eb') }),
         T('3.2', 'M1.2 · Your AT WORK Practice System', 'clase', 'Módulo 1', { link: M1('ac970186-05f7-4e82-8e13-ef25ffcaa54f') }),
-        T('3.3', 'M1.3 · Role Play Method + una práctica con tu caso', 'clase coach', 'Módulo 1 · Coaches', { link: M1('76e86548-a7ac-478a-abf6-31b925d0b967'), coaches: true })
+        T('3.3', 'M1.3 · Role Play Method + una práctica con tu caso', 'clase coach', 'Módulo 1 · Coaches', { sube: 'tarea', link: M1('76e86548-a7ac-478a-abf6-31b925d0b967'), coaches: true })
       ] },
       { s: [4], titulo: 'Tus coaches', tareas: [
-        T('4.1', 'M1.4 · Narrative Flow + corregir un texto tuyo', 'clase coach', 'Módulo 1 · Coaches', { link: M1('fdd0c13a-de41-491b-8235-b816ea5a587f'), coaches: true }),
-        T('4.2', 'M1.5 · Color Method + subir el nivel de un mail', 'clase coach', 'Módulo 1 · Coaches', { link: M1('f4c28b22-b2a7-4404-a5ed-b9e43f6e8b3b'), coaches: true }),
+        T('4.1', 'M1.4 · Narrative Flow + corregir un texto tuyo', 'clase coach', 'Módulo 1 · Coaches', { sube: 'tarea', link: M1('fdd0c13a-de41-491b-8235-b816ea5a587f'), coaches: true }),
+        T('4.2', 'M1.5 · Color Method + subir el nivel de un mail', 'clase coach', 'Módulo 1 · Coaches', { sube: 'tarea', link: M1('f4c28b22-b2a7-4404-a5ed-b9e43f6e8b3b'), coaches: true }),
         T('cierre1', 'Cierre del Módulo 1: tus wins y lo que aprendiste', 'cierre', 'Comunidad', { comunidad: true, nota: 'Ya terminaste las clases del Módulo 1. Tómate 10 minutos y responde: ¿qué aprendiste?, ¿qué puedes hacer ahora que antes no podías?, ¿qué sientes que todavía necesita más práctica? Reconoce tus wins y compártelos en la comunidad y en tu Weekly Report.' })
       ] }
     ] },
@@ -120,7 +120,7 @@
         T('5.3', 'M2 · Paraphrasing: qué hacer cuando no te sale una palabra', 'clase', 'Módulo 2', { link: M2('574ee9eb-8a99-4b6f-abad-31643b84382b') })
       ] },
       { s: [6], titulo: 'Tu mapa del mensaje', tareas: [
-        T('6.1', 'M2 · The Message Map + úsalo en tu próximo update', 'clase practica', 'Módulo 2', { link: M2('88302d24-8b19-4f36-b37b-2c2b97ecd28e') }),
+        T('6.1', 'M2 · The Message Map + úsalo en tu próximo update', 'clase practica', 'Módulo 2', { ws: 'https://docs.google.com/document/d/18gZ8LbHfuO8CJ_RCd2A32CA5ikQeamQM6qwRx-iUfb0/copy', link: M2('88302d24-8b19-4f36-b37b-2c2b97ecd28e') }),
         T('6.2', 'M2 · Manage the Interaction', 'clase', 'Módulo 2', { link: M2('7c133d1d-a777-4f96-9441-92b00c3db78e') }),
       ] },
       { s: [7], titulo: 'Tu situación de trabajo', tareas: [
@@ -131,8 +131,8 @@
       { s: [8], titulo: 'Conectar y sostener la conversación', tareas: [
         T('8.2', 'M2 · Small Talk & Networking', 'clase playbook', 'Módulo 2', { link: M2('50ec7aca-66df-4039-ba90-c82a8a4185e5') }),
         // «Tus reuniones» (material del 19/11): reemplaza a «Presentarte» (inventario del 21/11).
-        T('8.6', 'M2 · Tus reuniones · Parte 1', 'clase', 'Módulo 2', { pronto: true }),
-        T('8.7', 'M2 · Tus reuniones · Parte 2', 'clase', 'Módulo 2', { pronto: true }),
+        T('8.6', 'M2 · Tus reuniones · Parte 1', 'clase', 'Módulo 2', { sube: 'playbook', ws: 'https://docs.google.com/document/d/1D7l6lCgqSKAH3XLuVGqjqjTD6b84n3HXMRsCXSfINSY/copy', pronto: true }),
+        T('8.7', 'M2 · Tus reuniones · Parte 2', 'clase', 'Módulo 2', { sube: 'playbook', ws: 'https://docs.google.com/document/d/1D7l6lCgqSKAH3XLuVGqjqjTD6b84n3HXMRsCXSfINSY/copy', pronto: true }),
         T('cierre2', 'Cierre del Módulo 2: tus wins y lo que aprendiste', 'cierre', 'Comunidad', { comunidad: true, nota: 'Ya terminaste las clases del Módulo 2. Tómate 10 minutos y responde: ¿qué aprendiste?, ¿qué puedes hacer ahora que antes no podías?, ¿qué sientes que todavía necesita más práctica? Reconoce tus wins y compártelos en la comunidad y en tu Weekly Report.' })
       ] }
     ] },
@@ -142,15 +142,15 @@
         T('9.2', 'M3 · The Verb System · Parte 1: Cómo se construyen', 'clase worksheet', 'Módulo 3', { link: M3('a2555410-ddfe-4d41-a7fe-8a7124046bd4'), cb: cb('t1','t2','t3','t4','t5','t6','t7') }),
         T('9.5', 'M3 · The Verb System · Parte 2: Verbos irregulares', 'clase worksheet', 'Módulo 3', { link: M3('7b1a9231-6500-4722-9ef4-1de448ba745b'), cb: cb('t5') }),
         T('9.6', 'M3 · The Verb System · Parte 3: Cuándo uso cada uno', 'clase worksheet', 'Módulo 3', { link: M3('ea11f8ef-dbb7-40af-8c6a-2a10ffbc7d5e'), cb: cb('t3','t4','t5','t6','t7') }),
-        T('9.3', 'M3 · The Verb System · Parte 4: Future tenses', 'clase worksheet', 'Módulo 3', { link: M3('57e5d9f7-65ce-4e2e-91f7-422defb9d68a'), cb: cb('t8','t9','t10','t11') }),
+        T('9.3', 'M3 · The Verb System · Parte 4: Future tenses', 'clase worksheet', 'Módulo 3', { ws: 'https://docs.google.com/document/d/1gQYGlm4WF8a1okPnmerwafIquMWscG6epVaqrK5PqPg/copy', link: M3('57e5d9f7-65ce-4e2e-91f7-422defb9d68a'), cb: cb('t8','t9','t10','t11') }),
       ] },
       { s: [10], titulo: 'Los patrones de los verbos', tareas: [
-        T('10.1', 'M3 · Verb Patterns: to or ing?', 'clase', 'Módulo 3', { link: M3('3cde7014-d479-45f6-be25-71a780ff177e') }),
-        T('10.2', 'M3 · Stop translating the pattern!', 'clase', 'Módulo 3', { link: M3('623a039a-73d3-4c9e-b97b-c71fbda69486') })
+        T('10.1', 'M3 · Verb Patterns: to or ing?', 'clase', 'Módulo 3', { ws: 'https://docs.google.com/document/d/1ZP1Rr79iFia9V7Y1wAPNWxC8lcPem-zN9C0VwVkYTkc/copy', link: M3('3cde7014-d479-45f6-be25-71a780ff177e') }),
+        T('10.2', 'M3 · Stop translating the pattern!', 'clase', 'Módulo 3', { ws: 'https://docs.google.com/document/d/1nLLR53GqzMB0-KsAWoUgdB8QCmwGtw5DRM_NEZw-9aI/copy', link: M3('623a039a-73d3-4c9e-b97b-c71fbda69486') })
       ] },
       { s: [11], titulo: 'Precisión', tareas: [
-        T('11.1', 'M3 · Nouns, Articles & Agreement', 'clase', 'Módulo 3', { link: M3('99891d26-ef2b-469c-b27c-1a0a496c6edc') }),
-        T('11.2', 'M3 · Relative Clauses: who, which, that', 'clase', 'Módulo 3', { link: M3('c4a14c4d-2aac-46aa-881d-314b173296bc') }),
+        T('11.1', 'M3 · Nouns, Articles & Agreement', 'clase', 'Módulo 3', { ws: 'https://docs.google.com/document/d/1TrGrEx3bV0GZRVqZMezNVsfp6-6e4nYstNVZWR65G0w/copy', link: M3('99891d26-ef2b-469c-b27c-1a0a496c6edc') }),
+        T('11.2', 'M3 · Relative Clauses: who, which, that', 'clase', 'Módulo 3', { ws: 'https://docs.google.com/document/d/1DcVbeZ6PLlRYQ-e8FptRTzG70bkG_LG6FgPBxPJelOQ/copy', link: M3('c4a14c4d-2aac-46aa-881d-314b173296bc') }),
         T('11.3', 'M3 · Modals: Say How Strong You Mean It', 'clase', 'Módulo 3', { link: M3('038f2779-dc42-4a35-bdce-3a2e94dcb655'), ws: 'https://docs.google.com/document/d/1MAWnadKruW95_8WlKmuf5kD3_u8_aTUuWT4UvOsLaRk/copy', cb: cb('mod','m1','m2','m3','m4','m5') })
       ] },
       { s: [12], titulo: 'Preguntar y reportar', tareas: [
@@ -158,19 +158,19 @@
         T('12.2', 'M3 · Conditionals for Real Work Situations', 'clase', 'Módulo 3', { link: M3('e5e8c0cf-ba24-490e-a2e8-70f4aa642dc0'), ws: 'https://docs.google.com/document/d/1f_8BE47KEUNjGNMEbfBu5OVQ4RQ8XHFRrY1mnEH_sno/copy', entrega: 'Subir mi worksheet y mis 3 frases',cbIntro: 'Si te sientes perdida con algún condicional, mira la clase de cada uno:', cb: [D('cond', 'la introducción'), D('c0', 'procesos y reglas'), D('c1', 'planes, plazos y riesgos'), D('c2', 'escenarios y propuestas'), D('c3', 'lecciones aprendidas'), D('cM', 'lo que pasó y todavía se nota hoy')], cbMas: [D('m2', 'para el might de los riesgos'), D('m5', 'para el would have de las lecciones aprendidas')] }),
         T('12.3', 'M3 · Reported Speech & Reporting Information', 'clase', 'Módulo 3', { pronto: true, anticipo: true, ws: 'https://docs.google.com/document/d/113cL_En2vfJ3VGIiqYjv07Gpb-D1A_q67pOsKsCgK5E/copy', cb: cb('rs','rsQ','rsC','rsV') }),
         T('12.5', 'M3 · Passive Voice for Processes & Reporting', 'clase', 'Módulo 3', { pronto: true, anticipo: true, ws: 'https://docs.google.com/document/d/1r3h2FYyk6XES7uzAn7aEKNbb906VpJ1bI_hm5NRAUzM/copy', cb: cb('pas') }),
-        T('12.6', 'M3 · Word Families & Nominalization', 'clase', 'Módulo 3', { pronto: true }),
-        T('12.4', 'M3 · The Accuracy Challenge: tu Error Radar', 'clase evidencia', 'Módulo 3', { pronto: true }),
+        T('12.6', 'M3 · Word Families & Nominalization', 'clase', 'Módulo 3', { ws: 'https://docs.google.com/document/d/1SJsK5I4OlpqXzuKgdTp5cHDWF3rKzivCpFGXXA0HAcw/copy', pronto: true }),
+        T('12.4', 'M3 · The Accuracy Challenge: tu Error Radar', 'clase evidencia', 'Módulo 3', { ws: 'https://docs.google.com/document/d/1xNOfOW5rWNaNEAYP4KnsaICxxXnstpLvz3iiaGvaJLA/copy', pronto: true }),
         T('cierre3', 'Cierre del Módulo 3: tus wins y lo que aprendiste', 'cierre', 'Comunidad', { comunidad: true, nota: 'Ya terminaste las clases del Módulo 3. Tómate 10 minutos y responde: ¿qué aprendiste?, ¿qué puedes hacer ahora que antes no podías?, ¿qué sientes que todavía necesita más práctica? Reconoce tus wins y compártelos en la comunidad y en tu Weekly Report.' })
       ] }
     ] },
     { n: 4, titulo: 'Understand & Be Understood', logro: 'Entiendes más en reuniones y te entienden a la primera.', semanas: [
       { s: [13], titulo: 'Tu oído', tareas: [
-        T('13.1', 'M4 · How English Really Sounds', 'clase', 'Módulo 4', { pronto: true }),
-        T('13.2', 'M4 · Train Your Ear in Meetings', 'clase', 'Módulo 4', { pronto: true })
+        T('13.1', 'M4 · How English Really Sounds', 'clase', 'Módulo 4', { ws: 'https://docs.google.com/document/d/1B7A505LQ1lfcAzRtQDCOMb3qwQHoOfU0HNCfDMO1XaU/copy', pronto: true }),
+        T('13.2', 'M4 · Train Your Ear in Meetings', 'clase', 'Módulo 4', { ws: 'https://docs.google.com/document/d/1UhGzY92DltHI687NShb2y1EJHl5sBxLp_hKPSrV4o94/copy', pronto: true })
       ] },
       { s: [14], titulo: 'Que te entiendan a la primera', tareas: [
-        T('14.1', 'M4 · Pronunciation for Intelligibility · Parte 1', 'clase', 'Módulo 4', { pronto: true }),
-        T('14.2', 'M4 · Pronunciation for Intelligibility · Parte 2', 'clase', 'Módulo 4', { pronto: true })
+        T('14.1', 'M4 · Pronunciation for Intelligibility · Parte 1', 'clase', 'Módulo 4', { ws: 'https://docs.google.com/document/d/1Q2vPfoPKRtG4NBlZ5HYdfYRVD1cHwnBG50bJj0GiBRw/copy', pronto: true }),
+        T('14.2', 'M4 · Pronunciation for Intelligibility · Parte 2', 'clase', 'Módulo 4', { ws: 'https://docs.google.com/document/d/1Q2vPfoPKRtG4NBlZ5HYdfYRVD1cHwnBG50bJj0GiBRw/copy', pronto: true })
       ] },
       { s: [15, 16], titulo: 'Llevarlo a tus reuniones', tareas: [
         T('16.3', 'Escuchar una reunión real y anotar lo que no entendiste', 'practica', 'Tu trabajo'),
@@ -180,11 +180,11 @@
     ] },
     { n: 5, titulo: 'Own Your Voice', logro: 'Hablas aunque no sea perfecto y tienes la evidencia de cuánto avanzaste.', semanas: [
       { s: [17], titulo: 'El QUIÉN', tareas: [
-        T('15.1', 'M5 · ¿No me sale o no me animo?', 'clase playbook', 'Módulo 5', { pronto: true }),
-        T('15.2', 'M5 · Cuando me callo o me quedo en blanco', 'clase playbook', 'Módulo 5', { pronto: true })
+        T('15.1', 'M5 · ¿No me sale o no me animo?', 'clase playbook', 'Módulo 5', { ws: 'https://docs.google.com/document/d/1kARKEP-oREv9Edah2J8ikW7Ud0gxBnN8vf4GynlW3ek/copy', pronto: true }),
+        T('15.2', 'M5 · Cuando me callo o me quedo en blanco', 'clase playbook', 'Módulo 5', { ws: 'https://docs.google.com/document/d/1gxpNWShjJv1zCpR6llaIcySPqqNWVET-nne4Qu-4Rw4/copy', pronto: true })
       ] },
       { s: [18], titulo: 'Hablar sin ser perfecta', tareas: [
-        T('16.1', 'M5 · Hablar sin ser perfecta', 'clase playbook', 'Módulo 5', { pronto: true })
+        T('16.1', 'M5 · Hablar sin ser perfecta', 'clase playbook', 'Módulo 5', { ws: 'https://docs.google.com/document/d/19e0pua6nmU1yWBRgphsEydk1YT0TpDycNDldImet-GU/copy', pronto: true })
       ] },
       { s: [19, 20], titulo: 'Tu cierre: tu antes y después', tareas: [
         T('19.1', 'Grabar tu Starting Point de nuevo', 'evidencia', 'Drive · 01'),
@@ -247,7 +247,7 @@
       nota: 'Si estás en un lab, así se leen los videos: cuando escuches «tu clase», para ti es tu lab semanal; cuando escuches «tu primera clase uno a uno», es tu 1:1 de arranque. Y además tienes un 1:1 con Flor por mes.',
       links: [
         ['Tu onboarding', 'Onboarding Lab · Start Here (8 videos cortos)', 'curso'],
-        ['Tu camino', 'Tu paso a paso de los 5 meses', ROADMAP],
+        ['Tu camino', 'Tu camino, módulo a módulo', ROADMAP],
         ['Tu 1:1 de arranque', 'Agendar', 'https://calendar.app.google/kxnVBHB5XJam7JG69'],
         ['Tu lab', 'Sábados, 15:30 a 16:30 de Argentina (12:30 México y Costa Rica, 13:30 Colombia)', 'https://meet.google.com/gow-vnpg-xhx'],
         ['Tu 1:1 del mes (30 min)', 'Con el mismo link de agenda', 'https://calendar.app.google/kxnVBHB5XJam7JG69'],
@@ -285,7 +285,7 @@
       nota: '',
       links: [
         ['Tu onboarding', 'Onboarding Private · Start Here (8 videos cortos)', 'curso'],
-        ['Tu camino', 'Tu paso a paso de los 5 meses', ROADMAP],
+        ['Tu camino', 'Tu camino, módulo a módulo', ROADMAP],
         ['Tu primera clase', 'En tu día y horario fijo (los que definiste con Flor)', ''],
         ['Comunidad', 'Unirme al grupo', COMUNIDAD],
         ['WhatsApp de Flor', 'Temas administrativos o privados', WHATSAPP]
