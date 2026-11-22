@@ -257,9 +257,10 @@ ${personas > 1 ? `Quién habla: ${resumen}.\n` : ""}${lineas.join("\n")}`;
 
 // ---------- método de Flor (va siempre, arriba de lo que dicen los prompts) ----------
 const METODO_BORRADOR = `MÉTODO DE CORRECCIÓN DE FLOR (manda sobre cualquier otra indicación de formato):
-- En la app la alumna ve primero tu RESPUESTA y después una tabla con SUS frases para que ELLA encuentre el error y diga por qué. Recién después ve la tabla con las respuestas. Por eso:
-  · En RESPUESTA no escribas las correcciones ni las frases corregidas: anticipa que abajo tiene sus frases para encontrar el error ("Abajo te dejo X frases tuyas: encontrá el error y decime por qué antes de mirar la respuesta").
-  · En CORRECCIONES, una por línea, con este formato exacto: frase textual de ella => frase corregida || por qué, en una línea corta y en la voz de Flor (la regla en español, sin tecnicismos).
+- El feedback va en TRES PARTES, como en clase (Flor, 22/11): 1 · Lo que hiciste bien (tu RESPUESTA), 2 · Narrative Flow (CORRECCIONES + REGLA Y CLASES: primero la tabla para que ELLA corrija, debajo las respuestas), 3 · Color Method (COLOR METHOD y, si es una presentación o reunión, FRASE CLAVE), y al final Tu segundo intento (TAREAS). La app arma las tablas con el branding de Flor. Por eso:
+  · En RESPUESTA no escribas las correcciones ni las frases corregidas: presentá las tablas en la última línea antes del cierre.
+  · En CORRECCIONES, una por línea, con este formato exacto: frase textual de ella || el error || frase corregida || por qué (corto, en la voz de Flor, la regla en español sin tecnicismos).
+  · Criterio antes que cantidad: de 3 a 6 filas de Narrative Flow y de 0 a 4 de Color Method.
 - Si hay transcripción de un audio: es una TRANSCRIPCIÓN AUTOMÁTICA, no lo escuchaste. Sirve para la gramática, el orden de las ideas, el vocabulario y la fluidez (recomienzos, muletillas), y para comentar momentos concretos con su frase o el minuto. Nunca escribas que no pudiste escucharlo.
 - PRONUNCIACIÓN (Flor, 16/11): con una transcripción automática NO se puede saber cómo pronunció. Las palabras marcadas [así?] son las que el sistema transcribió con poca seguridad, y eso pasa por el audio comprimido de WhatsApp, el ruido, hablar rápido o el acento: NO prueban que la dijo mal. Una palabra rara en la transcripción (ej. "solar" donde iba "software") tampoco: puede ser error del sistema. Por eso:
   · En la RESPUESTA y en CORRECCIONES no va NINGUNA corrección de pronunciación sacada de la transcripción. Solo si Flor ya trabajó ese sonido con ella en clase (está en sus resúmenes o patrones) Y la palabra sale dudosa o mal transcripta en más de una toma, va a NOTAS PARA FLOR como "para escuchar vos: minuto X, «bank» (salió [ban?])".
@@ -267,17 +268,19 @@ const METODO_BORRADOR = `MÉTODO DE CORRECCIÓN DE FLOR (manda sobre cualquier o
   · En NOTAS PARA FLOR: los minutos que conviene que Flor escuche ella misma antes de mandar.
 - REUNIONES CON VARIAS PERSONAS: la transcripción separa a cada una como [Persona 1], [Persona 2]… Tu trabajo es encontrar cuál es la alumna (su nombre está en DATOS DE LA ALUMNA o en "ALUMNA EN LA GRABACIÓN"). Pistas: alguien la llama por su nombre o ella se presenta; habla de su rol o su equipo; es la que habla inglés como segunda lengua (más palabras dudosas, estructuras del español); el contexto de su trabajo. Da feedback SOLO de lo que dijo ella. NUNCA le preguntes a la alumna en qué minutos habla ni le digas que no la pudiste distinguir: decide tú con las pistas. En NOTAS PARA FLOR escribe "La alumna es la Persona N (por: …)" y, si no estás segura, "Chequear: creo que es la Persona N", para que Flor lo confirme antes de enviar.`;
 
-const METODO_CHAT = `MÉTODO DE CORRECCIÓN DE FLOR (en el chat, siempre en este orden):
-1. Primero tu devolución: lo que funcionó con evidencia (su frase) y UN foco.
-2. Después una tabla con SUS frases con error para que ella las corrija: | # | Tu frase | ¿Dónde está el error? | ¿Por qué? |, con las dos últimas columnas vacías. Pídele que la complete y te la mande.
-3. Cuando te responde, le dices qué encontró bien y en qué se equivocó, y recién ahí le das la tabla con las respuestas: | # | Tu frase | Corrección | Por qué |.
+const METODO_CHAT = `MÉTODO DE FEEDBACK DE FLOR (Flor, 22/11: "como en clase, en tres partes"). Cuando te pide feedback de algo que escribió o dijo (un mail, un texto, un audio, una presentación), siempre en este orden y con la voz de Flor (frases cortas, como si le hablara en clase, cálida y directa; nada de frases de manual):
+1. LO QUE HICISTE BIEN: 2 o 3 cosas concretas, con evidencia de lo que mandó. Y su foco en una línea (lo que más le cambia el resultado en su trabajo).
+2. NARRATIVE FLOW: una tabla con SUS frases textuales (cortadas alrededor del error, sin muletillas) para que ELLA corrija: | # | What you said | The mistake | Correction | Gap or Fossilized? |, con las tres últimas columnas vacías. De 3 a 6 frases, las que más se repiten o más cambian el mensaje. Pídele que la complete y te la mande. Cuando te responde: qué encontró bien, en qué se equivocó, y recién ahí la tabla con las respuestas: | # | What you said | The mistake | Correction | Why |. Después: si es Gap (no sabía la regla), la clase del programa que lo enseña, con su link; si es Fossilized (la sabe y se le escapa), se va practicando.
+3. COLOR METHOD: de 0 a 4 frases suyas que pueden sonar más profesionales en su trabajo: | What you said | A more professional way | Category | LA USO / LA ENTIENDO / LA DESCUBRO | (con la última columna vacía para que la marque). Si es una presentación o una reunión, sumá su frase clave (el cierre o el mensaje principal) con cómo probarla.
+4. TU SEGUNDO INTENTO: 2 o 3 pasos chicos (decir las frases corregidas en voz alta, usar las expresiones nuevas en una frase de su trabajo, volver a producir una parte corta con el foco). "El primer intento te dice qué entrenar. El segundo te demuestra que puedes."
+Criterio antes que cantidad: mejor pocas filas bien elegidas. Antes de hablar de algo que tenía que pasar (una presentación, una reunión), fijate en sus datos si ya pasó; si no sabés cómo salió, preguntale en vez de darlo por hecho.
 Nunca le des la corrección antes de que lo intente ella, salvo que te la pida.
 Si su mensaje trae una TRANSCRIPCIÓN AUTOMÁTICA de un audio: lo escuchaste a través de esa transcripción, nunca digas que no pudiste escucharlo. Si hablan varias personas ([Persona 1], [Persona 2]…), identifica cuál es ella (la llaman por su nombre, habla de su rol, es la que habla inglés como segunda lengua) y comenta solo lo suyo; si dudas, dile en una línea a quién estás tomando como ella (\"Te tomo como la Persona 2, la que presenta el reporte\") y sigue. Comenta momentos concretos de gramática, orden y vocabulario. NO corrijas pronunciación a partir de la transcripción: las palabras marcadas [así?] son las que el sistema entendió con poca seguridad (audio comprimido, ruido, acento) y no prueban que las dijo mal. Si quiere trabajar pronunciación, mándala al coach Pronunciation con la frase escrita. Después, que lo vuelva a grabar.`;
 
 // Hasta que Flor diga que las alumnas ya tienen la app (programa.flor.alumnas_con_app = true), el feedback no la nombra.
 const SIN_APP = `LAS ALUMNAS TODAVÍA NO USAN LA APP (Flor, 16/11; manda sobre cualquier otra regla): el feedback va por mail. Nunca nombres la app ni sus partes: nada de "Pedir feedback", "Mi camino", "Mi semana", "Tu camino", "la bandeja", "Flor AI", "subilo en la app" ni "en la plataforma". Tampoco en TAREAS (la columna "dónde" dice "Clase de hoy", "En tu trabajo", "Tu carpeta de Drive" o queda vacía). Si de verdad hay que entregar algo, se dice "subilo a tu carpeta de Drive" o "mandámelo por mail".`;
 const ENTREGAS = `CUANDO YA ENTREGÓ (Flor, 16/11; manda sobre "un paso concreto para el segundo intento" y sobre "que lo vuelva a grabar"):
-- Si ya mandó la práctica (un audio, una grabación, la tarea), la práctica está hecha. NO le pidas que la vuelva a grabar, a mandar ni a subir "mejor". El paso siguiente es la clase ("lo trabajamos en clase") o usarlo en su trabajo real (su próxima reunión o presentación).
+- Si ya mandó la práctica (un audio, una grabación, la tarea), la práctica está hecha. NO le pidas que la vuelva a mandar entera. Su "segundo intento" (Flor, 22/11) es chico: decir las frases corregidas, usar las expresiones nuevas y volver a producir UNA parte corta (1 o 2 minutos) aplicando el foco, para comparar en la clase.
 - Si mandó varias tomas (una primera y otra versión), es UNA sola entrega: un solo feedback que compara las tomas.
 - Solo se pide otra entrega si Flor ya la dejó como tarea en su último resumen de clase, con esas palabras.
 - Si tiene clase hoy, seguí el bloque "TIENE CLASE HOY" (más abajo): feedback corto + link a su hoja de la clase, sin correcciones en el mail.`;
@@ -500,18 +503,32 @@ ${(x.weeklies || []).filter((e: any) => e.semana < imp.semana).slice(0, 3).map((
     // deno-lint-ignore no-explicit-any
     const texto = r.content.filter((b: any) => b.type === "text").map((b: any) => b.text).join("");
     const parte = (et: string) => {
-      const m = new RegExp(`${et}:[ \\t]*([\\s\\S]*?)(?=\\n(?:RESPUESTA|CORRECCIONES|FOCO|POR QUÉ|TAREAS|NOTAS PARA FLOR):|$)`, "i").exec(texto);
+      const m = new RegExp(`${et}:[ \\t]*([\\s\\S]*?)(?=\\n(?:RESPUESTA|CORRECCIONES|REGLA Y CLASES|COLOR METHOD|FRASE CLAVE|FOCO|POR QUÉ|TAREAS|NOTAS PARA FLOR):|$)`, "i").exec(texto);
       return m ? m[1].trim() : "";
     };
     const no = (s: string) => !s || /^ninguna?\.?$/i.test(s);
-    const correcciones = no(parte("CORRECCIONES")) ? [] : parte("CORRECCIONES").split("\n").map((l) => l.split("=>")).filter((p) => p.length === 2 && p[0].trim())
-      .map(([mal, resto]) => { const [bien, por_que = ""] = resto.split("||"); return { mal: mal.replace(/^[-•\d.)\s]+/, "").trim(), bien: bien.trim(), por_que: por_que.trim() }; });
+    const filas = (et: string) => no(parte(et)) ? [] : parte(et).split("\n").map((l) => l.replace(/^[-•*\s]+/, "").replace(/^\d+[.)]\s+/, "").trim()).filter((l) => l && !/^ninguna?\.?$/i.test(l));
+    const sinComillas = (s: string) => String(s || "").trim().replace(/^["“”]+|["“”]+$/g, "").trim();
+    // Narrative Flow (22/11): frase || error || corrección || por qué. Sigue leyendo el formato viejo (frase => corrección || por qué).
+    const correcciones = filas("CORRECCIONES").map((l) => {
+      if (l.includes("=>")) { const [mal, resto = ""] = l.split("=>"); const [bien, por_que = ""] = resto.split("||"); return { mal: sinComillas(mal), bien: sinComillas(bien), por_que: por_que.trim() }; }
+      const p = l.split("||").map((x) => x.trim());
+      if (p.length >= 4) return { mal: sinComillas(p[0]), error: sinComillas(p[1]), bien: sinComillas(p[2]), por_que: p.slice(3).join(" ").trim() };
+      if (p.length === 3) return { mal: sinComillas(p[0]), bien: sinComillas(p[1]), por_que: p[2] };
+      return null;
+    }).filter((c) => c && c.mal && c.bien).slice(0, 8);
+    const clases = filas("REGLA Y CLASES").map((l) => { const [n, q = ""] = l.split("||").map((x) => x.trim()); return { filas: n, texto: q }; }).filter((c) => c.filas && c.texto).slice(0, 4);
+    const color = filas("COLOR METHOD").map((l) => { const [mal, bien = "", cat = ""] = l.split("||").map((x) => x.trim()); return { mal: sinComillas(mal), bien: sinComillas(bien), cat }; }).filter((c) => c.mal && c.bien).slice(0, 5);
+    const clave = filas("FRASE CLAVE").map((l) => { const [dijo, mejor = "", por_que = ""] = l.split("||").map((x) => x.trim()); return { dijo: sinComillas(dijo), mejor: sinComillas(mejor), por_que }; }).filter((c) => c.dijo && c.mejor).slice(0, 1);
     const tareas = no(parte("TAREAS")) ? [] : parte("TAREAS").split("\n").map((l) => l.replace(/^[-•\d.)\s]+/, "").split("|")).filter((p) => p[0].trim())
-      .map(([t, d = ""]) => ({ texto: t.trim(), donde: d.trim() })).slice(0, 3);
+      .map(([t, d = ""]) => ({ texto: t.trim(), donde: d.trim() })).slice(0, 4);
     const datos = {
       // Si vino la etiqueta RESPUESTA (aunque vacía) no se cae al texto entero (bug del 21/11: el borrador salía «CORRECCIONES: ninguna»).
       respuesta: parte("RESPUESTA") || (/RESPUESTA:/i.test(texto) ? "" : texto.trim()),
       correcciones,
+      clases,
+      color,
+      clave,
       foco: no(parte("FOCO")) ? "" : parte("FOCO"),
       foco_texto: parte("POR QUÉ"),
       tareas,
@@ -996,11 +1013,33 @@ Deno.serve(async (req) => {
     } else return json({ error: "Falta qué estás respondiendo." }, 400);
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return json({ error: "Esa alumna no tiene un mail válido cargado." }, 400);
 
-    // El cuerpo, con el formato de los mails de Flor: las correcciones antes del saludo final.
+    // Lo que armó la IA y Flor no edita en la Bandeja (el error de cada frase, Color Method, frase clave, segundo intento): sale del borrador guardado.
+    let extra: any = {};
+    if (tabla && ref) { const { data: b0 } = await admin.from("borradores").select("datos").eq("tabla", tabla).eq("ref", ref).maybeSingle(); extra = b0?.datos || {}; }
+    // deno-lint-ignore no-explicit-any
+    for (const c of corr as any[]) { if (!c.error) { const o = (extra.correcciones || []).find((x: any) => String(x.mal).trim() === String(c.mal).trim()); if (o?.error) c.error = o.error; } }
+    const color = tabla === "pedidos" ? (extra.color || []) : [];
+    const clave = tabla === "pedidos" ? (extra.clave || []) : [];
+    const clases = tabla === "pedidos" ? (extra.clases || []) : [];
+    const segundo = tabla === "pedidos" ? (extra.tareas || []) : [];
+
+    // El cuerpo, con el formato de Flor (22/11): su respuesta, después Narrative Flow, Color Method y el segundo intento, y su cierre.
     const ps = respuesta.split(/\n{2,}/);
     const cierre = ps.length > 1 && ps[ps.length - 1].length <= 160 ? ps.pop()! : "";
     // deno-lint-ignore no-explicit-any
-    const lineas = corr.map((c: any) => `${String(c.mal).trim()} → ${String(c.bien).trim()}.${c.por_que ? " " + String(c.por_que).trim() : ""}`.replace(/\.\./g, "."));
+    const lineas: string[] = [];
+    if (corr.length) {
+      lineas.push("NARRATIVE FLOW · Find the mistake first:\n" + corr.map((c: any, i: number) => `${i + 1}. "${String(c.mal).trim()}"`).join("\n"));
+      lineas.push("NOW CHECK:\n" + corr.map((c: any, i: number) => `${i + 1}. ${c.error ? String(c.error).trim() + " → " : ""}${String(c.bien).trim()}.${c.por_que ? " " + String(c.por_que).trim() : ""}`.replace(/\.\./g, ".")).join("\n"));
+      // deno-lint-ignore no-explicit-any
+      if (clases.length) lineas.push(clases.map((c: any) => `→ ${c.filas}: ${c.texto}`).join("\n"));
+    }
+    // deno-lint-ignore no-explicit-any
+    if (color.length) lineas.push("COLOR METHOD · Level up:\n" + color.map((c: any) => `"${c.mal}" → ${c.bien} (${c.cat})`).join("\n"));
+    // deno-lint-ignore no-explicit-any
+    if (clave.length) lineas.push("YOUR KEY SENTENCE:\n" + clave.map((c: any) => `"${c.dijo}" → "${c.mejor}". ${c.por_que}`).join("\n"));
+    // deno-lint-ignore no-explicit-any
+    if (segundo.length) lineas.push("YOUR SECOND TRY:\n" + segundo.map((t: any, i: number) => `${i + 1}. ${t.texto}`).join("\n"));
     const texto = [...ps, ...lineas, cierre].filter(Boolean).join("\n\n").replace(/\[([^\]]+)\]\((https:\/\/[^\s)]+)\)/g, "$1: $2");
     const esc = (t: string) => t.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]!));
     // Links que se tocan (Flor, 13/11): [nombre](url) y las URL sueltas se convierten en <a>.
@@ -1010,15 +1049,65 @@ Deno.serve(async (req) => {
       .replace(/\[([^\]]+)\]\((https:\/\/[^\s)]+)\)/g, (_m, t, u) => a(u, t))
       .replace(/(^|[\s(:])(https:\/\/[^\s<)\]]+[^\s<).,;:!?\]])/g, (_m, pre, u) => pre + a(u, nombreLink(u)));
     const p = (t: string) => `<p>${links(esc(t)).replace(/\n/g, "<br>")}</p>`;
-    // deno-lint-ignore no-explicit-any
-    const htmlCorr = corr.map((c: any) => `<p><i>${esc(String(c.mal).trim())}</i> → <i><b>${esc(String(c.bien).trim())}</b></i>.${c.por_que ? " " + esc(String(c.por_que).trim()) : ""}</p>`).join("\n");
-    const html = `<div style="font-family:'Open Sans',Arial,sans-serif;font-size:15px;color:#333;line-height:1.55;max-width:640px">\n${ps.map(p).join("\n")}\n${htmlCorr}\n${cierre ? p(cierre) : ""}\n</div>`;
+    // Tablas con el branding de las hojas de clase de Flor (marrón, terracota, crema; errores en rojo, correcciones en verde).
+    const BR = "#82552E", TE = "#C68C6C", CR = "#FFF8E7", OL = "#6B6B4C", RO = "#C0392B", VE = "#1E8449";
+    const td = `style="border:1px solid ${TE};padding:6px 8px;vertical-align:top;font-size:14px;color:#2C1F0E"`;
+    const th = `style="border:1px solid ${TE};padding:6px 8px;vertical-align:top;font-size:14px;background:${CR};color:${BR};font-weight:bold;text-align:left"`;
+    const tabla2 = (cab: string[], filas: string[][]) => `<table style="border-collapse:collapse;width:100%;margin:6px 0 12px 0"><tr>${cab.map((c) => `<th ${th}>${c}</th>`).join("")}</tr>${filas.map((f) => `<tr>${f.map((c) => `<td ${td}>${c}</td>`).join("")}</tr>`).join("")}</table>`;
+    const tit = (t: string, s = "") => `<p style="font-size:18px;font-weight:bold;color:${BR};margin:22px 0 6px 0">${t}${s ? ` <span style="font-size:13px;color:${TE}">${s}</span>` : ""}</p>`;
+    const sub = (t: string) => `<p style="font-size:15px;font-weight:bold;color:${OL};margin:12px 0 4px 0">${t}</p>`;
+    const rojo = (t: string) => `<b style="color:${RO}">${esc(t)}</b>`, verde = (t: string) => `<b style="color:${VE}">${esc(t)}</b>`;
+    const partes: string[] = [];
+    if (corr.length) {
+      partes.push(tit("Narrative Flow", "find the mistake first"));
+      // deno-lint-ignore no-explicit-any
+      partes.push(tabla2(["What you said", "The mistake", "Correction", "Gap or Fossilized?"], corr.map((c: any) => [`"${esc(String(c.mal).trim())}"`, "", "", ""])));
+      partes.push(sub("Now check"));
+      // deno-lint-ignore no-explicit-any
+      partes.push(tabla2(["What you said", "The mistake", "Correction", "Why"], corr.map((c: any) => [`"${esc(String(c.mal).trim())}"`, c.error ? rojo(String(c.error)) : "", verde(String(c.bien).trim()), links(esc(String(c.por_que || "").trim()))])));
+      partes.push(`<p style="font-size:14px"><b>Rule to remember:</b> <b>Gap</b> = you didn't know the rule → watch the class. <b>Fossilized</b> = you know it, but it slips out → it goes away with practice.</p>`);
+      // deno-lint-ignore no-explicit-any
+      if (clases.length) partes.push(`<p style="font-size:14px">${clases.map((c: any) => `<b style="color:${BR}">→ ${esc(String(c.filas))}</b>: ${links(esc(String(c.texto)))}`).join("<br>")}</p>`);
+    }
+    if (color.length) {
+      partes.push(tit("Color Method", "level up"));
+      // deno-lint-ignore no-explicit-any
+      partes.push(tabla2(["What you said", "A more professional way", "Category", "LA USO / LA ENTIENDO / LA DESCUBRO"], color.map((c: any) => [`"${esc(c.mal)}"`, verde(c.bien), esc(c.cat || ""), ""])));
+    }
+    if (clave.length) {
+      partes.push(sub("Your key sentence"));
+      // deno-lint-ignore no-explicit-any
+      partes.push(tabla2(["What you said", "Try it like this", "Why"], clave.map((c: any) => [`"${esc(c.dijo)}"`, verde(`"${c.mejor}"`), links(esc(c.por_que || ""))])));
+    }
+    if (segundo.length) {
+      partes.push(tit("Your second try"));
+      // deno-lint-ignore no-explicit-any
+      partes.push(`<ol style="font-size:15px;padding-left:22px">${segundo.map((t: any) => `<li style="margin-bottom:4px">${links(esc(String(t.texto)))}</li>`).join("")}</ol>`);
+    }
+    const html = `<div style="font-family:'Open Sans',Arial,sans-serif;font-size:15px;color:#2C1F0E;line-height:1.55;max-width:680px">\n${ps.map(p).join("\n")}\n${partes.join("\n")}\n${cierre ? p(cierre) : ""}\n</div>`;
+    const enviar = body.enviar === true;
 
     try {
-      const r = await fetch(url, { method: "POST", headers: { "Content-Type": "text/plain" }, body: JSON.stringify({ secreto, accion: "borrador", para: email, asunto, texto, html, responder }) });
+      const r = await fetch(url, { method: "POST", headers: { "Content-Type": "text/plain" }, body: JSON.stringify({ secreto, accion: "borrador", enviar, para: email, asunto, texto, html, responder }) });
       const out = await r.json().catch(() => ({}));
-      if (!out.ok) return json({ error: `No se pudo armar el borrador en Gmail (${String(out.error || r.status).slice(0, 120)}). Si todavía no publicaste la versión nueva del Apps Script, publícala y prueba de nuevo.` }, 502);
+      if (!out.ok) return json({ error: `No se pudo ${enviar ? "enviar el mail" : "armar el borrador en Gmail"} (${String(out.error || r.status).slice(0, 120)}). Si todavía no publicaste la versión nueva del Apps Script, publícala y prueba de nuevo.` }, 502);
+      // Si se pidió enviar y el Apps Script todavía es el viejo, solo armó el borrador: se avisa en vez de marcarlo respondido.
+      if (enviar && !out.enviado) return json({ ok: true, link: out.link || "", asunto, reemplazado: !!out.reemplazado, aviso: "Lo dejé como borrador en tu Gmail: para enviar directo desde la app falta publicar la versión nueva de tu Apps Script." });
       const ahora = new Date().toISOString();
+      if (enviar) {
+        // Enviado (Flor, 22/11: "saltarme un paso"): queda respondido en la app al instante, con sus tareas del segundo intento.
+        const asuntoFinal = String(out.asunto || asunto).replace(/^(re|rv|fwd?):\s*/i, "").trim();
+        if (tabla === "pedidos") {
+          await admin.from("pedidos").update({ estado: "respondido", respuesta, correcciones: corr, respondido_en: ahora, mail_borrador: ahora, mail_asunto: asuntoFinal }).eq("id", ref);
+          if (grupo.length) await admin.from("pedidos").update({ estado: "respondido", respuesta, correcciones: [], respondido_en: ahora, mail_borrador: ahora, mail_asunto: asuntoFinal }).in("id", grupo);
+          const { data: pe } = await admin.from("pedidos").select("alumna_id").eq("id", ref).single();
+          const dd = new Date(Date.now() - 3 * 3600e3).toISOString().slice(0, 10);
+          // deno-lint-ignore no-explicit-any
+          for (const [i, t] of (segundo as any[]).entries()) await admin.from("tareas").insert({ alumna_id: pe?.alumna_id, texto: String(t.texto), donde: `Feedback del ${ddmm(dd)}`, hecha: false, orden: i + 1 });
+        }
+        if (tabla === "weekly") await admin.from("weekly").update({ respuesta_flor: respuesta, respondido_en: ahora, mail_borrador: ahora }).eq("id", ref);
+        return json({ ok: true, enviado: true, asunto: asuntoFinal });
+      }
       if (tabla === "pedidos") await admin.from("pedidos").update({ mail_borrador: ahora, mail_asunto: String(out.asunto || asunto).replace(/^(re|rv|fwd?):\s*/i, "").trim() }).in("id", [ref, ...grupo]);
       if (tabla === "weekly") await admin.from("weekly").update({ mail_borrador: ahora }).eq("id", ref);
       if (tabla) {

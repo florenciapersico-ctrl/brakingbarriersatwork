@@ -2673,7 +2673,7 @@ ${pruebaHTML()}
         <div class="field"><label>Tu respuesta</label><small>Lo que funcionó, tu foco para ella y qué clase ver. Las correcciones van abajo: ella las ve como ejercicio (primero las encuentra, después ve tus respuestas).</small><textarea class="r" rows="6"></textarea></div>
         <div class="field"><label>Correcciones · solo las ves tú así</label><small>Ella primero ve solo su frase, la corrige y dice por qué; recién después ve tu corrección y tu por qué. Toca «Ver cómo lo ve ella».</small><div class="corrs"></div><button type="button" class="linkbtn small addc">+ Agregar corrección</button></div>
         <p class="notas small muted" hidden></p>
-        <div class="row"><button class="btn send" type="button">Armar borrador en Gmail</button><button class="btn ghost ia" type="button">Borrador con IA</button><button class="btn ghost ver" type="button">Ver cómo lo ve ella</button><button class="linkbtn small borrarp" type="button">${x._grupo && x._grupo.length > 1 ? `Borrar los ${x._grupo.length}` : 'Borrar pedido'}</button></div>
+        <div class="row"><button class="btn send-ya" type="button">Enviar ya</button><button class="btn ghost send" type="button">Armar borrador en Gmail</button><button class="btn ghost ia" type="button">Borrador con IA</button><button class="btn ghost ver" type="button">Ver cómo lo ve ella</button><button class="linkbtn small borrarp" type="button">${x._grupo && x._grupo.length > 1 ? `Borrar los ${x._grupo.length}` : 'Borrar pedido'}</button></div>
         <div class="vista" hidden><span class="eyebrow">Así lo ve ella en su app</span><div class="reply"></div></div>
         ${claseHoyDe(x) ? '</details>' : ''}
       </div>` : `<div class="fbitem" data-pimp="${esc(x.email)}" data-origen="${esc(x.origen || '')}" data-mail="${esc(String(x.email || '').toLowerCase())}" data-or="${esc(x.origen || '')}">
@@ -2702,7 +2702,7 @@ ${pruebaHTML()}
           <div class="field"><label>Tareas (una por línea: tarea | dónde)</label><textarea class="pt" rows="3"></textarea></div>
           <label class="row small"><input type="checkbox" class="aplicar" checked> Cargarle este foco y estas tareas al enviar</label></div>` : ''}
         <p class="notas small muted" hidden></p>
-        <div class="row"><button class="btn sendw" type="button">Armar borrador en Gmail</button><button class="btn ghost iaw" type="button">Borrador con IA</button></div>
+        <div class="row"><button class="btn sendw-ya" type="button">Enviar ya</button><button class="btn ghost sendw" type="button">Armar borrador en Gmail</button><button class="btn ghost iaw" type="button">Borrador con IA</button></div>
       </div>`).join(''))).join('') : '<section class="card"><p class="muted">No hay weeklies sin responder. 🎉</p></section>';
         if (b.wViejos && b.wViejos.length) cuerpo += `<details class="card viejos"><summary><b>${b.wViejos.length} ${b.wViejos.length === 1 ? 'weekly viejo' : 'weeklies viejos'} sin responder</b> <span class="muted small">· de antes de la semana pasada o con uno más nuevo de ella: no se responden y no cuentan como pendientes.</span></summary><p class="small muted">${b.wViejos.map((x) => esc(String(x.nombre).split(' ')[0]) + ' (' + fecha(x.semana, { day: 'numeric', month: 'short' }) + ')').join(', ')}</p></details>`;
       }
@@ -2740,10 +2740,16 @@ ${cuerpo}`;
       // Responder = armar el mail completo como borrador en Gmail. No se le manda nada a la alumna:
       // Flor lo revisa y lo envía desde Gmail, y la sincronización lo marca respondido acá.
       const aGmail = async (it, q, btn) => {
-        if ($('.gm', it) && !confirm('Ya hay un borrador para esto en tu Gmail. ¿Lo reemplazo con lo que escribiste acá? (Si lo editaste en Gmail, esos cambios se pierden.)')) return false;
-        const t0 = btn.textContent; btn.disabled = true; btn.textContent = 'Armando el borrador…';
+        // Enviar ya (Flor, 22/11): sale directo a la alumna, con Flor en copia oculta. Se toca dos veces para no mandarlo sin querer.
+        if (q.enviar) {
+          if (!btn._seguro) { btn._seguro = true; btn.textContent = 'Tocá de nuevo para enviarlo'; setTimeout(() => { btn._seguro = false; btn.textContent = 'Enviar ya'; }, 5000); return false; }
+          btn._seguro = false;
+        } else if ($('.gm', it) && !confirm('Ya hay un borrador para esto en tu Gmail. ¿Lo reemplazo con lo que escribiste acá? (Si lo editaste en Gmail, esos cambios se pierden.)')) return false;
+        const t0 = q.enviar ? 'Enviar ya' : btn.textContent; btn.disabled = true; btn.textContent = q.enviar ? 'Enviando…' : 'Armando el borrador…';
         try {
           const out = await DB.borradorMail(q);
+          if (q.enviar && out.enviado) { toast('Enviado, con copia oculta para vos'); quitarDeLista(it); return true; }
+          if (q.enviar && out.aviso) toast(out.aviso, true);
           let n = $('.gm', it);
           if (!n) { $('.row.between', it).insertAdjacentHTML('afterend', '<p class="note small gm"></p>'); n = $('.gm', it); }
           n.innerHTML = `Listo: ${out.reemplazado ? 'actualicé el borrador que ya tenías' : 'el borrador está'} en tu Gmail${out.link ? ` · <a href="${esc(gmLink(out.link))}" target="_blank" rel="noopener"><b>Abrir el borrador</b></a>` : ''}. Revísalo y mándalo desde ahí: cuando lo mandes, esto se marca respondido solo.`;
@@ -2802,10 +2808,12 @@ ${cuerpo}`;
           if (!confirm(ids.length > 1 ? `¿Borrar los ${ids.length} pedidos? Ella tampoco los va a ver más.` : '¿Borrar este pedido? Ella tampoco lo va a ver más.')) return;
           await intentar(async () => { for (const id of ids) await DB.borrarPedido(id); }, ids.length > 1 ? 'Pedidos borrados' : 'Pedido borrado'); quitarDeLista(it);
         };
-        $('.send', it).onclick = async () => {
+        const mandar = async (enviar, btn) => {
           const r = $('.r', it).value.trim(); if (!r) return toast('Escribe tu respuesta.', true);
-          await aGmail(it, { pedido_id: +it.dataset.pid || it.dataset.pid, grupo: grupo().length > 1 ? grupo() : undefined, respuesta: r, correcciones: leerCorr(it) }, $('.send', it));
+          await aGmail(it, { pedido_id: +it.dataset.pid || it.dataset.pid, grupo: grupo().length > 1 ? grupo() : undefined, respuesta: r, correcciones: leerCorr(it), enviar }, btn);
         };
+        $('.send', it).onclick = () => mandar(false, $('.send', it));
+        $('.send-ya', it).onclick = () => mandar(true, $('.send-ya', it));
       });
       $$('[data-wid]').forEach((it) => {
         const id = +it.dataset.wid || it.dataset.wid;
@@ -2822,18 +2830,20 @@ ${cuerpo}`;
           return ok;
         };
         $('.iaw', it).onclick = it._generar;
-        $('.sendw', it).onclick = async () => {
+        const mandarW = async (enviar, btn) => {
           const r = $('.r', it).value.trim(); if (!r) return toast('Escribe tu respuesta.', true);
-          if (!(await aGmail(it, { weekly_id: id, respuesta: r }, $('.sendw', it)))) return;
+          if (!(await aGmail(it, { weekly_id: id, respuesta: r, enviar }, btn))) return;
           if (!$('.plan', it).hidden && $('.aplicar', it).checked && !it._planCargado) {
             it._planCargado = true;
             const aid = it.dataset.aid, foco = $('.pf', it).value.trim();
             if (foco) await intentar(() => DB.actualizarPerfil(aid, { foco_titulo: foco, foco_texto: $('.pft', it).value.trim() })).catch(() => {});
             const ts = $('.pt', it).value.split('\n').map((l) => l.split('|')).filter((p) => p[0].trim());
             for (const [t, d = ''] of ts) await DB.crearTarea(aid, t.trim(), d.trim(), Date.now() % 1e9).catch(() => {});
-            if (foco || ts.length) toast('Borrador en tu Gmail y su semana actualizada');
+            if (foco || ts.length) toast(enviar ? 'Enviado y su semana actualizada' : 'Borrador en tu Gmail y su semana actualizada');
           }
         };
+        $('.sendw', it).onclick = () => mandarW(false, $('.sendw', it));
+        $('.sendw-ya', it).onclick = () => mandarW(true, $('.sendw-ya', it));
       });
       $$('[data-wimp]').forEach((it) => {
         const imp = { email: it.dataset.wimp, semana: it.dataset.sem };

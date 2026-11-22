@@ -210,6 +210,13 @@ function armarBorrador(p) {
   var et = GmailApp.getUserLabelByName(ETIQUETA_ENVIADOS) || GmailApp.createLabel(ETIQUETA_ENVIADOS);
   hilo.addLabel(et); // así, cuando Flor lo manda, la revisión de Enviados lo encuentra
   // Y la etiqueta "AT WORK/Feedback para revisar": ahí quedan todos los borradores que arma la app, para que Flor los revise y los mande.
+  // Enviar ya desde la app (Flor, 22/11: "saltarme un paso"): el mismo mail, con Flor en copia oculta, sale directo.
+  if (p.enviar) {
+    var asuntoEnv = borrador.getMessage().getSubject();
+    borrador.send();
+    try { hilo.removeLabel(GmailApp.getUserLabelByName(ETIQUETA_REVISAR)); } catch (e) {}
+    return { ok: true, enviado: true, asunto: asuntoEnv };
+  }
   var rev = GmailApp.getUserLabelByName(ETIQUETA_REVISAR) || GmailApp.createLabel(ETIQUETA_REVISAR);
   hilo.addLabel(rev);
   return { ok: true, asunto: borrador.getMessage().getSubject(), link: linkBorrador(borrador.getMessage(), hilo, yo), reemplazado: reemplazado };
