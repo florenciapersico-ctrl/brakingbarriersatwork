@@ -49,6 +49,16 @@
   };
 
 
+  // Phonetastic (pedido de Flor, 21/11): el curso de fonética de la academia, para profundizar el Módulo 4.
+  const PHC = (c) => 'https://academy.breakingbarriers.site/courses/products/d4351307-951a-4fa1-b31e-7049248ee740/categories/' + c;
+  const PH = {
+    ipa: { t: 'Welcome to Phonetastic · IPA', u: PHC('c57e857d-069e-41c2-94d8-87a956c00dbd'), d: 'el alfabeto fonético para leer cómo suena cada palabra' },
+    vow: { t: 'Vowel Sounds', u: PHC('22192cb2-561e-41ac-8844-e5395d7ad911'), d: 'las vocales largas y cortas, una por una' },
+    suf: { t: 'Suffixes', u: PHC('f019efac-0dcf-4891-bfdb-ea7ca158ad4b'), d: '-ED, -AL, -TION/-SION, -OUS, -TURE: cómo suenan y dónde va la fuerza' },
+    con: { t: 'Consonants', u: PHC('f683ca66-866c-4764-9ff0-e0f4f2d981a7'), d: 'cómo se producen: lugar y modo de articulación' }
+  };
+  const ph = (...k) => ({ cb: k.map((x) => PH[x]), cbNombre: 'Phonetastic', cbIntro: 'Para profundizar: si quieres trabajar los sonidos uno por uno, aquí tienes las lecciones de Phonetastic que tratan este tema.' });
+
   // Clarity Bank (pedido de Flor, 20/11): material de consulta para profundizar la gramática de cada clase.
   // Cada clase lleva  cb: [...]  con las lecciones del Clarity Bank que tratan el mismo tema.
   const CBG = (p) => 'https://academy.breakingbarriers.site/courses/products/7aa0f32b-5f93-48fa-b34e-41f0f3c58ef9/categories/0bf7abf7-cdcb-41ed-b3ee-8f80a7a5c1e4/posts/' + p; // Break the Grammar Barrier
@@ -165,14 +175,15 @@
     ] },
     { n: 4, titulo: 'Understand & Be Understood', logro: 'Entiendes más en reuniones y te entienden a la primera.', semanas: [
       { s: [13], titulo: 'Tu oído', tareas: [
-        T('13.1', 'M4 · How English Really Sounds', 'clase', 'Módulo 4', { ws: 'https://docs.google.com/document/d/1B7A505LQ1lfcAzRtQDCOMb3qwQHoOfU0HNCfDMO1XaU/copy', pronto: true }),
-        T('13.2', 'M4 · Train Your Ear in Meetings', 'clase', 'Módulo 4', { ws: 'https://docs.google.com/document/d/1UhGzY92DltHI687NShb2y1EJHl5sBxLp_hKPSrV4o94/copy', pronto: true })
+        T('13.1', 'M4 · How English Really Sounds', 'clase', 'Módulo 4', Object.assign({ ws: 'https://docs.google.com/document/d/1B7A505LQ1lfcAzRtQDCOMb3qwQHoOfU0HNCfDMO1XaU/copy', pronto: true }, ph('ipa', 'vow'))),
+        T('13.2', 'M4 · Train Your Ear in Meetings', 'clase', 'Módulo 4', Object.assign({ ws: 'https://docs.google.com/document/d/1UhGzY92DltHI687NShb2y1EJHl5sBxLp_hKPSrV4o94/copy', pronto: true }, ph('vow', 'con')))
       ] },
       { s: [14], titulo: 'Que te entiendan a la primera', tareas: [
-        T('14.1', 'M4 · Pronunciation for Intelligibility · Parte 1', 'clase', 'Módulo 4', { ws: 'https://docs.google.com/document/d/1Q2vPfoPKRtG4NBlZ5HYdfYRVD1cHwnBG50bJj0GiBRw/copy', pronto: true }),
-        T('14.2', 'M4 · Pronunciation for Intelligibility · Parte 2', 'clase', 'Módulo 4', { ws: 'https://docs.google.com/document/d/1Q2vPfoPKRtG4NBlZ5HYdfYRVD1cHwnBG50bJj0GiBRw/copy', pronto: true })
+        T('14.1', 'M4 · Pronunciation for Intelligibility · Parte 1', 'clase', 'Módulo 4', Object.assign({ ws: 'https://docs.google.com/document/d/1Q2vPfoPKRtG4NBlZ5HYdfYRVD1cHwnBG50bJj0GiBRw/copy', pronto: true }, ph('suf', 'con', 'vow'))),
+        T('14.2', 'M4 · Pronunciation for Intelligibility · Parte 2', 'clase', 'Módulo 4', Object.assign({ ws: 'https://docs.google.com/document/d/1Q2vPfoPKRtG4NBlZ5HYdfYRVD1cHwnBG50bJj0GiBRw/copy', pronto: true }, ph('suf', 'ipa')))
       ] },
       { s: [15, 16], titulo: 'Llevarlo a tus reuniones', tareas: [
+        T('14.3', 'M4 · Your Key Speaker: entrena tu oído con la persona que más te cuesta', 'clase playbook', 'Módulo 4', Object.assign({ ws: 'https://docs.google.com/document/d/10kMrZyWnF_A1QKkUwxMAYVjRaojCzomlZ3rWFgBLAtw/copy', sube: 'playbook', pronto: true }, ph('vow', 'con'))),
         T('16.3', 'Escuchar una reunión real y anotar lo que no entendiste', 'practica', 'Tu trabajo'),
         T('16.4', 'Shadowing con frases de tu trabajo y la prueba del dictado', 'practica', 'Coaches', { coaches: true }),
         T('cierre4', 'Cierre del Módulo 4: tus wins y lo que aprendiste', 'cierre', 'Comunidad', { comunidad: true, nota: 'Ya terminaste las clases del Módulo 4. Tómate 10 minutos y responde: ¿qué aprendiste?, ¿qué puedes hacer ahora que antes no podías?, ¿qué sientes que todavía necesita más práctica? Reconoce tus wins y compártelos en la comunidad y en tu Weekly Report.' })
