@@ -79,6 +79,8 @@ window.PROGRAMA = {
     '12.4': 'https://drive.google.com/drive/folders/15FAOR8Hdk_P5CoWu9nfNf3l-_IfR9hNm',
     '12.5': 'https://drive.google.com/drive/folders/1qNeXyDZZqVLC3K3wqNMpfJ9GRPLfbm3k',
     '12.6': 'https://drive.google.com/drive/folders/1QLOCMhFq5qyneYtRFOMcOqNnwjryvJHc',
+    '12.7': 'https://drive.google.com/drive/folders/1oxCTJC-W_4FGcgdjNaN-4N713qWSWVw4',
+    '12.8': 'https://drive.google.com/drive/folders/1oxCTJC-W_4FGcgdjNaN-4N713qWSWVw4',
     '13.1': 'https://drive.google.com/drive/folders/1KkixW6PyUMHbLyWJWWlxSrVJxZ01OMTn',
     '13.2': 'https://drive.google.com/drive/folders/1VidSlgWCWfnz74_U0u1dJ_tTozGSttCm',
     '14.1': 'https://drive.google.com/drive/folders/11if3ZWqzcgsMloOWOCa9FhUL4rhRYyow',
@@ -96,3 +98,44 @@ window.PROGRAMA = {
     ['Ayúdame con mi weekly report', 'Lo ordenamos juntas antes del lunes.']
   ]
 };
+// Bancos de consulta por grabar (plan final de Flor, 22/11). Solo los ve Flor en su panel,
+// en bloques aparte de AT WORK. «n» es el número de la subcarpeta en «PARA GRABAR · Plan final».
+window.PROGRAMA.paraGrabar = 'https://drive.google.com/drive/folders/1oxCTJC-W_4FGcgdjNaN-4N713qWSWVw4';
+window.PROGRAMA.bancos = [
+  { banco: 'cb', titulo: 'Clarity Bank · banco de gramática', orden: 2,
+    sinGrabar: 'Solo subir a la plataforma: 40 Mini tests por tema · 41 Worksheets que faltaban (Reported Questions, Reported Commands, Passive Voice, Present Perfect Continuous, Future Perfect) · 42 Tabla de tiempos verbales.',
+    clases: [
+      ['cb.08', '08', 'Passive Voice · Two objects', 'They sent me the report → I was sent the report / The report was sent to me'],
+      ['cb.09', '09', 'Passive Voice · Impersonal Passive', 'It is said that… · Sales are expected to grow'],
+      ['cb.10', '10', 'Passive Voice · The Causative', 'have / get something done'],
+      ['cb.11', '11', 'Relative Clauses · Defining', 'who, which, that; cuándo omitir that'],
+      ['cb.12', '12', 'Relative Clauses · Non-defining', 'la información extra entre comas; sin that'],
+      ['cb.13', '13', 'Relative Clauses · Whose, where, when, why + preposiciones', 'the client whose… · the team with whom I work'],
+      ['cb.14', '14', 'Los errores chiquitos que delatan el español', 'sujeto que falta, since/for, say/tell, used to / be used to, falsos amigos'],
+      ['cb.15', '15', 'Conectores', 'however, although, whereas, therefore, despite'],
+      ['cb.39', '39', 'Inversiones para sonar ejecutiva', '']
+    ] },
+  { banco: 'ph', titulo: 'Phonetastic · banco de pronunciación', orden: 3,
+    sinGrabar: 'Sin grabar: 34 Minimal pairs (PDF con sonido) · 38 Tus recursos favoritos (PDF). El Módulo 5 «Sonar natural» reusa las clases 13.1, 13.2, 14.1 y 14.2 de AT WORK: no se graban dos veces.',
+    clases: [
+      ['ph.16', '16', '0.00 · Bienvenida a Phonetastic', 'reemplaza la vieja'],
+      ['ph.17', '17', '1.09 · La e larga /ɜː/', 'work, word, first'],
+      ['ph.18', '18', '1.10 · La schwa /ə/', ''],
+      ['ph.22', '22', '1.11 · La U larga y la U corta', ''],
+      ['ph.23', '23', '1.12 · La O corta /ɒ/', ''],
+      ['ph.24', '24', '1.13 · Los diptongos', ''],
+      ['ph.25', '25', '2.04 · ¿Sonora o sorda?', ''],
+      ['ph.26', '26', '2.05 · La TH', ''],
+      ['ph.27', '27', '2.06 · B y V', ''],
+      ['ph.28', '28', '2.07 · SH y CH, J y Y', ''],
+      ['ph.29', '29', '2.08 · Practica conmigo · consonantes', ''],
+      ['ph.19', '19', '3.11 · La -S y la -ES', '3 sonidos'],
+      ['ph.30', '30', '4.01 · Letras mudas · B, C, D y GH', ''],
+      ['ph.31', '31', '4.02 · Letras mudas · H, K, L y N', ''],
+      ['ph.32', '32', '4.03 · Letras mudas · P, T, U y W', ''],
+      ['ph.33', '33', '5.01 · Acento en las palabras y ¿verbo o sustantivo?', ''],
+      ['ph.35', '35', '6.01 · Shadowing con series y entrevistas', ''],
+      ['ph.36', '36', '6.02 · Pronunciación con canciones', ''],
+      ['ph.37', '37', '6.03 · Cómo ver series en inglés', '']
+    ] }
+];

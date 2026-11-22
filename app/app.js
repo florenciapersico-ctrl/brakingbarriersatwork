@@ -1466,7 +1466,8 @@ ${P.camino.map((m) => { const pm = pctMes(m); if (!pm.t) return ''; return `<det
       out.push({ t, desde, mod: m.n, quienes, ya: quienes.some((x) => x.n >= m.n), listo: !!linkGrabar(F, t.id) });
     }
     // Primero las que ya les tocan; después las del módulo que sigue; entre esas, las que tienen el material listo; después, el orden del programa.
-    return out.sort((x, y) => (y.ya - x.ya) || ((y.quienes.length > 0) - (x.quienes.length > 0)) || (y.listo - x.listo) || (x.desde - y.desde));
+    // grabarDespues (plan final de Flor, 22/11): las 2 de vocabulario del M3 van después del M4 y el M5.
+    return out.sort((x, y) => ((!!x.t.grabarDespues) - (!!y.t.grabarDespues)) || (y.ya - x.ya) || ((y.quienes.length > 0) - (x.quienes.length > 0)) || (y.listo - x.listo) || (x.desde - y.desde));
   }
   async function pegarLinkGrabar(id) {
     const u = prompt('Pega el link de la carpeta (Drive o Notion) donde tienes el prompter, la presentación y todo para grabar esta clase:', linkGrabar(st._flor, id));
@@ -1507,6 +1508,33 @@ ${P.camino.map((m) => { const pm = pctMes(m); if (!pm.t) return ''; return `<det
   }
   // «Primero · actualizar»: videos sueltos (no son clases del camino) que Flor eligió grabar antes que todo.
   // Viven en programa.flor.primero = [{ id, texto, nota, link, hecho }]. Solo los ve Flor, de a uno.
+  // Bancos de consulta (Clarity Bank y Phonetastic, plan final de Flor 22/11): no son tareas del camino.
+  // Solo los ve Flor, en bloques aparte, con «Ya la grabé» (sin pedir link: el video se edita aparte) y «No la grabo».
+  function bancosHTML(F) {
+    const B = P.bancos || [];
+    if (!B.length) return '';
+    const gr = F.grabadas || [], sa = F.salteadas || [];
+    return B.slice().sort((a, b) => a.orden - b.orden).map((bk) => {
+      const pend = bk.clases.filter(([id]) => !gr.includes(id) && !sa.includes(id));
+      const hechas = bk.clases.filter(([id]) => gr.includes(id));
+      const salt = bk.clases.filter(([id]) => sa.includes(id));
+      const lk = (id) => linkGrabar(F, id) || P.paraGrabar || '';
+      return `<h4 style="margin:22px 0 4px">${bk.orden}º · ${esc(bk.titulo)} (${pend.length})</h4>
+  ${pend.length ? `<ul class="tasks">${pend.map(([id, n, tx, que]) => `<li><div class="fbitem" style="flex-direction:row;align-items:flex-start;justify-content:space-between;gap:12px"><span><b>${esc(n)} · ${esc(tx)}</b>${que ? `<br><span class="muted small">${esc(que)}</span>` : ''}</span>
+    <span class="row" style="gap:6px;flex-wrap:wrap;justify-content:flex-end">${lk(id) ? `<a class="btn sm" href="${esc(lk(id))}" target="_blank" rel="noopener">🎬 Abrir todo para grabar</a>` : ''}<button type="button" class="linkbtn small" data-glink="${esc(id)}">Cambiar link</button>
+    <button type="button" class="btn ghost sm" data-bgrab="${esc(id)}">Ya la grabé</button><button type="button" class="linkbtn small" data-saltar="${esc(id)}">No la grabo</button></span></div></li>`).join('')}</ul>` : '<p class="muted small">Todo grabado. 🎉</p>'}
+  ${bk.sinGrabar ? `<p class="muted small">${esc(bk.sinGrabar)}</p>` : ''}
+  ${hechas.length ? `<details class="mas-grabar"><summary class="small">✓ Ya grabadas (${hechas.length})</summary><ul class="neg">${hechas.map(([id, n, tx]) => `<li class="row between"><span>${esc(n)} · ${esc(tx)}</span><button type="button" class="linkbtn small" data-desgrab="${esc(id)}">Deshacer</button></li>`).join('')}</ul></details>` : ''}
+  ${salt.length ? `<details class="mas-grabar"><summary class="small">No las grabo (${salt.length})</summary><ul class="neg">${salt.map(([id, n, tx]) => `<li class="row between"><span>${esc(n)} · ${esc(tx)}</span><button type="button" class="linkbtn small" data-dessaltar="${esc(id)}">Volver a la lista</button></li>`).join('')}</ul></details>` : ''}`;
+    }).join('');
+  }
+  document.addEventListener('click', (e) => {
+    const b = e.target.closest('[data-bgrab]'); if (!b || !st._flor) return;
+    e.preventDefault(); e.stopImmediatePropagation();
+    const id = b.dataset.bgrab, gr = st._flor.grabadas || [];
+    const it = (P.bancos || []).flatMap((x) => x.clases).find((c) => c[0] === id) || [];
+    guardarF({ grabadas: gr.includes(id) ? gr : [...gr, id] }, '✓ Grabada: ' + (it[2] || id) + '. Pasale el video para editarlo.').then(() => ruta());
+  }, true);
   function primeroHTML(F) {
     const L = ((F || {}).primero || []).filter((x) => !x.hecho);
     if (!L.length) return '';
@@ -1574,12 +1602,13 @@ ${P.camino.map((m) => { const pm = pctMes(m); if (!pm.t) return ''; return `<det
   <p class="muted small">Te ${porGrabar.length + primeroPend.length === 1 ? 'falta' : 'faltan'} <b>${porGrabar.length + primeroPend.length}</b> ${porGrabar.length + primeroPend.length === 1 ? 'video' : 'videos'} para terminar el programa${primeroPend.length ? ` (${primeroPend.length} del onboarding y ${porGrabar.length} ${porGrabar.length === 1 ? 'clase' : 'clases'})` : ''}. Primero los del onboarding; después, las clases del módulo en el que ya están tus alumnas. Grabá de a uno, empezando por el de arriba.</p>
   ${primeroPend.length ? `<ul class="tasks">${primeroPend.map((x) => `<li><div class="fbitem" style="flex-direction:row;align-items:flex-start;justify-content:space-between;gap:12px"><span><b>${esc(x.texto)}</b> <span class="pill warn">Onboarding · primero</span>${x.nota ? `<br><span class="muted small">${esc(x.nota)}</span>` : ''}</span>
     <span class="row" style="gap:6px;flex-wrap:wrap;justify-content:flex-end">${x.link ? `<a class="btn sm" href="${esc(x.link)}" target="_blank" rel="noopener">🎬 Abrir todo para grabar</a>` : ''}<button type="button" class="btn ghost sm" data-primok="${esc(x.id)}">Ya lo grabé</button></span></div></li>`).join('')}</ul>` : ''}
-  ${porGrabar.length ? `<ul class="tasks">${porGrabar.map((g, i) => `${i === 10 ? `</ul><details class="mas-grabar"><summary class="small">Ver las otras ${porGrabar.length - 10}</summary><ul class="tasks">` : ''}<li><div class="fbitem" style="flex-direction:row;align-items:flex-start;justify-content:space-between;gap:12px"><span><b>${esc(g.t.texto)}</b> ${g.ya ? '<span class="pill warn">Grábala sí o sí</span>' : g.quienes.length ? '<span class="pill">La que sigue</span>' : '<span class="pill">Por grabar</span>'}<br>
+  ${porGrabar.length ? `<h4 style="margin:16px 0 4px">1º · AT WORK · cierra el programa (${porGrabar.length})</h4><ul class="tasks">${porGrabar.map((g, i) => `${i === 10 ? `</ul><details class="mas-grabar"><summary class="small">Ver las otras ${porGrabar.length - 10}</summary><ul class="tasks">` : ''}<li><div class="fbitem" style="flex-direction:row;align-items:flex-start;justify-content:space-between;gap:12px"><span><b>${esc(g.t.texto)}</b> ${g.ya ? '<span class="pill warn">Grábala sí o sí</span>' : g.quienes.length ? '<span class="pill">La que sigue</span>' : '<span class="pill">Por grabar</span>'}<br>
     <span class="muted small">Módulo ${g.mod}.${g.quienes.length ? ' ' + g.quienes.map((x) => nom1(x.a.nombre) + ' (M' + x.n + ')').join(', ') + (g.ya ? (g.quienes.length === 1 ? ' ya está en este módulo.' : ' ya están en este módulo.') : (g.quienes.length === 1 ? ' está en el módulo anterior.' : ' están en el módulo anterior.')) : ' Ninguna alumna llegó todavía.'}</span></span>
     <span class="row" style="gap:6px;flex-wrap:wrap;justify-content:flex-end">${lkG(g.t.id) ? `<a class="btn sm" href="${esc(lkG(g.t.id))}" target="_blank" rel="noopener">🎬 Abrir todo para grabar</a><button type="button" class="linkbtn small" data-glink="${esc(g.t.id)}">Cambiar link</button>` : `<button type="button" class="btn ghost sm" data-glink="${esc(g.t.id)}">+ Pegar link del material</button>`}
     <button type="button" class="btn ghost sm" data-grab="${esc(g.t.id)}">Ya la grabé</button><button type="button" class="linkbtn small" data-saltar="${esc(g.t.id)}">No la grabo</button></span></div></li>`).join('')}</ul>${porGrabar.length > 10 ? '</details>' : ''}` : primeroPend.length ? '' : '<p class="muted small">No te queda nada por grabar: el programa está completo. 🎉</p>'}
   ${hechasG.length ? `<details class="mas-grabar"><summary class="small">✓ Ya grabadas (${hechasG.length})</summary><ul class="neg">${hechasG.map((t) => `<li class="row between"><span>${esc(t.texto)}</span><span class="row" style="gap:6px">${t.pronto ? `<button type="button" class="btn ghost sm" data-publicar="${esc(t.id)}">Ya la subí: pegar el link</button>` : '<span class="pill ok">Publicada</span>'}<button type="button" class="linkbtn small" data-desgrab="${esc(t.id)}">Deshacer</button></span></li>`).join('')}</ul></details>` : ''}
   ${salteadasG.length ? `<details class="mas-grabar"><summary class="small">No las grabo (${salteadasG.length})</summary><ul class="neg">${salteadasG.map((t) => `<li class="row between"><span>${esc(t.texto)}</span><button type="button" class="linkbtn small" data-dessaltar="${esc(t.id)}">Volver a la lista</button></li>`).join('')}</ul></details>` : ''}
+  ${bancosHTML(F)}
 </section>
 <details class="card"><summary><b>Tus links de trabajo</b></summary>
   <form class="grid" id="flinks" novalidate>

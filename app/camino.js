@@ -169,6 +169,8 @@
         T('12.3', 'M3 · Reported Speech & Reporting Information', 'clase', 'Módulo 3', { link: M3('7938ffc2-a3a4-48c9-a807-c491d1c587b8'), ws: 'https://docs.google.com/document/d/1j2Q_rUoxziU1FfnpurDkqiZpn3DRJvCu1h0LdRGqfco/copy', cb: cb('rs','rsQ','rsC','rsV') }),
         T('12.5', 'M3 · Passive Voice for Processes & Reporting', 'clase', 'Módulo 3', { link: M3('813a95b2-81ac-4253-8c68-0ef927dc752c'), ws: 'https://docs.google.com/document/d/1gsMgX29z2f2v9A15X7FvCYbR6ru5iMdMoJRTgm8S2YA/copy', cb: cb('pas') }),
         T('12.6', 'M3 · Word Families & Nominalization', 'clase', 'Módulo 3', { link: M3('bf61621f-333c-4aa3-8750-248beb125643'), ws: 'https://docs.google.com/document/d/1SJsK5I4OlpqXzuKgdTp5cHDWF3rKzivCpFGXXA0HAcw/copy', pronto: true }),
+        T('12.7', 'M3 · Phrasal Verbs at Work', 'clase', 'Módulo 3', { pronto: true, grabarDespues: true }),
+        T('12.8', 'M3 · Expresiones e idioms del trabajo', 'clase', 'Módulo 3', { pronto: true, grabarDespues: true }),
         T('12.4', 'M3 · The Accuracy Challenge: tu Error Radar', 'clase evidencia', 'Módulo 3', { ws: 'https://docs.google.com/document/d/1xNOfOW5rWNaNEAYP4KnsaICxxXnstpLvz3iiaGvaJLA/copy', pronto: true }),
         T('cierre3', 'Cierre del Módulo 3: tus wins y lo que aprendiste', 'cierre', 'Comunidad', { comunidad: true, nota: 'Ya terminaste las clases del Módulo 3. Tómate 10 minutos y responde: ¿qué aprendiste?, ¿qué puedes hacer ahora que antes no podías?, ¿qué sientes que todavía necesita más práctica? Reconoce tus wins y compártelos en la comunidad y en tu Weekly Report.' })
       ] }
