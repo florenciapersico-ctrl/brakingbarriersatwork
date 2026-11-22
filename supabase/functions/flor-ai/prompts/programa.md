@@ -2,7 +2,7 @@
 Programa de 5 meses (20 semanas) en dos formatos: AT WORK Lab (grupal) y AT WORK Private (1:1). Mismo camino y mismo método (The Delivery Method™: producir → detectar → corregir y refinar → aplicar; lo que se rompe es el QUÉ, el CÓMO o el QUIÉN).
 Módulos: M0 Start Here · Onboarding (Tu punto de partida, cómo funciona tu semana y dónde está cada cosa. Hay un onboarding para Lab y otro para Private.) · M1 Activate Your English (Convertir tus situaciones reales de trabajo en práctica con Role Play, Narrative Flow y Color Method.) · M2 Communicate in Real Time (Construir, ordenar, adaptar y sostener tu mensaje cuando la conversación se sale del guion. El QUÉ.) · M3 Polish Your English (Los patrones que de verdad interfieren con tu precisión. El CÓMO. Se prescribe según tu diagnóstico.) · M4 Understand & Be Understood (Entender el inglés hablado real y que se te entienda a la primera. Tu acento nunca fue el problema.) · M5 Own Your Voice (El QUIÉN: cuando no te animas, te quedas en blanco o esperas hablar perfecto.)
 
-## Tu camino semana por semana (lo que ve la alumna en "Mi camino"). "PRONTO" = Flor la está grabando, todavía no está publicada: no la mandes a verla, di que está en grabación y se publica pronto.
+## Tu camino semana por semana (lo que ve la alumna en "Mi camino"). "PRONTO" = todavía no está publicada y la alumna NO la ve en su camino (desde el 21/11 las alumnas solo ven lo publicado): no la nombres, no la recomiendes y no digas que «se publica pronto». Si el tema le hace falta, mándala a lo que sí está publicado, al Clarity Bank o a preguntarle a Flor en su Weekly Report. Excepción: Reported Speech y Passive Voice sí las ve, con su worksheet y su teoría del Clarity Bank (el video está en grabación).
 
 ### Mes 1 · Start Here, tu método y tus coaches — al final del mes: Entiendes cómo funciona todo, hiciste tu primer ciclo completo y ya usas tus coaches.
 Semana 1 · Tu punto de partida:
@@ -43,6 +43,8 @@ Semana 8 · Conectar y sostener la conversación:
 - M2 · Small Talk & Networking [clase playbook · Módulo 2] → https://academy.breakingbarriers.site/courses/products/6863ca67-9163-40bd-98de-f0c450d87919/categories/686e786a-3975-437e-98a7-b60a7f115798/posts/50ec7aca-66df-4039-ba90-c82a8a4185e5
 - M2 · Expresar desacuerdo [clase · Módulo 2] PRONTO
 - M2 · Responder preguntas inesperadas [clase · Módulo 2] PRONTO
+- M2 · Tus reuniones · Parte 1 [clase · Módulo 2] PRONTO
+- M2 · Tus reuniones · Parte 2 [clase · Módulo 2] PRONTO
 - Comparar tu primer y tu último intento del mes y compartir tu win [evidencia · Comunidad]
 
 ### Mes 3 · Pule tu inglés · el CÓMO — al final del mes: Detectas tú misma dónde se rompe tu inglés y lo corriges en el segundo intento.
@@ -74,7 +76,8 @@ Semana 13 · Tu oído:
 - M4 · How English Really Sounds [clase · Módulo 4] PRONTO
 - M4 · Train Your Ear in Meetings [clase · Módulo 4] PRONTO
 Semana 14 · Que te entiendan a la primera:
-- M4 · Pronunciation for Intelligibility [clase · Módulo 4] PRONTO
+- M4 · Pronunciation for Intelligibility · Parte 1 [clase · Módulo 4] PRONTO
+- M4 · Pronunciation for Intelligibility · Parte 2 [clase · Módulo 4] PRONTO
 Semana 15 y 16 · Llevarlo a tus reuniones:
 - Escuchar una reunión real y anotar lo que no entendiste [practica · Tu trabajo]
 - Shadowing con frases de tu trabajo y la prueba del dictado [practica · Coaches]

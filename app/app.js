@@ -84,6 +84,7 @@
     feedback: '<path d="M4 4h16v12H8l-4 4z"/><path d="M9 10l2 2 4-4"/>',
     weekly: '<rect x="4" y="4" width="16" height="17" rx="2"/><path d="M8 2v4M16 2v4M8 11h8M8 15h5"/>',
     camino: '<circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="6" r="2.5"/><path d="M8.5 18H15a3 3 0 0 0 0-6H9a3 3 0 0 1 0-6h6.5"/>',
+    micamino: '<circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="6" r="2.5"/><path d="M8.5 18H15a3 3 0 0 0 0-6H9a3 3 0 0 1 0-6h6.5"/>',
     coaches: '<path d="M4 5h16v11H9l-5 4z"/><path d="M8 9h8M8 12h5"/>',
     progreso: '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
     wins: '<path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M17 5h3a3 3 0 0 1-3 4M7 5H4a3 3 0 0 0 3 4"/>',
@@ -109,7 +110,7 @@
   const TITULOS = Object.fromEntries(VISTAS.concat([['bandeja', 'Bandeja'], ['alumnas', 'Alumnas'], ['ajustes', 'Programa'], ['inicio', 'Inicio'], ['labs', 'Labs'], ['atwork', 'AT WORK'], ['contenido', 'Contenido']]));
   const ADMIN = [['bandeja', 'Bandeja'], ['alumnas', 'Alumnas'], ['ajustes', 'Programa']];
   // Menú propio de Flor (administradora): nada de "tu programa" de alumna. Para ver lo de ellas: "Ver la app como alumna".
-  const MENU_FLOR = [['inicio', 'Inicio'], ['bandeja', 'Bandeja'], ['alumnas', 'Alumnas'], ['atwork', 'AT WORK'], ['contenido', 'Contenido'], ['labs', 'Labs'], ['progreso', 'Mis números'], ['wins', 'Wins de alumnas'], ['ajustes', 'Programa']];
+  const MENU_FLOR = [['inicio', 'Inicio'], ['bandeja', 'Bandeja'], ['alumnas', 'Alumnas'], ['atwork', 'AT WORK'], ['micamino', 'Mi camino'], ['contenido', 'Contenido'], ['labs', 'Labs'], ['progreso', 'Mis números'], ['wins', 'Wins de alumnas'], ['ajustes', 'Programa']];
   const esFlor = () => st.admin && !DB.demo;
   // "Mi lab" solo aparece en el menú de las alumnas del formato LAB (Flor, 14/11). Las 1:1 van al lab como invitadas.
   const conLab = () => !st.perfil || st.perfil.formato !== '1:1';
@@ -330,21 +331,45 @@
 
   // Clases publicadas desde el panel (Flor, 20/11): cuando Flor marca «Ya la grabé» y pega el link de la academia,
   // la clase deja de estar «en grabación» para todas (Mi camino, Mi semana, Flor AI) sin tocar el código.
+  // Mi camino editable desde el panel (Flor, 21/11): en programa.flor.camino se guarda
+  //   ocultas: { id: 'por qué' }  → la tarea no la ve ninguna alumna (ni Flor AI la recomienda)
+  //   cambios: { id: { texto, link, ws, nota, pronto } } → gana sobre camino.js
+  // P._caminoBase es el camino completo (con lo oculto); P.camino es lo que ven las alumnas.
+  const CAMPOS = ['texto', 'link', 'ws', 'nota', 'pronto'];
   function aplicarPublicadas() {
-    const pub = ((st.programa || {}).flor || {}).publicadas || {};
-    for (const m of P.camino) for (const s of m.semanas) for (const t of s.tareas) {
-      if (!('_pronto0' in t)) { t._pronto0 = !!t.pronto; t._link0 = t.link; }
+    const F = (st.programa || {}).flor || {}, pub = F.publicadas || {}, C = F.camino || {};
+    const ocultas = C.ocultas || {}, cambios = C.cambios || {};
+    if (!P._caminoBase) P._caminoBase = P.camino;
+    for (const m of P._caminoBase) for (const s of m.semanas) for (const t of s.tareas) {
+      if (!t._o) { t._o = {}; CAMPOS.forEach((k) => { t._o[k] = t[k]; }); t._o.pronto = !!t.pronto; t._o.anticipo0 = !!t.anticipo; }
+      CAMPOS.forEach((k) => { t[k] = t._o[k]; });
       const l = pub[t.id] && (pub[t.id].link || pub[t.id]);
-      if (t._pronto0 && typeof l === 'string' && url(l)) { t.pronto = false; t.link = l; }
-      else { t.pronto = t._pronto0; t.link = t._link0; }
+      if (t._o.pronto && typeof l === 'string' && url(l)) { t.pronto = false; t.link = l; }
+      const c = cambios[t.id];
+      if (c) {
+        if (c.texto) t.texto = c.texto;
+        if ('link' in c) { t.link = url(c.link) || undefined; if (url(c.link)) t.pronto = false; }
+        if ('ws' in c) t.ws = url(c.ws) || undefined;
+        if ('nota' in c) t.nota = c.nota || undefined;
+        if ('pronto' in c) t.pronto = !!c.pronto;
+      }
+      t.oculta = t.id in ocultas;
+      // Antes de grabarla, la alumna la ve solo si Flor lo eligió (tiene worksheet o teoría para hacer mientras tanto).
+      t.antes = c && 'anticipo' in c ? !!c.anticipo : !!t._o.anticipo0;
     }
+    // Las alumnas ven SOLO lo publicado (Flor, 21/11): lo que falta grabar lo ve únicamente Flor.
+    // Cuando Flor publica una clase (pega el link), les aparece sola.
+    const armar = (ok) => P._caminoBase.map((m) => ({ ...m, _base: m, semanas: m.semanas.map((s) => ({ ...s, tareas: s.tareas.filter(ok) })) }));
+    P.caminoFlor = armar((t) => !t.oculta);
+    P.caminoAlumnas = armar((t) => !t.oculta && (!t.pronto || t.antes));
+    P.camino = esFlor() ? P.caminoFlor : P.caminoAlumnas;
   }
   async function ruta() {
     aplicarPublicadas();
     const [v, ...args] = location.hash.replace(/^#/, '').split('/');
     let vista = V[v] && (!ADMIN.some(([id]) => id === v) || st.admin) ? v : 'semana';
     if (vista === 'inicio' && !esFlor()) vista = 'semana';
-    if ((vista === 'lab' && !conLab()) || (['labs', 'atwork', 'contenido'].includes(vista) && !st.admin)) vista = 'semana';
+    if ((vista === 'lab' && !conLab()) || (['labs', 'atwork', 'contenido', 'micamino'].includes(vista) && !st.admin)) vista = 'semana';
     if (esFlor() && !MENU_FLOR.some(([id]) => id === vista)) vista = 'inicio';
     $$('nav a').forEach((a) => (a.dataset.v === vista ? a.setAttribute('aria-current', 'page') : a.removeAttribute('aria-current')));
     if ($('#tbt')) $('#tbt').textContent = esFlor() && (MENU_FLOR.find(([id]) => id === vista) || [])[1] ? MENU_FLOR.find(([id]) => id === vista)[1] : vista === 'empieza' && (DB.demo || !st.admin) && onbHecho() ? 'Cómo funciona' : (TITULOS[vista] || '');
@@ -722,7 +747,7 @@ ${fmt(p) === '1:1' ? '' : caminoSemanaHTML(p)}
     if (!n) return `<section class="card empty-state"><span class="eyebrow">Tu camino AT WORK</span><h3>Tus 5 meses, semana por semana</h3><p class="muted small">Cuando Flor cargue tu fecha de inicio, acá vas a ver exactamente qué te toca esta semana.</p><a class="btn ghost" href="#camino">Ver mi camino</a></section>`;
     const c = semanaCamino(n);
     return `<section class="card"><div class="row between"><div><span class="eyebrow">Tu camino · semana ${n} de 20 · mes ${c.mes.n}</span><h3>${esc(c.sem.titulo)}</h3></div><a class="small" href="#camino">Ver todo mi camino</a></div>
-      <ul class="tasks">${c.sem.tareas.map((t) => filaTarea(t, p.camino_hecho || [])).join('')}</ul>
+      ${c.sem.tareas.length ? `<ul class="tasks">${c.sem.tareas.map((t) => filaTarea(t, p.camino_hecho || [])).join('')}</ul>` : '<p class="muted small">Esta semana es para aplicar en tu trabajo lo que ya viste: practícalo con tus coaches y cuéntaselo a Flor en tu Weekly Report.</p>'}
       ${n >= 2 ? `<details><summary class="small muted">Tus hábitos de todas las semanas</summary><ul class="tasks" style="margin-top:8px">${P.habitos.tareas.map((t) => `<li><div class="fbitem"><b>${esc(t.texto)}</b><span class="where muted small">${esc(t.donde)} ${accionTarea(t)}</span></div></li>`).join('')}</ul></details>` : ''}
     </section>`;
   }
@@ -1285,7 +1310,7 @@ ${grupos.length ? grupos.map((g) => `<section class="card sem-grupo"><div class=
 <p class="muted intro">El programa paso a paso. Enfócate en la semana en la que estás: lo demás espera. Si tu diagnóstico pide otro foco, Flor te lo indica en la respuesta a tu Weekly Report.</p>
 <section class="card"><h3>Tu recorrido</h3>${etapasHTML(n)}<p class="muted small">${esc(P.recorridoNota)}</p></section>
 ${P.camino.map((m) => { const pm = pctMes(m); return `<details class="card mes" ${m.n === mesActual ? 'open' : ''}><summary><span class="mesnum"><small>MES</small>0${m.n}</span><span class="mestit"><h2>${esc(m.titulo)}</h2><span class="muted small">${pm.h} de ${pm.t} tareas · Al final del mes: ${esc(m.logro)}</span></span>${ring(pm.t ? (100 * pm.h) / pm.t : 0)}</summary>
-  ${m.semanas.map((s) => `<div class="semana ${n && s.s.includes(n) ? 'actual' : ''}"><div class="row between"><b class="semtit"><span>SEMANA${s.s.length > 1 ? 'S' : ''} ${s.s.join(' Y ')}</span> ${esc(s.titulo)}</b>${n && s.s.includes(n) ? '<span class="pill warn">Esta semana</span>' : ''}</div>
+  ${m.semanas.filter((s) => s.tareas.length).map((s) => `<div class="semana ${n && s.s.includes(n) ? 'actual' : ''}"><div class="row between"><b class="semtit"><span>SEMANA${s.s.length > 1 ? 'S' : ''} ${s.s.join(' Y ')}</span> ${esc(s.titulo)}</b>${n && s.s.includes(n) ? '<span class="pill warn">Esta semana</span>' : ''}</div>
     <ul class="tasks">${s.tareas.map((t) => filaTarea(t, hechas)).join('')}</ul></div>`).join('')}
 </details>`; }).join('')}
 <section class="card"><span class="eyebrow">${esc(P.habitos.titulo)}</span><h3>${esc(P.habitos.ciclo)}</h3>
@@ -1601,6 +1626,204 @@ ${P.camino.map((m) => { const cs = clases.filter((c) => c.m === m).sort((x, y) =
     $$('[data-saltar]').forEach((b) => (b.onclick = async () => { await guardarF({ salteadas: [...(st._flor.salteadas || []), b.dataset.saltar] }, 'Sale de tu lista para grabar'); ruta(); }));
     $$('[data-dessaltar]').forEach((b) => (b.onclick = async () => { await guardarF({ salteadas: sacar('salteadas', b.dataset.dessaltar) }, 'Vuelve a la lista para grabar'); ruta(); }));
   }
+
+  // ---------- Mi camino desde tu lado (Flor, 21/11) ----------
+  // 1) Ver Mi camino EXACTO como lo ve una alumna (Lab o Private, en la semana que elijas).
+  // 2) Editarlo: ocultar o mostrar tareas, cambiar el texto, el link de la clase, la worksheet o la nota, y dejar el porqué.
+  //    Se guarda en programa.flor.camino y lo ven todas al momento (Mi camino, Mi semana y Flor AI).
+  // 3) «Qué grabar»: un asesor con tu criterio, sin gastar créditos: urgencia por alumnas, sus patrones de error,
+  //    si ya tienen worksheet o Clarity Bank para arrancar y si el material para grabar está listo.
+  const TEMAS = {
+    '6.3': /opini|i think|point of view|punto de vista/i,
+    '6.4': /explic|explain|clarif|aclarar/i,
+    '8.4': /desacuerdo|disagree|push ?back|decir que no/i,
+    '8.5': /inesperad|unexpected|congel|freez|en blanco|preguntas?\b/i,
+    '12.3': /reported|reportad|\bsaid\b|\btold\b|dijo|lo que dijo/i,
+    '12.4': /error radar|accuracy|precisi/i,
+    '12.5': /passive|pasiva/i,
+    '12.6': /word famil|nominal|word form|sustantivo|adjetivo/i,
+    '13.1': /listening|no entiend|comprensi|nativ/i,
+    '13.2': /listening|no entiend|reuni.*entend|nativ/i,
+    '14.1': /pronunci|sonido|stress|intelig|me piden que repita/i,
+    '15.1': /miedo|no me animo|confian|bloque|insegur/i,
+    '15.2': /en blanco|me callo|congel|freez/i,
+    '16.1': /perfec|miedo a equivoc/i
+  };
+  const VEREDICTO = [[4, 'Grábala ya', 'warn'], [2, 'Esta semana o la próxima', 'warn'], [0.5, 'Pronto', ''], [-99, 'Puede esperar', 'ok']];
+  function asesorGrabar(b, F, pats) {
+    const out = [];
+    for (const m of P._caminoBase) for (const s of m.semanas) for (const t of s.tareas) {
+      if (!/clase/.test(t.tipo) || t.onb || !t.pronto || t.oculta || (F.grabadas || []).includes(t.id) || (F.salteadas || []).includes(t.id)) continue;
+      const desde = Math.min(...s.s), motivos = [];
+      const est = b.activas.map((a) => ({ a, n: semanaDe(a.perfil) })).filter((x) => x.n && !((x.a.perfil.camino_hecho || []).includes(t.id)));
+      const ya = est.filter((x) => x.n >= desde), prox = est.filter((x) => x.n === desde - 1), cerca = est.filter((x) => x.n >= desde - 4 && x.n < desde - 1);
+      const nom = (xs) => xs.map((x) => String(x.a.nombre || '').split(' ')[0]).join(', ');
+      let pts = 3 * ya.length + 2 * prox.length + 0.5 * cerca.length;
+      if (ya.length) motivos.push(`${nom(ya)} ${ya.length === 1 ? 'ya llegó' : 'ya llegaron'} a esta clase (semana ${desde})`);
+      if (prox.length) motivos.push(`${nom(prox)} ${prox.length === 1 ? 'llega' : 'llegan'} la semana que viene`);
+      if (cerca.length) motivos.push(`${nom(cerca)} ${cerca.length === 1 ? 'llega' : 'llegan'} en menos de un mes`);
+      const re = TEMAS[t.id];
+      const conPatron = re ? [...new Set(pats.filter((p) => re.test(p.patron || '') && !/super|resuel/i.test(p.estado || '')).map((p) => p.alumna_id))] : [];
+      if (conPatron.length) {
+        pts += Math.min(3, conPatron.length);
+        const nn = conPatron.map((id) => (b.al.find((x) => x.id === id) || {}).nombre).filter(Boolean).map((n) => n.split(' ')[0]);
+        motivos.push(`Es un patrón de error de ${nn.join(', ') || conPatron.length + ' alumnas'}: la necesitan aunque no estén en esa semana`);
+      }
+      if (linkGrabar(F, t.id)) { pts += 1; motivos.push('El material para grabar ya está listo'); } else motivos.push('Falta el material para grabar (prompter, presentación)');
+      const cubierta = t.ws || (t.cb || []).length;
+      if (cubierta) { pts -= 1.5; motivos.push('Mientras tanto ya tienen ' + (t.ws ? 'worksheet' : '') + (t.ws && (t.cb || []).length ? ' y ' : '') + ((t.cb || []).length ? 'teoría del Clarity Bank' : '') + ': puede esperar un poco más'); }
+      if (!est.length && !conPatron.length) motivos.push('Ninguna alumna activa la necesita todavía');
+      const v = VEREDICTO.find(([min]) => pts >= min);
+      out.push({ t, m, desde, pts, v, motivos });
+    }
+    return out.sort((x, y) => y.pts - x.pts || x.desde - y.desde);
+  }
+  function vistaComoAlumna(formato, semana) {
+    const p0 = st.perfil, a0 = st.admin, e0 = st._entregas;
+    const d = new Date(); d.setDate(d.getDate() - 7 * ((semana || 1) - 1));
+    st.perfil = { ...p0, rol: 'alumna', formato, camino_hecho: [], onboarding: [], fecha_inicio: semana ? diaISO(d) : null };
+    const c0 = P.camino; P.camino = P.caminoAlumnas;
+    st.admin = false; st._entregas = {};
+    try { return V.camino.html(); } finally { st.perfil = p0; st.admin = a0; st._entregas = e0; P.camino = c0; }
+  }
+  V.micamino = {
+    async html() {
+      const F = Object.assign({ grabadas: [], salteadas: [] }, st.programa.flor || {});
+      st._flor = F;
+      const mc = st._mc = Object.assign({ modo: 'editar', fmt: 'LAB', sem: 0, filtro: 'todo' }, st._mc || {});
+      const C = F.camino || {}, ocultas = C.ocultas || {}, cambios = C.cambios || {}, notas = C.notas || {};
+      const tareas = P._caminoBase.flatMap((m) => m.semanas.flatMap((s) => s.tareas));
+      const nOc = tareas.filter((t) => t.oculta).length, nCa = Object.keys(cambios).filter((id) => tareas.some((t) => t.id === id)).length;
+      const nPr = tareas.filter((t) => /clase/.test(t.tipo) && t.pronto && !t.oculta).length;
+      let b = null, pats = [];
+      try { b = await cargarBandeja(); pats = (await Promise.all(b.al.filter((a) => a.rol !== 'admin' && a.activa !== false).map((a) => DB.patrones(a.id).catch(() => [])))).flat(); } catch (e) { console.error(e); }
+      const sug = b ? asesorGrabar(b, F, pats) : [];
+      st._mcSug = sug;
+      const tabs = `<div class="row" style="gap:6px;flex-wrap:wrap">${[['editar', '✏️ Editar mi camino'], ['alumna', '👀 Verlo como alumna'], ['grabar', '🎬 Qué grabar']].map(([k, l]) => `<button type="button" class="btn ${mc.modo === k ? '' : 'ghost'} sm" data-mcmodo="${k}">${l}</button>`).join('')}</div>`;
+      const head = `<div class="head"><div><span class="eyebrow">El recorrido de tus alumnas, desde tu lado</span><h1>Mi camino</h1></div></div>
+<p class="muted intro">Lo que cambias acá lo ven todas tus alumnas al momento: en Mi camino, en Mi semana y en Flor AI. Nada toca el código.</p>
+<div class="grid g-3">
+  <section class="card"><span class="eyebrow">Tareas en el camino</span><span class="big">${tareas.length - nOc}</span><span class="muted small">${nOc ? nOc + ' ocultas por ti' : 'ninguna oculta'}</span></section>
+  <section class="card"><span class="eyebrow">Clases en grabación</span><span class="big">${nPr}</span><span class="muted small">las alumnas ven «se publica pronto»</span></section>
+  <section class="card"><span class="eyebrow">Cambios tuyos</span><span class="big">${nCa}</span><span class="muted small">sobre el camino original</span></section>
+</div>
+<section class="card">${tabs}</section>`;
+
+      if (mc.modo === 'alumna') {
+        return head + `<section class="card"><div class="row" style="gap:10px;flex-wrap:wrap;align-items:flex-end">
+  <div class="field" style="margin:0"><label for="mc-fmt">Formato</label><select id="mc-fmt"><option value="LAB" ${mc.fmt === 'LAB' ? 'selected' : ''}>Lab</option><option value="1:1" ${mc.fmt === '1:1' ? 'selected' : ''}>Private</option></select></div>
+  <div class="field" style="margin:0"><label for="mc-sem">Está en la semana</label><select id="mc-sem"><option value="0">Sin fecha de inicio</option>${[...Array(20)].map((_, i) => `<option value="${i + 1}" ${mc.sem === i + 1 ? 'selected' : ''}>Semana ${i + 1}</option>`).join('')}</select></div>
+</div><p class="muted small" style="margin-top:8px">Es exactamente su pantalla, con tus cambios. Los links funcionan; los botones de subir y las tildes están apagados para que no se te cargue nada a ti.</p></section>
+<div class="mc-prev">${vistaComoAlumna(mc.fmt, mc.sem)}</div>`;
+      }
+
+      if (mc.modo === 'grabar') {
+        const fila = (x, i) => `<li><div class="fbitem" style="gap:6px"><div class="row between" style="gap:8px;flex-wrap:wrap"><span><b>${i + 1}. ${esc(x.t.texto)}</b> <span class="pill ${x.v[2]}">${x.v[1]}</span></span>
+          <span class="row" style="gap:6px;flex-wrap:wrap">${linkGrabar(F, x.t.id) ? `<a class="btn sm" href="${esc(linkGrabar(F, x.t.id))}" target="_blank" rel="noopener">🎬 Abrir todo para grabar</a>` : `<button type="button" class="btn ghost sm" data-glink="${esc(x.t.id)}">+ Link del material</button>`}<button type="button" class="btn ghost sm" data-grab="${esc(x.t.id)}">Ya la grabé</button><button type="button" class="linkbtn small" data-saltar="${esc(x.t.id)}">No la grabo</button></span></div>
+          <ul class="small" style="margin:0;padding-left:18px">${x.motivos.map((r) => `<li>${esc(r)}</li>`).join('')}</ul></div></li>`;
+        return head + `<section class="card feature"><span class="eyebrow">Flor AI para ti · qué grabar</span>
+  ${sug.length ? `<h2>Grabá primero: ${esc(sug[0].t.texto)}</h2><p class="small">${esc(sug[0].motivos[0] || '')}.</p>` : '<h2>No hay clases pendientes de grabar 🎉</h2>'}
+  <p class="muted small">Ordena con tu criterio: primero las que tus alumnas ya necesitan, después las que son un patrón de error de alguna, y baja las que ya tienen worksheet o Clarity Bank para arrancar. No gasta créditos. Si quieres pensarlo con más contexto, cópialo y pégalo en Claude.</p>
+  <div class="row"><button type="button" class="btn ghost sm" id="mc-claude">Copiar para Claude</button></div></section>
+${sug.length ? `<section class="card"><ul class="tasks">${sug.map(fila).join('')}</ul></section>` : ''}
+${nOc ? `<p class="muted small">Las clases que ocultaste no entran en esta lista.</p>` : ''}`;
+      }
+
+      // Modo edición
+      const filtro = (t) => mc.filtro === 'todo' || (mc.filtro === 'grab' && /clase/.test(t.tipo) && t.pronto) || (mc.filtro === 'oc' && t.oculta) || (mc.filtro === 'ed' && cambios[t.id]);
+      const filaEd = (t) => {
+        const c = cambios[t.id] || {}, o = t._o || {};
+        const pills = (t.oculta ? '<span class="pill bad">Oculta</span> ' : '') + (/clase/.test(t.tipo) && !t.onb ? (t.pronto ? (t.antes ? '<span class="pill warn">Por grabar · ya la ven (con su worksheet)</span>' : '<span class="pill warn">Por grabar · solo la ves tú</span>') : '<span class="pill ok">Publicada · la ven</span>') : '') + (cambios[t.id] ? ' <span class="pill">Editada</span>' : '');
+        const lkClase = t.onb ? (P.onbLinks.LAB || {})[t.onb] : t.link;
+        const links = [url(lkClase) ? `<a class="linkbtn small" href="${esc(lkClase)}" target="_blank" rel="noopener">Ver clase ↗</a>` : '', url(t.ws) ? `<a class="linkbtn small" href="${esc(t.ws)}" target="_blank" rel="noopener">📄 Worksheet ↗</a>` : '', (t.cb || []).length ? `<span class="muted small">📚 Clarity Bank (${t.cb.length})</span>` : '', linkGrabar(F, t.id) && t.pronto ? `<a class="linkbtn small" href="${esc(linkGrabar(F, t.id))}" target="_blank" rel="noopener">🎬 Material para grabar ↗</a>` : ''].filter(Boolean).join(' ');
+        return `<li class="mc-t${t.oculta ? ' mc-oc' : ''}" data-mct="${esc(t.id)}"><div class="fbitem" style="gap:4px">
+  <div class="row between" style="gap:8px;flex-wrap:wrap;align-items:flex-start"><span><span class="muted small">${esc(t.id)}</span> <b>${esc(t.texto)}</b> ${pills}</span>
+    <span class="row" style="gap:8px;flex-wrap:wrap"><label class="small"><input type="checkbox" data-mcver="${esc(t.id)}" ${t.oculta ? '' : 'checked'}> Se muestra</label><button type="button" class="btn ghost sm" data-mced="${esc(t.id)}">Editar</button>${cambios[t.id] ? `<button type="button" class="linkbtn small" data-mcorig="${esc(t.id)}">Volver al original</button>` : ''}</span></div>
+  <span class="where muted small">${esc(t.donde)} ${links}</span>
+  ${t.nota ? `<span class="muted small">Nota para la alumna: ${esc(t.nota)}</span>` : ''}
+  ${notas[t.id] ? `<span class="small">🔒 Por qué (solo tú): ${esc(notas[t.id])}</span>` : ''}
+  <form class="mc-form grid" data-mcf="${esc(t.id)}" hidden novalidate>
+    <div class="field"><label>Texto que ve la alumna</label><input class="f-texto" type="text" value="${esc(t.texto)}"><small class="muted">Original: ${esc(o.texto || '')}</small></div>
+    ${/clase/.test(t.tipo) && !t.onb ? `<div class="field"><label>Link de la clase (academia)</label><input class="f-link" type="url" value="${esc(url(t.link) || '')}" placeholder="https://academy.breakingbarriers.site/…"><small class="muted">Si pegas el link, la clase queda publicada. Vacío: sin link.</small></div>
+    <label class="small"><input type="checkbox" class="f-pronto" ${t.pronto ? 'checked' : ''}> Todavía no está grabada</label>
+    <label class="small"><input type="checkbox" class="f-antes" ${t.antes ? 'checked' : ''}> Mostrársela a las alumnas antes de grabarla (solo si ya tiene worksheet o teoría para hacer)</label>` : ''}
+    <div class="field"><label>Worksheet (link /copy)</label><input class="f-ws" type="url" value="${esc(url(t.ws) || '')}" placeholder="https://docs.google.com/document/d/…/copy"></div>
+    <div class="field"><label>Nota para la alumna (opcional)</label><textarea class="f-nota" rows="2">${esc(t.nota || '')}</textarea></div>
+    <div class="field"><label>Por qué lo cambias (solo lo ves tú)</label><input class="f-por" type="text" value="${esc(notas[t.id] || '')}"></div>
+    <div class="row"><button class="btn sm" type="submit">Guardar</button><button type="button" class="linkbtn small f-x">Cancelar</button></div>
+  </form></div></li>`;
+      };
+      const cuerpo = P._caminoBase.map((m) => {
+        const sems = m.semanas.map((s) => { const ts = s.tareas.filter(filtro); return ts.length ? `<div class="semana"><b class="semtit"><span>SEMANA${s.s.length > 1 ? 'S' : ''} ${s.s.join(' Y ')}</span> ${esc(s.titulo)}</b><ul class="tasks">${ts.map(filaEd).join('')}</ul></div>` : ''; }).join('');
+        return sems ? `<details class="card mes" open><summary><span class="mesnum"><small>MES</small>0${m.n}</span><span class="mestit"><h2>${esc(m.titulo)}</h2></span></summary>${sems}</details>` : '';
+      }).join('');
+      return head + `<section class="card"><div class="row" style="gap:10px;flex-wrap:wrap;align-items:flex-end"><div class="field" style="margin:0"><label for="mc-filtro">Mostrar</label><select id="mc-filtro">${[['todo', 'Todo el camino'], ['grab', 'Clases en grabación'], ['oc', 'Lo que ocultaste'], ['ed', 'Lo que editaste']].map(([k, l]) => `<option value="${k}" ${mc.filtro === k ? 'selected' : ''}>${l}</option>`).join('')}</select></div></div>
+  <p class="muted small" style="margin-top:8px">Destilda «Se muestra» para sacar una tarea del camino de todas (Flor AI tampoco la recomienda). Con «Editar» cambias lo que ven y dejas el porqué.</p></section>
+${cuerpo || '<section class="card"><p class="muted">Nada para mostrar con este filtro.</p></section>'}`;
+    },
+    mount() {
+      const view = $('#app .view'); if (!view) return;
+      montarGrabar();
+      const prev = $('.mc-prev', view);
+      if (prev) { $$('input, [data-subir]', prev).forEach((x) => { x.disabled = true; }); $$('.entrega', prev).forEach((x) => x.remove()); }
+      const C = () => Object.assign({ ocultas: {}, cambios: {}, notas: {} }, JSON.parse(JSON.stringify((st._flor || {}).camino || {})));
+      const guardarC = async (c, msg) => { await guardarF({ camino: c }, msg); st.programa.flor = st._flor; ruta(); };
+      const sel = (id, k) => { const s = $('#' + id); if (s) s.onchange = () => { st._mc[k] = k === 'sem' ? +s.value : s.value; ruta(); }; };
+      sel('mc-fmt', 'fmt'); sel('mc-sem', 'sem'); sel('mc-filtro', 'filtro');
+      view.addEventListener('click', async (e) => {
+        const m = e.target.closest('[data-mcmodo]'); if (m) { st._mc.modo = m.dataset.mcmodo; return ruta(); }
+        const ed = e.target.closest('[data-mced]');
+        if (ed) { const f = $(`form[data-mcf="${ed.dataset.mced}"]`, view); f.hidden = !f.hidden; if (!f.hidden) $('.f-texto', f).focus(); return; }
+        if (e.target.closest('.f-x')) { e.target.closest('form').hidden = true; return; }
+        const og = e.target.closest('[data-mcorig]');
+        if (og) { if (!confirm('¿Volver esta tarea a como estaba en el programa original?')) return; const c = C(); delete c.cambios[og.dataset.mcorig]; delete c.notas[og.dataset.mcorig]; return guardarC(c, 'Volvió al original'); }
+        if (e.target.id === 'mc-claude') {
+          const txt = 'Soy Flor, directora de AT WORK. Ayúdame a decidir qué clase grabar primero esta semana (de a una, sin llenarme la agenda). Esto es lo que dice mi app, ordenado con mi criterio:\n\n' +
+            (st._mcSug || []).map((x, i) => `${i + 1}. ${x.t.texto} (semana ${x.desde}) · ${x.v[1]}\n   - ${x.motivos.join('\n   - ')}`).join('\n') +
+            '\n\nDecime cuál grabo primero y por qué, y cuáles mando a «después».';
+          (navigator.clipboard ? navigator.clipboard.writeText(txt) : Promise.reject()).then(() => toast('Copiado. Pégalo en Claude.'), () => prompt('Copia este texto:', txt));
+        }
+      });
+      view.addEventListener('change', async (e) => {
+        const v = e.target.closest('[data-mcver]'); if (!v) return;
+        const id = v.dataset.mcver, c = C();
+        if (v.checked) { delete c.ocultas[id]; return guardarC(c, 'Se muestra otra vez: ' + textoBase(id)); }
+        const por = prompt('¿Por qué la ocultas? (solo lo ves tú, opcional)', c.notas[id] || '');
+        if (por == null) { v.checked = true; return; }
+        c.ocultas[id] = textoBase(id); if (por.trim()) c.notas[id] = por.trim();
+        guardarC(c, 'Oculta para todas: ' + textoBase(id));
+      });
+      view.addEventListener('submit', async (e) => {
+        const f = e.target.closest('form.mc-form'); if (!f) return;
+        e.preventDefault();
+        const id = f.dataset.mcf, t = P._caminoBase.flatMap((m) => m.semanas.flatMap((s) => s.tareas)).find((x) => x.id === id); if (!t) return;
+        const o = t._o, c = C(), n = {};
+        const val = (k) => { const el = $('.f-' + k, f); return el ? (el.type === 'checkbox' ? el.checked : el.value.trim()) : undefined; };
+        const texto = val('texto'), link = val('link'), ws = val('ws'), nota = val('nota'), pronto = val('pronto'), por = val('por');
+        if ([link, ws].some((u) => u && !url(u))) return toast('Los links tienen que empezar con https://', true);
+        if (link && !link.startsWith(ACADEMIA)) return toast('El link de la clase tiene que ser de la academia (' + ACADEMIA + '…)', true);
+        if (!texto) return toast('El texto no puede quedar vacío.', true);
+        if (texto !== o.texto) n.texto = texto;
+        if (link !== undefined && link !== (url(t.link) || '')) n.link = link;
+        if (ws !== (url(t.ws) || '')) n.ws = ws;
+        if (nota !== (t.nota || '')) n.nota = nota;
+        if (pronto !== undefined && pronto !== !!t.pronto) n.pronto = pronto;
+        const antes = val('antes');
+        if (antes !== undefined && antes !== !!t.antes) n.anticipo = antes;
+        const prev = c.cambios[id] || {}, junto = { ...prev, ...n };
+        // Lo que quedó igual al original no se guarda como cambio.
+        ['texto', 'ws', 'nota'].forEach((k) => { if ((junto[k] || '') === (o[k] || '')) delete junto[k]; });
+        if ('link' in junto && (junto.link || '') === (o.link || '')) delete junto.link;
+        if ('pronto' in junto && !!junto.pronto === !!o.pronto && !('link' in junto)) delete junto.pronto;
+        if ('anticipo' in junto && !!junto.anticipo === !!o.anticipo0) delete junto.anticipo;
+        delete junto.de;
+        if (Object.keys(junto).length) c.cambios[id] = { ...junto, de: o.texto }; else delete c.cambios[id];
+        if (por) c.notas[id] = por; else delete c.notas[id];
+        guardarC(c, '✓ Guardado. Ya lo ven tus alumnas.');
+      });
+    }
+  };
+  const textoBase = (id) => ((P._caminoBase || P.camino).flatMap((m) => m.semanas.flatMap((x) => x.tareas)).find((t) => t.id === id) || {}).texto || id;
 
   // ---------- Contenido (pedido de Flor, 14/11) ----------
   // Lo de hoy, tu semana circular (YouTube → email → reels y carruseles que llevan al video),

@@ -80,7 +80,18 @@ async function programaVigente(db: any): Promise<string> {
       if (linea) out = out.replace(linea, linea.split(" PRONTO")[0] + " → " + link);
       else if (!out.includes(link)) extra.push(`- ${texto} → ${link}`);
     }
-    return extra.length ? out + "\n\n## Clases publicadas hace poco (ya no están en grabación)\n" + extra.join("\n") : out;
+    if (extra.length) out += "\n\n## Clases publicadas hace poco (ya no están en grabación)\n" + extra.join("\n");
+    // Mi camino editado por Flor desde su panel (21/11): lo oculto no se recomienda; los cambios ganan.
+    const cam = (data?.flor?.camino || {}) as { ocultas?: Record<string, unknown>; cambios?: Record<string, { de?: string; texto?: string; link?: string; ws?: string; nota?: string; pronto?: boolean }> };
+    const oc = Object.entries(cam.ocultas || {}).map(([id, v]) => (typeof v === "string" ? `${v} (${id})` : id));
+    const ch = Object.entries(cam.cambios || {});
+    if (oc.length) out += "\n\n## Tareas que Flor sacó de Mi camino por ahora (NO las recomiendes ni las menciones)\n" + oc.map((x) => "- " + x).join("\n");
+    if (ch.length) {
+      out += "\n\n## Cambios de Flor sobre el camino (ganan sobre lo de arriba)\n" + ch.map(([id, c]) =>
+        `- ${c.de || id}: ${[c.texto && `se llama «${c.texto}»`, c.link && `link de la clase → ${c.link}`, c.pronto === true && "todavía en grabación (PRONTO)", c.pronto === false && "publicada", c.ws && `worksheet → ${c.ws}`, c.nota && `nota: ${c.nota}`].filter(Boolean).join(" · ")}`
+      ).join("\n");
+    }
+    return out;
   } catch (e) {
     console.error("programaVigente", e);
     return prog;

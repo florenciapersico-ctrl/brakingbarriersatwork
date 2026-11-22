@@ -517,3 +517,4 @@ details.lb[open]>summary h3::after{content:" ⌄"}
 .tasks .pill,.semana .pill{white-space:normal;line-height:1.35;text-align:left}
 main{overflow-wrap:break-word}
 .mainwrap{overflow-x:clip}
+.mc-oc{opacity:.55}.mc-oc:hover{opacity:1}.mc-prev{display:flex;flex-direction:column;gap:16px}.mc-form{margin-top:8px;padding:12px;border-radius:12px;background:var(--surface-2)}

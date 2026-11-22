@@ -70,6 +70,9 @@ window.PROGRAMA = {
   // M3 (12.x): las carpetas reales están en «Módulo 3» (NO las de «🗑️ BORRAR»). Revisado 17/11.
   // Flor puede cambiar o agregar el link desde "Mi progreso" (se guarda aparte y gana sobre esto).
   grabar: {
+    '8.6': 'https://drive.google.com/drive/folders/1GYqbHLqc49jppLsXQnrkJhZKHTWDCL77',
+    '8.7': 'https://drive.google.com/drive/folders/1GYqbHLqc49jppLsXQnrkJhZKHTWDCL77',
+    '14.2': 'https://drive.google.com/drive/folders/11if3ZWqzcgsMloOWOCa9FhUL4rhRYyow',
     '12.2': 'https://drive.google.com/drive/folders/1WLWELXatIAQwJIgF6FDQQ2jBgLU2NDdG',
     '12.3': 'https://drive.google.com/drive/folders/1pWUwLvRO6FJD0jWWVpB0M6Yab8LVuxh0',
     '12.4': 'https://drive.google.com/drive/folders/15FAOR8Hdk_P5CoWu9nfNf3l-_IfR9hNm',
