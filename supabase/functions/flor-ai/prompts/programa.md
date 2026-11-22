@@ -23,7 +23,7 @@ Semana 3 · Activa tu inglés:
 Semana 4 · Tus coaches:
 - M1.4 · Narrative Flow + corregir un texto tuyo [clase coach · Módulo 1 · Coaches] → https://academy.breakingbarriers.site/courses/products/6863ca67-9163-40bd-98de-f0c450d87919/categories/d4a20ab8-90e2-427a-814b-bd9c6c045091/posts/fdd0c13a-de41-491b-8235-b816ea5a587f
 - M1.5 · Color Method + subir el nivel de un mail [clase coach · Módulo 1 · Coaches] → https://academy.breakingbarriers.site/courses/products/6863ca67-9163-40bd-98de-f0c450d87919/categories/d4a20ab8-90e2-427a-814b-bd9c6c045091/posts/f4c28b22-b2a7-4404-a5ed-b9e43f6e8b3b
-- Cerrar tu primer ciclo: detectar, segundo intento y aplicar [evidencia · Weekly report]
+- Cierre del Módulo 1: tus wins y lo que aprendiste [cierre · Comunidad]
 
 ### Mes 2 · Ordena tu mensaje · el QUÉ — al final del mes: Armas lo que quieres decir antes de hablar, aunque no lo tengas preparado.
 Semana 5 · Decir las ideas simple:
@@ -41,7 +41,7 @@ Semana 8 · Conectar y sostener la conversación:
 - M2 · Small Talk & Networking [clase playbook · Módulo 2] → https://academy.breakingbarriers.site/courses/products/6863ca67-9163-40bd-98de-f0c450d87919/categories/686e786a-3975-437e-98a7-b60a7f115798/posts/50ec7aca-66df-4039-ba90-c82a8a4185e5
 - M2 · Tus reuniones · Parte 1 [clase · Módulo 2] PRONTO
 - M2 · Tus reuniones · Parte 2 [clase · Módulo 2] PRONTO
-- Comparar tu primer y tu último intento del mes y compartir tu win [evidencia · Comunidad]
+- Cierre del Módulo 2: tus wins y lo que aprendiste [cierre · Comunidad]
 
 ### Mes 3 · Pule tu inglés · el CÓMO — al final del mes: Detectas tú misma dónde se rompe tu inglés y lo corriges en el segundo intento.
 Semana 9 · Tu sistema verbal:
@@ -50,11 +50,9 @@ Semana 9 · Tu sistema verbal:
 - M3 · The Verb System · Parte 2: Verbos irregulares [clase worksheet · Módulo 3] → https://academy.breakingbarriers.site/courses/products/6863ca67-9163-40bd-98de-f0c450d87919/categories/3aa37c22-88dd-460b-bbc6-bb5a22c0e9eb/posts/7b1a9231-6500-4722-9ef4-1de448ba745b
 - M3 · The Verb System · Parte 3: Cuándo uso cada uno [clase worksheet · Módulo 3] → https://academy.breakingbarriers.site/courses/products/6863ca67-9163-40bd-98de-f0c450d87919/categories/3aa37c22-88dd-460b-bbc6-bb5a22c0e9eb/posts/ea11f8ef-dbb7-40af-8c6a-2a10ffbc7d5e
 - M3 · The Verb System · Parte 4: Future tenses [clase worksheet · Módulo 3] → https://academy.breakingbarriers.site/courses/products/6863ca67-9163-40bd-98de-f0c450d87919/categories/3aa37c22-88dd-460b-bbc6-bb5a22c0e9eb/posts/57e5d9f7-65ce-4e2e-91f7-422defb9d68a
-- Desde ahora, en tu Weekly Report me dices qué trabajar: el qué, el cómo o el quién [habito · Weekly report] (Con el Delivery Method detectamos dónde se rompe tu inglés. El qué: cómo organizas tus ideas, qué dices primero y qué después. El cómo: tus errores fosilizados, cómo armas las oraciones y los verbos. El quién: desde dónde hablas, cómo te sientes con el inglés y cómo te paras en tus reuniones. Desde ahora, en tu Weekly Report escribe en cuál de los tres crees que tienes que trabajar más, así Flor te acompaña y te guía en eso.)
-Semana 10 · Mitad del camino:
+Semana 10 · Los patrones de los verbos:
 - M3 · Verb Patterns: to or ing? [clase · Módulo 3] → https://academy.breakingbarriers.site/courses/products/6863ca67-9163-40bd-98de-f0c450d87919/categories/3aa37c22-88dd-460b-bbc6-bb5a22c0e9eb/posts/3cde7014-d479-45f6-be25-71a780ff177e
 - M3 · Stop translating the pattern! [clase · Módulo 3] → https://academy.breakingbarriers.site/courses/products/6863ca67-9163-40bd-98de-f0c450d87919/categories/3aa37c22-88dd-460b-bbc6-bb5a22c0e9eb/posts/623a039a-73d3-4c9e-b97b-c71fbda69486
-- Revisión de mitad de programa: comparar con tu Starting Point [evidencia · Encuentro en vivo]
 Semana 11 · Precisión:
 - M3 · Nouns, Articles & Agreement [clase · Módulo 3] → https://academy.breakingbarriers.site/courses/products/6863ca67-9163-40bd-98de-f0c450d87919/categories/3aa37c22-88dd-460b-bbc6-bb5a22c0e9eb/posts/99891d26-ef2b-469c-b27c-1a0a496c6edc
 - M3 · Relative Clauses: who, which, that [clase · Módulo 3] → https://academy.breakingbarriers.site/courses/products/6863ca67-9163-40bd-98de-f0c450d87919/categories/3aa37c22-88dd-460b-bbc6-bb5a22c0e9eb/posts/c4a14c4d-2aac-46aa-881d-314b173296bc
@@ -66,6 +64,7 @@ Semana 12 · Preguntar y reportar:
 - M3 · Passive Voice for Processes & Reporting [clase · Módulo 3] PRONTO
 - M3 · Word Families & Nominalization [clase · Módulo 3] PRONTO
 - M3 · The Accuracy Challenge: tu Error Radar [clase evidencia · Módulo 3] PRONTO
+- Cierre del Módulo 3: tus wins y lo que aprendiste [cierre · Comunidad]
 
 ### Mes 4 · Understand & Be Understood — al final del mes: Entiendes más en reuniones y te entienden a la primera.
 Semana 13 · Tu oído:
@@ -77,6 +76,7 @@ Semana 14 · Que te entiendan a la primera:
 Semana 15 y 16 · Llevarlo a tus reuniones:
 - Escuchar una reunión real y anotar lo que no entendiste [practica · Tu trabajo]
 - Shadowing con frases de tu trabajo y la prueba del dictado [practica · Coaches]
+- Cierre del Módulo 4: tus wins y lo que aprendiste [cierre · Comunidad]
 
 ### Mes 5 · Own Your Voice — al final del mes: Hablas aunque no sea perfecto y tienes la evidencia de cuánto avanzaste.
 Semana 17 · El QUIÉN:
@@ -84,12 +84,9 @@ Semana 17 · El QUIÉN:
 - M5 · Cuando me callo o me quedo en blanco [clase playbook · Módulo 5] PRONTO
 Semana 18 · Hablar sin ser perfecta:
 - M5 · Hablar sin ser perfecta [clase playbook · Módulo 5] PRONTO
-- Llevar a tu trabajo una situación que antes evitabas [evidencia · Tu trabajo]
-Semana 19 y 20 · Tu voz en tu situación más difícil:
-- Hacer tú todo el ciclo con tu situación más difícil [practica · Coaches]
+Semana 19 y 20 · Tu cierre: tu antes y después:
 - Grabar tu Starting Point de nuevo [evidencia · Drive · 01]
-- Comparar con tu primer Starting Point en tu encuentro [evidencia · Encuentro en vivo]
-- Compartir tu win en la comunidad [evidencia · Comunidad]
+- Cierre del programa: tu antes y después (escucha tu primer Starting Point y el nuevo, ¿qué cambió?, wins) [cierre · Comunidad]
 
 Hábitos de todas las semanas (desde la semana 2): Lunes: tu Weekly Report (es tu plan de la semana que empieza) · Hacer tu tarea de la semana (la de tu foco, arriba) y mandársela a Flor · Practicarla con el coach que corresponde y hacer el segundo intento · Aplicarlo en tu trabajo real · Tu encuentro en vivo (clase o lab)
 

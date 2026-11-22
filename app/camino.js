@@ -110,7 +110,7 @@
       { s: [4], titulo: 'Tus coaches', tareas: [
         T('4.1', 'M1.4 · Narrative Flow + corregir un texto tuyo', 'clase coach', 'Módulo 1 · Coaches', { link: M1('fdd0c13a-de41-491b-8235-b816ea5a587f'), coaches: true }),
         T('4.2', 'M1.5 · Color Method + subir el nivel de un mail', 'clase coach', 'Módulo 1 · Coaches', { link: M1('f4c28b22-b2a7-4404-a5ed-b9e43f6e8b3b'), coaches: true }),
-        T('4.3', 'Cerrar tu primer ciclo: detectar, segundo intento y aplicar', 'evidencia', 'Weekly report', { ir: '#weekly' })
+        T('cierre1', 'Cierre del Módulo 1: tus wins y lo que aprendiste', 'cierre', 'Comunidad', { comunidad: true, nota: 'Ya terminaste las clases del Módulo 1. Tómate 10 minutos y responde: ¿qué aprendiste?, ¿qué puedes hacer ahora que antes no podías?, ¿qué sientes que todavía necesita más práctica? Reconoce tus wins y compártelos en la comunidad y en tu Weekly Report.' })
       ] }
     ] },
     { n: 2, titulo: 'Ordena tu mensaje · el QUÉ', logro: 'Armas lo que quieres decir antes de hablar, aunque no lo tengas preparado.', semanas: [
@@ -133,7 +133,7 @@
         // «Tus reuniones» (material del 19/11): reemplaza a «Presentarte» (inventario del 21/11).
         T('8.6', 'M2 · Tus reuniones · Parte 1', 'clase', 'Módulo 2', { pronto: true }),
         T('8.7', 'M2 · Tus reuniones · Parte 2', 'clase', 'Módulo 2', { pronto: true }),
-        T('8.3', 'Comparar tu primer y tu último intento del mes y compartir tu win', 'evidencia', 'Comunidad', { comunidad: true })
+        T('cierre2', 'Cierre del Módulo 2: tus wins y lo que aprendiste', 'cierre', 'Comunidad', { comunidad: true, nota: 'Ya terminaste las clases del Módulo 2. Tómate 10 minutos y responde: ¿qué aprendiste?, ¿qué puedes hacer ahora que antes no podías?, ¿qué sientes que todavía necesita más práctica? Reconoce tus wins y compártelos en la comunidad y en tu Weekly Report.' })
       ] }
     ] },
     { n: 3, titulo: 'Pule tu inglés · el CÓMO', logro: 'Detectas tú misma dónde se rompe tu inglés y lo corriges en el segundo intento.', semanas: [
@@ -143,12 +143,10 @@
         T('9.5', 'M3 · The Verb System · Parte 2: Verbos irregulares', 'clase worksheet', 'Módulo 3', { link: M3('7b1a9231-6500-4722-9ef4-1de448ba745b'), cb: cb('t5') }),
         T('9.6', 'M3 · The Verb System · Parte 3: Cuándo uso cada uno', 'clase worksheet', 'Módulo 3', { link: M3('ea11f8ef-dbb7-40af-8c6a-2a10ffbc7d5e'), cb: cb('t3','t4','t5','t6','t7') }),
         T('9.3', 'M3 · The Verb System · Parte 4: Future tenses', 'clase worksheet', 'Módulo 3', { link: M3('57e5d9f7-65ce-4e2e-91f7-422defb9d68a'), cb: cb('t8','t9','t10','t11') }),
-        T('9.4', 'Desde ahora, en tu Weekly Report me dices qué trabajar: el qué, el cómo o el quién', 'habito', 'Weekly report', { ir: '#weekly', nota: 'Con el Delivery Method detectamos dónde se rompe tu inglés. El qué: cómo organizas tus ideas, qué dices primero y qué después. El cómo: tus errores fosilizados, cómo armas las oraciones y los verbos. El quién: desde dónde hablas, cómo te sientes con el inglés y cómo te paras en tus reuniones. Desde ahora, en tu Weekly Report escribe en cuál de los tres crees que tienes que trabajar más, así Flor te acompaña y te guía en eso.' })
       ] },
-      { s: [10], titulo: 'Mitad del camino', tareas: [
+      { s: [10], titulo: 'Los patrones de los verbos', tareas: [
         T('10.1', 'M3 · Verb Patterns: to or ing?', 'clase', 'Módulo 3', { link: M3('3cde7014-d479-45f6-be25-71a780ff177e') }),
-        T('10.2', 'M3 · Stop translating the pattern!', 'clase', 'Módulo 3', { link: M3('623a039a-73d3-4c9e-b97b-c71fbda69486') }),
-        T('10.3', 'Revisión de mitad de programa: comparar con tu Starting Point', 'evidencia', 'Encuentro en vivo')
+        T('10.2', 'M3 · Stop translating the pattern!', 'clase', 'Módulo 3', { link: M3('623a039a-73d3-4c9e-b97b-c71fbda69486') })
       ] },
       { s: [11], titulo: 'Precisión', tareas: [
         T('11.1', 'M3 · Nouns, Articles & Agreement', 'clase', 'Módulo 3', { link: M3('99891d26-ef2b-469c-b27c-1a0a496c6edc') }),
@@ -161,7 +159,8 @@
         T('12.3', 'M3 · Reported Speech & Reporting Information', 'clase', 'Módulo 3', { pronto: true, anticipo: true, ws: 'https://docs.google.com/document/d/113cL_En2vfJ3VGIiqYjv07Gpb-D1A_q67pOsKsCgK5E/copy', cb: cb('rs','rsQ','rsC','rsV') }),
         T('12.5', 'M3 · Passive Voice for Processes & Reporting', 'clase', 'Módulo 3', { pronto: true, anticipo: true, ws: 'https://docs.google.com/document/d/1r3h2FYyk6XES7uzAn7aEKNbb906VpJ1bI_hm5NRAUzM/copy', cb: cb('pas') }),
         T('12.6', 'M3 · Word Families & Nominalization', 'clase', 'Módulo 3', { pronto: true }),
-        T('12.4', 'M3 · The Accuracy Challenge: tu Error Radar', 'clase evidencia', 'Módulo 3', { pronto: true })
+        T('12.4', 'M3 · The Accuracy Challenge: tu Error Radar', 'clase evidencia', 'Módulo 3', { pronto: true }),
+        T('cierre3', 'Cierre del Módulo 3: tus wins y lo que aprendiste', 'cierre', 'Comunidad', { comunidad: true, nota: 'Ya terminaste las clases del Módulo 3. Tómate 10 minutos y responde: ¿qué aprendiste?, ¿qué puedes hacer ahora que antes no podías?, ¿qué sientes que todavía necesita más práctica? Reconoce tus wins y compártelos en la comunidad y en tu Weekly Report.' })
       ] }
     ] },
     { n: 4, titulo: 'Understand & Be Understood', logro: 'Entiendes más en reuniones y te entienden a la primera.', semanas: [
@@ -175,7 +174,8 @@
       ] },
       { s: [15, 16], titulo: 'Llevarlo a tus reuniones', tareas: [
         T('16.3', 'Escuchar una reunión real y anotar lo que no entendiste', 'practica', 'Tu trabajo'),
-        T('16.4', 'Shadowing con frases de tu trabajo y la prueba del dictado', 'practica', 'Coaches', { coaches: true })
+        T('16.4', 'Shadowing con frases de tu trabajo y la prueba del dictado', 'practica', 'Coaches', { coaches: true }),
+        T('cierre4', 'Cierre del Módulo 4: tus wins y lo que aprendiste', 'cierre', 'Comunidad', { comunidad: true, nota: 'Ya terminaste las clases del Módulo 4. Tómate 10 minutos y responde: ¿qué aprendiste?, ¿qué puedes hacer ahora que antes no podías?, ¿qué sientes que todavía necesita más práctica? Reconoce tus wins y compártelos en la comunidad y en tu Weekly Report.' })
       ] }
     ] },
     { n: 5, titulo: 'Own Your Voice', logro: 'Hablas aunque no sea perfecto y tienes la evidencia de cuánto avanzaste.', semanas: [
@@ -184,14 +184,11 @@
         T('15.2', 'M5 · Cuando me callo o me quedo en blanco', 'clase playbook', 'Módulo 5', { pronto: true })
       ] },
       { s: [18], titulo: 'Hablar sin ser perfecta', tareas: [
-        T('16.1', 'M5 · Hablar sin ser perfecta', 'clase playbook', 'Módulo 5', { pronto: true }),
-        T('16.2', 'Llevar a tu trabajo una situación que antes evitabas', 'evidencia', 'Tu trabajo')
+        T('16.1', 'M5 · Hablar sin ser perfecta', 'clase playbook', 'Módulo 5', { pronto: true })
       ] },
-      { s: [19, 20], titulo: 'Tu voz en tu situación más difícil', tareas: [
-        T('17.1', 'Hacer tú todo el ciclo con tu situación más difícil', 'practica', 'Coaches', { coaches: true }),
+      { s: [19, 20], titulo: 'Tu cierre: tu antes y después', tareas: [
         T('19.1', 'Grabar tu Starting Point de nuevo', 'evidencia', 'Drive · 01'),
-        T('20.1', 'Comparar con tu primer Starting Point en tu encuentro', 'evidencia', 'Encuentro en vivo'),
-        T('20.2', 'Compartir tu win en la comunidad', 'evidencia', 'Comunidad', { comunidad: true })
+        T('cierre5', 'Cierre del programa: tu antes y después', 'cierre', 'Comunidad', { comunidad: true, nota: 'Escucha tu primer Starting Point y el nuevo. ¿Qué cambió en cómo hablas y en cómo te sientes? ¿Qué puedes hacer hoy que hace cinco meses no podías? ¿Qué quieres seguir practicando? Reconoce tus wins y compártelos en la comunidad y en tu Weekly Report.' })
       ] }
     ] }
   ];
