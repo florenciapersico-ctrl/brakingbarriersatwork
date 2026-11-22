@@ -121,15 +121,15 @@
       ] },
       { s: [6], titulo: 'Tu mapa del mensaje', tareas: [
         T('6.1', 'M2 · The Message Map + úsalo en tu próximo update', 'clase practica', 'Módulo 2', { ws: 'https://docs.google.com/document/d/18gZ8LbHfuO8CJ_RCd2A32CA5ikQeamQM6qwRx-iUfb0/copy', link: M2('88302d24-8b19-4f36-b37b-2c2b97ecd28e') }),
-        T('6.2', 'M2 · Manage the Interaction', 'clase', 'Módulo 2', { link: M2('7c133d1d-a777-4f96-9441-92b00c3db78e') }),
+        T('6.2', 'M2 · Manage the Interaction', 'clase', 'Módulo 2', { ws: 'https://drive.google.com/file/d/1H5ubkTV7zdbqkMTd2ly9eS0qIvj2rptO/view', link: M2('7c133d1d-a777-4f96-9441-92b00c3db78e') }),
       ] },
       { s: [7], titulo: 'Tu situación de trabajo', tareas: [
-        T('7.1', 'M2 · Talking About Numbers & Data', 'clase', 'Módulo 2', { link: M2('3b4e5f4e-1fde-4974-a59f-651260ae4a6d'), ws: 'https://docs.google.com/document/d/1S9b9mv_-zyozXJlcdZ2Xh463GCoWk2sJSrJ_32ZW1cQ/copy', wsExtra: true }),
-        T('7.2', 'M2 · Presentaciones: parte 1', 'clase playbook', 'Módulo 2', { link: M2('ecdd7925-c11f-4276-9db3-e985ff8be613') }),
-        T('7.3', 'M2 · Presentaciones: parte 2', 'clase playbook', 'Módulo 2', { link: M2('363344d6-a536-4ed7-97df-15565cbd16f3') })
+        T('7.1', 'M2 · Talking About Numbers & Data', 'clase', 'Módulo 2', { link: M2('3b4e5f4e-1fde-4974-a59f-651260ae4a6d'), ws: 'https://drive.google.com/file/d/1UWCF7eFykIMg7hGE5cTQT0t0HSiciuKb/view' }),
+        T('7.2', 'M2 · Presentaciones: parte 1', 'clase playbook', 'Módulo 2', { sube: 'playbook', ws: 'https://drive.google.com/file/d/1EE9fWoHdKbzoZwVyERcK8h-Ol8xCFzXE/view', link: M2('ecdd7925-c11f-4276-9db3-e985ff8be613') }),
+        T('7.3', 'M2 · Presentaciones: parte 2', 'clase playbook', 'Módulo 2', { sube: 'playbook', ws: 'https://drive.google.com/file/d/1EE9fWoHdKbzoZwVyERcK8h-Ol8xCFzXE/view', link: M2('363344d6-a536-4ed7-97df-15565cbd16f3') })
       ] },
       { s: [8], titulo: 'Conectar y sostener la conversación', tareas: [
-        T('8.2', 'M2 · Small Talk & Networking', 'clase playbook', 'Módulo 2', { link: M2('50ec7aca-66df-4039-ba90-c82a8a4185e5') }),
+        T('8.2', 'M2 · Small Talk & Networking', 'clase playbook', 'Módulo 2', { ws: 'https://docs.google.com/document/d/1R2KNthNN9SMsZDJVdS4uAiOCyfiA4ofs7ntAMkR9Rmo/copy', link: M2('50ec7aca-66df-4039-ba90-c82a8a4185e5') }),
         // «Tus reuniones» (material del 19/11): reemplaza a «Presentarte» (inventario del 21/11).
         T('8.6', 'M2 · Tus reuniones · Parte 1', 'clase', 'Módulo 2', { sube: 'playbook', ws: 'https://docs.google.com/document/d/1D7l6lCgqSKAH3XLuVGqjqjTD6b84n3HXMRsCXSfINSY/copy', pronto: true }),
         T('8.7', 'M2 · Tus reuniones · Parte 2', 'clase', 'Módulo 2', { sube: 'playbook', ws: 'https://docs.google.com/document/d/1D7l6lCgqSKAH3XLuVGqjqjTD6b84n3HXMRsCXSfINSY/copy', pronto: true }),
@@ -154,7 +154,7 @@
         T('11.3', 'M3 · Modals: Say How Strong You Mean It', 'clase', 'Módulo 3', { link: M3('038f2779-dc42-4a35-bdce-3a2e94dcb655'), ws: 'https://docs.google.com/document/d/1MAWnadKruW95_8WlKmuf5kD3_u8_aTUuWT4UvOsLaRk/copy', cb: cb('mod','m1','m2','m3','m4','m5') })
       ] },
       { s: [12], titulo: 'Preguntar y reportar', tareas: [
-        T('12.1', 'M3 · Questions & Indirect Questions', 'clase', 'Módulo 3', { link: M3('6eb79084-3227-4ab0-bfbb-03cb0d9cc256'), cb: cb('rsQ') }),
+        T('12.1', 'M3 · Questions & Indirect Questions', 'clase', 'Módulo 3', { ws: 'https://drive.google.com/file/d/16TKOE_D2H4WIXy0NDikHMZckUTAqRG-z/view', link: M3('6eb79084-3227-4ab0-bfbb-03cb0d9cc256'), cb: cb('rsQ') }),
         T('12.2', 'M3 · Conditionals for Real Work Situations', 'clase', 'Módulo 3', { link: M3('e5e8c0cf-ba24-490e-a2e8-70f4aa642dc0'), ws: 'https://docs.google.com/document/d/1f_8BE47KEUNjGNMEbfBu5OVQ4RQ8XHFRrY1mnEH_sno/copy', entrega: 'Subir mi worksheet y mis 3 frases',cbIntro: 'Si te sientes perdida con algún condicional, mira la clase de cada uno:', cb: [D('cond', 'la introducción'), D('c0', 'procesos y reglas'), D('c1', 'planes, plazos y riesgos'), D('c2', 'escenarios y propuestas'), D('c3', 'lecciones aprendidas'), D('cM', 'lo que pasó y todavía se nota hoy')], cbMas: [D('m2', 'para el might de los riesgos'), D('m5', 'para el would have de las lecciones aprendidas')] }),
         T('12.3', 'M3 · Reported Speech & Reporting Information', 'clase', 'Módulo 3', { pronto: true, anticipo: true, ws: 'https://docs.google.com/document/d/113cL_En2vfJ3VGIiqYjv07Gpb-D1A_q67pOsKsCgK5E/copy', cb: cb('rs','rsQ','rsC','rsV') }),
         T('12.5', 'M3 · Passive Voice for Processes & Reporting', 'clase', 'Módulo 3', { pronto: true, anticipo: true, ws: 'https://docs.google.com/document/d/1r3h2FYyk6XES7uzAn7aEKNbb906VpJ1bI_hm5NRAUzM/copy', cb: cb('pas') }),
