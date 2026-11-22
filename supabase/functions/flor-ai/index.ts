@@ -308,17 +308,37 @@ async function alumnasConApp(admin: any): Promise<boolean> {
   try { const { data } = await admin.from("programa").select("flor").eq("id", 1).single(); return data?.flor?.alumnas_con_app === true; } catch { return false; }
 }
 
+// Cuando una alumna sube varias cosas seguidas, el borrador automático se arma UNA vez, con todo:
+// cada pedido espera un poco y solo sigue el último que llegó (Flor, 21/11).
+// deno-lint-ignore no-explicit-any
+async function borradorDelUltimo(admin: any, id: number, etiqueta: string) {
+  await new Promise((r) => setTimeout(r, 45000));
+  const { data: x } = await admin.from("pedidos").select("alumna_id,creado,estado").eq("id", id).maybeSingle();
+  if (!x || x.estado !== "pendiente") return;
+  const t0 = new Date(x.creado || Date.now()).getTime();
+  const { data: mas } = await admin.from("pedidos").select("id").eq("alumna_id", x.alumna_id).eq("estado", "pendiente").gt("id", id)
+    .gte("creado", new Date(t0 - 3 * 864e5).toISOString()).lte("creado", new Date(t0 + 3 * 864e5).toISOString()).limit(1);
+  if ((mas || []).length) return; // lo arma el último que llegó, con todo junto
+  await generarBorrador(admin, "pedidos", id).catch((e) => console.error(etiqueta, e));
+}
+
 // ---------- borrador de feedback (se guarda en borradores; solo lo ve Flor) ----------
 // deno-lint-ignore no-explicit-any
-async function generarBorrador(admin: any, tabla: string, ref: number, imp?: { email: string; semana: string }, quien?: string) {
+async function generarBorrador(admin: any, tabla: string, ref: number, imp?: { email: string; semana: string }, quien?: string, grupoPedido?: number[]) {
     let alumnaId = "", material = "", transcripcion = "", aviso = "", sinAudio = false, ctxImp = "";
-    let hermanos: number[] = []; // otras tomas de la misma práctica (Flor, 16/11: varias tomas = un solo feedback)
+    let hermanos: number[] = []; // lo demás que mandó en los mismos días (Flor, 21/11: varias entregas = UN solo feedback de todo)
     // deno-lint-ignore no-explicit-any
-    let adjunto: any = null;
+    let adjuntos: any[] = [];
     if (tabla === "pedidos") {
-      const { data: x } = await admin.from("pedidos").select("*").eq("id", ref).single();
-      if (!x) throw new Error("No encontré el pedido.");
-      alumnaId = x.alumna_id;
+      const { data: x0 } = await admin.from("pedidos").select("*").eq("id", ref).single();
+      if (!x0) throw new Error("No encontré el pedido.");
+      alumnaId = x0.alumna_id;
+      // Lee UN pedido (audio, documento, link de Drive…) y devuelve su material.
+      // deno-lint-ignore no-explicit-any
+      const leerPedido = async (x: any) => {
+      let material = "", transcripcion = "", aviso = "", sinAudio = false;
+      // deno-lint-ignore no-explicit-any
+      let adjunto: any = null;
       material = `PEDIDO DE FEEDBACK (${x.tipo}): ${x.titulo}\n${x.texto || ""}${x.link ? `\nLink: ${x.link}` : ""}`;
       if (quien) material += `\nALUMNA EN LA GRABACIÓN (lo dice Flor): ${quien}. Da feedback solo de lo que dice ella y llámala por ese nombre.`;
       if (x.archivo) {
@@ -394,37 +414,51 @@ async function generarBorrador(admin: any, tabla: string, ref: number, imp?: { e
         aviso = "⚠️ NO TENGO LA TAREA: solo me llegó el aviso de que la subió, no el archivo. No armé el borrador para no mandarle un feedback sin haberla visto. " +
           (x.link ? "No pude abrir el link que tiene el pedido: revisá que sea el archivo correcto (Doc, PDF, Word o audio)." : "La busqué en su carpeta de Drive y no encontré nada nuevo desde una semana antes del pedido. Pegá el link del archivo en el pedido y tocá «Armar de nuevo con IA».");
       }
-      // VARIAS TOMAS (Flor, 16/11): si en los mismos días mandó otros audios pendientes, los escucho todos y armo UN solo borrador.
-      if (!sinAudio && transcripcion) {
-        try {
-          const t0 = new Date(x.creado || Date.now()).getTime();
-          const { data: otros } = await admin.from("pedidos").select("id,titulo,texto,link,origen,tipo,creado,archivo,archivo_nombre")
-            .eq("alumna_id", x.alumna_id).eq("estado", "pendiente").neq("id", x.id)
-            .gte("creado", new Date(t0 - 3 * 864e5).toISOString()).lte("creado", new Date(t0 + 3 * 864e5).toISOString()).order("titulo");
-          // deno-lint-ignore no-explicit-any
-          for (const o of (otros || []) as any[]) {
-            if (hermanos.length >= 5) break;
-            const esAudio = o.tipo === "audio" || o.tipo === "reunion" || AUDIO.test(`${o.titulo || ""} ${o.archivo_nombre || ""} ${o.archivo || ""}`);
-            if (!esAudio) continue;
-            let tr = "";
-            const { data: bo } = await admin.from("borradores").select("datos").eq("tabla", "pedidos").eq("ref", o.id).maybeSingle();
-            tr = String(bo?.datos?.transcripcion || "");
-            if (!tr) {
-              const id = DRIVE_ID(`${o.link || ""}`) || (/^drive:([\w-]{20,})/.exec(String(o.origen || ""))?.[1] || "");
-              if (id) { try { tr = await transcribir(await bajarDeDrive(id)); } catch (e) { console.error("toma", o.id, e); } }
-              else if (o.archivo) {
-                const { data: f } = await admin.storage.from("atwork").createSignedUrl(o.archivo, 900);
-                if (f?.signedUrl) { try { tr = await transcribir(f.signedUrl); } catch (e) { console.error("toma", o.id, e); } }
-              }
-            }
-            if (!tr) continue;
-            hermanos.push(o.id);
-            material += `\n\nOTRA TOMA QUE MANDÓ EN LOS MISMOS DÍAS (pedido ${o.id}: ${o.titulo}).\n${tr}`;
-          }
-          if (hermanos.length) {
-            material = `ATENCIÓN: son ${hermanos.length + 1} audios de la misma práctica (tomas o versiones). Escribí UN SOLO feedback para todas: compará la primera toma con la última (qué mejoró), elegí el foco que se repite en las tomas y citá frases de cualquiera de ellas. En NOTAS PARA FLOR, arriba de todo: "Feedback único de ${hermanos.length + 1} audios: se guarda en todos los pedidos; mandalo una sola vez".\n\n` + material;
-          }
-        } catch (e) { console.error("tomas", e); }
+      return { material, transcripcion, aviso, sinAudio, adjunto };
+      };
+
+      // TODO LO QUE MANDÓ EN LOS MISMOS DÍAS = UN SOLO FEEDBACK (Flor, 16/11 para las tomas; 21/11 para todo):
+      // los pedidos pendientes de la misma alumna de ±3 días (o los que Flor juntó en la Bandeja) se leen todos y se responde una vez.
+      let otros: any[] = [];
+      try {
+        if (Array.isArray(grupoPedido) && grupoPedido.length) {
+          const ids = grupoPedido.map(Number).filter((n) => n && n !== x0.id).slice(0, 7);
+          if (ids.length) otros = (await admin.from("pedidos").select("*").in("id", ids).eq("alumna_id", x0.alumna_id).eq("estado", "pendiente")).data || [];
+        } else {
+          const t0 = new Date(x0.creado || Date.now()).getTime();
+          otros = (await admin.from("pedidos").select("*").eq("alumna_id", x0.alumna_id).eq("estado", "pendiente").neq("id", x0.id)
+            .gte("creado", new Date(t0 - 3 * 864e5).toISOString()).lte("creado", new Date(t0 + 3 * 864e5).toISOString()).limit(7)).data || [];
+        }
+      } catch (e) { console.error("grupo", e); }
+      // deno-lint-ignore no-explicit-any
+      const todos = [x0, ...otros].sort((a: any, b: any) => String(a.creado).localeCompare(String(b.creado)) || a.id - b.id);
+      // deno-lint-ignore no-explicit-any
+      const lecturas: any[] = [];
+      for (const p of todos) {
+        // Si una toma ya tiene la transcripción guardada, no se vuelve a escuchar.
+        if (p.id !== x0.id) {
+          const { data: bo } = await admin.from("borradores").select("datos").eq("tabla", "pedidos").eq("ref", p.id).maybeSingle();
+          const tr = String(bo?.datos?.transcripcion || "");
+          if (tr && !/=== ENTREGA/.test(tr)) { lecturas.push({ p, material: `PEDIDO DE FEEDBACK (${p.tipo}): ${p.titulo}\n${p.texto || ""}\n\nADJUNTÓ UN AUDIO/VIDEO.\n${tr}`, transcripcion: tr, aviso: "", sinAudio: false, adjunto: null }); continue; }
+        }
+        lecturas.push({ p, ...(await leerPedido(p)) });
+      }
+      if (lecturas.length === 1) {
+        ({ material, transcripcion, aviso, sinAudio } = lecturas[0]);
+        if (lecturas[0].adjunto) adjuntos = [lecturas[0].adjunto];
+      } else {
+        hermanos = lecturas.map((l) => l.p.id).filter((id) => id !== x0.id);
+        const n = lecturas.length;
+        material = `ATENCIÓN: son ${n} cosas que mandó en los mismos días (pueden ser audios, documentos, presentaciones o varias tomas de lo mismo). Escribí UN SOLO feedback de TODO junto, no uno por archivo: nombrá en una línea lo que mandó, contá qué funciona en el conjunto con evidencia de cualquiera de las entregas, elegí UN foco (el que se repite) y dejá solo las correcciones más importantes de todas. Si hay varias tomas de lo mismo, compará la primera con la última (qué mejoró). En NOTAS PARA FLOR, arriba de todo: "Feedback único de ${n} entregas (${lecturas.map((l) => String(l.p.titulo || l.p.tipo).replace(/^desde drive:\s*/i, "").slice(0, 40)).join(" · ")}): se guarda en todas; mandalo una sola vez."\n\n` +
+          lecturas.map((l, i) => `=== ENTREGA ${i + 1} DE ${n} (pedido ${l.p.id}) ===\n${l.material}`).join("\n\n");
+        transcripcion = lecturas.filter((l) => l.transcripcion).map((l, i) => `=== ENTREGA ${i + 1} · ${l.p.titulo} ===\n${l.transcripcion}`).join("\n\n");
+        adjuntos = lecturas.map((l) => l.adjunto).filter(Boolean).slice(0, 4);
+        const fallas = lecturas.filter((l) => l.sinAudio);
+        if (fallas.length) {
+          sinAudio = true;
+          aviso = `⚠️ No armé el feedback único porque no pude leer ${fallas.length === 1 ? "una de las entregas" : fallas.length + " de las entregas"}: ` +
+            fallas.map((l) => `«${l.p.titulo}»: ${String(l.aviso).replace(/^⚠️\s*/, "")}`).join(" · ") + " Si alguna no corresponde, sacala del grupo («Quitar») y tocá «Armar de nuevo con IA».";
+        }
       }
     } else if (imp) {
       // Alumna que todavía no creó su cuenta: su weekly vive en la tabla importacion.
@@ -448,6 +482,7 @@ ${(x.weeklies || []).filter((e: any) => e.semana < imp.semana).slice(0, 3).map((
     if (sinAudio) {
       const datos = { respuesta: "", correcciones: [], foco: "", foco_texto: "", tareas: [], notas: aviso, transcripcion: "", sin_audio: true };
       if (!imp) await admin.from("borradores").upsert({ tabla, ref, datos, creado: new Date().toISOString() });
+      for (const h of hermanos) await admin.from("borradores").upsert({ tabla, ref: h, datos: { ...datos, unificado_con: ref }, creado: new Date().toISOString() });
       return datos;
     }
 
@@ -458,7 +493,7 @@ ${(x.weeklies || []).filter((e: any) => e.semana < imp.semana).slice(0, 3).map((
       max_tokens: 16000,
       output_config: { effort: "high" },
       system: [{ type: "text", text: sist + "\n\n" + prog, cache_control: { type: "ephemeral" } }, { type: "text", text: METODO_BORRADOR + "\n\n" + ENTREGAS + (conApp ? "" : "\n\n" + SIN_APP) + (hoyClase ? "\n\n" + hoyClase : "") }],
-      messages: [{ role: "user", content: adjunto ? [adjunto, { type: "text", text: `${ctx}\n\n${material}` }] : `${ctx}\n\n${material}` }],
+      messages: [{ role: "user", content: adjuntos.length ? [...adjuntos, { type: "text", text: `${ctx}\n\n${material}` }] : `${ctx}\n\n${material}` }],
     // deno-lint-ignore no-explicit-any
     } as any);
     if (r.stop_reason === "refusal") throw new Error("La IA no pudo armar este borrador. Escríbelo a mano.");
@@ -485,7 +520,10 @@ ${(x.weeklies || []).filter((e: any) => e.semana < imp.semana).slice(0, 3).map((
     };
     if (!datos.respuesta) throw new Error("La IA no armó la respuesta. Probá de nuevo con «Borrador con IA».");
     if (!imp) await admin.from("borradores").upsert({ tabla, ref, datos, creado: new Date().toISOString() });
-    // El mismo borrador queda en las otras tomas, para que Flor lo mande una vez y cierre las demás.
+    // El mismo borrador queda en las otras entregas, para que Flor lo mande una vez y se cierren todas.
+    // deno-lint-ignore no-explicit-any
+    (datos as any).grupo = hermanos.length ? [ref, ...hermanos] : undefined;
+    if (!imp && hermanos.length) await admin.from("borradores").upsert({ tabla, ref, datos, creado: new Date().toISOString() });
     for (const h of hermanos) {
       await admin.from("borradores").upsert({ tabla, ref: h, datos: { ...datos, unificado_con: ref }, creado: new Date().toISOString() });
     }
@@ -648,6 +686,15 @@ Deno.serve(async (req) => {
     // 3) feedback suelto
     if (/^(re:\s*)?feedback/i.test(asunto)) {
       if (perfil) {
+        // Un solo feedback para varias entregas (Flor, 21/11): se cierran todas las que tenían este asunto.
+        const base = asunto.replace(/^(re|rv|fwd?):\s*/i, "").trim().replace(/[%_\\]/g, "\\$&");
+        const { data: delMail } = await admin.from("pedidos").select("id").eq("alumna_id", perfil.id).eq("estado", "pendiente").ilike("mail_asunto", base);
+        if ((delMail || []).length) {
+          // deno-lint-ignore no-explicit-any
+          await admin.from("pedidos").update({ respuesta: texto, estado: "respondido", respondido_en: fecha.toISOString() }).in("id", delMail!.map((p: any) => p.id));
+          // deno-lint-ignore no-explicit-any
+          return json({ ok: true, que: "tarea", ids: delMail!.map((p: any) => p.id) });
+        }
         const { data: pend } = await admin.from("pedidos").select("id").eq("alumna_id", perfil.id).eq("estado", "pendiente").lte("creado", fecha.toISOString());
         if ((pend || []).length === 1) {
           await admin.from("pedidos").update({ respuesta: texto, estado: "respondido", respondido_en: fecha.toISOString() }).eq("id", pend![0].id);
@@ -695,7 +742,7 @@ Deno.serve(async (req) => {
       const { data: x, error } = await admin.from("pedidos").insert({ alumna_id: perfil.id, tipo, titulo, texto: `Lo subió a su carpeta ${sub} de Drive.`, link: f.link || "", estado: "pendiente", creado: f.creado || new Date().toISOString(), origen }).select("id").single();
       if (error) return json({ ok: false, error: error.message }, 500);
       if (Deno.env.get("ANTHROPIC_API_KEY")) {
-        const tarea = generarBorrador(admin, "pedidos", x.id).catch((e) => console.error("drive auto", e));
+        const tarea = borradorDelUltimo(admin, x.id, "drive auto");
         // deno-lint-ignore no-explicit-any
         (globalThis as any).EdgeRuntime?.waitUntil?.(tarea);
       }
@@ -810,7 +857,7 @@ Deno.serve(async (req) => {
     if (!(await esAdmin(db, uid))) return json({ error: "Solo Flor puede usar esto." }, 403);
     const tabla = body.pedido_id ? "pedidos" : body.weekly_id || body.imp ? "weekly" : "";
     if (!tabla) return json({ error: "Falta el pedido o el weekly." }, 400);
-    try { return json(await generarBorrador(admin, tabla, Number(body.pedido_id || body.weekly_id || 0), body.imp, String(body.quien || "").trim().slice(0, 80) || undefined)); }
+    try { return json(await generarBorrador(admin, tabla, Number(body.pedido_id || body.weekly_id || 0), body.imp, String(body.quien || "").trim().slice(0, 80) || undefined, Array.isArray(body.grupo) ? body.grupo : undefined)); }
     catch (e) {
       const m = String((e as Error).message);
       if (m !== "FALTA_CLAVE") console.error(e);
@@ -827,7 +874,7 @@ Deno.serve(async (req) => {
     if (!x || (x.alumna_id !== uid && !(await esAdmin(db, uid)))) return json({ ok: false }, 403);
     if (!Deno.env.get("ANTHROPIC_API_KEY")) return json({ ok: false, motivo: "sin_clave" });
     // deno-lint-ignore no-explicit-any
-    const tarea = generarBorrador(admin, tabla, ref).catch((e) => console.error("auto", e));
+    const tarea = tabla === "pedidos" ? borradorDelUltimo(admin, ref, "auto") : generarBorrador(admin, tabla, ref).catch((e) => console.error("auto", e));
     // deno-lint-ignore no-explicit-any
     (globalThis as any).EdgeRuntime?.waitUntil?.(tarea);
     return json({ ok: true });
@@ -899,6 +946,7 @@ Deno.serve(async (req) => {
     const ddmm = (iso: string) => `${iso.slice(8, 10)}/${iso.slice(5, 7)}`;
     const limpiar = (t: string) => String(t || "").replace(/^(weekly|material real)?\s*\(desde drive\):\s*|^desde drive:\s*/i, "").trim();
     let email = "", asunto = "", responder = "", tabla = "", ref = 0;
+    let grupo: number[] = [];
     if (body.pedido_id) {
       const { data: x } = await admin.from("pedidos").select("id,alumna_id,titulo,tipo,origen").eq("id", body.pedido_id).single();
       if (!x) return json({ error: "No encontré el pedido." }, 404);
@@ -906,6 +954,20 @@ Deno.serve(async (req) => {
       email = a?.email || ""; tabla = "pedidos"; ref = x.id;
       asunto = `Feedback · ${limpiar(x.titulo) || "tu práctica"}`;
       if (String(x.origen || "").startsWith("mail:")) responder = String(x.origen).slice(5);
+      // Varias entregas juntas (Flor, 21/11): un solo mail con un asunto para todas.
+      if (Array.isArray(body.grupo) && body.grupo.length > 1) {
+        const ids = body.grupo.map(Number).filter((n: number) => n && n !== x.id);
+        const { data: gs } = await admin.from("pedidos").select("id,creado,origen").in("id", ids).eq("alumna_id", x.alumna_id).eq("estado", "pendiente");
+        // deno-lint-ignore no-explicit-any
+        grupo = (gs || []).map((g: any) => g.id);
+        if (grupo.length) {
+          const { data: c0 } = await admin.from("pedidos").select("creado").eq("id", x.id).single();
+          asunto = `Feedback · lo que me mandaste el ${ddmm(String(c0?.creado || new Date().toISOString()).slice(0, 10))}`;
+          // deno-lint-ignore no-explicit-any
+          const m = (gs || []).find((g: any) => String(g.origen || "").startsWith("mail:"));
+          if (!responder && m) responder = String(m.origen).slice(5);
+        }
+      }
     } else if (body.weekly_id) {
       const { data: x } = await admin.from("weekly").select("id,alumna_id,semana").eq("id", body.weekly_id).single();
       if (!x) return json({ error: "No encontré el weekly." }, 404);
@@ -944,11 +1006,12 @@ Deno.serve(async (req) => {
       const out = await r.json().catch(() => ({}));
       if (!out.ok) return json({ error: `No se pudo armar el borrador en Gmail (${String(out.error || r.status).slice(0, 120)}). Si todavía no publicaste la versión nueva del Apps Script, publícala y prueba de nuevo.` }, 502);
       const ahora = new Date().toISOString();
-      if (tabla === "pedidos") await admin.from("pedidos").update({ mail_borrador: ahora, mail_asunto: String(out.asunto || asunto).replace(/^(re|rv|fwd?):\s*/i, "").trim() }).eq("id", ref);
+      if (tabla === "pedidos") await admin.from("pedidos").update({ mail_borrador: ahora, mail_asunto: String(out.asunto || asunto).replace(/^(re|rv|fwd?):\s*/i, "").trim() }).in("id", [ref, ...grupo]);
       if (tabla === "weekly") await admin.from("weekly").update({ mail_borrador: ahora }).eq("id", ref);
       if (tabla) {
         const { data: b } = await admin.from("borradores").select("datos").eq("tabla", tabla).eq("ref", ref).maybeSingle();
         await admin.from("borradores").upsert({ tabla, ref, datos: { ...(b?.datos || {}), respuesta, correcciones: corr }, creado: ahora });
+        for (const h of grupo) await admin.from("borradores").upsert({ tabla, ref: h, datos: { ...(b?.datos || {}), respuesta, correcciones: corr, unificado_con: ref, grupo: [ref, ...grupo] }, creado: ahora });
       }
       return json({ ok: true, link: out.link || "", asunto, reemplazado: !!out.reemplazado });
     } catch (e) { console.error(e); return json({ error: "No pude conectar con tu Gmail. Prueba de nuevo en un rato." }, 502); }
