@@ -1325,6 +1325,30 @@ ${grupos.length ? grupos.map((g) => `<section class="card sem-grupo"><div class=
   };
 
   // ---------- Mi camino ----------
+  // «Cómo usar tu camino» (Flor, 21/11): el video lo pega Flor desde su panel (Mi camino › Editar).
+  // Mientras no esté, se ven los pasos escritos.
+  function embedVideo(u) {
+    u = url(u); if (!u) return '';
+    let src = '';
+    const d = /drive\.google\.com\/file\/d\/([\w-]+)/.exec(u); if (d) src = 'https://drive.google.com/file/d/' + d[1] + '/preview';
+    const y = /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([\w-]{6,})/.exec(u); if (y) src = 'https://www.youtube-nocookie.com/embed/' + y[1];
+    const v = /vimeo\.com\/(\d+)/.exec(u); if (v) src = 'https://player.vimeo.com/video/' + v[1];
+    if (!src) return `<div class="row"><a class="btn" href="${esc(u)}" target="_blank" rel="noopener">▶ Ver el video</a></div>`;
+    return `<div style="position:relative;padding-top:56.25%;border-radius:12px;overflow:hidden;background:var(--surface-2)"><iframe src="${esc(src)}" allow="autoplay; fullscreen" allowfullscreen loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;border:0" title="Video: cómo usar tu camino"></iframe></div>`;
+  }
+  function guiaCaminoHTML() {
+    const vid = (((st.programa || {}).flor || {}).camino || {}).video;
+    const pasos = `<ol class="pasos small" style="margin:8px 0 0">
+      <li><b>Lo que sigue</b> está marcado: es tu próximo paso. Lo demás espera.</li>
+      <li><b>Ver clase</b> te lleva a la clase en la academia.</li>
+      <li><b>⬇️ Descargar</b> guarda una copia de tu worksheet o tu playbook en tu Drive. Lo completas ahí.</li>
+      <li><b>Subir mi worksheet</b>: me llega a mí, te devuelvo feedback y la tarea queda hecha. Si la clase no tiene playbook, la tildas cuando la terminas.</li>
+      <li><b>📚 Para profundizar · Clarity Bank</b>: material extra, opcional, por si quieres repasar la regla con más detalle.</li>
+      <li>Al final de cada módulo, tu <b>cierre</b>: tus wins, qué aprendiste y qué necesita más práctica.</li>
+    </ol>`;
+    return `<details class="card" ${vid ? 'open' : ''}><summary><b>▶ Cómo usar tu camino</b> <span class="muted small">${vid ? '· 2 minutos' : '· en 6 pasos'}</span></summary>
+      ${vid ? embedVideo(vid) + `<details style="margin-top:8px"><summary class="small muted">Los pasos, por escrito</summary>${pasos}</details>` : pasos}</details>`;
+  }
   V.camino = {
     html() {
       // Sin la tarjeta de «X de 60 tareas / Lo que sigue» (Flor, 20/11: no tenía sentido).
@@ -1334,6 +1358,7 @@ ${grupos.length ? grupos.map((g) => `<section class="card sem-grupo"><div class=
       const pctMes = (m) => { const ts = m.semanas.flatMap((x) => x.tareas); return { h: ts.filter((t) => hechas.includes(t.id)).length, t: ts.length }; };
       return `<div class="head"><div><span class="eyebrow">Tu proceso, módulo a módulo</span><h1>Mi camino</h1></div></div>
 <p class="muted intro">El programa paso a paso. Enfócate en el módulo en el que estás: lo demás espera. Si tu diagnóstico pide otro foco, Flor te lo indica en la respuesta a tu Weekly Report.</p>
+${guiaCaminoHTML()}
 <section class="card"><h3>Tu recorrido</h3>${etapasHTML(null, p)}<p class="muted small">${esc(P.recorridoNota)}</p></section>
 ${P.camino.map((m) => { const pm = pctMes(m); if (!pm.t) return ''; return `<details class="card mes" ${m.n === modActual ? 'open' : ''}><summary><span class="mesnum"><small>MÓDULO</small>${m.n}</span><span class="mestit"><h2>${esc(m.titulo)}</h2><span class="muted small">${pm.h} de ${pm.t} tareas · Al terminar el módulo: ${esc(m.logro)}</span></span>${ring(pm.t ? (100 * pm.h) / pm.t : 0)}</summary>
   ${m.semanas.filter((s) => s.tareas.length).map((s) => { const aq = ba && ba.sem === s; return `<div class="semana ${aq ? 'actual' : ''}"><div class="row between"><b class="semtit">${esc(s.titulo)}</b>${aq ? '<span class="pill warn">Lo que sigue</span>' : ''}</div>
@@ -1785,7 +1810,10 @@ ${nOc ? `<p class="muted small">Las clases que ocultaste no entran en esta lista
         const sems = m.semanas.map((s) => { const ts = s.tareas.filter(filtro); return ts.length ? `<div class="semana"><b class="semtit"><span>SEMANA${s.s.length > 1 ? 'S' : ''} ${s.s.join(' Y ')}</span> ${esc(s.titulo)}</b><ul class="tasks">${ts.map(filaEd).join('')}</ul></div>` : ''; }).join('');
         return sems ? `<details class="card mes" open><summary><span class="mesnum"><small>MÓDULO</small>${m.n}</span><span class="mestit"><h2>${esc(m.titulo)}</h2></span></summary>${sems}</details>` : '';
       }).join('');
-      return head + `<section class="card"><div class="row" style="gap:10px;flex-wrap:wrap;align-items:flex-end"><div class="field" style="margin:0"><label for="mc-filtro">Mostrar</label><select id="mc-filtro">${[['todo', 'Todo el camino'], ['grab', 'Clases en grabación'], ['oc', 'Lo que ocultaste'], ['ed', 'Lo que editaste'], ['sinpb', 'Clases sin playbook ni worksheet']].map(([k, l]) => `<option value="${k}" ${mc.filtro === k ? 'selected' : ''}>${l}</option>`).join('')}</select></div></div>
+      return head + `<section class="card"><span class="eyebrow">Arriba de su camino</span><h3>Video «Cómo usar tu camino»</h3>
+  <form id="mc-video-f" class="row" style="gap:8px;flex-wrap:wrap;align-items:flex-end" novalidate><div class="field" style="margin:0;flex:1;min-width:240px"><label for="mc-video">Link del video (Drive, YouTube o Vimeo)</label><input id="mc-video" type="url" value="${esc(C.video || '')}" placeholder="https://drive.google.com/file/d/…"></div><button class="btn sm" type="submit">Guardar</button></form>
+  <p class="muted small" style="margin-top:6px">${C.video ? 'Ya lo ven arriba de Mi camino.' : 'Mientras no lo pegues, ven los pasos por escrito.'} Si es de Drive, compártelo «cualquier persona con el link · lector».</p></section>
+<section class="card"><div class="row" style="gap:10px;flex-wrap:wrap;align-items:flex-end"><div class="field" style="margin:0"><label for="mc-filtro">Mostrar</label><select id="mc-filtro">${[['todo', 'Todo el camino'], ['grab', 'Clases en grabación'], ['oc', 'Lo que ocultaste'], ['ed', 'Lo que editaste'], ['sinpb', 'Clases sin playbook ni worksheet']].map(([k, l]) => `<option value="${k}" ${mc.filtro === k ? 'selected' : ''}>${l}</option>`).join('')}</select></div></div>
   <p class="muted small" style="margin-top:8px">Destilda «Se muestra» para sacar una tarea del camino de todas (Flor AI tampoco la recomienda). Con «Editar» cambias lo que ven y dejas el porqué.</p></section>
 ${cuerpo || '<section class="card"><p class="muted">Nada para mostrar con este filtro.</p></section>'}`;
     },
@@ -1798,6 +1826,8 @@ ${cuerpo || '<section class="card"><p class="muted">Nada para mostrar con este f
       const guardarC = async (c, msg) => { await guardarF({ camino: c }, msg); st.programa.flor = st._flor; ruta(); };
       const sel = (id, k) => { const s = $('#' + id); if (s) s.onchange = () => { st._mc[k] = k === 'sem' ? +s.value : s.value; ruta(); }; };
       sel('mc-fmt', 'fmt'); sel('mc-sem', 'sem'); sel('mc-filtro', 'filtro');
+      const fv = $('#mc-video-f');
+      if (fv) fv.onsubmit = (e) => { e.preventDefault(); const u = $('#mc-video').value.trim(); if (u && !url(u)) return toast('El link tiene que empezar con https://', true); const c = C(); if (u) c.video = u; else delete c.video; guardarC(c, u ? '✓ Video guardado: ya lo ven arriba de Mi camino' : 'Video quitado'); };
       view.addEventListener('click', async (e) => {
         const m = e.target.closest('[data-mcmodo]'); if (m) { st._mc.modo = m.dataset.mcmodo; return ruta(); }
         const ed = e.target.closest('[data-mced]');
