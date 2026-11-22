@@ -101,6 +101,9 @@ window.PROGRAMA = {
 // Bancos de consulta por grabar (plan final de Flor, 22/11). Solo los ve Flor en su panel,
 // en bloques aparte de AT WORK. «n» es el número de la subcarpeta en «PARA GRABAR · Plan final».
 window.PROGRAMA.paraGrabar = 'https://drive.google.com/drive/folders/1oxCTJC-W_4FGcgdjNaN-4N713qWSWVw4';
+// Auditoría con Flor (22/11): de los bancos, ahora solo se graba lo que responde a los errores reales de sus alumnas.
+// Todo lo demás (Clarity Bank, Phonetastic y las 2 de vocabulario del M3) queda en «Después» en su panel.
+window.PROGRAMA.grabarAhora = ['cb.14'];
 window.PROGRAMA.bancos = [
   { banco: 'cb', titulo: 'Clarity Bank · banco de gramática', orden: 2,
     sinGrabar: 'Solo subir a la plataforma: 40 Mini tests por tema · 41 Worksheets que faltaban (Reported Questions, Reported Commands, Passive Voice, Present Perfect Continuous, Future Perfect) · 42 Tabla de tiempos verbales.',

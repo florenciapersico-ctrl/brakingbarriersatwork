@@ -1459,7 +1459,7 @@ ${P.camino.map((m) => { const pm = pctMes(m); if (!pm.t) return ''; return `<det
     // Flor (21/11): el camino va por módulos, no por semanas. Siempre se listan TODAS las clases que faltan grabar
     // (sin las ocultas); la urgencia sale del módulo en el que está cada alumna (perfiles.modulo_actual).
     for (const m of P.camino) for (const s of m.semanas) for (const t of s.tareas) {
-      if (!t.pronto || !/clase/.test(t.tipo) || t.onb || t.oculta || (F.grabadas || []).includes(t.id) || (F.salteadas || []).includes(t.id)) continue;
+      if (!t.pronto || !/clase/.test(t.tipo) || t.onb || t.oculta || t.grabarDespues || (F.grabadas || []).includes(t.id) || (F.salteadas || []).includes(t.id)) continue;
       const desde = Math.min(...s.s);
       const quienes = b.activas.map((a) => ({ a, n: Number(a.perfil.modulo_actual) || 0 }))
         .filter((x) => x.n && x.n >= m.n - 1 && !((x.a.perfil.camino_hecho || []).includes(t.id)));
@@ -1514,19 +1514,29 @@ ${P.camino.map((m) => { const pm = pctMes(m); if (!pm.t) return ''; return `<det
     const B = P.bancos || [];
     if (!B.length) return '';
     const gr = F.grabadas || [], sa = F.salteadas || [];
+    const ahora = (P.grabarAhora || []);
+    // Auditoría de Flor (22/11): arriba solo lo que cierra el programa. Lo demás va plegado en «Después».
+    const despues = [];
+    P.camino.forEach((m) => m.semanas.forEach((s) => s.tareas.forEach((t) => { if (t.grabarDespues && t.pronto && !gr.includes(t.id) && !sa.includes(t.id)) despues.push(['AT WORK', t.id, t.texto]); })));
+    B.forEach((bk) => bk.clases.forEach(([id, n, tx]) => { if (!ahora.includes(id) && !gr.includes(id) && !sa.includes(id)) despues.push([bk.titulo.split(' · ')[0], id, n + ' · ' + tx]); }));
+    const lkD = (id) => linkGrabar(F, id) || P.paraGrabar || '';
+    const bloqueDespues = despues.length ? `<details class="mas-grabar" style="margin-top:18px"><summary><b>Después</b> · cuando el programa esté terminado y vendiendo (${despues.length})</summary>
+  <p class="muted small">No suman a terminar AT WORK ni a vender el Lab. Quedan guardadas acá para cuando las necesites.</p>
+  <ul class="tasks">${despues.map(([b, id, tx]) => `<li><div class="fbitem" style="flex-direction:row;align-items:flex-start;justify-content:space-between;gap:12px"><span><span class="muted small">${esc(b)}</span><br><b>${esc(tx)}</b></span>
+    <span class="row" style="gap:6px;flex-wrap:wrap;justify-content:flex-end">${lkD(id) ? `<a class="btn ghost sm" href="${esc(lkD(id))}" target="_blank" rel="noopener">Abrir</a>` : ''}<button type="button" class="btn ghost sm" data-bgrab="${esc(id)}">Ya la grabé</button><button type="button" class="linkbtn small" data-saltar="${esc(id)}">No la grabo</button></span></div></li>`).join('')}</ul></details>` : '';
     return B.slice().sort((a, b) => a.orden - b.orden).map((bk) => {
-      const pend = bk.clases.filter(([id]) => !gr.includes(id) && !sa.includes(id));
+      const pend = bk.clases.filter(([id]) => ahora.includes(id) && !gr.includes(id) && !sa.includes(id));
+      if (!pend.length && !bk.clases.some(([id]) => gr.includes(id))) return '';
       const hechas = bk.clases.filter(([id]) => gr.includes(id));
       const salt = bk.clases.filter(([id]) => sa.includes(id));
       const lk = (id) => linkGrabar(F, id) || P.paraGrabar || '';
-      return `<h4 style="margin:22px 0 4px">${bk.orden}º · ${esc(bk.titulo)} (${pend.length})</h4>
+      return `<h4 style="margin:22px 0 4px">${bk.orden}º · ${esc(bk.titulo)} · solo la que suma ahora (${pend.length})</h4>
   ${pend.length ? `<ul class="tasks">${pend.map(([id, n, tx, que]) => `<li><div class="fbitem" style="flex-direction:row;align-items:flex-start;justify-content:space-between;gap:12px"><span><b>${esc(n)} · ${esc(tx)}</b>${que ? `<br><span class="muted small">${esc(que)}</span>` : ''}</span>
     <span class="row" style="gap:6px;flex-wrap:wrap;justify-content:flex-end">${lk(id) ? `<a class="btn sm" href="${esc(lk(id))}" target="_blank" rel="noopener">🎬 Abrir todo para grabar</a>` : ''}<button type="button" class="linkbtn small" data-glink="${esc(id)}">Cambiar link</button>
     <button type="button" class="btn ghost sm" data-bgrab="${esc(id)}">Ya la grabé</button><button type="button" class="linkbtn small" data-saltar="${esc(id)}">No la grabo</button></span></div></li>`).join('')}</ul>` : '<p class="muted small">Todo grabado. 🎉</p>'}
-  ${bk.sinGrabar ? `<p class="muted small">${esc(bk.sinGrabar)}</p>` : ''}
   ${hechas.length ? `<details class="mas-grabar"><summary class="small">✓ Ya grabadas (${hechas.length})</summary><ul class="neg">${hechas.map(([id, n, tx]) => `<li class="row between"><span>${esc(n)} · ${esc(tx)}</span><button type="button" class="linkbtn small" data-desgrab="${esc(id)}">Deshacer</button></li>`).join('')}</ul></details>` : ''}
   ${salt.length ? `<details class="mas-grabar"><summary class="small">No las grabo (${salt.length})</summary><ul class="neg">${salt.map(([id, n, tx]) => `<li class="row between"><span>${esc(n)} · ${esc(tx)}</span><button type="button" class="linkbtn small" data-dessaltar="${esc(id)}">Volver a la lista</button></li>`).join('')}</ul></details>` : ''}`;
-    }).join('');
+    }).join('') + bloqueDespues;
   }
   document.addEventListener('click', (e) => {
     const b = e.target.closest('[data-bgrab]'); if (!b || !st._flor) return;
