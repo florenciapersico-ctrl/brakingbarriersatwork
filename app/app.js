@@ -1502,10 +1502,25 @@ ${P.camino.map((m) => { const pm = pctMes(m); if (!pm.t) return ''; return `<det
     await guardarF({ grabadas: (st._flor.grabadas || []).filter((x) => x !== id), publicadas: pub }, 'Vuelve a la lista para grabar');
     ruta();
   }
+  // «Primero · actualizar»: videos sueltos (no son clases del camino) que Flor eligió grabar antes que todo.
+  // Viven en programa.flor.primero = [{ id, texto, nota, link, hecho }]. Solo los ve Flor, de a uno.
+  function primeroHTML(F) {
+    const L = ((F || {}).primero || []).filter((x) => !x.hecho);
+    if (!L.length) return '';
+    const x = L[0];
+    return `<section class="card feature primero"><span class="eyebrow">Lo primero que grabás · actualizar${L.length > 1 ? ` (1 de ${L.length})` : ''}</span>
+  <h2>${esc(x.texto)}</h2>${x.nota ? `<p class="small">${esc(x.nota)}</p>` : ''}
+  <div class="row" style="gap:8px;flex-wrap:wrap">${x.link ? `<a class="btn" href="${esc(x.link)}" target="_blank" rel="noopener">🎬 Abrir todo para grabar</a>` : ''}<button type="button" class="btn ghost sm" data-primok="${esc(x.id)}">Ya lo grabé</button></div>
+  ${L.length > 1 ? `<p class="muted small" style="margin-top:10px">Después: ${L.slice(1).map((y) => esc(y.texto)).join(' · ')}</p>` : ''}
+</section>`;
+  }
   document.addEventListener('click', (e) => {
-    const b = e.target.closest('[data-grab],[data-desgrab],[data-publicar]'); if (!b || !st._flor) return;
+    const b = e.target.closest('[data-grab],[data-desgrab],[data-publicar],[data-primok]'); if (!b || !st._flor) return;
     e.preventDefault(); e.stopImmediatePropagation();
-    if (b.dataset.grab) marcarGrabada(b.dataset.grab);
+    if (b.dataset.primok) {
+      const id = b.dataset.primok, it = (st._flor.primero || []).find((x) => x.id === id) || {};
+      guardarF({ primero: (st._flor.primero || []).map((x) => (x.id === id ? { ...x, hecho: new Date().toISOString() } : x)) }, '✓ Listo: ' + (it.texto || '')).then(() => ruta());
+    } else if (b.dataset.grab) marcarGrabada(b.dataset.grab);
     else if (b.dataset.desgrab) desmarcarGrabada(b.dataset.desgrab);
     else publicarClase(b.dataset.publicar);
   }, true);
@@ -1646,6 +1661,7 @@ ${P.camino.map((m) => { const pm = pctMes(m); if (!pm.t) return ''; return `<det
   <section class="card"><span class="eyebrow">Por grabar</span><span class="big">${porGrabar.length}</span><span class="muted small">${n('urg')} urgentes · ${n('prox')} para la semana que viene</span></section>
   <section class="card"><span class="eyebrow">Grabadas, falta subir</span><span class="big">${n('grab')}</span><span class="muted small">${n('salt') ? n('salt') + ' que decidiste no grabar' : 'Subilas a la academia'}</span></section>
 </div>
+${primeroHTML(F)}
 <section class="card feature"><span class="eyebrow">Lo próximo que grabás</span>
   ${g0 ? `<h2>${esc(g0.t.texto)}</h2><p class="small">${g0.ya ? 'Ya la necesitan: ' : 'La necesitan la semana que viene: '}${g0.quienes.map((x) => nom1(x.a.nombre)).join(', ')}.</p>
   <div class="row" style="gap:8px;flex-wrap:wrap">${linkGrabar(F, g0.t.id) ? `<a class="btn" href="${esc(linkGrabar(F, g0.t.id))}" target="_blank" rel="noopener">🎬 Abrir todo para grabar</a>` : `<button type="button" class="btn" data-glink="${esc(g0.t.id)}">+ Pegar el link del material</button>`}<button type="button" class="btn ghost" data-grab="${esc(g0.t.id)}">Ya la grabé</button></div>
@@ -2507,6 +2523,7 @@ ${semaf}
   <div class="hab-sem" id="hab-sem">${dias.map((d) => { const iso = diaISO(d), c = cuenta(iso), m = H[iso] && H[iso].minima; if (esDomingo(d) && !c) return `<div><span>${d.toLocaleDateString('es', { weekday: 'narrow' })}</span><b class="desc${iso === hoyI ? ' hoy' : ''}" data-dsem="${iso}" title="Descanso">🌿</b></div>`; return `<div><span>${d.toLocaleDateString('es', { weekday: 'narrow' })}</span><b class="${c === HAB.dia.length || m ? 'full' : c ? 'part' : ''}${iso === hoyI ? ' hoy' : ''}" data-dsem="${iso}">${m && c < HAB.dia.length ? '½' : c || ''}</b></div>`; }).join('')}</div>
   <p class="muted small hab-pie">Cada tilde es un voto por quien querés ser. Se guarda en tu Notion (“Mis hábitos”).</p>
 </section>
+${primeroHTML(F)}
 <section class="card${esDomingo(hoy) ? '' : ' feature'} unica">
   ${esDomingo(hoy) ? '<span class="eyebrow">Domingo · descanso</span><p class="small muted">Hoy no hay nada para grabar. Si te sirve, mirá tu foco para arrancar el lunes.</p>' : `<span class="eyebrow">Hoy, una sola cosa · grabar</span>
   ${g0 ? `<h2>${esc(g0.t.texto)}</h2>
