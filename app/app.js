@@ -319,10 +319,19 @@
     return g.sort((a, b) => (a.s < b.s ? 1 : -1));
   }
 
+  // Cuántos feedbacks hay que dar: lo que una alumna mandó en los mismos días (±3 días) cuenta como uno solo (Flor, 21/11).
+  function feedbacksPend(pend) {
+    const g = [];
+    [...(pend || [])].sort((p1, p2) => String(p1.creado).localeCompare(String(p2.creado))).forEach((x) => {
+      const y = x.src === 'app' && g.find((z) => z.src === 'app' && z.alumna_id === x.alumna_id && Math.abs(new Date(x.creado) - new Date(z.ult)) <= 3 * 864e5);
+      if (y) y.ult = x.creado; else g.push({ src: x.src, alumna_id: x.alumna_id, ult: x.creado });
+    });
+    return g.length;
+  }
   async function contarBandeja() {
     try {
       const b = await cargarBandeja();
-      const n = b.pend.length + b.sinResp.length;
+      const n = feedbacksPend(b.pend) + b.sinResp.length;
       $$('#bdg, .tabbar .badge').forEach((x) => { x.textContent = n; x.hidden = !n; });
     } catch (e) { /* no es crítico */ }
   }
@@ -2550,7 +2559,7 @@ ${pruebaHTML()}
     async html(tab = 'pedidos') {
       const b = await cargarBandeja();
       st._bandeja = b;
-      const T = [['pedidos', 'Pedidos de feedback', b.pend.length], ['weeklies', 'Weeklies sin responder', b.sinResp.length], ['respondidos', 'Weeklies respondidos', b.resp.length], ['tareas', 'Tareas con feedback', b.tResp.length]];
+      const T = [['pedidos', 'Pedidos de feedback', feedbacksPend(b.pend)], ['weeklies', 'Weeklies sin responder', b.sinResp.length], ['respondidos', 'Weeklies respondidos', b.resp.length], ['tareas', 'Tareas con feedback', b.tResp.length]];
       const resps = (x) => wq(x.perfil).map(([id, l]) => (x.respuestas[id] ? `<p class="small"><b>${l}</b><br>${esc(x.respuestas[id])}</p>` : '')).join('') +
         Object.keys(x.respuestas || {}).filter((k) => !wq(x.perfil).some(([id]) => id === k) && String(x.respuestas[k] || '').trim()).map((k) => `<p class="small"><b>${esc(k)}</b><br>${esc(x.respuestas[k])}</p>`).join('');
       const porMail = (t) => /^flor te respondi[oó] por mail\.?$/i.test(String(t || '').trim());
@@ -2590,18 +2599,28 @@ ${pruebaHTML()}
           ${viejo && !hoyK ? '<br><b>⚠️ Es viejo:</b> probablemente ya lo trabajaron. Si es así, borralo sin mandar nada (abajo, «Borrar pedido»).' : ''}</div>`;
       };
       if (tab === 'pedidos') {
-        cuerpo = b.pend.length ? porSemana(b.pend, (x) => lunesDe(x.creado)).map((g) => grupo(nombreSemana(g.s), `<span class="pill warn">${g.items.length}</span>`, g.items.map((x) => x.src === 'app' ? `<div class="fbitem" data-pid="${x.id}" data-aid="${x.alumna_id}" data-tit="${esc(x.titulo || '')}" data-mail="${esc(String((x.perfil || {}).email || '').toLowerCase())}" data-or="${esc(x.origen || '')}" data-mas="${esc(x.mail_asunto || '')}">
-        <div class="row between"><b>${esc(x.nombre)} · ${esc(x.titulo || tipoNombre(x.tipo))}</b><span class="muted small">${tipoNombre(x.tipo)} · ${fecha(x.creado, { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}</span></div>
-        ${x.mail_borrador ? `<p class="note small gm">Ya armaste el borrador en tu Gmail (${fecha(x.mail_borrador, { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}). Cuando lo mandes, esto se marca respondido solo.</p>` : ''}
-        ${x.texto ? `<pre>${esc(x.texto)}</pre>` : ''}${adjunto(x)}${url(x.link) ? ` <a class="small" href="${esc(x.link)}" target="_blank" rel="noopener">Abrir el link que mandó</a>` : ''}
+        // Varias cosas de la misma alumna en los mismos días = UNA tarjeta y UN solo feedback (Flor, 21/11).
+        const pendG = [];
+        [...b.pend].sort((p1, p2) => String(p1.creado).localeCompare(String(p2.creado))).forEach((x) => {
+          if (x.src !== 'app') return pendG.push(x);
+          const g = pendG.find((y) => y.src === 'app' && y.alumna_id === x.alumna_id && Math.abs(new Date(x.creado) - new Date(y._grupo[y._grupo.length - 1].creado)) <= 3 * 864e5);
+          if (g) g._grupo.push(x); else pendG.push({ ...x, _grupo: [x] });
+        });
+        const entregas = (x) => x._grupo && x._grupo.length > 1 ? `<div class="note small entregas"><b>Mandó ${x._grupo.length} cosas: va UN solo feedback de todo.</b> Cuando lo mandes, se cierran todas.
+          <ul class="tasks" style="margin-top:6px">${x._grupo.map((y) => `<li data-gid="${y.id}"><div class="fbitem" style="gap:2px"><span><b>${esc(y.titulo || tipoNombre(y.tipo))}</b> <span class="muted small">· ${tipoNombre(y.tipo)} · ${fecha(y.creado, { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}</span> <button type="button" class="linkbtn small quitar1" data-qid="${y.id}">Quitar</button></span>
+          ${y.texto ? `<span class="small muted">${esc(String(y.texto).slice(0, 220))}</span>` : ''}${adjunto(y)}${url(y.link) ? ` <a class="small" href="${esc(y.link)}" target="_blank" rel="noopener">Abrir</a>` : ''}</div></li>`).join('')}</ul></div>` : '';
+        cuerpo = pendG.length ? porSemana(pendG, (x) => lunesDe(x.creado)).map((g) => grupo(nombreSemana(g.s), `<span class="pill warn">${g.items.length}</span>`, g.items.map((x) => x.src === 'app' ? `<div class="fbitem" data-pid="${x.id}" data-grupo="${(x._grupo || [x]).map((y) => y.id).join(',')}" data-aid="${x.alumna_id}" data-tit="${esc(x.titulo || '')}" data-mail="${esc(String((x.perfil || {}).email || '').toLowerCase())}" data-or="${esc(x.origen || '')}" data-mas="${esc(((x._grupo || [x]).find((y) => y.mail_asunto) || {}).mail_asunto || '')}">
+        ${x._grupo && x._grupo.length > 1 ? `<div class="row between"><b>${esc(x.nombre)} · ${x._grupo.length} cosas para un solo feedback</b><span class="muted small">${fecha(x._grupo[0].creado, { day: 'numeric', month: 'short' })}${diaISO(new Date(x._grupo[0].creado)) !== diaISO(new Date(x._grupo[x._grupo.length - 1].creado)) ? ' al ' + fecha(x._grupo[x._grupo.length - 1].creado, { day: 'numeric', month: 'short' }) : ''}</span></div>` : `<div class="row between"><b>${esc(x.nombre)} · ${esc(x.titulo || tipoNombre(x.tipo))}</b><span class="muted small">${tipoNombre(x.tipo)} · ${fecha(x.creado, { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}</span></div>`}
+        ${(() => { const mb = (x._grupo || [x]).map((y) => y.mail_borrador).filter(Boolean).sort().pop(); return mb ? `<p class="note small gm">Ya armaste el borrador en tu Gmail (${fecha(mb, { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}). Cuando lo mandes, esto se marca respondido solo.</p>` : ''; })()}
+        ${x._grupo && x._grupo.length > 1 ? entregas(x) : `${x.texto ? `<pre>${esc(x.texto)}</pre>` : ''}${adjunto(x)}${url(x.link) ? ` <a class="small" href="${esc(x.link)}" target="_blank" rel="noopener">Abrir el link que mandó</a>` : ''}`}
         ${esFlor() || DB.demo ? contexto(x) : ''}
         ${(() => { const k = claseHoyDe(x); return k ? `<div class="note enclase"><b>Tiene clase hoy a las ${esc(k.hora)}: trabajalo en clase con ella.</b><br><span class="small">El material ya queda en su clase lista. Después de la clase le mandás el feedback de esto, relacionado con lo que vieron.</span><div class="row" style="gap:8px;margin-top:8px">${url(k.link) ? `<a class="btn sm" href="${esc(k.link)}" target="_blank" rel="noopener">Abrir su clase lista</a>` : ''}${url(k.meet) ? `<a class="btn ghost sm" href="${esc(k.meet)}" target="_blank" rel="noopener">Entrar a la clase</a>` : ''}</div></div><details class="despues"><summary class="small">Armar el feedback igual (mejor después de la clase)</summary>` : ''; })()}
         <p class="aviso-audio note small" hidden></p>
-        ${['audio', 'reunion'].includes(x.tipo) || x.archivo || /drive\.google/.test(x.link || '') ? `<div class="field"><label>¿Quién es ella en la grabación?</label><small>Si en la reunión hablan varias personas, escribe su nombre (o "la que presenta el reporte") y toca «Armar de nuevo con IA». Si lo dejas vacío, la IA la busca sola.</small><input type="text" class="quien" placeholder="${esc(String(x.nombre || '').split(' ')[0])}"></div>` : ''}
+        ${(x._grupo || [x]).some((y) => ['audio', 'reunion'].includes(y.tipo) || y.archivo || /drive\.google/.test(y.link || '')) ? `<div class="field"><label>¿Quién es ella en la grabación?</label><small>Si en la reunión hablan varias personas, escribe su nombre (o "la que presenta el reporte") y toca «Armar de nuevo con IA». Si lo dejas vacío, la IA la busca sola.</small><input type="text" class="quien" placeholder="${esc(String(x.nombre || '').split(' ')[0])}"></div>` : ''}
         <div class="field"><label>Tu respuesta</label><small>Lo que funcionó, tu foco para ella y qué clase ver. Las correcciones van abajo: ella las ve como ejercicio (primero las encuentra, después ve tus respuestas).</small><textarea class="r" rows="6"></textarea></div>
         <div class="field"><label>Correcciones · solo las ves tú así</label><small>Ella primero ve solo su frase, la corrige y dice por qué; recién después ve tu corrección y tu por qué. Toca «Ver cómo lo ve ella».</small><div class="corrs"></div><button type="button" class="linkbtn small addc">+ Agregar corrección</button></div>
         <p class="notas small muted" hidden></p>
-        <div class="row"><button class="btn send" type="button">Armar borrador en Gmail</button><button class="btn ghost ia" type="button">Borrador con IA</button><button class="btn ghost ver" type="button">Ver cómo lo ve ella</button><button class="linkbtn small borrarp" type="button">Borrar pedido</button></div>
+        <div class="row"><button class="btn send" type="button">Armar borrador en Gmail</button><button class="btn ghost ia" type="button">Borrador con IA</button><button class="btn ghost ver" type="button">Ver cómo lo ve ella</button><button class="linkbtn small borrarp" type="button">${x._grupo && x._grupo.length > 1 ? `Borrar los ${x._grupo.length}` : 'Borrar pedido'}</button></div>
         <div class="vista" hidden><span class="eyebrow">Así lo ve ella en su app</span><div class="reply"></div></div>
         ${claseHoyDe(x) ? '</details>' : ''}
       </div>` : `<div class="fbitem" data-pimp="${esc(x.email)}" data-origen="${esc(x.origen || '')}" data-mail="${esc(String(x.email || '').toLowerCase())}" data-or="${esc(x.origen || '')}">
@@ -2696,6 +2715,12 @@ ${cuerpo}`;
       });
       $$('[data-pid]').forEach((it) => {
         const box = $('.corrs', it);
+        const grupo = () => String(it.dataset.grupo || it.dataset.pid).split(',').filter(Boolean).map((v) => +v || v);
+        $$('.quitar1', it).forEach((bq) => (bq.onclick = async () => {
+          if (!confirm('¿Sacar esto del feedback? Se borra el pedido y ella tampoco lo va a ver más.')) return;
+          await intentar(() => DB.borrarPedido(+bq.dataset.qid || bq.dataset.qid), 'Sacado del feedback');
+          ruta();
+        }));
         $('.addc', it).onclick = () => filaCorr(box);
         box.onclick = (e) => { if (e.target.classList.contains('quitar')) e.target.parentElement.remove(); };
         it._aplicar = (r) => {
@@ -2709,7 +2734,7 @@ ${cuerpo}`;
         it._generar = async () => {
           const b = $('.ia', it); b.disabled = true; b.textContent = 'Armando borrador…';
           let ok = true;
-          try { it._aplicar(await DB.borrador({ pedido_id: +it.dataset.pid || it.dataset.pid, quien: $('.quien', it) ? $('.quien', it).value.trim() : '' })); } catch (er) { ok = false; toast(er.message, true); }
+          try { it._aplicar(await DB.borrador({ pedido_id: +it.dataset.pid || it.dataset.pid, grupo: grupo().length > 1 ? grupo() : undefined, quien: $('.quien', it) ? $('.quien', it).value.trim() : '' })); } catch (er) { ok = false; toast(er.message, true); }
           b.disabled = false; b.textContent = ok ? 'Armar de nuevo con IA' : 'Borrador con IA';
           return ok;
         };
@@ -2719,10 +2744,14 @@ ${cuerpo}`;
           $('.reply', v).innerHTML = devolucion($('.r', it).value, leerCorr(it), '') || '<p class="muted small">Todavía no escribiste nada.</p>';
           $$('textarea', v).forEach((t) => (t.disabled = true)); $$('button', v).forEach((x) => (x.disabled = true));
         };
-        $('.borrarp', it).onclick = async () => { if (!confirm('¿Borrar este pedido? Ella tampoco lo va a ver más.')) return; await intentar(() => DB.borrarPedido(+it.dataset.pid || it.dataset.pid), 'Pedido borrado'); quitarDeLista(it); };
+        $('.borrarp', it).onclick = async () => {
+          const ids = grupo();
+          if (!confirm(ids.length > 1 ? `¿Borrar los ${ids.length} pedidos? Ella tampoco los va a ver más.` : '¿Borrar este pedido? Ella tampoco lo va a ver más.')) return;
+          await intentar(async () => { for (const id of ids) await DB.borrarPedido(id); }, ids.length > 1 ? 'Pedidos borrados' : 'Pedido borrado'); quitarDeLista(it);
+        };
         $('.send', it).onclick = async () => {
           const r = $('.r', it).value.trim(); if (!r) return toast('Escribe tu respuesta.', true);
-          await aGmail(it, { pedido_id: +it.dataset.pid || it.dataset.pid, respuesta: r, correcciones: leerCorr(it) }, $('.send', it));
+          await aGmail(it, { pedido_id: +it.dataset.pid || it.dataset.pid, grupo: grupo().length > 1 ? grupo() : undefined, respuesta: r, correcciones: leerCorr(it) }, $('.send', it));
         };
       });
       $$('[data-wid]').forEach((it) => {
@@ -2805,7 +2834,13 @@ ${cuerpo}`;
         const m = {}; bs.forEach((b) => { m[b.tabla + ':' + b.ref] = b.datos; });
         const faltan = [];
         items.forEach((it) => {
-          const k = it.dataset.pid ? 'pedidos:' + it.dataset.pid : 'weekly:' + it.dataset.wid;
+          let k = it.dataset.pid ? 'pedidos:' + it.dataset.pid : 'weekly:' + it.dataset.wid;
+          const ids = String(it.dataset.grupo || '').split(',').filter(Boolean);
+          if (ids.length > 1) {
+            // Sirve solo un borrador que ya cubre todo el grupo; los sueltos de cada archivo no.
+            const deTodo = ids.map((id) => m['pedidos:' + id]).find((d) => d && Array.isArray(d.grupo) && ids.every((id) => d.grupo.map(String).includes(id)));
+            if (deTodo) m[k] = deTodo; else delete m[k];
+          }
           if (m[k]) { it._aplicar(m[k]); const b = $('.ia,.iaw', it); if (b) b.textContent = 'Armar de nuevo con IA'; }
           else faltan.push(it);
         });
