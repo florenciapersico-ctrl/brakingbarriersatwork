@@ -465,7 +465,7 @@ ${(x.weeklies || []).filter((e: any) => e.semana < imp.semana).slice(0, 3).map((
     // deno-lint-ignore no-explicit-any
     const texto = r.content.filter((b: any) => b.type === "text").map((b: any) => b.text).join("");
     const parte = (et: string) => {
-      const m = new RegExp(`${et}:\\s*([\\s\\S]*?)(?=\\n(?:RESPUESTA|CORRECCIONES|FOCO|POR QUÉ|TAREAS|NOTAS PARA FLOR):|$)`, "i").exec(texto);
+      const m = new RegExp(`${et}:[ \\t]*([\\s\\S]*?)(?=\\n(?:RESPUESTA|CORRECCIONES|FOCO|POR QUÉ|TAREAS|NOTAS PARA FLOR):|$)`, "i").exec(texto);
       return m ? m[1].trim() : "";
     };
     const no = (s: string) => !s || /^ninguna?\.?$/i.test(s);
@@ -474,7 +474,8 @@ ${(x.weeklies || []).filter((e: any) => e.semana < imp.semana).slice(0, 3).map((
     const tareas = no(parte("TAREAS")) ? [] : parte("TAREAS").split("\n").map((l) => l.replace(/^[-•\d.)\s]+/, "").split("|")).filter((p) => p[0].trim())
       .map(([t, d = ""]) => ({ texto: t.trim(), donde: d.trim() })).slice(0, 3);
     const datos = {
-      respuesta: parte("RESPUESTA") || texto.trim(),
+      // Si vino la etiqueta RESPUESTA (aunque vacía) no se cae al texto entero (bug del 21/11: el borrador salía «CORRECCIONES: ninguna»).
+      respuesta: parte("RESPUESTA") || (/RESPUESTA:/i.test(texto) ? "" : texto.trim()),
       correcciones,
       foco: no(parte("FOCO")) ? "" : parte("FOCO"),
       foco_texto: parte("POR QUÉ"),
@@ -482,6 +483,7 @@ ${(x.weeklies || []).filter((e: any) => e.semana < imp.semana).slice(0, 3).map((
       notas: [aviso, parte("NOTAS PARA FLOR")].filter(Boolean).join("\n"),
       transcripcion,
     };
+    if (!datos.respuesta) throw new Error("La IA no armó la respuesta. Probá de nuevo con «Borrador con IA».");
     if (!imp) await admin.from("borradores").upsert({ tabla, ref, datos, creado: new Date().toISOString() });
     // El mismo borrador queda en las otras tomas, para que Flor lo mande una vez y cierre las demás.
     for (const h of hermanos) {
@@ -575,7 +577,9 @@ Deno.serve(async (req) => {
     const texto = String(body.texto || "").trim();
     const fecha = new Date(body.fecha || Date.now());
     if (!email || !texto || !body.id) return json({ ok: false, error: "faltan datos" }, 400);
-    const { data: perfil } = await admin.from("perfiles").select("id").ilike("email", email).maybeSingle();
+    // Gmail ignora los puntos: luz.canasal@ y luzcanasal@ son la misma casilla (21/11).
+    const { data: pid } = await admin.rpc("perfil_por_mail", { p_email: email });
+    const perfil = pid ? { id: pid as string } : (await admin.from("perfiles").select("id").ilike("email", email).maybeSingle()).data;
 
     // Si este mail ya se cargó (por la tarea de la noche o por una corrida anterior), no se repite.
     if (perfil) {
