@@ -103,21 +103,21 @@
         T('2.3', 'Completar tu primer Weekly Report después de tu primer 1:1 con Flor', 'habito', 'Weekly report', { ir: '#weekly' })
       ] },
       { s: [3], titulo: 'Activa tu inglés', tareas: [
-        T('3.1', 'M1.1 · My Professional Context', 'clase', 'Módulo 1', { link: M1('c0502ce4-17fd-441f-b420-8315647966eb') }),
-        T('3.2', 'M1.2 · Your AT WORK Practice System', 'clase', 'Módulo 1', { link: M1('ac970186-05f7-4e82-8e13-ef25ffcaa54f') }),
-        T('3.3', 'M1.3 · Role Play Method + una práctica con tu caso', 'clase coach', 'Módulo 1 · Coaches', { sube: 'tarea', link: M1('76e86548-a7ac-478a-abf6-31b925d0b967'), coaches: true })
+        T('3.1', 'M1.1 · My Professional Context', 'clase', 'Módulo 1', { ws: 'https://drive.google.com/file/d/1AwvdbVQxpFxKt7BwoT-wKLo5mBX48TCX/view', link: M1('c0502ce4-17fd-441f-b420-8315647966eb') }),
+        T('3.2', 'M1.2 · Your AT WORK Practice System', 'clase', 'Módulo 1', { wsNombre: 'tu cheat sheet', sube: 'no', ws: 'https://drive.google.com/file/d/1jUqYk2aYvU6uEa0FCynjLpPWHfB689er/view', link: M1('ac970186-05f7-4e82-8e13-ef25ffcaa54f') }),
+        T('3.3', 'M1.3 · Role Play Method + una práctica con tu caso', 'clase coach', 'Módulo 1 · Coaches', { sube: 'tarea', wsNombre: 'tu guía de Role Play', ws: 'https://drive.google.com/file/d/1H2_C9qLCfjHkJPrmcqZDHPf9C_U8hBuG/view', link: M1('76e86548-a7ac-478a-abf6-31b925d0b967'), coaches: true })
       ] },
       { s: [4], titulo: 'Tus coaches', tareas: [
-        T('4.1', 'M1.4 · Narrative Flow + corregir un texto tuyo', 'clase coach', 'Módulo 1 · Coaches', { sube: 'tarea', link: M1('fdd0c13a-de41-491b-8235-b816ea5a587f'), coaches: true }),
-        T('4.2', 'M1.5 · Color Method + subir el nivel de un mail', 'clase coach', 'Módulo 1 · Coaches', { sube: 'tarea', link: M1('f4c28b22-b2a7-4404-a5ed-b9e43f6e8b3b'), coaches: true }),
+        T('4.1', 'M1.4 · Narrative Flow + corregir un texto tuyo', 'clase coach', 'Módulo 1 · Coaches', { ws: 'https://drive.google.com/file/d/115KtjW1vb0f8lQ1iWWRM_CQJMvmq_6pW/view', link: M1('fdd0c13a-de41-491b-8235-b816ea5a587f'), coaches: true }),
+        T('4.2', 'M1.5 · Color Method + subir el nivel de un mail', 'clase coach', 'Módulo 1 · Coaches', { sube: 'tarea', wsNombre: 'tu guía de Color Method', ws: 'https://drive.google.com/file/d/1mKQgJaTWzkwBDxpLZgViUhmYFSNZDMML/view', link: M1('f4c28b22-b2a7-4404-a5ed-b9e43f6e8b3b'), coaches: true }),
         T('cierre1', 'Cierre del Módulo 1: tus wins y lo que aprendiste', 'cierre', 'Comunidad', { comunidad: true, nota: 'Ya terminaste las clases del Módulo 1. Tómate 10 minutos y responde: ¿qué aprendiste?, ¿qué puedes hacer ahora que antes no podías?, ¿qué sientes que todavía necesita más práctica? Reconoce tus wins y compártelos en la comunidad y en tu Weekly Report.' })
       ] }
     ] },
     { n: 2, titulo: 'Ordena tu mensaje · el QUÉ', logro: 'Armas lo que quieres decir antes de hablar, aunque no lo tengas preparado.', semanas: [
       { s: [5], titulo: 'Decir las ideas simple', tareas: [
-        T('5.1', 'M2 · Comunicarte cuando no tienes todo preparado', 'clase', 'Módulo 2', { link: M2('28977b19-1431-49a4-867c-0d5c35150345') }),
-        T('5.2', 'M2 · Cómo organizar tus ideas de manera simple', 'clase', 'Módulo 2', { link: M2('21e6937e-113f-4225-9382-afc73c04ba87') }),
-        T('5.3', 'M2 · Paraphrasing: qué hacer cuando no te sale una palabra', 'clase', 'Módulo 2', { link: M2('574ee9eb-8a99-4b6f-abad-31643b84382b') })
+        T('5.1', 'M2 · Comunicarte cuando no tienes todo preparado', 'clase', 'Módulo 2', { sube: 'no', link: M2('28977b19-1431-49a4-867c-0d5c35150345') }),
+        T('5.2', 'M2 · Cómo organizar tus ideas de manera simple', 'clase', 'Módulo 2', { ws: 'https://drive.google.com/file/d/1EmwDnBoSSyh2fK6YAEkIlmU1ndZIcv3B/view', link: M2('21e6937e-113f-4225-9382-afc73c04ba87') }),
+        T('5.3', 'M2 · Paraphrasing: qué hacer cuando no te sale una palabra', 'clase', 'Módulo 2', { ws: 'https://drive.google.com/file/d/1nX6bfo7-FlkJLZShI_winXWxMKNiVQud/view', link: M2('574ee9eb-8a99-4b6f-abad-31643b84382b') })
       ] },
       { s: [6], titulo: 'Tu mapa del mensaje', tareas: [
         T('6.1', 'M2 · The Message Map + úsalo en tu próximo update', 'clase practica', 'Módulo 2', { ws: 'https://docs.google.com/document/d/18gZ8LbHfuO8CJ_RCd2A32CA5ikQeamQM6qwRx-iUfb0/copy', link: M2('88302d24-8b19-4f36-b37b-2c2b97ecd28e') }),
@@ -125,11 +125,11 @@
       ] },
       { s: [7], titulo: 'Tu situación de trabajo', tareas: [
         T('7.1', 'M2 · Talking About Numbers & Data', 'clase', 'Módulo 2', { link: M2('3b4e5f4e-1fde-4974-a59f-651260ae4a6d'), ws: 'https://drive.google.com/file/d/1UWCF7eFykIMg7hGE5cTQT0t0HSiciuKb/view' }),
-        T('7.2', 'M2 · Presentaciones: parte 1', 'clase playbook', 'Módulo 2', { sube: 'playbook', ws: 'https://drive.google.com/file/d/1EE9fWoHdKbzoZwVyERcK8h-Ol8xCFzXE/view', link: M2('ecdd7925-c11f-4276-9db3-e985ff8be613') }),
-        T('7.3', 'M2 · Presentaciones: parte 2', 'clase playbook', 'Módulo 2', { sube: 'playbook', ws: 'https://drive.google.com/file/d/1EE9fWoHdKbzoZwVyERcK8h-Ol8xCFzXE/view', link: M2('363344d6-a536-4ed7-97df-15565cbd16f3') })
+        T('7.2', 'M2 · Presentaciones: parte 1', 'clase playbook', 'Módulo 2', { wsNombre: 'la presentación', sube: 'tarea', ws: 'https://drive.google.com/file/d/1t0G7hfwcSCC5ih0TGL_VD1KfPKTqn0sG/view', link: M2('ecdd7925-c11f-4276-9db3-e985ff8be613') }),
+        T('7.3', 'M2 · Presentaciones: parte 2', 'clase playbook', 'Módulo 2', { wsNombre: 'la presentación', sube: 'tarea', ws: 'https://drive.google.com/file/d/1hl118ldbRgQgC3z7IiMmEES1Q5AnjfgS/view', link: M2('363344d6-a536-4ed7-97df-15565cbd16f3') })
       ] },
       { s: [8], titulo: 'Conectar y sostener la conversación', tareas: [
-        T('8.2', 'M2 · Small Talk & Networking', 'clase playbook', 'Módulo 2', { ws: 'https://docs.google.com/document/d/1R2KNthNN9SMsZDJVdS4uAiOCyfiA4ofs7ntAMkR9Rmo/copy', link: M2('50ec7aca-66df-4039-ba90-c82a8a4185e5') }),
+        T('8.2', 'M2 · Small Talk & Networking', 'clase playbook', 'Módulo 2', { sube: 'playbook', ws: 'https://drive.google.com/file/d/191O8tGDB6xoHMPDT9-nXGioKP-C2RWC4/view', link: M2('50ec7aca-66df-4039-ba90-c82a8a4185e5') }),
         // «Tus reuniones» (material del 19/11): reemplaza a «Presentarte» (inventario del 21/11).
         T('8.6', 'M2 · Tus reuniones · Parte 1', 'clase', 'Módulo 2', { sube: 'playbook', ws: 'https://docs.google.com/document/d/1D7l6lCgqSKAH3XLuVGqjqjTD6b84n3HXMRsCXSfINSY/copy', pronto: true }),
         T('8.7', 'M2 · Tus reuniones · Parte 2', 'clase', 'Módulo 2', { sube: 'playbook', ws: 'https://docs.google.com/document/d/1D7l6lCgqSKAH3XLuVGqjqjTD6b84n3HXMRsCXSfINSY/copy', pronto: true }),
@@ -138,11 +138,11 @@
     ] },
     { n: 3, titulo: 'Pule tu inglés · el CÓMO', logro: 'Detectas tú misma dónde se rompe tu inglés y lo corriges en el segundo intento.', semanas: [
       { s: [9], titulo: 'Tu sistema verbal', tareas: [
-        T('9.1', 'M3 · Welcome to Polish Your English', 'clase', 'Módulo 3', { link: M3('4a72ce98-a576-41fc-9aa5-6d88bc5770b9') }),
-        T('9.2', 'M3 · The Verb System · Parte 1: Cómo se construyen', 'clase worksheet', 'Módulo 3', { link: M3('a2555410-ddfe-4d41-a7fe-8a7124046bd4'), cb: cb('t1','t2','t3','t4','t5','t6','t7') }),
-        T('9.5', 'M3 · The Verb System · Parte 2: Verbos irregulares', 'clase worksheet', 'Módulo 3', { link: M3('7b1a9231-6500-4722-9ef4-1de448ba745b'), cb: cb('t5') }),
-        T('9.6', 'M3 · The Verb System · Parte 3: Cuándo uso cada uno', 'clase worksheet', 'Módulo 3', { link: M3('ea11f8ef-dbb7-40af-8c6a-2a10ffbc7d5e'), cb: cb('t3','t4','t5','t6','t7') }),
-        T('9.3', 'M3 · The Verb System · Parte 4: Future tenses', 'clase worksheet', 'Módulo 3', { ws: 'https://docs.google.com/document/d/1gQYGlm4WF8a1okPnmerwafIquMWscG6epVaqrK5PqPg/copy', link: M3('57e5d9f7-65ce-4e2e-91f7-422defb9d68a'), cb: cb('t8','t9','t10','t11') }),
+        T('9.1', 'M3 · Welcome to Polish Your English', 'clase', 'Módulo 3', { wsNombre: 'la guía del módulo', sube: 'no', ws: 'https://docs.google.com/document/d/1TU3BF7Af0RuKLhDSbOWzo_-BefkIOgBKw2ayfcmFzk8/copy', link: M3('4a72ce98-a576-41fc-9aa5-6d88bc5770b9') }),
+        T('9.2', 'M3 · The Verb System · Parte 1: Cómo se construyen', 'clase worksheet', 'Módulo 3', { ws: 'https://drive.google.com/file/d/1BkLIfHH2c4bl_B_NBaFl1XYGwVrzznSU/view', link: M3('a2555410-ddfe-4d41-a7fe-8a7124046bd4'), cb: cb('t1','t2','t3','t4','t5','t6','t7') }),
+        T('9.5', 'M3 · The Verb System · Parte 2: Verbos irregulares', 'clase worksheet', 'Módulo 3', { ws: 'https://drive.google.com/file/d/1ikG1T0Qb2a2qsG5x74SEPyQJzpI08FNd/view', link: M3('7b1a9231-6500-4722-9ef4-1de448ba745b'), cb: cb('t5') }),
+        T('9.6', 'M3 · The Verb System · Parte 3: Cuándo uso cada uno', 'clase worksheet', 'Módulo 3', { ws: 'https://drive.google.com/file/d/1BkLIfHH2c4bl_B_NBaFl1XYGwVrzznSU/view', link: M3('ea11f8ef-dbb7-40af-8c6a-2a10ffbc7d5e'), cb: cb('t3','t4','t5','t6','t7') }),
+        T('9.3', 'M3 · The Verb System · Parte 4: Future tenses', 'clase worksheet', 'Módulo 3', { ws: 'https://docs.google.com/document/d/1QS3JgO-WbzT6IsdERNqcd-zUy29LQbkCfYWpzmXy1X8/copy', link: M3('57e5d9f7-65ce-4e2e-91f7-422defb9d68a'), cb: cb('t8','t9','t10','t11') }),
       ] },
       { s: [10], titulo: 'Los patrones de los verbos', tareas: [
         T('10.1', 'M3 · Verb Patterns: to or ing?', 'clase', 'Módulo 3', { ws: 'https://docs.google.com/document/d/1ZP1Rr79iFia9V7Y1wAPNWxC8lcPem-zN9C0VwVkYTkc/copy', link: M3('3cde7014-d479-45f6-be25-71a780ff177e') }),
@@ -151,14 +151,14 @@
       { s: [11], titulo: 'Precisión', tareas: [
         T('11.1', 'M3 · Nouns, Articles & Agreement', 'clase', 'Módulo 3', { ws: 'https://docs.google.com/document/d/1TrGrEx3bV0GZRVqZMezNVsfp6-6e4nYstNVZWR65G0w/copy', link: M3('99891d26-ef2b-469c-b27c-1a0a496c6edc') }),
         T('11.2', 'M3 · Relative Clauses: who, which, that', 'clase', 'Módulo 3', { ws: 'https://docs.google.com/document/d/1DcVbeZ6PLlRYQ-e8FptRTzG70bkG_LG6FgPBxPJelOQ/copy', link: M3('c4a14c4d-2aac-46aa-881d-314b173296bc') }),
-        T('11.3', 'M3 · Modals: Say How Strong You Mean It', 'clase', 'Módulo 3', { link: M3('038f2779-dc42-4a35-bdce-3a2e94dcb655'), ws: 'https://docs.google.com/document/d/1MAWnadKruW95_8WlKmuf5kD3_u8_aTUuWT4UvOsLaRk/copy', cb: cb('mod','m1','m2','m3','m4','m5') })
+        T('11.3', 'M3 · Modals: Say How Strong You Mean It', 'clase', 'Módulo 3', { link: M3('038f2779-dc42-4a35-bdce-3a2e94dcb655'), ws: 'https://drive.google.com/file/d/1laTdAa-oka6ldjrtHS2gAInqPMNxVEyk/view', cb: cb('mod','m1','m2','m3','m4','m5') })
       ] },
       { s: [12], titulo: 'Preguntar y reportar', tareas: [
         T('12.1', 'M3 · Questions & Indirect Questions', 'clase', 'Módulo 3', { ws: 'https://drive.google.com/file/d/16TKOE_D2H4WIXy0NDikHMZckUTAqRG-z/view', link: M3('6eb79084-3227-4ab0-bfbb-03cb0d9cc256'), cb: cb('rsQ') }),
-        T('12.2', 'M3 · Conditionals for Real Work Situations', 'clase', 'Módulo 3', { link: M3('e5e8c0cf-ba24-490e-a2e8-70f4aa642dc0'), ws: 'https://docs.google.com/document/d/1f_8BE47KEUNjGNMEbfBu5OVQ4RQ8XHFRrY1mnEH_sno/copy', entrega: 'Subir mi worksheet y mis 3 frases',cbIntro: 'Si te sientes perdida con algún condicional, mira la clase de cada uno:', cb: [D('cond', 'la introducción'), D('c0', 'procesos y reglas'), D('c1', 'planes, plazos y riesgos'), D('c2', 'escenarios y propuestas'), D('c3', 'lecciones aprendidas'), D('cM', 'lo que pasó y todavía se nota hoy')], cbMas: [D('m2', 'para el might de los riesgos'), D('m5', 'para el would have de las lecciones aprendidas')] }),
-        T('12.3', 'M3 · Reported Speech & Reporting Information', 'clase', 'Módulo 3', { pronto: true, anticipo: true, ws: 'https://docs.google.com/document/d/113cL_En2vfJ3VGIiqYjv07Gpb-D1A_q67pOsKsCgK5E/copy', cb: cb('rs','rsQ','rsC','rsV') }),
-        T('12.5', 'M3 · Passive Voice for Processes & Reporting', 'clase', 'Módulo 3', { pronto: true, anticipo: true, ws: 'https://docs.google.com/document/d/1r3h2FYyk6XES7uzAn7aEKNbb906VpJ1bI_hm5NRAUzM/copy', cb: cb('pas') }),
-        T('12.6', 'M3 · Word Families & Nominalization', 'clase', 'Módulo 3', { ws: 'https://docs.google.com/document/d/1SJsK5I4OlpqXzuKgdTp5cHDWF3rKzivCpFGXXA0HAcw/copy', pronto: true }),
+        T('12.2', 'M3 · Conditionals for Real Work Situations', 'clase', 'Módulo 3', { link: M3('e5e8c0cf-ba24-490e-a2e8-70f4aa642dc0'), ws: 'https://docs.google.com/document/d/18pIf5x_7EtgzHAvuRBdCJK4QYNtORWwtdu7wSDLVRhs/copy', entrega: 'Subir mi worksheet y mis 3 frases',cbIntro: 'Si te sientes perdida con algún condicional, mira la clase de cada uno:', cb: [D('cond', 'la introducción'), D('c0', 'procesos y reglas'), D('c1', 'planes, plazos y riesgos'), D('c2', 'escenarios y propuestas'), D('c3', 'lecciones aprendidas'), D('cM', 'lo que pasó y todavía se nota hoy')], cbMas: [D('m2', 'para el might de los riesgos'), D('m5', 'para el would have de las lecciones aprendidas')] }),
+        T('12.3', 'M3 · Reported Speech & Reporting Information', 'clase', 'Módulo 3', { link: M3('7938ffc2-a3a4-48c9-a807-c491d1c587b8'), ws: 'https://docs.google.com/document/d/1j2Q_rUoxziU1FfnpurDkqiZpn3DRJvCu1h0LdRGqfco/copy', cb: cb('rs','rsQ','rsC','rsV') }),
+        T('12.5', 'M3 · Passive Voice for Processes & Reporting', 'clase', 'Módulo 3', { link: M3('813a95b2-81ac-4253-8c68-0ef927dc752c'), ws: 'https://docs.google.com/document/d/1gsMgX29z2f2v9A15X7FvCYbR6ru5iMdMoJRTgm8S2YA/copy', cb: cb('pas') }),
+        T('12.6', 'M3 · Word Families & Nominalization', 'clase', 'Módulo 3', { link: M3('bf61621f-333c-4aa3-8750-248beb125643'), ws: 'https://docs.google.com/document/d/1SJsK5I4OlpqXzuKgdTp5cHDWF3rKzivCpFGXXA0HAcw/copy', pronto: true }),
         T('12.4', 'M3 · The Accuracy Challenge: tu Error Radar', 'clase evidencia', 'Módulo 3', { ws: 'https://docs.google.com/document/d/1xNOfOW5rWNaNEAYP4KnsaICxxXnstpLvz3iiaGvaJLA/copy', pronto: true }),
         T('cierre3', 'Cierre del Módulo 3: tus wins y lo que aprendiste', 'cierre', 'Comunidad', { comunidad: true, nota: 'Ya terminaste las clases del Módulo 3. Tómate 10 minutos y responde: ¿qué aprendiste?, ¿qué puedes hacer ahora que antes no podías?, ¿qué sientes que todavía necesita más práctica? Reconoce tus wins y compártelos en la comunidad y en tu Weekly Report.' })
       ] }
