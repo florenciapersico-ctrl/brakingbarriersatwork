@@ -2728,6 +2728,7 @@ ${pruebaHTML()}
         ${(x._grupo || [x]).some((y) => ['audio', 'reunion'].includes(y.tipo) || y.archivo || /drive\.google/.test(y.link || '')) ? `<div class="field"><label>¿Quién es ella en la grabación?</label><small>Si en la reunión hablan varias personas, escribe su nombre (o "la que presenta el reporte") y toca «Armar de nuevo con IA». Si lo dejas vacío, la IA la busca sola.</small><input type="text" class="quien" placeholder="${esc(String(x.nombre || '').split(' ')[0])}"></div>` : ''}
         <div class="field"><label>Tu respuesta</label><small>Lo que funcionó, tu foco para ella y qué clase ver. Las correcciones van abajo: ella las ve como ejercicio (primero las encuentra, después ve tus respuestas).</small><textarea class="r" rows="6"></textarea></div>
         <div class="field"><label>Correcciones · solo las ves tú así</label><small>Ella primero ve solo su frase, la corrige y dice por qué; recién después ve tu corrección y tu por qué. Toca «Ver cómo lo ve ella».</small><div class="corrs"></div><button type="button" class="linkbtn small addc">+ Agregar corrección</button></div>
+        <div class="field colorv" hidden></div>
         <p class="notas small muted" hidden></p>
         <div class="row"><button class="btn send-ya" type="button">Enviar ya</button><button class="btn ghost send" type="button">Armar borrador en Gmail</button><button class="btn ghost ia" type="button">Borrador con IA</button><button class="btn ghost ver" type="button">Ver cómo lo ve ella</button><button class="btn ghost borrarp" type="button">🗑️ ${x._grupo && x._grupo.length > 1 ? `Borrar los ${x._grupo.length}` : 'Borrar'}</button></div>
         <div class="vista" hidden><span class="eyebrow">Así lo ve ella en su app</span><div class="reply"></div></div>
@@ -2857,6 +2858,15 @@ ${cuerpo}`;
           it._datos = r;
           const pb = $('.prep', it); if (pb) pb.textContent = '🔁 Prepararlo de nuevo';
           $('.r', it).value = r.respuesta || ''; box.innerHTML = ''; (r.correcciones || []).forEach((c) => filaCorr(box, c.mal, c.bien, c.por_que || ''));
+          // Color Method y tareas: van en el mail debajo de las correcciones; acá se ven para revisarlos (Flor, 23/11).
+          const cv = $('.colorv', it);
+          if (cv) {
+            const arr = (v) => { if (Array.isArray(v)) return v; try { const j = JSON.parse(v || '[]'); return Array.isArray(j) ? j : []; } catch (e) { return []; } };
+            const col = arr(r.color), tas = arr(r.tareas);
+            cv.hidden = !col.length && !tas.length;
+            cv.innerHTML = (col.length ? `<label>Color Method · va en el mail, debajo de las correcciones</label><ul class="tasks">${col.map((c) => `<li><span class="muted small">${esc(c.cat || '')}</span> «${esc(c.mal || '')}» → <b>${esc(c.bien || '')}</b></li>`).join('')}</ul>` : '')
+              + (tas.length ? `<label style="margin-top:8px">Su tarea · va al final del mail</label><ul class="tasks">${tas.map((t) => `<li>${esc(t.texto || '')}${t.donde ? ` <span class="muted small">· ${esc(t.donde)}</span>` : ''}</li>`).join('')}</ul>` : '');
+          }
           const av = $('.aviso-audio', it);
           if (av) { av.hidden = !r.sin_audio; av.textContent = r.sin_audio ? r.notas : ''; }
           if (r.notas && !r.sin_audio) { $('.notas', it).hidden = false; $('.notas', it).textContent = 'Notas para ti: ' + r.notas; }
