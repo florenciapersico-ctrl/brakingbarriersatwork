@@ -550,11 +550,43 @@ conecta con el inglés. La versión anterior («Lo de "magic" me lo quedo») no 
 
 ---
 
-## Ejemplo 2
+## Ejemplo 2 · tarea con audio, feedback completo (23/11, Flor: «me había encantado»; ES EL MODELO para tareas)
 
-**Contexto:**
+**Contexto:** A. prepara entrevistas. Mandó un audio de 42 s con su historia STAR de la pandemia, la que armaron en
+la clase del 13. Le contó a Flor que mira las clases grabadas una y otra vez pero no practica. Sus errores de siempre:
+el -ed que se pierde al hablar rápido y plurales.
 
 **Mail que mandó Flor:**
+Hola Adri! Cómo estás?
+
+Escuché tu historia de la pandemia y me encantó cómo la contaste. Es la que armamos juntas en la clase del 13, y ahora la contaste sola. Arrancaste con "At the height of the pandemic", que está muy bien, diste los números y cerraste con el resultado, como habíamos hablado.
+
+Te quiero preguntar algo: ¿la grabaste leyendo o mirando lo que habías escrito, o la contaste de una, con lo que te acordabas? Te pregunto porque está bueno que lo practiques de manera espontánea, sin intentar aprendértelo de memoria. Lo que buscamos es que puedas contar las historias con tus palabras. La idea es que puedas desarrollar la habilidad de elegir qué historia contar según la pregunta que te hacen, y saber para qué te sirve cada una de tus historias.
+
+Estás avanzando un montón. En la clase del 13 dijiste "we cannot to attend more than 10 patients for hour", y ahora dijiste "we couldn't interrupt" y "10 patients per hour". Se notan tus avances y que estás practicando.
+
+Lo que quiero que trabajemos ahora es la pronunciación del pasado. El pasado en sí lo sabés usar, porque en la misma historia dijiste was, had, couldn't y set up. Pero cuando hablás rápido, a veces no pronunciás el final de las palabras que terminan en -ed. No es porque no sepas la regla, es que todavía no te sale automático, y para eso lo que más sirve es practicarlo hablando.
+
+Como me contaste hoy que mirás las clases grabadas una y otra vez pero te falta practicar, esta semana te propongo que en vez de volver a ver clases te sientes a practicar con los coaches. Si todavía no los tenés en Claude, descargate Role Play, Narrative Flow y Color Method desde [Mis coaches](https://app.breakingbarriers.site/app/#coaches). Y hacé un role play contando esta historia, o mejor, un role play completo de entrevista, para ir integrando todo lo que venimos practicando y no solo una pregunta aislada.
+
+Lo que más me interesa es que empieces a entrenar la entrevista en tiempo real. Estamos desarrollando la habilidad de que puedas responder pensando en STAR (situación, tarea, acción y resultado), pero sin aprenderte nada de memoria: que de manera natural vayas eligiendo qué historia contar y te acuerdes de contar siempre tu acción y el resultado. (…)
+
+No quiero que te quedes pegada a las respuestas que armamos, como si fueran la única respuesta posible. Quiero que desarrolles el criterio para responder lo que sea que te pregunten. Y eso se logra con práctica.
+
+El viernes en la clase seguimos practicando para entrevistas.
+
+Abajo te dejo algunas frases para corregir con Narrative Flow y algunas para subir el registro con Color Method. Hacé la tabla antes de mirar las respuestas.
+
+Nos vemos el viernes! 💙
+Flor
+
+**Abajo:** 8 errores reales de ese audio para Narrative Flow (researcher medical director, physician, test trial,
+a new visit schedules, cap, arrange, patient stay, will retain) y 7 estructuras de Color Method a partir de sus
+frases (I oversaw…, were allowed on site, put the trials on hold, What I did was…, rolled out, DTP shipment, zero dropouts).
+
+**Por qué está bien:** conecta con la clase, pregunta algo real y explica el porqué pedagógico, muestra el avance
+con sus frases de antes y de ahora, un solo foco explicado sin culpa, práctica concreta con los coaches, el para qué
+(el criterio, no memorizar), y cierre normal. Nunca «¿entendés?».
 
 ---
 
