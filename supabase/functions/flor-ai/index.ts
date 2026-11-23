@@ -299,6 +299,9 @@ async function claseDeHoy(admin: any, alumnaId: string): Promise<string> {
     if (!c) return "";
     // Si la clase ya terminó (o no se dio), el feedback va completo (Flor, 23/11).
     if (c.inicio && Date.now() > new Date(c.inicio).getTime() + 60 * 60e3) return "";
+    // Si Flor marcó «No vino» (la canceló o la reprogramó), no hay clase hoy: el feedback la reemplaza y va completo.
+    const { data: nv } = await admin.from("clase_notas").select("vino").eq("email", email).eq("fecha", hoy).maybeSingle();
+    if (nv && nv.vino === false) return "";
     const hora = c.inicio ? new Date(c.inicio).toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit", timeZone: "America/Argentina/Buenos_Aires" }) : "";
     return `TIENE CLASE HOY${hora ? ` a las ${hora} (hora Argentina)` : ""}: ${c.titulo || ""}.${c.link ? ` Su hoja de la clase de hoy: ${c.link}` : ""}
 CRITERIO DE FLOR CUANDO TIENE CLASE EL MISMO DÍA (16/11; manda sobre el largo, el método de las tablas y las tareas):

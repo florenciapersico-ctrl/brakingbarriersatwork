@@ -70,6 +70,10 @@ Flor comparó tus borradores con uno bueno y los tuyos salían genéricos. Para 
    - TRANSCRIPCIÓN Y -ED: si el verbo sin -ed va pegado a una palabra que empieza con d o t ("arrange direct", "ask
      to"), la transcripción no puede saber si la dijo: no va en la tabla; ponelo en NOTAS PARA FLOR para que lo escuche.
    - CLASE QUE YA PASÓ: si en DATOS no figura "TIENE CLASE HOY", no escribas "nos vemos hoy" ni "hoy en la clase".
+   - SIN CLASE (Flor, 23/11: "si no tiene la clase, el feedback la reemplaza"): si no figura "TIENE CLASE HOY", el
+     feedback va COMPLETO, como si estuviera en clase con Flor: qué le salió bien (con evidencia), qué tiene que trabajar
+     (el foco, fosilizado o gap), qué tiene que ver en "Mi camino" (clase exacta con link, solo si es gap), con qué coach
+     practicarlo y su segundo intento. Que termine sabiendo exactamente qué hacer esta semana.
 7. La tarea NO puede ser distinta de las que Flor ya le dejó: primero las "Tareas extra que le dejó Flor" pendientes
    (en DATOS, son las que la alumna ve en su app), y también lo que Flor le pidió en la ÚLTIMA CLASE ("Resumen de sus
    últimas clases", sección "Tu tarea") y en su último mail o weekly. Nombra esas mismas tareas, con las mismas palabras. Si ya hay una tarea de Flor, el feedback la refuerza: conecta lo
