@@ -332,6 +332,40 @@ async function borradorDelUltimo(admin: any, id: number, etiqueta: string) {
 
 // ---------- borrador de feedback (se guarda en borradores; solo lo ve Flor) ----------
 // deno-lint-ignore no-explicit-any
+// Historial para un feedback personalizado (Flor, 23/11): sus entregas anteriores transcriptas (para el antes/ahora y
+// sus errores de siempre), los últimos feedbacks que Flor le mandó (su voz, y para no repetir) y, solo para el tono,
+// los últimos feedbacks de Flor a otras alumnas.
+// deno-lint-ignore no-explicit-any
+async function historialAlumna(admin: any, alumnaId: string, excluir: number[]) {
+  try {
+    const { data: ps } = await admin.from("pedidos").select("id,titulo,creado,estado,respuesta,correcciones,respondido_en")
+      .eq("alumna_id", alumnaId).neq("estado", "filtrado").order("creado", { ascending: false }).limit(15);
+    // deno-lint-ignore no-explicit-any
+    const prev = (ps || []).filter((p: any) => !excluir.includes(Number(p.id)));
+    const ids = prev.map((p: any) => p.id);
+    const { data: bs } = ids.length ? await admin.from("borradores").select("ref,datos").eq("tabla", "pedidos").in("ref", ids) : { data: [] };
+    // deno-lint-ignore no-explicit-any
+    const tr = (id: number) => String(((bs || []).find((b: any) => b.ref === id) || {}).datos?.transcripcion || "");
+    const fch = (d: string) => String(d || "").slice(0, 10);
+    // deno-lint-ignore no-explicit-any
+    const ents = prev.filter((p: any) => tr(p.id) && !/=== ENTREGA/.test(tr(p.id))).slice(0, 4)
+      .map((p: any) => `--- ${fch(p.creado)} · ${p.titulo || "entrega"} ---\n${tr(p.id).slice(0, 2500)}`);
+    // deno-lint-ignore no-explicit-any
+    const fbs = prev.filter((p: any) => p.estado === "respondido" && p.respuesta && !/^Flor te respondió por mail/.test(p.respuesta)).slice(0, 3)
+      .map((p: any) => `--- ${fch(p.respondido_en || p.creado)} · ${p.titulo || ""} ---\n${String(p.respuesta).slice(0, 1800)}${(p.correcciones || []).length ? `\n(Ya le corregiste: ${(p.correcciones || []).map((c: any) => `«${c.mal}»`).join(", ").slice(0, 600)})` : ""}`);
+    const { data: otros } = await admin.from("pedidos").select("respuesta,respondido_en").neq("alumna_id", alumnaId).eq("estado", "respondido")
+      .not("respuesta", "is", null).order("respondido_en", { ascending: false }).limit(6);
+    // deno-lint-ignore no-explicit-any
+    const voz = (otros || []).filter((p: any) => String(p.respuesta).length > 400 && !/^Flor te respondió por mail/.test(p.respuesta)).slice(0, 2)
+      .map((p: any) => String(p.respuesta).slice(0, 1500));
+    return [
+      ents.length ? `SUS ENTREGAS ANTERIORES, TRANSCRIPTAS (para el antes/ahora con sus frases textuales y para ver sus errores de siempre; nunca le corrijas de nuevo algo de acá como si fuera de esta entrega):\n${ents.join("\n\n")}` : "",
+      fbs.length ? `TUS ÚLTIMOS FEEDBACKS A ELLA (tu voz con ella; no repitas aperturas, cierres ni correcciones que ya le diste):\n${fbs.join("\n\n")}` : "",
+      voz.length ? `SOLO PARA TU TONO · feedbacks recientes tuyos a OTRAS alumnas. No uses nada de su contenido, nombres ni datos: solo cómo suena Flor.\n${voz.map((v, i) => `--- ejemplo ${i + 1} ---\n${v}`).join("\n\n")}` : "",
+    ].filter(Boolean).join("\n\n");
+  } catch (e) { console.error("historial", e); return ""; }
+}
+
 async function generarBorrador(admin: any, tabla: string, ref: number, imp?: { email: string; semana: string }, quien?: string, grupoPedido?: number[], sinClase?: boolean) {
     let alumnaId = "", material = "", transcripcion = "", aviso = "", sinAudio = false, ctxImp = "";
     let hermanos: number[] = []; // lo demás que mandó en los mismos días (Flor, 21/11: varias entregas = UN solo feedback de todo)
@@ -495,7 +529,8 @@ ${(x.weeklies || []).filter((e: any) => e.semana < imp.semana).slice(0, 3).map((
     }
 
     if (!Deno.env.get("ANTHROPIC_API_KEY")) throw new Error("FALTA_CLAVE");
-    const [sist, prog, ctx, conApp, hoyClase] = await Promise.all([prompt("borrador.md"), programaVigente(admin), imp ? Promise.resolve(ctxImp) : contexto(admin, admin, alumnaId), alumnasConApp(admin), tabla === "pedidos" && !sinClase ? claseDeHoy(admin, alumnaId) : Promise.resolve("")]);
+    const [sist, prog, ctx0, conApp, hoyClase, hist] = await Promise.all([prompt("borrador.md"), programaVigente(admin), imp ? Promise.resolve(ctxImp) : contexto(admin, admin, alumnaId), alumnasConApp(admin), tabla === "pedidos" && !sinClase ? claseDeHoy(admin, alumnaId) : Promise.resolve(""), tabla === "pedidos" && alumnaId ? historialAlumna(admin, alumnaId, [ref, ...hermanos].map(Number)) : Promise.resolve("")]);
+    const ctx = hist ? `${ctx0}\n\n${hist}` : ctx0;
     const r = await ia().messages.create({
       model: MODEL,
       max_tokens: 16000,

@@ -21,6 +21,18 @@ antes de enviarlo: nunca le llega directo a la alumna. Aplica la skill filtro-fe
   (situación, lo que hizo, resultado), verbos de impacto, phrasal verbs y vocabulario de su industria.
 - En el mensaje no repitas esas listas: el mensaje dice el foco y para qué; las listas van abajo.
 
+## CONOCERLA ANTES DE ESCRIBIR (Flor, 23/11: «que sea realmente personalizado»)
+Antes de escribir, leé todo lo que tenés de ella y usalo:
+- Las NOTAS DE FLOR de su ficha (lo que hablaron, lo que le contó) mandan: si hay una nota reciente, el feedback
+  tiene que partir de ahí (ej.: «me contaste que mirás las clases grabadas pero te falta practicar»).
+- SUS ENTREGAS ANTERIORES, TRANSCRIPTAS: buscá una frase de antes y la misma idea dicha ahora, y mostrale el avance
+  con las dos frases textuales. Si un error aparece en varias entregas, es fosilizado: ese es el foco.
+- TUS ÚLTIMOS FEEDBACKS A ELLA: seguí el hilo (lo que le pediste la última vez) y no repitas aperturas, cierres ni
+  correcciones.
+- Los resúmenes de sus últimas clases: conectá con lo que armaron juntas.
+- Los ejemplos SOLO PARA TU TONO son de otras alumnas: nunca uses nada de su contenido.
+Si no hay historial, no lo inventes: escribí con lo que hay y anotá en NOTAS PARA FLOR qué te faltó saber.
+
 ## REGLAS DE PRECISIÓN (mandan sobre todo lo que dice abajo)
 Flor comparó tus borradores con uno bueno y los tuyos salían genéricos. Para que el feedback sea tan preciso como el suyo:
 1. NUNCA escribas que no tienes la tarea, que no la viste o que la vas a revisar después. Si el material no trae la
