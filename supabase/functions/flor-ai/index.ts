@@ -924,6 +924,22 @@ Deno.serve(async (req) => {
     if (!a?.email) return json({ ok: false, motivo: "sin_mail" });
     const nombre = String(a.nombre || "").split(" ")[0];
     const app = String(body.link || "https://app.breakingbarriers.site/app/");
+    // Recordatorio del weekly (Flor, 23/11): con sus palabras y su apodo.
+    if (body.que === "recordar_weekly") {
+      const { data: ap } = await admin.from("perfiles").select("apodo").eq("id", body.alumna_id).maybeSingle();
+      const quien = String(ap?.apodo || nombre || "").trim();
+      const e2 = (t: string) => t.replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]!));
+      const html2 = `<div style="font-family:'Open Sans',Arial,sans-serif;font-size:15px;color:#2C1F0E;line-height:1.55">
+<p>Hola${quien ? " " + e2(quien) : ""}! Cómo estás?</p>
+<p>Recuerda que tienes que completar tu Weekly Report de esta semana: son 5 minutos y es clave para poder ir acompañándote en tu proceso.</p>
+<p><a href="${app}#weekly" style="background:#d4a37f;color:#1d1814;padding:10px 18px;border-radius:999px;text-decoration:none;font-weight:bold">Completar mi Weekly Report</a></p>
+<p>Nos vemos en clase! 💙<br>Flor</p></div>`;
+      try {
+        const r = await fetch(url, { method: "POST", headers: { "Content-Type": "text/plain" }, body: JSON.stringify({ secreto, accion: "mail", para: a.email, asunto: "Tu Weekly Report de esta semana 📝", html: html2 }) });
+        const out = await r.json().catch(() => ({}));
+        return json({ ok: !!out.ok });
+      } catch (e) { console.error(e); return json({ ok: false }); }
+    }
     const que = body.que === "weekly" ? "tu Weekly Report" : `tu pedido de feedback${body.titulo ? ` («${body.titulo}»)` : ""}`;
     const asunto = body.que === "weekly" ? "Flor respondió tu Weekly Report" : "Tienes feedback nuevo de Flor";
     const esc = (t: string) => t.replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]!));

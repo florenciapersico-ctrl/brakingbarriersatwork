@@ -3032,8 +3032,12 @@ ${cuerpo}`;
     const dir = String((p || {}).email || '').toLowerCase(), noms = [apodoDe(p), String((p || {}).nombre || '').split(' ')[0]].map(n).filter((x) => x.length >= 3);
     // Las 1:1 van al lab como invitadas: para ellas cuenta su clase 1:1, no el lab.
     const esLab = (c) => /\blab\b/i.test(c.titulo || '');
-    return (clases || []).filter((c) => c.inicio && new Date(c.inicio).getTime() + 60 * 60e3 > Date.now() && (!esLab(c) || (p || {}).formato !== '1:1'))
-      .filter((c) => (c.invitadas || []).map((m) => String(m).toLowerCase()).includes(dir) || (!esLab(c) && n(c.titulo).split(/[^a-zñ]+/).some((w) => w.length >= 3 && noms.some((x) => x.startsWith(w)))))
+    // En pausa (vacaciones): no cuenta ninguna clase antes de que retome (Flor, 23/11).
+    const retoma = (p || {}).sin_clases_hasta || '';
+    const otras = (c) => (c.invitadas || []).map((m) => String(m).toLowerCase()).filter((m) => !/breakingbarriers/.test(m));
+    return (clases || []).filter((c) => c.inicio && new Date(c.inicio).getTime() + 60 * 60e3 > Date.now() && (!esLab(c) || (p || {}).formato !== '1:1') && !(retoma && diaISO(new Date(c.inicio)) < retoma))
+      // Por nombre solo si el evento no tiene invitada a otra alumna («alejandra deco» es de Ale Rossi, no de Alejandra Santos).
+      .filter((c) => otras(c).includes(dir) || (!esLab(c) && !otras(c).length && n(c.titulo).split(/[^a-zñ]+/).some((w) => w.length >= 3 && noms.some((x) => x.startsWith(w)))))
       .sort((a, b) => (a.inicio < b.inicio ? -1 : 1))[0] || null;
   }
   const cuandoClase = (c) => {
@@ -3053,6 +3057,14 @@ ${cuerpo}`;
       ${ns.length ? `<ul class="neg small nr-lista">${ns.map((l) => `<li>${esc(l.replace(/^- /, ''))}</li>`).join('')}</ul>` : ''}
       <div class="row" style="gap:6px;align-items:flex-start"><textarea class="nr-t" rows="2" placeholder="Ej.: le dije que la grabación de 2 minutos es opcional; si no llega, la hacemos en clase el viernes."></textarea><button type="button" class="btn ghost sm nr-save">Guardar nota</button></div></div>`;
   }
+  // Recordatorio del weekly desde el tablero (Flor, 23/11). Se toca dos veces para no mandarlo sin querer.
+  document.addEventListener('click', async (e) => {
+    const bt = e.target.closest && e.target.closest('.rec-weekly'); if (!bt || !DB.avisar) return;
+    if (!bt._seguro) { bt._seguro = true; bt.textContent = `Tocá de nuevo para mandárselo a ${bt.dataset.n}`; setTimeout(() => { if (bt._seguro) { bt._seguro = false; bt.textContent = '📨 Recordarle el weekly'; } }, 5000); return; }
+    bt._seguro = false; bt.disabled = true; bt.textContent = 'Mandando…';
+    const r = await DB.avisar({ alumna_id: bt.dataset.aid, que: 'recordar_weekly' });
+    bt.textContent = r && r.ok ? '✓ Recordatorio enviado' : 'No se pudo mandar'; if (!(r && r.ok)) bt.disabled = false;
+  });
   document.addEventListener('click', async (e) => {
     const bt = e.target.closest && e.target.closest('.nr-save'); if (!bt) return;
     const box = bt.closest('[data-nr]'), t = $('.nr-t', box), txt = t.value.trim(); if (!txt) return toast('Escribí la nota primero.', true);
@@ -3208,14 +3220,14 @@ ${cuerpo}`;
         const nEspera = filas.filter((r) => r.espera).length;
         tablero = `<section class="card"><div class="row between"><h2>Cómo está cada una</h2><span class="pill ${nEspera ? 'warn' : 'ok'}">${nEspera ? nEspera + (nEspera === 1 ? ' espera algo de vos' : ' esperan algo de vos') : '✓ ninguna espera nada de vos'}</span></div>
           <p class="muted small">Arriba, las que esperan algo de vos; después, por su próxima clase. Tocá su nombre para ver todo lo que te mandó y lo que le respondiste.</p>
-          <div class="tbl"><table class="tablero"><thead><tr><th>Alumna</th><th>Próxima clase</th><th>Espera de vos</th><th>Le toca a ella</th><th>Lo último que le mandaste</th><th>Último weekly</th></tr></thead><tbody>
+          <div class="tbl"><table class="tablero"><thead><tr><th>Alumna</th><th>Próxima clase</th><th>Espera de vos</th><th>Le toca a ella</th><th>Lo último que le mandaste</th><th>Último weekly recibido</th></tr></thead><tbody>
           ${filas.map((r) => `<tr>
             <td><a href="#alumnas/${r.x.id}"><b>${esc((filas.filter((y) => apodoDe(y.x) === apodoDe(r.x)).length > 1 ? r.x.nombre : apodoDe(r.x)) || r.x.nombre || r.x.email)}</b></a> <span class="muted small">${esc(fmt(r.x))}</span>${r.pausa ? `<br><span class="pill">🌴 retoma el ${fecha(r.pausa, { day: 'numeric', month: 'numeric' })}</span>` : ''}${r.nota ? `<br><span class="small muted">📝 ${esc(r.nota.replace(/^- /, '').slice(0, 90))}</span>` : ''}</td>
             <td class="small" data-proxa="${esc(r.x.id)}">${r.c ? esc(cuandoClase(r.c)) : r.pausa ? '<span class="muted">en pausa</span>' : st._prox ? '<span class="muted">nada en 8 días</span>' : '<span class="muted">buscando…</span>'}</td>
             <td class="small">${r.espera ? `<a class="pill warn" href="#bandeja/pedidos">⏳ ${r.espera}</a>` : '<span class="pill ok">✓ al día</span>'}</td>
             <td class="small">${r.tp.length ? `${r.tp.length} ${r.tp.length === 1 ? 'tarea' : 'tareas'}<br><span class="muted">${esc(String(r.tp[0].texto).replace(/\s+/g, ' ').slice(0, 70))}${String(r.tp[0].texto).length > 70 ? '…' : ''}</span>` : '<span class="muted">nada pendiente</span>'}</td>
             <td class="small">${r.resp ? `${esc(r.resp.q)}<br><span class="muted">${hace(r.resp.f)}</span>` : '<span class="muted">—</span>'}</td>
-            <td class="small">${r.ult ? `semana del ${fecha(r.ult.semana, { day: 'numeric', month: 'numeric' })}${dias(r.ult.semana) > 13 ? '<br><span class="muted">⚠️ hace más de 2 semanas</span>' : ''}` : '<span class="muted">nunca</span>'}</td></tr>`).join('')}
+            <td class="small">${r.ult ? `semana del ${fecha(r.ult.semana, { day: 'numeric', month: 'numeric' })}` : '<span class="muted">no hay en la app</span>'}${!r.pausa && (!r.ult || dias(r.ult.semana) > 6) ? `<br><button type="button" class="linkbtn small rec-weekly" data-aid="${esc(r.x.id)}" data-n="${esc(apodoDe(r.x))}">📨 Recordarle el weekly</button>` : ''}</td></tr>`).join('')}
           </tbody></table></div></section>`;
         // Si el calendario tardó más que la página, las próximas clases se completan solas cuando llega.
         if (!st._prox && st._proxP) st._proxP.then(() => filas.forEach((r) => {
