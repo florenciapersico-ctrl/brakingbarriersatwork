@@ -304,7 +304,7 @@
       else pend.push(x);
     });
     // Filtrados (Flor, 23/11): repetidos, grabaciones viejas o material que ya tenía. No son entregas nuevas; quedan a la vista por si acaso.
-    const filtrados = T.filter((x) => x.estado === 'filtrado' && Date.now() - new Date(x.creado) < 21 * 864e5).sort((a, b) => (a.creado < b.creado ? 1 : -1));
+    const filtrados = T.filter((x) => x.estado === 'filtrado' && Date.now() - new Date(x.creado) < 7 * 864e5).sort((a, b) => (a.creado < b.creado ? 1 : -1));
     const tResp = T.filter((x) => x.estado === 'respondido').sort((a, b) => ((a.respondido_en || a.creado) < (b.respondido_en || b.creado) ? 1 : -1));
     const activas = al.filter((x) => x.rol !== 'admin' && x.activa !== false).map((x) => ({ nombre: x.nombre || x.email, email: (x.email || '').toLowerCase(), perfil: x }))
       .concat(imp.filter((i) => !mails.has(String(i.email).toLowerCase())).map((i) => ({ nombre: i.nombre, email: String(i.email).toLowerCase(), perfil: { ...(i.datos || {}), nombre: i.nombre } })));
@@ -2699,7 +2699,9 @@ ${pruebaHTML()}
       const decidir = (x) => {
         const c = x.src === 'app' ? proximaDe(prox, x.perfil) : null;
         const ya = c && new Date(c.inicio) < Date.now();
-        return `<div class="note decide"><b>🆕 Lo nuevo que mandó:</b> ${(x._grupo || [x]).map((y) => '«' + esc(sinDrive(y.titulo) || tipoNombre(y.tipo)) + '»').join(', ')}.
+        // Lo que manda por la app es nuevo sí o sí; lo que aparece en su Drive se avisa igual, marcado (Flor, 23/11).
+        const via = (y) => !y.origen ? '📲 por la app' : /^drive:/.test(y.origen) ? '📁 apareció en su Drive' : /^mail:/.test(y.origen) ? '✉️ por mail' : '';
+        return `<div class="note decide"><b>🆕 Lo nuevo que mandó:</b> ${(x._grupo || [x]).map((y) => '«' + esc(sinDrive(y.titulo) || tipoNombre(y.tipo)) + '»' + (via(y) ? ' <span class="muted small">(' + via(y) + ')</span>' : '')).join(', ')}.
           ${esFlor() ? `<br>📅 ${c ? `Su próxima clase: <b>${esc(cuandoClase(c))}</b>${ya ? ' · ya empezó: si no se dio, preparale el feedback.' : '.'}` : 'No tiene clases en tu calendario en los próximos 8 días.'}` : ''}
           <div class="row" style="gap:8px;margin-top:8px"><button type="button" class="btn sm prep">✍️ Preparame el feedback</button>${c && !ya ? `<button type="button" class="btn ghost sm aclase" data-f="${diaISO(new Date(c.inicio))}" data-cuando="${esc(cuandoClase(c))}">📌 Lo vemos en la clase</button>` : ''}</div></div>`;
       };
@@ -2744,7 +2746,7 @@ ${pruebaHTML()}
           ${b.paraClase.map((x) => `<div class="editrow" data-pc="${x.id}"><span>${esc(x.nombre)} · ${esc(sinDrive(x.titulo) || tipoNombre(x.tipo))}<br><span class="muted small">Lo mandó el ${fecha(x.creado, { day: 'numeric', month: 'long' })} · para la clase del ${fecha(x.en_clase, { weekday: 'long', day: 'numeric', month: 'numeric' })}</span></span><button type="button" class="btn ghost sm pc-volver">Volver a la bandeja</button></div>`).join('')}</details>`;
       if (tab === 'pedidos' && b.viejos && b.viejos.length) cuerpo += `<details class="card viejos"><summary><b>${b.viejos.length} ${b.viejos.length === 1 ? 'pedido viejo' : 'pedidos viejos'}</b> <span class="muted small">· de antes de la semana pasada: no se les manda feedback. Borralos.</span></summary>
           ${b.viejos.map((x) => filaBorrar(x, `Lo mandó el ${fecha(x.creado, { day: 'numeric', month: 'long' })}`)).join('')}</details>`;
-      if (tab === 'pedidos' && b.filtrados && b.filtrados.length) cuerpo += `<details class="card viejos"><summary><b>🧹 ${b.filtrados.length === 1 ? '1 archivo filtrado' : b.filtrados.length + ' archivos filtrados'}</b> <span class="muted small">· la app los reconoció como repetidos, viejos o material que ya tenías: no cuentan como tareas nuevas y ella no los ve. Si alguno sí es nuevo, devolvelo a la bandeja.</span></summary>
+      if (tab === 'pedidos' && b.filtrados && b.filtrados.length) cuerpo += `<details class="card viejos"><summary class="small muted">🧹 No son entregas: ${b.filtrados.length === 1 ? '1 archivo viejo o repetido' : b.filtrados.length + ' archivos viejos o repetidos'} que aparecieron en sus carpetas de Drive (por ejemplo, cuando ordenan el Drive). No hace falta hacer nada; ábrelo solo si querés chequear.</summary>
           ${b.filtrados.map((x) => `<div class="editrow" data-filt="${x.id}"><span>${esc(x.nombre)} · ${esc(sinDrive(x.titulo) || tipoNombre(x.tipo))}${url(x.link) ? ` <a class="small" href="${esc(x.link)}" target="_blank" rel="noopener">Abrir</a>` : ''}<br><span class="muted small">Subido el ${fecha(x.creado, { day: 'numeric', month: 'long' })} · ${esc(x.filtrado || 'filtrado')}</span></span><button type="button" class="btn ghost sm f-volver">Es nuevo: a la bandeja</button></div>`).join('')}</details>`;
       if (tab === 'weeklies') {
         cuerpo = b.sinResp.length ? porSemana(b.sinResp, (x) => x.semana).map((g) => grupo(nombreSemana(g.s), `<span class="pill warn">${g.items.length} sin responder</span>`, g.items.map((x) => `<div class="fbitem" ${x.src === 'app' ? `data-wid="${x.id}" data-aid="${x.aid}"` : `data-wimp="${esc(x.email)}"`} data-sem="${esc(x.semana)}" data-mail="${esc(String(x.email || '').toLowerCase())}">
@@ -3018,9 +3020,10 @@ ${cuerpo}`;
   async function proximasClases() {
     if (!esFlor() || !DB.clasesProximas) return [];
     if (st._prox && Date.now() - st._prox.t < 10 * 60e3) return st._prox.clases;
-    const c = await DB.clasesProximas().catch(() => null);
-    if (c) st._prox = { t: Date.now(), clases: c };
-    return c || [];
+    // El Calendar a veces tarda: espero hasta 6 s para no trabar la Bandeja; si llega después, queda para la próxima vista.
+    const p = DB.clasesProximas().then((c) => { if (c) st._prox = { t: Date.now(), clases: c }; return c; }).catch(() => null);
+    const c = await Promise.race([p, new Promise((r) => setTimeout(() => r(undefined), 6000))]);
+    return c || (st._prox ? st._prox.clases : []);
   }
   // La próxima clase de una alumna: por su dirección invitada o por su nombre/apodo en el título. Cuenta la que está en curso.
   function proximaDe(clases, p) {
