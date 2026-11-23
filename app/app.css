@@ -524,3 +524,6 @@ main{overflow-wrap:break-word}
 .hist li{padding:6px 0;border-bottom:1px dashed var(--line,#e6dfd3)}
 .hist .pill{margin-left:6px;font-size:12px;text-decoration:none}
 .hist details{margin-top:4px}
+/* Nota rapida y tablero de alumnas (23/11) */
+.nrap{margin:8px 0}.nrap .nr-t{flex:1;min-height:44px}.nrap .nr-lista{margin:4px 0 6px}
+.tablero td,.tablero th{vertical-align:top;text-align:left}.tablero td{padding:8px 6px}

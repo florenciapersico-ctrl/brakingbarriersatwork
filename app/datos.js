@@ -169,6 +169,16 @@
       async miDia(desde) { return (ok(await sb.from('mi_dia').select('fecha, datos').eq('alumna_id', uid).gte('fecha', desde).order('fecha')) || []); },
       async guardarMiDia(fecha, datos) { ok(await sb.from('mi_dia').upsert({ alumna_id: uid, fecha, datos, actualizado: new Date().toISOString() })); },
       async clasesHoy() { const r = await llamar({ modo: 'clases_hoy' }); const j = await r.json().catch(() => ({})); this.errClases = j.ok ? '' : String(j.error || (r.ok ? '' : 'error ' + r.status)); return j.ok ? j.clases || [] : null; },
+      async todasFichas() { try { return ok(await sb.from('fichas').select('alumna_id,texto')) || []; } catch (e) { return []; } },
+      async todasTareas() { try { return ok(await sb.from('tareas').select('alumna_id,texto,hecha')) || []; } catch (e) { return []; } },
+      // Nota rápida de Flor sobre una alumna (23/11): se suma con fecha a «Lo que sabes de ella», que lee el borrador de feedback.
+      async notaRapida(a, texto) {
+        const { data } = await sb.from('fichas').select('texto').eq('alumna_id', a).maybeSingle();
+        const d = new Date(), f = String(d.getDate()).padStart(2, '0') + '/' + String(d.getMonth() + 1).padStart(2, '0');
+        const nuevo = (((data && data.texto) || '').trim() + '\n- (' + f + ') ' + texto.trim()).trim();
+        ok(await sb.from('fichas').upsert({ alumna_id: a, texto: nuevo, actualizado: d.toISOString() }));
+        return nuevo;
+      },
       async clasesProximas() { const r = ok(await sb.rpc('clases_proximas')); return r && r.ok ? r.clases || [] : null; },
       async borradoresGmail() { try { const r = await llamar({ modo: 'borradores_gmail' }); const j = await r.json(); return j.borradores || []; } catch (e) { return []; } },
       async borradorMail(q) { const r = await llamar({ modo: 'borrador_mail', ...q }); const j = await r.json().catch(() => ({})); if (!r.ok || !j.ok) throw new Error(j.error || 'No se pudo armar el borrador en Gmail.'); return j; },

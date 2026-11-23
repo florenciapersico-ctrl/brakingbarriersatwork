@@ -2694,7 +2694,7 @@ ${pruebaHTML()}
           ${viejo && !hoyK ? '<br><b>⚠️ Es viejo:</b> probablemente ya lo trabajaron. Si es así, borralo sin mandar nada (abajo, «Borrar pedido»).' : ''}</div>`;
       };
       // Qué hago con esto (Flor, 23/11): esto es lo nuevo, cuándo es su próxima clase, y elegís: preparar el feedback o verlo en clase.
-      const prox = tab === 'pedidos' && esFlor() ? await proximasClases() : [];
+      const [prox, fichasB] = tab === 'pedidos' && esFlor() ? await Promise.all([proximasClases(), DB.todasFichas ? DB.todasFichas() : []]) : [[], []];
       const sinDrive = (t) => String(t || '').replace(/^Desde Drive:\s*/i, '');
       const decidir = (x) => {
         const c = x.src === 'app' ? proximaDe(prox, x.perfil) : null;
@@ -2721,6 +2721,7 @@ ${pruebaHTML()}
         ${(() => { const mb = (x._grupo || [x]).map((y) => y.mail_borrador).filter(Boolean).sort().pop(); return mb ? `<p class="note small gm">Ya armaste el borrador en tu Gmail (${fecha(mb, { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}). Cuando lo mandes, esto se marca respondido solo.</p>` : ''; })()}
         ${x._grupo && x._grupo.length > 1 ? entregas(x) : `${x.texto ? `<pre>${esc(x.texto)}</pre>` : ''}${adjunto(x)}${url(x.link) ? ` <a class="small" href="${esc(x.link)}" target="_blank" rel="noopener">Abrir el link que mandó</a>` : ''}`}
         ${decidir(x)}
+        ${notaBox(x.alumna_id, (fichasB.find((f) => f.alumna_id === x.alumna_id) || {}).texto)}
         ${esFlor() || DB.demo ? contexto(x) : ''}
         <div class="resp-zona" hidden>
         <p class="aviso-audio note small" hidden></p>
@@ -3042,6 +3043,29 @@ ${cuerpo}`;
   const hojaDe = (c) => { const m = /(https:\/\/docs\.google\.com\/document\/d\/[\w-]+[^\s"<]*)/.exec(c.descripcion || ''); const a = (c.adjuntos || []).find((x) => !/Recording|Notes by Gemini|Notas de Gemini/i.test(x.titulo || '')); return m ? m[1] : a ? a.url : ''; };
   // La fila de hoy_flor de su clase (para el OK): por mail invitado o, si no, por la hora de la clase.
   const filaHoyDe = (mail, clase) => { const L = (st._hoyA || []).filter((x) => x.tipo === 'clase'); return L.find((x) => (x.invitadas || []).map((m) => String(m).toLowerCase()).includes(mail)) || (clase && clase.inicio ? L.find((x) => x.inicio && Math.abs(new Date(x.inicio) - new Date(clase.inicio)) < 6e4) : null); };
+  // Nota rápida sobre una alumna (Flor, 23/11: "un espacio para poner lo que vengo hablando con ella").
+  // Se guarda con fecha en «Lo que sabes de ella» y el borrador de feedback la usa.
+  const notasDe = (txt) => String(txt || '').split('\n').filter((l) => /^- \(\d{2}\/\d{2}\)/.test(l.trim())).slice(-5).reverse();
+  function notaBox(aid, txt) {
+    if (!esFlor() || !aid || !DB.notaRapida) return '';
+    const ns = notasDe(txt);
+    return `<div class="nrap" data-nr="${esc(aid)}"><p class="hab-sec">📝 Lo que hablaste con ella · entra en el próximo feedback</p>
+      ${ns.length ? `<ul class="neg small nr-lista">${ns.map((l) => `<li>${esc(l.replace(/^- /, ''))}</li>`).join('')}</ul>` : ''}
+      <div class="row" style="gap:6px;align-items:flex-start"><textarea class="nr-t" rows="2" placeholder="Ej.: le dije que la grabación de 2 minutos es opcional; si no llega, la hacemos en clase el viernes."></textarea><button type="button" class="btn ghost sm nr-save">Guardar nota</button></div></div>`;
+  }
+  document.addEventListener('click', async (e) => {
+    const bt = e.target.closest && e.target.closest('.nr-save'); if (!bt) return;
+    const box = bt.closest('[data-nr]'), t = $('.nr-t', box), txt = t.value.trim(); if (!txt) return toast('Escribí la nota primero.', true);
+    bt.disabled = true;
+    try {
+      const nuevo = await DB.notaRapida(box.dataset.nr, txt); t.value = '';
+      let ul = $('.nr-lista', box); if (!ul) { box.querySelector('.hab-sec').insertAdjacentHTML('afterend', '<ul class="neg small nr-lista"></ul>'); ul = $('.nr-lista', box); }
+      ul.innerHTML = notasDe(nuevo).map((l) => `<li>${esc(l.replace(/^- /, ''))}</li>`).join('');
+      const fi = $('#f-ficha'); if (fi) fi.value = nuevo;
+      toast('Nota guardada');
+    } catch (er) { toast('No se guardó. Probá de nuevo.', true); }
+    bt.disabled = false;
+  });
   // Historial de una alumna (Flor, 23/11: «qué me mandó, qué le respondí y qué quedó pendiente»): las últimas 6 semanas.
   function historialHTML(a, b, resus) {
     const dir = String(a.email || '').toLowerCase(), desde = Date.now() - 42 * 864e5;
@@ -3103,6 +3127,7 @@ ${cuerpo}`;
     ${fb ? `<li><b>Tu último feedback</b> <span class="muted small">(${esc(fb.de)} · ${fecha(fb.f, { day: 'numeric', month: 'short' })})</span>: ${esc(corto(fb.t.replace(/^Hola[^\n]*\n/, ''), 200))}</li>` : ''}
   </ul>
   ${notasHTML(mail, clase, notas)}
+  ${enFicha && a.id ? notaBox(a.id, await DB.ficha(a.id).catch(() => '')) : ''}
   ${a.id && !enFicha ? `<div class="row"><a class="small" href="#alumnas/${a.id}">Abrir su ficha</a></div>` : ''}
 </section>${enFicha ? historialHTML(a, b, resus) : ''}`;
   }
@@ -3161,11 +3186,44 @@ ${cuerpo}`;
         return pal.some((w) => n.startsWith(w) && activasN.filter((y) => pila(y).startsWith(w)).length === 1);
       };
       const claseDe = (x) => (ch || []).find((c) => (c.invitadas || []).includes(String(x.email || '').toLowerCase())) || (ch || []).find((c) => nombraA(c, x));
+      // Tablero «Cómo está cada una» (Flor, 23/11: "necesito entender dónde está cada una, su última tarea, qué feedback
+      // le di, si está de vacaciones y cuándo retoma"). Arriba, las que esperan algo de vos.
+      let tablero = '';
+      if (!a && esFlor() && bh) {
+        const [fichas, tareasT, prox] = await Promise.all([DB.todasFichas ? DB.todasFichas() : [], DB.todasTareas ? DB.todasTareas() : [], proximasClases().catch(() => [])]);
+        const hoyI = diaISO(new Date()), dias = (f) => Math.floor((Date.now() - new Date(f)) / 864e5);
+        const hace = (f) => { const d = dias(f); return d <= 0 ? 'hoy' : d === 1 ? 'ayer' : 'hace ' + d + ' días'; };
+        const filas = al.filter((x) => x.rol !== 'admin' && x.activa !== false).map((x) => {
+          const dir = String(x.email || '').toLowerCase(), deElla = (y) => String((y.perfil || {}).email || y.email || '').toLowerCase() === dir;
+          const espera = bh.pend.filter(deElla).length + bh.sinResp.filter((w) => String(w.email || '').toLowerCase() === dir).length;
+          const resp = [...bh.tResp.filter(deElla).map((y) => ({ f: y.respondido_en || y.creado, q: 'feedback' })),
+            ...bh.W.filter((w) => String(w.email || '').toLowerCase() === dir && w.respuesta_flor).map((w) => ({ f: w.respondido_en || w.semana, q: 'weekly' })),
+            ...(bh.res || []).filter((r) => r.alumna_id === x.id).map((r) => ({ f: r.creado || r.fecha, q: 'resumen de clase' }))].sort((p, q) => (String(p.f) < String(q.f) ? 1 : -1))[0];
+          const ult = bh.W.filter((w) => String(w.email || '').toLowerCase() === dir && w.enviado_en).sort((p, q) => (p.semana < q.semana ? 1 : -1))[0];
+          const tp = tareasT.filter((t) => t.alumna_id === x.id && !t.hecha);
+          const nota = notasDe((fichas.find((f) => f.alumna_id === x.id) || {}).texto)[0];
+          const pausa = x.sin_clases_hasta && x.sin_clases_hasta >= hoyI ? x.sin_clases_hasta : null;
+          return { x, espera, resp, ult, tp, nota, pausa, c: proximaDe(prox, x) };
+        }).sort((p, q) => (q.espera - p.espera) || ((p.c ? p.c.inicio : 'z') < (q.c ? q.c.inicio : 'z') ? -1 : 1));
+        const nEspera = filas.filter((r) => r.espera).length;
+        tablero = `<section class="card"><div class="row between"><h2>Cómo está cada una</h2><span class="pill ${nEspera ? 'warn' : 'ok'}">${nEspera ? nEspera + (nEspera === 1 ? ' espera algo de vos' : ' esperan algo de vos') : '✓ ninguna espera nada de vos'}</span></div>
+          <p class="muted small">Arriba, las que esperan algo de vos; después, por su próxima clase. Tocá su nombre para ver todo lo que te mandó y lo que le respondiste.</p>
+          <div class="tbl"><table class="tablero"><thead><tr><th>Alumna</th><th>Próxima clase</th><th>Espera de vos</th><th>Le toca a ella</th><th>Lo último que le mandaste</th><th>Último weekly</th></tr></thead><tbody>
+          ${filas.map((r) => `<tr>
+            <td><a href="#alumnas/${r.x.id}"><b>${esc(apodoDe(r.x) || r.x.nombre || r.x.email)}</b></a> <span class="muted small">${esc(fmt(r.x))}</span>${r.pausa ? `<br><span class="pill">🌴 retoma el ${fecha(r.pausa, { day: 'numeric', month: 'numeric' })}</span>` : ''}${r.nota ? `<br><span class="small muted">📝 ${esc(r.nota.replace(/^- /, '').slice(0, 90))}</span>` : ''}</td>
+            <td class="small">${r.c ? esc(cuandoClase(r.c)) : r.pausa ? '<span class="muted">en pausa</span>' : '<span class="muted">nada en 8 días</span>'}</td>
+            <td class="small">${r.espera ? `<a class="pill warn" href="#bandeja/pedidos">⏳ ${r.espera}</a>` : '<span class="pill ok">✓ al día</span>'}</td>
+            <td class="small">${r.tp.length ? `${r.tp.length} ${r.tp.length === 1 ? 'tarea' : 'tareas'}<br><span class="muted">${esc(String(r.tp[0].texto).replace(/\s+/g, ' ').slice(0, 70))}${String(r.tp[0].texto).length > 70 ? '…' : ''}</span>` : '<span class="muted">nada pendiente</span>'}</td>
+            <td class="small">${r.resp ? `${esc(r.resp.q)}<br><span class="muted">${hace(r.resp.f)}</span>` : '<span class="muted">—</span>'}</td>
+            <td class="small">${r.ult ? `semana del ${fecha(r.ult.semana, { day: 'numeric', month: 'numeric' })}${dias(r.ult.semana) > 13 ? '<br><span class="muted">⚠️ hace más de 2 semanas</span>' : ''}` : '<span class="muted">nunca</span>'}</td></tr>`).join('')}
+          </tbody></table></div></section>`;
+      }
       if (!a && esFlor()) {
-        const hoyCon = al.filter((x) => x.rol !== 'admin' && claseDe(x)).sort((x, y) => (claseDe(x).inicio < claseDe(y).inicio ? -1 : 1));
+        const hoyCon =al.filter((x) => x.rol !== 'admin' && claseDe(x)).sort((x, y) => (claseDe(x).inicio < claseDe(y).inicio ? -1 : 1));
         det = `<section class="card"><div class="row between"><h2>Hoy tienen clase</h2><span class="muted small">${fecha(diaISO(new Date()), { weekday: 'long', day: 'numeric', month: 'long' })}</span></div>
           ${esDomingo() ? '<p class="muted">Hoy es domingo, tu día de descanso 🌿 No hay clases.</p>' : ch == null ? `<p class="note small">Hoy no pude ver tu calendario. No es urgente: avisale a Claude y lo resolvemos.${DB.errClases ? `<br><span class="muted">Para Claude: ${esc(DB.errClases)}</span>` : ''}</p>` : hoyCon.length ? '' : '<p class="muted">Hoy no tenés clases 1:1 con alumnas.</p>'}</section>`
           + (bh ? (await Promise.all(hoyCon.map((x) => resumenAlumna(x, bh, claseDe(x))))).join('') : '');
+        det = tablero + det;
       }
       if (!a && !esFlor()) det = '<section class="card empty-state"><h3>Elige una alumna</h3><p class="muted small">Desde acá le cargas su foco de la semana, sus tareas, las clases que tiene que ver, su progreso y sus patrones de error. Todo lo ve en su app y lo usa Flor AI.</p></section>';
       if (a && esFlor()) await proximasClases().catch(() => []);
@@ -3190,6 +3248,7 @@ ${cuerpo}`;
   <div class="field"><label for="f-foco_texto">Por qué ese foco</label><textarea id="f-foco_texto" rows="2">${v('foco_texto')}</textarea></div>
   <div class="field"><label for="f-horario_clase">Su clase en vivo</label><small>Día y horario que ella ve en su inicio. Ej.: Viernes 08:00 (Argentina)</small><input id="f-horario_clase" type="text" value="${v('horario_clase')}"></div>
   <div class="field"><label for="f-link_clase">Link de su clase</label><input id="f-link_clase" type="url" value="${v('link_clase')}" placeholder="https://meet.google.com/..."></div>
+  ${'sin_clases_hasta' in a ? `<div class="field"><label for="f-sin_clases_hasta">De vacaciones o en pausa hasta</label><small>Si no tiene clases por un tiempo (vacaciones, viaje, pausa), poné cuándo retoma. Vacío = cursando normal.</small><input id="f-sin_clases_hasta" type="date" value="${v('sin_clases_hasta')}"></div>` : ''}
   <div class="field"><label for="f-fecha_inicio">Fecha de inicio del programa</label><small>Con esto la app calcula en qué semana de los 20 está y qué le toca.</small><input id="f-fecha_inicio" type="date" value="${v('fecha_inicio')}"></div>
   <p class="small muted">Camino: ${(a.camino_hecho || []).length} tareas tildadas${semanaDe(a) ? ' · semana ' + semanaDe(a) + ' de 20' : ''} · Compromisos: ${(a.compromisos || []).length} de ${P.compromisos.length}</p>
   <div class="field"><label for="f-modulo_actual">Dónde está</label><select id="f-modulo_actual">${P.modulos.map((m) => `<option value="${m.n}" ${+a.modulo_actual === m.n ? 'selected' : ''}>M${m.n} · ${esc(m.nombre)}</option>`).join('')}</select></div>
@@ -3318,6 +3377,7 @@ ${cuerpo}`;
           drive_url: g('drive_url'), activa: $('#f-activa').checked, fecha_inicio: g('fecha_inicio') || null,
           horario_clase: g('horario_clase'), link_clase: g('link_clase')
         };
+        if ($('#f-sin_clases_hasta')) c.sin_clases_hasta = g('sin_clases_hasta') || null;
         if ($('#f-apodo')) c.apodo = g('apodo') || null;
         await intentar(() => Promise.all([DB.actualizarPerfil(aid, c), DB.guardarFicha(aid, $('#f-ficha').value)]), 'Guardado');
         if (aid === st.perfil.id) Object.assign(st.perfil, c);
