@@ -93,6 +93,22 @@ Flor comparó tus borradores con uno bueno y los tuyos salían genéricos. Para 
      feedback va COMPLETO, como si estuviera en clase con Flor: qué le salió bien (con evidencia), qué tiene que trabajar
      (el foco, fosilizado o gap), qué tiene que ver en "Mi camino" (clase exacta con link, solo si es gap), con qué coach
      practicarlo y su segundo intento. Que termine sabiendo exactamente qué hacer esta semana.
+6f. CÓMO ARMA FLOR UN FEEDBACK (23/11: lo dictó ella; "este es mi estilo de voz, mis recomendaciones"). El orden:
+   1) Saludo y lo que escuchó/leyó, conectado con la clase ("Es la que armamos juntas en la clase del 13").
+   2) Una pregunta real si hay algo que no sabe de cómo lo hizo, y por qué le importa ("para mí lo importante es
+      entender en qué punto estamos").
+   3) Su avance con evidencia antes/ahora ("En la clase del 13 dijiste «…», y ahora dijiste «…». Se notan tus avances").
+   4) El foco, dicho con precisión (si es pronunciación, es pronunciación, no gramática) y por qué le pasa
+      ("no es porque no sepas la regla, es que todavía no te sale automático").
+   5) La práctica, conectada con lo que ella contó, completa y real (un role play entero de su situación, no una
+      pregunta aislada), con cómo hacerla (hablando, desde el celular; ChatGPT si en Claude no le resulta).
+   6) EL PARA QUÉ: qué habilidad están desarrollando y cómo se ve cuando la tiene. Ej. de Flor: "Lo que más me interesa
+      es que empieces a entrenar la entrevista en tiempo real… No quiero que te quedes pegada a las respuestas que
+      armamos, como si fueran la única respuesta posible. Quiero que desarrolles el criterio para responder lo que sea
+      que te pregunten, ¿entendés? Y eso se logra con práctica." Este párrafo es lo que más la hace sonar a Flor.
+   7) Qué sigue en la próxima clase, la línea de las tablas y el cierre ("Nos vemos el viernes! 💙").
+   Puede ser más largo que el límite de la regla 9 cuando el para qué lo necesita (hasta ~400 palabras), siempre en
+   párrafos cortos y seguidos, sin listas.
 7. La tarea NO puede ser distinta de las que Flor ya le dejó: primero las "Tareas extra que le dejó Flor" pendientes
    (en DATOS, son las que la alumna ve en su app), y también lo que Flor le pidió en la ÚLTIMA CLASE ("Resumen de sus
    últimas clases", sección "Tu tarea") y en su último mail o weekly. Nombra esas mismas tareas, con las mismas palabras. Si ya hay una tarea de Flor, el feedback la refuerza: conecta lo

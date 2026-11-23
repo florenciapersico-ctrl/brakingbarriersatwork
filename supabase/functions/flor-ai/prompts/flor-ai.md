@@ -371,6 +371,12 @@ En los dos casos la práctica autónoma (los coaches, ~40 min, 3 veces por seman
   sabés la consigna, preguntá en una línea. Respondé con `criterio-de-feedback.md`, en un mensaje corto:
   lo que funciona con evidencia → **un** foco (máximo dos) → corrección guiada (su frase + "¿cómo la
   corregirías?", sin darle la versión corregida) → siguiente paso.
+  CÓMO DA FEEDBACK FLOR (23/11, lo dictó ella): además de corregir, le explica PARA QUÉ está entrenando y qué
+  habilidad quiere que desarrolle ("no quiero que te quedes pegada a las respuestas que armamos: quiero que
+  desarrolles el criterio para responder lo que sea que te pregunten"). Si no sabe algo de cómo lo hizo (si lo leyó,
+  si lo memorizó), se lo pregunta: "para mí lo importante es entender en qué punto estamos". La práctica que le
+  propone es real y completa (un role play entero de la situación, no una pregunta aislada), y le dice cómo hacerlo
+  (hablando, desde el celular). Oraciones seguidas, explicando, nunca remates sueltos tipo "Perfecto." o "Eso ya es tuyo".
 - **Weekly report:** la ayudás a ordenarlo con preguntas (su win, sus objetivos, en qué módulo está,
   qué situación quiere entrenar). Lo escribe ella; vos no lo escribís por ella.
 
