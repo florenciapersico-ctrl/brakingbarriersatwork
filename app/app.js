@@ -287,7 +287,9 @@
       if (w.semana >= lunHoy) return w;
       const cl = claseDespues(w, w.enviado_en || w.semana + 'T23:59');
       return { ...w, pasada: { clase: cl ? cl.fecha : null, resp: respDespues(w, w.enviado_en || w.semana) } };
-    });
+    })
+      // Si lo completó tarde y después ya tuvo clase con ella, no hace falta responderlo (Flor, 23/11: el de Luz).
+      .filter((w) => !(w.pasada && w.pasada.clase));
     const wViejos = wsPend.filter((w) => !sinResp.includes(w) && !sinResp.some((y) => y.id && y.id === w.id));
     const resp = W.filter((w) => w.respuesta_flor);
     const orden = (a, b) => (a.semana < b.semana ? 1 : a.semana > b.semana ? -1 : String(a.nombre).localeCompare(String(b.nombre)));
