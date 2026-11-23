@@ -295,17 +295,20 @@
     // Tareas: lo mismo. Y si después de subirla ya tuvo clase y le mandaste el resumen, ya la vieron en clase:
     // no se manda otro feedback (Flor, 14/11). Va a «Ya lo vieron en clase», para borrarla.
     const pendT = T.filter((x) => x.estado === 'pendiente').sort((a, b) => (a.creado < b.creado ? 1 : -1));
-    const enClase = [], viejos = [], pend = [];
+    const enClase = [], viejos = [], pend = [], paraClase = [];
     pendT.forEach((x) => {
       const cl = claseDespues(x, x.creado);
       if (cl) enClase.push({ ...x, clase: cl.fecha });
+      else if (x.en_clase) paraClase.push(x);
       else if (lunesDe(x.creado) < desde) viejos.push(x);
       else pend.push(x);
     });
+    // Filtrados (Flor, 23/11): repetidos, grabaciones viejas o material que ya tenía. No son entregas nuevas; quedan a la vista por si acaso.
+    const filtrados = T.filter((x) => x.estado === 'filtrado' && Date.now() - new Date(x.creado) < 21 * 864e5).sort((a, b) => (a.creado < b.creado ? 1 : -1));
     const tResp = T.filter((x) => x.estado === 'respondido').sort((a, b) => ((a.respondido_en || a.creado) < (b.respondido_en || b.creado) ? 1 : -1));
     const activas = al.filter((x) => x.rol !== 'admin' && x.activa !== false).map((x) => ({ nombre: x.nombre || x.email, email: (x.email || '').toLowerCase(), perfil: x }))
       .concat(imp.filter((i) => !mails.has(String(i.email).toLowerCase())).map((i) => ({ nombre: i.nombre, email: String(i.email).toLowerCase(), perfil: { ...(i.datos || {}), nombre: i.nombre } })));
-    return { sinResp, resp, pend, viejos, enClase, wViejos, tResp, W, T, activas, imp, al };
+    return { sinResp, resp, pend, viejos, enClase, paraClase, filtrados, wViejos, tResp, W, T, activas, imp, al, res };
   }
   // "Esta semana", "Semana pasada", "Semana del 26 de octubre"
   function nombreSemana(lun) {
@@ -2690,6 +2693,16 @@ ${pruebaHTML()}
           ${despues.length ? `<br><b>Después:</b> tuvieron ${despues.length === 1 ? 'una clase' : despues.length + ' clases'} (la última, ${fCorta(despues[despues.length - 1])})${resp ? ` y ya le respondiste ${resp} ${resp === 1 ? 'cosa' : 'cosas'}` : ''}.` : resp ? `<br><b>Después</b> ya le respondiste ${resp} ${resp === 1 ? 'cosa' : 'cosas'}.` : ''}
           ${viejo && !hoyK ? '<br><b>⚠️ Es viejo:</b> probablemente ya lo trabajaron. Si es así, borralo sin mandar nada (abajo, «Borrar pedido»).' : ''}</div>`;
       };
+      // Qué hago con esto (Flor, 23/11): esto es lo nuevo, cuándo es su próxima clase, y elegís: preparar el feedback o verlo en clase.
+      const prox = tab === 'pedidos' && esFlor() ? await proximasClases() : [];
+      const sinDrive = (t) => String(t || '').replace(/^Desde Drive:\s*/i, '');
+      const decidir = (x) => {
+        const c = x.src === 'app' ? proximaDe(prox, x.perfil) : null;
+        const ya = c && new Date(c.inicio) < Date.now();
+        return `<div class="note decide"><b>🆕 Lo nuevo que mandó:</b> ${(x._grupo || [x]).map((y) => '«' + esc(sinDrive(y.titulo) || tipoNombre(y.tipo)) + '»').join(', ')}.
+          ${esFlor() ? `<br>📅 ${c ? `Su próxima clase: <b>${esc(cuandoClase(c))}</b>${ya ? ' · ya empezó: si no se dio, preparale el feedback.' : '.'}` : 'No tiene clases en tu calendario en los próximos 8 días.'}` : ''}
+          <div class="row" style="gap:8px;margin-top:8px"><button type="button" class="btn sm prep">✍️ Preparame el feedback</button>${c && !ya ? `<button type="button" class="btn ghost sm aclase" data-f="${diaISO(new Date(c.inicio))}" data-cuando="${esc(cuandoClase(c))}">📌 Lo vemos en la clase</button>` : ''}</div></div>`;
+      };
       if (tab === 'pedidos') {
         // Varias cosas de la misma alumna en los mismos días = UNA tarjeta y UN solo feedback (Flor, 21/11).
         const pendG = [];
@@ -2705,8 +2718,9 @@ ${pruebaHTML()}
         ${x._grupo && x._grupo.length > 1 ? `<div class="row between"><b>${esc(x.nombre)} · ${x._grupo.length} cosas para un solo feedback</b><span class="muted small">${fecha(x._grupo[0].creado, { day: 'numeric', month: 'short' })}${diaISO(new Date(x._grupo[0].creado)) !== diaISO(new Date(x._grupo[x._grupo.length - 1].creado)) ? ' al ' + fecha(x._grupo[x._grupo.length - 1].creado, { day: 'numeric', month: 'short' }) : ''}</span></div>` : `<div class="row between"><b>${esc(x.nombre)} · ${esc(x.titulo || tipoNombre(x.tipo))}</b><span class="muted small">${tipoNombre(x.tipo)} · ${fecha(x.creado, { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}</span></div>`}
         ${(() => { const mb = (x._grupo || [x]).map((y) => y.mail_borrador).filter(Boolean).sort().pop(); return mb ? `<p class="note small gm">Ya armaste el borrador en tu Gmail (${fecha(mb, { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}). Cuando lo mandes, esto se marca respondido solo.</p>` : ''; })()}
         ${x._grupo && x._grupo.length > 1 ? entregas(x) : `${x.texto ? `<pre>${esc(x.texto)}</pre>` : ''}${adjunto(x)}${url(x.link) ? ` <a class="small" href="${esc(x.link)}" target="_blank" rel="noopener">Abrir el link que mandó</a>` : ''}`}
+        ${decidir(x)}
         ${esFlor() || DB.demo ? contexto(x) : ''}
-        ${(() => { const k = claseHoyDe(x); return k ? `<div class="note enclase"><b>Tiene clase hoy a las ${esc(k.hora)}: trabajalo en clase con ella.</b><br><span class="small">El material ya queda en su clase lista. Después de la clase le mandás el feedback de esto, relacionado con lo que vieron.</span><div class="row" style="gap:8px;margin-top:8px">${url(k.link) ? `<a class="btn sm" href="${esc(k.link)}" target="_blank" rel="noopener">Abrir su clase lista</a>` : ''}${url(k.meet) ? `<a class="btn ghost sm" href="${esc(k.meet)}" target="_blank" rel="noopener">Entrar a la clase</a>` : ''}</div></div><details class="despues"><summary class="small">Armar el feedback igual (mejor después de la clase)</summary>` : ''; })()}
+        <div class="resp-zona" hidden>
         <p class="aviso-audio note small" hidden></p>
         ${(x._grupo || [x]).some((y) => ['audio', 'reunion'].includes(y.tipo) || y.archivo || /drive\.google/.test(y.link || '')) ? `<div class="field"><label>¿Quién es ella en la grabación?</label><small>Si en la reunión hablan varias personas, escribe su nombre (o "la que presenta el reporte") y toca «Armar de nuevo con IA». Si lo dejas vacío, la IA la busca sola.</small><input type="text" class="quien" placeholder="${esc(String(x.nombre || '').split(' ')[0])}"></div>` : ''}
         <div class="field"><label>Tu respuesta</label><small>Lo que funcionó, tu foco para ella y qué clase ver. Las correcciones van abajo: ella las ve como ejercicio (primero las encuentra, después ve tus respuestas).</small><textarea class="r" rows="6"></textarea></div>
@@ -2714,7 +2728,7 @@ ${pruebaHTML()}
         <p class="notas small muted" hidden></p>
         <div class="row"><button class="btn send-ya" type="button">Enviar ya</button><button class="btn ghost send" type="button">Armar borrador en Gmail</button><button class="btn ghost ia" type="button">Borrador con IA</button><button class="btn ghost ver" type="button">Ver cómo lo ve ella</button><button class="btn ghost borrarp" type="button">🗑️ ${x._grupo && x._grupo.length > 1 ? `Borrar los ${x._grupo.length}` : 'Borrar'}</button></div>
         <div class="vista" hidden><span class="eyebrow">Así lo ve ella en su app</span><div class="reply"></div></div>
-        ${claseHoyDe(x) ? '</details>' : ''}
+        </div>
       </div>` : `<div class="fbitem" data-pimp="${esc(x.email)}" data-origen="${esc(x.origen || '')}" data-mail="${esc(String(x.email || '').toLowerCase())}" data-or="${esc(x.origen || '')}">
         <div class="row between"><b>${esc(x.nombre)} · ${esc(x.titulo || tipoNombre(x.tipo))}</b><span class="muted small">${tipoNombre(x.tipo)} · ${fecha(x.creado)} · todavía sin cuenta</span></div>
         ${x.texto ? `<pre>${esc(x.texto)}</pre>` : ''}${url(x.link) ? ` <a class="small" href="${esc(x.link)}" target="_blank" rel="noopener">Abrir el link</a>` : ''}
@@ -2726,8 +2740,12 @@ ${pruebaHTML()}
       const filaBorrar = (x, linea) => `<div class="editrow" data-vid="${x.src === 'app' ? x.id : ''}"><span>${esc(x.nombre)} · ${esc(x.titulo || tipoNombre(x.tipo))}<br><span class="muted small">${linea}</span></span>${x.src === 'app' ? '<button type="button" class="btn ghost sm viejo-borrar">Borrar sin mandar nada</button>' : ''}</div>`;
       if (tab === 'pedidos' && b.enClase && b.enClase.length) cuerpo += `<details class="card viejos" open><summary><b>${b.enClase.length === 1 ? '1 ya lo vieron en clase' : b.enClase.length + ' ya los vieron en clase'}</b> <span class="muted small">· después de que lo subió tuvo clase y ya le mandaste el resumen: no va otro feedback. Borralo.</span></summary>
           ${b.enClase.map((x) => filaBorrar(x, `Lo mandó el ${fecha(x.creado, { day: 'numeric', month: 'long' })} · clase y resumen del ${fecha(x.clase, { day: 'numeric', month: 'long' })}`)).join('')}</details>`;
+      if (tab === 'pedidos' && b.paraClase && b.paraClase.length) cuerpo += `<details class="card viejos" open><summary><b>📌 ${b.paraClase.length === 1 ? '1 para ver en clase' : b.paraClase.length + ' para ver en clase'}</b> <span class="muted small">· elegiste trabajarlo en la clase en vez de mandar feedback. Después de la clase y el resumen, sale de acá solo.</span></summary>
+          ${b.paraClase.map((x) => `<div class="editrow" data-pc="${x.id}"><span>${esc(x.nombre)} · ${esc(sinDrive(x.titulo) || tipoNombre(x.tipo))}<br><span class="muted small">Lo mandó el ${fecha(x.creado, { day: 'numeric', month: 'long' })} · para la clase del ${fecha(x.en_clase, { weekday: 'long', day: 'numeric', month: 'numeric' })}</span></span><button type="button" class="btn ghost sm pc-volver">Volver a la bandeja</button></div>`).join('')}</details>`;
       if (tab === 'pedidos' && b.viejos && b.viejos.length) cuerpo += `<details class="card viejos"><summary><b>${b.viejos.length} ${b.viejos.length === 1 ? 'pedido viejo' : 'pedidos viejos'}</b> <span class="muted small">· de antes de la semana pasada: no se les manda feedback. Borralos.</span></summary>
           ${b.viejos.map((x) => filaBorrar(x, `Lo mandó el ${fecha(x.creado, { day: 'numeric', month: 'long' })}`)).join('')}</details>`;
+      if (tab === 'pedidos' && b.filtrados && b.filtrados.length) cuerpo += `<details class="card viejos"><summary><b>🧹 ${b.filtrados.length === 1 ? '1 archivo filtrado' : b.filtrados.length + ' archivos filtrados'}</b> <span class="muted small">· la app los reconoció como repetidos, viejos o material que ya tenías: no cuentan como tareas nuevas y ella no los ve. Si alguno sí es nuevo, devolvelo a la bandeja.</span></summary>
+          ${b.filtrados.map((x) => `<div class="editrow" data-filt="${x.id}"><span>${esc(x.nombre)} · ${esc(sinDrive(x.titulo) || tipoNombre(x.tipo))}${url(x.link) ? ` <a class="small" href="${esc(x.link)}" target="_blank" rel="noopener">Abrir</a>` : ''}<br><span class="muted small">Subido el ${fecha(x.creado, { day: 'numeric', month: 'long' })} · ${esc(x.filtrado || 'filtrado')}</span></span><button type="button" class="btn ghost sm f-volver">Es nuevo: a la bandeja</button></div>`).join('')}</details>`;
       if (tab === 'weeklies') {
         cuerpo = b.sinResp.length ? porSemana(b.sinResp, (x) => x.semana).map((g) => grupo(nombreSemana(g.s), `<span class="pill warn">${g.items.length} sin responder</span>`, g.items.map((x) => `<div class="fbitem" ${x.src === 'app' ? `data-wid="${x.id}" data-aid="${x.aid}"` : `data-wimp="${esc(x.email)}"`} data-sem="${esc(x.semana)}" data-mail="${esc(String(x.email || '').toLowerCase())}">
         <div class="row between"><b>${esc(x.nombre)}</b><span class="muted small">${x.enviado_en ? 'Enviado ' + fecha(x.enviado_en, { weekday: 'short', day: 'numeric', month: 'short' }) : 'En su Google Doc'}${x.src === 'imp' ? ' · todavía sin cuenta' : ''}</span></div>
@@ -2771,6 +2789,8 @@ ${cuerpo}`;
     },
     async mount() {
       $$('.viejo-borrar').forEach((bt) => (bt.onclick = async () => { const row = bt.closest('[data-vid]'); await intentar(() => DB.borrarPedido(+row.dataset.vid), 'Borrado'); row.remove(); }));
+      $$('.pc-volver').forEach((bt) => (bt.onclick = async () => { await intentar(() => DB.editarPedido(+bt.closest('[data-pc]').dataset.pc, { en_clase: null }), 'De vuelta en la bandeja'); ruta(); }));
+      $$('.f-volver').forEach((bt) => (bt.onclick = async () => { await intentar(() => DB.editarPedido(+bt.closest('[data-filt]').dataset.filt, { estado: 'pendiente', filtrado: null }), 'De vuelta en la bandeja'); ruta(); }));
       $$('[data-tab]').forEach((b) => (b.onclick = () => (location.hash = 'bandeja/' + b.dataset.tab)));
       const filaCorr = (box, mal = '', bien = '', pq = '') => {
         box.insertAdjacentHTML('beforeend', `<div class="corr"><input type="text" class="mal" placeholder="Lo que dijo" value="${esc(mal)}"><input type="text" class="bien" placeholder="Cómo se dice" value="${esc(bien)}"><input type="text" class="pq" placeholder="Por qué (corto)" value="${esc(pq)}"><button type="button" class="linkbtn small quitar">Quitar</button></div>`);
@@ -2828,7 +2848,10 @@ ${cuerpo}`;
         }));
         $('.addc', it).onclick = () => filaCorr(box);
         box.onclick = (e) => { if (e.target.classList.contains('quitar')) e.target.parentElement.remove(); };
+        const zona = $('.resp-zona', it);
         it._aplicar = (r) => {
+          if (zona) zona.hidden = false;
+          const pb = $('.prep', it); if (pb) pb.textContent = '🔁 Prepararlo de nuevo';
           $('.r', it).value = r.respuesta || ''; box.innerHTML = ''; (r.correcciones || []).forEach((c) => filaCorr(box, c.mal, c.bien, c.por_que || ''));
           const av = $('.aviso-audio', it);
           if (av) { av.hidden = !r.sin_audio; av.textContent = r.sin_audio ? r.notas : ''; }
@@ -2836,14 +2859,29 @@ ${cuerpo}`;
           const vieja = $('.trans', it); if (vieja) vieja.remove();
           if (r.transcripcion) $('.notas', it).insertAdjacentHTML('afterend', `<details class="trans small"><summary>Ver la transcripción del audio</summary><pre>${esc(r.transcripcion)}</pre></details>`);
         };
-        it._generar = async () => {
-          const b = $('.ia', it); b.disabled = true; b.textContent = 'Armando borrador…';
+        // sinClase: Flor eligió mandar el feedback ahora, así que va completo aunque el calendario diga que hoy tiene clase.
+        it._generar = async (sinClase) => {
+          const b = $('.ia', it), pb = $('.prep', it); b.disabled = true; b.textContent = 'Armando borrador…';
+          if (pb) { pb.disabled = true; pb.textContent = 'Escuchando y preparando… (puede tardar un minuto)'; }
           let ok = true;
-          try { it._aplicar(await DB.borrador({ pedido_id: +it.dataset.pid || it.dataset.pid, grupo: grupo().length > 1 ? grupo() : undefined, quien: $('.quien', it) ? $('.quien', it).value.trim() : '' })); } catch (er) { ok = false; toast(er.message, true); }
+          try { it._aplicar(await DB.borrador({ pedido_id: +it.dataset.pid || it.dataset.pid, grupo: grupo().length > 1 ? grupo() : undefined, quien: $('.quien', it) ? $('.quien', it).value.trim() : '', sin_clase: sinClase === true || undefined })); } catch (er) { ok = false; toast(er.message, true); }
           b.disabled = false; b.textContent = ok ? 'Armar de nuevo con IA' : 'Borrador con IA';
+          if (pb) { pb.disabled = false; pb.textContent = ok ? '🔁 Prepararlo de nuevo' : '✍️ Preparame el feedback'; }
           return ok;
         };
-        $('.ia', it).onclick = it._generar;
+        $('.ia', it).onclick = () => it._generar(true);
+        if ($('.prep', it)) $('.prep', it).onclick = async () => {
+          const yaHay = zona && !zona.hidden && $('.r', it).value.trim();
+          if (yaHay && !confirm('Ya está preparado abajo. ¿Lo armo de nuevo? (Se pierde lo que cambiaste.)')) { $('.r', it).scrollIntoView({ behavior: 'smooth', block: 'center' }); return; }
+          if (zona) zona.hidden = false;
+          if (await it._generar(true)) $('.r', it).scrollIntoView({ behavior: 'smooth', block: 'center' });
+        };
+        // Lo vemos en la clase: sale de la bandeja y queda en «Para ver en clase» hasta que mandes el resumen de esa clase.
+        if ($('.aclase', it)) $('.aclase', it).onclick = async (e) => {
+          const bt = e.currentTarget;
+          await intentar(async () => { for (const id of grupo()) await DB.editarPedido(id, { en_clase: bt.dataset.f }); }, 'Queda para la clase de ' + bt.dataset.cuando);
+          ruta();
+        };
         $('.ver', it).onclick = () => {
           const v = $('.vista', it); v.hidden = !v.hidden; if (v.hidden) return;
           $('.reply', v).innerHTML = devolucion($('.r', it).value, leerCorr(it), '') || '<p class="muted small">Todavía no escribiste nada.</p>';
@@ -2936,7 +2974,8 @@ ${cuerpo}`;
         });
       })();
 
-      // Borradores: los que ya armó la IA se cargan solos; los que faltan se arman ahora, de a uno.
+      // Borradores: los que ya armó la IA se cargan solos. Los pedidos que no tienen, esperan a que Flor elija
+      // «Preparame el feedback» o «Lo vemos en la clase» (Flor, 23/11). Los weeklies se siguen armando solos.
       const items = $$('[data-pid],[data-wid]');
       if (items.length) {
         const bs = await DB.borradores().catch(() => []);
@@ -2951,7 +2990,7 @@ ${cuerpo}`;
             if (deTodo) m[k] = deTodo; else delete m[k];
           }
           if (m[k]) { it._aplicar(m[k]); const b = $('.ia,.iaw', it); if (b) b.textContent = 'Armar de nuevo con IA'; }
-          else faltan.push(it);
+          else if (it.dataset.wid) faltan.push(it);
         });
         (async () => { for (const it of faltan) { if (!document.body.contains(it) || $('.r', it).value.trim()) continue; if (!(await it._generar())) break; } })();
       }
@@ -2975,10 +3014,61 @@ ${cuerpo}`;
     return c;
   }
   const hora = (iso) => (iso ? new Date(iso).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit', hour12: false }) : '');
+  // Próximas clases de los próximos 8 días, desde el Calendar de Flor (Flor, 23/11: «¿tiene clase o no?»).
+  async function proximasClases() {
+    if (!esFlor() || !DB.clasesProximas) return [];
+    if (st._prox && Date.now() - st._prox.t < 10 * 60e3) return st._prox.clases;
+    const c = await DB.clasesProximas().catch(() => null);
+    if (c) st._prox = { t: Date.now(), clases: c };
+    return c || [];
+  }
+  // La próxima clase de una alumna: por su dirección invitada o por su nombre/apodo en el título. Cuenta la que está en curso.
+  function proximaDe(clases, p) {
+    const n = (t) => String(t || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+    const dir = String((p || {}).email || '').toLowerCase(), noms = [apodoDe(p), String((p || {}).nombre || '').split(' ')[0]].map(n).filter((x) => x.length >= 3);
+    // Las 1:1 van al lab como invitadas: para ellas cuenta su clase 1:1, no el lab.
+    const esLab = (c) => /\blab\b/i.test(c.titulo || '');
+    return (clases || []).filter((c) => c.inicio && new Date(c.inicio).getTime() + 60 * 60e3 > Date.now() && (!esLab(c) || (p || {}).formato !== '1:1'))
+      .filter((c) => (c.invitadas || []).map((m) => String(m).toLowerCase()).includes(dir) || (!esLab(c) && n(c.titulo).split(/[^a-zñ]+/).some((w) => w.length >= 3 && noms.some((x) => x.startsWith(w)))))
+      .sort((a, b) => (a.inicio < b.inicio ? -1 : 1))[0] || null;
+  }
+  const cuandoClase = (c) => {
+    const hoyI = diaISO(new Date()), dI = diaISO(new Date(c.inicio)), man = diaISO(new Date(Date.now() + 864e5));
+    return (dI === hoyI ? 'hoy' : dI === man ? 'mañana' : fecha(c.inicio, { weekday: 'long', day: 'numeric', month: 'numeric' })) + ' a las ' + hora(c.inicio);
+  };
   const hojaDe = (c) => { const m = /(https:\/\/docs\.google\.com\/document\/d\/[\w-]+[^\s"<]*)/.exec(c.descripcion || ''); const a = (c.adjuntos || []).find((x) => !/Recording|Notes by Gemini|Notas de Gemini/i.test(x.titulo || '')); return m ? m[1] : a ? a.url : ''; };
   // La fila de hoy_flor de su clase (para el OK): por mail invitado o, si no, por la hora de la clase.
   const filaHoyDe = (mail, clase) => { const L = (st._hoyA || []).filter((x) => x.tipo === 'clase'); return L.find((x) => (x.invitadas || []).map((m) => String(m).toLowerCase()).includes(mail)) || (clase && clase.inicio ? L.find((x) => x.inicio && Math.abs(new Date(x.inicio) - new Date(clase.inicio)) < 6e4) : null); };
-  async function resumenAlumna(a, b, clase) {
+  // Historial de una alumna (Flor, 23/11: «qué me mandó, qué le respondí y qué quedó pendiente»): las últimas 6 semanas.
+  function historialHTML(a, b, resus) {
+    const dir = String(a.email || '').toLowerCase(), desde = Date.now() - 42 * 864e5;
+    const deElla = (x) => String((x.perfil || {}).email || x.email || '').toLowerCase() === dir;
+    const T = (b.T || []).filter((x) => deElla(x) && new Date(x.creado) > desde);
+    const filt = T.filter((x) => x.estado === 'filtrado').length;
+    const sinD = (t) => String(t || '').replace(/^Desde Drive:\s*/i, '').replace(/^Weekly \(desde Drive\):\s*/i, '');
+    // Lo que Flor le mandó por mail sin pedido de la app («Feedback · …») va como respuesta, no como entrega.
+    const ev = [];
+    T.filter((x) => x.estado !== 'filtrado' && !/^(gmail|flor):/.test(x.origen || '')).forEach((x) => {
+      const r = x.estado === 'respondido';
+      const est = r ? `<span class="pill ok">✓ respondido ${fecha(x.respondido_en || x.creado, { day: 'numeric', month: 'short' })}</span>`
+        : x.en_clase ? `<span class="pill">📌 para la clase del ${fecha(x.en_clase, { day: 'numeric', month: 'short' })}</span>`
+        : (b.enClase || []).some((y) => y.id === x.id) ? '<span class="pill">✓ lo vieron en clase</span>'
+        : '<a class="pill warn" href="#bandeja/pedidos">⏳ falta tu feedback</a>';
+      ev.push({ f: x.creado, h: `<li><span class="muted small">${fecha(x.creado, { weekday: 'short', day: 'numeric', month: 'short' })}</span> · 📥 ${esc(sinD(x.titulo) || tipoNombre(x.tipo))} ${est}${r && x.respuesta && !/^flor te respondi/i.test(x.respuesta) ? `<details class="small"><summary>Lo que le respondiste</summary>${parrafos(x.respuesta)}</details>` : ''}</li>` });
+    });
+    T.filter((x) => /^(gmail|flor):/.test(x.origen || '') && x.respuesta).forEach((x) => ev.push({ f: x.respondido_en || x.creado, h: `<li><span class="muted small">${fecha(x.respondido_en || x.creado, { weekday: 'short', day: 'numeric', month: 'short' })}</span> · ✉️ Le mandaste: ${esc(sinD(x.titulo).replace(/^Feedback · /, 'feedback de '))}<details class="small"><summary>Ver</summary>${parrafos(x.respuesta)}</details></li>` }));
+    (b.W || []).filter((w) => String(w.email || '').toLowerCase() === dir && new Date(w.semana + 'T12:00:00') > desde && (w.enviado_en || w.respuesta_flor)).forEach((w) => {
+      ev.push({ f: w.enviado_en || w.semana + 'T12:00', h: `<li><span class="muted small">${fecha(w.enviado_en || w.semana, { weekday: 'short', day: 'numeric', month: 'short' })}</span> · 📝 Weekly de la semana del ${fecha(w.semana, { day: 'numeric', month: 'short' })} ${w.respuesta_flor ? `<span class="pill ok">✓ respondido</span>${/^flor te respondi/i.test(w.respuesta_flor) ? '' : `<details class="small"><summary>Lo que le respondiste</summary>${parrafos(w.respuesta_flor)}</details>`}` : '<a class="pill warn" href="#bandeja/weeklies">⏳ falta responderlo</a>'}</li>` });
+    });
+    (resus || []).filter((r) => new Date(r.fecha + 'T12:00:00') > desde).forEach((r) => ev.push({ f: r.fecha + 'T20:00', h: `<li><span class="muted small">${fecha(r.fecha, { weekday: 'short', day: 'numeric', month: 'short' })}</span> · 🎓 Clase · resumen enviado<details class="small"><summary>Ver el resumen</summary>${parrafos(r.texto || '')}</details></li>` }));
+    ev.sort((x, y) => (String(x.f) < String(y.f) ? 1 : -1));
+    const pend = T.filter((x) => x.estado === 'pendiente' && !x.en_clase && !(b.enClase || []).some((y) => y.id === x.id)).length
+      + (b.W || []).filter((w) => String(w.email || '').toLowerCase() === dir && !w.respuesta_flor && w.enviado_en && (b.sinResp || []).some((y) => y.id === w.id)).length;
+    return `<section class="card"><div class="row between"><h3>Lo que te mandó y lo que le respondiste</h3><span class="pill ${pend ? 'warn' : 'ok'}">${pend ? pend + ' sin responder' : '✓ nada sin responder'}</span></div>
+      <p class="muted small">Últimas 6 semanas, de lo más nuevo a lo más viejo.${filt ? ` No cuento ${filt} ${filt === 1 ? 'archivo repetido o viejo' : 'archivos repetidos o viejos'} que la app filtró.` : ''}</p>
+      ${ev.length ? `<ul class="neg hist">${ev.map((e) => e.h).join('')}</ul>` : '<p class="muted small">Nada en las últimas 6 semanas.</p>'}</section>`;
+  }
+  async function resumenAlumna(a, b, clase, enFicha) {
     const mail = String(a.email || '').toLowerCase(), lun = DB.lunes();
     const [tareas, resus, notas] = await Promise.all([a.id ? DB.tareas(a.id).catch(() => []) : [], a.id && DB.resumenes ? DB.resumenes(a.id).catch(() => []) : [], esFlor() || DB.demo ? DB.notasClase(mail).catch(() => null) : []]);
     const ws = b.W.filter((w) => String(w.email || '').toLowerCase() === mail).sort((x, y) => (x.semana < y.semana ? 1 : -1));
@@ -2997,6 +3087,7 @@ ${cuerpo}`;
   ${clase ? `<div class="row okc-row" style="gap:8px;flex-wrap:wrap;align-items:center">${clase.meet ? `<a class="btn sm" href="${esc(clase.meet)}" target="_blank" rel="noopener">Entrar a la clase</a>` : ''}${hoja ? `<a class="btn ghost sm" href="${esc(hoja)}" target="_blank" rel="noopener">Hoja de la clase</a>` : ''}${a.drive_url ? `<a class="btn ghost sm" href="${esc(a.drive_url)}" target="_blank" rel="noopener">Su carpeta</a>` : ''}${okClase(filaHoyDe(mail, clase))}</div>` : ''}
   <ul class="resu-l">
     <li><b>Dónde va:</b> ${n ? `semana ${n} de 20` : 'sin fecha de inicio'}${mod ? ` · M${mod.n} ${esc(mod.nombre)}` : ''}${a.foco_titulo ? `<br><span class="muted small">Foco: ${esc(a.foco_titulo)}</span>` : ''}</li>
+    ${enFicha && esFlor() ? (() => { const c = proximaDe(st._prox ? st._prox.clases : [], a); return `<li><b>Próxima clase:</b> ${c ? esc(cuandoClase(c)) : '<span class="muted">nada en tu calendario en los próximos 8 días</span>'}</li>`; })() : ''}
     <li><b>Weekly de esta semana:</b> ${wEsta ? (wEsta.respuesta_flor ? '✓ mandado y respondido' : '✓ mandado · <a href="#bandeja/weeklies">te falta responderlo</a>') : '✗ todavía no lo mandó'}</li>
     ${ult ? `<li><b>Cómo está</b> <span class="muted small">(weekly del ${fecha(ult.semana, { day: 'numeric', month: 'short' })})</span>: ${esc(corto(ult.respuestas.wins || ult.respuestas.donde, 160))}${ult.respuestas.necesito ? `<br><span class="muted small">Necesita: ${esc(corto(ult.respuestas.necesito, 140))}</span>` : ''}</li>` : ''}
     <li><b>Tareas:</b> ${tp.length ? tp.map((t) => '○ ' + esc(t.texto)).join('<br>') : '✓ nada pendiente'}${pend.length ? `<br><a href="#bandeja/pedidos">${pend.length === 1 ? 'Te mandó 1 cosa' : `Te mandó ${pend.length} cosas`} que espera${pend.length === 1 ? '' : 'n'} tu feedback</a>` : ''}</li>
@@ -3004,8 +3095,8 @@ ${cuerpo}`;
     ${fb ? `<li><b>Tu último feedback</b> <span class="muted small">(${esc(fb.de)} · ${fecha(fb.f, { day: 'numeric', month: 'short' })})</span>: ${esc(corto(fb.t.replace(/^Hola[^\n]*\n/, ''), 200))}</li>` : ''}
   </ul>
   ${notasHTML(mail, clase, notas)}
-  ${a.id ? `<div class="row"><a class="small" href="#alumnas/${a.id}">Abrir su ficha</a></div>` : ''}
-</section>`;
+  ${a.id && !enFicha ? `<div class="row"><a class="small" href="#alumnas/${a.id}">Abrir su ficha</a></div>` : ''}
+</section>${enFicha ? historialHTML(a, b, resus) : ''}`;
   }
   // Asistencia y notas internas (solo Flor). Con clase hoy: se marca. Siempre: las últimas notas.
   function notasHTML(mail, clase, notas) {
@@ -3069,7 +3160,8 @@ ${cuerpo}`;
           + (bh ? (await Promise.all(hoyCon.map((x) => resumenAlumna(x, bh, claseDe(x))))).join('') : '');
       }
       if (!a && !esFlor()) det = '<section class="card empty-state"><h3>Elige una alumna</h3><p class="muted small">Desde acá le cargas su foco de la semana, sus tareas, las clases que tiene que ver, su progreso y sus patrones de error. Todo lo ve en su app y lo usa Flor AI.</p></section>';
-      const resuSel = a && bh ? await resumenAlumna(a, bh, claseDe(a)) : '';
+      if (a && esFlor()) await proximasClases().catch(() => []);
+      const resuSel = a && bh ? `<p class="small"><a href="#alumnas">← Todas las alumnas</a> · <b>Ficha de ${esc(apodoDe(a) || a.nombre || '')}</b></p>` + await resumenAlumna(a, bh, claseDe(a), true) : '';
       if (a) {
         const [t, pat, docs, ficha] = await Promise.all([DB.tareas(a.id), DB.patrones(a.id), DB.documentos(a.id), DB.ficha(a.id)]);
         st._docs = docs;

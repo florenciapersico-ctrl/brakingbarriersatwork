@@ -297,6 +297,8 @@ async function claseDeHoy(admin: any, alumnaId: string): Promise<string> {
     const { data: c } = await admin.from("hoy_flor").select("titulo,link,inicio,enviado_en").eq("fecha", hoy).eq("tipo", "clase")
       .contains("invitadas", [email]).is("enviado_en", null).order("inicio").limit(1).maybeSingle();
     if (!c) return "";
+    // Si la clase ya terminó (o no se dio), el feedback va completo (Flor, 23/11).
+    if (c.inicio && Date.now() > new Date(c.inicio).getTime() + 60 * 60e3) return "";
     const hora = c.inicio ? new Date(c.inicio).toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit", timeZone: "America/Argentina/Buenos_Aires" }) : "";
     return `TIENE CLASE HOY${hora ? ` a las ${hora} (hora Argentina)` : ""}: ${c.titulo || ""}.${c.link ? ` Su hoja de la clase de hoy: ${c.link}` : ""}
 CRITERIO DE FLOR CUANDO TIENE CLASE EL MISMO DÍA (16/11; manda sobre el largo, el método de las tablas y las tareas):
@@ -327,7 +329,7 @@ async function borradorDelUltimo(admin: any, id: number, etiqueta: string) {
 
 // ---------- borrador de feedback (se guarda en borradores; solo lo ve Flor) ----------
 // deno-lint-ignore no-explicit-any
-async function generarBorrador(admin: any, tabla: string, ref: number, imp?: { email: string; semana: string }, quien?: string, grupoPedido?: number[]) {
+async function generarBorrador(admin: any, tabla: string, ref: number, imp?: { email: string; semana: string }, quien?: string, grupoPedido?: number[], sinClase?: boolean) {
     let alumnaId = "", material = "", transcripcion = "", aviso = "", sinAudio = false, ctxImp = "";
     let hermanos: number[] = []; // lo demás que mandó en los mismos días (Flor, 21/11: varias entregas = UN solo feedback de todo)
     // deno-lint-ignore no-explicit-any
@@ -429,7 +431,7 @@ async function generarBorrador(admin: any, tabla: string, ref: number, imp?: { e
           if (ids.length) otros = (await admin.from("pedidos").select("*").in("id", ids).eq("alumna_id", x0.alumna_id).eq("estado", "pendiente")).data || [];
         } else {
           const t0 = new Date(x0.creado || Date.now()).getTime();
-          otros = (await admin.from("pedidos").select("*").eq("alumna_id", x0.alumna_id).eq("estado", "pendiente").neq("id", x0.id)
+          otros = (await admin.from("pedidos").select("*").eq("alumna_id", x0.alumna_id).eq("estado", "pendiente").is("en_clase", null).neq("id", x0.id)
             .gte("creado", new Date(t0 - 3 * 864e5).toISOString()).lte("creado", new Date(t0 + 3 * 864e5).toISOString()).limit(7)).data || [];
         }
       } catch (e) { console.error("grupo", e); }
@@ -490,7 +492,7 @@ ${(x.weeklies || []).filter((e: any) => e.semana < imp.semana).slice(0, 3).map((
     }
 
     if (!Deno.env.get("ANTHROPIC_API_KEY")) throw new Error("FALTA_CLAVE");
-    const [sist, prog, ctx, conApp, hoyClase] = await Promise.all([prompt("borrador.md"), programaVigente(admin), imp ? Promise.resolve(ctxImp) : contexto(admin, admin, alumnaId), alumnasConApp(admin), tabla === "pedidos" ? claseDeHoy(admin, alumnaId) : Promise.resolve("")]);
+    const [sist, prog, ctx, conApp, hoyClase] = await Promise.all([prompt("borrador.md"), programaVigente(admin), imp ? Promise.resolve(ctxImp) : contexto(admin, admin, alumnaId), alumnasConApp(admin), tabla === "pedidos" && !sinClase ? claseDeHoy(admin, alumnaId) : Promise.resolve("")]);
     const r = await ia().messages.create({
       model: MODEL,
       max_tokens: 16000,
@@ -887,7 +889,7 @@ Deno.serve(async (req) => {
     if (!(await esAdmin(db, uid))) return json({ error: "Solo Flor puede usar esto." }, 403);
     const tabla = body.pedido_id ? "pedidos" : body.weekly_id || body.imp ? "weekly" : "";
     if (!tabla) return json({ error: "Falta el pedido o el weekly." }, 400);
-    try { return json(await generarBorrador(admin, tabla, Number(body.pedido_id || body.weekly_id || 0), body.imp, String(body.quien || "").trim().slice(0, 80) || undefined, Array.isArray(body.grupo) ? body.grupo : undefined)); }
+    try { return json(await generarBorrador(admin, tabla, Number(body.pedido_id || body.weekly_id || 0), body.imp, String(body.quien || "").trim().slice(0, 80) || undefined, Array.isArray(body.grupo) ? body.grupo : undefined, !!body.sin_clase)); }
     catch (e) {
       const m = String((e as Error).message);
       if (m !== "FALTA_CLAVE") console.error(e);

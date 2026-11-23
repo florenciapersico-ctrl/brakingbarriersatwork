@@ -89,7 +89,8 @@
       },
       async todosResumenes() { try { return ok(await sb.from('resumenes').select('alumna_id, fecha, asunto, texto, creado').order('fecha', { ascending: false }).limit(1000)); } catch (e) { return []; } },
       async resumenes(a = uid) { try { return ok(await sb.from('resumenes').select('*').eq('alumna_id', a).order('fecha', { ascending: false }).limit(60)); } catch (e) { return []; } },
-      async pedidos(a = uid) { return ok(await sb.from('pedidos').select('*').eq('alumna_id', a).order('creado', { ascending: false }).limit(50)); },
+      // Lo filtrado (repetidos, grabaciones viejas) no es una entrega: no se le muestra (Flor, 23/11).
+      async pedidos(a = uid) { return ok(await sb.from('pedidos').select('*').eq('alumna_id', a).neq('estado', 'filtrado').order('creado', { ascending: false }).limit(50)); },
       async crearPedido(p) {
         const x = ok(await sb.from('pedidos').insert({ ...p, alumna_id: uid }).select().single());
         llamar({ modo: 'auto', pedido_id: x.id }).catch(() => {});
@@ -168,6 +169,7 @@
       async miDia(desde) { return (ok(await sb.from('mi_dia').select('fecha, datos').eq('alumna_id', uid).gte('fecha', desde).order('fecha')) || []); },
       async guardarMiDia(fecha, datos) { ok(await sb.from('mi_dia').upsert({ alumna_id: uid, fecha, datos, actualizado: new Date().toISOString() })); },
       async clasesHoy() { const r = await llamar({ modo: 'clases_hoy' }); const j = await r.json().catch(() => ({})); this.errClases = j.ok ? '' : String(j.error || (r.ok ? '' : 'error ' + r.status)); return j.ok ? j.clases || [] : null; },
+      async clasesProximas() { const r = ok(await sb.rpc('clases_proximas')); return r && r.ok ? r.clases || [] : null; },
       async borradoresGmail() { try { const r = await llamar({ modo: 'borradores_gmail' }); const j = await r.json(); return j.borradores || []; } catch (e) { return []; } },
       async borradorMail(q) { const r = await llamar({ modo: 'borrador_mail', ...q }); const j = await r.json().catch(() => ({})); if (!r.ok || !j.ok) throw new Error(j.error || 'No se pudo armar el borrador en Gmail.'); return j; },
       async avisar(q) { try { const r = await llamar({ modo: 'avisar', link: location.origin + location.pathname, ...q }); return r.ok ? r.json() : null; } catch (e) { return null; } },

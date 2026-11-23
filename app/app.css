@@ -518,3 +518,9 @@ details.lb[open]>summary h3::after{content:" ⌄"}
 main{overflow-wrap:break-word}
 .mainwrap{overflow-x:clip}
 .mc-oc{opacity:.55}.mc-oc:hover{opacity:1}.mc-prev{display:flex;flex-direction:column;gap:16px}.mc-form{margin-top:8px;padding:12px;border-radius:12px;background:var(--surface-2)}
+/* Bandeja: qué hago con esto (23/11) */
+.note.decide{border-left:4px solid var(--brand);margin:8px 0}
+/* Ficha: historial de lo que mandó y lo que le respondiste (23/11) */
+.hist li{padding:6px 0;border-bottom:1px dashed var(--line,#e6dfd3)}
+.hist .pill{margin-left:6px;font-size:12px;text-decoration:none}
+.hist details{margin-top:4px}
