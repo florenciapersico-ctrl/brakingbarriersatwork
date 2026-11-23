@@ -3210,13 +3210,19 @@ ${cuerpo}`;
           <p class="muted small">Arriba, las que esperan algo de vos; después, por su próxima clase. Tocá su nombre para ver todo lo que te mandó y lo que le respondiste.</p>
           <div class="tbl"><table class="tablero"><thead><tr><th>Alumna</th><th>Próxima clase</th><th>Espera de vos</th><th>Le toca a ella</th><th>Lo último que le mandaste</th><th>Último weekly</th></tr></thead><tbody>
           ${filas.map((r) => `<tr>
-            <td><a href="#alumnas/${r.x.id}"><b>${esc(apodoDe(r.x) || r.x.nombre || r.x.email)}</b></a> <span class="muted small">${esc(fmt(r.x))}</span>${r.pausa ? `<br><span class="pill">🌴 retoma el ${fecha(r.pausa, { day: 'numeric', month: 'numeric' })}</span>` : ''}${r.nota ? `<br><span class="small muted">📝 ${esc(r.nota.replace(/^- /, '').slice(0, 90))}</span>` : ''}</td>
-            <td class="small">${r.c ? esc(cuandoClase(r.c)) : r.pausa ? '<span class="muted">en pausa</span>' : '<span class="muted">nada en 8 días</span>'}</td>
+            <td><a href="#alumnas/${r.x.id}"><b>${esc((filas.filter((y) => apodoDe(y.x) === apodoDe(r.x)).length > 1 ? r.x.nombre : apodoDe(r.x)) || r.x.nombre || r.x.email)}</b></a> <span class="muted small">${esc(fmt(r.x))}</span>${r.pausa ? `<br><span class="pill">🌴 retoma el ${fecha(r.pausa, { day: 'numeric', month: 'numeric' })}</span>` : ''}${r.nota ? `<br><span class="small muted">📝 ${esc(r.nota.replace(/^- /, '').slice(0, 90))}</span>` : ''}</td>
+            <td class="small" data-proxa="${esc(r.x.id)}">${r.c ? esc(cuandoClase(r.c)) : r.pausa ? '<span class="muted">en pausa</span>' : st._prox ? '<span class="muted">nada en 8 días</span>' : '<span class="muted">buscando…</span>'}</td>
             <td class="small">${r.espera ? `<a class="pill warn" href="#bandeja/pedidos">⏳ ${r.espera}</a>` : '<span class="pill ok">✓ al día</span>'}</td>
             <td class="small">${r.tp.length ? `${r.tp.length} ${r.tp.length === 1 ? 'tarea' : 'tareas'}<br><span class="muted">${esc(String(r.tp[0].texto).replace(/\s+/g, ' ').slice(0, 70))}${String(r.tp[0].texto).length > 70 ? '…' : ''}</span>` : '<span class="muted">nada pendiente</span>'}</td>
             <td class="small">${r.resp ? `${esc(r.resp.q)}<br><span class="muted">${hace(r.resp.f)}</span>` : '<span class="muted">—</span>'}</td>
             <td class="small">${r.ult ? `semana del ${fecha(r.ult.semana, { day: 'numeric', month: 'numeric' })}${dias(r.ult.semana) > 13 ? '<br><span class="muted">⚠️ hace más de 2 semanas</span>' : ''}` : '<span class="muted">nunca</span>'}</td></tr>`).join('')}
           </tbody></table></div></section>`;
+        // Si el calendario tardó más que la página, las próximas clases se completan solas cuando llega.
+        if (!st._prox && st._proxP) st._proxP.then(() => filas.forEach((r) => {
+          const td = document.querySelector(`[data-proxa="${r.x.id}"]`); if (!td) return;
+          const c = proximaDe(st._prox ? st._prox.clases : [], r.x);
+          td.innerHTML = c ? esc(cuandoClase(c)) : r.pausa ? '<span class="muted">en pausa</span>' : st._prox ? '<span class="muted">nada en 8 días</span>' : '<span class="muted">no pude ver tu calendario</span>';
+        }));
       }
       if (!a && esFlor()) {
         const hoyCon =al.filter((x) => x.rol !== 'admin' && claseDe(x)).sort((x, y) => (claseDe(x).inicio < claseDe(y).inicio ? -1 : 1));
