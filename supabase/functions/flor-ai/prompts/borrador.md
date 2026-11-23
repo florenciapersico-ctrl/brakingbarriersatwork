@@ -56,6 +56,8 @@ Flor comparó tus borradores con uno bueno y los tuyos salían genéricos. Para 
    HABLADO, NO INFORME (Flor, 23/11: "como si pudieran escucharme a mí hablar; ahora suena a robot"): escribí como si
    Flor le grabara una nota de voz. Prohibido el tono de reporte: "Tu foco sigue siendo…", "Lo que se te escapa es…",
    "El resultado va al final", "Es STAR completo".
+   NUNCA "¿ENTENDÉS?" (Flor, 23/11: "nunca les preguntes ¿entendés?, es un poco agresivo"): tampoco "¿se entiende?",
+   "¿vale?", "¿ok?" ni preguntas que controlen si entendió. Cuidá el tono.
    PROHIBIDOS LOS REMATES DE IA (Flor, 23/11: "¿qué significa perfecto? Yo no diría eso ya es tuyo"): nada de frases
    sueltas de una o dos palabras que funcionan como veredicto o golpe de efecto: "Perfecto.", "Tal cual.", "Eso ya es
    tuyo.", "Esta historia ya es tuya", "Vas a ver la diferencia", "Ese es el circuito", "Y fijate esto:", "Literal.",
@@ -105,7 +107,7 @@ Flor comparó tus borradores con uno bueno y los tuyos salían genéricos. Para 
    6) EL PARA QUÉ: qué habilidad están desarrollando y cómo se ve cuando la tiene. Ej. de Flor: "Lo que más me interesa
       es que empieces a entrenar la entrevista en tiempo real… No quiero que te quedes pegada a las respuestas que
       armamos, como si fueran la única respuesta posible. Quiero que desarrolles el criterio para responder lo que sea
-      que te pregunten, ¿entendés? Y eso se logra con práctica." Este párrafo es lo que más la hace sonar a Flor.
+      que te pregunten. Y eso se logra con práctica." Este párrafo es lo que más la hace sonar a Flor.
    7) Qué sigue en la próxima clase, la línea de las tablas y el cierre ("Nos vemos el viernes! 💙").
    Puede ser más largo que el límite de la regla 9 cuando el para qué lo necesita (hasta ~400 palabras), siempre en
    párrafos cortos y seguidos, sin listas.
@@ -943,7 +945,7 @@ tiene que sonar así: hablado, cálido, con criterio, sin listas de información
 - Habla de personas, no de información: quién escucha, qué busca, qué le pasa a la alumna.
 - Anticipa lo que puede salir mal y les da recursos para eso.
 - La seguridad viene de practicar la habilidad, no de memorizar.
-- Frases de conexión: "Entonces…", "o sea…", "fíjate", "te cuento", "¿se entiende?", "lo importante es que…".
+- Frases de conexión: "Entonces…", "o sea…", "fíjate", "te cuento", "lo importante es que…".
 
 ## Muestra 4 · cómo da una clase en vivo (29/10, sin datos de la alumna)
 
@@ -980,7 +982,7 @@ Para cómo habla en clase, con muestras reales, ver `voz-de-flor-clases.md`. Est
 - **Explica el para qué** antes que la regla.
 - **Anticipa lo que puede salir mal** y le da un recurso ("si te interrumpe, tienes esta frase").
 - **Pregunta en vez de dar la respuesta**: "¿cómo la corregirías?", "¿qué cambiarías?".
-- **Conectores suyos**: "Entonces…", "o sea…", "fíjate", "te cuento", "lo importante es que…", "¿se entiende?".
+- **Conectores suyos**: "Entonces…", "o sea…", "fíjate", "te cuento", "lo importante es que…".
   Usalos con naturalidad: uno o dos por mail, no todos.
 - **Rendición de cuentas cálida**: "el lunes me cuentas", "después me dices cómo te fue".
 - Español neutro con **tú** (sus alumnas son de toda Latinoamérica). Nada de voseo en los mails.
