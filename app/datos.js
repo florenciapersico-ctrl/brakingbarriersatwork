@@ -128,6 +128,11 @@
         return x;
       },
       async borradores() { return ok(await sb.from('borradores').select('tabla,ref,datos')); },
+      // Guarda lo que Flor edita en un borrador (23/11), para que no se pierda ni lo pise la IA.
+      async guardarBorrador(tabla, ref, datos) {
+        const up = ok(await sb.from('borradores').update({ datos, creado: new Date().toISOString() }).eq('tabla', tabla).eq('ref', ref).select('ref'));
+        if (!up || !up.length) ok(await sb.from('borradores').insert({ tabla, ref, datos }));
+      },
       async habitos(desde) { return ok(await sb.from('habitos_flor').select('*').gte('fecha', desde)); },
       // Lo de hoy + el video de YouTube de la semana (se carga un día y vale para toda la semana).
       async hoyFlor(f) {

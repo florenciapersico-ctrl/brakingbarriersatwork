@@ -2854,6 +2854,7 @@ ${cuerpo}`;
         const zona = $('.resp-zona', it);
         it._aplicar = (r) => {
           if (zona) zona.hidden = false;
+          it._datos = r;
           const pb = $('.prep', it); if (pb) pb.textContent = '🔁 Prepararlo de nuevo';
           $('.r', it).value = r.respuesta || ''; box.innerHTML = ''; (r.correcciones || []).forEach((c) => filaCorr(box, c.mal, c.bien, c.por_que || ''));
           const av = $('.aviso-audio', it);
@@ -2872,7 +2873,16 @@ ${cuerpo}`;
           if (pb) { pb.disabled = false; pb.textContent = ok ? '🔁 Prepararlo de nuevo' : '✍️ Preparame el feedback'; }
           return ok;
         };
-        $('.ia', it).onclick = () => it._generar(true);
+        // Nunca pisar un borrador sin preguntar (Flor, 23/11: se perdió el feedback de Adri).
+        $('.ia', it).onclick = () => { if ($('.r', it).value.trim() && !confirm('Ya tenés un feedback armado acá. ¿Lo reemplazo por uno nuevo de la IA? (Se pierde el que está.)')) return; it._generar(true); };
+        // Lo que Flor cambia en el texto o en las correcciones se guarda solo, así no se pierde al recargar.
+        let tGuardar;
+        const guardar = () => { clearTimeout(tGuardar); tGuardar = setTimeout(async () => {
+          const r = $('.r', it).value; if (!r.trim() || !DB.guardarBorrador) return;
+          const datos = { ...(it._datos || {}), respuesta: r, correcciones: leerCorr(it), grupo: grupo() };
+          try { await DB.guardarBorrador('pedidos', grupo()[0], datos); it._datos = datos; } catch (e) { toast('No se pudo guardar tu cambio: ' + (e.message || ''), true); }
+        }, 1200); };
+        $('.r', it).addEventListener('input', guardar); box.addEventListener('input', guardar); box.addEventListener('click', (e) => { if (e.target.classList.contains('quitar')) guardar(); });
         if ($('.prep', it)) $('.prep', it).onclick = async () => {
           const yaHay = zona && !zona.hidden && $('.r', it).value.trim();
           if (yaHay && !confirm('Ya está preparado abajo. ¿Lo armo de nuevo? (Se pierde lo que cambiaste.)')) { $('.r', it).scrollIntoView({ behavior: 'smooth', block: 'center' }); return; }
