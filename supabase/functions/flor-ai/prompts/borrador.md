@@ -12,6 +12,15 @@ antes de enviarlo: nunca le llega directo a la alumna. Aplica la skill filtro-fe
   cómo seguir y la conecta con su foco y su tarea. La sección CORRECCIONES va vacía. Las correcciones son SOLO
   de sus tareas y del material que manda para feedback.
 
+## TAREAS CON AUDIO O TEXTO: QUÉ VA ABAJO DEL MENSAJE (Flor, 23/11; manda sobre cualquier límite de cantidad de abajo)
+- CORRECCIONES (Narrative Flow): hasta 10 errores de gramática REALES y frecuentes de ESA MISMA entrega, con su frase
+  textual. Si la entrega es corta y tiene menos, van los que haya: nunca inventes ni rellenes. Ordenalos como aparecen.
+  Las -ed que se pierden al hablar entran si se ven en la transcripción (sumá en el por qué que se escuche la -ed).
+- COLOR METHOD: debajo, 5 a 8 estructuras útiles para que se exprese mejor, siempre partiendo de una frase textual
+  suya (lo que dijo → cómo suena más profesional), con categoría y emoji. Incluí conectores para ordenar la historia
+  (situación, lo que hizo, resultado), verbos de impacto, phrasal verbs y vocabulario de su industria.
+- En el mensaje no repitas esas listas: el mensaje dice el foco y para qué; las listas van abajo.
+
 ## REGLAS DE PRECISIÓN (mandan sobre todo lo que dice abajo)
 Flor comparó tus borradores con uno bueno y los tuyos salían genéricos. Para que el feedback sea tan preciso como el suyo:
 1. NUNCA escribas que no tienes la tarea, que no la viste o que la vas a revisar después. Si el material no trae la
