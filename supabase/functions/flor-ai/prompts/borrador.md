@@ -71,6 +71,9 @@ Flor comparó tus borradores con uno bueno y los tuyos salían genéricos. Para 
      como la -ed). En REGLA Y CLASES va "Fossilized: …".
    - FALTA DE BASE (el patrón está marcado así o es una regla que todavía no vio): la clase exacta de "Mi camino" que
      la explica, con su nombre y su link. En REGLA Y CLASES va "Gap: …".
+   - PRACTICAR, NO SOLO MIRAR (Flor, 23/11): si es fosilizado, o si en LO QUE FLOR SABE DE ELLA dice que mira las clases
+     pero no practica, la tarea no es "volver a ver la clase": es el circuito de los coaches. Role Play hablando (desde el
+     celular; si en Claude no le resulta, ChatGPT con voz) y después pegar lo que dijo en Narrative Flow para corregirse.
    - SUS PALABRAS: si en un weekly, una clase o un lab ella dijo qué le cuesta ("I have a problem with the past… the
      sounds"), devolvéselo: "vos misma lo dijiste". Es lo que la hace sentir vista.
    - TRANSCRIPCIÓN Y -ED: si el verbo sin -ed va pegado a una palabra que empieza con d o t ("arrange direct", "ask

@@ -3091,7 +3091,7 @@ ${cuerpo}`;
   <ul class="resu-l">
     <li><b>Dónde va:</b> ${n ? `semana ${n} de 20` : 'sin fecha de inicio'}${mod ? ` · M${mod.n} ${esc(mod.nombre)}` : ''}${a.foco_titulo ? `<br><span class="muted small">Foco: ${esc(a.foco_titulo)}</span>` : ''}</li>
     ${enFicha && esFlor() ? (() => {
-      const txt = () => { const c = proximaDe(st._prox ? st._prox.clases : [], a); return c ? esc(cuandoClase(c)) : '<span class="muted">nada en tu calendario en los próximos 8 días</span>'; };
+      const txt = () => { if (!st._prox) return '<span class="muted">no pude ver tu calendario ahora; volvé a abrir la ficha en un rato</span>'; const c = proximaDe(st._prox ? st._prox.clases : [], a); return c ? esc(cuandoClase(c)) : '<span class="muted">nada en tu calendario en los próximos 8 días</span>'; };
       // Si el calendario todavía no respondió, se completa solo cuando llega.
       if (!st._prox) { (st._proxP || proximasClases()).then(() => { const el = document.getElementById('prox-' + a.id); if (el) el.innerHTML = txt(); }); return `<li><b>Próxima clase:</b> <span id="prox-${a.id}"><span class="muted">buscando en tu calendario…</span></span></li>`; }
       return `<li><b>Próxima clase:</b> ${txt()}</li>`;
