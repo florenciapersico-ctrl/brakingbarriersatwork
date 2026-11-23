@@ -696,7 +696,7 @@
       // Recordatorio del weekly: si todavía no mandó el de esta semana (y ya terminó el onboarding o empezó el camino)
       const wHoy = weeklies.find((w) => w.semana === DB.lunes());
       const faltaW = !(wHoy && wHoy.enviado_en) && (onbHecho(p) || weeklies.length > 0) && !st.admin;
-      const recW = faltaW ? `<section class="card feature recw"><span class="eyebrow">Recordatorio · weekly report</span><h2>${wHoy && Object.keys(wHoy.respuestas || {}).length ? 'Tu weekly está a medias' : 'Todavía no mandaste tu weekly de esta semana'}</h2><p class="muted">Son 5 a 10 minutos y es lo que le permite a Flor guiarte esta semana: tus wins, tu foco y qué necesitas de ella.</p><div class="row"><a class="btn" href="#weekly">${wHoy && Object.keys(wHoy.respuestas || {}).length ? 'Terminarlo ahora' : 'Completarlo ahora'}</a></div></section>` : '';
+      const recW = faltaW ? `<section class="card feature recw"><span class="eyebrow">Recordatorio · weekly report</span><h2>${wHoy && Object.keys(wHoy.respuestas || {}).length ? 'Tu Weekly Report está a medias' : new Date().getDay() === 1 ? 'Hoy es el día de tu Weekly Report' : 'Todavía no completaste tu Weekly Report de esta semana'}</h2><p class="muted">Son 5 minutos y es clave para ir acompañándote en tu proceso.</p><div class="row"><a class="btn" href="#weekly">${wHoy && Object.keys(wHoy.respuestas || {}).length ? 'Terminarlo ahora' : 'Completarlo ahora'}</a></div></section>` : '';
       const sinOnb = (p.onboarding || []).length < onbDe(p).checklist.length;
       const cs = bloqueActual(p);
       const hechasSem = cs ? cs.sem.tareas.filter((t) => (p.camino_hecho || []).includes(t.id)).length : 0;
