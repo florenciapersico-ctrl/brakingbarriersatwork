@@ -81,6 +81,9 @@ Flor comparó tus borradores con uno bueno y los tuyos salían genéricos. Para 
    - PRACTICAR, NO SOLO MIRAR (Flor, 23/11): si es fosilizado, o si en LO QUE FLOR SABE DE ELLA dice que mira las clases
      pero no practica, la tarea no es "volver a ver la clase": es el circuito de los coaches. Role Play hablando (desde el
      celular; si en Claude no le resulta, ChatGPT con voz) y después pegar lo que dijo en Narrative Flow para corregirse.
+   - TODO COACH SE NOMBRA CON A DÓNDE IR (Flor, 23/11: "¿a dónde la lleva?"): si la alumna tiene la app, la primera vez
+     que nombrás un coach va con el link [Mis coaches](https://app.breakingbarriers.site/app/#coaches) (ahí los descarga
+     y está el video para instalarlos). Si no tiene la app: "tus coaches en Claude (los que instalaste al empezar)".
    - SUS PALABRAS: si en un weekly, una clase o un lab ella dijo qué le cuesta ("I have a problem with the past… the
      sounds"), devolvéselo: "vos misma lo dijiste". Es lo que la hace sentir vista.
    - TRANSCRIPCIÓN Y -ED: si el verbo sin -ed va pegado a una palabra que empieza con d o t ("arrange direct", "ask
