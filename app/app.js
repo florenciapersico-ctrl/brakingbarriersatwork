@@ -3021,7 +3021,7 @@ ${cuerpo}`;
     if (!esFlor() || !DB.clasesProximas) return [];
     if (st._prox && Date.now() - st._prox.t < 10 * 60e3) return st._prox.clases;
     // El Calendar a veces tarda: espero hasta 6 s para no trabar la Bandeja; si llega después, queda para la próxima vista.
-    const p = DB.clasesProximas().then((c) => { if (c) st._prox = { t: Date.now(), clases: c }; return c; }).catch(() => null);
+    const p = st._proxP || (st._proxP = DB.clasesProximas().then((c) => { if (c) st._prox = { t: Date.now(), clases: c }; return c; }).catch(() => null).finally(() => { st._proxP = null; }));
     const c = await Promise.race([p, new Promise((r) => setTimeout(() => r(undefined), 6000))]);
     return c || (st._prox ? st._prox.clases : []);
   }
@@ -3090,7 +3090,12 @@ ${cuerpo}`;
   ${clase ? `<div class="row okc-row" style="gap:8px;flex-wrap:wrap;align-items:center">${clase.meet ? `<a class="btn sm" href="${esc(clase.meet)}" target="_blank" rel="noopener">Entrar a la clase</a>` : ''}${hoja ? `<a class="btn ghost sm" href="${esc(hoja)}" target="_blank" rel="noopener">Hoja de la clase</a>` : ''}${a.drive_url ? `<a class="btn ghost sm" href="${esc(a.drive_url)}" target="_blank" rel="noopener">Su carpeta</a>` : ''}${okClase(filaHoyDe(mail, clase))}</div>` : ''}
   <ul class="resu-l">
     <li><b>Dónde va:</b> ${n ? `semana ${n} de 20` : 'sin fecha de inicio'}${mod ? ` · M${mod.n} ${esc(mod.nombre)}` : ''}${a.foco_titulo ? `<br><span class="muted small">Foco: ${esc(a.foco_titulo)}</span>` : ''}</li>
-    ${enFicha && esFlor() ? (() => { const c = proximaDe(st._prox ? st._prox.clases : [], a); return `<li><b>Próxima clase:</b> ${c ? esc(cuandoClase(c)) : '<span class="muted">nada en tu calendario en los próximos 8 días</span>'}</li>`; })() : ''}
+    ${enFicha && esFlor() ? (() => {
+      const txt = () => { const c = proximaDe(st._prox ? st._prox.clases : [], a); return c ? esc(cuandoClase(c)) : '<span class="muted">nada en tu calendario en los próximos 8 días</span>'; };
+      // Si el calendario todavía no respondió, se completa solo cuando llega.
+      if (!st._prox) { (st._proxP || proximasClases()).then(() => { const el = document.getElementById('prox-' + a.id); if (el) el.innerHTML = txt(); }); return `<li><b>Próxima clase:</b> <span id="prox-${a.id}"><span class="muted">buscando en tu calendario…</span></span></li>`; }
+      return `<li><b>Próxima clase:</b> ${txt()}</li>`;
+    })() : ''}
     <li><b>Weekly de esta semana:</b> ${wEsta ? (wEsta.respuesta_flor ? '✓ mandado y respondido' : '✓ mandado · <a href="#bandeja/weeklies">te falta responderlo</a>') : '✗ todavía no lo mandó'}</li>
     ${ult ? `<li><b>Cómo está</b> <span class="muted small">(weekly del ${fecha(ult.semana, { day: 'numeric', month: 'short' })})</span>: ${esc(corto(ult.respuestas.wins || ult.respuestas.donde, 160))}${ult.respuestas.necesito ? `<br><span class="muted small">Necesita: ${esc(corto(ult.respuestas.necesito, 140))}</span>` : ''}</li>` : ''}
     <li><b>Tareas:</b> ${tp.length ? tp.map((t) => '○ ' + esc(t.texto)).join('<br>') : '✓ nada pendiente'}${pend.length ? `<br><a href="#bandeja/pedidos">${pend.length === 1 ? 'Te mandó 1 cosa' : `Te mandó ${pend.length} cosas`} que espera${pend.length === 1 ? '' : 'n'} tu feedback</a>` : ''}</li>
