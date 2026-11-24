@@ -16,6 +16,8 @@ Por qué existe: el 09/10 las hojas de Brenda y Luz salieron con "PARTE 1 · GU�
    b) NO contiene ninguno de estos textos: "GUÍA DE FLOR", "PARTE 1", "PARTE 2", "Es para vos", "no se proyecta", "Si va muy bien", "Si le cuesta", "Documento base", "Notas de Gemini", "Registro de progreso", "Carry-over", "Cálculo:";
    c) el único texto en español es la sección "Tarea" (máx. 2 líneas, con "tú" para alumnas no argentinas y voseo para argentinas);
    d) Narrative Flow tiene como máximo 5 filas.
+   e) el título tiene la fecha de HOY (formato DD MMM AAAA) y el doc fue creado hoy; una hoja de otra fecha no pasa, aunque esté bien armada.
+   f) tiene "Answers · check them after you try" con la columna Why completa en todas las filas.
    Si falla cualquier punto: renombrá ese doc con "[versión anterior — no usar]", rehacelo con la plantilla y volvé a controlar. En el correo a Flor, al lado de cada clase: "Hoja ✅ control de marca y contenido".
 
 4. El link que va en el evento del calendario ("Hoja de la alumna:") es SIEMPRE el del doc que pasó el control.

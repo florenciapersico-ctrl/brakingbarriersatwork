@@ -45,6 +45,14 @@ b) Sus últimas clases REALES: las notas de Gemini. SIEMPRE EL ÚLTIMO DOCUMENTO
    - En la guía de Flor (Notion) dejá escrito qué documento usaste, con fecha y link.
    Si no hay notas ni grabación de una clase, esa clase NO se considera dada: no construyas continuidad sobre ella. Decí cuánto hace de la última clase verificable (si hace más de 3 semanas, la clase arranca con 5 minutos de re-entrada: qué pasó, qué cambió).
 
+b bis) LO MÁS RECIENTE QUE HABLÓ (Flor, 24/11/2026: «no sirve armarles clases con cosas tan viejas»; a Vir se le armó la tabla con frases de una clase de 11 días antes cuando el sábado había dado ella el lab). Flor graba las clases con WISPR, no siempre hay notas de Gemini. Antes de elegir las frases, juntá TODAS las fuentes donde la alumna habló desde su última hoja preparada y quedate con la MÁS RECIENTE:
+   - Wispr Flow: search_meetings con su nombre, apodo o mail (attendee_emails) y sort 'start', últimos 21 días, y get_meeting con view_transcript completo (seguí start_char). Incluye sus 1:1 Y LOS LABS DE LOS SÁBADOS a los que fue (título "🧪 Lab"). En Wispr los nombres de quién habla suelen estar mezclados: identificá sus frases por el contenido (lo que cuenta, lo que presenta), no solo por la etiqueta.
+   - Notas de Gemini (como dice b).
+   - Lo que mandó para feedback (Supabase public.pedidos y borradores con su transcripción) y su weekly de esta semana.
+   La fuente para Narrative Flow es la de fecha más nueva. Si lo más nuevo que habló tiene más de 14 días, decilo en el correo a Flor ("⚠️ <apodo>: no habla desde el dd/mm") en vez de rellenar con frases viejas.
+   NUNCA van a la tabla: frases que leyó en voz alta de una hoja o de la pantalla (ejercicios de corrección que llevó Flor), frases que Flor ya le corrigió en esa clase, frases que estaban en la hoja preparada de esa clase ni frases de hojas o resúmenes anteriores. Si la única forma de llenar 5 filas es con eso, poné menos filas.
+   Antes de marcar algo como error, entendé qué quiso decir (pregunta o afirmación, presente o pasado) leyendo lo que viene antes y después; la corrección tiene que respetar lo que ella quiso decir. Solo errores con certeza total.
+
 c) De esas notas sacá, con evidencia literal (nunca inventes patrones: si no está en el transcript, no va):
    - qué se trabajó y qué producto real hicieron (email, presentación, reunión, explicación);
    - 5 a 8 ERRORES REALES que la alumna dijo, citando la frase tal como la dijo y su versión corregida (ej.: "related with" → "related to"; "a distributor that are going to" → "a distributor that is going to");
@@ -107,7 +115,7 @@ SI EL EVENTO TIENE "⭐ ANTES DE ARRANCAR LA CLASE · 10 MIN DE CONVERSACIÓN DE
 LA CLASE TIENE 4 PARTES (equilibrada: no puede ser todo libre; en cada clase la alumna tiene que llevarse conocimiento nuevo, no solo práctica):
 
 1. NARRATIVE FLOW — sus errores reales de la clase anterior (≈12 min)
-   REGLA DURA (06/10/2026, pasó con Emely el 05/10: se repitieron las frases y el tema del 30/09): las frases salen de las notas de Gemini de su ÚLTIMA clase dada (la más reciente con notas, no la anterior). Antes de cerrar la hoja, abrí la hoja de su clase anterior y compará: ninguna frase del Bloque 1 ni el tema del Bloque 2 pueden repetirse, salvo que lo marques "Repaso: …" porque en la última clase volvió a salir mal (con la cita). Si la última clase no tiene notas todavía, usá la anterior pero con frases que NO estén en la hoja previa, y avisale a Flor en "Para tener en cuenta".
+   REGLA DURA (06/10/2026, pasó con Emely el 05/10: se repitieron las frases y el tema del 30/09): las frases salen de lo MÁS RECIENTE que habló (paso 3 b bis: Wispr o Gemini, clase 1:1 o lab), no de una clase vieja. Antes de cerrar la hoja, abrí la hoja de su clase anterior y compará: ninguna frase del Bloque 1 ni el tema del Bloque 2 pueden repetirse, salvo que lo marques "Repaso: …" porque en la última clase volvió a salir mal (con la cita). Si la última clase no tiene notas todavía, usá la anterior pero con frases que NO estén en la hoja previa, y avisale a Flor en "Para tener en cuenta".
    Tabla: | Oración completa | Error resaltado | Corrección | Tipo (Fossilized / Gap) |. Solo sus palabras, máximo 5 errores, los más importantes primero. Ella primero identifica y corrige sola; después clasifica con Flor. Si hay errores de gap, cerrá con: "→ Gap identificado: [tema]. Lo trabajamos en el Bloque 2." Si varios errores comparten una regla, cerrá la tabla con esa regla en una línea (ej.: "las preposiciones viajan en bloques fijos: related TO, depend ON, ask US FOR; no se traducen del español").
 
 2. LANGUAGE CLINIC — gramática o vocabulario que le falta (≈12 min)
@@ -138,6 +146,13 @@ Contenido del doc:
 - Al final, EN ESPAÑOL: "Tarea:" en 2 líneas como máximo: qué training de la plataforma mira, qué practica (con el bot o sola) y qué trae a la próxima clase.
   REGLA DE FLOR (30/10): el training que se nombra en la Tarea tiene que EXISTIR y estar GRABADO: buscalo en Notion › base AT WORK (collection://b2c445b1-b3ad-41c2-9bd5-e2ff81858d53), usá su nombre exacto (por ejemplo "M3 · Questions & Indirect Questions") y pegá su link. Los nombres de las tablas de la escalera y de los roadmaps .docx (por ejemplo "Questions & Word Order · M3 Training 2") son viejos: nunca los copies. Si no hay un training grabado que corresponda, la tarea es solo práctica (con el bot o sola) y no se nombra ningún training. Tampoco mandes a ver un training que la alumna ya vio (mirá su weekly y sus clases).
 Branding AT WORK: marrón #82552E (títulos), terracota #C68C6C (subtítulos y bordes de tabla), crema #FFF8E7 (fondos de encabezados de tabla), tipografía Open Sans. Errores en rojo y correcciones en verde dentro de la tabla. Nada de diagnóstico ni notas para Flor en el doc.
+
+CONTROL FINAL DE CADA HOJA (Flor, 24/11/2026: la de Vir salió sin su branding, con una hoja de otra fecha y con errores viejos). Una clase está LISTA solo si cumple TODO esto; si no, se rehace antes del correo:
+   1. El título del doc tiene la fecha de HOY y el doc se creó hoy (nunca se reusa ni se re-fecha una hoja de otra clase, aunque la clase se haya movido).
+   2. Pasa rutinas/plantillas/control-hoja-alumna.md (marca: Open Sans, #82552e, terracota, crema; nada en azul ni Arial).
+   3. Tiene los bloques de la plantilla en orden: Today's goal en recuadro, 1 Narrative Flow + "Answers · check them after you try" (4 columnas, Why completo), 2 Language Clinic, 3 Skill, 4 Pronunciation, Tarea, pie de marca.
+   4. Las frases de Narrative Flow salen de la fuente más reciente del paso 3 b bis y se puede decir de qué grabación y fecha es cada una.
+   En el correo a Flor, al lado de cada clase: "Hoja ✅ fecha · marca · bloques · frases del <fecha de la fuente> (<Wispr/Gemini, clase o lab>)". Si una hoja no pasa y no se pudo rehacer, el latido 'prep' va en false nombrando la alumna: así la tarea de Reintentos la vuelve a correr antes del mediodía.
 
 Si ya existe para esa alumna y esa fecha un doc anterior, renombralo con el prefijo "[versión anterior — no usar]". No lo borres.
 No lo compartas con la alumna: Flor decide si se lo comparte.
