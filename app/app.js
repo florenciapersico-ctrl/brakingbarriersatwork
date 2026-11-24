@@ -2062,7 +2062,7 @@ ${semanaContenido(st._semC, (() => { const d = new Date(lun + 'T12:00:00'); d.se
 
   // ---------- Semáforo (Flor, 16/11): ¿corrió todo lo automático? ----------
   // Sale de dos lados: lo que se ve en los datos (clases sin resumen, Tu día sin cargar) y el "latido" que deja cada tarea al terminar.
-  const LATIDOS = [['prep', '🌙 Preparación de clases (3 am)'], ['tudia', '📌 Tu día (7:41)'], ['clases', '🎓 Clases del día (cada hora)'], ['sync', '📲 Feedbacks y weeklies (21:13)'], ['control', '🛟 Control de clases (22:43)'], ['mantenimiento', '🛠️ Mantenimiento (6:23)']];
+  const LATIDOS = [['prep', '🌙 Preparación de clases (3 am)'], ['tudia', '📌 Tu día (7:41)'], ['clases', '🎓 Clases del día (9:17, 13:17, 17:17 y 21:17)'], ['sync', '📲 Feedbacks y weeklies (21:13)'], ['control', '🛟 Control de clases (22:43)'], ['mantenimiento', '🛠️ Mantenimiento (6:23)']];
   async function semaforoHTML(hoyD) {
     const hoy = new Date(), hoyI = diaISO(hoy), ayer = new Date(hoy); ayer.setDate(ayer.getDate() - 1);
     if (ayer.getDay() === 0) ayer.setDate(ayer.getDate() - 1);
@@ -2071,11 +2071,15 @@ ${semanaContenido(st._semC, (() => { const d = new Date(lun + 'T12:00:00'); d.se
     const hh = (iso) => new Date(iso).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit', hour12: false });
     const nom = (t) => esc(String(t || '').split(' ')[0]);
     const exento = (x) => /vacaciones|no vino|no mandar/i.test(x.estado || '');
-    const rojos = [], amarillos = [];
+    const rojos = [], amarillos = [], paraVos = [];
+    // Los resúmenes quedan como borrador y los manda Flor (24/11): si ya está el borrador, no es una falla, le toca a ella.
+    const borrador = (x) => /BORRADOR/i.test(x.estado || '');
+    const det = (x) => (x.estado ? ' ' + esc(x.estado) : '');
     // Clases de hoy que ya terminaron hace más de 90 minutos y no tienen el resumen enviado
     (hoyD || []).filter((x) => x.tipo === 'clase' && x.inicio && !x.enviado_en && !exento(x) && Date.now() - new Date(x.inicio) > 150 * 60e3)
-      .forEach((x) => rojos.push(`Clase de ${nom(x.titulo)} (${hh(x.inicio)}): sin resumen enviado.${x.estado ? ' ' + esc(x.estado) : ''}`));
-    (cAyer || []).filter((x) => !x.enviado_en && !exento(x)).forEach((x) => rojos.push(`Clase de ayer de ${nom(x.titulo)}: sin resumen enviado.`));
+      .forEach((x) => (borrador(x) ? paraVos.push(`Clase de ${nom(x.titulo)} (${hh(x.inicio)})`) : rojos.push(`Clase de ${nom(x.titulo)} (${hh(x.inicio)}): todavía sin resumen.${det(x)}`)));
+    (cAyer || []).filter((x) => !x.enviado_en && !exento(x))
+      .forEach((x) => (borrador(x) ? paraVos.push(`Clase de ayer de ${nom(x.titulo)}`) : rojos.push(`Clase de ayer de ${nom(x.titulo)}: todavía sin resumen.${det(x)}`)));
     if (hoy.getDay() !== 0 && hoy.getHours() >= 9 && !(hoyD || []).some((x) => x.tipo !== 'clase' || x.clave.startsWith('clase:'))) rojos.push('Tu día de hoy no se cargó (clases y contenido).');
     if (lat) {
       const porK = {}; lat.forEach((l) => (porK[l.clave] = l));
@@ -2087,11 +2091,16 @@ ${semanaContenido(st._semC, (() => { const d = new Date(lun + 'T12:00:00'); d.se
         if (horas > (hoy.getDay() === 1 ? 54 : 30)) amarillos.push(`${n}: no corre desde el ${fecha(l.cuando, { weekday: 'long', day: 'numeric' })}.`);
       });
     }
-    const verde = !rojos.length && !amarillos.length;
+    const fallas = rojos.length + amarillos.length, verde = !fallas && !paraVos.length;
+    const titulo = verde ? '🟢 Todo lo automático está al día' : rojos.length ? '🔴 Algo no corrió' : amarillos.length ? '🟡 Revisar' : '✉️ Te toca a vos';
     return `<section class="card semaforo ${verde ? 'ok' : rojos.length ? 'mal' : 'medio'}">
-  <div class="row between"><h3>${verde ? '🟢 Todo lo automático está al día' : rojos.length ? '🔴 Algo no corrió' : '🟡 Revisar'}</h3><span class="muted small">${hh(new Date())}</span></div>
-  ${verde ? '<p class="muted small">Clases con su resumen, Tu día cargado y todas las tareas corrieron.</p>' : `<ul class="neg small">${rojos.map((t) => `<li>🔴 ${t}</li>`).join('')}${amarillos.map((t) => `<li>🟡 ${t}</li>`).join('')}</ul>
-  <p class="small">No tenés que hacer nada: «🔁 Reintentos» lo vuelve a correr solo cada 2 horas (8:13 a 22:13) y esto se pone verde cuando sale. Si a la noche sigue en rojo, abrí Claude en el proyecto «app de at work» y escribí <b>«arreglá lo que está en rojo»</b>. ${lat == null ? '<br><span class="muted">(Falta activar la tabla del semáforo.)</span>' : ''}</p>`}
+  <div class="row between"><h3>${titulo}</h3><span class="muted small">${hh(new Date())}</span></div>
+  ${verde ? '<p class="muted small">Clases con su resumen, Tu día cargado y todas las tareas corrieron.</p>' : ''}
+  ${fallas ? `<ul class="neg small">${rojos.map((t) => `<li>🔴 ${t}</li>`).join('')}${amarillos.map((t) => `<li>🟡 ${t}</li>`).join('')}</ul>
+  <p class="small">No tenés que hacer nada: «🔁 Reintentos» lo vuelve a correr solo a las 13:13 y a las 19:13 (también las clases de hoy y de ayer que siguen sin resumen), y a las 22:43 el control de clases da una última vuelta. Si a la noche sigue en rojo, te llega un aviso.${lat == null ? '<br><span class="muted">(Falta activar la tabla del semáforo.)</span>' : ''}</p>` : ''}
+  ${paraVos.length ? `<p class="small" style="margin:${fallas ? '12px' : '6px'} 0 2px"><b>✉️ Resumen listo como borrador: leelo y, si está ok, mandalo</b></p>
+  <ul class="neg small">${paraVos.map((t) => `<li>${t}</li>`).join('')}</ul>
+  <p class="small muted">Está en tu Gmail, en la etiqueta «AT WORK/Feedback para revisar». Cuando lo mandás, esto se pone verde solo.</p>` : ''}
 </section>`;
   }
 
