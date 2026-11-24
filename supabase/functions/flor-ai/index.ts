@@ -1144,7 +1144,10 @@ Deno.serve(async (req) => {
     const enviar = body.enviar === true;
 
     try {
-      const r = await fetch(url, { method: "POST", headers: { "Content-Type": "text/plain" }, body: JSON.stringify({ secreto, accion: "borrador", enviar, para: email, asunto, texto, html, responder }) });
+      // Emojis (Flor, 24/11: «les llegan rotos a mis alumnas»): en el HTML cada emoji viaja como entidad (&#128153;),
+      // que se ve bien aunque el Apps Script tenga que usar la vía vieja de Gmail (la que los rompe).
+      const htmlSeguro = html.replace(/[\u{10000}-\u{10FFFF}]/gu, (c) => `&#${c.codePointAt(0)};`);
+      const r = await fetch(url, { method: "POST", headers: { "Content-Type": "text/plain" }, body: JSON.stringify({ secreto, accion: "borrador", enviar, para: email, asunto, texto, html: htmlSeguro, responder }) });
       const out = await r.json().catch(() => ({}));
       if (!out.ok) return json({ error: `No se pudo ${enviar ? "enviar el mail" : "armar el borrador en Gmail"} (${String(out.error || r.status).slice(0, 120)}). Si todavía no publicaste la versión nueva del Apps Script, publícala y prueba de nuevo.` }, 502);
       // Si se pidió enviar y el Apps Script todavía es el viejo, solo armó el borrador: se avisa en vez de marcarlo respondido.
