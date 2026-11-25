@@ -156,6 +156,11 @@
         ok(await sb.from('fotos_carrusel').insert(meta));
         return meta;
       },
+      // Lo que ya publicó (Flor, 25/11): el link del posteo de Instagram en ig_link. Lo que no salió del plan va como fila 'publicado:<n>' (tipo 'publicado').
+      async publicados() { return ok(await sb.from('hoy_flor').select('fecha,clave,tipo,titulo,ig_link').not('ig_link', 'is', null).order('fecha', { ascending: false }).limit(300)); },
+      async guardarIgLink(fecha, clave, link) { const c = { ig_link: link || null, actualizado: new Date().toISOString() }; if (link) c.hecho = true; ok(await sb.from('hoy_flor').update(c).eq('fecha', fecha).eq('clave', clave).select('clave')); },
+      async agregarPublicado(fecha, titulo, link) { ok(await sb.from('hoy_flor').insert({ fecha, clave: 'publicado:' + Date.now(), tipo: 'publicado', orden: 98, titulo, ig_link: link, hecho: true, actualizado: new Date().toISOString() })); },
+      async quitarPublicado(fecha, clave) { if (/^publicado:/.test(clave)) ok(await sb.from('hoy_flor').delete().eq('fecha', fecha).eq('clave', clave)); else ok(await sb.from('hoy_flor').update({ ig_link: null }).eq('fecha', fecha).eq('clave', clave)); },
       // Labs (panel de Flor): filas de hoy_flor con clave 'lab:guion' (guion + feedback) y 'lab:registro' (qué se hizo), tipo 'otro'.
       async labsFlor() { return ok(await sb.from('hoy_flor').select('*').like('clave', 'lab:%').order('fecha', { ascending: false }).limit(200)); },
       async guardarLabFlor(f, clave, c) {
@@ -294,7 +299,7 @@
     try { S = JSON.parse(localStorage.getItem(KEY)) || seed(); } catch (e) { S = seed(); }
     const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
     // Un carrusel de ejemplo para probar el diseñador en la demo.
-    const demoCarrusel = (f) => ({ fecha: f, clave: 'pieza:demo-carrusel', tipo: 'subir', orden: 2, titulo: 'Carrusel · Belem entró tarde a la reunión', detalle: 'Demanda · Idea D6 · auditado 9/10', texto: 'Caption de ejemplo…', texto2: 'PLACAS:\n1 · …',
+    const demoCarrusel = (f) => ({ fecha: f, clave: 'pieza:demo-carrusel', tipo: 'subir', orden: 2, ig_link: ((S.publicados || []).find((x) => x.clave === 'pieza:demo-carrusel' && x.fecha === f) || {}).ig_link || null, titulo: 'Carrusel · Belem entró tarde a la reunión', detalle: 'Demanda · Idea D6 · auditado 9/10', texto: 'Caption de ejemplo…', texto2: 'PLACAS:\n1 · …',
       carrusel: (S.carruseles || {})['pieza:demo-carrusel|' + f] || { receta: 'historia', formato: 'carrusel', semilla: 0, placas: [
         { forma: 'portada_profundidad', pre: 'Entró tarde a la reunión. Y le tocó explicar sus', palabra: 'NÚMEROS', pill: 'Lo explicó en orden.' },
         { forma: 'oscura', texto: 'Su equipo se volvió referencia para otros países.', texto_i: 'Y a ella le daba más miedo explicarlo que hacerlo.' },
@@ -367,6 +372,10 @@
       async hoyHecho() {},
       async guardarCarrusel(fecha, clave, carrusel) { S.carruseles = S.carruseles || {}; S.carruseles[clave + '|' + fecha] = carrusel; save(); },
       async fotosCarrusel() { return []; },
+      async publicados() { return copia((S.publicados || []).slice().sort((a, b) => (a.fecha < b.fecha ? 1 : -1))); },
+      async guardarIgLink(fecha, clave, link) { S.publicados = (S.publicados || []).filter((x) => !(x.clave === clave && x.fecha === fecha)); if (link) S.publicados.push({ fecha, clave, tipo: 'subir', titulo: 'Carrusel · Belem entró tarde a la reunión', ig_link: link }); save(); },
+      async agregarPublicado(fecha, titulo, link) { (S.publicados = S.publicados || []).push({ fecha, clave: 'publicado:' + Date.now(), tipo: 'publicado', titulo, ig_link: link }); save(); },
+      async quitarPublicado(fecha, clave) { S.publicados = (S.publicados || []).filter((x) => !(x.clave === clave && x.fecha === fecha)); save(); },
       async labsFlor() { return copia(S.labs || [{ fecha: S.programa.proximo_lab.iso || lunes(), clave: 'lab:guion', tipo: 'otro', titulo: 'Lab de ejemplo', texto: '## Step 1 · Welcome\n- **"Hi everyone!"**\n- Paste in the chat: A, B or C', texto2: '', link: 'https://docs.google.com/document/d/demo/edit' }]); },
       async guardarLabFlor(f, clave, c) { S.labs = S.labs || []; let x = S.labs.find((r) => r.fecha === f && r.clave === clave); if (!x) S.labs.push((x = { fecha: f, clave, tipo: 'otro' })); Object.assign(x, c); save(); },
       async claseOk() {},

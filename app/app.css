@@ -527,3 +527,10 @@ main{overflow-wrap:break-word}
 /* Nota rapida y tablero de alumnas (23/11) */
 .nrap{margin:8px 0}.nrap .nr-t{flex:1;min-height:44px}.nrap .nr-lista{margin:4px 0 6px}
 .tablero td,.tablero th{vertical-align:top;text-align:left}.tablero td{padding:8px 6px}
+
+/* Contenido: link del posteo publicado y lista de publicados (Flor, 25/11) */
+.ig-form{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:8px 0 2px}
+.ig-form input{flex:1 1 220px;min-width:0;min-height:38px;font-size:16px}
+.pub-form{display:grid;grid-template-columns:150px 130px minmax(0,1fr) minmax(0,1fr) auto;gap:6px;margin:8px 0 6px}
+.pub-form input,.pub-form select{min-width:0;min-height:40px;font-size:16px}
+@media(max-width:760px){.pub-form{grid-template-columns:1fr 1fr}.pub-form #pubTit,.pub-form #pubL{grid-column:1/-1}}

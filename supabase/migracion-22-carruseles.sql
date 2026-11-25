@@ -5,6 +5,8 @@
 -- 1) Cada pieza de contenido (fila 'pieza:%' de hoy_flor) puede traer su carrusel ya diseñado:
 --    {"receta":"historia","formato":"carrusel","semilla":0,"placas":[{"forma":"portada_foto","titulo":"…","_foto":"campera.jpg"}, …]}
 alter table public.hoy_flor add column if not exists carrusel jsonb;
+-- Link del posteo ya publicado en Instagram (Flor, 25/11: «un lugar donde ir ordenando las publicaciones»).
+alter table public.hoy_flor add column if not exists ig_link text;
 
 -- 2) Las fotos nuevas que Flor sube desde la app (se suman a las de app/carruseles/fotos).
 create table if not exists public.fotos_carrusel (
