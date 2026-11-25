@@ -96,7 +96,14 @@
 @media(max-width:760px){.crs-modal .cm{grid-template-columns:minmax(0,1fr)}}`;
 
   // ¿La lámina lleva foto? Con estilos lo decide el estilo (y la lámina puede pedir o sacar la suya).
-  const lleva = (c, p, i) => (c.estilo && ES ? ES.llevaFoto(c, p, i) : M.necesitaFoto(p.forma, c.receta));
+  const lleva = (c, p, i) => (c.estilo && ES ? ES.llevaFoto(c, p, i) : M.necesitaFoto(p.forma, c.receta) || /foto_frase|recorte_lado/.test(ranura(c, p, i)));
+  // Qué forma le toca a una lámina de texto en el ritmo de su receta.
+  function ranura(c, p, i) {
+    if (p.forma !== 'texto' || p.fijo || c.formato === 'reel') return '';
+    const R = RITMO[c.receta]; if (!R) return '';
+    let k = 0; for (let j = 1; j < i; j++) if ((c.placas[j] || {}).forma === 'texto') k++;
+    return R[k % R.length];
+  }
   // Ajuste de la letra para los estilos: mide el bloque de texto real y achica solo lo necesario (mínimo 60 %).
   function ajustar(root) {
     if (!root) return;
@@ -114,7 +121,10 @@
       const ci = c.querySelector(':scope > .ci'); if (!ci) return; usado = true;
       let k = 0; while (ci.offsetHeight > c.clientHeight + 1 && k < 30) { ci.querySelectorAll('[data-fs]').forEach((e) => { const f = parseFloat(e.style.fontSize), min = parseFloat(e.dataset.fs) * 0.72; if (f > min) e.style.fontSize = f * 0.95 + 'px'; }); k++; }
     });
-    if (!usado) M.fit(root);
+    if (!usado) {
+      M.fit(root);
+      root.querySelectorAll('.caja').forEach((c) => { const j0 = c.style.justifyContent; c.style.justifyContent = 'flex-start'; let k = 0; while (c.scrollHeight > c.clientHeight + 2 && k < 40) { c.querySelectorAll('[data-fs]').forEach((e) => { const f = parseFloat(e.style.fontSize), min = parseFloat(e.dataset.fs) * 0.45; if (f > min) e.style.fontSize = f * 0.95 + 'px'; }); k++; } c.style.justifyContent = j0; });
+    }
   }
   const defs = (forma, c) => (c && c.estilo ? ES && ES.ROLES[forma] : M.FORMAS[forma]) || M.FORMAS[forma] || (ES && ES.ROLES[forma]) || { n: forma, c: [] };
   /* ---------- fotos: sin repetir en 3 semanas entre todas las piezas cargadas ---------- */
@@ -133,7 +143,7 @@
         if (!lleva(c, p, idx)) return; // la foto elegida queda guardada por si vuelve a un estilo con foto
         const ok = p._foto && M.catalogo.some((e) => e.archivo === p._foto && !e.excluir);
         if (ok && !rehacer && (!p.foto || p.foto === 'objeto' || p.foto === 'persona' || p.foto === p._foto)) return;
-        const forma = c.estilo ? (p.forma === 'portada' ? (ES.tplDe(c) === 'recorte' ? 'portada_profundidad' : 'portada_foto') : 'foto_frase') : p.forma === 'cierre' ? 'foto_frase' : p.forma, pedida = p.foto && p.foto !== 'persona' && p.foto !== 'objeto' ? p.foto : c.estilo ? p.foto || ES.pide(c, p, idx) : p.forma === 'cierre' ? p.foto || 'objeto' : p.foto;
+        const forma = c.estilo ? (p.forma === 'portada' ? (ES.tplDe(c) === 'recorte' ? 'portada_profundidad' : 'portada_foto') : 'foto_frase') : p.forma === 'cierre' ? 'foto_frase' : ranura(c, p, idx) || p.forma, pedida = p.foto && p.foto !== 'persona' && p.foto !== 'objeto' ? p.foto : c.estilo ? p.foto || ES.pide(c, p, idx) : p.forma === 'cierre' ? p.foto || 'objeto' : p.foto;
         let e = M.tomarFoto(forma, H, pedida, usadas, r);
         if (!e && p.forma === 'portada_profundidad') { p.forma = 'portada_foto'; p.titulo = p.titulo || [p.pre, p.palabra].filter(Boolean).join(' '); p.titulo_i = p.titulo_i || p.pill || ''; e = M.tomarFoto('portada_foto', H, null, usadas, r); }
         if (e && e.archivo !== p._foto) { p._foto = e.archivo; cambio = true; }
@@ -157,11 +167,24 @@
   }
   const PORTADAS = [['portada_foto', 'Con foto'], ['portada_serif', 'Serif grande'], ['portada_botones', 'Con opciones'], ['portada_profundidad', 'Palabra gigante']];
   const fotoDe = (p) => (p._foto ? M.catalogo.find((e) => e.archivo === p._foto) || null : null);
+  // Ritmo de adentro de cada receta (Flor, 25/11: «las portadas me encantan, el diseño de adentro todavía no»):
+  // las láminas de texto se muestran alternando con las formas propias de la receta, sin cambiar lo guardado.
+  var RITMO = { editorial: ['texto', 'foto_frase', 'texto'], tarjetas: ['texto', 'foto_frase'], historia: ['oscura', 'foto_frase', 'recorte_lado', 'texto'], serif: ['foto_frase', 'texto'] };
+  function vistaTexto(c, i, p) {
+    const R = RITMO[c.receta]; if (!R) return null;
+    const f = ranura(c, p, i), fo = fotoDe(p), it = [p.titulo_i, p.cuerpo].filter(Boolean).join(' ');
+    const pal = [p.titulo, it].filter(Boolean).join(' ').split(/\s+/).length;
+    if (f === 'foto_frase' && fo && pal <= 26) return { forma: f, d: { ...p, pre: '', frase_i: [p.titulo, it].filter(Boolean).join(' ') } };
+    if (f === 'recorte_lado' && fo && fo.tiene_recorte && pal <= 24) return { forma: f, d: p };
+    if (f === 'oscura') return { forma: f, d: { ...p, texto: p.titulo || '', texto_i: it } };
+    return null;
+  }
   function htmlPlaca(c, i, escala) {
     const H = alto(c), p = c.placas[i]; if (!p) return '';
     if (c.estilo && ES) { const fo = lleva(c, p, i) ? fotoDe(p) : null; return `<div style="transform:scale(${escala});width:${M.W}px;height:${H}px;transform-origin:0 0">${ES.placa(c, i, H, fo, fo ? M.urlDe(fo) : '', M.assets)}</div>`; }
-    const forma = c.formato === 'reel' && i === 0 && !p.forma.startsWith('portada_') ? M.RECETAS[c.receta].portadas[0] : p.forma;
-    return `<div data-esc="${+p.escala || 1}" data-pos="${p.pos || ''}" style="transform:scale(${escala});width:${M.W}px;height:${H}px;transform-origin:0 0">${M.placa(forma, p, H, c.receta, fotoDe(p), p.fondo_img ? M.catalogo.find((e) => e.archivo === p.fondo_img) || null : null)}</div>`;
+    let forma = c.formato === 'reel' && i === 0 && !p.forma.startsWith('portada_') ? M.RECETAS[c.receta].portadas[0] : p.forma, d = p;
+    if (forma === 'texto' && c.formato !== 'reel' && !p.fijo) { const v = vistaTexto(c, i, p); if (v) { forma = v.forma; d = v.d; } }
+    return `<div data-esc="${+p.escala || 1}" data-pos="${p.pos || ''}" style="transform:scale(${escala});width:${M.W}px;height:${H}px;transform-origin:0 0">${M.placa(forma, d, H, c.receta, fotoDe(p), p.fondo_img ? M.catalogo.find((e) => e.archivo === p.fondo_img) || null : null)}</div>`;
   }
 
   /* ---------- la tarjeta dentro de cada pieza ---------- */
@@ -440,7 +463,7 @@
   async function pintar(raiz, filas, opciones) {
     const els = $$('[data-crs]', raiz); if (!els.length && !$$('[data-crs-mini]', raiz).length) return;
     guardarFn = opciones && opciones.guardar; subirFn = opciones && opciones.subir;
-    try { await preparar(opciones && opciones.fotos); }
+    try { await preparar(opciones && opciones.fotos); await Promise.all([...document.fonts].map((x) => x.load().catch(() => null))); await document.fonts.ready; }
     catch (e) { els.forEach((el) => (el.innerHTML = '<p class="small muted">No pude cargar el diseñador de carruseles. Recargá la página.</p>')); return; }
     // Todo carrusel pasa a los estilos nuevos (Flor, 25/11): un estilo para todo el posteo.
     const SELLO = { demanda: 'Caso real', valor: 'Error común', 'valor + crecimiento': 'Error común', crecimiento: 'Opinión', 'conversión': 'AT WORK', inspira: 'Mi historia', autoridad: 'Caso real' };
