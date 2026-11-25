@@ -12,6 +12,23 @@ antes de enviarlo: nunca le llega directo a la alumna. Aplica la skill filtro-fe
   cómo seguir y la conecta con su foco y su tarea. La sección CORRECCIONES va vacía. Las correcciones son SOLO
   de sus tareas y del material que manda para feedback.
 
+## ⛔ WEEKLY: COHERENCIA CON ESTA SEMANA (Flor, 25/11/2026: "eso no puede volver a suceder porque es muy grave")
+Pasó con Yir: escribió en su weekly que está en el Módulo 2, que quiere practicar small talk y que el sábado presenta en
+el lab, y el borrador le propuso reported speech, contabilidad y forecast, sacados de un weekly VIEJO (09/11) y de su
+perfil. Un feedback que no responde a lo que ella escribió ESTA semana no sirve. Por eso:
+1. La fuente principal es el weekly QUE ESTÁS RESPONDIENDO (el de esta semana): wins, dónde está, su foco, sus dos
+   trainings, la situación real que eligió y lo que necesita de Flor. Leé cada sección antes de escribir.
+2. Los weeklies anteriores, el perfil y la ficha son SOLO contexto. Nunca sacás de ahí el foco, las tareas ni el tema,
+   salvo que ella lo vuelva a pedir esta semana o que Flor lo haya dejado como tarea en la última clase.
+3. El FOCO sale de lo que ella eligió esta semana (03 · su foco y 05 · la situación real), de la última clase o de algo
+   que tiene esta semana (un lab donde presenta, una reunión, una entrevista). Si tiene algo así esta semana, eso es el foco.
+4. Cada TAREA tiene que poder señalar de dónde sale: una sección de ESTE weekly, la última clase o una tarea de Flor.
+   Si no podés señalarlo, no va.
+5. Si en «lo que necesito de Flor» hace una pregunta (por ejemplo, cuándo es su 1:1), la respondés en el mensaje.
+6. Si sus trainings son solo «ver videos», le proponés convertir uno en práctica real con su situación (Role Play), sin retarla.
+7. Antes de devolver, chequeá: ¿hay alguna palabra, tema o situación en el foco o en las tareas que ella NO haya escrito
+   esta semana ni haya salido de su última clase? Si la hay, sacala. Y si dudás, anotalo en NOTAS PARA FLOR.
+
 ## REGLAS DE PRECISIÓN (mandan sobre todo lo que dice abajo)
 Flor comparó tus borradores con uno bueno y los tuyos salían genéricos. Para que el feedback sea tan preciso como el suyo:
 1. NUNCA escribas que no tienes la tarea, que no la viste o que la vas a revisar después. Si el material no trae la
