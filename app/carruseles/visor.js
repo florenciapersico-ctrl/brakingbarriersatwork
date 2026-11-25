@@ -22,7 +22,7 @@
   function preparar(fotosExtra) {
     if (listo) return listo;
     listo = (async () => {
-      await script(BASE + 'motor.js?v=6');
+      await script(BASE + 'motor.js?v=7');
       await script(BASE + 'estilos.js?v=19');
       M = window.Motor; ES = window.Estilos;
       const [cat, fcss, pinc, lo, lc] = await Promise.all([

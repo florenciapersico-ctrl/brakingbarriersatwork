@@ -8,7 +8,7 @@ const RECETAS = {
   editorial: {n:"Editorial", para:"valor", desc:"Crema con mucho aire, números terracota, nota del celular sobre foto, cierre olivo.",
     portadas:["portada_foto"], fondo:"crema", cierre:"olivo", formas:["texto","numerada","notas_foto","frase","tarjetas","cierre"]},
   tarjetas: {n:"Tarjetas", para:"valor, crecimiento", desc:"Fotos con tarjetas encima (calendario, notas, botones), error tachado con su corrección.",
-    portadas:["portada_botones","portada_foto"], fondo:"crema_m", cierre:"foto", formas:["tarjetas","notas_foto","error","foto_frase","calendario","cierre"]},
+    portadas:["portada_botones","portada_foto"], fondo:"crema_m", cierre:"foto", formas:["tarjetas","notas_foto","error","foto_frase","calendario","duo","cierre"]},
   historia: {n:"Historia", para:"demanda", desc:"Historia de alumna en café oscuro, palabra detrás de ti, recorte sobre crema.",
     portadas:["portada_profundidad","portada_foto"], fondo:"bb", cierre:"bb", formas:["oscura","foto_frase","tachado","recorte_lado","texto","cierre"]},
   serif: {n:"Serif", para:"crecimiento, inspira", desc:"Serif gigante y fina sobre foto oscurecida, placas de texto grandes.",
@@ -26,6 +26,7 @@ const FORMAS = {
   notas_foto: {n:"Nota del celular sobre foto", c:[["titulo","Título de la nota","t"],["lineas","2 a 4 líneas: negrita | resto","p"]]},
   tarjetas: {n:"Tarjetas", c:[["titulo","Título","a"],["sub","Bajada","t"],["tarjetas","2 a 4 tarjetas: negrita | resto","p"]]},
   calendario: {n:"Calendario sobre foto", c:[["titulo","Título","a"],["sub","Bajada","t"],["hora","Hora","t"],["evento","Evento","t"],["detalle","Detalle","t"]]},
+  duo: {n:"Antes / después (mitad oscura + tu foto)", c:[["pre","Frase en español (arriba)","a"],["mal","Cómo se traduce mal","a"],["mal_nota","Cómo suena","t"],["bien","La versión natural","a"],["bien_nota","Por qué funciona","t"]]},
   error: {n:"Error tachado + corrección", c:[["intro","Intro (ej.: No digas:)","t"],["mal","Lo que se tacha","t"],["bien","La versión buena (itálica)","a"],["nota","Nota","a"]]},
   frase: {n:"Frase con pincelada", c:[["linea_i","Línea en itálica","a"],["resaltado","Palabra con pincelada","t"]]},
   foto_frase: {n:"Frase sobre foto", c:[["pre","Frase chica","a"],["frase_i","Frase grande en itálica","a"]]},
@@ -34,7 +35,7 @@ const FORMAS = {
   recorte_lado: {n:"Tu recorte al costado", c:[["titulo","Título","a"],["titulo_i","Itálica","a"],["cuerpo","Cuerpo","a"]]},
   cierre: {n:"Cierre", c:[["titulo","Título","a"],["titulo_i","Itálica","a"],["cuerpo","Texto (opcional)","a"],["cta","Botón (opcional): Comenta ENTRENAR / Escribe READY…","t"]]}
 };
-const CON_FOTO = new Set(["portada_foto","portada_botones","portada_profundidad","portada_serif","notas_foto","foto_frase","calendario","recorte_lado"]);
+const CON_FOTO = new Set(["portada_foto","portada_botones","portada_profundidad","portada_serif","notas_foto","foto_frase","calendario","recorte_lado","duo"]);
 
 let A = {pinc:"marca/pincel-terra-c68c6c.png", logoO:"marca/logo-olivo.png", logoC:"marca/logo-crema.png"};
 let CAT = [];
@@ -177,9 +178,26 @@ function placaBase(f, d, H, receta, e){
     return P(`${fondoFoto(e,"linear-gradient(180deg,rgba(20,18,12,.5) 0%,rgba(20,18,12,.1) 50%,rgba(20,18,12,.5) 100%)")}<div class="sutil" style="color:${C.calida}">${caja(zt, H-zt-360, inner, 72, "flex-start")}</div>${tarjeta}${handle()}`);
   }
   if (f === "tarjetas"){
-    const ts = pares(d.tarjetas).map(([a,b],i) => `<div class="tarj" data-fs="44" data-t style="font-size:44px;margin:0 0 24px ${40*(i%2)}px"><b>${md(a)}</b> ${md(b||"")}</div>`).join("");
-    const inner = tx("g",d.titulo,96,`color:${C.olivo}`) + tx("r",d.sub,52,`color:${C.olivo};margin:14px 0 46px`) + ts;
+    const ts = pares(d.tarjetas).map(([a,b],i) => `<div class="tarj" data-fs="44" data-t style="font-size:44px;line-height:1.3;margin:0 0 40px ${40*(i%2)}px"><b>${md(a)}</b> ${md(b||"")}</div>`).join("");
+    const inner = tx("g",d.titulo,96,`color:${C.olivo}`) + tx("r",d.sub,52,`color:${C.olivo};margin:24px 0 70px`) + ts;
     return `<div class="p" style="height:${H}px;background:${C.crema_m}">${caja(110,150,inner,96)}${pie(false)}</div>`;
+  }
+  if (f === "duo"){
+    /* arriba: café oscuro con la frase en español y la traducción literal; abajo: tu foto con la versión natural.
+       La cara queda en el tercio de arriba de la mitad de abajo, lejos de la pastilla. */
+    const m = H/2, sc = Math.max(W/e.ancho, m/e.alto), dh = e.alto*sc;
+    let py = 30;
+    if (e.cara && dh > m){ const cy = (e.cara[1] + e.cara[3]/2)*dh, off = Math.max(0, Math.min(cy - .3*m, dh - m)); py = Math.round(off/(dh - m)*100); }
+    const pill = (signo, txt, nota, col) => `<div data-t style="display:inline-block;max-width:900px;background:${C.calida};border-radius:56px;padding:30px 52px;box-shadow:0 10px 28px rgba(0,0,0,.25);text-align:center">
+      <div class="si" style="font-size:56px;line-height:1.15;color:${C.negro}"><span style="font-family:'Sans';font-style:normal;font-weight:800;color:${col};margin-right:12px">${signo}</span>${md(txt)}</div>
+      ${nota ? `<div class="r" style="font-size:34px;font-weight:600;line-height:1.25;margin-top:14px;color:${col}">${md(nota)}</div>` : ""}</div>`;
+    return P(`<div style="position:absolute;left:0;right:0;top:0;height:${m}px;background:${C.bb}"></div>
+      <div class="bg" data-foto="${e.archivo}" data-modo="cover" data-src="${urlDe(e)}" style="left:0;top:${m}px;width:${W}px;height:${m}px;right:auto;bottom:auto;background-image:url(${urlDe(e)});background-size:cover;background-position:50% ${py}%"></div>
+      <div style="position:absolute;left:0;right:0;top:${m}px;height:${m}px;background:linear-gradient(180deg,rgba(20,18,12,.05) 0%,rgba(20,18,12,.4) 100%)"></div>
+      <div class="r" data-t style="position:absolute;left:90px;right:90px;top:110px;text-align:center;color:${C.crema_m};font-size:52px;line-height:1.25">${md(d.pre)}</div>
+      <div style="position:absolute;left:0;right:0;top:${m-340}px;text-align:center">${pill("✕", d.mal, d.mal_nota, C.terra)}</div>
+      <div style="position:absolute;left:${W/2-52}px;top:${m-52}px;width:104px;height:104px;border-radius:50%;background:${C.terra};border:6px solid ${C.crema};display:flex;align-items:center;justify-content:center;color:${C.crema};font-size:52px;font-weight:700">↓</div>
+      <div style="position:absolute;left:0;right:0;bottom:150px;text-align:center">${pill("✓", d.bien, d.bien_nota, C.olivo)}</div>${handle()}`);
   }
   if (f === "error"){
     const inner = tx("r",d.intro,52,"opacity:.75") + `<div class="g" data-fs="124" data-t style="font-family:'Serif';font-weight:600;letter-spacing:-.015em;line-height:1.08;color:${C.cafe};font-size:124px;margin-top:30px"><span class="raya">${md(d.mal)}</span></div>` + tx("si",d.bien,124,`color:${C.olivo};margin-top:60px;line-height:1.05`) + tx("cuerpo",d.nota,40,"margin-top:46px");
