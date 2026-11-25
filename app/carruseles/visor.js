@@ -58,7 +58,10 @@
 .crs-campo{display:flex;flex-direction:column;gap:3px;font-size:12.5px;font-weight:700;color:#6c6656;margin-top:6px}
 .crs-campo input,.crs-campo textarea{font:inherit;font-size:16px;font-weight:400;color:#22201a;border:1.5px solid #e6dcc4;border-radius:10px;padding:7px 10px;background:#f8f5ee;width:100%}
 .crs-sub{cursor:pointer;display:inline-flex;align-items:center}
-.crs-tit{font-weight:700;font-size:14px;margin:4px 0 6px}.crs-tit span{font-weight:400;color:#6c6656;font-size:12.5px;margin-left:6px}
+.crs-tit{font-weight:700;font-size:14px;margin:4px 0 6px}
+.let-serif .p .g{font-family:'Serif'!important;font-weight:700!important;letter-spacing:-.02em!important;line-height:1.04!important}
+.let-sans .p .g,.let-sans .p .s{font-family:'Sans'!important;font-weight:800!important;letter-spacing:-.04em!important}
+.let-sans .p .si{font-family:'Sans'!important;font-style:normal!important;font-weight:400!important}.crs-tit span{font-weight:400;color:#6c6656;font-size:12.5px;margin-left:6px}
 .crs-estilos{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 10px}
 .crs-es{flex:none;display:flex;flex-direction:column;align-items:center;gap:4px;border:2px solid transparent;border-radius:12px;background:none;padding:4px;cursor:pointer;font:inherit;color:inherit;width:84px}
 .crs-es .m{display:block;width:66px;height:88px;border-radius:6px;overflow:hidden;position:relative;box-shadow:0 3px 10px rgba(60,45,20,.16)}
@@ -249,7 +252,7 @@
     let fRec = null;
     if ((forma === 'recorte_lado' || forma === 'portada_profundidad') && !(fotoDe(p) || {}).tiene_recorte) { const rs = M.catalogo.filter((e) => e.tiene_recorte && !e.excluir); if (rs.length) fRec = rs[i % rs.length]; }
     if (forma === 'texto' && c.formato !== 'reel' && !p.fijo) { const v = vistaTexto(c, i, p); if (v) { forma = v.forma; d = v.d; } }
-    return `<div data-ed="${ed}" data-esc="${+p.escala || 1}" data-pos="${p.pos || ''}" style="transform:scale(${escala});width:${M.W}px;height:${H}px;transform-origin:0 0">${M.placa(forma, d, H, c.receta, fRec || fotoDe(p), p.fondo_img ? M.catalogo.find((e) => e.archivo === p.fondo_img) || null : null)}</div>`;
+    return `<div class="let-${c.letra === 'sans' ? 'sans' : 'serif'}${i === 0 ? '-portada' : ''}" data-ed="${ed}" data-esc="${+p.escala || 1}" data-pos="${p.pos || ''}" style="transform:scale(${escala});width:${M.W}px;height:${H}px;transform-origin:0 0">${M.placa(forma, d, H, c.receta, fRec || fotoDe(p), p.fondo_img ? M.catalogo.find((e) => e.archivo === p.fondo_img) || null : null)}</div>`;
   }
 
   /* ---------- la tarjeta dentro de cada pieza ---------- */
@@ -345,6 +348,7 @@
     const prev = (k) => `<span class="tri">${[...Array(nI).keys()].map((i) => `<span class="m${reel ? ' reel' : ''}" data-prev="${k}" data-pi="${i}"></span>`).join('')}</span>`;
     const onC = (e, t) => c.estilo === e && ES.tplDe(c) === t;
     el.innerHTML = `<p class="crs-tit">Diseño del posteo <span>se aplica a todas las láminas</span></p><div class="crs-estilos" role="group" aria-label="Diseño">${Object.entries(M.RECETAS).map(([k, R]) => `<button type="button" class="crs-es${!c.estilo && k === c.receta ? ' on' : ''}" data-rec="${k}" title="${esc(R.desc)}">${prev('r:' + k)}<span class="n">${esc(R.n)}</span><span class="d">Para ${esc(R.para)}</span></button>`).join('')}${COMBOS.map(([e, t, n]) => `<button type="button" class="crs-es${onC(e, t) ? ' on' : ''}" data-combo="${e}|${t}">${prev('c:' + e + '|' + t)}<span class="n">${esc(n)}</span><span class="d">${esc(PARA_C[e + '|' + t] || '')}</span></button>`).join('')}</div>
+${c.estilo ? '' : `<div class="crs-ctl" style="margin:0 0 8px"><span>Letra de los títulos</span><button type="button" class="btn ghost sm${c.letra === 'sans' ? '' : ' on'}" data-letra="serif" style="font-family:'Source Serif 4',Georgia,serif">Tu serif</button><button type="button" class="btn ghost sm${c.letra === 'sans' ? ' on' : ''}" data-letra="sans" style="font-family:'Open Sans',sans-serif">Open Sans</button></div>`}
 <details class="crs-port"${c._abrirPortada ? ' open' : ''}><summary>Portada: el hook, la serie y el tipo de portada</summary>
   <div class="crs-rec" role="group" aria-label="Foto de la portada">${c.estilo ? VAR.map(([k, n]) => `<button type="button" data-tpl="${k}" aria-pressed="${ES.tplDe(c) === k}">${n}</button>`).join('') : PORTADAS.map(([k, n]) => `<button type="button" data-port="${k}" aria-pressed="${p0.forma === k}">${n}</button>`).join('')}</div>
   ${(defs(p0.forma, c).c || []).map(([k, et, t]) => `<label class="crs-campo">${esc(et)}${t === 't' ? `<input type="text" data-pk="${k}" value="${esc(c.placas[0][k] || '')}">` : `<textarea rows="2" data-pk="${k}">${esc(c.placas[0][k] || '')}</textarea>`}</label>`).join('')}
@@ -362,6 +366,7 @@
     pintarMinis(llave(f));
     const est = (t) => { el.querySelector('.crs-est').textContent = t || ''; };
     $$('[data-rec]', el).forEach((b) => (b.onclick = async () => { aMotor(c, b.dataset.rec); asignarFotos(Object.values(FILAS), llave(f)); pintarUno(el); await guardar(f, est); }));
+    $$('[data-letra]', el).forEach((b) => (b.onclick = async () => { c.letra = b.dataset.letra; pintarUno(el); await guardar(f, est); }));
     $$('[data-combo]', el).forEach((b) => (b.onclick = async () => { aCombo(c, b.dataset.combo); asignarFotos(Object.values(FILAS)); pintarUno(el); await guardar(f, est); }));
     $$('[data-tpl]', el).forEach((b) => (b.onclick = async () => { c.placas[0].tpl = b.dataset.tpl; c._abrirPortada = true; asignarFotos(Object.values(FILAS)); pintarUno(el); await guardar(f, est); }));
     $$('[data-port]', el).forEach((b) => (b.onclick = async () => { c.placas[0] = convertir(c.placas[0], b.dataset.port, c); c._abrirPortada = true; asignarFotos(Object.values(FILAS)); pintarUno(el); await guardar(f, est); }));
