@@ -150,7 +150,19 @@
       if (o.z) { let a = e; while (a.parentElement && a.parentElement !== root) a = a.parentElement; if (getComputedStyle(a).position === 'static') a.style.position = 'relative'; a.style.zIndex = 60; if (getComputedStyle(e).position === 'static') e.style.position = 'relative'; e.style.zIndex = 60; }
     });
   }
+  // Frase agrandada o achicada dentro de un texto (Flor, 25/11: «quiero seleccionar lo que quiero agrandar»).
+  function tamFrases(root) {
+    const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT), nodos = [];
+    while (w.nextNode()) if (w.currentNode.nodeValue.includes('⟦')) nodos.push(w.currentNode);
+    nodos.forEach((t) => {
+      const frag = document.createDocumentFragment(), re = /⟦([\d.]+)\|([^⟧]*)⟧/g, v = t.nodeValue; let last = 0, m;
+      while ((m = re.exec(v))) { if (m.index > last) frag.appendChild(document.createTextNode(v.slice(last, m.index))); const sp = document.createElement('span'); sp.className = 'tamf'; sp.style.fontSize = m[1] + 'em'; sp.textContent = m[2]; frag.appendChild(sp); last = re.lastIndex; }
+      if (last < v.length) frag.appendChild(document.createTextNode(v.slice(last)));
+      t.parentNode.replaceChild(frag, t);
+    });
+  }
   function ajustar(root) {
+    if (root) tamFrases(root);
     ajustarBase(root);
     const w = root && root.parentElement;
     if (w && w.dataset.ed) { try { aplicarEd(root, JSON.parse(w.dataset.ed)); } catch (e) { /* sin cambios por elemento */ } }
@@ -340,7 +352,7 @@
     return c;
   }
   // Edición directa sobre la lámina: cada texto visible se vincula con el campo de donde salió.
-  const plano = (t) => String(t ?? '').replace(/\*\*?|__?/g, '').replace(/\s*\|\s*/g, ' ').replace(/\s+/g, ' ').trim();
+  const plano = (t) => String(t ?? '').replace(/⟦[\d.]+\|([^⟧]*)⟧/g, '$1').replace(/\*\*?|__?/g, '').replace(/\s*\|\s*/g, ' ').replace(/\s+/g, ' ').trim();
   function editable(lz, p, campos, alCambiar) {
     const cand = [...lz.querySelectorAll('.p [data-fs], .p *')].filter((e) => {
       if (e.closest('[data-fs]') && !e.hasAttribute('data-fs')) return false; // dentro de un bloque con letra: se edita el bloque
@@ -353,7 +365,7 @@
       if (!k) for (const c of campos) { const L = String(p[c] || '').split('\n'); const j = L.findIndex((x) => plano(x) === orig || plano(x).includes(orig)); if (j >= 0) { k = c; linea = j; break; } }
       if (!k) { for (const c of campos) if (orig.length > 3 && plano(p[c]).includes(orig)) { k = c; break; } }
       if (!k) return;
-      e.contentEditable = 'true'; e.spellcheck = true; e.title = 'Tocá para editar';
+      e.contentEditable = 'true'; e.spellcheck = true; e.title = 'Tocá para editar'; e.dataset.campo = k;
       e.addEventListener('keydown', (ev) => { if (ev.key === 'Escape') e.blur(); });
       e.addEventListener('blur', () => {
         const nuevo = e.innerText.replace(/\s+\n/g, '\n').trim(); if (plano(nuevo) === orig) return;
@@ -448,6 +460,7 @@ ${c.estilo ? '' : `<div class="crs-ctl" style="margin:0 0 8px"><span>Letra de lo
     const c = f.carrusel, vis = visibles(c);
     let sel = null; // { i, idx } el texto tocado en la lámina
     let fsel = null; // { i, k } la foto agregada que se tocó
+    let marcado = null; // { i, campo, txt } la parte del texto marcada con el dedo o el mouse
     const m = document.createElement('div'); m.className = 'crs-modal'; m.setAttribute('role', 'dialog'); m.setAttribute('aria-modal', 'true');
     document.body.appendChild(m);
     const cerrar = () => { m.remove(); document.removeEventListener('keydown', tecla); alCerrar && alCerrar(); };
@@ -468,7 +481,7 @@ ${c.estilo ? '' : `<div class="crs-ctl" style="margin:0 0 8px"><span>Letra de lo
   <div class="crs-fpick" hidden><p class="small" style="margin:0 0 6px"><b>Elegí la foto</b> (o arrastrala desde tu compu y soltala sobre la lámina)</p><div class="crs-fotos">${M.catalogo.filter((e) => !e.excluir).slice().reverse().map((e) => `<button type="button" data-fpon="${esc(e.archivo)}" aria-label="Agregar esta foto"><img src="${M.urlDe(e)}" alt="" loading="lazy"></button>`).join('')}</div><label class="small">Subir una foto nueva y agregarla<input type="file" accept="image/*" data-fsub></label></div>
   <div class="crs-ctl crs-sel crs-fbar"${fsel && fsel.i === i ? '' : ' hidden'}><span>La foto que tocaste</span><button type="button" class="btn ghost sm" data-fed="s-">Más chica</button><button type="button" class="btn ghost sm" data-fed="s+">Más grande</button><button type="button" class="btn ghost sm" data-fed="z">Adelante / atrás del texto</button><button type="button" class="btn ghost sm" data-fed="r">Bordes rectos / redondeados</button><button type="button" class="btn ghost sm" data-fed="x">Quitar foto</button></div>
   <div class="crs-ctl crs-sel"${sel && sel.i === i ? '' : ' hidden'}><span>Solo lo que tocaste <b class="crs-selpct">${sel && sel.i === i && p.ed && p.ed[sel.idx] && p.ed[sel.idx].s ? Math.round(p.ed[sel.idx].s * 100) : 100}%</b></span><button type="button" class="btn ghost sm" data-ted="s-" aria-label="Más chico">A−</button><button type="button" class="btn ghost sm" data-ted="s+" aria-label="Más grande">A+</button><button type="button" class="btn ghost sm" data-ted="u" aria-label="Subir">↑</button><button type="button" class="btn ghost sm" data-ted="d" aria-label="Bajar">↓</button><button type="button" class="btn ghost sm" data-ted="l" aria-label="A la izquierda">←</button><button type="button" class="btn ghost sm" data-ted="r" aria-label="A la derecha">→</button>${[['#4b5624', 'Olivo'], ['#81552e', 'Café'], ['#3f1e0d', 'Café oscuro'], ['#c68c6c', 'Terracota'], ['#f8f5ee', 'Crema'], ['#1f1c17', 'Negro']].map(([h, n]) => `<button type="button" class="crs-col" data-ted="c:${h}" title="${n}" aria-label="Letra ${n}" style="background:${h}"></button>`).join('')}<span style="margin-left:4px">Fondo</span>${[['#f8f5ee', 'Crema'], ['#fbf2d0', 'Cálida'], ['#ede5cc', 'Crema media'], ['#c68c6c', 'Terracota'], ['#81552e', 'Café'], ['#4b5624', 'Olivo']].map(([h, n]) => `<button type="button" class="crs-col cuad" data-ted="f:${h}" title="Fondo ${n}" aria-label="Fondo ${n}" style="background:${h}"></button>`).join('')}<button type="button" class="btn ghost sm" data-ted="f:">Sin fondo</button><button type="button" class="btn ghost sm" data-ted="zf">Adelante de la foto</button><button type="button" class="btn ghost sm" data-ted="zb">Atrás de la foto</button><button type="button" class="btn ghost sm" data-ted="x">Como estaba</button></div>
-  <p class="small muted" style="margin:4px 0 0">Tocá un texto para escribir; arrastralo para moverlo a donde quieras; con la barra, agrandalo o cambiale el color.</p>
+  <p class="small muted" style="margin:4px 0 0">Tocá un texto para escribir; arrastralo para moverlo. Para agrandar o achicar SOLO una parte, marcala con el dedo o el mouse (como para copiar) y tocá A+ o A−.</p>
   <label>Tipo de lámina<select data-forma>${formas.map((k) => `<option value="${k}"${k === p.forma ? ' selected' : ''}>${esc(defs(k, c).n)}</option>`).join('')}</select></label>
   <div class="crs-ctl crs-toda"${sel && sel.i === i ? ' hidden' : ''}><span>Toda la lámina</span><button type="button" class="btn ghost sm" data-esc="-0.1" aria-label="Toda la letra más chica">A−</button><b>${pct}%</b><button type="button" class="btn ghost sm" data-esc="0.1" aria-label="Toda la letra más grande">A+</button></div>
   
@@ -513,8 +526,11 @@ ${c.estilo ? '' : `<div class="crs-ctl" style="margin:0 0 8px"><span>Letra de lo
           e.style.cursor = 'pointer';
           // Tocar = seleccionar (y escribir); arrastrar = moverlo a donde quieras.
           e.addEventListener('pointerdown', (ev) => {
-            sel = { i, idx }; piezasDe(n).forEach((x) => { x.style.outline = ''; }); e.style.outline = '8px dashed #c68c6c'; const bar = m.querySelector('.crs-sel'); if (bar) bar.hidden = false; const toda = m.querySelector('.crs-toda'); if (toda) toda.hidden = true;
+            sel = { i, idx }; piezasDe(n).forEach((x) => { x.style.outline = ''; }); e.style.outline = '8px dashed #c68c6c'; const bar = m.querySelector('.crs-sel:not(.crs-fbar)'); if (bar) bar.hidden = false; const toda = m.querySelector('.crs-toda'); if (toda) toda.hidden = true;
             const sp = m.querySelector('.crs-selpct'); if (sp) sp.textContent = Math.round((((p.ed || {})[idx] || {}).s || 1) * 100) + '%';
+            // Si ya estás escribiendo en este texto, arrastrar marca palabras (no lo mueve).
+            if (document.activeElement === e) return;
+            e.addEventListener('focus', () => { e.style.touchAction = 'auto'; }, { once: true });
             const k = lz.clientWidth / M.W, o0 = (p.ed && p.ed[idx]) || {}, x0 = o0.x || 0, y0 = o0.y || 0, sx = ev.clientX, sy = ev.clientY; let mov = false;
             if (getComputedStyle(e).position === 'static') e.style.position = 'relative';
             const mv = (v) => { const dx = (v.clientX - sx) / k, dy = (v.clientY - sy) / k; if (!mov && Math.hypot(v.clientX - sx, v.clientY - sy) < 6) return; if (!mov) { mov = true; e.blur(); const sl = window.getSelection(); if (sl) sl.removeAllRanges(); } v.preventDefault(); e.style.transform = `translate(${x0 + dx}px,${y0 + dy}px)`; };
@@ -524,7 +540,7 @@ ${c.estilo ? '' : `<div class="crs-ctl" style="margin:0 0 8px"><span>Letra de lo
           e.style.touchAction = 'none';
         });
         // Tocar fuera de los textos: se suelta la selección y vuelve «Toda la lámina».
-        lz.onpointerdown = (ev) => { if (!n || (ev.target !== n && !ev.target.classList.contains('bg') && ev.target !== lz)) return; sel = null; piezasDe(n).forEach((x) => { x.style.outline = ''; }); const bar = m.querySelector('.crs-sel'); if (bar) bar.hidden = true; const toda = m.querySelector('.crs-toda'); if (toda) toda.hidden = false; };
+        lz.onpointerdown = (ev) => { if (!n || (ev.target !== n && !ev.target.classList.contains('bg') && ev.target !== lz)) return; sel = null; piezasDe(n).forEach((x) => { x.style.outline = ''; }); const bar = m.querySelector('.crs-sel:not(.crs-fbar)'); if (bar) bar.hidden = true; const toda = m.querySelector('.crs-toda'); if (toda) toda.hidden = false; };
       };
       const ponerFoto = (archivo, url) => { p.fotox = p.fotox || []; p.fotox.push({ a: archivo, u: url || '', w: 0.76 }); fsel = { i, k: p.fotox.length - 1 }; const pk = m.querySelector('.crs-fpick'); if (pk) pk.hidden = true; pintar(); clearTimeout(timer); timer = setTimeout(() => guardar(f, est), 300); };
       const agregarFotoSubida = async (file) => {
@@ -547,11 +563,29 @@ ${c.estilo ? '' : `<div class="crs-ctl" style="margin:0 0 8px"><span>Letra de lo
       const xadd = m.querySelector('[data-xadd]');
       if (xadd) xadd.onclick = () => {
         p.extra = p.extra || []; p.extra.push({ t: 'Tu texto' }); dibujar();
-        const n2 = lz.querySelector('.p'); if (n2) { const ps = piezasDe(n2); sel = { i, idx: ps.length - 1 }; dibujar(); const bar = m.querySelector('.crs-sel'); if (bar) bar.hidden = false; }
+        const n2 = lz.querySelector('.p'); if (n2) { const ps = piezasDe(n2); sel = { i, idx: ps.length - 1 }; dibujar(); const bar = m.querySelector('.crs-sel:not(.crs-fbar)'); if (bar) bar.hidden = false; }
         clearTimeout(timer); timer = setTimeout(() => guardar(f, est), 400);
       };
-      $$('[data-ted]', m).forEach((b) => (b.onmousedown = (ev) => ev.preventDefault()));
+      $$('[data-ted]', m).forEach((b) => { b.onmousedown = (ev) => ev.preventDefault(); b.onpointerdown = (ev) => ev.preventDefault(); });
+      // Lo último que Flor marcó con el dedo o el mouse dentro de la lámina (el toque en el botón puede borrar la selección).
+      document.onselectionchange = () => {
+        const sl = window.getSelection(); if (!sl || sl.isCollapsed || !sl.anchorNode || !lz.contains(sl.anchorNode)) return;
+        const el2 = (sl.anchorNode.nodeType === 1 ? sl.anchorNode : sl.anchorNode.parentElement).closest('[data-campo]');
+        const txt = sl.toString().replace(/\s+/g, ' ').trim();
+        if (el2 && txt) marcado = { i, campo: el2.dataset.campo, txt, t: Date.now() };
+      };
       $$('[data-ted]', m).forEach((b) => (b.onclick = () => {
+        const a0 = b.dataset.ted;
+        if ((a0 === 's+' || a0 === 's-') && marcado && marcado.i === i && Date.now() - marcado.t < 60000 && p[marcado.campo]) {
+          const v = String(p[marcado.campo]), txt = marcado.txt, er = (x) => x.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+          const ya = new RegExp('⟦([\\d.]+)\\|' + er(txt) + '⟧');
+          const paso = a0 === 's+' ? 1.15 : 1 / 1.15;
+          let nv = null;
+          if (ya.test(v)) nv = v.replace(ya, (_, f0) => `⟦${Math.round(Math.min(4, Math.max(0.3, +f0 * paso)) * 100) / 100}|${txt}⟧`);
+          else if (v.includes(txt)) nv = v.replace(txt, `⟦${Math.round(paso * 100) / 100}|${txt}⟧`);
+          if (nv) { p[marcado.campo] = nv; marcado.t = Date.now(); const ta = m.querySelector(`[data-k="${marcado.campo}"]`); if (ta) ta.value = nv; dibujar(); clearTimeout(timer); timer = setTimeout(() => guardar(f, est), 400); est('Listo: cambié solo la parte que marcaste.'); return; }
+          est('No encontré esa parte tal cual en el texto: marcala de nuevo, dentro de un mismo renglón.');
+        }
         if (!sel || sel.i !== i) return;
         const a = b.dataset.ted; p.ed = p.ed || {}; const o = (p.ed[sel.idx] = p.ed[sel.idx] || {});
         if (a === 's+') o.s = Math.round(Math.min(3, (o.s || 1) * 1.1) * 100) / 100;
@@ -564,7 +598,7 @@ ${c.estilo ? '' : `<div class="crs-ctl" style="margin:0 0 8px"><span>Letra de lo
         else if (a === 'x') {
           delete p.ed[sel.idx];
           const n3 = lz.querySelector('.p'), el3 = n3 && piezasDe(n3)[sel.idx];
-          if (el3 && el3.classList.contains('xtra') && p.extra) { p.extra.splice(+el3.dataset.x, 1); sel = null; const bar = m.querySelector('.crs-sel'); if (bar) bar.hidden = true; }
+          if (el3 && el3.classList.contains('xtra') && p.extra) { p.extra.splice(+el3.dataset.x, 1); sel = null; const bar = m.querySelector('.crs-sel:not(.crs-fbar)'); if (bar) bar.hidden = true; }
         }
         const sp = m.querySelector('.crs-selpct'); if (sp) sp.textContent = Math.round((((p.ed || {})[sel ? sel.idx : -1] || {}).s || 1) * 100) + '%';
         dibujar(); clearTimeout(timer); timer = setTimeout(() => guardar(f, est), 400);
