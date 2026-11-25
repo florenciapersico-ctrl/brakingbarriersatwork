@@ -23,7 +23,7 @@
     if (listo) return listo;
     listo = (async () => {
       await script(BASE + 'motor.js?v=1');
-      await script(BASE + 'estilos.js?v=9');
+      await script(BASE + 'estilos.js?v=11');
       M = window.Motor; ES = window.Estilos;
       const [cat, fcss, pinc, lo, lc] = await Promise.all([
         fetch(BASE + 'catalogo.json?v=2').then((r) => r.json()), Promise.all([fetch(BASE + 'marca/fuentes.css').then((r) => r.text()), fetch(BASE + 'marca/script.css?v=1').then((r) => (r.ok ? r.text() : '')).catch(() => '')]).then((x) => x.join('\n')),
@@ -158,10 +158,10 @@
     const f = FILAS[el.dataset.crs]; if (!f || !f.carrusel) return;
     const c = f.carrusel; if (!c.estilo && !M.RECETAS[c.receta]) c.receta = 'editorial';
     const reel = c.formato === 'reel', p0 = c.placas[0] || {};
-    const VAR = [['completa', 'Con foto'], ['texto', 'Sin foto']];
+    const VAR = Object.entries(ES.PORTADAS).map(([k, n]) => [k, k + ' · ' + n]);
     el.innerHTML = `${c.estilo ? `<p class="crs-tit">Estilo del posteo <span>se aplica a todas las láminas</span></p><div class="crs-estilos" role="group" aria-label="Estilo">${Object.entries(ES.ESTILOS).map(([k, E]) => `<button type="button" class="crs-es${k === c.estilo ? ' on' : ''}" data-estilo="${k}" aria-pressed="${k === c.estilo}"><span class="m${reel ? ' reel' : ''}" data-es-prev="${k}"></span><span class="n">${esc(E.n)}</span></button>`).join('')}</div>` : `<div class="crs-rec" role="group" aria-label="Receta">${Object.entries(M.RECETAS).map(([k, R]) => `<button type="button" data-rec="${k}" aria-pressed="${k === c.receta}" title="${esc(R.desc)}">${esc(R.n)}</button>`).join('')}</div>`}
-<details class="crs-port"${c._abrirPortada ? ' open' : ''}><summary>Portada: el hook y cómo va la foto</summary>
-  <div class="crs-rec" role="group" aria-label="Foto de la portada">${c.estilo ? VAR.map(([k, n]) => `<button type="button" data-var="${k}" aria-pressed="${ES.variante(ES.ESTILOS[c.estilo], p0) === k}">${n}</button>`).join('') : PORTADAS.map(([k, n]) => `<button type="button" data-port="${k}" aria-pressed="${p0.forma === k}">${n}</button>`).join('')}</div>
+<details class="crs-port"${c._abrirPortada ? ' open' : ''}><summary>Portada: el hook, la serie y el tipo de portada</summary>
+  <div class="crs-rec" role="group" aria-label="Foto de la portada">${c.estilo ? VAR.map(([k, n]) => `<button type="button" data-tpl="${k}" aria-pressed="${ES.tplDe(c) === k}">${n}</button>`).join('') : PORTADAS.map(([k, n]) => `<button type="button" data-port="${k}" aria-pressed="${p0.forma === k}">${n}</button>`).join('')}</div>
   ${(defs(p0.forma).c || []).map(([k, et, t]) => `<label class="crs-campo">${esc(et)}${t === 't' ? `<input type="text" data-pk="${k}" value="${esc(c.placas[0][k] || '')}">` : `<textarea rows="2" data-pk="${k}">${esc(c.placas[0][k] || '')}</textarea>`}</label>`).join('')}
 </details>
 <div class="crs-tira">${visibles(c).map((i) => `<button type="button" class="crs-mini${reel ? ' reel' : ''}" data-i="${i}" aria-label="Editar lámina ${i + 1}"><div class="marco">${htmlPlaca(c, i, 120 / M.W)}</div>${i + 1}</button>`).join('')}</div>
@@ -174,7 +174,7 @@
     const est = (t) => { el.querySelector('.crs-est').textContent = t || ''; };
     $$('[data-rec]', el).forEach((b) => (b.onclick = async () => { c.receta = b.dataset.rec; asignarFotos(Object.values(FILAS), llave(f)); pintarUno(el); await guardar(f, est); }));
     $$('[data-estilo]', el).forEach((b) => (b.onclick = async () => { c.estilo = b.dataset.estilo; asignarFotos(Object.values(FILAS)); pintarUno(el); await guardar(f, est); }));
-    $$('[data-var]', el).forEach((b) => (b.onclick = async () => { c.placas[0].variante = b.dataset.var; c._abrirPortada = true; asignarFotos(Object.values(FILAS)); pintarUno(el); await guardar(f, est); }));
+    $$('[data-tpl]', el).forEach((b) => (b.onclick = async () => { c.placas[0].tpl = b.dataset.tpl; c._abrirPortada = true; asignarFotos(Object.values(FILAS)); pintarUno(el); await guardar(f, est); }));
     $$('[data-port]', el).forEach((b) => (b.onclick = async () => { c.placas[0] = convertir(c.placas[0], b.dataset.port); c._abrirPortada = true; asignarFotos(Object.values(FILAS)); pintarUno(el); await guardar(f, est); }));
     let tp = null;
     $$('[data-pk]', el).forEach((inp) => (inp.oninput = () => {
@@ -226,7 +226,7 @@
   <label>Tipo de lámina<select data-forma>${formas.map((k) => `<option value="${k}"${k === p.forma ? ' selected' : ''}>${esc(defs(k).n)}</option>`).join('')}</select></label>
   ${E ? `<div class="crs-ctl"><span>Letra</span><button type="button" class="btn ghost sm" data-esc="-0.1" aria-label="Letra más chica">A−</button><b>${pct}%</b><button type="button" class="btn ghost sm" data-esc="0.1" aria-label="Letra más grande">A+</button></div>
   <div class="crs-ctl"><span>Texto</span>${[['arriba', 'Arriba'], ['centro', 'Centro'], ['abajo', 'Abajo']].map(([k, n]) => `<button type="button" class="btn ghost sm${posA === k ? ' on' : ''}" data-pos="${k}">${n}</button>`).join('')}</div>
-  ${p.forma === 'portada' ? `<div class="crs-ctl"><span>Foto</span>${[['completa', 'Con foto'], ['texto', 'Sin foto']].map(([k, n]) => `<button type="button" class="btn ghost sm${ES.variante(E, p) === k ? ' on' : ''}" data-var="${k}">${n}</button>`).join('')}</div>` : `<div class="crs-ctl"><span>Foto</span><button type="button" class="btn ghost sm${conFoto ? ' on' : ''}" data-confoto="1">Con foto</button><button type="button" class="btn ghost sm${conFoto ? '' : ' on'}" data-confoto="0">Sin foto</button></div>`}` : ''}
+  ${p.forma === 'portada' ? `<div class="crs-ctl"><span>Portada</span>${Object.entries(ES.PORTADAS).map(([k, n]) => `<button type="button" class="btn ghost sm${ES.tplDe(c) === k ? ' on' : ''}" data-tpl="${k}" title="${esc(n)}">${k} · ${esc(n)}</button>`).join('')}</div>` : `<div class="crs-ctl"><span>Foto</span><button type="button" class="btn ghost sm${conFoto ? ' on' : ''}" data-confoto="1">Con foto</button><button type="button" class="btn ghost sm${conFoto ? '' : ' on'}" data-confoto="0">Sin foto</button></div>`}` : ''}
   ${F.c.map(([k, et, t]) => `<label>${esc(et)}${t === 't' ? `<input type="text" data-k="${k}" value="${esc(p[k] || '')}">` : `<textarea rows="${t === 'p' || t === 'l' ? 4 : 2}" data-k="${k}">${esc(p[k] || '')}</textarea>`}</label>`).join('')}
   <p class="small muted" style="margin:6px 0 0">*itálica* · **negrita** · en listas, una línea por renglón y «negrita | resto».</p>
   ${E ? (conFoto ? `<label>Foto de esta lámina</label>` : '') : conFoto ? `<label>Foto de esta lámina</label>` : `<label>Foto de fondo (opcional: va detrás del texto, con un velo de color)</label><div class="row" style="gap:6px;margin-top:4px"><button type="button" class="btn ghost sm" data-fondo="">${p.fondo_img ? 'Sacar la foto de fondo' : 'Sin foto de fondo ✓'}</button></div>`}
@@ -244,7 +244,7 @@
       $$('[data-k]', m).forEach((inp) => (inp.oninput = () => { p[inp.dataset.k] = inp.value; dibujar(); clearTimeout(timer); timer = setTimeout(() => guardar(f, est), 900); }));
       $$('[data-esc]', m).forEach((b) => (b.onclick = () => { p.escala = Math.round(Math.min(1.35, Math.max(0.65, (+p.escala || 1) + Number(b.dataset.esc))) * 100) / 100; pintar(); guardar(f, est); }));
       $$('[data-pos]', m).forEach((b) => (b.onclick = () => { p.pos = b.dataset.pos; pintar(); guardar(f, est); }));
-      $$('[data-var]', m).forEach((b) => (b.onclick = () => { p.variante = b.dataset.var; asignarFotos(Object.values(FILAS)); pintar(); guardar(f, est); }));
+      $$('[data-tpl]', m).forEach((b) => (b.onclick = () => { p.tpl = b.dataset.tpl; asignarFotos(Object.values(FILAS)); pintar(); guardar(f, est); }));
       $$('[data-confoto]', m).forEach((b) => (b.onclick = () => { p.conFoto = b.dataset.confoto === '1'; asignarFotos(Object.values(FILAS)); pintar(); guardar(f, est); }));
       $$('[data-fondo]', m).forEach((b) => (b.onclick = () => { if (b.dataset.fondo) p.fondo_img = b.dataset.fondo; else delete p.fondo_img; pintar(); guardar(f, est); }));
       $$('[data-foto]', m).forEach((b) => (b.onclick = () => { p._foto = b.dataset.foto; p.foto = b.dataset.foto; pintar(); guardar(f, est); }));
@@ -293,6 +293,7 @@
       else { x = (E.w - dw) / 2; y = /center\s*$|^center$|50%\s*50%/.test(el.style.backgroundPosition) ? (E.h - dh) / 2 : 0; }
     }
     const cv = document.createElement('canvas'); cv.width = E.w; cv.height = E.h; const g = cv.getContext('2d'); g.drawImage(im, x, y, dw, dh);
+    if (el.dataset.grade && !/grayscale/.test(el.style.filter || '')) { const d = g.getImageData(0, 0, E.w, E.h), a = d.data; for (let k = 0; k < a.length; k += 4) { const l = 0.299 * a[k] + 0.587 * a[k + 1] + 0.114 * a[k + 2]; let rr = a[k] * 0.9 + l * 0.1, gg = a[k + 1] * 0.9 + l * 0.1, bb = a[k + 2] * 0.9 + l * 0.1; rr = (rr - 128) * 1.03 + 128 + 9; gg = (gg - 128) * 1.03 + 128 + 4; bb = (bb - 128) * 1.03 + 128 - 6; a[k] = Math.max(0, Math.min(255, rr)); a[k + 1] = Math.max(0, Math.min(255, gg)); a[k + 2] = Math.max(0, Math.min(255, bb)); } g.putImageData(d, 0, 0); }
     if (/grayscale/.test(el.style.filter || '')) { const d = g.getImageData(0, 0, E.w, E.h), a = d.data; for (let k = 0; k < a.length; k += 4) { const v = Math.min(255, (0.299 * a[k] + 0.587 * a[k + 1] + 0.114 * a[k + 2] - 128) * 1.04 + 128); a[k] = Math.min(255, v * 1.08); a[k + 1] = v * 0.98; a[k + 2] = v * 0.84; } g.putImageData(d, 0, 0); }
     if (/border-radius/.test(el.getAttribute('style') || '')) { const rr = parseFloat(getComputedStyle(el).borderTopLeftRadius) || 0, rb = parseFloat(getComputedStyle(el).borderBottomLeftRadius) || 0; if (rr || rb) { const m = document.createElement('canvas'); m.width = E.w; m.height = E.h; const h = m.getContext('2d'); h.beginPath(); h.moveTo(rr, 0); h.lineTo(E.w - rr, 0); h.arcTo(E.w, 0, E.w, rr, rr); h.lineTo(E.w, E.h - rb); h.arcTo(E.w, E.h, E.w - rb, E.h, rb); h.lineTo(rb, E.h); h.arcTo(0, E.h, 0, E.h - rb, rb); h.lineTo(0, rr); h.arcTo(0, 0, rr, 0, rr); h.closePath(); h.clip(); h.drawImage(cv, 0, 0); return { cv: m, x: el.offsetLeft, y: el.offsetTop }; } }
     return { cv, x: el.offsetLeft, y: el.offsetTop };
@@ -337,7 +338,8 @@
     try { await preparar(opciones && opciones.fotos); }
     catch (e) { els.forEach((el) => (el.innerHTML = '<p class="small muted">No pude cargar el diseñador de carruseles. Recargá la página.</p>')); return; }
     // Todo carrusel pasa a los estilos nuevos (Flor, 25/11): un estilo para todo el posteo.
-    (filas || []).forEach((f) => { if (f && f.carrusel && Array.isArray(f.carrusel.placas)) { ES.aEstilos(f.carrusel); FILAS[llave(f)] = f; } });
+    const SELLO = { demanda: 'Caso real', valor: 'Error común', 'valor + crecimiento': 'Error común', crecimiento: 'Opinión', 'conversión': 'AT WORK', inspira: 'Mi historia', autoridad: 'Caso real' };
+    (filas || []).forEach((f) => { if (f && f.carrusel && Array.isArray(f.carrusel.placas)) { ES.aEstilos(f.carrusel); const p0 = f.carrusel.placas[0]; if (p0 && p0.sello === undefined) { const m = String(f.detalle || '').match(/^(Valor \+ Crecimiento|Valor|Crecimiento|Demanda|Inspira|Conversión|Autoridad)/i); p0.sello = m ? SELLO[m[1].toLowerCase()] || '' : ''; } FILAS[llave(f)] = f; } });
     const cambiadas = asignarFotos(Object.values(FILAS));
     els.forEach(pintarUno);
     pintarMinis();

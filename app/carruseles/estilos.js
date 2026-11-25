@@ -8,20 +8,20 @@
 
   // fam: sangre (foto a sangre + texto debajo de la cara) · collage (texto arriba, foto abajo) · esquina (foto chica en la esquina) · tarjeta (foto arriba + tarjeta encima)
   const ESTILOS = {
-    lifestyle: { n: 'Lifestyle', fam: 'sangre', scriptI: true, resalta: true, velo: 'rgba(63,30,13,.6)', ref: 'foto de fondo, serif con manuscrita y frases resaltadas' },
+    lifestyle: { n: 'Lifestyle', fam: 'sangre', resalta: true, velo: 'rgba(63,30,13,.6)', ref: 'foto de fondo, serif con manuscrita y frases resaltadas' },
     revista:   { n: 'Revista', fam: 'sangre', grande: true, italica: true, velo: 'rgba(63,30,13,.6)', ref: 'serif enorme en itálica sobre la foto' },
     collage:   { n: 'Collage', fam: 'collage', bg: K.crema, tit: K.olivo, it: K.cafe, ink: K.negro, numero: true, ref: 'frase arriba, foto abajo, numeración [01]' },
     diario:    { n: 'Día a día', fam: 'sangre', chico: true, velo: 'rgba(63,30,13,.52)', ref: 'foto a sangre con el texto chico abajo' },
-    polaroid:  { n: 'Polaroid', fam: 'collage', bg: K.cremaM, tit: K.cafe, it: K.olivo, ink: K.negro, scriptT: true, polaroid: true, ref: 'título manuscrito con la foto al centro' },
+    polaroid:  { n: 'Polaroid', fam: 'collage', bg: K.cremaM, tit: K.cafe, it: K.olivo, ink: K.negro, polaroid: true, ref: 'título manuscrito con la foto al centro' },
     tips:      { n: 'Tips', fam: 'esquina', bg: K.cremaM, tit: K.cafe, it: K.cafe, ink: K.negro, ref: 'titular serif grande y foto chica en la esquina' },
     marco:     { n: 'Marco fino', fam: 'sangre', marco: true, velo: 'rgba(63,30,13,.56)', ref: 'foto de fondo con un marco fino y titular serif' },
     trabajo:   { n: 'Tarjeta', fam: 'tarjeta', bg: K.crema, tit: K.olivo, it: K.cafe, ink: K.negro, ref: 'foto arriba y tarjeta con el tip encima' },
-    bn:        { n: 'Monocromo cálido', fam: 'sangre', bn: true, mayus: true, velo: 'rgba(63,30,13,.58)', ref: 'foto monocromo cálida, título fuerte en mayúsculas' },
+    bn:        { n: 'Monocromo cálido', fam: 'sangre', bn: true, velo: 'rgba(63,30,13,.58)', ref: 'foto monocromo cálida, título fuerte en mayúsculas' },
     servicios: { n: 'Editorial', fam: 'sangre', grande: true, desliza: true, velo: 'rgba(63,30,13,.58)', ref: 'foto tuya, titular grande y «desliza» manuscrito' },
   };
 
   const ROLES = {
-    portada: { n: 'Portada (hook)', c: [['titulo', 'Hook', 'a'], ['titulo_i', 'Segunda parte (itálica o manuscrita)', 'a'], ['bajada', 'Bajada chica (opcional)', 't']] },
+    portada: { n: 'Portada (hook)', c: [['sello', 'Serie (etiqueta): CASO REAL, ERROR COMÚN, OPINIÓN…', 't'], ['titulo', 'Hook (3 a 7 palabras)', 'a'], ['titulo_i', 'Segunda línea, en itálica', 'a']] },
     texto: { n: 'Texto', c: [['titulo', 'Título', 'a'], ['titulo_i', 'Itálica', 'a'], ['cuerpo', 'Cuerpo (corto)', 'a']] },
     lista: { n: 'Lista', c: [['titulo', 'Título', 'a'], ['items', '2 a 4 líneas: «negrita | resto»', 'p']] },
     error: { n: 'Error y corrección', c: [['intro', 'Intro (ej.: En español: «…»)', 't'], ['mal', 'Lo que se tacha', 't'], ['bien', 'La versión buena', 'a'], ['nota', 'Nota (opcional)', 'a']] },
@@ -60,17 +60,20 @@
     return c;
   }
   function variante(E, p) { return p.variante === 'texto' ? 'texto' : 'completa'; }
+  // Plantilla de portada (Flor, 25/11: «cómo mejorarías el feed»): A, B o C. Por defecto, según el estilo.
+  const PORTADAS = { A: 'Tu foto a sangre', B: 'Crema con foto de ambiente', C: 'Frase' };
+  function tplDe(c) { const t = (c.placas[0] || {}).tpl; if (PORTADAS[t]) return t; const E = ESTILOS[c.estilo] || ESTILOS.lifestyle; return E.fam === 'sangre' ? 'A' : 'B'; }
   // Todos estos estilos van con foto en todas las láminas; cada lámina la puede sacar («Sin foto»).
   // Ritmo de fotos (Flor, 25/11: «son demasiadas fotos mías; alternar con un cafecito, una oficina, paisajes»):
   // portada con ella; adentro se alterna foto suya, foto de ambiente y lámina sin foto (en los estilos de foto a sangre).
   function llevaFoto(c, p, i) {
     if (p.conFoto === false) return false; if (p.conFoto === true) return true;
-    if (p.forma === 'portada') return p.variante !== 'texto';
+    if (p.forma === 'portada') return tplDe(c) !== 'C';
     const E = ESTILOS[c.estilo] || ESTILOS.lifestyle;
     if (E.fam !== 'sangre') return true;
     return (i || 0) % 3 !== 2;
   }
-  function pide(c, p, i) { const E = ESTILOS[c.estilo] || ESTILOS.lifestyle; if (p.forma === 'portada') return E.fam === 'sangre' ? 'persona' : 'objeto'; if (p.forma === 'cierre') return 'objeto'; return (i || 0) % 3 === 1 ? 'objeto' : 'persona'; }
+  function pide(c, p, i) { if (p.forma === 'portada') return tplDe(c) === 'A' ? 'persona' : 'objeto'; if (p.forma === 'cierre') return 'objeto'; return (i || 0) % 3 === 1 ? 'objeto' : 'persona'; }
 
   const esc = (t) => String(t ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   const md = (t) => esc(t).replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>').replace(/\*([^*]+)\*/g, '<i>$1</i>').replace(/\n/g, '<br>');
@@ -96,7 +99,8 @@
   }
   function fotoBg(e, url, caja, alto, extra) {
     const q = encuadre(e, caja.w, caja.h, alto);
-    return `<div class="bg" data-foto="${esc(e.archivo)}" data-modo="cover" data-src="${esc(url)}" style="left:${caja.x}px;top:${caja.y}px;width:${caja.w}px;height:${caja.h}px;right:auto;bottom:auto;background-image:url('${esc(url)}');background-size:cover;background-position:${q.css};${extra || ''}"></div>`;
+    const grade = /grayscale/.test(extra || '') ? '' : 'filter:sepia(.14) saturate(.9) contrast(1.03) brightness(1.02);';
+    return `<div class="bg" data-foto="${esc(e.archivo)}" data-grade="1" data-modo="cover" data-src="${esc(url)}" style="${grade}left:${caja.x}px;top:${caja.y}px;width:${caja.w}px;height:${caja.h}px;right:auto;bottom:auto;background-image:url('${esc(url)}');background-size:cover;background-position:${q.css};${extra || ''}"></div>`;
   }
 
   // ---------- el texto de cada rol ----------
@@ -121,7 +125,26 @@
   }
 
   // ---------- una lámina ----------
+  function portada(c, H, foto, url) {
+    const p = c.placas[0], tpl = tplDe(c), s = Math.min(1.35, Math.max(0.65, +p.escala || 1));
+    const sello = (col, bg) => (p.sello ? `<div style="position:absolute;left:${PAD}px;top:${PAD}px;font-family:'Sans';font-weight:700;font-size:30px;letter-spacing:.16em;text-transform:uppercase;color:${col};background:${bg};padding:12px 24px;border-radius:999px">${esc(p.sello)}</div>` : '');
+    const hook = (col, colI, base) => { const z1 = tam(base, p.titulo) * s, z2 = tam(base * 0.56, p.titulo_i) * s; return `<div class="ci" style="display:flex;flex-direction:column;gap:${14 * s}px">${p.titulo ? `<div data-fs="${z1}" style="font-family:'Serif';font-weight:600;font-size:${z1}px;line-height:1.04;letter-spacing:-.025em;color:${col}">${md(p.titulo)}</div>` : ''}${p.titulo_i ? `<div data-fs="${z2}" style="font-family:'Serif';font-style:italic;font-weight:400;font-size:${z2}px;line-height:1.2;letter-spacing:-.01em;color:${colI}">${md(p.titulo_i)}</div>` : ''}</div>`; };
+    const cajaHTML = (t, b, just, inner) => `<div class="caja" style="left:${PAD}px;right:${PAD}px;top:${t}px;bottom:${b}px;justify-content:${just};text-align:left">${inner}</div>`;
+    if (tpl === 'A' && foto) {
+      const alto = 0.26, libre = Math.max(Math.round(H * 0.52), Math.round(caraAbajo(foto, W, H, alto) + 40));
+      const t = Math.min(libre, Math.round(H - PAD - H * 0.3));
+      return `<div class="p" style="height:${H}px;background:${K.bb}">${fotoBg(foto, url, { x: 0, y: 0, w: W, h: H }, alto)}<div class="bg" style="background:linear-gradient(180deg,rgba(0,0,0,0) ${Math.round((t / H) * 100) - 22}%,rgba(63,30,13,.62) ${Math.round((t / H) * 100) + 10}%)"></div>${sello(K.crema, 'rgba(198,140,108,.92)')}${cajaHTML(t, PAD, 'flex-end', hook(K.crema, K.calida, 100))}</div>`;
+    }
+    if (tpl === 'B' && foto) {
+      const yF = Math.round(H * 0.54);
+      return `<div class="p" style="height:${H}px;background:${K.crema}">${sello(K.terra, 'transparent;border:2px solid ' + K.terra)}${cajaHTML(PAD + 90, H - yF + 50, 'flex-start', hook(K.olivo, K.cafe, 96))}${fotoBg(foto, url, { x: PAD, y: yF, w: W - PAD * 2, h: H - yF - PAD }, 0.45, 'border-radius:18px')}</div>`;
+    }
+    // C · Frase (o A/B sin foto): crema, una frase grande en itálica y una línea terracota.
+    const z = tam(124, p.titulo) * s, z2 = tam(58, p.titulo_i) * s;
+    return `<div class="p" style="height:${H}px;background:${K.cremaM}">${sello(K.terra, 'transparent;border:2px solid ' + K.terra)}${cajaHTML(PAD + 90, PAD + 40, 'center', `<div class="ci" style="display:flex;flex-direction:column;gap:${22 * s}px"><div style="width:90px;height:6px;background:${K.terra};border-radius:3px"></div>${p.titulo ? `<div data-fs="${z}" style="font-family:'Serif';font-style:italic;font-weight:400;font-size:${z}px;line-height:1.08;letter-spacing:-.02em;color:${K.cafe}">${md(p.titulo)}</div>` : ''}${p.titulo_i ? `<div data-fs="${z2}" style="font-family:'Serif';font-weight:600;font-size:${z2}px;line-height:1.25;color:${K.olivo}">${md(p.titulo_i)}</div>` : ''}</div>`)}</div>`;
+  }
   function placa(c, i, H, foto, url, assets) {
+    if (i === 0 && c.placas[0] && c.placas[0].forma === 'portada') return portada(c, H, llevaFoto(c, c.placas[0], 0) ? foto : null, url);
     const E = ESTILOS[c.estilo] || ESTILOS.lifestyle, p = c.placas[i], n = c.placas.length;
     const s = Math.min(1.35, Math.max(0.65, +p.escala || 1));
     const conFoto = llevaFoto(c, p, i) && foto;
@@ -176,5 +199,5 @@
     return `<div class="p" style="height:${H}px;background:${fondo};color:${C.ink}">${capas}${extra}<div class="caja" style="left:${caja.l}px;right:${caja.r}px;top:${caja.t}px;bottom:${caja.b}px;justify-content:${just};text-align:${centrar ? 'center' : 'left'}"><div class="ci" style="display:flex;flex-direction:column;gap:${8 * s}px">${inner}</div></div>${pie}</div>`;
   }
 
-  window.Estilos = { ESTILOS, ROLES, aEstilos, desdeForma, llevaFoto, placa, variante, pide };
+  window.Estilos = { ESTILOS, ROLES, aEstilos, desdeForma, llevaFoto, placa, variante, pide, PORTADAS, tplDe };
 })();
