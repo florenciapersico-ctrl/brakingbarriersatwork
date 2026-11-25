@@ -80,6 +80,7 @@
 .crs-ctl>span{font-weight:700;color:#6c6656;min-width:44px}
 .crs-ctl .on{background:#4b5624;border-color:#4b5624;color:#f8f5ee}
 .crs-col.cuad{border-radius:6px}
+.crs-masl{flex:none;width:90px;min-height:120px;border:2px dashed #c68c6c;border-radius:10px;background:#fffdf8;color:#81552e;font:inherit;font-weight:700;font-size:14px;cursor:pointer;line-height:1.5}
 .crs-drop{outline:3px dashed #c68c6c;outline-offset:3px;background:#fbf2d0}
 .crs-arrastre{outline:3px dashed #c68c6c55;outline-offset:6px;border-radius:12px}
 .crs-fpick{background:#fbf2d0;border-radius:12px;padding:8px;margin-bottom:8px}
@@ -395,7 +396,7 @@ ${c.estilo ? '' : `<div class="crs-ctl" style="margin:0 0 8px"><span>Letra de lo
   <div class="crs-rec" role="group" aria-label="Foto de la portada">${c.estilo ? VAR.map(([k, n]) => `<button type="button" data-tpl="${k}" aria-pressed="${ES.tplDe(c) === k}">${n}</button>`).join('') : PORTADAS.map(([k, n]) => `<button type="button" data-port="${k}" aria-pressed="${p0.forma === k}">${n}</button>`).join('')}</div>
   ${(defs(p0.forma, c).c || []).map(([k, et, t]) => `<label class="crs-campo">${esc(et)}${t === 't' ? `<input type="text" data-pk="${k}" value="${esc(c.placas[0][k] || '')}">` : `<textarea rows="2" data-pk="${k}">${esc(c.placas[0][k] || '')}</textarea>`}</label>`).join('')}
 </details>
-<div class="crs-tira">${visibles(c).map((i) => `<button type="button" class="crs-mini${reel ? ' reel' : ''}" data-i="${i}" aria-label="Editar lámina ${i + 1}"><div class="marco">${htmlPlaca(c, i, 120 / M.W)}</div>${i + 1}</button>`).join('')}</div>
+<div class="crs-tira">${visibles(c).map((i) => `<button type="button" class="crs-mini${reel ? ' reel' : ''}" data-i="${i}" aria-label="Editar lámina ${i + 1}"><div class="marco">${htmlPlaca(c, i, 120 / M.W)}</div>${i + 1}</button>`).join('')}${reel ? '' : '<button type="button" class="crs-masl" data-crs-add aria-label="Agregar una lámina al final">＋<br>Agregar</button>'}</div>
 <div class="crs-acc"><button type="button" class="btn sm" data-crs-ed="0">✏️ Editar cada lámina</button>${subirFn ? `<label class="btn ghost sm crs-sub">📷 Subir fotos mías<input type="file" accept="image/*" multiple data-crs-subir="persona" hidden></label><label class="btn ghost sm crs-sub">☕ Subir fotos de lugares y cosas<input type="file" accept="image/*" multiple data-crs-subir="objeto" hidden></label>` : ''}<button type="button" class="btn ghost sm" data-crs-fotos>Otras fotos</button><button type="button" class="btn ghost sm" data-crs-png>📲 Descargar láminas</button></div>
 <p class="small muted" style="margin:6px 0 0">Tocá una lámina para editarla. Para cambiarlas de orden, arrastralas en esta tira (en la compu) o usá «moverla antes / después» dentro de la lámina.</p>
 <div class="crs-est" aria-live="polite"></div>`;
@@ -421,6 +422,9 @@ ${c.estilo ? '' : `<div class="crs-ctl" style="margin:0 0 8px"><span>Letra de lo
     const dp = el.querySelector('.crs-port'); if (dp) dp.ontoggle = () => { c._abrirPortada = dp.open; };
     el.querySelector('[data-crs-fotos]').onclick = async () => { c.semilla = (+c.semilla || 0) + 1; asignarFotos(Object.values(FILAS), llave(f)); pintarUno(el); await guardar(f, est); };
     $$('.crs-mini,[data-crs-ed]', el).forEach((b) => (b.onclick = () => editor(f, +(b.dataset.i || b.dataset.crsEd || 0), () => pintarUno(el))));
+    // Agregar láminas (Flor, 25/11: «le quiero agregar dos slides y no me da la opción»).
+    const add = el.querySelector('[data-crs-add]');
+    if (add) add.onclick = async () => { c.placas.push({ forma: 'texto', titulo: 'Tu título', titulo_i: 'el remate en itálica', cuerpo: '' }); pintarUno(el); await guardar(f, est); editor(f, c.placas.length - 1, () => pintarUno(el)); };
     if (!reel) $$('.crs-mini', el).forEach((b) => {
       b.draggable = true;
       b.ondragstart = (ev) => { ev.dataTransfer.setData('text/x-lamina', b.dataset.i); ev.dataTransfer.effectAllowed = 'move'; };
@@ -469,7 +473,7 @@ ${c.estilo ? '' : `<div class="crs-ctl" style="margin:0 0 8px"><span>Letra de lo
 
   /* ---------- editor: una lámina grande + sus textos + elegir o subir foto ---------- */
   function editor(f, i, alCerrar) {
-    const c = f.carrusel, vis = visibles(c);
+    const c = f.carrusel; let vis = visibles(c);
     let sel = null; // { i, idx } el texto tocado en la lámina
     let fsel = null; // { i, k } la foto agregada que se tocó
     let marcado = null; // { i, campo, txt } la parte del texto marcada con el dedo o el mouse
@@ -489,7 +493,7 @@ ${c.estilo ? '' : `<div class="crs-ctl" style="margin:0 0 8px"><span>Letra de lo
       m.innerHTML = `<div class="cm"><div><div class="lienzo" style="aspect-ratio:1080/${alto(c)}"></div>
   <div class="nav"><button type="button" class="btn ghost sm" data-ant ${i <= 0 ? 'disabled' : ''}>← Anterior</button><span class="small">Lámina ${i + 1} de ${vis.length}${c.formato === 'reel' ? '' : ` · <button type="button" class="linkbtn small" data-mov="-1" ${i <= 0 ? 'disabled' : ''}>⇠ moverla antes</button> · <button type="button" class="linkbtn small" data-mov="1" ${i >= c.placas.length - 1 ? 'disabled' : ''}>moverla después ⇢</button>`}</span><button type="button" class="btn ghost sm" data-sig ${i >= vis.length - 1 ? 'disabled' : ''}>Siguiente →</button></div></div>
 <div><div class="row between"><h3 style="margin:0">${esc(F.n)}</h3><button type="button" class="btn ghost sm" data-cerrar>Listo</button></div>
-  <div class="row" style="gap:6px;flex-wrap:wrap;margin-bottom:8px"><button type="button" class="btn sm" data-xadd>＋ Agregar texto</button><button type="button" class="btn sm" data-fadd>＋ Agregar foto</button><button type="button" class="btn ghost sm" data-baj1>📲 Descargar esta lámina</button></div>
+  <div class="row" style="gap:6px;flex-wrap:wrap;margin-bottom:8px"><button type="button" class="btn sm" data-xadd>＋ Agregar texto</button><button type="button" class="btn sm" data-fadd>＋ Agregar foto</button><button type="button" class="btn ghost sm" data-baj1>📲 Descargar esta lámina</button>${c.formato === 'reel' ? '' : '<button type="button" class="btn ghost sm" data-lmadd>＋ Lámina nueva después</button><button type="button" class="btn ghost sm" data-lmdel>🗑 Quitar esta lámina</button>'}</div>
   <div class="crs-fpick" hidden><p class="small" style="margin:0 0 6px"><b>Elegí la foto</b> (o arrastrala desde tu compu y soltala sobre la lámina)</p><div class="crs-fotos">${M.catalogo.filter((e) => !e.excluir).slice().reverse().map((e) => `<button type="button" data-fpon="${esc(e.archivo)}" aria-label="Agregar esta foto"><img src="${M.urlDe(e)}" alt="" loading="lazy"></button>`).join('')}</div><label class="small">Subir una foto nueva y agregarla<input type="file" accept="image/*" data-fsub></label></div>
   <div class="crs-ctl crs-sel crs-fbar"${fsel && fsel.i === i ? '' : ' hidden'}><span>La foto que tocaste</span><button type="button" class="btn ghost sm" data-fed="s-">Más chica</button><button type="button" class="btn ghost sm" data-fed="s+">Más grande</button><button type="button" class="btn ghost sm" data-fed="z">Adelante / atrás del texto</button><button type="button" class="btn ghost sm" data-fed="r">Bordes rectos / redondeados</button><button type="button" class="btn ghost sm" data-fed="x">Quitar foto</button></div>
   <div class="crs-ctl crs-sel"${sel && sel.i === i ? '' : ' hidden'}><span>Solo lo que tocaste <b class="crs-selpct">${sel && sel.i === i && p.ed && p.ed[sel.idx] && p.ed[sel.idx].s ? Math.round(p.ed[sel.idx].s * 100) : 100}%</b></span><button type="button" class="btn ghost sm" data-ted="s-" aria-label="Más chico">A−</button><button type="button" class="btn ghost sm" data-ted="s+" aria-label="Más grande">A+</button><button type="button" class="btn ghost sm" data-ted="u" aria-label="Subir">↑</button><button type="button" class="btn ghost sm" data-ted="d" aria-label="Bajar">↓</button><button type="button" class="btn ghost sm" data-ted="l" aria-label="A la izquierda">←</button><button type="button" class="btn ghost sm" data-ted="r" aria-label="A la derecha">→</button>${[['#4b5624', 'Olivo'], ['#81552e', 'Café'], ['#3f1e0d', 'Café oscuro'], ['#c68c6c', 'Terracota'], ['#f8f5ee', 'Crema'], ['#1f1c17', 'Negro']].map(([h, n]) => `<button type="button" class="crs-col" data-ted="c:${h}" title="${n}" aria-label="Letra ${n}" style="background:${h}"></button>`).join('')}<span style="margin-left:4px">Fondo</span>${[['#f8f5ee', 'Crema'], ['#fbf2d0', 'Cálida'], ['#ede5cc', 'Crema media'], ['#c68c6c', 'Terracota'], ['#81552e', 'Café'], ['#4b5624', 'Olivo']].map(([h, n]) => `<button type="button" class="crs-col cuad" data-ted="f:${h}" title="Fondo ${n}" aria-label="Fondo ${n}" style="background:${h}"></button>`).join('')}<button type="button" class="btn ghost sm" data-ted="f:">Sin fondo</button><button type="button" class="btn ghost sm" data-ted="zf">Adelante de la foto</button><button type="button" class="btn ghost sm" data-ted="zb">Atrás de la foto</button><button type="button" class="btn ghost sm" data-ted="x">Como estaba</button></div>
@@ -625,6 +629,15 @@ ${c.estilo ? '' : `<div class="crs-ctl" style="margin:0 0 8px"><span>Letra de lo
         const fn = () => { const a = ta.selectionStart, z = ta.selectionEnd; if (a == null || z <= a) return; const txt = ta.value.slice(a, z).replace(/\s+/g, ' ').trim(); if (!txt) return; marcado = { i, campo: ta.dataset.k, txt, t: Date.now() }; mostrarBarraTexto(); };
         ['select', 'mouseup', 'keyup', 'touchend'].forEach((ev) => ta.addEventListener(ev, fn));
       });
+      const lmadd = m.querySelector('[data-lmadd]');
+      if (lmadd) lmadd.onclick = () => { c.placas.splice(i + 1, 0, { forma: 'texto', titulo: 'Tu título', titulo_i: 'el remate en itálica', cuerpo: '' }); i += 1; vis = visibles(c); sel = null; fsel = null; marcado = null; pintar(); clearTimeout(timer); timer = setTimeout(() => guardar(f, est), 300); est(`Lámina ${i + 1} nueva: tocá el texto para escribir, o cambiale el tipo.`); };
+      const lmdel = m.querySelector('[data-lmdel]');
+      if (lmdel) lmdel.onclick = () => {
+        if (c.placas.length <= 1) { est('El carrusel tiene que tener al menos una lámina.'); return; }
+        if (!window.confirm(`¿Quitar la lámina ${i + 1}?`)) return;
+        c.placas.splice(i, 1); i = Math.min(i, c.placas.length - 1); vis = visibles(c); sel = null; fsel = null; marcado = null;
+        pintar(); clearTimeout(timer); timer = setTimeout(() => guardar(f, est), 300); est('Listo: la quité.');
+      };
       // Mover la lámina de lugar (Flor, 25/11: «que me deje mover las slides y cambiarlas de lugar»).
       $$('[data-mov]', m).forEach((b) => (b.onclick = () => {
         const j = i + Number(b.dataset.mov); if (j < 0 || j >= c.placas.length) return;
