@@ -168,15 +168,42 @@
   // Diseños (Flor, 25/11): las 4 recetas del estudio + 6 combos de portada y estilo.
   const COMBOS = [['servicios', 'A', 'Tu foto + Editorial'], ['duo', 'color', 'Bloque de color + Dúo'], ['minimal', 'crema', 'Crema con pregunta + Minimal'], ['revista', 'etiquetas', 'Foto con etiquetas + Revista'], ['lateral', 'recorte', 'Tu recorte + Foto al costado'], ['notas', 'marco', 'Foto enmarcada + Notas']];
   function aCombo(c, v) { const [e, t] = v.split('|');
-    if (!c.estilo) c.placas = c.placas.map((p) => (p.forma === 'frase' && p.frase === undefined ? { ...p, pre: '', frase: [p.linea_i, p.resaltado].filter(Boolean).join(' ') } : p)); c.estilo = e; ES.aEstilos(c); if (c.placas[0]) c.placas[0].tpl = t; return c; }
+    if (!c.estilo) {
+      c.placas = c.placas.map((p) => (p.forma === 'frase' && p.frase === undefined ? { ...p, pre: '', frase: [p.linea_i, p.resaltado].filter(Boolean).join(' ') } : p));
+      const p0 = c.placas[0]; if (p0 && /^portada_/.test(p0.forma)) { const h = hookDe(p0); c.placas[0] = { forma: 'portada', foto: p0.foto, _foto: p0._foto, pre: h.pre, titulo: h.t, titulo_i: h.ti }; }
+    } c.estilo = e; ES.aEstilos(c); if (c.placas[0]) c.placas[0].tpl = t; return c; }
   // Vuelve un carrusel de estilos a las formas del motor (recetas).
   const SACAR = ['tpl', 'escala', 'pos', 'conFoto', 'sello', 'variante'];
+  // El hook de cualquier portada, para pasarlo a la portada propia de cada receta (Flor, 25/11: «cada diseño se ve distinto»).
+  const jn = (...x) => x.filter(Boolean).join(' ');
+  const firma = (p) => ['pre', 'titulo', 'titulo_i', 'titulo_2', 'palabra', 'pill', 'opciones'].map((k) => p[k] || '').join('¦');
+  function hookDe(p) {
+    if (p._hook && p._firma === firma(p)) return p._hook; // el hook original, si no se editó la portada
+    switch (p.forma) {
+      case 'portada_foto': return { pre: '', t: p.titulo || '', ti: p.titulo_i || '' };
+      case 'portada_botones': return { pre: '', t: p.titulo || '', ti: p.titulo_2 || '' };
+      case 'portada_profundidad': return { pre: '', t: p.pre || '', ti: jn(p.palabra && p.palabra.charAt(0) + p.palabra.slice(1).toLowerCase(), p.pill) };
+      default: return { pre: p.pre || '', t: p.titulo || '', ti: p.titulo_i || '' };
+    }
+  }
+  function portadaPara(forma, p) {
+    if (p.forma === forma) return p;
+    const h = hookDe(p), n = portadaArmada(forma, p, h, { foto: p.foto, _foto: p._foto, forma });
+    n._hook = h; n._firma = firma(n); return n;
+  }
+  function portadaArmada(forma, p, h, b) {
+    if (forma === 'portada_botones') return { ...b, titulo: jn(h.pre, h.t), titulo_2: '', bajada: '', opciones: p.opciones || h.ti };
+    if (forma === 'portada_profundidad') { const w = (h.ti || h.t).trim().split(/\s+/), ult = (w.pop() || '').replace(/[.,;:!?…]+$/, ''); return { ...b, pre: jn(h.pre, h.ti ? h.t : '', w.join(' ')), palabra: ult.toUpperCase(), pill: '' }; }
+    if (forma === 'portada_serif') { const w = jn(h.t, h.ti).trim().split(/\s+/), n = w.length > 3 ? 2 : 1, g = w.splice(-n).join(' ').replace(/[.,;:!?…]+$/, ''); return { ...b, pre: w.join(' '), titulo: g.charAt(0).toUpperCase() + g.slice(1), titulo_i: '' }; }
+    return { ...b, forma: 'portada_foto', titulo: jn(h.pre, h.t), titulo_i: h.ti, bajada: p.bajada || '' };
+  }
   function aMotor(c, receta) {
-    c.receta = receta; if (!c.estilo) return c; c.estilo = undefined;
-    const R = M.RECETAS[receta];
+    c.receta = receta; const R = M.RECETAS[receta];
+    if (!c.estilo) { if (c.placas[0]) c.placas[0] = portadaPara(R.portadas[0], c.placas[0]); return c; }
+    c.estilo = undefined;
     c.placas = c.placas.map((p) => {
       const b = { foto: p.foto, _foto: p._foto };
-      if (p.forma === 'portada') { const n = { ...b, forma: 'portada_foto', titulo: [p.pre, p.titulo].filter(Boolean).join(' '), titulo_i: p.titulo_i || '', bajada: p.bajada || '' }; return R.portadas[0] !== 'portada_foto' ? convertir(n, R.portadas[0]) : n; }
+      if (p.forma === 'portada') return portadaPara(R.portadas[0], p);
       if (p.forma === 'lista') return { ...b, forma: 'numerada', titulo: p.titulo || '', items: p.items || '' };
       if (p.forma === 'frase') return { ...b, forma: 'texto', titulo: p.pre || '', titulo_i: p.frase || '' };
       const n = {}; Object.keys(p).forEach((k) => { if (!SACAR.includes(k)) n[k] = p[k]; }); return n;
@@ -230,7 +257,10 @@
 <p class="small muted" style="margin:6px 0 0">Tocá una lámina para cambiarle el texto, el tamaño de la letra, dónde va, el tipo de lámina o la foto.</p>
 <div class="crs-est" aria-live="polite"></div>`;
     $$('.crs-mini .marco .p', el).forEach((p) => ajustar(p));
-    $$('[data-prev]', el).forEach((m) => { const [tipo, v] = m.dataset.prev.split(':'), cp = JSON.parse(JSON.stringify(c)); if (tipo === 'r') aMotor(cp, v); else aCombo(cp, v); m.innerHTML = htmlPlaca(cp, 0, (m.clientWidth || 66) / M.W); const n = m.querySelector('.p'); if (n) ajustar(n); });
+    // Cada miniatura con una foto distinta, para distinguir bien los 10 diseños (Flor, 25/11).
+    const pers = M.catalogo.filter((e) => e.tipo === 'persona' && !e.excluir), recs = pers.filter((e) => e.tiene_recorte), sinRec = pers.filter((e) => !e.tiene_recorte); const usadasPrev = new Set();
+    $$('[data-prev]', el).forEach((m, ix) => { const [tipo, v] = m.dataset.prev.split(':'), cp = JSON.parse(JSON.stringify(c)); if (tipo === 'r') aMotor(cp, v); else aCombo(cp, v);
+      const lista = /recorte/.test(v) || v === 'historia' ? recs : sinRec.length >= 10 ? sinRec : pers; let fo = null; for (let t = 0; t < lista.length && !fo; t++) { const e = lista[(ix * 3 + t) % lista.length]; if (!usadasPrev.has(e.archivo)) fo = e; } if (fo) usadasPrev.add(fo.archivo); if (fo && cp.placas[0]) { cp.placas[0]._foto = fo.archivo; cp.placas[0].foto = fo.archivo; } m.innerHTML = htmlPlaca(cp, 0, (m.clientWidth || 66) / M.W); const n = m.querySelector('.p'); if (n) ajustar(n); });
     pintarMinis(llave(f));
     const est = (t) => { el.querySelector('.crs-est').textContent = t || ''; };
     $$('[data-rec]', el).forEach((b) => (b.onclick = async () => { aMotor(c, b.dataset.rec); asignarFotos(Object.values(FILAS), llave(f)); pintarUno(el); await guardar(f, est); }));
