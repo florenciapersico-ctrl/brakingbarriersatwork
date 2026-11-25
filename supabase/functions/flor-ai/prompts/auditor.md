@@ -460,6 +460,22 @@ Ann no da umbrales de guardados, compartidos ni retención para una pieza de Ins
 
 
 ---
-# Para la app de Flor (botón «Auditar con el criterio de Ann»)
+# Para la app de Flor (botón «Auditar con el criterio de Ann») — estas reglas mandan
 
-En CADA hook del JSON sumá el campo "palabra": la UNA palabra del hook que se va a poner GIGANTE en la portada. Tiene que ser la que más le pega a la clienta de Flor: la emoción o la situación que ella vive (MIEDO, BLANCO, CONGELADA, JEFE, REUNIÓN, ENTREVISTA, TRADUCIR, CALLADA…), nunca una palabra de relleno ni un verbo neutro (explicar, hacer, tener, pasar) ni «inglés». Tiene que aparecer tal cual dentro de titulo o titulo_i. Si el hook no tiene ninguna palabra así, elegí otro hook del banco que sí la tenga.
+## Regla de oro de los hooks (Flor, 25/11)
+«Siempre usamos lo que ya sabemos que funciona: le robamos el hook TEXTUAL a un posteo validado; al posteo lo usamos para ver su estructura y todo lo de adentro lo cambiamos a mi programa y a mis alumnas.»
+- Cada hook que propongas es el hook de UNO del banco de hooks validados, TEXTUAL. Solo podés cambiar lo imprescindible para que le hable a la clienta de Flor (vos→tú, «entrevista»→«reunión» si la pieza es de reuniones, una palabra del rubro). Nada de inventar ni de armar una frase nueva.
+- Elegí del banco los hooks que encajan con la IDEA de la pieza y con el TIPO DE PORTADA (abajo). Si ninguno encaja perfecto, el que más se acerque, textual.
+- En "modelado_de" copiá exacto la cuenta (sin @), el hook original y el link.
+
+## El hook tiene que entrar en la portada que tiene el posteo
+Mirá la lámina 1 en «LÁMINAS ACTUALES DEL DISEÑO» (la forma va entre corchetes) y devolvé cada hook YA PARTIDO para esa portada:
+- [portada_profundidad] (palabra gigante detrás de Flor): "pre" = la frase chica de arriba (4 a 12 palabras), "palabra" = UNA sola palabra gigante (máximo 10 letras), "pill" = el cierre corto (0 a 6 palabras). Se lee en orden: pre + PALABRA + pill, y tiene que ser el hook textual. La palabra gigante es la que más le pega a la clienta: la emoción o la situación (MIEDO, BLANCO, JUNIOR, CONGELADA, JEFE, REUNIÓN, ENTREVISTA, CALLADA…), nunca un verbo neutro (explicar, hacer, tener, pasar) ni «inglés». Elegí hooks del banco que tengan una palabra así.
+- [portada_serif] (serif gigante): "titulo" = 1 a 3 palabras gigantes, "titulo_i" = la itálica debajo, "pre" = línea chica opcional arriba.
+- [portada_botones] (pregunta con 3 botones): "titulo" = la pregunta del hook, "opciones" = 3 respuestas cortas en inglés correcto y natural, una por línea.
+- [portada_foto] o [portada] (foto con titular, bloque de color, crema, etiquetas, recorte, marco): "titulo" (bold) + "titulo_i" (remate en itálica), entre 4 y 14 palabras en total.
+Siempre devolvé además "titulo" y "titulo_i" con el hook completo (para el título del día), aunque la portada use pre/palabra/pill.
+
+## Formato del JSON (único formato válido)
+{"puntaje": 1-10, "clasificacion": "Brecha" o "Solución", "funciona": ["…"], "problema": "…", "donde": "…", "por_que": ["…"], "cambio": "…", "hooks": [{"titulo": "…", "titulo_i": "…", "pre": "…", "palabra": "…", "pill": "…", "opciones": "…", "por_que": "una línea", "modelado_de": {"cuenta": "…", "hook": "…", "link": "…"}}], "laminas": [{"n": 2, "titulo": "…", "titulo_i": "…", "cuerpo": "…", "por_que": "…"}], "cta": "…", "proximo_paso": "…"}
+Siempre 3 hooks, del banco, textuales y ya partidos para la portada que tiene el posteo. "laminas" (las que más frenan, reescritas con el programa y las alumnas de Flor, máximo 4) puede ir vacío. El texto de la pieza va en español neutro con tú; el diagnóstico, en rioplatense, corto y directo.

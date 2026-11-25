@@ -619,7 +619,16 @@ ${c.estilo ? '' : `<div class="crs-ctl" style="margin:0 0 8px"><span>Letra de lo
     if (i === 0) {
       const h = { pre: '', t: campos.titulo || '', ti: campos.titulo_i || '', palabra: campos.palabra || '' };
       if (c.estilo) Object.assign(p, { pre: '', titulo: h.t, titulo_i: h.ti });
-      else { const n = portadaArmada(p.forma, p, h, { foto: p.foto, _foto: p._foto, forma: p.forma }); c.placas[0] = Object.assign(n, { _hook: h }); c.placas[0]._firma = firma(c.placas[0]); }
+      else {
+        // Si el auditor ya partió el hook para esta portada (frase chica + PALABRA + cierre, serif, botones), va tal cual.
+        const b0 = { foto: p.foto, _foto: p._foto, forma: p.forma, ed: p.ed, extra: p.extra, escala: p.escala }, lim = (x) => String(x || '').replace(/[.,;:!?…«»"()¿¡]+/g, '').trim();
+        let n = null;
+        if (p.forma === 'portada_profundidad' && campos.palabra && (campos.pre || campos.pill)) n = { ...b0, pre: campos.pre || '', palabra: lim(campos.palabra).toUpperCase(), pill: campos.pill || '' };
+        else if (p.forma === 'portada_serif' && campos.titulo && campos.titulo.trim().split(/\s+/).length <= 3) n = { ...b0, pre: campos.pre || '', titulo: campos.titulo, titulo_i: campos.titulo_i || '' };
+        else if (p.forma === 'portada_botones' && campos.opciones) n = { ...b0, titulo: campos.titulo || '', titulo_2: campos.titulo_i || '', bajada: p.bajada || '', opciones: campos.opciones };
+        if (!n) n = portadaArmada(p.forma, p, h, { foto: p.foto, _foto: p._foto, forma: p.forma });
+        c.placas[0] = Object.assign(n, { _hook: h }); c.placas[0]._firma = firma(c.placas[0]);
+      }
     } else {
       const base = { foto: p.foto, _foto: p._foto, escala: p.escala, ed: p.ed, extra: p.extra };
       c.placas[i] = Object.assign(base, { forma: 'texto', titulo: campos.titulo || '', titulo_i: campos.titulo_i || '', cuerpo: campos.cuerpo || '' });
