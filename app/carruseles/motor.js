@@ -57,8 +57,8 @@ function css(){ return `
 .p .sutil{text-shadow:0 1px 3px rgba(0,0,0,.3)}
 .p .pinc{white-space:nowrap;background:url(${A.pinc}) no-repeat center 58%/106% 84%;padding:0 .14em;color:${C.crema}}
 .p .pinc.larga{white-space:normal;-webkit-box-decoration-break:clone;box-decoration-break:clone;background-size:100% 84%;line-height:1.3}
-.p .raya{position:relative;display:inline-block}
-.p .raya:after{content:'';position:absolute;left:-12px;right:-12px;top:46%;height:.15em;background:${C.terra};transform:rotate(-2deg);border-radius:6px}
+.p .raya{text-decoration:line-through;text-decoration-color:${C.terra};text-decoration-thickness:.11em;text-decoration-skip-ink:none}
+.p .raya:after{content:none}
 .p .num{font-family:'Serif';font-weight:600;color:${C.terra};font-size:64px;min-width:110px}
 .p .linea{display:flex;align-items:baseline;padding:30px 0;border-top:2px solid rgba(75,86,36,.18)}
 .p .tarj{background:#fff;border-radius:28px;box-shadow:0 18px 40px rgba(20,18,12,.2);padding:28px 40px}
@@ -182,7 +182,7 @@ function placaBase(f, d, H, receta, e){
     return `<div class="p" style="height:${H}px;background:${C.crema_m}">${caja(110,150,inner,96)}${pie(false)}</div>`;
   }
   if (f === "error"){
-    const inner = tx("r",d.intro,52,"opacity:.75") + `<div class="g" data-fs="124" data-t style="font-family:'Serif';font-weight:700;letter-spacing:-.02em;line-height:1.04;color:${C.bb};font-size:124px;margin-top:30px"><span class="raya">${md(d.mal)}</span></div>` + tx("si",d.bien,124,`color:${C.olivo};margin-top:60px;line-height:1.05`) + tx("cuerpo",d.nota,40,"margin-top:46px");
+    const inner = tx("r",d.intro,52,"opacity:.75") + `<div class="g" data-fs="124" data-t style="font-family:'Serif';font-weight:600;letter-spacing:-.015em;line-height:1.08;color:${C.cafe};font-size:124px;margin-top:30px"><span class="raya">${md(d.mal)}</span></div>` + tx("si",d.bien,124,`color:${C.olivo};margin-top:60px;line-height:1.05`) + tx("cuerpo",d.nota,40,"margin-top:46px");
     return P(`${caja(120,160,inner,96)}${pie(false)}`);
   }
   if (f === "frase"){
@@ -196,7 +196,7 @@ function placaBase(f, d, H, receta, e){
     return P(`${fondoFoto(e,velo)}<div class="sutil" style="color:${C.calida}">${caja(a,H-b,inner,84,zona==="abajo"?"flex-end":"flex-start","stretch","center")}</div>${handle()}`);
   }
   if (f === "tachado"){
-    const inner = tx("r",d.pre,54,"opacity:.8") + `<div class="g" data-fs="146" data-t style="font-family:'Serif';font-weight:700;letter-spacing:-.02em;line-height:1.04;color:${C.bb};font-size:146px;margin-top:30px"><span class="raya">${md(d.tachado)}</span></div>` + tx("si",d.verdad_i,118,`color:${C.olivo};margin-top:60px;line-height:1.05`);
+    const inner = tx("r",d.pre,54,"opacity:.8") + `<div class="g" data-fs="146" data-t style="font-family:'Serif';font-weight:600;letter-spacing:-.015em;line-height:1.08;color:${C.cafe};font-size:146px;margin-top:30px"><span class="raya">${md(d.tachado)}</span></div>` + tx("si",d.verdad_i,118,`color:${C.olivo};margin-top:60px;line-height:1.05`);
     return P(`${caja(120,160,inner,96)}${pie(false)}`);
   }
   if (f === "oscura"){

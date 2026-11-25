@@ -22,7 +22,7 @@
   function preparar(fotosExtra) {
     if (listo) return listo;
     listo = (async () => {
-      await script(BASE + 'motor.js?v=3');
+      await script(BASE + 'motor.js?v=4');
       await script(BASE + 'estilos.js?v=19');
       M = window.Motor; ES = window.Estilos;
       const [cat, fcss, pinc, lo, lc] = await Promise.all([
@@ -184,6 +184,7 @@
     const sueltos = orig.filter((c) => c[2] !== 'p' && c[2] !== 'l').map((c) => p[c[0]]).filter(Boolean);
     const listas = orig.filter((c) => c[2] === 'p' || c[2] === 'l').map((c) => p[c[0]]).filter(Boolean);
     const n = { forma: destino, foto: p.foto, _foto: p._foto, escala: p.escala, pos: p.pos, conFoto: p.conFoto };
+    if (!dest.some((x) => x[2] === 'p' || x[2] === 'l')) listas.forEach((l) => sueltos.push(String(l).split('\n').map((x) => x.replace(/\s*\|\s*/g, ' ').trim()).filter(Boolean).join(' ')));
     let i = 0, j = 0;
     const usados = new Set();
     dest.forEach(([k]) => { if (p[k] && orig.some((o) => o[0] === k)) { n[k] = p[k]; usados.add(p[k]); } });
@@ -191,6 +192,20 @@
     dest.forEach(([k, , t]) => { if (n[k]) return; if (t === 'p' || t === 'l') n[k] = listasL[j++] || ''; else n[k] = sueltosL[i++] || ''; });
     const sobran = sueltosL.slice(i); i = sueltos.length - sobran.length;
     if (sobran.length) { const ult = dest.filter((c) => c[2] !== 'p' && c[2] !== 'l').pop(); if (ult) n[ult[0]] = [n[ult[0]], ...sobran].filter(Boolean).join(' '); }
+    // Si todo el texto quedó en un solo campo, se reparte por frases (Flor, 25/11: «me aparece todo junto, apretado, sin estilo»).
+    const ora = (t) => String(t || '').split(/(?<=[.!?…:])\s+/).map((x) => x.trim()).filter(Boolean);
+    const NO = /^(cta|hora|bajada|opciones|evento|detalle)$/;
+    const txt = dest.filter((x) => x[2] !== 'p' && x[2] !== 'l' && !NO.test(x[0])).map((x) => x[0]);
+    const lis = dest.filter((x) => (x[2] === 'p' || x[2] === 'l') && x[0] !== 'opciones').map((x) => x[0]);
+    const llenos = txt.filter((k) => n[k]);
+    if (llenos.length === 1 && !lis.some((k) => n[k])) {
+      const o = ora(n[llenos[0]]);
+      if (o.length >= 2) {
+        txt.forEach((k) => { n[k] = ''; });
+        if (lis.length) { n[txt[0]] = o.shift(); n[lis[0]] = o.map((x) => x.replace(/\|/g, '/') + ' | ').join('\n'); }
+        else { txt.forEach((k, ix) => { if (ix < txt.length - 1) n[k] = o.shift() || ''; else n[k] = o.join(' '); }); }
+      }
+    }
     if (destino === 'portada_profundidad' && n.palabra && n.palabra.split(/\s+/).length > 1) { const ws = n.palabra.split(/\s+/); const larga = ws.reduce((a, b) => (b.length > a.length ? b : a)); n.pre = [n.pre, n.palabra.replace(larga, '').trim()].filter(Boolean).join(' '); n.palabra = larga.toUpperCase(); }
     return n;
   }
@@ -385,7 +400,7 @@
     const pintar = () => {
       const p = c.placas[i], F = defs(p.forma, c), conFoto = lleva(c, p, i), E = c.estilo ? ES.ESTILOS[c.estilo] : null;
       const RR = M.RECETAS[c.receta] || M.RECETAS.editorial;
-      const formas = c.estilo ? Object.keys(ES.ROLES) : i === 0 ? Object.keys(M.FORMAS).filter((k) => k.startsWith('portada_')) : [...new Set(['texto', ...RR.formas.filter((k) => !k.startsWith('portada_')), 'tachado', 'cierre'])].filter((k) => M.FORMAS[k]);
+      const formas = c.estilo ? Object.keys(ES.ROLES) : i === 0 ? Object.keys(M.FORMAS).filter((k) => k.startsWith('portada_')) : [...new Set(['texto', ...RR.formas.filter((k) => !k.startsWith('portada_')), 'tachado', 'cierre'])].filter((k) => M.FORMAS[k] && k !== 'calendario');
       const pct = Math.round((+p.escala || 1) * 100), posA = p.pos || '';
       const fotos = M.catalogo.filter((e) => e.tipo !== 'fondo' && !e.excluir && (!['recorte_lado', 'portada_profundidad'].includes(p.forma) || e.tiene_recorte));
       m.innerHTML = `<div class="cm"><div><div class="lienzo" style="aspect-ratio:1080/${alto(c)}"></div>
