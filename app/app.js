@@ -1978,6 +1978,11 @@ ${String(r.texto || '').replace(/^\s*[¡!]?\s*hola[^\n]*\n/i, '')}`;
       const [hd, b, res, wins, semC] = await Promise.all([DB.hoyFlor ? DB.hoyFlor(hoyI).catch(() => []) : [], cargarBandeja().catch(() => null), DB.todosResumenes ? DB.todosResumenes().catch(() => []) : [], DB.winsComunidad().catch(() => []), DB.contenidoRango ? DB.contenidoRango(lun, finSig).catch(() => []) : []]);
       st._semC = semC || [];
       st._pub = DB.publicados ? await DB.publicados().catch(() => []) : [];
+      // Archivo: el mes que se está mirando (0 = este mes).
+      st._cMes = st._cMes || 0;
+      const mB = new Date(); mB.setDate(1); mB.setMonth(mB.getMonth() + st._cMes);
+      st._mesIni = diaISO(mB);
+      st._mesC = DB.contenidoRango ? await DB.contenidoRango(st._mesIni, diaISO(new Date(mB.getFullYear(), mB.getMonth() + 1, 0))).catch(() => []) : [];
       st._hoyD = hd || [];
       const porId = {}; ((b && b.activas) || []).forEach((a) => { if (a.perfil && a.perfil.id) porId[a.perfil.id] = a; });
       const nom1 = (n) => String(n || '').split(' ')[0];
@@ -2004,13 +2009,9 @@ ${String(r.texto || '').replace(/^\s*[¡!]?\s*hola[^\n]*\n/i, '')}`;
       const pedidas = ((b && b.activas) || []).filter((a) => (T[a.email] || {}).pedido && !(T[a.email] || {}).recibido);
       const recibidas = ((b && b.activas) || []).filter((a) => (T[a.email] || {}).recibido);
       st._cand = cand;
-      return `<div class="head"><div><span class="eyebrow">Tu contenido sale de tus clases</span><h1>Contenido</h1></div></div>
-<section class="card"><div class="row between"><h2>Hoy</h2><span class="muted small">${fecha(hoyI, { weekday: 'long', day: 'numeric' })}</span></div>
-  ${hoy.getDay() === 0 ? '<p class="muted small">Domingo: descanso. Nada para publicar.</p>' : tuDia(st._hoyD, hoyI, 'contenido')}
-</section>
-${semanaContenido(st._semC, lun, 'Tu semana de contenido', hoyI)}
-${semanaContenido(st._semC, (() => { const d = new Date(lun + 'T12:00:00'); d.setDate(d.getDate() + 7); return diaISO(d); })(), 'La semana que viene', hoyI)}
-${publicadosHTML(st._pub || [], hoyI)}
+      return `<div class="head"><div><span class="eyebrow">Tu semana de Instagram, ya pensada por el método de Ann</span><h1>Contenido</h1></div></div>
+${contenidoApp(hoyI, lun)}
+<details class="card c-mas"><summary><h3 style="display:inline">Tu semana circular, ideas de tus clases y testimonios</h3></summary>
 <section class="card"><div class="row between"><h3>Tu semana circular</h3><span class="muted small">${hechosLoop} de ${LOOP.length}</span></div>
   <p class="muted small">Un video largo por semana y todo lo demás lleva a esa misma idea: dos reels, dos carruseles y un día de stories. De martes a sábado. (El email queda para cuando arranque el email marketing.)</p>
   <div class="hab-list">${LOOP.map(([k, l]) => `<button type="button" class="hab${L[k] ? ' on' : ''}" data-loop="${k}" aria-pressed="${!!L[k]}"><span class="hab-box" aria-hidden="true">✓</span><span class="hab-t">${esc(l)}</span></button>`).join('')}</div>
@@ -2030,12 +2031,26 @@ ${publicadosHTML(st._pub || [], hoyI)}
   : '<p class="muted small">Nadie para pedirle ahora.</p>'}
   ${pedidas.length ? `<p class="hab-sec">Esperando su testimonio</p><ul class="neg">${pedidas.map((a) => `<li class="row between"><span>${esc(nom1(a.nombre))} <span class="muted small">· se lo pediste el ${fecha(T[a.email].pedido)}</span></span><button type="button" class="linkbtn small" data-trecibido="${esc(a.email)}">Ya me lo mandó</button></li>`).join('')}</ul>` : ''}
 </section>
-<p class="muted small" style="text-align:center">Email marketing a tu lista: queda para después de que las alumnas tengan la app.</p>`;
+</details>`;
     },
     mount() {
       const lun = DB.lunes();
       // Carruseles diseñados dentro de la app (Flor, 25/11): las 4 recetas del estudio, sus fotos y su marca.
-      if (window.Carruseles && DB.guardarCarrusel) DB.fotosCarrusel().catch(() => []).then((fotos) => window.Carruseles.pintar(document, [...(st._hoyD || []), ...(st._semC || [])], { guardar: DB.guardarCarrusel, subir: DB.subirFotoCarrusel, fotos }));
+      if (window.Carruseles && DB.guardarCarrusel) DB.fotosCarrusel().catch(() => []).then((fotos) => window.Carruseles.pintar(document, [...(st._hoyD || []), ...(st._semC || []), ...(st._mesC || [])], { guardar: DB.guardarCarrusel, subir: DB.subirFotoCarrusel, fotos }));
+      // Calendario: pestañas, día elegido y meses del archivo (sin recargar todo).
+      $$('[data-ctab]').forEach((b) => (b.onclick = () => {
+        st._cTab = b.dataset.ctab;
+        $$('[data-ctab]').forEach((x) => { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-selected', on); });
+        $$('[data-ctabp]').forEach((p) => (p.hidden = p.dataset.ctabp !== st._cTab));
+      }));
+      $$('[data-cdia]').forEach((b) => (b.onclick = () => {
+        const k = b.dataset.csem; st._cDia = Object.assign({}, st._cDia, { [k]: b.dataset.cdia });
+        $$(`[data-cdia][data-csem="${k}"]`).forEach((x) => { const on = x === b; x.classList.toggle('sel', on); x.setAttribute('aria-pressed', on); });
+        $$(`[data-cpanel][data-csem="${k}"]`).forEach((p) => (p.hidden = p.dataset.cpanel !== b.dataset.cdia));
+        const pn = $(`[data-cpanel="${b.dataset.cdia}"][data-csem="${k}"]`);
+        if (pn && window.innerWidth < 900) pn.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }));
+      $$('[data-cmes]').forEach((b) => (b.onclick = () => { st._cMes = (st._cMes || 0) + Number(b.dataset.cmes); st._cTab = 'arch'; ruta(); }));
       const copiar = async (t, msg) => { try { await navigator.clipboard.writeText(t); toast(msg); } catch (e) { toast('No se pudo copiar', true); } };
       const linkIG = (v) => { v = String(v || '').trim(); if (!v) return ''; if (!/^https?:\/\//.test(v)) v = 'https://' + v; return /instagram\.com|instagr\.am|youtu/.test(v) ? v : null; };
       $$('[data-ig]').forEach((fm) => (fm.onsubmit = async (e) => {
@@ -2051,7 +2066,7 @@ ${publicadosHTML(st._pub || [], hoyI)}
         try { await DB.agregarPublicado($('#pubF').value || diaISO(new Date()), tit, v); toast('Sumado'); ruta(); } catch (er) { toast(er.message, true); }
       };
       $$('[data-pubq]').forEach((bt) => (bt.onclick = async () => { if (!confirm('¿Quitar este posteo de la lista?')) return; try { await DB.quitarPublicado(bt.dataset.pubf, bt.dataset.pubq); ruta(); } catch (er) { toast(er.message, true); } }));
-      $$('[data-copiar]').forEach((bt) => (bt.onclick = () => copiar(bt.parentElement.querySelector('pre').textContent, 'Copiado')));
+      $$('[data-copiar]').forEach((bt) => (bt.onclick = () => { const pre = bt.parentElement.querySelector('pre') || (bt.closest('.pz-grabar') || bt.parentElement.parentElement).querySelector('pre'); if (pre) copiar(pre.textContent, 'Copiado'); }));
       $$('[data-tdok]').forEach((bt) => (bt.onclick = async () => {
         const fe = bt.dataset.tdf;
         const x = (fe ? (st._semC || []).find((y) => y.clave === bt.dataset.tdok && y.fecha === fe) : null) || (st._hoyD || []).find((y) => y.clave === bt.dataset.tdok); if (!x) return;
@@ -2339,6 +2354,122 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
   }
 
   // Semana de contenido (Flor, 18/11): de martes a sábado, cada día con su pieza (Canva, caption, placas o prompter, historias) y el YouTube de la semana.
+  // ---------- Contenido como calendario (Flor, 25/11: «entrar y ver toda la semana planificada como un calendario; aprieto un día y se despliega el posteo del día») ----------
+  const CDIAS = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+  const cFormato = (x) => (/^youtube:/.test(x.clave || '') ? 'YouTube' : /^email:/.test(x.clave || '') ? 'Email' : /^semana:/.test(x.clave || '') ? 'Semana' : /^historias:/.test(x.clave || '') ? 'Historias' : x.tipo === 'publicado' ? 'Publicado' : x.tipo === 'grabar' ? 'Reel' : x.tipo === 'subir' ? 'Carrusel' : 'Otro');
+  const CICONO = { YouTube: '▶', Email: '✉', Historias: '◎', Reel: '●', Carrusel: '▦', Publicado: '✓', Otro: '·' };
+  const cTipo = (x) => { const m = String(x.detalle || '').match(/^(Valor \+ Crecimiento|Valor|Educa|Crecimiento|Demanda|Inspira|Conversión|Autoridad)/i); return m ? m[1] : ''; };
+  const cHook = (x) => String(x.titulo || '').replace(/^(Reel a cámara|Reel|Carrusel|Historias|YouTube|Email|Otro) · /, '').replace(/\s*\((conversión READY|inspira|el QUIÉN|títulos que dicen tu mensaje)\)\s*$/i, '');
+  const cAud = (x) => { const m = String(x.detalle || '').match(/Audit(?:oría|ado)[^0-9]{0,6}(\d+(?:[.,]\d)?)\s*\/\s*10/i); return m ? m[1].replace(',', '.') : ''; };
+  const cOrigen = (x) => { const m = String(x.detalle || '').match(/HOOK (?:MODELADO|VALIDADO)(?: TEXTUAL)? de (@[\w.]+)\s*\(([^)]*)\)(?:[^«]{0,40}«([^»]*)»)?/i); return m ? { cuenta: m[1], metrica: m[2], original: m[3] || '' } : null; };
+  const cPartes = (x) => { const t = String(x.texto2 || ''); const i = t.search(/📱\s*HISTORIAS DEL D[IÍ]A/i); return [(i >= 0 ? t.slice(0, i) : t).replace(/^PLACAS:\s*están en Canva[^\n]*\n?/i, '').trim(), i >= 0 ? t.slice(i).replace(/^📱\s*HISTORIAS DEL D[IÍ]A\s*/i, '').trim() : '']; };
+  const cCorto = (t, n) => { t = String(t || ''); if (t.length <= n) return t; const c = t.slice(0, n); return c.slice(0, Math.max(c.lastIndexOf(' '), n - 12)) + '…'; };
+  const cDiasDe = (lun) => CDIAS.map((n, i) => { const d = new Date(lun + 'T12:00:00'); d.setDate(d.getDate() + i); return [n, diaISO(d)]; });
+  const cBloque = (titulo, texto, abierto, clase) => (texto ? `<details class="pz-bloque"${abierto ? ' open' : ''}><summary>${titulo}</summary><div><pre class="${clase || ''}">${esc(texto)}</pre><button type="button" class="linkbtn small" data-copiar>Copiar</button></div></details>` : '');
+  function cPieza(x, hoyI) {
+    const fm = cFormato(x), tp = cTipo(x), au = cAud(x), og = cOrigen(x), [arriba, hist] = cPartes(x);
+    const clave = x.clave || '', f = x.fecha || hoyI;
+    const lk = (u, t) => (u ? `<a class="btn ghost sm" href="${esc(u)}" target="_blank" rel="noopener">${t}</a>` : '');
+    const hecho = `<button type="button" class="linkbtn small td-ok${x.hecho ? ' on' : ''}" data-tdok="${esc(clave)}" data-tdf="${esc(f)}" aria-pressed="${!!x.hecho}">${x.hecho ? '✓ Hecho' : 'Marcar hecho'}</button>`;
+    const insignias = `<div class="pz-ins">${tp ? `<span class="pill">${esc(tp)}</span>` : ''}${au ? `<span class="pill ok">Auditoría ${esc(au)}/10</span>` : /chequeo OK/i.test(x.detalle || '') ? '<span class="pill ok">Chequeo OK</span>' : ''}${og ? `<a class="pill" href="${esc(x.link || '#')}" target="_blank" rel="noopener" title="Ver el posteo original">Hook de ${esc(og.cuenta)} · ${esc(og.metrica)}</a>` : ''}${x.ig_link ? `<a class="pill ok" href="${esc(x.ig_link)}" target="_blank" rel="noopener">✓ Publicado</a>` : ''}</div>`;
+    const ig = /^pieza:/.test(clave) ? `<form class="ig-form" data-ig="${esc(clave)}" data-igf="${esc(f)}"><input type="text" inputmode="url" autocomplete="off" placeholder="¿Ya lo publicaste? Pegá el link de Instagram" value="${esc(x.ig_link || '')}" aria-label="Link del posteo en Instagram"><button class="btn ghost sm">${x.ig_link ? 'Actualizar' : 'Guardar link'}</button></form>` : '';
+    let cuerpo = '';
+    if (fm === 'Reel') {
+      const enPantalla = (arriba.match(/^TEXTO EN PANTALLA:\s*(.+)$/m) || [])[1] || '';
+      const prompter = arriba.replace(/^TEXTO EN PANTALLA:.*$/m, '').trim();
+      cuerpo = `${enPantalla ? `<p class="pz-pantalla"><span class="eyebrow">Texto en pantalla</span><br>${esc(enPantalla)}</p>` : ''}
+        ${prompter ? `<div class="pz-grabar"><div class="row between"><span class="eyebrow">Para grabar · prompter</span><button type="button" class="linkbtn small" data-copiar>Copiar</button></div><pre class="pz-prompter">${esc(prompter)}</pre></div>` : ''}
+        ${x.carrusel ? `<p class="hab-sec">Portada del reel</p><div class="crs" data-crs="${esc(clave + '|' + f)}"></div>` : ''}`;
+    } else if (fm === 'Carrusel') {
+      cuerpo = `${x.carrusel ? `<div class="crs" data-crs="${esc(clave + '|' + f)}"></div>` : `<p class="small muted">Este carrusel todavía no tiene diseño: la tarea del domingo se lo arma.</p>${lk(x.link, /canva/.test(x.link || '') ? 'Abrir en Canva' : 'Abrir')}`}
+        ${cBloque('Texto de las placas', arriba, false)}`;
+    } else if (fm === 'Historias') {
+      cuerpo = cBloque('Historias del día', arriba || hist, true);
+    } else {
+      cuerpo = `${x.texto ? cBloque(fm === 'Email' ? 'El correo' : 'Texto', x.texto, true) : ''}${lk(x.link, fm === 'YouTube' ? 'Abrir mi plan de YouTube' : 'Abrir')}`;
+    }
+    return `<article class="pz${x.hecho ? ' hecho' : ''}">
+  <div class="pz-cab"><div><span class="eyebrow">${CICONO[fm] || ''} ${esc(fm)}</span><h3>${esc(cHook(x) || x.titulo || '')}</h3></div>${hecho}</div>
+  ${insignias}
+  ${og && og.original ? `<p class="small muted pz-orig">Hook original: «${esc(og.original)}»</p>` : ''}
+  ${cuerpo}
+  ${fm === 'Reel' || fm === 'Carrusel' ? cBloque('Caption', x.texto, fm === 'Reel') : ''}
+  ${fm !== 'Historias' ? cBloque('Historias del día', hist, false) : ''}
+  ${x.detalle ? `<details class="pz-bloque"><summary>De dónde sale y qué confirmar</summary><p class="small">${esc(x.detalle)}</p></details>` : ''}
+  ${ig}
+</article>`;
+  }
+  function cSemana(R, lun, k, hoyI) {
+    const dias = cDiasDe(lun), fin = dias[5][1];
+    const de = (f) => (R || []).filter((x) => x.fecha === f && !/^semana:/.test(x.clave || '')).sort((a, b) => (a.orden || 0) - (b.orden || 0));
+    const sem = (R || []).find((x) => x.clave === 'semana:' + lun);
+    const piezas = (R || []).filter((x) => x.fecha >= dias[1][1] && x.fecha <= fin && /^pieza:/.test(x.clave || ''));
+    const yt = (R || []).find((x) => /^youtube:/.test(x.clave || '') && x.fecha >= lun && x.fecha <= fin);
+    const em = (R || []).find((x) => /^email:/.test(x.clave || '') && x.fecha >= lun && x.fecha <= fin);
+    const mezcla = {}; piezas.forEach((x) => { const t = cTipo(x) || 'Sin tipo'; mezcla[t] = (mezcla[t] || 0) + 1; });
+    const publicadas = piezas.filter((x) => x.ig_link).length;
+    const sel = (st._cDia || {})[k] || (dias.some(([, f]) => f === hoyI) && de(hoyI).length ? hoyI : (dias.find(([, f]) => de(f).length) || [])[1] || dias[1][1]);
+    const celda = ([n, f]) => {
+      const L = de(f);
+      return `<button type="button" class="cal-dia${f === hoyI ? ' hoy' : ''}${f === sel ? ' sel' : ''}" data-cdia="${f}" data-csem="${k}" aria-pressed="${f === sel}">
+  <span class="cal-fecha"><b>${n.slice(0, 3)}</b> ${Number(f.slice(8))}${f === hoyI ? ' <span class="pill warn small">Hoy</span>' : ''}</span>
+  ${L.length ? L.map((x) => { const fm = cFormato(x), au = cAud(x); return `<span class="cal-it${x.ig_link || x.tipo === 'publicado' ? ' pub' : ''}">
+    ${x.carrusel ? `<span class="cal-mini${x.carrusel.formato === 'reel' ? ' reel' : ''}" data-crs-mini="${esc((x.clave || '') + '|' + f)}"></span>` : ''}
+    <span class="cal-tx"><span class="cal-fmt">${CICONO[fm] || ''} ${esc(fm)}${cTipo(x) ? ' · ' + esc(cTipo(x)) : ''}</span><span class="cal-hook">${esc(cCorto(cHook(x), 70))}</span>
+    <span class="cal-est">${x.ig_link || x.tipo === 'publicado' ? '✓ Publicado' : x.hecho ? '✓ Hecho' : au ? `Auditoría ${esc(au)}/10` : ''}</span></span></span>`; }).join('') : `<span class="cal-vacio">${n === 'Lunes' ? 'Video y correo de la semana' : 'Todavía sin pieza'}</span>`}
+</button>`;
+    };
+    const paneles = dias.map(([n, f]) => { const L = de(f); return `<div class="cal-panel" data-cpanel="${f}" data-csem="${k}"${f === sel ? '' : ' hidden'}>
+  <div class="row between" style="gap:8px;flex-wrap:wrap"><h2>${esc(n)} ${fecha(f, { day: 'numeric', month: 'long' })}</h2>${f === hoyI ? '<span class="pill warn">Hoy</span>' : ''}</div>
+  ${L.length ? L.map((x) => cPieza(x, hoyI)).join('') : `<p class="muted small">${n === 'Lunes' ? 'Los lunes no se publica: es el día del video largo y del correo. Se cargan solos con la semana.' : 'Todavía no hay pieza para este día. La tarea del domingo arma siempre dos semanas por adelantado.'}</p>`}
+</div>`; }).join('');
+    const hay = (R || []).some((x) => x.fecha >= lun && x.fecha <= fin);
+    return `<section class="card cal-sem">
+  <div class="row between" style="gap:8px;flex-wrap:wrap"><div><span class="eyebrow">${fecha(lun, { day: 'numeric', month: 'short' })} al ${fecha(fin, { day: 'numeric', month: 'short' })}</span><h2>${sem && sem.titulo ? esc(sem.titulo) : k === 0 ? 'Tu semana' : 'La semana que viene'}</h2></div>
+    <span class="muted small">${piezas.length} piezas · ${publicadas} publicadas</span></div>
+  ${sem && sem.texto ? `<p class="cal-idea">${esc(sem.texto)}</p>` : ''}
+  <div class="cal-eco" aria-label="Ecosistema circular de la semana">
+    <span class="eco${yt ? (yt.hecho ? ' ok' : '') : ' falta'}">▶ <b>Video largo</b><br><span class="small">${yt ? esc(cCorto(cHook(yt), 60)) : 'Sin cargar'}</span></span>
+    <span class="eco-fl" aria-hidden="true">→</span>
+    <span class="eco${piezas.length ? '' : ' falta'}">● ▦ <b>Reels y carruseles</b><br><span class="small">${Object.entries(mezcla).map(([t, n]) => `${n} ${esc(t.toLowerCase())}`).join(' · ') || 'Sin cargar'}</span></span>
+    <span class="eco-fl" aria-hidden="true">→</span>
+    <span class="eco${em ? (em.hecho ? ' ok' : '') : ' falta'}">✉ <b>Correo</b><br><span class="small">${em ? esc(cCorto(cHook(em), 60)) : 'Sin cargar'}</span></span>
+  </div>
+  ${hay ? `<div class="cal-grid">${dias.map(celda).join('')}</div>${paneles}` : '<p class="muted small" style="margin-top:12px">Todavía no está armada. Se arma sola el domingo a la tarde, siempre dos semanas por adelantado.</p>'}
+</section>`;
+  }
+  function cArchivo(M, P, mesIni, hoyI) {
+    const d0 = new Date(mesIni + 'T12:00:00'), y = d0.getFullYear(), m = d0.getMonth();
+    const ult = new Date(y, m + 1, 0).getDate(), pad = (d0.getDay() + 6) % 7;
+    const mesFin = mesIni.slice(0, 8) + String(ult).padStart(2, '0');
+    const extra = (P || []).filter((x) => x.tipo === 'publicado' && x.fecha >= mesIni && x.fecha <= mesFin && !(M || []).some((z) => z.clave === x.clave));
+    const todos = (M || []).filter((x) => !/^semana:/.test(x.clave || '')).concat(extra);
+    const de = (f) => todos.filter((x) => x.fecha === f);
+    const pub = todos.filter((x) => x.ig_link).sort((a, b) => (a.fecha < b.fecha ? -1 : 1));
+    const celdas = [];
+    for (let i = 0; i < pad; i++) celdas.push('<span class="mes-d vacio"></span>');
+    for (let d = 1; d <= ult; d++) {
+      const f = mesIni.slice(0, 8) + String(d).padStart(2, '0'), L = de(f);
+      celdas.push(`<span class="mes-d${f === hoyI ? ' hoy' : ''}"><b>${d}</b>${L.map((x) => { const fm = cFormato(x); const t = `${CICONO[fm] || ''} ${cCorto(cHook(x), 34)}`; return x.ig_link ? `<a class="mes-it pub" href="${esc(x.ig_link)}" target="_blank" rel="noopener" title="${esc(cHook(x))}">${esc(t)}</a>` : `<span class="mes-it" title="${esc(cHook(x))}">${esc(t)}</span>`; }).join('')}</span>`);
+    }
+    const porTipo = {}; pub.forEach((x) => { const t = cTipo(x) || cFormato(x); porTipo[t] = (porTipo[t] || 0) + 1; });
+    return `<section class="card">
+  <div class="row between" style="gap:8px;flex-wrap:wrap"><button type="button" class="btn ghost sm" data-cmes="-1">← Mes anterior</button><h2>${(() => { const t = fecha(mesIni, { month: 'long', year: 'numeric' }); return t.charAt(0).toUpperCase() + t.slice(1); })()}</h2><button type="button" class="btn ghost sm" data-cmes="1"${mesIni.slice(0, 7) >= hoyI.slice(0, 7) ? ' disabled' : ''}>Mes siguiente →</button></div>
+  <p class="muted small" style="margin:6px 0 10px">${pub.length} publicados${Object.keys(porTipo).length ? ' · ' + Object.entries(porTipo).map(([t, n]) => `${n} ${esc(t.toLowerCase())}`).join(' · ') : ''}. En verde, lo que tiene link de Instagram: tocalo para abrirlo.</p>
+  <div class="mes-cab">${['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'].map((n) => `<span>${n}</span>`).join('')}</div>
+  <div class="mes-grid">${celdas.join('')}</div>
+</section>
+${publicadosHTML(pub.filter((x) => x.fecha >= mesIni && x.fecha <= mesFin).reverse(), hoyI)}`;
+  }
+  function contenidoApp(hoyI, lun) {
+    const tab = st._cTab || '0';
+    const lun2 = (() => { const d = new Date(lun + 'T12:00:00'); d.setDate(d.getDate() + 7); return diaISO(d); })();
+    const tb = (k, t) => `<button type="button" role="tab" class="c-tab${tab === k ? ' on' : ''}" data-ctab="${k}" aria-selected="${tab === k}">${t}</button>`;
+    return `<div class="c-tabs" role="tablist">${tb('0', 'Esta semana')}${tb('1', 'La que viene')}${tb('arch', 'Archivo')}</div>
+<div data-ctabp="0"${tab === '0' ? '' : ' hidden'}>${cSemana(st._semC, lun, 0, hoyI)}</div>
+<div data-ctabp="1"${tab === '1' ? '' : ' hidden'}>${cSemana(st._semC, lun2, 1, hoyI)}</div>
+<div data-ctabp="arch"${tab === 'arch' ? '' : ' hidden'}>${cArchivo(st._mesC, st._pub, st._mesIni, hoyI)}</div>`;
+  }
   // Lo que ya publicaste (Flor, 25/11: «un lugar donde ir ordenando las publicaciones con el link directo a mi Instagram»).
   function publicadosHTML(P, hoyI) {
     const forma = (t) => { const m = String(t || '').match(/^(Reel a cámara|Reel|Carrusel|Historias|Historia|YouTube|Otro) · /); return m ? m[1].replace('Reel a cámara', 'Reel') : ''; };

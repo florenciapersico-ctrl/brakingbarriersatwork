@@ -118,6 +118,13 @@
   }
 
   /* ---------- la tarjeta dentro de cada pieza ---------- */
+  // Miniatura de la portada en el calendario (data-crs-mini="clave|fecha").
+  function pintarMinis(clave) {
+    $$(clave ? `[data-crs-mini="${clave.replace(/"/g, '\\"')}"]` : '[data-crs-mini]').forEach((el) => {
+      const f = FILAS[el.dataset.crsMini]; if (!f || !f.carrusel || !f.carrusel.placas || !f.carrusel.placas.length) return;
+      const w = el.clientWidth || 48; el.innerHTML = htmlPlaca(f.carrusel, 0, w / M.W); const n = el.querySelector('.p'); if (n) M.fit(n);
+    });
+  }
   function pintarUno(el) {
     const f = FILAS[el.dataset.crs]; if (!f || !f.carrusel) return;
     const c = f.carrusel; if (!M.RECETAS[c.receta]) c.receta = 'editorial';
@@ -131,12 +138,13 @@
 <div class="crs-acc"><button type="button" class="btn sm" data-crs-png>Bajar PNG</button><button type="button" class="btn ghost sm" data-crs-fotos>Otras fotos</button><button type="button" class="btn ghost sm" data-crs-ed="0">Editar textos y fotos</button></div>
 <div class="crs-est" aria-live="polite"></div>`;
     $$('.crs-mini .marco .p', el).forEach((p) => M.fit(p));
+    pintarMinis(llave(f));
     const est = (t) => { el.querySelector('.crs-est').textContent = t || ''; };
     $$('[data-rec]', el).forEach((b) => (b.onclick = async () => { c.receta = b.dataset.rec; asignarFotos(Object.values(FILAS), llave(f)); pintarUno(el); await guardar(f, est); }));
     $$('[data-port]', el).forEach((b) => (b.onclick = async () => { c.placas[0] = convertir(c.placas[0], b.dataset.port); c._abrirPortada = true; asignarFotos(Object.values(FILAS)); pintarUno(el); await guardar(f, est); }));
     let tp = null;
     $$('[data-pk]', el).forEach((inp) => (inp.oninput = () => {
-      c.placas[0][inp.dataset.pk] = inp.value;
+      c.placas[0][inp.dataset.pk] = inp.value; pintarMinis(llave(f));
       const m0 = el.querySelector('.crs-mini[data-i="0"] .marco'); if (m0) { m0.innerHTML = htmlPlaca(c, 0, 120 / M.W); const n = m0.querySelector('.p'); if (n) M.fit(n); }
       clearTimeout(tp); tp = setTimeout(() => guardar(f, est), 900);
     }));
@@ -261,13 +269,14 @@
   /* ---------- API para app.js ---------- */
   // filas: todas las de hoy_flor que están en pantalla; opciones: {guardar(fecha, clave, carrusel), subir(blob, nombre, ancho, alto) → meta, fotos: [...]}
   async function pintar(raiz, filas, opciones) {
-    const els = $$('[data-crs]', raiz); if (!els.length) return;
+    const els = $$('[data-crs]', raiz); if (!els.length && !$$('[data-crs-mini]', raiz).length) return;
     guardarFn = opciones && opciones.guardar; subirFn = opciones && opciones.subir;
     (filas || []).forEach((f) => { if (f && f.carrusel) FILAS[llave(f)] = f; });
     try { await preparar(opciones && opciones.fotos); }
     catch (e) { els.forEach((el) => (el.innerHTML = '<p class="small muted">No pude cargar el diseñador de carruseles. Recargá la página.</p>')); return; }
     const cambiadas = asignarFotos(Object.values(FILAS));
     els.forEach(pintarUno);
+    pintarMinis();
     for (const f of cambiadas) await guardar(f); // la primera vez que se ve una pieza, sus fotos quedan fijas
   }
   window.Carruseles = { pintar, llave };

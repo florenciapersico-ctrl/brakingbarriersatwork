@@ -148,7 +148,7 @@
       },
       // La semana de contenido completa (Flor, 18/11: «me tiene que aparecer toda la semana ya lista, no solo lo que toca en el día»).
       async contenidoRango(desde, hasta) {
-        return ok(await sb.from('hoy_flor').select('*').gte('fecha', desde).lte('fecha', hasta).or('clave.like.pieza:%,clave.like.historias:%,clave.like.youtube:%').order('fecha').order('orden'));
+        return ok(await sb.from('hoy_flor').select('*').gte('fecha', desde).lte('fecha', hasta).or('clave.like.pieza:%,clave.like.historias:%,clave.like.youtube:%,clave.like.email:%,clave.like.semana:%,clave.like.publicado:%').order('fecha').order('orden'));
       },
       // Carruseles (Flor, 25/11): el diseño de cada pieza vive en hoy_flor.carrusel; las fotos nuevas, en el bucket público 'carruseles'.
       async guardarCarrusel(fecha, clave, carrusel) { ok(await sb.from('hoy_flor').update({ carrusel, actualizado: new Date().toISOString() }).eq('fecha', fecha).eq('clave', clave).select('clave')); },
@@ -384,6 +384,21 @@
       async hoyHecho() {},
       async guardarCarrusel(fecha, clave, carrusel) { S.carruseles = S.carruseles || {}; S.carruseles[clave + '|' + fecha] = carrusel; save(); },
       async fotosCarrusel() { return []; },
+      async contenidoRango(desde, hasta) {
+        const lun = lunes(), dia = (n) => { const d = new Date(lun + 'T12:00:00'); d.setDate(d.getDate() + n); return d.toISOString().slice(0, 10); };
+        const pub = (c, f) => ((S.publicados || []).find((x) => x.clave === c && x.fecha === f) || {}).ig_link || null;
+        const filas = [
+          { fecha: lun, clave: 'semana:' + lun, tipo: 'otro', titulo: 'No era el inglés: era el orden', texto: 'Gran idea: cuando te trabas, casi nunca te falta inglés. Te falta haberlo ordenado y dicho antes, con tu reunión real.' },
+          { fecha: lun, clave: 'youtube:' + lun, tipo: 'grabar', orden: 9, titulo: 'YouTube · Video 3: Por qué te trabas en inglés aunque sabes', detalle: 'El video largo de la semana. Todo lo demás lleva acá.', link: 'https://app.notion.com/p/demo' },
+          { fecha: lun, clave: 'email:' + lun, tipo: 'otro', orden: 10, titulo: 'Email · La reunión en la que me quedé muda', texto: 'Asunto: La reunión en la que me quedé muda\n\nHola,\nTe cuento algo…' },
+          { fecha: dia(1), clave: 'pieza:demo-mar', tipo: 'grabar', orden: 1, titulo: 'Reel a cámara · ¿Llevas años trabajando en inglés y aun así te congelas cuando te preguntan?', detalle: 'Valor · Idea V5 · Auditoría 9/10: hook más corto. HOOK MODELADO de @inglescon_neil (35.753 vistas, ~4,5x su mediana): «Llevas años estudiando inglés y aun así…»', link: 'https://www.instagram.com/p/demo/', texto: 'Caption del reel…', texto2: 'TEXTO EN PANTALLA: ¿Te congelas cuando te preguntan?\nTono: tranquila, como a una colega.\n\n¿Llevas años trabajando en inglés / y aun así te congelas cuando te hacen una pregunta? / Mira, no te falta inglés. / Te falta una frase para ganar tiempo.\n\n📱 HISTORIAS DEL DÍA\n1 · selfie: «¿Te pasó esta semana?»', carrusel: { receta: 'serif', formato: 'reel', placas: [{ forma: 'portada_serif', pre: 'Llevas años trabajando en inglés', titulo: '¿Y te congelas?', titulo_i: 'cuando te preguntan' }] }, ig_link: pub('pieza:demo-mar', dia(1)) },
+          Object.assign(demoCarrusel(dia(2)), { clave: 'pieza:demo-mie', carrusel: (S.carruseles || {})['pieza:demo-mie|' + dia(2)] || demoCarrusel(dia(2)).carrusel, ig_link: pub('pieza:demo-mie', dia(2)) }),
+          { fecha: dia(3), clave: 'pieza:demo-jue', tipo: 'grabar', orden: 1, titulo: 'Reel a cámara · ¿Para tu primera reunión preparas un SPEECH o tus PREGUNTAS?', detalle: 'Demanda · Idea D8 · Auditoría 8/10. HOOK MODELADO de @conversationhackers (37.856 vistas, ~2,9x): «¿HACE MUCHO CALOR…»', texto: 'Caption…', texto2: 'TEXTO EN PANTALLA: ¿Speech o preguntas?\n\nPrompter…' },
+          { fecha: dia(4), clave: 'pieza:demo-vie', tipo: 'subir', orden: 1, titulo: 'Carrusel · Tu inglés no está mal… te faltan estas 7 frases', detalle: 'Valor · Idea V4 · Auditoría 9/10. HOOK VALIDADO TEXTUAL de @inglescon_neil (13x, 23.902 vistas): «Tu inglés no está mal…»', texto: 'Caption…', texto2: 'PLACAS:\n1 · …', carrusel: (S.carruseles || {})['pieza:demo-vie|' + dia(4)] || { receta: 'tarjetas', formato: 'carrusel', placas: [{ forma: 'portada_botones', titulo: 'Tu inglés no está mal…', titulo_2: 'te faltan estas 7 frases.', bajada: 'Las que más escucho en clase', opciones: 'I have 14 years in the company\nMy equipment is great' }, { forma: 'error', intro: 'En español: «tengo 14 años en la empresa».', mal: 'I have 14 years in the company.', bien: "I've been with the company for 14 years.", nota: '' }, { forma: 'cierre', titulo: 'No es que tu inglés esté mal.', titulo_i: 'Tu cabeza arma la frase en español primero.', cuerpo: '', cta: 'Guárdalo' }] }, ig_link: pub('pieza:demo-vie', dia(4)) },
+          { fecha: dia(5), clave: 'historias:demo-sab', tipo: 'otro', orden: 1, titulo: 'Historias · Sábado de lab', texto2: '📱 HISTORIAS DEL DÍA\n1 · Consciencia: …\n2 · Prueba: …' },
+        ].concat((S.publicados || []).filter((x) => /^publicado:/.test(x.clave)));
+        return copia(filas.filter((x) => x.fecha >= desde && x.fecha <= hasta));
+      },
       async publicados() { return copia((S.publicados || []).slice().sort((a, b) => (a.fecha < b.fecha ? 1 : -1))); },
       async guardarIgLink(fecha, clave, link) { S.publicados = (S.publicados || []).filter((x) => !(x.clave === clave && x.fecha === fecha)); if (link) S.publicados.push({ fecha, clave, tipo: 'subir', titulo: 'Carrusel · Belem entró tarde a la reunión', ig_link: link }); save(); },
       async agregarPublicado(fecha, titulo, link) { (S.publicados = S.publicados || []).push({ fecha, clave: 'publicado:' + Date.now(), tipo: 'publicado', titulo, ig_link: link }); save(); },
