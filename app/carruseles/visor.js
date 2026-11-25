@@ -22,7 +22,7 @@
   function preparar(fotosExtra) {
     if (listo) return listo;
     listo = (async () => {
-      await script(BASE + 'motor.js?v=4');
+      await script(BASE + 'motor.js?v=6');
       await script(BASE + 'estilos.js?v=19');
       M = window.Motor; ES = window.Estilos;
       const [cat, fcss, pinc, lo, lc] = await Promise.all([
@@ -397,7 +397,7 @@ ${c.estilo ? '' : `<div class="crs-ctl" style="margin:0 0 8px"><span>Letra de lo
 </details>
 <div class="crs-tira">${visibles(c).map((i) => `<button type="button" class="crs-mini${reel ? ' reel' : ''}" data-i="${i}" aria-label="Editar lámina ${i + 1}"><div class="marco">${htmlPlaca(c, i, 120 / M.W)}</div>${i + 1}</button>`).join('')}</div>
 <div class="crs-acc"><button type="button" class="btn sm" data-crs-ed="0">✏️ Editar cada lámina</button>${subirFn ? `<label class="btn ghost sm crs-sub">📷 Subir fotos mías<input type="file" accept="image/*" multiple data-crs-subir="persona" hidden></label><label class="btn ghost sm crs-sub">☕ Subir fotos de lugares y cosas<input type="file" accept="image/*" multiple data-crs-subir="objeto" hidden></label>` : ''}<button type="button" class="btn ghost sm" data-crs-fotos>Otras fotos</button><button type="button" class="btn ghost sm" data-crs-png>📲 Descargar láminas</button></div>
-<p class="small muted" style="margin:6px 0 0">Tocá una lámina para cambiarle el texto, el tamaño de la letra, dónde va, el tipo de lámina o la foto.</p>
+<p class="small muted" style="margin:6px 0 0">Tocá una lámina para editarla. Para cambiarlas de orden, arrastralas en esta tira (en la compu) o usá «moverla antes / después» dentro de la lámina.</p>
 <div class="crs-est" aria-live="polite"></div>`;
     $$('.crs-mini .marco .p', el).forEach((p) => ajustar(p));
     // Cada miniatura con una foto distinta, para distinguir bien los 10 diseños (Flor, 25/11).
@@ -421,6 +421,18 @@ ${c.estilo ? '' : `<div class="crs-ctl" style="margin:0 0 8px"><span>Letra de lo
     const dp = el.querySelector('.crs-port'); if (dp) dp.ontoggle = () => { c._abrirPortada = dp.open; };
     el.querySelector('[data-crs-fotos]').onclick = async () => { c.semilla = (+c.semilla || 0) + 1; asignarFotos(Object.values(FILAS), llave(f)); pintarUno(el); await guardar(f, est); };
     $$('.crs-mini,[data-crs-ed]', el).forEach((b) => (b.onclick = () => editor(f, +(b.dataset.i || b.dataset.crsEd || 0), () => pintarUno(el))));
+    if (!reel) $$('.crs-mini', el).forEach((b) => {
+      b.draggable = true;
+      b.ondragstart = (ev) => { ev.dataTransfer.setData('text/x-lamina', b.dataset.i); ev.dataTransfer.effectAllowed = 'move'; };
+      b.ondragover = (ev) => { if (![...ev.dataTransfer.types].includes('text/x-lamina')) return; ev.preventDefault(); ev.stopPropagation(); b.classList.add('crs-drop'); };
+      b.ondragleave = () => b.classList.remove('crs-drop');
+      b.ondrop = async (ev) => {
+        if (![...ev.dataTransfer.types].includes('text/x-lamina')) return;
+        ev.preventDefault(); ev.stopPropagation(); b.classList.remove('crs-drop');
+        const a = +ev.dataTransfer.getData('text/x-lamina'), z = +b.dataset.i; if (isNaN(a) || a === z) return;
+        const [x] = c.placas.splice(a, 1); c.placas.splice(z, 0, x); pintarUno(el); await guardar(f, est);
+      };
+    });
     $$('[data-crs-subir]', el).forEach((sub) => (sub.onchange = async () => {
       const tipo = sub.dataset.crsSubir || 'persona';
       const files = [...sub.files]; if (!files.length) return;
@@ -475,7 +487,7 @@ ${c.estilo ? '' : `<div class="crs-ctl" style="margin:0 0 8px"><span>Letra de lo
       const pct = Math.round((+p.escala || 1) * 100), posA = p.pos || '';
       const fotos = M.catalogo.filter((e) => e.tipo !== 'fondo' && !e.excluir && (!['recorte_lado', 'portada_profundidad'].includes(p.forma) || e.tiene_recorte));
       m.innerHTML = `<div class="cm"><div><div class="lienzo" style="aspect-ratio:1080/${alto(c)}"></div>
-  <div class="nav"><button type="button" class="btn ghost sm" data-ant ${i <= 0 ? 'disabled' : ''}>← Anterior</button><span class="small">Lámina ${i + 1} de ${vis.length} · tocá el texto para editarlo</span><button type="button" class="btn ghost sm" data-sig ${i >= vis.length - 1 ? 'disabled' : ''}>Siguiente →</button></div></div>
+  <div class="nav"><button type="button" class="btn ghost sm" data-ant ${i <= 0 ? 'disabled' : ''}>← Anterior</button><span class="small">Lámina ${i + 1} de ${vis.length}${c.formato === 'reel' ? '' : ` · <button type="button" class="linkbtn small" data-mov="-1" ${i <= 0 ? 'disabled' : ''}>⇠ moverla antes</button> · <button type="button" class="linkbtn small" data-mov="1" ${i >= c.placas.length - 1 ? 'disabled' : ''}>moverla después ⇢</button>`}</span><button type="button" class="btn ghost sm" data-sig ${i >= vis.length - 1 ? 'disabled' : ''}>Siguiente →</button></div></div>
 <div><div class="row between"><h3 style="margin:0">${esc(F.n)}</h3><button type="button" class="btn ghost sm" data-cerrar>Listo</button></div>
   <div class="row" style="gap:6px;flex-wrap:wrap;margin-bottom:8px"><button type="button" class="btn sm" data-xadd>＋ Agregar texto</button><button type="button" class="btn sm" data-fadd>＋ Agregar foto</button><button type="button" class="btn ghost sm" data-baj1>📲 Descargar esta lámina</button></div>
   <div class="crs-fpick" hidden><p class="small" style="margin:0 0 6px"><b>Elegí la foto</b> (o arrastrala desde tu compu y soltala sobre la lámina)</p><div class="crs-fotos">${M.catalogo.filter((e) => !e.excluir).slice().reverse().map((e) => `<button type="button" data-fpon="${esc(e.archivo)}" aria-label="Agregar esta foto"><img src="${M.urlDe(e)}" alt="" loading="lazy"></button>`).join('')}</div><label class="small">Subir una foto nueva y agregarla<input type="file" accept="image/*" data-fsub></label></div>
@@ -572,7 +584,7 @@ ${c.estilo ? '' : `<div class="crs-ctl" style="margin:0 0 8px"><span>Letra de lo
         const sl = window.getSelection(); if (!sl || sl.isCollapsed || !sl.anchorNode || !lz.contains(sl.anchorNode)) return;
         const el2 = (sl.anchorNode.nodeType === 1 ? sl.anchorNode : sl.anchorNode.parentElement).closest('[data-campo]');
         const txt = sl.toString().replace(/\s+/g, ' ').trim();
-        if (el2 && txt) marcado = { i, campo: el2.dataset.campo, txt, t: Date.now() };
+        if (el2 && txt) { marcado = { i, campo: el2.dataset.campo, txt, t: Date.now() }; const bar = m.querySelector('.crs-sel:not(.crs-fbar)'); if (bar) bar.hidden = false; const toda = m.querySelector('.crs-toda'); if (toda) toda.hidden = true; }
       };
       $$('[data-ted]', m).forEach((b) => (b.onclick = () => {
         const a0 = b.dataset.ted;
@@ -608,6 +620,17 @@ ${c.estilo ? '' : `<div class="crs-ctl" style="margin:0 0 8px"><span>Letra de lo
       m.querySelector('[data-cerrar]').onclick = cerrar;
       const ant = m.querySelector('[data-ant]'), sig = m.querySelector('[data-sig]');
       ant.onclick = () => { i--; pintar(); }; sig.onclick = () => { i++; pintar(); };
+      const mostrarBarraTexto = () => { const bar = m.querySelector('.crs-sel:not(.crs-fbar)'); if (bar) bar.hidden = false; const fb = m.querySelector('.crs-fbar'); if (fb) fb.hidden = true; const toda = m.querySelector('.crs-toda'); if (toda) toda.hidden = true; };
+      $$('[data-k]', m).forEach((ta) => {
+        const fn = () => { const a = ta.selectionStart, z = ta.selectionEnd; if (a == null || z <= a) return; const txt = ta.value.slice(a, z).replace(/\s+/g, ' ').trim(); if (!txt) return; marcado = { i, campo: ta.dataset.k, txt, t: Date.now() }; mostrarBarraTexto(); };
+        ['select', 'mouseup', 'keyup', 'touchend'].forEach((ev) => ta.addEventListener(ev, fn));
+      });
+      // Mover la lámina de lugar (Flor, 25/11: «que me deje mover las slides y cambiarlas de lugar»).
+      $$('[data-mov]', m).forEach((b) => (b.onclick = () => {
+        const j = i + Number(b.dataset.mov); if (j < 0 || j >= c.placas.length) return;
+        const tmp = c.placas[i]; c.placas[i] = c.placas[j]; c.placas[j] = tmp; i = j; sel = null; fsel = null; marcado = null;
+        pintar(); clearTimeout(timer); timer = setTimeout(() => guardar(f, est), 300); est(`Listo: ahora es la lámina ${j + 1}.`);
+      }));
       m.querySelector('[data-forma]').onchange = (e) => { c.placas[i] = convertir(p, e.target.value, c); asignarFotos(Object.values(FILAS)); pintar(); guardar(f, est); };
       $$('[data-k]', m).forEach((inp) => (inp.oninput = () => { p[inp.dataset.k] = inp.value; dibujar(); clearTimeout(timer); timer = setTimeout(() => guardar(f, est), 900); }));
       $$('[data-esc]', m).forEach((b) => (b.onclick = () => { p.escala = Math.round(Math.min(1.35, Math.max(0.65, (+p.escala || 1) + Number(b.dataset.esc))) * 100) / 100; pintar(); guardar(f, est); }));

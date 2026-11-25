@@ -209,13 +209,14 @@ function placaBase(f, d, H, receta, e){
   }
   if (f === "cierre"){
     const tipo = R.cierre, cta = d.cta ? `<div style="margin-top:70px"><span class="etq" data-fs="40" data-t style="font-size:40px">${md(d.cta)}</span></div>` : "";
-    if (tipo === "foto"){
+    if (tipo === "foto" && e){
       const inner = tx("g",d.titulo,150) + tx("si",d.titulo_i,96,"margin-top:20px") + tx("cuerpo",d.cuerpo,40,"margin-top:40px") + cta;
       return P(`${fondoFoto(e,"rgba(20,18,12,.52)")}<div class="sutil" style="color:${C.calida}">${caja(120,160,inner,80,"center","stretch","center")}</div>${handle()}`);
     }
-    const bgc = {olivo:C.olivo, bb:C.bb, crema_m:C.crema_m}[tipo], fg = tipo === "crema_m" ? C.olivo : C.crema_m;
-    const inner = tx("s",d.titulo,124) + tx("si",d.titulo_i,124,`margin-top:4px;color:${tipo==="bb"?C.calida:fg}`) + tx("cuerpo",d.cuerpo,44,"margin-top:56px;max-width:820px") + cta;
-    return `<div class="p" style="height:${H}px;background:${bgc};color:${fg}">${caja(120,160,inner,96)}${pie(tipo!=="crema_m")}</div>`;
+    const t2 = tipo === "foto" ? "crema_m" : tipo; // el cierre con foto, si no tiene foto, va crema
+    const bgc = {olivo:C.olivo, bb:C.bb, crema_m:C.crema_m}[t2], fg = t2 === "crema_m" ? C.olivo : C.crema_m;
+    const inner = tx("s",d.titulo,124) + tx("si",d.titulo_i,124,`margin-top:4px;color:${t2==="bb"?C.calida:fg}`) + tx("cuerpo",d.cuerpo,44,"margin-top:56px;max-width:820px") + cta;
+    return `<div class="p" style="height:${H}px;background:${bgc};color:${fg}">${caja(120,160,inner,96)}${pie(t2!=="crema_m")}</div>`;
   }
   return P(`<div class="caja" style="inset:0;align-items:center;justify-content:center">Forma desconocida: ${esc(f)}</div>`);
 }
