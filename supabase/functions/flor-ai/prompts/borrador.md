@@ -34,7 +34,8 @@ perfil. Un feedback que no responde a lo que ella escribió ESTA semana no sirve
    así esta semana, eso es el foco.
 4. Cada TAREA tiene que poder señalar de dónde sale: una sección de ESTE weekly, la última clase o lab, o una tarea de
    Flor. Si no podés señalarlo, no va.
-5. Si en «lo que necesito de Flor» hace una pregunta (por ejemplo, cuándo es su 1:1), la respondés en el mensaje.
+5. Si en «lo que necesito de Flor» hace una pregunta, la respondés en el mensaje. Si pregunta por su 1:1 (Flor, 25/11):
+   le recordás que tiene el link para agendarse (en su onboarding) y que cualquier cosa te pregunte por WhatsApp.
 6. Si sus trainings son solo «ver videos», le proponés convertir uno en práctica real con su situación (Role Play), sin retarla.
 7. Antes de devolver, chequeá: ¿hay alguna palabra, tema o situación en el foco o en las tareas que ella NO haya escrito
    esta semana ni haya salido de su última clase? Si la hay, sacala. Y si dudás, anotalo en NOTAS PARA FLOR.
