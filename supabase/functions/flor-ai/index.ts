@@ -651,7 +651,11 @@ ${(x.weeklies || []).filter((e: any) => e.semana < imp.semana).slice(0, 3).map((
       transcripcion,
       ia_en: new Date().toISOString(),
     };
-    if (!datos.respuesta) throw new Error("La IA no armó la respuesta. Probá de nuevo con «Borrador con IA».");
+    if (!datos.respuesta) {
+      // deno-lint-ignore no-explicit-any
+      console.error("respuesta vacía", r.stop_reason, JSON.stringify((r as any).usage || {}), texto.slice(0, 600));
+      throw new Error(r.stop_reason === "max_tokens" ? "se quedó sin espacio para escribir (max_tokens)" : `la IA no armó la respuesta (${r.stop_reason}; ${texto.slice(0, 160).replace(/\s+/g, " ") || "sin texto"})`);
+    }
     if (!imp) await admin.from("borradores").upsert({ tabla, ref, datos, creado: new Date().toISOString() });
     // El mismo borrador queda en las otras entregas, para que Flor lo mande una vez y se cierren todas.
     // deno-lint-ignore no-explicit-any
