@@ -293,7 +293,16 @@
   }
   function portadaArmada(forma, p, h, b) {
     if (forma === 'portada_botones') return { ...b, titulo: jn(h.pre, h.t), titulo_2: '', bajada: '', opciones: p.opciones || h.ti };
-    if (forma === 'portada_profundidad') { const w = (h.ti || h.t).trim().split(/\s+/), ult = (w.pop() || '').replace(/[.,;:!?…]+$/, ''); return { ...b, pre: jn(h.pre, h.ti ? h.t : '', w.join(' ')), palabra: ult.toUpperCase(), pill: '' }; }
+    if (forma === 'portada_profundidad') {
+      // La palabra gigante es la que tiene peso (no la última ni «inglés»), y la frase se lee en orden: pre + PALABRA + cierre.
+      const base = (h.ti || h.t).trim().split(/\s+/), antes = h.ti ? jn(h.pre, h.t) : h.pre || '';
+      const NO = /^(inglés|ingles|english|que|los|las|una|unos|unas|para|pero|como|cuando|donde|porque|este|esta|eso|esto|todo|toda|muy|más|mas|sin|con|sus|tus|del|ella|ellas|también|tambien)$/i;
+      const limpia = (x) => x.replace(/[.,;:!?…«»"()¿¡]+/g, '');
+      let k = -1, mejor = 0;
+      base.forEach((x, n) => { const l = limpia(x); if (l.length >= 4 && !NO.test(l) && l.length >= mejor) { mejor = l.length; k = n; } });
+      if (k < 0) k = base.length - 1;
+      return { ...b, pre: jn(antes, base.slice(0, k).join(' ')), palabra: limpia(base[k]).toUpperCase(), pill: base.slice(k + 1).join(' ') };
+    }
     if (forma === 'portada_serif') { const w = jn(h.t, h.ti).trim().split(/\s+/), n = w.length > 3 ? 2 : 1, g = w.splice(-n).join(' ').replace(/[.,;:!?…]+$/, ''); return { ...b, pre: w.join(' '), titulo: g.charAt(0).toUpperCase() + g.slice(1), titulo_i: '' }; }
     return { ...b, forma: 'portada_foto', titulo: jn(h.pre, h.t), titulo_i: h.ti, bajada: p.bajada || '' };
   }
