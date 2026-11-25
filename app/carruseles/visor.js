@@ -80,8 +80,9 @@
 .crs-ctl>span{font-weight:700;color:#6c6656;min-width:44px}
 .crs-ctl .on{background:#4b5624;border-color:#4b5624;color:#f8f5ee}
 .crs-col.cuad{border-radius:6px}
+.crs-modal [hidden]{display:none!important}
 .crs-col{width:26px;height:26px;border-radius:50%;border:2px solid #e6dcc4;cursor:pointer;padding:0}
-.crs-sel{background:#fbf2d0;border-radius:12px;padding:8px}
+.crs-sel{background:#fbf2d0;border-radius:12px;padding:8px;position:sticky;top:0;z-index:5;box-shadow:0 6px 16px rgba(60,45,20,.12)}
 .crs-acc{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 .crs-est{font-size:13px;min-height:18px;margin-top:4px;color:#81552e}
 .crs-modal{position:fixed;inset:0;z-index:80;background:rgba(30,26,18,.6);display:flex;align-items:center;justify-content:center;padding:12px}
@@ -420,10 +421,10 @@ ${c.estilo ? '' : `<div class="crs-ctl" style="margin:0 0 8px"><span>Letra de lo
   <div class="nav"><button type="button" class="btn ghost sm" data-ant ${i <= 0 ? 'disabled' : ''}>← Anterior</button><span class="small">Lámina ${i + 1} de ${vis.length} · tocá el texto para editarlo</span><button type="button" class="btn ghost sm" data-sig ${i >= vis.length - 1 ? 'disabled' : ''}>Siguiente →</button></div></div>
 <div><div class="row between"><h3 style="margin:0">${esc(F.n)}</h3><button type="button" class="btn ghost sm" data-cerrar>Listo</button></div>
   <button type="button" class="btn sm" data-xadd style="margin-bottom:8px">＋ Agregar texto</button>
-  <div class="crs-ctl crs-sel"${sel && sel.i === i ? '' : ' hidden'}><span>Lo que tocaste</span><button type="button" class="btn ghost sm" data-ted="s-" aria-label="Más chico">A−</button><button type="button" class="btn ghost sm" data-ted="s+" aria-label="Más grande">A+</button><button type="button" class="btn ghost sm" data-ted="u" aria-label="Subir">↑</button><button type="button" class="btn ghost sm" data-ted="d" aria-label="Bajar">↓</button><button type="button" class="btn ghost sm" data-ted="l" aria-label="A la izquierda">←</button><button type="button" class="btn ghost sm" data-ted="r" aria-label="A la derecha">→</button>${[['#4b5624', 'Olivo'], ['#81552e', 'Café'], ['#3f1e0d', 'Café oscuro'], ['#c68c6c', 'Terracota'], ['#f8f5ee', 'Crema'], ['#1f1c17', 'Negro']].map(([h, n]) => `<button type="button" class="crs-col" data-ted="c:${h}" title="${n}" aria-label="Letra ${n}" style="background:${h}"></button>`).join('')}<span style="margin-left:4px">Fondo</span>${[['#f8f5ee', 'Crema'], ['#fbf2d0', 'Cálida'], ['#ede5cc', 'Crema media'], ['#c68c6c', 'Terracota'], ['#81552e', 'Café'], ['#4b5624', 'Olivo']].map(([h, n]) => `<button type="button" class="crs-col cuad" data-ted="f:${h}" title="Fondo ${n}" aria-label="Fondo ${n}" style="background:${h}"></button>`).join('')}<button type="button" class="btn ghost sm" data-ted="f:">Sin fondo</button><button type="button" class="btn ghost sm" data-ted="zf">Adelante de la foto</button><button type="button" class="btn ghost sm" data-ted="zb">Atrás de la foto</button><button type="button" class="btn ghost sm" data-ted="x">Como estaba</button></div>
+  <div class="crs-ctl crs-sel"${sel && sel.i === i ? '' : ' hidden'}><span>Solo lo que tocaste <b class="crs-selpct">${sel && sel.i === i && p.ed && p.ed[sel.idx] && p.ed[sel.idx].s ? Math.round(p.ed[sel.idx].s * 100) : 100}%</b></span><button type="button" class="btn ghost sm" data-ted="s-" aria-label="Más chico">A−</button><button type="button" class="btn ghost sm" data-ted="s+" aria-label="Más grande">A+</button><button type="button" class="btn ghost sm" data-ted="u" aria-label="Subir">↑</button><button type="button" class="btn ghost sm" data-ted="d" aria-label="Bajar">↓</button><button type="button" class="btn ghost sm" data-ted="l" aria-label="A la izquierda">←</button><button type="button" class="btn ghost sm" data-ted="r" aria-label="A la derecha">→</button>${[['#4b5624', 'Olivo'], ['#81552e', 'Café'], ['#3f1e0d', 'Café oscuro'], ['#c68c6c', 'Terracota'], ['#f8f5ee', 'Crema'], ['#1f1c17', 'Negro']].map(([h, n]) => `<button type="button" class="crs-col" data-ted="c:${h}" title="${n}" aria-label="Letra ${n}" style="background:${h}"></button>`).join('')}<span style="margin-left:4px">Fondo</span>${[['#f8f5ee', 'Crema'], ['#fbf2d0', 'Cálida'], ['#ede5cc', 'Crema media'], ['#c68c6c', 'Terracota'], ['#81552e', 'Café'], ['#4b5624', 'Olivo']].map(([h, n]) => `<button type="button" class="crs-col cuad" data-ted="f:${h}" title="Fondo ${n}" aria-label="Fondo ${n}" style="background:${h}"></button>`).join('')}<button type="button" class="btn ghost sm" data-ted="f:">Sin fondo</button><button type="button" class="btn ghost sm" data-ted="zf">Adelante de la foto</button><button type="button" class="btn ghost sm" data-ted="zb">Atrás de la foto</button><button type="button" class="btn ghost sm" data-ted="x">Como estaba</button></div>
   <p class="small muted" style="margin:4px 0 0">Tocá un texto para escribir; arrastralo para moverlo a donde quieras; con la barra, agrandalo o cambiale el color.</p>
   <label>Tipo de lámina<select data-forma>${formas.map((k) => `<option value="${k}"${k === p.forma ? ' selected' : ''}>${esc(defs(k, c).n)}</option>`).join('')}</select></label>
-  <div class="crs-ctl"><span>Letra</span><button type="button" class="btn ghost sm" data-esc="-0.1" aria-label="Letra más chica">A−</button><b>${pct}%</b><button type="button" class="btn ghost sm" data-esc="0.1" aria-label="Letra más grande">A+</button></div>
+  <div class="crs-ctl crs-toda"${sel && sel.i === i ? ' hidden' : ''}><span>Toda la lámina</span><button type="button" class="btn ghost sm" data-esc="-0.1" aria-label="Toda la letra más chica">A−</button><b>${pct}%</b><button type="button" class="btn ghost sm" data-esc="0.1" aria-label="Toda la letra más grande">A+</button></div>
   
   ${E ? (p.forma === 'portada' ? `<div class="crs-ctl"><span>Portada</span>${Object.entries(ES.PORTADAS).map(([k, n]) => `<button type="button" class="btn ghost sm${ES.tplDe(c) === k ? ' on' : ''}" data-tpl="${k}" title="${esc(n)}">${k} · ${esc(n)}</button>`).join('')}</div>` : `<div class="crs-ctl"><span>Foto</span><button type="button" class="btn ghost sm${conFoto ? ' on' : ''}" data-confoto="1">Con foto</button><button type="button" class="btn ghost sm${conFoto ? '' : ' on'}" data-confoto="0">Sin foto</button></div>`) : ''}
   ${F.c.map(([k, et, t]) => `<label>${esc(et)}${t === 't' ? `<input type="text" data-k="${k}" value="${esc(p[k] || '')}">` : `<textarea rows="${t === 'p' || t === 'l' ? 4 : 2}" data-k="${k}">${esc(p[k] || '')}</textarea>`}</label>`).join('')}
@@ -446,7 +447,8 @@ ${c.estilo ? '' : `<div class="crs-ctl" style="margin:0 0 8px"><span>Letra de lo
           e.style.cursor = 'pointer';
           // Tocar = seleccionar (y escribir); arrastrar = moverlo a donde quieras.
           e.addEventListener('pointerdown', (ev) => {
-            sel = { i, idx }; piezasDe(n).forEach((x) => { x.style.outline = ''; }); e.style.outline = '8px dashed #c68c6c'; const bar = m.querySelector('.crs-sel'); if (bar) bar.hidden = false;
+            sel = { i, idx }; piezasDe(n).forEach((x) => { x.style.outline = ''; }); e.style.outline = '8px dashed #c68c6c'; const bar = m.querySelector('.crs-sel'); if (bar) bar.hidden = false; const toda = m.querySelector('.crs-toda'); if (toda) toda.hidden = true;
+            const sp = m.querySelector('.crs-selpct'); if (sp) sp.textContent = Math.round((((p.ed || {})[idx] || {}).s || 1) * 100) + '%';
             const k = lz.clientWidth / M.W, o0 = (p.ed && p.ed[idx]) || {}, x0 = o0.x || 0, y0 = o0.y || 0, sx = ev.clientX, sy = ev.clientY; let mov = false;
             if (getComputedStyle(e).position === 'static') e.style.position = 'relative';
             const mv = (v) => { const dx = (v.clientX - sx) / k, dy = (v.clientY - sy) / k; if (!mov && Math.hypot(v.clientX - sx, v.clientY - sy) < 6) return; if (!mov) { mov = true; e.blur(); const sl = window.getSelection(); if (sl) sl.removeAllRanges(); } v.preventDefault(); e.style.transform = `translate(${x0 + dx}px,${y0 + dy}px)`; };
@@ -455,6 +457,8 @@ ${c.estilo ? '' : `<div class="crs-ctl" style="margin:0 0 8px"><span>Letra de lo
           });
           e.style.touchAction = 'none';
         });
+        // Tocar fuera de los textos: se suelta la selección y vuelve «Toda la lámina».
+        lz.onpointerdown = (ev) => { if (!n || (ev.target !== n && !ev.target.classList.contains('bg') && ev.target !== lz)) return; sel = null; piezasDe(n).forEach((x) => { x.style.outline = ''; }); const bar = m.querySelector('.crs-sel'); if (bar) bar.hidden = true; const toda = m.querySelector('.crs-toda'); if (toda) toda.hidden = false; };
       };
       const xadd = m.querySelector('[data-xadd]');
       if (xadd) xadd.onclick = () => {
@@ -478,6 +482,7 @@ ${c.estilo ? '' : `<div class="crs-ctl" style="margin:0 0 8px"><span>Letra de lo
           const n3 = lz.querySelector('.p'), el3 = n3 && piezasDe(n3)[sel.idx];
           if (el3 && el3.classList.contains('xtra') && p.extra) { p.extra.splice(+el3.dataset.x, 1); sel = null; const bar = m.querySelector('.crs-sel'); if (bar) bar.hidden = true; }
         }
+        const sp = m.querySelector('.crs-selpct'); if (sp) sp.textContent = Math.round((((p.ed || {})[sel ? sel.idx : -1] || {}).s || 1) * 100) + '%';
         dibujar(); clearTimeout(timer); timer = setTimeout(() => guardar(f, est), 400);
       }));
       requestAnimationFrame(dibujar);
