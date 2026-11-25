@@ -2785,11 +2785,12 @@ ${pruebaHTML()}
       if (tab === 'pedidos' && b.enClase && b.enClase.length) cuerpo += `<details class="card viejos" open><summary><b>${b.enClase.length === 1 ? '1 ya lo vieron en clase' : b.enClase.length + ' ya los vieron en clase'}</b> <span class="muted small">· después de que lo subió tuvo clase y ya le mandaste el resumen: no va otro feedback. Borralo.</span></summary>
           ${b.enClase.map((x) => filaBorrar(x, `Lo mandó el ${fecha(x.creado, { day: 'numeric', month: 'long' })} · clase y resumen del ${fecha(x.clase, { day: 'numeric', month: 'long' })}`)).join('')}</details>`;
       if (tab === 'pedidos' && b.paraClase && b.paraClase.length) cuerpo += `<details class="card viejos" open><summary><b>📌 ${b.paraClase.length === 1 ? '1 para ver en clase' : b.paraClase.length + ' para ver en clase'}</b> <span class="muted small">· elegiste trabajarlo en la clase en vez de mandar feedback. Después de la clase y el resumen, sale de acá solo.</span></summary>
-          ${b.paraClase.map((x) => `<div class="editrow" data-pc="${x.id}"><span>${esc(x.nombre)} · ${esc(sinDrive(x.titulo) || tipoNombre(x.tipo))}<br><span class="muted small">Lo mandó el ${fecha(x.creado, { day: 'numeric', month: 'long' })} · para la clase del ${fecha(x.en_clase, { weekday: 'long', day: 'numeric', month: 'numeric' })}</span></span><button type="button" class="btn ghost sm pc-volver">Volver a la bandeja</button></div>`).join('')}</details>`;
+          ${b.paraClase.map((x) => `<div class="editrow" data-pc="${x.id}" data-vid="${x.id}"><span>${esc(x.nombre)} · ${esc(sinDrive(x.titulo) || tipoNombre(x.tipo))}<br><span class="muted small">Lo mandó el ${fecha(x.creado, { day: 'numeric', month: 'long' })} · para la clase del ${fecha(x.en_clase, { weekday: 'long', day: 'numeric', month: 'numeric' })}</span></span><span class="row" style="gap:6px"><button type="button" class="btn ghost sm pc-volver">Volver a la bandeja</button><button type="button" class="btn ghost sm viejo-borrar">Borrar</button></span></div>`).join('')}</details>`;
       if (tab === 'pedidos' && b.viejos && b.viejos.length) cuerpo += `<details class="card viejos"><summary><b>${b.viejos.length} ${b.viejos.length === 1 ? 'pedido viejo' : 'pedidos viejos'}</b> <span class="muted small">· de antes de la semana pasada: no se les manda feedback. Borralos.</span></summary>
           ${b.viejos.map((x) => filaBorrar(x, `Lo mandó el ${fecha(x.creado, { day: 'numeric', month: 'long' })}`)).join('')}</details>`;
       if (tab === 'pedidos' && b.filtrados && b.filtrados.length) cuerpo += `<details class="card viejos"><summary class="small muted">🧹 No son entregas: ${b.filtrados.length === 1 ? '1 archivo viejo o repetido' : b.filtrados.length + ' archivos viejos o repetidos'} que aparecieron en sus carpetas de Drive (por ejemplo, cuando ordenan el Drive). No hace falta hacer nada; ábrelo solo si querés chequear.</summary>
-          ${b.filtrados.map((x) => `<div class="editrow" data-filt="${x.id}"><span>${esc(x.nombre)} · ${esc(sinDrive(x.titulo) || tipoNombre(x.tipo))}${url(x.link) ? ` <a class="small" href="${esc(x.link)}" target="_blank" rel="noopener">Abrir</a>` : ''}<br><span class="muted small">Subido el ${fecha(x.creado, { day: 'numeric', month: 'long' })} · ${esc(x.filtrado || 'filtrado')}</span></span><button type="button" class="btn ghost sm f-volver">Es nuevo: a la bandeja</button></div>`).join('')}</details>`;
+          <div class="row" style="margin:6px 0"><button type="button" class="btn ghost sm f-borrar-todo">Borrar todos (no se manda nada)</button></div>
+          ${b.filtrados.map((x) => `<div class="editrow" data-filt="${x.id}" data-vid="${x.id}"><span>${esc(x.nombre)} · ${esc(sinDrive(x.titulo) || tipoNombre(x.tipo))}${url(x.link) ? ` <a class="small" href="${esc(x.link)}" target="_blank" rel="noopener">Abrir</a>` : ''}<br><span class="muted small">Subido el ${fecha(x.creado, { day: 'numeric', month: 'long' })} · ${esc(x.filtrado || 'filtrado')}</span></span><span class="row" style="gap:6px"><button type="button" class="btn ghost sm f-volver">Es nuevo: a la bandeja</button><button type="button" class="btn ghost sm viejo-borrar">Borrar</button></span></div>`).join('')}</details>`;
       if (tab === 'resumenes') {
         const quien = (r) => { const a = (b.al || []).find((x) => x.id === r.alumna_id) || {}; return apodoDe(a) || a.nombre || 'Alumna'; };
         const env = RV.filter((r) => r.estado === 'enviado');
@@ -2850,6 +2851,14 @@ ${cuerpo}`;
     },
     async mount() {
       $$('.viejo-borrar').forEach((bt) => (bt.onclick = async () => { const row = bt.closest('[data-vid]'); await intentar(() => DB.borrarPedido(+row.dataset.vid), 'Borrado'); row.remove(); }));
+      // Flor, 25/11: los archivos viejos o repetidos de Drive se pueden borrar todos juntos.
+      $$('.f-borrar-todo').forEach((bt) => (bt.onclick = async () => {
+        const filas = $$('[data-filt]', bt.closest('details'));
+        if (!filas.length || !confirm(`¿Borro ${filas.length === 1 ? 'este archivo' : 'estos ' + filas.length + ' archivos'} de la bandeja? No se le manda nada a nadie y no se borra nada de su Drive.`)) return;
+        bt.disabled = true;
+        for (const row of filas) { try { await DB.borrarPedido(+row.dataset.vid); row.remove(); } catch (e) { /* si uno falla, sigue con los demás */ } }
+        toast('Borrados'); ruta();
+      }));
       $$('.pc-volver').forEach((bt) => (bt.onclick = async () => { await intentar(() => DB.editarPedido(+bt.closest('[data-pc]').dataset.pc, { en_clase: null }), 'De vuelta en la bandeja'); ruta(); }));
       $$('.f-volver').forEach((bt) => (bt.onclick = async () => { await intentar(() => DB.editarPedido(+bt.closest('[data-filt]').dataset.filt, { estado: 'pendiente', filtrado: null }), 'De vuelta en la bandeja'); ruta(); }));
       $$('[data-tab]').forEach((b) => (b.onclick = () => (location.hash = 'bandeja/' + b.dataset.tab)));
