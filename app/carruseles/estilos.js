@@ -21,7 +21,7 @@
   };
 
   const ROLES = {
-    portada: { n: 'Portada (hook)', c: [['sello', 'Serie (etiqueta): CASO REAL, ERROR COMÚN, OPINIÓN…', 't'], ['titulo', 'Hook (3 a 7 palabras)', 'a'], ['titulo_i', 'Segunda línea, en itálica', 'a']] },
+    portada: { n: 'Portada (hook)', c: [['pre', 'Frase chica arriba (pregunta o etiqueta, opcional)', 'a'], ['titulo', 'Hook (3 a 7 palabras, en bold)', 'a'], ['titulo_i', 'Remate en itálica', 'a'], ['bajada', 'Abajo, chiquito (opcional): «Te cuento →»', 't'], ['sello', 'Serie (solo en la portada con tu foto)', 't']] },
     texto: { n: 'Texto', c: [['titulo', 'Título', 'a'], ['titulo_i', 'Itálica', 'a'], ['cuerpo', 'Cuerpo (corto)', 'a']] },
     lista: { n: 'Lista', c: [['titulo', 'Título', 'a'], ['items', '2 a 4 líneas: «negrita | resto»', 'p']] },
     error: { n: 'Error y corrección', c: [['intro', 'Intro (ej.: En español: «…»)', 't'], ['mal', 'Lo que se tacha', 't'], ['bien', 'La versión buena', 'a'], ['nota', 'Nota (opcional)', 'a']] },
@@ -61,19 +61,21 @@
   }
   function variante(E, p) { return p.variante === 'texto' ? 'texto' : 'completa'; }
   // Plantilla de portada (Flor, 25/11: «cómo mejorarías el feed»): A, B o C. Por defecto, según el estilo.
-  const PORTADAS = { A: 'Tu foto a sangre', B: 'Crema con foto de ambiente', C: 'Frase' };
-  function tplDe(c) { const t = (c.placas[0] || {}).tpl; if (PORTADAS[t]) return t; const E = ESTILOS[c.estilo] || ESTILOS.lifestyle; return E.fam === 'sangre' ? 'A' : 'B'; }
+  // Portadas sacadas del feed real de Flor (25/11: «mirá cómo estaba mi feed»; del sistema anterior solo le gustó la A).
+  const PORTADAS = { A: 'Tu foto con titular', color: 'Bloque de color', crema: 'Crema con pregunta', etiquetas: 'Foto con etiquetas', recorte: 'Tu recorte', marco: 'Foto enmarcada en color' };
+  const SIN_FOTO = { color: 1, crema: 1 };
+  function tplDe(c) { const t = (c.placas[0] || {}).tpl; if (PORTADAS[t]) return t; if (t === 'B') return 'marco'; if (t === 'C') return 'crema'; const E = ESTILOS[c.estilo] || ESTILOS.lifestyle; return E.fam === 'sangre' ? 'A' : 'color'; }
   // Todos estos estilos van con foto en todas las láminas; cada lámina la puede sacar («Sin foto»).
   // Ritmo de fotos (Flor, 25/11: «son demasiadas fotos mías; alternar con un cafecito, una oficina, paisajes»):
   // portada con ella; adentro se alterna foto suya, foto de ambiente y lámina sin foto (en los estilos de foto a sangre).
   function llevaFoto(c, p, i) {
     if (p.conFoto === false) return false; if (p.conFoto === true) return true;
-    if (p.forma === 'portada') return tplDe(c) !== 'C';
+    if (p.forma === 'portada') return !SIN_FOTO[tplDe(c)];
     const E = ESTILOS[c.estilo] || ESTILOS.lifestyle;
     if (E.fam !== 'sangre') return true;
     return (i || 0) % 3 !== 2;
   }
-  function pide(c, p, i) { if (p.forma === 'portada') return tplDe(c) === 'A' ? 'persona' : 'objeto'; if (p.forma === 'cierre') return 'objeto'; return (i || 0) % 3 === 1 ? 'objeto' : 'persona'; }
+  function pide(c, p, i) { if (p.forma === 'portada') return 'persona'; if (p.forma === 'cierre') return 'objeto'; return (i || 0) % 3 === 1 ? 'objeto' : 'persona'; }
 
   const esc = (t) => String(t ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   const md = (t) => esc(t).replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>').replace(/\*([^*]+)\*/g, '<i>$1</i>').replace(/\n/g, '<br>');
@@ -135,13 +137,35 @@
       const t = Math.min(libre, Math.round(H - PAD - H * 0.3));
       return `<div class="p" style="height:${H}px;background:${K.bb}">${fotoBg(foto, url, { x: 0, y: 0, w: W, h: H }, alto)}<div class="bg" style="background:linear-gradient(180deg,rgba(0,0,0,0) ${Math.round((t / H) * 100) - 22}%,rgba(63,30,13,.62) ${Math.round((t / H) * 100) + 10}%)"></div>${sello(K.crema, 'rgba(198,140,108,.92)')}${cajaHTML(t, PAD, 'flex-end', hook(K.crema, K.calida, 100))}</div>`;
     }
-    if (tpl === 'B' && foto) {
-      const yF = Math.round(H * 0.46);
-      return `<div class="p" style="height:${H}px;background:${K.crema}">${sello(K.terra, 'transparent;border:2px solid ' + K.terra)}${cajaHTML(PAD + 90, H - yF + 40, 'flex-end', hook(K.olivo, K.cafe, 96))}${fotoBg(foto, url, { x: PAD, y: yF, w: W - PAD * 2, h: H - yF - PAD }, 0.45, 'border-radius:18px')}</div>`;
+    const colorDe = () => { const k = p.color || ['terra', 'cafe', 'olivo'][Math.abs([...String(p.titulo || '')].reduce((a, ch) => a + ch.charCodeAt(0), 0)) % 3]; return { terra: K.terra, cafe: '#8a5a33', olivo: '#5c6b3a' }[k] || K.terra; };
+    // Hook grande en serif bold, el remate en itálica (como el feed de Flor).
+    const grande = (col, base, colI) => { const z = tam(base, (p.titulo || '') + ' ' + (p.titulo_i || '')) * s; return `${p.titulo ? `<div data-fs="${z}" style="font-family:'Serif';font-weight:700;font-size:${z}px;line-height:1.06;letter-spacing:-.025em;color:${col}">${md(p.titulo)}</div>` : ''}${p.titulo_i ? `<div data-fs="${z}" style="font-family:'Serif';font-style:italic;font-weight:600;font-size:${z}px;line-height:1.06;letter-spacing:-.02em;color:${colI || col}">${md(p.titulo_i)}</div>` : ''}`; };
+    const chico = (txt, col, base, f) => (txt ? `<div data-fs="${base * s}" style="font-family:'${f || 'Sans'}';font-weight:400;font-size:${base * s}px;line-height:1.3;color:${col}">${md(txt)}</div>` : '');
+    const abajo = (col, bg) => (p.bajada ? `<div style="position:absolute;left:${PAD}px;bottom:${PAD}px;font-family:'Sans';font-weight:600;font-size:${30 * s}px;color:${col};background:${bg};padding:12px 22px;border-radius:6px">${esc(p.bajada)}</div>` : '');
+    const ci = (inner, gap) => `<div class="ci" style="display:flex;flex-direction:column;gap:${(gap || 18) * s}px">${inner}</div>`;
+    if (tpl === 'color') {
+      const bg = colorDe();
+      const et = p.pre ? `<div><span data-fs="${40 * s}" style="font-family:'Sans';font-weight:700;font-size:${40 * s}px;line-height:1.5;color:${bg};background:${K.crema};padding:6px 16px;-webkit-box-decoration-break:clone;box-decoration-break:clone">${md(p.pre)}</span></div>` : '';
+      return `<div class="p" style="height:${H}px;background:${bg}">${cajaHTML(PAD + 40, PAD + 80, 'center', ci(et + grande(K.crema, 112), 26))}${abajo(bg, K.crema)}</div>`;
     }
-    // C · Frase (o A/B sin foto): crema, una frase grande en itálica y una línea terracota.
-    const z = tam(124, p.titulo) * s, z2 = tam(66, p.titulo_i) * s;
-    return `<div class="p" style="height:${H}px;background:${K.cremaM}">${sello(K.terra, 'transparent;border:2px solid ' + K.terra)}${cajaHTML(PAD + 90, PAD + 40, 'center', `<div class="ci" style="display:flex;flex-direction:column;gap:${22 * s}px"><div style="width:90px;height:6px;background:${K.terra};border-radius:3px"></div>${p.titulo ? `<div data-fs="${z}" style="font-family:'Serif';font-style:italic;font-weight:400;font-size:${z}px;line-height:1.08;letter-spacing:-.02em;color:${K.cafe}">${md(p.titulo)}</div>` : ''}${p.titulo_i ? `<div data-fs="${z2}" style="font-family:'Serif';font-weight:600;font-size:${z2}px;line-height:1.25;color:${K.olivo}">${md(p.titulo_i)}</div>` : ''}</div>`)}</div>`;
+    if (tpl === 'crema' || !foto) {
+      return `<div class="p" style="height:${H}px;background:${K.crema}">${cajaHTML(PAD + 40, PAD + 80, 'center', ci(chico(p.pre, '#9a7a5c', 54, 'Serif') + grande(K.cafe, 116), 26))}${abajo(K.crema, K.cafe)}</div>`;
+    }
+    if (tpl === 'etiquetas') {
+      const alto = 0.26, libre = Math.max(Math.round(H * 0.5), Math.round(caraAbajo(foto, W, H, alto) + 30)), t = Math.min(libre, Math.round(H - PAD - H * 0.32));
+      const z = tam(62, p.titulo) * s;
+      const caja1 = `<div><span data-fs="${z}" style="font-family:'Serif';font-weight:600;font-size:${z}px;line-height:1.45;text-transform:uppercase;letter-spacing:.01em;color:${K.negro};background:${K.crema};padding:8px 18px;-webkit-box-decoration-break:clone;box-decoration-break:clone">${md(p.titulo || '')}</span></div>`;
+      const caja2 = p.titulo_i ? `<div><span data-fs="${40 * s}" style="font-family:'Serif';font-style:italic;font-size:${40 * s}px;line-height:1.5;color:${K.negro};background:${K.cremaM};padding:6px 16px;-webkit-box-decoration-break:clone;box-decoration-break:clone">${md(p.titulo_i)}</span></div>` : '';
+      return `<div class="p" style="height:${H}px;background:${K.bb}">${fotoBg(foto, url, { x: 0, y: 0, w: W, h: H }, alto)}${cajaHTML(t, PAD + (p.bajada ? 80 : 0), 'flex-end', ci(caja1 + caja2, 12))}${abajo(K.negro, K.crema)}</div>`;
+    }
+    if (tpl === 'recorte') {
+      const rec = 'carruseles/recortes/' + String(foto.archivo).replace(/\.jpg$/, '.webp');
+      const cut = foto.tiene_recorte ? `<div class="bg" data-foto="${esc(foto.archivo)}" data-modo="contain-br" data-src="${rec}" style="left:${Math.round(W * 0.26)}px;top:${Math.round(H * 0.24)}px;width:${Math.round(W * 0.74)}px;height:${Math.round(H * 0.76)}px;right:auto;bottom:auto;background-image:url('${rec}');background-size:contain;background-repeat:no-repeat;background-position:right bottom"></div>` : fotoBg(foto, url, { x: Math.round(W * 0.42), y: Math.round(H * 0.46), w: Math.round(W * 0.58) - PAD, h: Math.round(H * 0.54) - PAD }, 0.4, 'border-radius:200px 200px 16px 16px');
+      return `<div class="p" style="height:${H}px;background:${K.cremaM}">${cut}<div class="caja" style="left:${PAD}px;right:${Math.round(W * 0.36)}px;top:${PAD + 30}px;bottom:${Math.round(H * 0.3)}px;justify-content:flex-start;text-align:left">${ci(chico(p.pre, '#9a7a5c', 42, 'Sans') + grande(K.cafe, 96), 20)}</div>${abajo(K.crema, K.cafe)}</div>`;
+    }
+    // marco: foto enmarcada arriba dentro de un bloque de color, el hook abajo.
+    const bg = colorDe(), hF = Math.round(H * 0.47);
+    return `<div class="p" style="height:${H}px;background:${bg}">${fotoBg(foto, url, { x: PAD, y: PAD, w: W - PAD * 2, h: hF }, 0.45, 'border-radius:6px')}${cajaHTML(PAD + hF + 50, PAD + 40, 'flex-start', ci(chico(p.pre, K.cremaM, 42, 'Sans') + grande(K.crema, 100), 16))}</div>`;
   }
   function placa(c, i, H, foto, url, assets) {
     if (i === 0 && c.placas[0] && c.placas[0].forma === 'portada') return portada(c, H, llevaFoto(c, c.placas[0], 0) ? foto : null, url);

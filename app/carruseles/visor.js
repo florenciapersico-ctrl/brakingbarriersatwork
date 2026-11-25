@@ -23,7 +23,7 @@
     if (listo) return listo;
     listo = (async () => {
       await script(BASE + 'motor.js?v=1');
-      await script(BASE + 'estilos.js?v=13');
+      await script(BASE + 'estilos.js?v=15');
       M = window.Motor; ES = window.Estilos;
       const [cat, fcss, pinc, lo, lc] = await Promise.all([
         fetch(BASE + 'catalogo.json?v=2').then((r) => r.json()), Promise.all([fetch(BASE + 'marca/fuentes.css').then((r) => r.text()), fetch(BASE + 'marca/script.css?v=1').then((r) => (r.ok ? r.text() : '')).catch(() => '')]).then((x) => x.join('\n')),
@@ -115,7 +115,7 @@
         if (!lleva(c, p, idx)) return; // la foto elegida queda guardada por si vuelve a un estilo con foto
         const ok = p._foto && M.catalogo.some((e) => e.archivo === p._foto && !e.excluir);
         if (ok && !rehacer && (!p.foto || p.foto === 'objeto' || p.foto === 'persona' || p.foto === p._foto)) return;
-        const forma = c.estilo ? (p.forma === 'portada' ? 'portada_foto' : 'foto_frase') : p.forma === 'cierre' ? 'foto_frase' : p.forma, pedida = p.foto && p.foto !== 'persona' && p.foto !== 'objeto' ? p.foto : c.estilo ? p.foto || ES.pide(c, p, idx) : p.forma === 'cierre' ? p.foto || 'objeto' : p.foto;
+        const forma = c.estilo ? (p.forma === 'portada' ? (ES.tplDe(c) === 'recorte' ? 'portada_profundidad' : 'portada_foto') : 'foto_frase') : p.forma === 'cierre' ? 'foto_frase' : p.forma, pedida = p.foto && p.foto !== 'persona' && p.foto !== 'objeto' ? p.foto : c.estilo ? p.foto || ES.pide(c, p, idx) : p.forma === 'cierre' ? p.foto || 'objeto' : p.foto;
         let e = M.tomarFoto(forma, H, pedida, usadas, r);
         if (!e && p.forma === 'portada_profundidad') { p.forma = 'portada_foto'; p.titulo = p.titulo || [p.pre, p.palabra].filter(Boolean).join(' '); p.titulo_i = p.titulo_i || p.pill || ''; e = M.tomarFoto('portada_foto', H, null, usadas, r); }
         if (e && e.archivo !== p._foto) { p._foto = e.archivo; cambio = true; }
@@ -285,6 +285,7 @@
   async function capaFoto(el, H) {
     const im = await cargarImg(el.dataset.src), E = { w: el.offsetWidth || M.W, h: el.offsetHeight || H };
     let dw, dh, x, y;
+    if (el.dataset.modo === 'contain-br') { const k = Math.min(E.w / im.naturalWidth, E.h / im.naturalHeight); dw = im.naturalWidth * k; dh = im.naturalHeight * k; x = E.w - dw; y = E.h - dh; const cv0 = document.createElement('canvas'); cv0.width = E.w; cv0.height = E.h; cv0.getContext('2d').drawImage(im, x, y, dw, dh); return { cv: cv0, x: el.offsetLeft, y: el.offsetTop }; }
     if (el.dataset.modo === 'lado') { dh = E.h * 0.88; dw = (im.naturalWidth * dh) / im.naturalHeight; x = (E.w - dw) * 1.75; y = E.h - dh; }
     else {
       const s = Math.max(E.w / im.naturalWidth, E.h / im.naturalHeight); dw = im.naturalWidth * s; dh = im.naturalHeight * s;
