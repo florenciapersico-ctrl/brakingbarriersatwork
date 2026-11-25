@@ -182,7 +182,7 @@ function placaBase(f, d, H, receta, e){
     return `<div class="p" style="height:${H}px;background:${C.crema_m}">${caja(110,150,inner,96)}${pie(false)}</div>`;
   }
   if (f === "error"){
-    const inner = tx("r",d.intro,52,"opacity:.75") + `<div class="g" data-fs="124" data-t style="font-size:124px;margin-top:30px"><span class="raya">${md(d.mal)}</span></div>` + tx("si",d.bien,124,`color:${C.olivo};margin-top:60px;line-height:1.05`) + tx("cuerpo",d.nota,40,"margin-top:46px");
+    const inner = tx("r",d.intro,52,"opacity:.75") + `<div class="g" data-fs="124" data-t style="font-family:'Serif';font-weight:700;letter-spacing:-.02em;line-height:1.04;color:${C.bb};font-size:124px;margin-top:30px"><span class="raya">${md(d.mal)}</span></div>` + tx("si",d.bien,124,`color:${C.olivo};margin-top:60px;line-height:1.05`) + tx("cuerpo",d.nota,40,"margin-top:46px");
     return P(`${caja(120,160,inner,96)}${pie(false)}`);
   }
   if (f === "frase"){
@@ -196,7 +196,7 @@ function placaBase(f, d, H, receta, e){
     return P(`${fondoFoto(e,velo)}<div class="sutil" style="color:${C.calida}">${caja(a,H-b,inner,84,zona==="abajo"?"flex-end":"flex-start","stretch","center")}</div>${handle()}`);
   }
   if (f === "tachado"){
-    const inner = tx("r",d.pre,54,"opacity:.8") + `<div class="g" data-fs="146" data-t style="font-size:146px;margin-top:30px"><span class="raya">${md(d.tachado)}</span></div>` + tx("si",d.verdad_i,118,`color:${C.olivo};margin-top:60px;line-height:1.05`);
+    const inner = tx("r",d.pre,54,"opacity:.8") + `<div class="g" data-fs="146" data-t style="font-family:'Serif';font-weight:700;letter-spacing:-.02em;line-height:1.04;color:${C.bb};font-size:146px;margin-top:30px"><span class="raya">${md(d.tachado)}</span></div>` + tx("si",d.verdad_i,118,`color:${C.olivo};margin-top:60px;line-height:1.05`);
     return P(`${caja(120,160,inner,96)}${pie(false)}`);
   }
   if (f === "oscura"){

@@ -22,7 +22,7 @@
   function preparar(fotosExtra) {
     if (listo) return listo;
     listo = (async () => {
-      await script(BASE + 'motor.js?v=1');
+      await script(BASE + 'motor.js?v=3');
       await script(BASE + 'estilos.js?v=19');
       M = window.Motor; ES = window.Estilos;
       const [cat, fcss, pinc, lo, lc] = await Promise.all([
@@ -169,7 +169,9 @@
   const fotoDe = (p) => (p._foto ? M.catalogo.find((e) => e.archivo === p._foto) || null : null);
   // Ritmo de adentro de cada receta (Flor, 25/11: «las portadas me encantan, el diseño de adentro todavía no»):
   // las láminas de texto se muestran alternando con las formas propias de la receta, sin cambiar lo guardado.
-  var RITMO = { editorial: ['texto', 'foto_frase', 'texto'], tarjetas: ['texto', 'foto_frase'], historia: ['oscura', 'foto_frase', 'recorte_lado', 'texto'], serif: ['foto_frase', 'texto'] };
+  // Lo propio de cada portada vuelve adentro (Flor, 25/11): Tarjetas → franjas blancas; Serif → pincelada terracota;
+  // Editorial → números terracota; Historia → placa café oscuro. El tachado en color sale de las láminas «tachado».
+  var RITMO = { editorial: ['texto', 'foto_frase', 'numerada'], tarjetas: ['tarjetas', 'foto_frase', 'texto'], historia: ['oscura', 'foto_frase', 'recorte_lado', 'texto'], serif: ['foto_frase', 'frase', 'texto'] };
   function vistaTexto(c, i, p) {
     const R = RITMO[c.receta]; if (!R) return null;
     const f = ranura(c, p, i), fo = fotoDe(p), it = [p.titulo_i, p.cuerpo].filter(Boolean).join(' ');
@@ -177,6 +179,14 @@
     if (f === 'foto_frase' && fo && pal <= 26) return { forma: f, d: { ...p, pre: '', frase_i: [p.titulo, it].filter(Boolean).join(' ') } };
     if (f === 'recorte_lado' && fo && fo.tiene_recorte && pal <= 24) return { forma: f, d: p };
     if (f === 'oscura') return { forma: f, d: { ...p, texto: p.titulo || '', texto_i: it } };
+    if (f === 'frase' && pal <= 18) { const w = it.trim().split(/\s+/).filter(Boolean); if (w.length >= 2) { const ult = w.pop().replace(/[.,;:!?…]+$/, ''); return { forma: f, d: { ...p, linea_i: [p.titulo, w.join(' ')].filter(Boolean).join(' '), resaltado: ult } }; } }
+    if (f === 'tarjetas' || f === 'numerada') {
+      const o = it.split(/(?<=[.!?…])\s+/).map((x) => x.trim()).filter(Boolean);
+      if (o.length >= 2 && o.length <= 4) {
+        const pares = o.map((x) => x.replace(/\|/g, '/') + ' | ').join('\n');
+        return f === 'tarjetas' ? { forma: f, d: { ...p, sub: '', tarjetas: pares } } : { forma: f, d: { ...p, items: pares } };
+      }
+    }
     return null;
   }
   function htmlPlaca(c, i, escala) {
