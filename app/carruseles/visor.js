@@ -75,6 +75,9 @@
 .crs-modal .cm{background:#fffdf8;color:#22201a;border-radius:18px;width:min(980px,100%);max-height:94vh;overflow:auto;padding:16px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px}
 .crs-modal .lienzo{position:relative;width:100%;overflow:hidden;border-radius:10px;box-shadow:0 14px 34px rgba(60,45,20,.2)}
 .crs-modal .lienzo>div{position:absolute;left:0;top:0;transform-origin:0 0}
+.crs-modal .lienzo [contenteditable=true]{cursor:text;outline:none;border-radius:4px}
+.crs-modal .lienzo [contenteditable=true]:hover{box-shadow:0 0 0 6px rgba(198,140,108,.55)}
+.crs-modal .lienzo [contenteditable=true]:focus{box-shadow:0 0 0 8px #c68c6c;background:rgba(255,253,248,.18)}
 .crs-modal label{display:flex;flex-direction:column;gap:4px;font-size:13px;font-weight:700;color:#6c6656;margin-top:10px}
 .crs-modal textarea,.crs-modal input[type=text],.crs-modal select{font:inherit;font-size:16px;font-weight:400;color:#22201a;border:1.5px solid #e6dcc4;border-radius:10px;padding:8px 10px;background:#f8f5ee;width:100%}
 .crs-modal .nav{display:flex;justify-content:space-between;align-items:center;margin-top:10px;gap:8px}
@@ -180,6 +183,36 @@
     });
     return c;
   }
+  // Edición directa sobre la lámina: cada texto visible se vincula con el campo de donde salió.
+  const plano = (t) => String(t ?? '').replace(/\*\*?|__?/g, '').replace(/\s*\|\s*/g, ' ').replace(/\s+/g, ' ').trim();
+  function editable(lz, p, campos, alCambiar) {
+    const cand = [...lz.querySelectorAll('.p [data-fs], .p *')].filter((e) => {
+      if (e.closest('[data-fs]') && !e.hasAttribute('data-fs')) return false; // dentro de un bloque con letra: se edita el bloque
+      if (!e.hasAttribute('data-fs') && e.children.length) return false;
+      return plano(e.textContent).length > 0;
+    });
+    cand.forEach((e) => {
+      const orig = plano(e.textContent);
+      let k = campos.find((c) => plano(p[c]) === orig), linea = -1;
+      if (!k) for (const c of campos) { const L = String(p[c] || '').split('\n'); const j = L.findIndex((x) => plano(x) === orig || plano(x).includes(orig)); if (j >= 0) { k = c; linea = j; break; } }
+      if (!k) { for (const c of campos) if (orig.length > 3 && plano(p[c]).includes(orig)) { k = c; break; } }
+      if (!k) return;
+      e.contentEditable = 'true'; e.spellcheck = true; e.title = 'Tocá para editar';
+      e.addEventListener('keydown', (ev) => { if (ev.key === 'Escape') e.blur(); });
+      e.addEventListener('blur', () => {
+        const nuevo = e.innerText.replace(/\s+\n/g, '\n').trim(); if (plano(nuevo) === orig) return;
+        const v = String(p[k] || '');
+        if (linea >= 0) {
+          const L = v.split('\n'), x = L[linea];
+          if (plano(x) === orig) L[linea] = x.includes('|') && !nuevo.includes('|') ? nuevo.replace(/^(\S+)\s/, '$1 | ') : nuevo;
+          else L[linea] = x.includes(orig) ? x.replace(orig, nuevo) : x.replace(new RegExp(orig.split(' ').map((w) => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('[\\s*_|]+')), nuevo);
+          p[k] = L.join('\n');
+        } else if (plano(v) === orig || !v.includes(orig)) p[k] = nuevo;
+        else p[k] = v.replace(orig, nuevo);
+        alCambiar(k);
+      });
+    });
+  }
   function pintarUno(el) {
     const f = FILAS[el.dataset.crs]; if (!f || !f.carrusel) return;
     const c = f.carrusel; if (!c.estilo && !M.RECETAS[c.receta]) c.receta = 'editorial';
@@ -249,7 +282,7 @@
       const pct = Math.round((+p.escala || 1) * 100), posA = p.pos || '';
       const fotos = M.catalogo.filter((e) => e.tipo !== 'fondo' && !e.excluir);
       m.innerHTML = `<div class="cm"><div><div class="lienzo" style="aspect-ratio:1080/${alto(c)}"></div>
-  <div class="nav"><button type="button" class="btn ghost sm" data-ant ${i <= 0 ? 'disabled' : ''}>← Anterior</button><span class="small">Lámina ${i + 1} de ${vis.length}</span><button type="button" class="btn ghost sm" data-sig ${i >= vis.length - 1 ? 'disabled' : ''}>Siguiente →</button></div></div>
+  <div class="nav"><button type="button" class="btn ghost sm" data-ant ${i <= 0 ? 'disabled' : ''}>← Anterior</button><span class="small">Lámina ${i + 1} de ${vis.length} · tocá el texto para editarlo</span><button type="button" class="btn ghost sm" data-sig ${i >= vis.length - 1 ? 'disabled' : ''}>Siguiente →</button></div></div>
 <div><div class="row between"><h3 style="margin:0">${esc(F.n)}</h3><button type="button" class="btn ghost sm" data-cerrar>Listo</button></div>
   <label>Tipo de lámina<select data-forma>${formas.map((k) => `<option value="${k}"${k === p.forma ? ' selected' : ''}>${esc(defs(k, c).n)}</option>`).join('')}</select></label>
   <div class="crs-ctl"><span>Letra</span><button type="button" class="btn ghost sm" data-esc="-0.1" aria-label="Letra más chica">A−</button><b>${pct}%</b><button type="button" class="btn ghost sm" data-esc="0.1" aria-label="Letra más grande">A+</button></div>
@@ -262,7 +295,10 @@
   ${subirFn ? `<label>Subir una foto mía<input type="file" accept="image/*" data-subir="persona"></label><label>Subir una foto de un lugar o una cosa<input type="file" accept="image/*" data-subir="objeto"></label>` : ''}
   <div class="crs-est" aria-live="polite"></div></div></div>`;
       const lz = m.querySelector('.lienzo');
-      const dibujar = () => { lz.innerHTML = htmlPlaca(c, i, lz.clientWidth / M.W); const n = lz.querySelector('.p'); if (n) ajustar(n); };
+      const dibujar = () => {
+        lz.innerHTML = htmlPlaca(c, i, lz.clientWidth / M.W); const n = lz.querySelector('.p'); if (n) ajustar(n);
+        editable(lz, p, F.c.map((x) => x[0]), (k) => { const t = m.querySelector(`[data-k="${k}"]`); if (t) t.value = p[k]; dibujar(); clearTimeout(timer); timer = setTimeout(() => guardar(f, est), 300); });
+      };
       requestAnimationFrame(dibujar);
       const est = (t) => { m.querySelector('.crs-est').textContent = t || ''; };
       m.querySelector('[data-cerrar]').onclick = cerrar;
