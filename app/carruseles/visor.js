@@ -23,10 +23,10 @@
     if (listo) return listo;
     listo = (async () => {
       await script(BASE + 'motor.js?v=1');
-      await script(BASE + 'estilos.js?v=2');
+      await script(BASE + 'estilos.js?v=7');
       M = window.Motor; ES = window.Estilos;
       const [cat, fcss, pinc, lo, lc] = await Promise.all([
-        fetch(BASE + 'catalogo.json?v=1').then((r) => r.json()), fetch(BASE + 'marca/fuentes.css').then((r) => r.text()),
+        fetch(BASE + 'catalogo.json?v=1').then((r) => r.json()), Promise.all([fetch(BASE + 'marca/fuentes.css').then((r) => r.text()), fetch(BASE + 'marca/script.css?v=1').then((r) => (r.ok ? r.text() : '')).catch(() => '')]).then((x) => x.join('\n')),
         aDataURL(BASE + 'marca/pincel-terra-c68c6c.png'), aDataURL(BASE + 'marca/logo-olivo.png'), aDataURL(BASE + 'marca/logo-crema.png')]);
       (fotosExtra || []).forEach((f) => { if (!cat.some((e) => e.archivo === f.archivo)) cat.push(extraACat(f)); });
       M.catalogo = cat; M.assets = { pinc, logoO: lo, logoC: lc };
@@ -87,6 +87,17 @@
 
   // ¿La lámina lleva foto? Con estilos lo decide el estilo (y la lámina puede pedir o sacar la suya).
   const lleva = (c, p, i) => (c.estilo && ES ? ES.llevaFoto(c, p, i) : M.necesitaFoto(p.forma, c.receta));
+  // Ajuste de la letra para los estilos: mide el bloque de texto real y achica solo lo necesario (mínimo 60 %).
+  function ajustar(root) {
+    if (!root) return;
+    const cajas = root.querySelectorAll('.caja');
+    let usado = false;
+    cajas.forEach((c) => {
+      const ci = c.querySelector(':scope > .ci'); if (!ci) return; usado = true;
+      let k = 0; while (ci.offsetHeight > c.clientHeight + 1 && k < 30) { ci.querySelectorAll('[data-fs]').forEach((e) => { const f = parseFloat(e.style.fontSize), min = parseFloat(e.dataset.fs) * 0.6; if (f > min) e.style.fontSize = f * 0.95 + 'px'; }); k++; }
+    });
+    if (!usado) M.fit(root);
+  }
   const defs = (forma) => (ES && ES.ROLES[forma]) || M.FORMAS[forma] || { n: forma, c: [] };
   /* ---------- fotos: sin repetir en 3 semanas entre todas las piezas cargadas ---------- */
   function asignarFotos(todas, rehacerClave) {
@@ -140,14 +151,14 @@
   function pintarMinis(clave) {
     $$(clave ? `[data-crs-mini="${clave.replace(/"/g, '\\"')}"]` : '[data-crs-mini]').forEach((el) => {
       const f = FILAS[el.dataset.crsMini]; if (!f || !f.carrusel || !f.carrusel.placas || !f.carrusel.placas.length) return;
-      const w = el.clientWidth || 48; el.innerHTML = htmlPlaca(f.carrusel, 0, w / M.W); const n = el.querySelector('.p'); if (n) M.fit(n);
+      const w = el.clientWidth || 48; el.innerHTML = htmlPlaca(f.carrusel, 0, w / M.W); const n = el.querySelector('.p'); if (n) ajustar(n);
     });
   }
   function pintarUno(el) {
     const f = FILAS[el.dataset.crs]; if (!f || !f.carrusel) return;
     const c = f.carrusel; if (!c.estilo && !M.RECETAS[c.receta]) c.receta = 'editorial';
     const reel = c.formato === 'reel', p0 = c.placas[0] || {};
-    const VAR = [['completa', 'Foto completa'], ['mitad', 'Foto arriba'], ['texto', 'Sin foto']];
+    const VAR = [['completa', 'Con foto'], ['texto', 'Sin foto']];
     el.innerHTML = `${c.estilo ? `<p class="crs-tit">Estilo del posteo <span>se aplica a todas las láminas</span></p><div class="crs-estilos" role="group" aria-label="Estilo">${Object.entries(ES.ESTILOS).map(([k, E]) => `<button type="button" class="crs-es${k === c.estilo ? ' on' : ''}" data-estilo="${k}" aria-pressed="${k === c.estilo}"><span class="m${reel ? ' reel' : ''}" data-es-prev="${k}"></span><span class="n">${esc(E.n)}</span></button>`).join('')}</div>` : `<div class="crs-rec" role="group" aria-label="Receta">${Object.entries(M.RECETAS).map(([k, R]) => `<button type="button" data-rec="${k}" aria-pressed="${k === c.receta}" title="${esc(R.desc)}">${esc(R.n)}</button>`).join('')}</div>`}
 <details class="crs-port"${c._abrirPortada ? ' open' : ''}><summary>Portada: el hook y cómo va la foto</summary>
   <div class="crs-rec" role="group" aria-label="Foto de la portada">${c.estilo ? VAR.map(([k, n]) => `<button type="button" data-var="${k}" aria-pressed="${ES.variante(ES.ESTILOS[c.estilo], p0) === k}">${n}</button>`).join('') : PORTADAS.map(([k, n]) => `<button type="button" data-port="${k}" aria-pressed="${p0.forma === k}">${n}</button>`).join('')}</div>
@@ -157,8 +168,8 @@
 <div class="crs-acc"><button type="button" class="btn sm" data-crs-ed="0">✏️ Editar cada lámina</button>${subirFn ? `<label class="btn ghost sm crs-sub">📷 Subir fotos nuevas<input type="file" accept="image/*" multiple data-crs-subir hidden></label>` : ''}<button type="button" class="btn ghost sm" data-crs-fotos>Otras fotos</button><button type="button" class="btn ghost sm" data-crs-png>Bajar PNG</button></div>
 <p class="small muted" style="margin:6px 0 0">Tocá una lámina para cambiarle el texto, el tamaño de la letra, dónde va, el tipo de lámina o la foto.</p>
 <div class="crs-est" aria-live="polite"></div>`;
-    $$('.crs-mini .marco .p', el).forEach((p) => M.fit(p));
-    $$('[data-es-prev]', el).forEach((m) => { m.innerHTML = htmlPlaca({ ...c, estilo: m.dataset.esPrev }, 0, (m.clientWidth || 66) / M.W); const n = m.querySelector('.p'); if (n) M.fit(n); });
+    $$('.crs-mini .marco .p', el).forEach((p) => ajustar(p));
+    $$('[data-es-prev]', el).forEach((m) => { m.innerHTML = htmlPlaca({ ...c, estilo: m.dataset.esPrev }, 0, (m.clientWidth || 66) / M.W); const n = m.querySelector('.p'); if (n) ajustar(n); });
     pintarMinis(llave(f));
     const est = (t) => { el.querySelector('.crs-est').textContent = t || ''; };
     $$('[data-rec]', el).forEach((b) => (b.onclick = async () => { c.receta = b.dataset.rec; asignarFotos(Object.values(FILAS), llave(f)); pintarUno(el); await guardar(f, est); }));
@@ -168,7 +179,7 @@
     let tp = null;
     $$('[data-pk]', el).forEach((inp) => (inp.oninput = () => {
       c.placas[0][inp.dataset.pk] = inp.value; pintarMinis(llave(f));
-      const m0 = el.querySelector('.crs-mini[data-i="0"] .marco'); if (m0) { m0.innerHTML = htmlPlaca(c, 0, 120 / M.W); const n = m0.querySelector('.p'); if (n) M.fit(n); }
+      const m0 = el.querySelector('.crs-mini[data-i="0"] .marco'); if (m0) { m0.innerHTML = htmlPlaca(c, 0, 120 / M.W); const n = m0.querySelector('.p'); if (n) ajustar(n); }
       clearTimeout(tp); tp = setTimeout(() => guardar(f, est), 900);
     }));
     const dp = el.querySelector('.crs-port'); if (dp) dp.ontoggle = () => { c._abrirPortada = dp.open; };
@@ -215,7 +226,7 @@
   <label>Tipo de lámina<select data-forma>${formas.map((k) => `<option value="${k}"${k === p.forma ? ' selected' : ''}>${esc(defs(k).n)}</option>`).join('')}</select></label>
   ${E ? `<div class="crs-ctl"><span>Letra</span><button type="button" class="btn ghost sm" data-esc="-0.1" aria-label="Letra más chica">A−</button><b>${pct}%</b><button type="button" class="btn ghost sm" data-esc="0.1" aria-label="Letra más grande">A+</button></div>
   <div class="crs-ctl"><span>Texto</span>${[['arriba', 'Arriba'], ['centro', 'Centro'], ['abajo', 'Abajo']].map(([k, n]) => `<button type="button" class="btn ghost sm${posA === k ? ' on' : ''}" data-pos="${k}">${n}</button>`).join('')}</div>
-  ${p.forma === 'portada' ? `<div class="crs-ctl"><span>Foto</span>${[['completa', 'Completa'], ['mitad', 'Arriba'], ['texto', 'Sin foto']].map(([k, n]) => `<button type="button" class="btn ghost sm${ES.variante(E, p) === k ? ' on' : ''}" data-var="${k}">${n}</button>`).join('')}</div>` : `<div class="crs-ctl"><span>Foto</span><button type="button" class="btn ghost sm${conFoto ? ' on' : ''}" data-confoto="1">Con foto</button><button type="button" class="btn ghost sm${conFoto ? '' : ' on'}" data-confoto="0">Sin foto</button></div>`}` : ''}
+  ${p.forma === 'portada' ? `<div class="crs-ctl"><span>Foto</span>${[['completa', 'Con foto'], ['texto', 'Sin foto']].map(([k, n]) => `<button type="button" class="btn ghost sm${ES.variante(E, p) === k ? ' on' : ''}" data-var="${k}">${n}</button>`).join('')}</div>` : `<div class="crs-ctl"><span>Foto</span><button type="button" class="btn ghost sm${conFoto ? ' on' : ''}" data-confoto="1">Con foto</button><button type="button" class="btn ghost sm${conFoto ? '' : ' on'}" data-confoto="0">Sin foto</button></div>`}` : ''}
   ${F.c.map(([k, et, t]) => `<label>${esc(et)}${t === 't' ? `<input type="text" data-k="${k}" value="${esc(p[k] || '')}">` : `<textarea rows="${t === 'p' || t === 'l' ? 4 : 2}" data-k="${k}">${esc(p[k] || '')}</textarea>`}</label>`).join('')}
   <p class="small muted" style="margin:6px 0 0">*itálica* · **negrita** · en listas, una línea por renglón y «negrita | resto».</p>
   ${E ? (conFoto ? `<label>Foto de esta lámina</label>` : '') : conFoto ? `<label>Foto de esta lámina</label>` : `<label>Foto de fondo (opcional: va detrás del texto, con un velo de color)</label><div class="row" style="gap:6px;margin-top:4px"><button type="button" class="btn ghost sm" data-fondo="">${p.fondo_img ? 'Sacar la foto de fondo' : 'Sin foto de fondo ✓'}</button></div>`}
@@ -223,7 +234,7 @@
   ${subirFn ? `<label>Subir una foto nueva<input type="file" accept="image/*" data-subir></label>` : ''}
   <div class="crs-est" aria-live="polite"></div></div></div>`;
       const lz = m.querySelector('.lienzo');
-      const dibujar = () => { lz.innerHTML = htmlPlaca(c, i, lz.clientWidth / M.W); const n = lz.querySelector('.p'); if (n) M.fit(n); };
+      const dibujar = () => { lz.innerHTML = htmlPlaca(c, i, lz.clientWidth / M.W); const n = lz.querySelector('.p'); if (n) ajustar(n); };
       requestAnimationFrame(dibujar);
       const est = (t) => { m.querySelector('.crs-est').textContent = t || ''; };
       m.querySelector('[data-cerrar]').onclick = cerrar;
@@ -270,14 +281,21 @@
   }
   async function montarFull(c, i) {
     const st = document.getElementById('crs-stage'); st.innerHTML = htmlPlaca(c, i, 1); const node = st.querySelector('.p');
-    await document.fonts.ready; M.fit(node); return node;
+    await document.fonts.ready; ajustar(node); return node;
   }
   async function capaFoto(el, H) {
     const im = await cargarImg(el.dataset.src), E = { w: el.offsetWidth || M.W, h: el.offsetHeight || H };
     let dw, dh, x, y;
     if (el.dataset.modo === 'lado') { dh = E.h * 0.88; dw = (im.naturalWidth * dh) / im.naturalHeight; x = (E.w - dw) * 1.75; y = E.h - dh; }
-    else { const s = Math.max(E.w / im.naturalWidth, E.h / im.naturalHeight); dw = im.naturalWidth * s; dh = im.naturalHeight * s; x = (E.w - dw) / 2; y = /center\s*$|^center$|50%\s*50%/.test(el.style.backgroundPosition) ? (E.h - dh) / 2 : 0; }
-    const cv = document.createElement('canvas'); cv.width = E.w; cv.height = E.h; cv.getContext('2d').drawImage(im, x, y, dw, dh);
+    else {
+      const s = Math.max(E.w / im.naturalWidth, E.h / im.naturalHeight); dw = im.naturalWidth * s; dh = im.naturalHeight * s;
+      const m = String(el.style.backgroundPosition || '').match(/(-?[\d.]+)%\s+(-?[\d.]+)%/);
+      if (m) { x = ((E.w - dw) * +m[1]) / 100; y = ((E.h - dh) * +m[2]) / 100; }
+      else { x = (E.w - dw) / 2; y = /center\s*$|^center$|50%\s*50%/.test(el.style.backgroundPosition) ? (E.h - dh) / 2 : 0; }
+    }
+    const cv = document.createElement('canvas'); cv.width = E.w; cv.height = E.h; const g = cv.getContext('2d'); g.drawImage(im, x, y, dw, dh);
+    if (/grayscale/.test(el.style.filter || '')) { const d = g.getImageData(0, 0, E.w, E.h), a = d.data; for (let k = 0; k < a.length; k += 4) { const v = Math.min(255, (0.299 * a[k] + 0.587 * a[k + 1] + 0.114 * a[k + 2] - 128) * 1.04 + 128); a[k] = Math.min(255, v * 1.08); a[k + 1] = v * 0.98; a[k + 2] = v * 0.84; } g.putImageData(d, 0, 0); }
+    if (/border-radius/.test(el.getAttribute('style') || '')) { const rr = parseFloat(getComputedStyle(el).borderTopLeftRadius) || 0, rb = parseFloat(getComputedStyle(el).borderBottomLeftRadius) || 0; if (rr || rb) { const m = document.createElement('canvas'); m.width = E.w; m.height = E.h; const h = m.getContext('2d'); h.beginPath(); h.moveTo(rr, 0); h.lineTo(E.w - rr, 0); h.arcTo(E.w, 0, E.w, rr, rr); h.lineTo(E.w, E.h - rb); h.arcTo(E.w, E.h, E.w - rb, E.h, rb); h.lineTo(rb, E.h); h.arcTo(0, E.h, 0, E.h - rb, rb); h.lineTo(0, rr); h.arcTo(0, 0, rr, 0, rr); h.closePath(); h.clip(); h.drawImage(cv, 0, 0); return { cv: m, x: el.offsetLeft, y: el.offsetTop }; } }
     return { cv, x: el.offsetLeft, y: el.offsetTop };
   }
   async function capaDiseno(node, hijos) {
