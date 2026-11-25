@@ -11,7 +11,7 @@
     lifestyle: { n: 'Lifestyle', fam: 'sangre', resalta: true, velo: 'rgba(63,30,13,.6)', ref: 'foto de fondo, serif con manuscrita y frases resaltadas' },
     revista:   { n: 'Revista', fam: 'sangre', grande: true, italica: true, velo: 'rgba(63,30,13,.6)', ref: 'serif enorme en itálica sobre la foto' },
     collage:   { n: 'Collage', fam: 'collage', bg: K.crema, tit: K.olivo, it: K.cafe, ink: K.negro, numero: true, ref: 'frase arriba, foto abajo, numeración [01]' },
-    duo:       { n: 'Dúo crema y olivo', fam: 'alterna', bg: K.crema, tit: K.olivo, it: K.cafe, ink: K.negro, ref: 'láminas que alternan crema y olivo' },
+    duo:       { n: 'Dúo crema y color', fam: 'alterna', bg: K.crema, tit: K.olivo, it: K.cafe, ink: K.negro, ref: 'láminas que alternan crema y olivo' },
     notas:     { n: 'Notas', fam: 'notas', bg: K.cremaM, tit: K.negro, it: K.cafe, ink: K.negro, ref: 'el texto en una tarjeta tipo nota' },
     tips:      { n: 'Tips', fam: 'esquina', bg: K.cremaM, tit: K.cafe, it: K.cafe, ink: K.negro, ref: 'titular serif grande y foto chica en la esquina' },
     lateral:   { n: 'Foto al costado', fam: 'lateral', bg: K.crema, tit: K.cafe, it: K.olivo, ink: K.negro, ref: 'tu foto al costado y el texto al lado' },
@@ -128,6 +128,10 @@
   }
 
   // ---------- una lámina ----------
+  // El color de la portada (bloque de color o foto enmarcada); el Dúo de adentro alterna con ESE color (Flor, 25/11).
+  const COLORES = { terra: K.terra, cafe: '#8a5a33', olivo: '#5c6b3a' };
+  function claveColor(c) { const p = c.placas[0] || {}; return COLORES[p.color] ? p.color : ['terra', 'cafe', 'olivo'][Math.abs([...String(p.titulo || '')].reduce((a, ch) => a + ch.charCodeAt(0), 0)) % 3]; }
+  function colorPortada(c) { return COLORES[claveColor(c)]; }
   function portada(c, H, foto, url) {
     const p = c.placas[0], tpl = tplDe(c), s = Math.min(1.35, Math.max(0.65, +p.escala || 1));
     const sello = (col, bg) => (p.sello ? `<div style="position:absolute;left:${PAD}px;top:${PAD}px;font-family:'Sans';font-weight:700;font-size:30px;letter-spacing:.16em;text-transform:uppercase;color:${col};background:${bg};padding:12px 24px;border-radius:999px">${esc(p.sello)}</div>` : '');
@@ -138,7 +142,7 @@
       const t = Math.min(libre, Math.round(H - PAD - H * 0.3));
       return `<div class="p" style="height:${H}px;background:${K.bb}">${fotoBg(foto, url, { x: 0, y: 0, w: W, h: H }, alto)}<div class="bg" style="background:linear-gradient(180deg,rgba(0,0,0,0) ${Math.round((t / H) * 100) - 22}%,rgba(63,30,13,.62) ${Math.round((t / H) * 100) + 10}%)"></div>${sello(K.crema, 'rgba(198,140,108,.92)')}${cajaHTML(t, PAD, 'flex-end', hook(K.crema, K.calida, 100))}</div>`;
     }
-    const colorDe = () => { const k = p.color || ['terra', 'cafe', 'olivo'][Math.abs([...String(p.titulo || '')].reduce((a, ch) => a + ch.charCodeAt(0), 0)) % 3]; return { terra: K.terra, cafe: '#8a5a33', olivo: '#5c6b3a' }[k] || K.terra; };
+    const colorDe = () => colorPortada(c);
     // Hook grande en serif bold, el remate en itálica (como el feed de Flor).
     const grande = (col, base, colI) => { const z = tam(base, (p.titulo || '') + ' ' + (p.titulo_i || '')) * s; return `${p.titulo ? `<div data-fs="${z}" style="font-family:'Serif';font-weight:700;font-size:${z}px;line-height:1.06;letter-spacing:-.025em;color:${col}">${md(p.titulo)}</div>` : ''}${p.titulo_i ? `<div data-fs="${z}" style="font-family:'Serif';font-style:italic;font-weight:600;font-size:${z}px;line-height:1.06;letter-spacing:-.02em;color:${colI || col}">${md(p.titulo_i)}</div>` : ''}`; };
     const chico = (txt, col, base, f) => (txt ? `<div data-fs="${base * s}" style="font-family:'${f || 'Sans'}';font-weight:400;font-size:${base * s}px;line-height:1.3;color:${col}">${md(txt)}</div>` : '');
@@ -216,7 +220,8 @@
     } else {
       // Sin foto: el fondo del estilo (crema) o, en los estilos de foto a sangre, un fondo oscuro de la marca.
       if (E.fam === 'sangre') { fondo = i % 2 ? K.cremaM : K.crema; C = { tit: K.cafe, it: K.olivo, ink: K.negro, acc: K.terra, linea: K.terra + '66' }; }
-      if (E.fam === 'alterna' && i % 2 === 1) { fondo = K.olivo; C = { tit: K.crema, it: K.olivoC, ink: K.cremaM, acc: K.terra, linea: K.cremaM + '55' }; oscuro = true; }
+      if (E.fam === 'alterna' && i % 2 === 0) { const t = ['color', 'marco'].includes(tplDe(c)) ? claveColor(c) : 'olivo'; C = { tit: t === 'olivo' ? K.olivo : K.cafe, it: t === 'olivo' ? K.cafe : '#a96f50', ink: K.negro, acc: K.terra, linea: K.terra + '66' }; }
+      if (E.fam === 'alterna' && i % 2 === 1) { const t = ['color', 'marco'].includes(tplDe(c)) ? claveColor(c) : 'olivo'; fondo = COLORES[t]; C = { tit: K.crema, it: t === 'olivo' ? K.olivoC : K.calida, ink: K.cremaM, acc: t === 'terra' ? K.cafe : K.terra, linea: K.cremaM + '55' }; oscuro = true; }
       if (E.fam === 'notas') { tarjeta = true; caja.l = PAD - 20; caja.r = PAD - 20; }
       just = pos === 'arriba' ? 'flex-start' : pos === 'abajo' ? 'flex-end' : 'center';
       centrar = !!E.polaroid;
