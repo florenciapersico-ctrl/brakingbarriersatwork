@@ -76,6 +76,8 @@
 .crs-ctl{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:10px;font-size:13px}
 .crs-ctl>span{font-weight:700;color:#6c6656;min-width:44px}
 .crs-ctl .on{background:#4b5624;border-color:#4b5624;color:#f8f5ee}
+.crs-col{width:26px;height:26px;border-radius:50%;border:2px solid #e6dcc4;cursor:pointer;padding:0}
+.crs-sel{background:#fbf2d0;border-radius:12px;padding:8px}
 .crs-acc{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 .crs-est{font-size:13px;min-height:18px;margin-top:4px;color:#81552e}
 .crs-modal{position:fixed;inset:0;z-index:80;background:rgba(30,26,18,.6);display:flex;align-items:center;justify-content:center;padding:12px}
@@ -105,7 +107,30 @@
     return R[k % R.length];
   }
   // Ajuste de la letra para los estilos: mide el bloque de texto real y achica solo lo necesario (mínimo 60 %).
+  // Edición por elemento (Flor, 25/11: «seleccionar algo de la slide y subirle el tamaño solo a eso, moverlo, cambiarle el color»).
+  function piezasDe(root) {
+    return [...root.querySelectorAll('[data-fs], *')].filter((e) => {
+      if (e.closest('[data-fs]') && !e.hasAttribute('data-fs')) return false;
+      if (!e.hasAttribute('data-fs') && e.children.length) return false;
+      if (e.matches('img,svg,path,.bg')) return false;
+      return (e.textContent || '').trim().length > 0;
+    });
+  }
+  function aplicarEd(root, ed) {
+    const ps = piezasDe(root);
+    Object.entries(ed || {}).forEach(([k, o]) => {
+      const e = ps[+k]; if (!e || !o) return;
+      if (o.s && o.s !== 1) { const z = parseFloat(getComputedStyle(e).fontSize) * o.s; e.style.fontSize = z + 'px'; e.querySelectorAll('[data-fs]').forEach((h) => { h.style.fontSize = parseFloat(getComputedStyle(h).fontSize) * o.s + 'px'; }); }
+      if (o.x || o.y) { if (getComputedStyle(e).position === 'static') e.style.position = 'relative'; e.style.transform = `translate(${o.x || 0}px,${o.y || 0}px)`; }
+      if (o.c) { e.style.color = o.c; e.querySelectorAll('*').forEach((h) => { h.style.color = o.c; }); }
+    });
+  }
   function ajustar(root) {
+    ajustarBase(root);
+    const w = root && root.parentElement;
+    if (w && w.dataset.ed && w.dataset.ed !== '{}') { try { aplicarEd(root, JSON.parse(w.dataset.ed)); } catch (e) { /* sin cambios por elemento */ } }
+  }
+  function ajustarBase(root) {
     if (!root) return;
     const w = root.parentElement;
     if (w && w.dataset.esc && !root.dataset.listo) {
@@ -191,10 +216,11 @@
   }
   function htmlPlaca(c, i, escala) {
     const H = alto(c), p = c.placas[i]; if (!p) return '';
-    if (c.estilo && ES) { const fo = lleva(c, p, i) ? fotoDe(p) : null; return `<div style="transform:scale(${escala});width:${M.W}px;height:${H}px;transform-origin:0 0">${ES.placa(c, i, H, fo, fo ? M.urlDe(fo) : '', M.assets)}</div>`; }
+    const ed = esc(JSON.stringify(p.ed || {}));
+    if (c.estilo && ES) { const fo = lleva(c, p, i) ? fotoDe(p) : null; return `<div data-ed="${ed}" style="transform:scale(${escala});width:${M.W}px;height:${H}px;transform-origin:0 0">${ES.placa(c, i, H, fo, fo ? M.urlDe(fo) : '', M.assets)}</div>`; }
     let forma = c.formato === 'reel' && i === 0 && !p.forma.startsWith('portada_') ? M.RECETAS[c.receta].portadas[0] : p.forma, d = p;
     if (forma === 'texto' && c.formato !== 'reel' && !p.fijo) { const v = vistaTexto(c, i, p); if (v) { forma = v.forma; d = v.d; } }
-    return `<div data-esc="${+p.escala || 1}" data-pos="${p.pos || ''}" style="transform:scale(${escala});width:${M.W}px;height:${H}px;transform-origin:0 0">${M.placa(forma, d, H, c.receta, fotoDe(p), p.fondo_img ? M.catalogo.find((e) => e.archivo === p.fondo_img) || null : null)}</div>`;
+    return `<div data-ed="${ed}" data-esc="${+p.escala || 1}" data-pos="${p.pos || ''}" style="transform:scale(${escala});width:${M.W}px;height:${H}px;transform-origin:0 0">${M.placa(forma, d, H, c.receta, fotoDe(p), p.fondo_img ? M.catalogo.find((e) => e.archivo === p.fondo_img) || null : null)}</div>`;
   }
 
   /* ---------- la tarjeta dentro de cada pieza ---------- */
@@ -342,6 +368,7 @@
   /* ---------- editor: una lámina grande + sus textos + elegir o subir foto ---------- */
   function editor(f, i, alCerrar) {
     const c = f.carrusel, vis = visibles(c);
+    let sel = null; // { i, idx } el texto tocado en la lámina
     const m = document.createElement('div'); m.className = 'crs-modal'; m.setAttribute('role', 'dialog'); m.setAttribute('aria-modal', 'true');
     document.body.appendChild(m);
     const cerrar = () => { m.remove(); document.removeEventListener('keydown', tecla); alCerrar && alCerrar(); };
@@ -357,9 +384,11 @@
       m.innerHTML = `<div class="cm"><div><div class="lienzo" style="aspect-ratio:1080/${alto(c)}"></div>
   <div class="nav"><button type="button" class="btn ghost sm" data-ant ${i <= 0 ? 'disabled' : ''}>← Anterior</button><span class="small">Lámina ${i + 1} de ${vis.length} · tocá el texto para editarlo</span><button type="button" class="btn ghost sm" data-sig ${i >= vis.length - 1 ? 'disabled' : ''}>Siguiente →</button></div></div>
 <div><div class="row between"><h3 style="margin:0">${esc(F.n)}</h3><button type="button" class="btn ghost sm" data-cerrar>Listo</button></div>
+  <div class="crs-ctl crs-sel"${sel && sel.i === i ? '' : ' hidden'}><span>Lo que tocaste</span><button type="button" class="btn ghost sm" data-ted="s-" aria-label="Más chico">A−</button><button type="button" class="btn ghost sm" data-ted="s+" aria-label="Más grande">A+</button><button type="button" class="btn ghost sm" data-ted="u" aria-label="Subir">↑</button><button type="button" class="btn ghost sm" data-ted="d" aria-label="Bajar">↓</button><button type="button" class="btn ghost sm" data-ted="l" aria-label="A la izquierda">←</button><button type="button" class="btn ghost sm" data-ted="r" aria-label="A la derecha">→</button>${[['#4b5624', 'Olivo'], ['#81552e', 'Café'], ['#3f1e0d', 'Café oscuro'], ['#c68c6c', 'Terracota'], ['#f8f5ee', 'Crema'], ['#1f1c17', 'Negro']].map(([h, n]) => `<button type="button" class="crs-col" data-ted="c:${h}" title="${n}" aria-label="Letra ${n}" style="background:${h}"></button>`).join('')}<button type="button" class="btn ghost sm" data-ted="x">Como estaba</button></div>
+  <p class="small muted" style="margin:4px 0 0">Tocá un texto para escribir; arrastralo para moverlo a donde quieras; con la barra, agrandalo o cambiale el color.</p>
   <label>Tipo de lámina<select data-forma>${formas.map((k) => `<option value="${k}"${k === p.forma ? ' selected' : ''}>${esc(defs(k, c).n)}</option>`).join('')}</select></label>
   <div class="crs-ctl"><span>Letra</span><button type="button" class="btn ghost sm" data-esc="-0.1" aria-label="Letra más chica">A−</button><b>${pct}%</b><button type="button" class="btn ghost sm" data-esc="0.1" aria-label="Letra más grande">A+</button></div>
-  <div class="crs-ctl"><span>Texto</span>${[['arriba', 'Arriba'], ['centro', 'Centro'], ['abajo', 'Abajo']].map(([k, n]) => `<button type="button" class="btn ghost sm${posA === k ? ' on' : ''}" data-pos="${k}">${n}</button>`).join('')}</div>
+  
   ${E ? (p.forma === 'portada' ? `<div class="crs-ctl"><span>Portada</span>${Object.entries(ES.PORTADAS).map(([k, n]) => `<button type="button" class="btn ghost sm${ES.tplDe(c) === k ? ' on' : ''}" data-tpl="${k}" title="${esc(n)}">${k} · ${esc(n)}</button>`).join('')}</div>` : `<div class="crs-ctl"><span>Foto</span><button type="button" class="btn ghost sm${conFoto ? ' on' : ''}" data-confoto="1">Con foto</button><button type="button" class="btn ghost sm${conFoto ? '' : ' on'}" data-confoto="0">Sin foto</button></div>`) : ''}
   ${F.c.map(([k, et, t]) => `<label>${esc(et)}${t === 't' ? `<input type="text" data-k="${k}" value="${esc(p[k] || '')}">` : `<textarea rows="${t === 'p' || t === 'l' ? 4 : 2}" data-k="${k}">${esc(p[k] || '')}</textarea>`}</label>`).join('')}
   <p class="small muted" style="margin:6px 0 0">*itálica* · **negrita** · en listas, una línea por renglón y «negrita | resto».</p>
@@ -371,7 +400,33 @@
       const dibujar = () => {
         lz.innerHTML = htmlPlaca(c, i, lz.clientWidth / M.W); const n = lz.querySelector('.p'); if (n) ajustar(n);
         editable(lz, p, F.c.map((x) => x[0]), (k) => { const t = m.querySelector(`[data-k="${k}"]`); if (t) t.value = p[k]; dibujar(); clearTimeout(timer); timer = setTimeout(() => guardar(f, est), 300); });
+        if (n) piezasDe(n).forEach((e, idx) => {
+          if (sel && sel.i === i && sel.idx === idx) e.style.outline = '8px dashed #c68c6c';
+          e.style.cursor = 'pointer';
+          // Tocar = seleccionar (y escribir); arrastrar = moverlo a donde quieras.
+          e.addEventListener('pointerdown', (ev) => {
+            sel = { i, idx }; piezasDe(n).forEach((x) => { x.style.outline = ''; }); e.style.outline = '8px dashed #c68c6c'; const bar = m.querySelector('.crs-sel'); if (bar) bar.hidden = false;
+            const k = lz.clientWidth / M.W, o0 = (p.ed && p.ed[idx]) || {}, x0 = o0.x || 0, y0 = o0.y || 0, sx = ev.clientX, sy = ev.clientY; let mov = false;
+            if (getComputedStyle(e).position === 'static') e.style.position = 'relative';
+            const mv = (v) => { const dx = (v.clientX - sx) / k, dy = (v.clientY - sy) / k; if (!mov && Math.hypot(v.clientX - sx, v.clientY - sy) < 6) return; if (!mov) { mov = true; e.blur(); const sl = window.getSelection(); if (sl) sl.removeAllRanges(); } v.preventDefault(); e.style.transform = `translate(${x0 + dx}px,${y0 + dy}px)`; };
+            const up = (v) => { document.removeEventListener('pointermove', mv); document.removeEventListener('pointerup', up); if (!mov) return; p.ed = p.ed || {}; const o = (p.ed[idx] = p.ed[idx] || {}); o.x = Math.round(x0 + (v.clientX - sx) / k); o.y = Math.round(y0 + (v.clientY - sy) / k); dibujar(); clearTimeout(timer); timer = setTimeout(() => guardar(f, est), 400); };
+            document.addEventListener('pointermove', mv); document.addEventListener('pointerup', up);
+          });
+          e.style.touchAction = 'none';
+        });
       };
+      $$('[data-ted]', m).forEach((b) => (b.onmousedown = (ev) => ev.preventDefault()));
+      $$('[data-ted]', m).forEach((b) => (b.onclick = () => {
+        if (!sel || sel.i !== i) return;
+        const a = b.dataset.ted; p.ed = p.ed || {}; const o = (p.ed[sel.idx] = p.ed[sel.idx] || {});
+        if (a === 's+') o.s = Math.round(Math.min(3, (o.s || 1) * 1.1) * 100) / 100;
+        else if (a === 's-') o.s = Math.round(Math.max(0.3, (o.s || 1) / 1.1) * 100) / 100;
+        else if (a === 'u') o.y = (o.y || 0) - 24; else if (a === 'd') o.y = (o.y || 0) + 24;
+        else if (a === 'l') o.x = (o.x || 0) - 24; else if (a === 'r') o.x = (o.x || 0) + 24;
+        else if (a.startsWith('c:')) o.c = a.slice(2);
+        else if (a === 'x') delete p.ed[sel.idx];
+        dibujar(); clearTimeout(timer); timer = setTimeout(() => guardar(f, est), 400);
+      }));
       requestAnimationFrame(dibujar);
       const est = (t) => { m.querySelector('.crs-est').textContent = t || ''; };
       m.querySelector('[data-cerrar]').onclick = cerrar;
