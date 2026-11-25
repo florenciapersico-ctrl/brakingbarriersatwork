@@ -609,7 +609,8 @@ ${(x.weeklies || []).filter((e: any) => e.semana < imp.semana).slice(0, 3).map((
     const r = await ia().messages.create({
       model: MODEL,
       max_tokens: 16000,
-      output_config: { effort: opts.rapido ? "medium" : "high" },
+      // Con varias entregas el razonamiento «alto» se comía los 16.000 tokens y no escribía nada (25/11): medio, y bajo en el reintento.
+      output_config: { effort: opts.rapido ? "low" : hermanos.length ? "medium" : "high" },
       system: [{ type: "text", text: sist + "\n\n" + prog, cache_control: { type: "ephemeral" } }, { type: "text", text: METODO_BORRADOR + "\n\n" + ENTREGAS + (conApp ? "" : "\n\n" + SIN_APP) + (hoyClase ? "\n\n" + hoyClase : "") }],
       messages: [{ role: "user", content: adjuntos.length ? [...adjuntos, { type: "text", text: `${ctx}\n\n${material}` }] : `${ctx}\n\n${material}` }],
     // deno-lint-ignore no-explicit-any
@@ -725,7 +726,7 @@ Deno.serve(async (req) => {
       } catch (e) {
         const m = String((e as Error).message);
         console.error("paso 2", m);
-        if (!q.rapido && /time|abort/i.test(m)) { try { await pedirPaso2({ ...q, rapido: true }); return; } catch (_e) { /* sigue abajo */ } }
+        if (!q.rapido && /time|abort|max_tokens/i.test(m)) { try { await pedirPaso2({ ...q, rapido: true }); return; } catch (_e) { /* sigue abajo */ } }
         await marcarFalla(admin, id, q.grupo, mensajeIA(m)).catch(() => {});
       }
     })();
