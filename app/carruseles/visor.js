@@ -596,5 +596,21 @@ ${c.estilo ? '' : `<div class="crs-ctl" style="margin:0 0 8px"><span>Letra de lo
     pintarMinis();
     for (const f of cambiadas) await guardar(f); // la primera vez que se ve una pieza, sus fotos quedan fijas
   }
-  window.Carruseles = { pintar, llave, minis: () => pintarMinis() };
+  // Desde el auditor: poner un hook en la portada o reescribir una lámina, y guardar (Flor, 25/11).
+  async function aplicarAud(key, i, campos) {
+    const f = FILAS[key]; if (!f || !f.carrusel || !f.carrusel.placas) return false;
+    const c = f.carrusel, p = c.placas[i]; if (!p) return false;
+    if (i === 0) {
+      const h = { pre: '', t: campos.titulo || '', ti: campos.titulo_i || '' };
+      if (c.estilo) Object.assign(p, { pre: '', titulo: h.t, titulo_i: h.ti });
+      else { const n = portadaArmada(p.forma, p, h, { foto: p.foto, _foto: p._foto, forma: p.forma }); c.placas[0] = Object.assign(n, { _hook: h }); c.placas[0]._firma = firma(c.placas[0]); }
+    } else {
+      const base = { foto: p.foto, _foto: p._foto, escala: p.escala, ed: p.ed, extra: p.extra };
+      c.placas[i] = Object.assign(base, { forma: 'texto', titulo: campos.titulo || '', titulo_i: campos.titulo_i || '', cuerpo: campos.cuerpo || '' });
+    }
+    const el = document.querySelector(`[data-crs="${key.replace(/"/g, '\\"')}"]`); if (el) pintarUno(el);
+    await guardar(f, () => {});
+    return true;
+  }
+  window.Carruseles = { pintar, llave, minis: () => pintarMinis(), aplicarAud };
 })();

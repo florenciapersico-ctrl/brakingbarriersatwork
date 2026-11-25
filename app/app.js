@@ -1978,6 +1978,7 @@ ${String(r.texto || '').replace(/^\s*[¡!]?\s*hola[^\n]*\n/i, '')}`;
       const [hd, b, res, wins, semC] = await Promise.all([DB.hoyFlor ? DB.hoyFlor(hoyI).catch(() => []) : [], cargarBandeja().catch(() => null), DB.todosResumenes ? DB.todosResumenes().catch(() => []) : [], DB.winsComunidad().catch(() => []), DB.contenidoRango ? DB.contenidoRango(lun, finSig).catch(() => []) : []]);
       st._semC = semC || [];
       st._pub = DB.publicados ? await DB.publicados().catch(() => []) : [];
+      st._hooks = DB.hooksValidados ? await DB.hooksValidados().catch(() => []) : [];
       // Archivo: el mes que se está mirando (0 = este mes).
       st._cMes = st._cMes || 0;
       const mB = new Date(); mB.setDate(1); mB.setMonth(mB.getMonth() + st._cMes);
@@ -2037,6 +2038,31 @@ ${contenidoApp(hoyI, lun)}
       const lun = DB.lunes();
       // Carruseles diseñados dentro de la app (Flor, 25/11): las 4 recetas del estudio, sus fotos y su marca.
       if (window.Carruseles && DB.guardarCarrusel) DB.fotosCarrusel().catch(() => []).then((fotos) => window.Carruseles.pintar(document, [...(st._hoyD || []), ...(st._semC || []), ...(st._mesC || [])], { guardar: DB.guardarCarrusel, subir: DB.subirFotoCarrusel, fotos }));
+      // Auditor con el criterio de Ann: diagnóstico, hooks del banco validado y láminas reescritas, con un toque para aplicar.
+      $$('[data-audir]').forEach((b) => (b.onclick = async () => {
+        const sec = b.closest('[data-aud]'), res = $('.aud-res', sec), clave = sec.dataset.aud, fecha = sec.dataset.audf, key = clave + '|' + fecha;
+        b.disabled = true; b.textContent = 'Auditando con el criterio de Ann… (puede tardar un minuto)'; res.innerHTML = '';
+        try {
+          const r = await DB.auditar({ clave, fecha, pedido: $('.aud-pedido', sec).value.trim() });
+          const a = (r && r.auditoria) || {};
+          const li = (xs) => (xs || []).map((t) => `<li>${esc(t)}</li>`).join('');
+          res.innerHTML = `<div class="aud-diag"><p><b>${esc(a.clasificacion || '')}</b> · <b>${esc(a.puntaje || '')}/10</b></p>
+            ${a.funciona && a.funciona.length ? `<p class="small"><b>Lo que ya funciona</b></p><ul class="small">${li(a.funciona)}</ul>` : ''}
+            <p class="small"><b>El verdadero problema:</b> ${esc(a.problema || '')}</p><p class="small"><b>Dónde:</b> ${esc(a.donde || '')}</p>
+            ${a.por_que && a.por_que.length ? `<ul class="small">${li(a.por_que)}</ul>` : ''}
+            <p class="small"><b>El cambio:</b> ${esc(a.cambio || '')}</p></div>
+          <p class="hab-sec">Hooks del banco validado</p>
+          ${(a.hooks || []).map((h, i) => `<div class="aud-hook"><p class="aud-ht"><b>${esc(h.titulo || '')}</b> <i>${esc(h.titulo_i || '')}</i></p><p class="small muted">${esc(h.por_que || '')}${h.modelado_de ? `<br>Modelado de @${esc(h.modelado_de.cuenta || '')}: «${esc(h.modelado_de.hook || '')}»${h.modelado_de.link ? ` · <a href="${esc(h.modelado_de.link)}" target="_blank" rel="noopener">ver</a>` : ''}` : ''}</p><button type="button" class="btn ghost sm" data-audhook="${i}">Usar este hook en la portada</button></div>`).join('')}
+          ${(a.laminas || []).length ? `<p class="hab-sec">Láminas que más frenan, reescritas</p>${a.laminas.map((l, i) => `<div class="aud-hook"><p class="small"><b>Lámina ${esc(l.n)}</b> · ${esc(l.por_que || '')}</p><p class="aud-ht"><b>${esc(l.titulo || '')}</b> <i>${esc(l.titulo_i || '')}</i>${l.cuerpo ? `<br><span class="small">${esc(l.cuerpo)}</span>` : ''}</p><button type="button" class="btn ghost sm" data-audlam="${i}">Aplicar en la lámina ${esc(l.n)}</button></div>`).join('')}` : ''}
+          ${a.cta ? `<p class="small"><b>CTA propuesto:</b> ${esc(a.cta)}</p>` : ''}
+          ${a.proximo_paso ? `<p class="small"><b>Tu próximo paso:</b> ${esc(a.proximo_paso)}</p>` : ''}
+          <p class="small muted aud-est"></p>`;
+          const est = (t) => { const e = $('.aud-est', res); if (e) e.textContent = t; };
+          $$('[data-audhook]', res).forEach((x) => (x.onclick = async () => { const h = a.hooks[+x.dataset.audhook]; const okA = window.Carruseles && (await window.Carruseles.aplicarAud(key, 0, h)); est(okA ? 'Listo: el hook quedó en la portada y se guardó.' : 'Esta pieza todavía no tiene diseño: armalo primero.'); }));
+          $$('[data-audlam]', res).forEach((x) => (x.onclick = async () => { const l = a.laminas[+x.dataset.audlam]; const okA = window.Carruseles && (await window.Carruseles.aplicarAud(key, Math.max(0, (+l.n || 1) - 1), l)); est(okA ? `Listo: la lámina ${l.n} quedó reescrita y se guardó.` : 'No encontré esa lámina en el diseño.'); }));
+        } catch (er) { res.innerHTML = `<p class="small" style="color:#a3402a">${esc(er.message)}</p>`; }
+        b.disabled = false; b.textContent = 'Auditar de nuevo';
+      }));
       // Calendario: pestañas, día elegido y meses del archivo (sin recargar todo).
       $$('[data-ctab]').forEach((b) => (b.onclick = () => {
         st._cTab = b.dataset.ctab;
@@ -2452,6 +2478,7 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
   ${insignias}
   ${og && og.original ? `<p class="small muted pz-orig">Hook original: «${esc(og.original)}»</p>` : ''}
   ${cuerpo}
+  ${(fm === 'Reel' || fm === 'Carrusel') && /^pieza:/.test(clave) ? `<section class="aud" data-aud="${esc(clave)}" data-audf="${esc(f)}"><p class="hab-sec">🧭 Auditar con el criterio de Ann</p><p class="small muted" style="margin:0 0 6px">Lo revisa con tu skill de Auditoría de Contenido y te propone hooks modelados sobre tu banco de hooks validados. Vos elegís qué aplicar.</p><textarea class="aud-pedido" rows="2" placeholder="¿Querés que mire algo en especial? (opcional) Ej.: el hook está flojo, hacelo de demanda"></textarea><div class="row" style="gap:8px;margin-top:6px"><button type="button" class="btn sm" data-audir>Auditar y proponer hooks</button></div><div class="aud-res" aria-live="polite"></div></section>` : ''}
   ${fm === 'Reel' || fm === 'Carrusel' ? cEdit('Caption', 'caption', x.texto, x, false) : ''}
   ${fm === 'Reel' || fm === 'Carrusel' ? cEdit('Historias del día', 'historias', hist, x, false) : ''}
   ${x.detalle ? `<details class="pz-bloque"><summary>De dónde sale y qué confirmar</summary><p class="small">${esc(x.detalle)}</p></details>` : ''}
@@ -2542,14 +2569,21 @@ ${publicadosHTML(pub.filter((x) => x.fecha >= mesIni && x.fecha <= mesFin).rever
     return `<section class="card"><h2>Tu feed</h2><p class="muted small" style="margin:4px 0 12px">Así se ve tu perfil con lo que viene: lo más nuevo arriba a la izquierda, como en Instagram. Si dos portadas seguidas se parecen, cambiale el diseño a una desde su día.</p>
   ${L.length ? `<div class="feed-g">${L.map(tile).join('')}</div>` : '<p class="muted small">Todavía no hay piezas cargadas.</p>'}</section>`;
   }
+  // Banco de hooks validados (Flor, 25/11: «tenemos que usar lo que ya sabemos que funciona»).
+  function cHooks() {
+    const H = st._hooks || [];
+    return `<section class="card"><h2>Hooks validados</h2><p class="muted small" style="margin:4px 0 12px">Outliers de tus referentes y tuyos: posteos que hicieron 2 veces o más lo normal de su cuenta. De acá salen los hooks de tus posteos y los que te propone el auditor. Se actualiza cada domingo con tu hoja de Notion de Smart Scale.</p>
+  ${H.length ? `<div class="hk-lista">${H.map((h) => `<div class="hk"><p class="hk-t">«${esc(h.hook)}»</p><p class="small muted">@${esc(h.cuenta)} · ${esc(h.formato || '')} · ${esc(h.metrica || '')}${h.veces ? ` · ${h.veces}x su mediana` : ''}${h.link ? ` · <a href="${esc(h.link)}" target="_blank" rel="noopener">ver posteo</a>` : ''}</p></div>`).join('')}</div>` : '<p class="muted small">Todavía no hay hooks cargados.</p>'}</section>`;
+  }
   function contenidoApp(hoyI, lun) {
     const tab = st._cTab || '0';
     const lun2 = (() => { const d = new Date(lun + 'T12:00:00'); d.setDate(d.getDate() + 7); return diaISO(d); })();
     const tb = (k, t) => `<button type="button" role="tab" class="c-tab${tab === k ? ' on' : ''}" data-ctab="${k}" aria-selected="${tab === k}">${t}</button>`;
-    return `<div class="c-tabs" role="tablist">${tb('0', 'Esta semana')}${tb('1', 'La que viene')}${tb('feed', 'Tu feed')}${tb('arch', 'Archivo')}</div>
+    return `<div class="c-tabs" role="tablist">${tb('0', 'Esta semana')}${tb('1', 'La que viene')}${tb('feed', 'Tu feed')}${tb('hooks', 'Hooks validados')}${tb('arch', 'Archivo')}</div>
 <div data-ctabp="0"${tab === '0' ? '' : ' hidden'}>${cSemana(st._semC, lun, 0, hoyI)}</div>
 <div data-ctabp="1"${tab === '1' ? '' : ' hidden'}>${cSemana(st._semC, lun2, 1, hoyI)}</div>
 <div data-ctabp="feed"${tab === 'feed' ? '' : ' hidden'}>${cFeed(hoyI)}</div>
+<div data-ctabp="hooks"${tab === 'hooks' ? '' : ' hidden'}>${cHooks()}</div>
 <div data-ctabp="arch"${tab === 'arch' ? '' : ' hidden'}>${cArchivo(st._mesC, st._pub, st._mesIni, hoyI)}</div>`;
   }
   // Lo que ya publicaste (Flor, 25/11: «un lugar donde ir ordenando las publicaciones con el link directo a mi Instagram»).

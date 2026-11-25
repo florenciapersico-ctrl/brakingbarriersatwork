@@ -33,8 +33,8 @@
       }
       return s.access_token;
     }
-    async function llamar(body) {
-      const ir = async (t) => fetch(fn, { method: 'POST', headers: { 'Content-Type': 'application/json', apikey: cfg.SUPABASE_ANON_KEY, Authorization: 'Bearer ' + t }, body: JSON.stringify(body) });
+    async function llamar(body, url) {
+      const ir = async (t) => fetch(url || fn, { method: 'POST', headers: { 'Content-Type': 'application/json', apikey: cfg.SUPABASE_ANON_KEY, Authorization: 'Bearer ' + t }, body: JSON.stringify(body) });
       let r = await ir(await token());
       if (r.status === 401) {
         const t = await token(true);
@@ -225,6 +225,13 @@
       async ficha(a) { const { data } = await sb.from('fichas').select('texto').eq('alumna_id', a).maybeSingle(); return (data && data.texto) || ''; },
       async guardarFicha(a, texto) { ok(await sb.from('fichas').upsert({ alumna_id: a, texto, actualizado: new Date().toISOString() })); },
       async guardarPrograma(c) { ok(await sb.from('programa').update(c).eq('id', 1)); },
+      // Auditor con el criterio de Ann (función «auditor»), y el banco de hooks validados (Flor, 25/11).
+      async auditar(q) {
+        const r = await llamar(q, cfg.SUPABASE_URL.replace(/\/$/, '') + '/functions/v1/auditor');
+        if (!r.ok) throw new Error(await errorDe(r));
+        return r.json();
+      },
+      async hooksValidados() { return ok(await sb.from('hooks_validados').select('cuenta,hook,formato,metrica,veces,link,fecha').order('veces', { ascending: false, nullsFirst: false }).limit(200)); },
       async borrador(q) {
         const r = await llamar({ modo: 'borrador', ...q });
         if (!r.ok) throw new Error(await errorDe(r));
@@ -437,6 +444,8 @@
       async actualizarPatron(pid, c) { Object.assign(S.patrones.find((x) => x.id === pid), c); save(); },
       async borrarPatron(pid) { S.patrones = S.patrones.filter((x) => x.id !== pid); save(); },
       async guardarPrograma(c) { Object.assign(S.programa, c); save(); },
+      async auditar() { await espera(600); return { ok: true, auditoria: { puntaje: 6, clasificacion: 'Brecha', funciona: ['(Demo) El caso real con escena.'], problema: '(Demo) El hook habla del caso, no de tu clienta.', donde: 'Lámina 1', por_que: ['No se reconoce en la portada.'], cambio: '(Demo) Subí a la portada la contradicción que vive ella.', hooks: [{ titulo: 'Tu trabajo ya es referencia.', titulo_i: 'Explicarlo en inglés te da más miedo.', por_que: 'Nombra su contradicción.', modelado_de: { cuenta: 'sofisandovalenglishcoach', hook: 'Tenés años de experiencia… y arrancás con un Sorry for my English.', link: 'https://www.instagram.com/p/DfshQOiBzpV/' } }], laminas: [], cta: '', proximo_paso: '(Demo) Cambiá el hook.' } }; },
+      async hooksValidados() { return [{ cuenta: 'inglescon_neil', hook: '(Demo) Cometiste un error en el trabajo... y tu disculpa en inglés lo empeoró.', formato: 'carrusel', metrica: '228 likes', veces: 2.5, link: 'https://www.instagram.com/p/DfsKcyalRt3/' }]; },
       async borrador() { await espera(400); return { respuesta: '(Demo) Acá aparece el borrador que arma la IA con tu voz y tu criterio. Lo editas y lo envías.', correcciones: [{ mal: 'if is possible', bien: 'if it is possible' }, { mal: 'we dont have', bien: "we don't have" }], foco: 'Ordenar tu update antes de hablar', foco_texto: 'Tu mensaje se pierde cuando arrancas por el detalle.', tareas: [{ texto: 'Ver M2 · The Message Map', donde: 'Módulo 2' }], notas: '(Demo) Notas para ti.' }; },
       async ficha(a) { return (S.fichas || {})[a] || ''; },
       async guardarFicha(a, t) { (S.fichas = S.fichas || {})[a] = t; save(); },
