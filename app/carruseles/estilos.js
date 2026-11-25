@@ -146,11 +146,11 @@
     const ci = (inner, gap) => `<div class="ci" style="display:flex;flex-direction:column;gap:${(gap || 18) * s}px">${inner}</div>`;
     if (tpl === 'color') {
       const bg = colorDe();
-      const et = p.pre ? `<div><span data-fs="${40 * s}" style="font-family:'Sans';font-weight:700;font-size:${40 * s}px;line-height:1.5;color:${bg};background:${K.crema};padding:6px 16px;-webkit-box-decoration-break:clone;box-decoration-break:clone">${md(p.pre)}</span></div>` : '';
+      const et = p.pre ? `<div><span data-fs="${48 * s}" style="font-family:'Sans';font-weight:700;font-size:${48 * s}px;line-height:1.5;color:${bg};background:${K.crema};padding:6px 16px;-webkit-box-decoration-break:clone;box-decoration-break:clone">${md(p.pre)}</span></div>` : '';
       return `<div class="p" style="height:${H}px;background:${bg}">${cajaHTML(PAD + 40, PAD + 80, 'center', ci(et + grande(K.crema, 112), 26))}${abajo(bg, K.crema)}</div>`;
     }
     if (tpl === 'crema' || !foto) {
-      return `<div class="p" style="height:${H}px;background:${K.crema}">${cajaHTML(PAD + 40, PAD + 80, 'center', ci(chico(p.pre, '#9a7a5c', 54, 'Serif') + grande(K.cafe, 116), 26))}${abajo(K.crema, K.cafe)}</div>`;
+      return `<div class="p" style="height:${H}px;background:${K.crema}">${cajaHTML(PAD + 40, PAD + 80, 'center', ci(chico(p.pre, '#9a7a5c', 70, 'Serif') + grande(K.cafe, 116), 26))}${abajo(K.crema, K.cafe)}</div>`;
     }
     if (tpl === 'etiquetas') {
       const alto = 0.26, libre = Math.max(Math.round(H * 0.5), Math.round(caraAbajo(foto, W, H, alto) + 30)), t = Math.min(libre, Math.round(H - PAD - H * 0.32));
@@ -162,11 +162,11 @@
     if (tpl === 'recorte') {
       const rec = 'carruseles/recortes/' + String(foto.archivo).replace(/\.jpg$/, '.webp');
       const cut = foto.tiene_recorte ? `<div class="bg" data-foto="${esc(foto.archivo)}" data-modo="contain-br" data-src="${rec}" style="left:${Math.round(W * 0.26)}px;top:${Math.round(H * 0.24)}px;width:${Math.round(W * 0.74)}px;height:${Math.round(H * 0.76)}px;right:auto;bottom:auto;background-image:url('${rec}');background-size:contain;background-repeat:no-repeat;background-position:right bottom"></div>` : fotoBg(foto, url, { x: Math.round(W * 0.42), y: Math.round(H * 0.46), w: Math.round(W * 0.58) - PAD, h: Math.round(H * 0.54) - PAD }, 0.4, 'border-radius:200px 200px 16px 16px');
-      return `<div class="p" style="height:${H}px;background:${K.cremaM}">${cut}<div class="caja" style="left:${PAD}px;right:${Math.round(W * 0.36)}px;top:${PAD + 30}px;bottom:${Math.round(H * 0.3)}px;justify-content:flex-start;text-align:left">${ci(chico(p.pre, '#9a7a5c', 42, 'Sans') + grande(K.cafe, 96), 20)}</div>${abajo(K.crema, K.cafe)}</div>`;
+      return `<div class="p" style="height:${H}px;background:${K.cremaM}">${cut}<div class="caja" style="left:${PAD}px;right:${Math.round(W * 0.36)}px;top:${PAD + 30}px;bottom:${Math.round(H * 0.3)}px;justify-content:flex-start;text-align:left">${ci(chico(p.pre, '#9a7a5c', 54, 'Sans') + grande(K.cafe, 96), 20)}</div>${abajo(K.crema, K.cafe)}</div>`;
     }
     // marco: foto enmarcada arriba dentro de un bloque de color, el hook abajo.
     const bg = colorDe(), hF = Math.round(H * 0.47);
-    return `<div class="p" style="height:${H}px;background:${bg}">${fotoBg(foto, url, { x: PAD, y: PAD, w: W - PAD * 2, h: hF }, 0.45, 'border-radius:6px')}${cajaHTML(PAD + hF + 50, PAD + 40, 'flex-start', ci(chico(p.pre, K.cremaM, 42, 'Sans') + grande(K.crema, 100), 16))}</div>`;
+    return `<div class="p" style="height:${H}px;background:${bg}">${fotoBg(foto, url, { x: PAD, y: PAD, w: W - PAD * 2, h: hF }, 0.45, 'border-radius:6px')}${cajaHTML(PAD + hF + 50, PAD + 40, 'flex-start', ci(chico(p.pre, K.cremaM, 54, 'Sans') + grande(K.crema, 100), 16))}</div>`;
   }
   function placa(c, i, H, foto, url, assets) {
     if (i === 0 && c.placas[0] && c.placas[0].forma === 'portada') return portada(c, H, llevaFoto(c, c.placas[0], 0) ? foto : null, url);

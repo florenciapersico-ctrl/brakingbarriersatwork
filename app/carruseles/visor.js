@@ -23,7 +23,7 @@
     if (listo) return listo;
     listo = (async () => {
       await script(BASE + 'motor.js?v=1');
-      await script(BASE + 'estilos.js?v=16');
+      await script(BASE + 'estilos.js?v=17');
       M = window.Motor; ES = window.Estilos;
       const [cat, fcss, pinc, lo, lc] = await Promise.all([
         fetch(BASE + 'catalogo.json?v=2').then((r) => r.json()), Promise.all([fetch(BASE + 'marca/fuentes.css').then((r) => r.text()), fetch(BASE + 'marca/script.css?v=1').then((r) => (r.ok ? r.text() : '')).catch(() => '')]).then((x) => x.join('\n')),
