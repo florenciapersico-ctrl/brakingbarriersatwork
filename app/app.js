@@ -229,7 +229,8 @@
     // En el celular, lo primero es Mi semana (Flor, 20/11). Flor AI sigue entre las primeras para que se vea.
     const ORDEN = ['bandeja', 'semana', 'myday', 'flor', 'alumnas', 'feedback', 'weekly', 'camino'];
     const rank = (id) => { const i = ORDEN.indexOf(id); return i < 0 ? 99 : i; };
-    if (esFlor()) return MENU_FLOR.slice(0, tab ? 5 : MENU_FLOR.length).map(it).join('') + (tab ? '' : '<div class="sep">Tus alumnas</div><a href="?demo#semana" target="_blank" rel="noopener">' + svg('alumnas') + '<span>Ver la app como alumna</span></a>');
+    // En el celular, Contenido va tercero y se ven todas las secciones deslizando el menú (Flor, 25/11: «desde el celular no veo Contenido»).
+    if (esFlor()) return (tab ? [...MENU_FLOR.filter(([id]) => ['inicio', 'bandeja', 'contenido'].includes(id)).sort((a, b) => ['inicio', 'bandeja', 'contenido'].indexOf(a[0]) - ['inicio', 'bandeja', 'contenido'].indexOf(b[0])), ...MENU_FLOR.filter(([id]) => !['inicio', 'bandeja', 'contenido'].includes(id))] : MENU_FLOR).map(it).join('') + (tab ? '' : '<div class="sep">Tus alumnas</div><a href="?demo#semana" target="_blank" rel="noopener">' + svg('alumnas') + '<span>Ver la app como alumna</span></a>');
     if (tab) return (st.admin && !DB.demo ? ADMIN.concat(VISTAS) : VISTAS).filter(vistaOk).sort((a, b) => rank(a[0]) - rank(b[0])).map(it).join('');
     return GRUPOS.map(([g, vs]) => '<div class="sep">' + g + '</div>' + vs.filter(vistaOk).map(it).join('')).join('') + (st.admin ? '<div class="sep">Panel de Flor</div>' + ADMIN.map(it).join('') : '');
   }
