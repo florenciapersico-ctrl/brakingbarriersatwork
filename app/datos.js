@@ -145,6 +145,17 @@
       async contenidoRango(desde, hasta) {
         return ok(await sb.from('hoy_flor').select('*').gte('fecha', desde).lte('fecha', hasta).or('clave.like.pieza:%,clave.like.historias:%,clave.like.youtube:%').order('fecha').order('orden'));
       },
+      // Carruseles (Flor, 25/11): el diseño de cada pieza vive en hoy_flor.carrusel; las fotos nuevas, en el bucket público 'carruseles'.
+      async guardarCarrusel(fecha, clave, carrusel) { ok(await sb.from('hoy_flor').update({ carrusel, actualizado: new Date().toISOString() }).eq('fecha', fecha).eq('clave', clave).select('clave')); },
+      async fotosCarrusel() { return ok(await sb.from('fotos_carrusel').select('*').eq('excluir', false).order('creado')); },
+      async subirFotoCarrusel(blob, nombre, ancho, alto) {
+        const archivo = 'subida-' + Date.now() + '-' + (String(nombre || 'foto').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\.[a-z0-9]+$/, '').replace(/[^a-z0-9]+/g, '-').slice(0, 40) || 'foto') + '.jpg';
+        ok(await sb.storage.from('carruseles').upload(archivo, blob, { contentType: 'image/jpeg' }));
+        const url = sb.storage.from('carruseles').getPublicUrl(archivo).data.publicUrl;
+        const meta = { archivo, url, tipo: 'persona', ancho, alto };
+        ok(await sb.from('fotos_carrusel').insert(meta));
+        return meta;
+      },
       // Labs (panel de Flor): filas de hoy_flor con clave 'lab:guion' (guion + feedback) y 'lab:registro' (qué se hizo), tipo 'otro'.
       async labsFlor() { return ok(await sb.from('hoy_flor').select('*').like('clave', 'lab:%').order('fecha', { ascending: false }).limit(200)); },
       async guardarLabFlor(f, clave, c) {
@@ -282,6 +293,15 @@
     let S;
     try { S = JSON.parse(localStorage.getItem(KEY)) || seed(); } catch (e) { S = seed(); }
     const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
+    // Un carrusel de ejemplo para probar el diseñador en la demo.
+    const demoCarrusel = (f) => ({ fecha: f, clave: 'pieza:demo-carrusel', tipo: 'subir', orden: 2, titulo: 'Carrusel · Belem entró tarde a la reunión', detalle: 'Demanda · Idea D6 · auditado 9/10', texto: 'Caption de ejemplo…', texto2: 'PLACAS:\n1 · …',
+      carrusel: (S.carruseles || {})['pieza:demo-carrusel|' + f] || { receta: 'historia', formato: 'carrusel', semilla: 0, placas: [
+        { forma: 'portada_profundidad', pre: 'Entró tarde a la reunión. Y le tocó explicar sus', palabra: 'NÚMEROS', pill: 'Lo explicó en orden.' },
+        { forma: 'oscura', texto: 'Su equipo se volvió referencia para otros países.', texto_i: 'Y a ella le daba más miedo explicarlo que hacerlo.' },
+        { forma: 'foto_frase', pre: 'Entró tarde. Venía de otra reunión.', frase_i: 'Y aun así lo explicó de principio a fin.' },
+        { forma: 'tachado', pre: 'Lo que muchas creemos:', tachado: 'si mi trabajo es bueno, se va a notar', verdad_i: 'Tu trabajo no habla solo. El otro escucha cómo lo explicas.' },
+        { forma: 'recorte_lado', titulo: 'Lo que entrenamos:', titulo_i: 'su reunión real, no un temario.', cuerpo: 'El QUÉ: su mensaje. El CÓMO: sus frases. El QUIÉN: entrar segura aunque llegue tarde.' },
+        { forma: 'cierre', titulo: '¿Tu trabajo ya es referencia', titulo_i: 'y explicarlo te da más miedo que hacerlo?', cta: 'Comenta ENTRENAR' }] } });
     const id = () => ++S.seq;
     const yo = () => (new URLSearchParams(location.search).get('como') === 'flor' ? 'flor' : 'val');
     const copia = (x) => JSON.parse(JSON.stringify(x));
@@ -343,8 +363,10 @@
       async habitos(desde) { return copia((S.habitos || []).filter((r) => r.fecha >= desde)); },
       async latidos() { const h = new Date().toISOString(); return [{ clave: 'tudia', nombre: '📌 Tu día', ok: true, mensaje: '', cuando: h }, { clave: 'clases', nombre: '🎓 Clases del día', ok: true, mensaje: '', cuando: h }]; },
       async clasesDe() { return []; },
-      async hoyFlor(f) { const i = new Date(); i.setHours(15, 0, 0, 0); return [{ fecha: f, clave: 'clase:demo', tipo: 'clase', orden: 1, titulo: 'Ana · 1:1 · Week 5 · Dar un update', detalle: 'Objetivo: contar el avance del proyecto en tres frases.', link: 'https://docs.google.com/document/d/demo/edit', meet: 'https://meet.google.com/demo', inicio: i.toISOString(), invitadas: ['ana@demo.com'] }, { fecha: f, clave: 'reel:demo', tipo: 'grabar', orden: 1, titulo: 'Reel a cámara · Te faltan TUS frases', detalle: '≈40 s, vertical, mirá al lente.', link: 'https://www.canva.com/folder/demo', link2: 'https://app.notion.com/p/demo', texto: 'Caption de ejemplo…', texto2: 'Tu inglés en las reuniones no está mal…\nsolo te faltan tres palabras.' }]; },
+      async hoyFlor(f) { const i = new Date(); i.setHours(15, 0, 0, 0); return [{ fecha: f, clave: 'clase:demo', tipo: 'clase', orden: 1, titulo: 'Ana · 1:1 · Week 5 · Dar un update', detalle: 'Objetivo: contar el avance del proyecto en tres frases.', link: 'https://docs.google.com/document/d/demo/edit', meet: 'https://meet.google.com/demo', inicio: i.toISOString(), invitadas: ['ana@demo.com'] }, { fecha: f, clave: 'reel:demo', tipo: 'grabar', orden: 1, titulo: 'Reel a cámara · Te faltan TUS frases', detalle: '≈40 s, vertical, mirá al lente.', link: 'https://www.canva.com/folder/demo', link2: 'https://app.notion.com/p/demo', texto: 'Caption de ejemplo…', texto2: 'Tu inglés en las reuniones no está mal…\nsolo te faltan tres palabras.' }, demoCarrusel(f)]; },
       async hoyHecho() {},
+      async guardarCarrusel(fecha, clave, carrusel) { S.carruseles = S.carruseles || {}; S.carruseles[clave + '|' + fecha] = carrusel; save(); },
+      async fotosCarrusel() { return []; },
       async labsFlor() { return copia(S.labs || [{ fecha: S.programa.proximo_lab.iso || lunes(), clave: 'lab:guion', tipo: 'otro', titulo: 'Lab de ejemplo', texto: '## Step 1 · Welcome\n- **"Hi everyone!"**\n- Paste in the chat: A, B or C', texto2: '', link: 'https://docs.google.com/document/d/demo/edit' }]); },
       async guardarLabFlor(f, clave, c) { S.labs = S.labs || []; let x = S.labs.find((r) => r.fecha === f && r.clave === clave); if (!x) S.labs.push((x = { fecha: f, clave, tipo: 'otro' })); Object.assign(x, c); save(); },
       async claseOk() {},

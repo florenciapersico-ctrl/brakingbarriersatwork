@@ -2032,6 +2032,8 @@ ${semanaContenido(st._semC, (() => { const d = new Date(lun + 'T12:00:00'); d.se
     },
     mount() {
       const lun = DB.lunes();
+      // Carruseles diseñados dentro de la app (Flor, 25/11): las 4 recetas del estudio, sus fotos y su marca.
+      if (window.Carruseles && DB.guardarCarrusel) DB.fotosCarrusel().catch(() => []).then((fotos) => window.Carruseles.pintar(document, [...(st._hoyD || []), ...(st._semC || [])], { guardar: DB.guardarCarrusel, subir: DB.subirFotoCarrusel, fotos }));
       const copiar = async (t, msg) => { try { await navigator.clipboard.writeText(t); toast(msg); } catch (e) { toast('No se pudo copiar', true); } };
       $$('[data-copiar]').forEach((bt) => (bt.onclick = () => copiar(bt.parentElement.querySelector('pre').textContent, 'Copiado')));
       $$('[data-tdok]').forEach((bt) => (bt.onclick = async () => {
@@ -2361,7 +2363,8 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
     const item = (x) => `<li class="td-i${x.hecho ? ' hecho' : ''}"><div class="row between"><b>${esc(x.titulo || '')}</b>${hecho(x)}</div>
       ${x.detalle ? `<p class="small muted">${esc(x.detalle)}</p>` : ''}
       <div class="row" style="gap:8px;flex-wrap:wrap">${lk(x.link, /canva/.test(x.link || '') ? 'Abrir en Canva' : /notion/.test(x.link || '') ? 'Abrir en Notion' : 'Abrir')}${lk(x.link2, /notion/.test(x.link2 || '') ? 'Ver en Notion' : 'Abrir')}</div>
-      ${partes(x).map(([t, l]) => copiar(t, l)).join('')}${copiar(x.texto, x.tipo === 'grabar' || x.tipo === 'subir' ? 'Caption para copiar' : 'Texto')}</li>`;
+      ${x.carrusel && x.carrusel.placas ? `<div class="crs" data-crs="${esc(x.clave + '|' + x.fecha)}"></div>` : ''}
+      ${partes(x).map(([t, l]) => copiar(t, x.carrusel && l === 'Placas del carrusel' ? 'Texto de las placas' : l)).join('')}${copiar(x.texto, x.tipo === 'grabar' || x.tipo === 'subir' ? 'Caption para copiar' : 'Texto')}</li>`;
     const liClase = (x) => `<li class="td-i"><div class="row between"><b>${hh(x.inicio)} · ${esc(x.titulo || '')}</b></div>${x.detalle ? `<p class="small muted">${esc(x.detalle)}</p>` : ''}<div class="row okc-row" style="gap:8px;flex-wrap:wrap;align-items:center">${lk(x.meet, 'Entrar a la clase', 'btn sm')}${lk(x.link, 'Clase lista')}${okClase(x)}</div></li>`;
     if (modo === 'clases') return cl.length ? `<ul class="td-l">${cl.map(liClase).join('')}</ul>` : '';
     if (modo === 'dia') return `<ul class="td-l">${L.filter((x) => x.tipo !== 'clase').map(item).join('')}</ul>`;
