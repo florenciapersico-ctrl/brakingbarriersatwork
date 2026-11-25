@@ -2052,13 +2052,34 @@ ${contenidoApp(hoyI, lun)}
             ${a.por_que && a.por_que.length ? `<ul class="small">${li(a.por_que)}</ul>` : ''}
             <p class="small"><b>El cambio:</b> ${esc(a.cambio || '')}</p></div>
           <p class="hab-sec">Hooks del banco validado</p>
-          ${(a.hooks || []).map((h, i) => `<div class="aud-hook"><p class="aud-ht"><b>${esc(h.titulo || '')}</b> <i>${esc(h.titulo_i || '')}</i></p><p class="small muted">${esc(h.por_que || '')}${h.modelado_de ? `<br>Modelado de @${esc(String(h.modelado_de.cuenta || '').replace(/^@+/, ''))}: «${esc(h.modelado_de.hook || '')}»${h.modelado_de.link ? ` · <a href="${esc(h.modelado_de.link)}" target="_blank" rel="noopener">ver</a>` : ''}` : ''}</p><button type="button" class="btn ghost sm" data-audhook="${i}">Usar este hook en la portada</button></div>`).join('')}
+          ${(a.hooks || []).map((h, i) => `<div class="aud-hook"><p class="aud-ht"><b>${esc(h.titulo || '')}</b> <i>${esc(h.titulo_i || '')}</i></p><p class="small muted">${esc(h.por_que || '')}${h.palabra ? ` · Palabra gigante: <b>${esc(String(h.palabra).toUpperCase())}</b>` : ''}${h.modelado_de ? `<br>Modelado de @${esc(String(h.modelado_de.cuenta || '').replace(/^@+/, ''))}: «${esc(h.modelado_de.hook || '')}»${h.modelado_de.link ? ` · <a href="${esc(h.modelado_de.link)}" target="_blank" rel="noopener">ver</a>` : ''}` : ''}</p><button type="button" class="btn ghost sm" data-audhook="${i}">Usar este hook en la portada</button></div>`).join('')}
           ${(a.laminas || []).length ? `<p class="hab-sec">Láminas que más frenan, reescritas</p>${a.laminas.map((l, i) => `<div class="aud-hook"><p class="small"><b>Lámina ${esc(l.n)}</b> · ${esc(l.por_que || '')}</p><p class="aud-ht"><b>${esc(l.titulo || '')}</b> <i>${esc(l.titulo_i || '')}</i>${l.cuerpo ? `<br><span class="small">${esc(l.cuerpo)}</span>` : ''}</p><button type="button" class="btn ghost sm" data-audlam="${i}">Aplicar en la lámina ${esc(l.n)}</button></div>`).join('')}` : ''}
           ${a.cta ? `<p class="small"><b>CTA propuesto:</b> ${esc(a.cta)}</p>` : ''}
           ${a.proximo_paso ? `<p class="small"><b>Tu próximo paso:</b> ${esc(a.proximo_paso)}</p>` : ''}
           <p class="small muted aud-est"></p>`;
           const est = (t) => { const e = $('.aud-est', res); if (e) e.textContent = t; };
-          $$('[data-audhook]', res).forEach((x) => (x.onclick = async () => { const h = a.hooks[+x.dataset.audhook]; const okA = window.Carruseles && (await window.Carruseles.aplicarAud(key, 0, h)); if (okA) { const h3 = sec.closest('.pz') && sec.closest('.pz').querySelector('.pz-cab h3'); if (h3) h3.textContent = [h.titulo, h.titulo_i].filter(Boolean).join(' '); const pr = sec.closest('.pz') && sec.closest('.pz').querySelector('.crs'); if (pr) pr.scrollIntoView({ behavior: 'smooth', block: 'center' }); } est(okA ? 'Listo: el hook quedó en la portada y se guardó (mirá la lámina 1).' : 'Esta pieza todavía no tiene diseño: armalo primero.'); }));
+          $$('[data-audhook]', res).forEach((x) => (x.onclick = async () => { const h = a.hooks[+x.dataset.audhook]; const okA = window.Carruseles && (await window.Carruseles.aplicarAud(key, 0, h)); if (okA) {
+            // El hook va a TODO el posteo (Flor, 25/11: «no lo aplica al posteo»): título del día, lámina 1 o texto en pantalla, y de qué hook validado sale.
+            const pz = sec.closest('.pz'), hk = [h.titulo, h.titulo_i].filter(Boolean).join(' ');
+            const fila = [...(st._hoyD || []), ...(st._semC || []), ...(st._mesC || [])].filter((z) => z.clave === clave && z.fecha === fecha);
+            const f0 = fila[0] || {}, pref = (String(f0.titulo || '').match(/^(Reel a cámara|Reel|Carrusel) · /) || [''])[0];
+            let t2 = String(f0.texto2 || '');
+            if (/^TEXTO EN PANTALLA:/m.test(t2)) t2 = t2.replace(/^TEXTO EN PANTALLA:.*$/m, 'TEXTO EN PANTALLA: ' + hk);
+            else if (/^1 · .*$/m.test(t2)) t2 = t2.replace(/^1 · .*$/m, '1 · ' + [h.titulo, h.titulo_i].filter(Boolean).join(' / '));
+            const m = h.modelado_de || {}, cuenta = String(m.cuenta || '').replace(/^@+/, '');
+            const orig = cuenta && m.hook ? `HOOK MODELADO de @${cuenta} (banco de hooks validados): «${m.hook}»` : '';
+            let det = String(f0.detalle || '');
+            if (orig) det = /HOOK MODELADO de @[^«]*«[^»]*»/.test(det) ? det.replace(/HOOK MODELADO de @[^«]*«[^»]*»/, orig) : (det ? det.replace(/\s*$/, ' ') : '') + orig + '.';
+            const cambios = { titulo: pref + hk, texto2: t2, detalle: det }; if (m.link) cambios.link = m.link;
+            try { await DB.editarPieza(fecha, clave, cambios); fila.forEach((z) => Object.assign(z, cambios)); } catch (er2) { est('El diseño cambió, pero no pude guardar el título: ' + er2.message); return; }
+            if (pz) {
+              const h3 = pz.querySelector('.pz-cab h3'); if (h3) h3.textContent = hk;
+              const pant = pz.querySelector('.pz-pantalla'); if (pant) pant.value = hk;
+              const plc = pz.querySelector('[data-ced="placas"]'); if (plc) plc.value = plc.value.replace(/^1 · .*$/m, '1 · ' + [h.titulo, h.titulo_i].filter(Boolean).join(' / '));
+              const pr = pz.querySelector('.crs'); if (pr) pr.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+            $$(`[data-cdia="${fecha}"] .cal-hook`).forEach((x) => { x.textContent = hk.length > 70 ? hk.slice(0, 69) + '…' : hk; });
+          } est(okA ? 'Listo: el hook quedó en el posteo (título, portada y guion) y se guardó.' : 'Esta pieza todavía no tiene diseño: armalo primero.'); }));
           $$('[data-audlam]', res).forEach((x) => (x.onclick = async () => { const l = a.laminas[+x.dataset.audlam]; const okA = window.Carruseles && (await window.Carruseles.aplicarAud(key, Math.max(0, (+l.n || 1) - 1), l)); est(okA ? `Listo: la lámina ${l.n} quedó reescrita y se guardó.` : 'No encontré esa lámina en el diseño.'); }));
         } catch (er) { res.innerHTML = `<p class="small" style="color:#a3402a">${esc(er.message)}</p>`; }
         b.disabled = false; b.textContent = 'Auditar de nuevo';

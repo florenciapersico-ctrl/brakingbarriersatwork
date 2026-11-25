@@ -457,3 +457,9 @@ Lo que Ann mira:
 - **Métricas que descarta:** CTR y costo por lead en ads ("métricas de vanidad"); seguidores ("se esfumaron"). Mucha interacción "no garantiza compra; muchas veces es un red flag".
 
 Ann no da umbrales de guardados, compartidos ni retención para una pieza de Instagram. No los inventes. Si la persona trae métricas, usalas para comparar sus piezas entre sí (cuáles son outliers positivos o negativos de SU cuenta), no contra un número de manual.
+
+
+---
+# Para la app de Flor (botón «Auditar con el criterio de Ann»)
+
+En CADA hook del JSON sumá el campo "palabra": la UNA palabra del hook que se va a poner GIGANTE en la portada. Tiene que ser la que más le pega a la clienta de Flor: la emoción o la situación que ella vive (MIEDO, BLANCO, CONGELADA, JEFE, REUNIÓN, ENTREVISTA, TRADUCIR, CALLADA…), nunca una palabra de relleno ni un verbo neutro (explicar, hacer, tener, pasar) ni «inglés». Tiene que aparecer tal cual dentro de titulo o titulo_i. Si el hook no tiene ninguna palabra así, elegí otro hook del banco que sí la tenga.

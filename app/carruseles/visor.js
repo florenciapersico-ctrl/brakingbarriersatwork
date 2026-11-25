@@ -299,6 +299,13 @@
       const NO = /^(inglés|ingles|english|que|los|las|una|unos|unas|para|pero|como|cuando|donde|porque|este|esta|eso|esto|todo|toda|muy|más|mas|sin|con|sus|tus|del|ella|ellas|también|tambien)$/i;
       const limpia = (x) => x.replace(/[.,;:!?…«»"()¿¡]+/g, '');
       let k = -1, mejor = 0;
+      // Si el auditor eligió la palabra que le pega a la clienta (MIEDO, BLANCO, JEFE…), va esa.
+      if (h.palabra) {
+        const pw = limpia(h.palabra).toLowerCase(), todo = [...(antes ? antes.split(/\s+/) : []), ...base];
+        const ix = todo.findIndex((x) => limpia(x).toLowerCase() === pw);
+        if (ix >= 0) return { ...b, pre: todo.slice(0, ix).join(' '), palabra: limpia(todo[ix]).toUpperCase(), pill: todo.slice(ix + 1).join(' ') };
+        return { ...b, pre: jn(h.pre, h.t), palabra: limpia(h.palabra).toUpperCase(), pill: h.ti || '' };
+      }
       base.forEach((x, n) => { const l = limpia(x); if (l.length >= 4 && !NO.test(l) && l.length >= mejor) { mejor = l.length; k = n; } });
       if (k < 0) k = base.length - 1;
       return { ...b, pre: jn(antes, base.slice(0, k).join(' ')), palabra: limpia(base[k]).toUpperCase(), pill: base.slice(k + 1).join(' ') };
@@ -610,7 +617,7 @@ ${c.estilo ? '' : `<div class="crs-ctl" style="margin:0 0 8px"><span>Letra de lo
     const f = FILAS[key]; if (!f || !f.carrusel || !f.carrusel.placas) return false;
     const c = f.carrusel, p = c.placas[i]; if (!p) return false;
     if (i === 0) {
-      const h = { pre: '', t: campos.titulo || '', ti: campos.titulo_i || '' };
+      const h = { pre: '', t: campos.titulo || '', ti: campos.titulo_i || '', palabra: campos.palabra || '' };
       if (c.estilo) Object.assign(p, { pre: '', titulo: h.t, titulo_i: h.ti });
       else { const n = portadaArmada(p.forma, p, h, { foto: p.foto, _foto: p._foto, forma: p.forma }); c.placas[0] = Object.assign(n, { _hook: h }); c.placas[0]._firma = firma(c.placas[0]); }
     } else {
