@@ -55,6 +55,7 @@
 .crs-port summary{cursor:pointer;font-weight:700;font-size:14px;min-height:28px}
 .crs-campo{display:flex;flex-direction:column;gap:3px;font-size:12.5px;font-weight:700;color:#6c6656;margin-top:6px}
 .crs-campo input,.crs-campo textarea{font:inherit;font-size:16px;font-weight:400;color:#22201a;border:1.5px solid #e6dcc4;border-radius:10px;padding:7px 10px;background:#f8f5ee;width:100%}
+.crs-sub{cursor:pointer;display:inline-flex;align-items:center}
 .crs-acc{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 .crs-est{font-size:13px;min-height:18px;margin-top:4px;color:#81552e}
 .crs-modal{position:fixed;inset:0;z-index:80;background:rgba(30,26,18,.6);display:flex;align-items:center;justify-content:center;padding:12px}
@@ -135,7 +136,8 @@
   ${((M.FORMAS[(c.placas[0] || {}).forma] || {}).c || []).map(([k, et, t]) => `<label class="crs-campo">${esc(et)}${t === 't' ? `<input type="text" data-pk="${k}" value="${esc(c.placas[0][k] || '')}">` : `<textarea rows="2" data-pk="${k}">${esc(c.placas[0][k] || '')}</textarea>`}</label>`).join('')}
 </details>
 <div class="crs-tira">${visibles(c).map((i) => `<button type="button" class="crs-mini${reel ? ' reel' : ''}" data-i="${i}" aria-label="Editar lámina ${i + 1}"><div class="marco">${htmlPlaca(c, i, 120 / M.W)}</div>${i + 1}</button>`).join('')}</div>
-<div class="crs-acc"><button type="button" class="btn sm" data-crs-png>Bajar PNG</button><button type="button" class="btn ghost sm" data-crs-fotos>Otras fotos</button><button type="button" class="btn ghost sm" data-crs-ed="0">Editar textos y fotos</button></div>
+<div class="crs-acc"><button type="button" class="btn sm" data-crs-ed="0">✏️ Editar cada lámina</button>${subirFn ? `<label class="btn ghost sm crs-sub">📷 Subir fotos nuevas<input type="file" accept="image/*" multiple data-crs-subir hidden></label>` : ''}<button type="button" class="btn ghost sm" data-crs-fotos>Otras fotos</button><button type="button" class="btn ghost sm" data-crs-png>Bajar PNG</button></div>
+<p class="small muted" style="margin:6px 0 0">Tocá una lámina para cambiarle el formato, el texto o la foto.</p>
 <div class="crs-est" aria-live="polite"></div>`;
     $$('.crs-mini .marco .p', el).forEach((p) => M.fit(p));
     pintarMinis(llave(f));
@@ -151,6 +153,18 @@
     const dp = el.querySelector('.crs-port'); if (dp) dp.ontoggle = () => { c._abrirPortada = dp.open; };
     el.querySelector('[data-crs-fotos]').onclick = async () => { c.semilla = (+c.semilla || 0) + 1; asignarFotos(Object.values(FILAS), llave(f)); pintarUno(el); await guardar(f, est); };
     $$('.crs-mini,[data-crs-ed]', el).forEach((b) => (b.onclick = () => editor(f, +(b.dataset.i || b.dataset.crsEd || 0), () => pintarUno(el))));
+    const sub = el.querySelector('[data-crs-subir]');
+    if (sub) sub.onchange = async () => {
+      const files = [...sub.files]; if (!files.length) return;
+      const nuevas = [];
+      try {
+        for (const [n, file] of files.entries()) { est(`Subiendo ${n + 1} de ${files.length}…`); const rd = await reducir(file); const meta = await subirFn(rd.blob, file.name, rd.ancho, rd.alto); M.catalogo.push(extraACat(meta)); nuevas.push(meta.archivo); }
+        // La primera va a la portada (si la portada lleva foto); el resto queda en tu biblioteca para elegirlas lámina por lámina.
+        const p0 = c.placas[0]; if (p0 && M.necesitaFoto(p0.forma, c.receta) && nuevas[0]) { p0._foto = nuevas[0]; p0.foto = nuevas[0]; }
+        pintarUno(el); await guardar(f, (t) => { const e2 = el.querySelector('.crs-est'); if (e2) e2.textContent = t || ''; });
+        const e3 = el.querySelector('.crs-est'); if (e3) e3.textContent = `Listo: ${nuevas.length === 1 ? 'la foto quedó' : nuevas.length + ' fotos quedaron'} en tu biblioteca${p0 && M.necesitaFoto(p0.forma, c.receta) ? ' (la primera, en la portada)' : ''}. Elegilas en «Editar cada lámina».`;
+      } catch (e) { est('No se pudo subir: ' + e.message); }
+    };
     el.querySelector('[data-crs-png]').onclick = async (e) => { const b = e.currentTarget; b.disabled = true; try { await bajarZip(f, est); } catch (er) { est('No pude armar los PNG: ' + er.message); } b.disabled = false; };
   }
   async function guardar(f, est) {
@@ -179,8 +193,9 @@
   <label>Forma de la lámina<select data-forma>${formas.map((k) => `<option value="${k}"${k === p.forma ? ' selected' : ''}>${esc(M.FORMAS[k].n)}</option>`).join('')}</select></label>
   ${F.c.map(([k, et, t]) => `<label>${esc(et)}${t === 't' ? `<input type="text" data-k="${k}" value="${esc(p[k] || '')}">` : `<textarea rows="${t === 'p' || t === 'l' ? 4 : 2}" data-k="${k}">${esc(p[k] || '')}</textarea>`}</label>`).join('')}
   <p class="small muted" style="margin:6px 0 0">*itálica* · **negrita** · en listas, una línea por renglón y «negrita | resto».</p>
-  ${conFoto ? `<label>Foto de esta lámina</label><div class="crs-fotos">${fotos.map((e) => `<button type="button" data-foto="${esc(e.archivo)}" class="${e.archivo === p._foto ? 'on' : ''}" aria-label="${esc(e.archivo)}"><img loading="lazy" src="${esc(e.url || 'carruseles/fotos/' + e.archivo)}" alt=""></button>`).join('')}</div>
-  ${subirFn ? `<label>Subir una foto nueva<input type="file" accept="image/*" data-subir></label>` : ''}` : ''}
+  ${conFoto ? `<label>Foto de esta lámina</label>` : `<label>Foto de fondo (opcional: va detrás del texto, con un velo de color)</label><div class="row" style="gap:6px;margin-top:4px"><button type="button" class="btn ghost sm" data-fondo="">${p.fondo_img ? 'Sacar la foto de fondo' : 'Sin foto de fondo ✓'}</button></div>`}
+  <div class="crs-fotos">${(conFoto ? fotos : M.catalogo.filter((e) => !e.excluir)).map((e) => `<button type="button" ${conFoto ? 'data-foto' : 'data-fondo'}="${esc(e.archivo)}" class="${e.archivo === (conFoto ? p._foto : p.fondo_img) ? 'on' : ''}" aria-label="${esc(e.titulo || e.archivo)}"><img loading="lazy" src="${esc(e.url || (e.ruta ? e.ruta : 'carruseles/fotos/' + e.archivo))}" alt=""></button>`).join('')}</div>
+  ${subirFn ? `<label>Subir una foto nueva<input type="file" accept="image/*" data-subir></label>` : ''}
   <div class="crs-est" aria-live="polite"></div></div></div>`;
       const lz = m.querySelector('.lienzo');
       const dibujar = () => { lz.innerHTML = htmlPlaca(c, i, lz.clientWidth / M.W); const n = lz.querySelector('.p'); if (n) M.fit(n); };
@@ -191,6 +206,7 @@
       ant.onclick = () => { i--; pintar(); }; sig.onclick = () => { i++; pintar(); };
       m.querySelector('[data-forma]').onchange = (e) => { c.placas[i] = convertir(p, e.target.value); asignarFotos(Object.values(FILAS)); pintar(); guardar(f, est); };
       $$('[data-k]', m).forEach((inp) => (inp.oninput = () => { p[inp.dataset.k] = inp.value; dibujar(); clearTimeout(timer); timer = setTimeout(() => guardar(f, est), 900); }));
+      $$('[data-fondo]', m).forEach((b) => (b.onclick = () => { if (b.dataset.fondo) p.fondo_img = b.dataset.fondo; else delete p.fondo_img; pintar(); guardar(f, est); }));
       $$('[data-foto]', m).forEach((b) => (b.onclick = () => { p._foto = b.dataset.foto; p.foto = b.dataset.foto; pintar(); guardar(f, est); }));
       const sub = m.querySelector('[data-subir]');
       if (sub) sub.onchange = async () => {
@@ -200,7 +216,7 @@
           const reducida = await reducir(file);
           const meta = await subirFn(reducida.blob, file.name, reducida.ancho, reducida.alto);
           M.catalogo.push(extraACat(meta));
-          p._foto = meta.archivo; p.foto = meta.archivo; pintar(); await guardar(f, est); est('Foto subida: ya queda para todos tus carruseles.');
+          if (M.necesitaFoto(p.forma, c.receta)) { p._foto = meta.archivo; p.foto = meta.archivo; } else p.fondo_img = meta.archivo; pintar(); await guardar(f, est); est('Foto subida: ya queda para todos tus carruseles.');
         } catch (e) { est('No se pudo subir: ' + e.message); }
       };
     };

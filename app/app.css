@@ -596,3 +596,10 @@ main{overflow-wrap:break-word}
 }
 .cal-panel[hidden],[data-ctabp][hidden]{display:none!important}
 .pz-ins .pill{white-space:normal;max-width:100%}
+
+/* Contenido editable (Flor, 25/11) */
+.pz-ed{display:flex;flex-direction:column;gap:6px}
+.pz-ed textarea,.pz-grabar textarea,.pz-grabar input{width:100%;font:inherit;font-size:16px;color:var(--fg);background:var(--surface-2);border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;line-height:1.5;resize:vertical}
+.pz-grabar textarea.pz-prompter{font-size:17px;line-height:1.6;margin:6px 0 8px;background:var(--surface)}
+.pz-grabar input.pz-pantalla{font-family:var(--display);font-size:19px;margin-top:4px}
+.pz-sin{border:1.5px dashed var(--accent);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:8px}

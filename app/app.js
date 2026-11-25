@@ -2050,6 +2050,38 @@ ${contenidoApp(hoyI, lun)}
         const pn = $(`[data-cpanel="${b.dataset.cdia}"][data-csem="${k}"]`);
         if (pn && window.innerWidth < 900) pn.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }));
+      // Editar textos de la pieza (caption, prompter, texto en pantalla, placas, historias) y guardar.
+      const filaDe = (c, f) => [...(st._semC || []), ...(st._hoyD || []), ...(st._mesC || [])].filter((y) => y.clave === c && y.fecha === f);
+      const componer = (x, cambios) => {
+        const [arriba, hist] = cPartes(x);
+        const pant = 'pantalla' in cambios ? cambios.pantalla : ((arriba.match(/^TEXTO EN PANTALLA:\s*(.+)$/m) || [])[1] || '');
+        const prom = 'prompter' in cambios ? cambios.prompter : arriba.replace(/^TEXTO EN PANTALLA:.*$/m, '').trim();
+        const plac = 'placas' in cambios ? cambios.placas : arriba;
+        const his = 'historias' in cambios ? cambios.historias : hist;
+        const sup = cFormato(x) === 'Reel' ? (pant ? 'TEXTO EN PANTALLA: ' + pant + '\n' : '') + prom : cFormato(x) === 'Historias' ? '' : plac;
+        return (sup.trim() + (his.trim() ? (sup.trim() ? '\n\n' : '') + '📱 HISTORIAS DEL DÍA\n' + his.trim() : '')).trim();
+      };
+      $$('[data-cguardar]').forEach((b) => (b.onclick = async () => {
+        const caja = b.closest('.pz-ed, .pz-grabar'), campos = $$('[data-ced]', caja), est = caja.querySelector('[data-cest]');
+        const c0 = campos[0]; if (!c0) return;
+        const L = filaDe(c0.dataset.cclave, c0.dataset.cfecha); if (!L.length) return;
+        const cambios = {}; campos.forEach((t) => (cambios[t.dataset.ced] = t.value));
+        const upd = {};
+        if ('caption' in cambios) upd.texto = cambios.caption;
+        if (['pantalla', 'prompter', 'placas', 'historias'].some((k) => k in cambios)) upd.texto2 = componer(L[0], cambios);
+        b.disabled = true; est.textContent = 'Guardando…';
+        try { await DB.editarPieza(c0.dataset.cfecha, c0.dataset.cclave, upd); L.forEach((y) => Object.assign(y, upd)); est.textContent = 'Guardado ✓'; setTimeout(() => (est.textContent = ''), 2000); }
+        catch (er) { est.textContent = 'No se guardó: ' + er.message; }
+        b.disabled = false;
+      }));
+      $$('[data-ccopiar]').forEach((b) => (b.onclick = () => { const t = (b.closest('.pz-ed, .pz-grabar') || b.parentElement).querySelector('textarea'); if (t) copiar(t.value, 'Copiado'); }));
+      $$('[data-cauto]').forEach((b) => (b.onclick = async () => {
+        const L = filaDe(b.dataset.cauto, b.dataset.cautof); if (!L.length) return;
+        const car = cAutoDiseno(L[0]);
+        b.disabled = true; b.textContent = 'Armando…';
+        try { await DB.guardarCarrusel(L[0].fecha, L[0].clave, car); L.forEach((y) => (y.carrusel = JSON.parse(JSON.stringify(car)))); st._cTab = st._cTab || '0'; ruta(); toast('Listo: ya lo podés editar'); }
+        catch (er) { b.disabled = false; b.textContent = 'Probar de nuevo'; toast(er.message, true); }
+      }));
       $$('[data-cmes]').forEach((b) => (b.onclick = () => { st._cMes = (st._cMes || 0) + Number(b.dataset.cmes); st._cTab = 'arch'; ruta(); }));
       const copiar = async (t, msg) => { try { await navigator.clipboard.writeText(t); toast(msg); } catch (e) { toast('No se pudo copiar', true); } };
       const linkIG = (v) => { v = String(v || '').trim(); if (!v) return ''; if (!/^https?:\/\//.test(v)) v = 'https://' + v; return /instagram\.com|instagr\.am|youtu/.test(v) ? v : null; };
@@ -2366,6 +2398,31 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
   const cCorto = (t, n) => { t = String(t || ''); if (t.length <= n) return t; const c = t.slice(0, n); return c.slice(0, Math.max(c.lastIndexOf(' '), n - 12)) + '…'; };
   const cDiasDe = (lun) => CDIAS.map((n, i) => { const d = new Date(lun + 'T12:00:00'); d.setDate(d.getDate() + i); return [n, diaISO(d)]; });
   const cBloque = (titulo, texto, abierto, clase) => (texto ? `<details class="pz-bloque"${abierto ? ' open' : ''}><summary>${titulo}</summary><div><pre class="${clase || ''}">${esc(texto)}</pre><button type="button" class="linkbtn small" data-copiar>Copiar</button></div></details>` : '');
+  // Bloque editable (Flor, 25/11: «que también se pueda editar»): se guarda en hoy_flor sin recargar.
+  const cEdit = (titulo, campo, texto, x, abierto, filas) => `<details class="pz-bloque"${abierto ? ' open' : ''}><summary>${titulo}</summary><div class="pz-ed"><textarea rows="${filas || Math.min(14, Math.max(3, String(texto || '').split('\n').length + 1))}" data-ced="${campo}" data-cclave="${esc(x.clave || '')}" data-cfecha="${esc(x.fecha || '')}">${esc(texto || '')}</textarea><div class="row" style="gap:8px;align-items:center"><button type="button" class="btn ghost sm" data-cguardar>Guardar cambios</button><button type="button" class="linkbtn small" data-ccopiar>Copiar</button><span class="small muted" data-cest></span></div></div></details>`;
+  // Arma el diseño de un carrusel (o la portada de un reel) a partir de su texto, para las piezas que no lo traen.
+  const CRECETA = { Demanda: 'historia', Valor: 'editorial', 'Valor + Crecimiento': 'tarjetas', Crecimiento: 'tarjetas', Inspira: 'serif', 'Conversión': 'editorial', Educa: 'editorial', Autoridad: 'historia' };
+  function cAutoDiseno(x) {
+    const fm = cFormato(x), receta = CRECETA[cTipo(x)] || 'editorial';
+    const limpiar = (t) => String(t || '').replace(/\([^)]{0,60}\)\s*/g, '').replace(/\*\*/g, '').trim();
+    if (fm === 'Reel') {
+      const [arriba] = cPartes(x); const h = ((arriba.match(/^TEXTO EN PANTALLA:\s*(.+)$/m) || [])[1] || cHook(x)).trim();
+      const ps = h.split(/(?<=[.?!…])\s+/);
+      return { receta, formato: 'reel', semilla: 0, placas: [{ forma: 'portada_foto', titulo: ps[0] || h, titulo_i: ps.slice(1).join(' '), bajada: '' }] };
+    }
+    const [arriba] = cPartes(x);
+    const lineas = arriba.split('\n').map((l) => l.trim()).filter((l) => /^\d+\s*·/.test(l)).map((l) => limpiar(l.replace(/^\d+\s*·\s*/, '')));
+    const fuente = lineas.length ? lineas : [cHook(x)];
+    const placas = fuente.map((l, i) => {
+      const partes = l.split(/\s*\/\s*/).map((t) => t.trim()).filter(Boolean), tach = l.match(/~~([^~]+)~~/);
+      const sinT = partes.map((t) => t.replace(/~~/g, '').replace(/^\*|\*$/g, ''));
+      if (i === 0) return { forma: 'portada_foto', titulo: sinT[0] || cHook(x), titulo_i: sinT.slice(1).join(' '), bajada: '' };
+      if (i === fuente.length - 1 && fuente.length > 2) { const cta = (l.match(/(Comenta [A-ZÁÉÍÓÚÑ]+|Escríbeme READY[^./]*|Guárdalo|Sígueme)/i) || [])[1] || ''; return { forma: 'cierre', titulo: sinT[0] || '', titulo_i: sinT.slice(1).join(' ').replace(cta, '').trim(), cuerpo: '', cta }; }
+      if (tach) { const resto = sinT.filter((t) => t !== tach[1].trim()); return { forma: 'tachado', pre: resto[0] && l.indexOf(resto[0]) < l.indexOf('~~') ? resto[0] : '', tachado: tach[1].trim(), verdad_i: resto.filter((t) => l.indexOf(t) > l.indexOf('~~')).join(' ') }; }
+      return { forma: 'texto', titulo: sinT[0] || '', titulo_i: sinT[1] || '', cuerpo: sinT.slice(2).join(' ') };
+    });
+    return { receta, formato: 'carrusel', semilla: 0, placas };
+  }
   function cPieza(x, hoyI) {
     const fm = cFormato(x), tp = cTipo(x), au = cAud(x), og = cOrigen(x), [arriba, hist] = cPartes(x);
     const clave = x.clave || '', f = x.fecha || hoyI;
@@ -2377,31 +2434,35 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
     if (fm === 'Reel') {
       const enPantalla = (arriba.match(/^TEXTO EN PANTALLA:\s*(.+)$/m) || [])[1] || '';
       const prompter = arriba.replace(/^TEXTO EN PANTALLA:.*$/m, '').trim();
-      cuerpo = `${enPantalla ? `<p class="pz-pantalla"><span class="eyebrow">Texto en pantalla</span><br>${esc(enPantalla)}</p>` : ''}
-        ${prompter ? `<div class="pz-grabar"><div class="row between"><span class="eyebrow">Para grabar · prompter</span><button type="button" class="linkbtn small" data-copiar>Copiar</button></div><pre class="pz-prompter">${esc(prompter)}</pre></div>` : ''}
-        ${x.carrusel ? `<p class="hab-sec">Portada del reel</p><div class="crs" data-crs="${esc(clave + '|' + f)}"></div>` : ''}`;
+      cuerpo = `<div class="pz-grabar"><span class="eyebrow">Texto en pantalla</span><input type="text" class="pz-pantalla" data-ced="pantalla" data-cclave="${esc(clave)}" data-cfecha="${esc(f)}" value="${esc(enPantalla)}" aria-label="Texto en pantalla">
+          <div class="row between" style="margin-top:10px"><span class="eyebrow">Para grabar · prompter</span><span class="row" style="gap:10px"><button type="button" class="linkbtn small" data-ccopiar>Copiar</button></span></div>
+          <textarea class="pz-prompter" rows="${Math.min(16, Math.max(5, prompter.split('\n').length + 2))}" data-ced="prompter" data-cclave="${esc(clave)}" data-cfecha="${esc(f)}">${esc(prompter)}</textarea>
+          <div class="row" style="gap:8px;align-items:center"><button type="button" class="btn ghost sm" data-cguardar>Guardar cambios</button><span class="small muted" data-cest></span></div></div>
+        <p class="hab-sec">Portada del reel</p>${x.carrusel ? `<div class="crs" data-crs="${esc(clave + '|' + f)}"></div>` : `<button type="button" class="btn sm" data-cauto="${esc(clave)}" data-cautof="${esc(f)}">Armar la portada del reel</button>`}`;
     } else if (fm === 'Carrusel') {
-      cuerpo = `${x.carrusel ? `<div class="crs" data-crs="${esc(clave + '|' + f)}"></div>` : `<p class="small muted">Este carrusel todavía no tiene diseño: la tarea del domingo se lo arma.</p>${lk(x.link, /canva/.test(x.link || '') ? 'Abrir en Canva' : 'Abrir')}`}
-        ${cBloque('Texto de las placas', arriba, false)}`;
+      cuerpo = `${x.carrusel ? `<div class="crs" data-crs="${esc(clave + '|' + f)}"></div>` : `<div class="pz-sin"><p class="small">Este carrusel todavía no tiene diseño en la app${/canva/.test(x.link || '') ? ' (estaba en Canva)' : ''}. Lo armo con tu texto y tus recetas, y después lo editás como los demás.</p><div class="row" style="gap:8px;flex-wrap:wrap"><button type="button" class="btn sm" data-cauto="${esc(clave)}" data-cautof="${esc(f)}">Diseñar este carrusel</button>${lk(x.link, /canva/.test(x.link || '') ? 'Ver el de Canva' : 'Abrir')}</div></div>`}
+        ${cEdit('Texto de las placas (guion)', 'placas', arriba, x, false)}`;
     } else if (fm === 'Historias') {
-      cuerpo = cBloque('Historias del día', arriba || hist, true);
+      cuerpo = cEdit('Historias del día', 'historias', arriba.replace(/^📱\s*HISTORIAS DEL D[IÍ]A\s*/i, '') || hist, x, true);
     } else {
-      cuerpo = `${x.texto ? cBloque(fm === 'Email' ? 'El correo' : 'Texto', x.texto, true) : ''}${lk(x.link, fm === 'YouTube' ? 'Abrir mi plan de YouTube' : 'Abrir')}`;
+      cuerpo = `${cEdit(fm === 'Email' ? 'El correo' : fm === 'YouTube' ? 'Guion del video' : 'Texto', 'caption', x.texto, x, true)}${lk(x.link, fm === 'YouTube' ? 'Abrir mi plan de YouTube' : 'Abrir')}`;
     }
     return `<article class="pz${x.hecho ? ' hecho' : ''}">
   <div class="pz-cab"><div><span class="eyebrow">${CICONO[fm] || ''} ${esc(fm)}</span><h3>${esc(cHook(x) || x.titulo || '')}</h3></div>${hecho}</div>
   ${insignias}
   ${og && og.original ? `<p class="small muted pz-orig">Hook original: «${esc(og.original)}»</p>` : ''}
   ${cuerpo}
-  ${fm === 'Reel' || fm === 'Carrusel' ? cBloque('Caption', x.texto, fm === 'Reel') : ''}
-  ${fm !== 'Historias' ? cBloque('Historias del día', hist, false) : ''}
+  ${fm === 'Reel' || fm === 'Carrusel' ? cEdit('Caption', 'caption', x.texto, x, false) : ''}
+  ${fm === 'Reel' || fm === 'Carrusel' ? cEdit('Historias del día', 'historias', hist, x, false) : ''}
   ${x.detalle ? `<details class="pz-bloque"><summary>De dónde sale y qué confirmar</summary><p class="small">${esc(x.detalle)}</p></details>` : ''}
   ${ig}
 </article>`;
   }
   function cSemana(R, lun, k, hoyI) {
     const dias = cDiasDe(lun), fin = dias[5][1];
-    const de = (f) => (R || []).filter((x) => x.fecha === f && !/^semana:/.test(x.clave || '')).sort((a, b) => (a.orden || 0) - (b.orden || 0));
+    // El video y el correo van siempre en el lunes de su semana, aunque se hayan cargado con otra fecha.
+    const esLunes = (x) => /^(youtube|email):/.test(x.clave || '') && x.clave.split(':')[1] === lun;
+    const de = (f) => (R || []).filter((x) => !/^semana:/.test(x.clave || '') && (f === lun ? (x.fecha === f && !/^(youtube|email):/.test(x.clave || '')) || esLunes(x) : x.fecha === f && !esLunes(x))).sort((a, b) => (a.orden || 0) - (b.orden || 0));
     const sem = (R || []).find((x) => x.clave === 'semana:' + lun);
     const piezas = (R || []).filter((x) => x.fecha >= dias[1][1] && x.fecha <= fin && /^pieza:/.test(x.clave || ''));
     const yt = (R || []).find((x) => /^youtube:/.test(x.clave || '') && x.fecha >= lun && x.fecha <= fin);
