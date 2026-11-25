@@ -3121,7 +3121,24 @@ ${cuerpo}`;
           const b = $('.ia', it), pb = $('.prep', it); b.disabled = true; b.textContent = 'Armando borrador…';
           if (pb) { pb.disabled = true; pb.textContent = 'Escuchando y preparando… (puede tardar un minuto)'; }
           let ok = true;
-          try { it._aplicar(await DB.borrador({ pedido_id: +it.dataset.pid || it.dataset.pid, grupo: grupo().length > 1 ? grupo() : undefined, quien: $('.quien', it) ? $('.quien', it).value.trim() : '', sin_clase: sinClase === true || undefined })); } catch (er) { ok = false; toast(er.message, true); }
+          try {
+            const pid = +it.dataset.pid || it.dataset.pid;
+            let r = await DB.borrador({ pedido_id: pid, grupo: grupo().length > 1 ? grupo() : undefined, quien: $('.quien', it) ? $('.quien', it).value.trim() : '', sin_clase: sinClase === true || undefined });
+            // Se arma en segundo plano (lee todas las entregas y después escribe): la voy a buscar hasta que aparece (Flor, 25/11).
+            if (r && r.armando) {
+              const n = grupo().length || 1, desde = r.desde || '';
+              b.textContent = n > 1 ? `Leyendo las ${n} entregas y armando… (1 a 4 min)` : 'Leyendo y armando… (1 a 3 min)';
+              if (pb) pb.textContent = b.textContent;
+              r = null;
+              for (let i = 0; i < 45 && !r; i++) {
+                await new Promise((fin) => setTimeout(fin, 8000));
+                if (!document.body.contains(it)) return true;
+                r = DB.borradorListo ? await DB.borradorListo(pid, desde).catch(() => null) : null;
+              }
+              if (!r) throw new Error('Sigue armándose: cuando esté listo aparece acá (recargá la Bandeja en un rato).');
+              if (r.ia_error && r.respuesta) { ok = false; toast(r.ia_error, true); } else it._aplicar(r);
+            } else it._aplicar(r);
+          } catch (er) { ok = false; toast(er.message, true); }
           b.disabled = false; b.textContent = ok ? 'Armar de nuevo con IA' : 'Borrador con IA';
           if (pb) { pb.disabled = false; pb.textContent = ok ? '🔁 Prepararlo de nuevo' : '✍️ Preparame el feedback'; }
           return ok;

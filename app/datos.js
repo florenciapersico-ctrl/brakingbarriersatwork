@@ -229,6 +229,12 @@
         if (!r.ok) throw new Error(await errorDe(r));
         return r.json();
       },
+      // El borrador de un pedido se arma en segundo plano: la app lo va a buscar hasta que aparece (Flor, 25/11).
+      async borradorListo(ref, desde) {
+        const { data } = await sb.from('borradores').select('datos').eq('tabla', 'pedidos').eq('ref', ref).maybeSingle();
+        const d = data && data.datos;
+        return d && d.ia_en && d.ia_en >= desde ? d : null;
+      },
       // ---- bandeja completa: también las alumnas que todavía no crearon su cuenta (tabla importacion) ----
       async importacionTodas() { return ok(await sb.from('importacion').select('email,nombre,datos,weeklies,aplicado').order('orden')); },
       async todosWeekliesAdmin() { return ok(await sb.from('weekly').select('*').order('semana', { ascending: false }).limit(1000)); },
