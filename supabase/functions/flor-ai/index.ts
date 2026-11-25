@@ -327,7 +327,50 @@ async function borradorDelUltimo(admin: any, id: number, etiqueta: string) {
   const { data: mas } = await admin.from("pedidos").select("id").eq("alumna_id", x.alumna_id).eq("estado", "pendiente").gt("id", id)
     .gte("creado", new Date(t0 - 3 * 864e5).toISOString()).lte("creado", new Date(t0 + 3 * 864e5).toISOString()).limit(1);
   if ((mas || []).length) return; // lo arma el último que llegó, con todo junto
-  await generarBorrador(admin, "pedidos", id).catch((e) => console.error(etiqueta, e));
+  await borradorEnDosPasos(admin, { pedido_id: id }, 75000, etiqueta);
+}
+
+// ---------- borrador de una o varias entregas, en dos pasos (Flor, 25/11) ----------
+// Supabase corta cada llamada a los 150 s. Con 5 archivos de Ale, leer todo + escribir el feedback no entraba.
+// Paso 1: lee todas las entregas a la vez y guarda lo leído. Paso 2 (una llamada nueva, con sus propios 150 s): escribe.
+// Si el paso 2 no llega, reintenta con menos razonamiento. Si igual falla, deja el aviso en la Bandeja (nunca silencio).
+const SRK = () => Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") || "";
+// deno-lint-ignore no-explicit-any
+async function pedirPaso2(q: any) {
+  const r = await fetch(`${Deno.env.get("SUPABASE_URL")}/functions/v1/flor-ai`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${SRK()}`, "x-interno": SRK(), "Content-Type": "application/json" },
+    body: JSON.stringify({ ...q, modo: "borrador_paso2" }),
+  });
+  if (!r.ok) throw new Error(`no pude pasar al paso 2 (${r.status})`);
+}
+const mensajeIA = (m: string) => m === "FALTA_CLAVE" ? "Para los borradores con IA falta cargar ANTHROPIC_API_KEY en Supabase › Edge Functions › Secrets."
+  : `No pude armar el borrador (${m.slice(0, 140)}). Tocá «Armar de nuevo con IA»: lo que ya leí quedó guardado.`;
+// deno-lint-ignore no-explicit-any
+async function marcarFalla(admin: any, id: number, grupo: any, msg: string) {
+  const ids = [...new Set([id, ...(Array.isArray(grupo) ? grupo : [])].map(Number).filter(Boolean))];
+  const ahora = new Date().toISOString();
+  for (const ref of ids) {
+    const { data: b } = await admin.from("borradores").select("datos").eq("tabla", "pedidos").eq("ref", ref).maybeSingle();
+    const d = b?.datos || {};
+    // Si ya había un borrador escrito, no se pisa: solo se marca que el intento nuevo falló.
+    const datos = d.respuesta ? { ...d, ia_error: msg, ia_en: ahora }
+      : { respuesta: "", correcciones: [], foco: "", foco_texto: "", tareas: [], transcripcion: "", sin_audio: true, notas: "⚠️ " + msg, ia_error: msg, ia_en: ahora, grupo: ids.length > 1 ? ids : undefined };
+    await admin.from("borradores").upsert({ tabla: "pedidos", ref, datos, creado: ahora });
+  }
+}
+// deno-lint-ignore no-explicit-any
+async function borradorEnDosPasos(admin: any, q: any, tope: number, etiqueta = "borrador") {
+  const id = Number(q.pedido_id);
+  try {
+    const r = await generarBorrador(admin, "pedidos", id, undefined, q.quien || undefined, Array.isArray(q.grupo) ? q.grupo : undefined, !!q.sin_clase, { soloLeer: true, tope });
+    // deno-lint-ignore no-explicit-any
+    if ((r as any)?.leido) await pedirPaso2(q);
+  } catch (e) {
+    const m = String((e as Error).message);
+    console.error(etiqueta, "paso 1", m);
+    await marcarFalla(admin, id, q.grupo, mensajeIA(m)).catch(() => {});
+  }
 }
 
 // ---------- borrador de feedback (se guarda en borradores; solo lo ve Flor) ----------
@@ -366,7 +409,9 @@ async function historialAlumna(admin: any, alumnaId: string, excluir: number[]) 
   } catch (e) { console.error("historial", e); return ""; }
 }
 
-async function generarBorrador(admin: any, tabla: string, ref: number, imp?: { email: string; semana: string }, quien?: string, grupoPedido?: number[], sinClase?: boolean) {
+// opts.soloLeer: solo lee y guarda las entregas (paso 1); opts.rapido: segundo intento con menos razonamiento.
+// deno-lint-ignore no-explicit-any
+async function generarBorrador(admin: any, tabla: string, ref: number, imp?: { email: string; semana: string }, quien?: string, grupoPedido?: number[], sinClase?: boolean, opts: { soloLeer?: boolean; tope?: number; rapido?: boolean; tiempoIA?: number } = {}) {
     let alumnaId = "", material = "", transcripcion = "", aviso = "", sinAudio = false, ctxImp = "";
     let hermanos: number[] = []; // lo demás que mandó en los mismos días (Flor, 21/11: varias entregas = UN solo feedback de todo)
     // deno-lint-ignore no-explicit-any
@@ -456,6 +501,12 @@ async function generarBorrador(admin: any, tabla: string, ref: number, imp?: { e
         aviso = "⚠️ NO TENGO LA TAREA: solo me llegó el aviso de que la subió, no el archivo. No armé el borrador para no mandarle un feedback sin haberla visto. " +
           (x.link ? "No pude abrir el link que tiene el pedido: revisá que sea el archivo correcto (Doc, PDF, Word o audio)." : "La busqué en su carpeta de Drive y no encontré nada nuevo desde una semana antes del pedido. Pegá el link del archivo en el pedido y tocá «Armar de nuevo con IA».");
       }
+      // Tu deck o prompter de clase que ella descargó y volvió a subir: no es una entrega suya (Flor, 25/11).
+      if (!sinAudio && (x.tipo === "presentacion" || /\.(pptx?|key)\b|presentaci/i.test(`${x.titulo || ""} ${x.archivo_nombre || ""}`)) &&
+        /PAUSA · HAZLO AHORA|pausa el video|vuelve cuando la tengas|BREAKING BARRIERS AT WORK · M[ÓO]DULO/i.test(material)) {
+        material = `PEDIDO (${x.tipo}): ${x.titulo}\nMATERIAL DE CLASE DE FLOR: es el deck de su clase (con su guion), que la alumna descargó y volvió a subir. NO es una entrega suya: no lo nombres en el mensaje, no le preguntes por él y no le des feedback de esto. En NOTAS PARA FLOR: «Tomé «${String(x.titulo || "").replace(/^desde drive:\s*/i, "")}» como tu material de clase re-subido.»`;
+        transcripcion = ""; adjunto = null;
+      }
       return { material, transcripcion, aviso, sinAudio, adjunto };
       };
 
@@ -475,16 +526,39 @@ async function generarBorrador(admin: any, tabla: string, ref: number, imp?: { e
       // deno-lint-ignore no-explicit-any
       const todos = [x0, ...otros].sort((a: any, b: any) => String(a.creado).localeCompare(String(b.creado)) || a.id - b.id);
       // deno-lint-ignore no-explicit-any
-      const lecturas: any[] = [];
-      for (const p of todos) {
-        // Si una toma ya tiene la transcripción guardada, no se vuelve a escuchar.
+      // Todas las entregas se leen A LA VEZ y lo leído queda guardado en «lecturas» (Flor, 25/11: con las 5 de Ale la
+      // función se cortaba a los 150 s). Cada archivo tiene un tope de tiempo: si uno tarda, no tira abajo a los demás.
+      const tope = opts.tope || 100000;
+      // deno-lint-ignore no-explicit-any
+      const leerUno = async (p: any) => {
+        const clave = `${quien || ""}|${p.link || ""}|${p.archivo || ""}`;
+        const { data: lc } = await admin.from("lecturas").select("clave,material,transcripcion,adjunto").eq("pedido_id", p.id).maybeSingle();
+        if (lc && lc.clave === clave) return { p, material: lc.material, transcripcion: lc.transcripcion, aviso: "", sinAudio: false, adjunto: lc.adjunto || null };
+        // Si una toma ya tiene la transcripción guardada en su borrador, no se vuelve a escuchar.
         if (p.id !== x0.id) {
           const { data: bo } = await admin.from("borradores").select("datos").eq("tabla", "pedidos").eq("ref", p.id).maybeSingle();
           const tr = String(bo?.datos?.transcripcion || "");
-          if (tr && !/=== ENTREGA/.test(tr)) { lecturas.push({ p, material: `PEDIDO DE FEEDBACK (${p.tipo}): ${p.titulo}\n${p.texto || ""}\n\nADJUNTÓ UN AUDIO/VIDEO.\n${tr}`, transcripcion: tr, aviso: "", sinAudio: false, adjunto: null }); continue; }
+          if (tr && !/=== ENTREGA/.test(tr)) return { p, material: `PEDIDO DE FEEDBACK (${p.tipo}): ${p.titulo}\n${p.texto || ""}\n\nADJUNTÓ UN AUDIO/VIDEO.\n${tr}`, transcripcion: tr, aviso: "", sinAudio: false, adjunto: null };
         }
-        lecturas.push({ p, ...(await leerPedido(p)) });
-      }
+        let reloj = 0;
+        const tarde = new Promise((ok) => { reloj = setTimeout(() => ok({ tarde: true }), tope); });
+        // deno-lint-ignore no-explicit-any
+        const l: any = await Promise.race([leerPedido(p).catch((e) => ({ error: String((e as Error).message) })), tarde]);
+        clearTimeout(reloj);
+        const nom = String(p.titulo || p.tipo).replace(/^desde drive:\s*/i, "");
+        if (l.tarde || l.error) {
+          if (l.error) console.error("leer", p.id, l.error);
+          return { p, material: "", transcripcion: "", adjunto: null, sinAudio: true,
+            aviso: `⚠️ No llegué a ${l.tarde ? "terminar de leer" : "abrir"} «${nom}»${l.error ? ` (${l.error.slice(0, 100)})` : ""}. Lo que ya leí quedó guardado: tocá «Armar de nuevo con IA» y sigue desde ahí.` };
+        }
+        // Se guarda lo leído (salvo un PDF de la app, que va por un link que vence).
+        if (!l.sinAudio && !(l.adjunto && l.adjunto.source?.type === "url")) {
+          await admin.from("lecturas").upsert({ pedido_id: p.id, clave, material: l.material, transcripcion: l.transcripcion || "", adjunto: l.adjunto, actualizado: new Date().toISOString() });
+        }
+        return { p, ...l };
+      };
+      // deno-lint-ignore no-explicit-any
+      const lecturas: any[] = await Promise.all(todos.map(leerUno));
       if (lecturas.length === 1) {
         ({ material, transcripcion, aviso, sinAudio } = lecturas[0]);
         if (lecturas[0].adjunto) adjuntos = [lecturas[0].adjunto];
@@ -522,23 +596,24 @@ ${(x.weeklies || []).filter((e: any) => e.semana < imp.semana).slice(0, 3).map((
 
     // Si mandó un audio y no lo pude escuchar, no armo un borrador que hable sin haberla escuchado.
     if (sinAudio) {
-      const datos = { respuesta: "", correcciones: [], foco: "", foco_texto: "", tareas: [], notas: aviso, transcripcion: "", sin_audio: true };
+      const datos = { respuesta: "", correcciones: [], foco: "", foco_texto: "", tareas: [], notas: aviso, transcripcion: "", sin_audio: true, ia_en: new Date().toISOString(), grupo: hermanos.length ? [ref, ...hermanos] : undefined };
       if (!imp) await admin.from("borradores").upsert({ tabla, ref, datos, creado: new Date().toISOString() });
       for (const h of hermanos) await admin.from("borradores").upsert({ tabla, ref: h, datos: { ...datos, unificado_con: ref }, creado: new Date().toISOString() });
       return datos;
     }
 
+    if (opts.soloLeer) return { leido: true };
     if (!Deno.env.get("ANTHROPIC_API_KEY")) throw new Error("FALTA_CLAVE");
     const [sist, prog, ctx0, conApp, hoyClase, hist] = await Promise.all([prompt("borrador.md"), programaVigente(admin), imp ? Promise.resolve(ctxImp) : contexto(admin, admin, alumnaId), alumnasConApp(admin), tabla === "pedidos" && !sinClase ? claseDeHoy(admin, alumnaId) : Promise.resolve(""), tabla === "pedidos" && alumnaId ? historialAlumna(admin, alumnaId, [ref, ...hermanos].map(Number)) : Promise.resolve("")]);
     const ctx = hist ? `${ctx0}\n\n${hist}` : ctx0;
     const r = await ia().messages.create({
       model: MODEL,
       max_tokens: 16000,
-      output_config: { effort: "high" },
+      output_config: { effort: opts.rapido ? "medium" : "high" },
       system: [{ type: "text", text: sist + "\n\n" + prog, cache_control: { type: "ephemeral" } }, { type: "text", text: METODO_BORRADOR + "\n\n" + ENTREGAS + (conApp ? "" : "\n\n" + SIN_APP) + (hoyClase ? "\n\n" + hoyClase : "") }],
       messages: [{ role: "user", content: adjuntos.length ? [...adjuntos, { type: "text", text: `${ctx}\n\n${material}` }] : `${ctx}\n\n${material}` }],
     // deno-lint-ignore no-explicit-any
-    } as any);
+    } as any, opts.tiempoIA ? { timeout: opts.tiempoIA, maxRetries: 0 } : undefined);
     if (r.stop_reason === "refusal") throw new Error("La IA no pudo armar este borrador. Escríbelo a mano.");
     // deno-lint-ignore no-explicit-any
     const texto = r.content.filter((b: any) => b.type === "text").map((b: any) => b.text).join("");
@@ -574,8 +649,13 @@ ${(x.weeklies || []).filter((e: any) => e.semana < imp.semana).slice(0, 3).map((
       tareas,
       notas: [aviso, parte("NOTAS PARA FLOR")].filter(Boolean).join("\n"),
       transcripcion,
+      ia_en: new Date().toISOString(),
     };
-    if (!datos.respuesta) throw new Error("La IA no armó la respuesta. Probá de nuevo con «Borrador con IA».");
+    if (!datos.respuesta) {
+      // deno-lint-ignore no-explicit-any
+      console.error("respuesta vacía", r.stop_reason, JSON.stringify((r as any).usage || {}), texto.slice(0, 600));
+      throw new Error(r.stop_reason === "max_tokens" ? "se quedó sin espacio para escribir (max_tokens)" : `la IA no armó la respuesta (${r.stop_reason}; ${texto.slice(0, 160).replace(/\s+/g, " ") || "sin texto"})`);
+    }
     if (!imp) await admin.from("borradores").upsert({ tabla, ref, datos, creado: new Date().toISOString() });
     // El mismo borrador queda en las otras entregas, para que Flor lo mande una vez y se cierren todas.
     // deno-lint-ignore no-explicit-any
@@ -634,6 +714,25 @@ Deno.serve(async (req) => {
   // deno-lint-ignore no-explicit-any
   let body: any;
   try { body = await req.json(); } catch { return json({ error: "Pedido inválido" }, 400); }
+
+  // ---------- paso 2 del borrador (solo lo llama la propia función, con la clave de servicio) ----------
+  if (body.modo === "borrador_paso2") {
+    if (!SRK() || req.headers.get("x-interno") !== SRK()) return json({ error: "No autorizado" }, 403);
+    const q = body, id = Number(q.pedido_id);
+    const tarea = (async () => {
+      try {
+        await generarBorrador(admin, "pedidos", id, undefined, q.quien || undefined, Array.isArray(q.grupo) ? q.grupo : undefined, !!q.sin_clase, { tope: 60000, rapido: !!q.rapido, tiempoIA: 125000 });
+      } catch (e) {
+        const m = String((e as Error).message);
+        console.error("paso 2", m);
+        if (!q.rapido && /time|abort/i.test(m)) { try { await pedirPaso2({ ...q, rapido: true }); return; } catch (_e) { /* sigue abajo */ } }
+        await marcarFalla(admin, id, q.grupo, mensajeIA(m)).catch(() => {});
+      }
+    })();
+    // deno-lint-ignore no-explicit-any
+    (globalThis as any).EdgeRuntime?.waitUntil?.(tarea);
+    return json({ ok: true });
+  }
 
   // ---------- Camino propio a Google para las tareas programadas (Flor, 20/11) ----------
   // Las tareas programadas a veces arrancan sin los conectores de Gmail, Calendar, Drive y Docs.
@@ -927,6 +1026,15 @@ Deno.serve(async (req) => {
     if (!(await esAdmin(db, uid))) return json({ error: "Solo Flor puede usar esto." }, 403);
     const tabla = body.pedido_id ? "pedidos" : body.weekly_id || body.imp ? "weekly" : "";
     if (!tabla) return json({ error: "Falta el pedido o el weekly." }, 400);
+    // Pedidos (archivos, audios, varias entregas): se arma en segundo plano y aparece solo en la Bandeja.
+    if (tabla === "pedidos") {
+      if (!Deno.env.get("ANTHROPIC_API_KEY")) return json({ error: mensajeIA("FALTA_CLAVE") }, 503);
+      const q = { pedido_id: Number(body.pedido_id), grupo: Array.isArray(body.grupo) ? body.grupo.map(Number) : undefined, quien: String(body.quien || "").trim().slice(0, 80) || undefined, sin_clase: !!body.sin_clase };
+      const desde = new Date().toISOString();
+      // deno-lint-ignore no-explicit-any
+      (globalThis as any).EdgeRuntime?.waitUntil?.(borradorEnDosPasos(admin, q, 100000));
+      return json({ armando: true, desde });
+    }
     try { return json(await generarBorrador(admin, tabla, Number(body.pedido_id || body.weekly_id || 0), body.imp, String(body.quien || "").trim().slice(0, 80) || undefined, Array.isArray(body.grupo) ? body.grupo : undefined, !!body.sin_clase)); }
     catch (e) {
       const m = String((e as Error).message);
