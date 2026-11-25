@@ -80,6 +80,10 @@
 .crs-ctl>span{font-weight:700;color:#6c6656;min-width:44px}
 .crs-ctl .on{background:#4b5624;border-color:#4b5624;color:#f8f5ee}
 .crs-col.cuad{border-radius:6px}
+.crs-drop{outline:3px dashed #c68c6c;outline-offset:3px;background:#fbf2d0}
+.crs-arrastre{outline:3px dashed #c68c6c55;outline-offset:6px;border-radius:12px}
+.crs-fpick{background:#fbf2d0;border-radius:12px;padding:8px;margin-bottom:8px}
+.crs-fpick .crs-fotos{max-height:220px;overflow:auto}
 .crs-modal [hidden]{display:none!important}
 .crs-col{width:26px;height:26px;border-radius:50%;border:2px solid #e6dcc4;cursor:pointer;padding:0}
 .crs-sel{background:#fbf2d0;border-radius:12px;padding:8px;position:sticky;top:0;z-index:5;box-shadow:0 6px 16px rgba(60,45,20,.12)}
@@ -128,6 +132,15 @@
     const claro = !oscuro || (+oscuro[1] + +oscuro[2] + +oscuro[3]) / 3 > 140;
     xs.forEach((t, k) => { const d = document.createElement('div'); d.className = 'xtra'; d.dataset.x = k; d.dataset.fs = 64; d.style.cssText = `position:absolute;left:96px;right:96px;top:${Math.round(root.offsetHeight * 0.44)}px;font-family:'Serif';font-weight:600;font-size:64px;line-height:1.1;text-align:center;color:${claro ? '#81552e' : '#f8f5ee'};z-index:40`; d.textContent = (t && t.t) || ''; root.appendChild(d); });
     const ps = piezasDe(root);
+    // Fotos agregadas encima de la lámina (Flor, 25/11: «agregar una foto, por ejemplo un testimonio, y no que me la ponga de fondo»).
+    const fx = (datos && datos.f) || [], W0 = root.offsetWidth || M.W, H0 = root.offsetHeight || 1350;
+    fx.forEach((t, k) => {
+      const e = M.catalogo.find((z) => z.archivo === t.a), src = e ? M.urlDe(e) : t.u; if (!src) return;
+      const d = document.createElement('div'); d.className = 'xfoto'; d.dataset.f = k;
+      d.style.cssText = `position:absolute;left:${Math.round(W0 * 0.12)}px;top:${Math.round(H0 * 0.26)}px;width:${Math.round(W0 * (t.w || 0.76))}px;z-index:${t.atras ? 4 : 45};border-radius:${t.recto ? 0 : 22}px;overflow:hidden;box-shadow:${t.recto ? 'none' : '0 18px 40px rgba(40,30,15,.28)'};background:#fff;transform:translate(${t.x || 0}px,${t.y || 0}px)`;
+      d.innerHTML = `<img src="${src}" crossorigin="anonymous" alt="" style="display:block;width:100%;height:auto;pointer-events:none">`;
+      root.appendChild(d);
+    });
     Object.entries(ed || {}).forEach(([k, o]) => {
       const e = ps[+k]; if (!e || !o) return;
       if (o.s && o.s !== 1) { const z = parseFloat(getComputedStyle(e).fontSize) * o.s; e.style.fontSize = z + 'px'; e.querySelectorAll('[data-fs]').forEach((h) => { h.style.fontSize = parseFloat(getComputedStyle(h).fontSize) * o.s + 'px'; }); }
@@ -247,7 +260,7 @@
   }
   function htmlPlaca(c, i, escala) {
     const H = alto(c), p = c.placas[i]; if (!p) return '';
-    const ed = esc(JSON.stringify({ o: p.ed || {}, x: p.extra || [] }));
+    const ed = esc(JSON.stringify({ o: p.ed || {}, x: p.extra || [], f: p.fotox || [] }));
     if (c.estilo && ES) { const fo = lleva(c, p, i) ? fotoDe(p) : null; return `<div data-ed="${ed}" style="transform:scale(${escala});width:${M.W}px;height:${H}px;transform-origin:0 0">${ES.placa(c, i, H, fo, fo ? M.urlDe(fo) : '', M.assets)}</div>`; }
     let forma = c.formato === 'reel' && i === 0 && !p.forma.startsWith('portada_') ? M.RECETAS[c.receta].portadas[0] : p.forma, d = p;
     let fRec = null;
@@ -371,7 +384,7 @@ ${c.estilo ? '' : `<div class="crs-ctl" style="margin:0 0 8px"><span>Letra de lo
   ${(defs(p0.forma, c).c || []).map(([k, et, t]) => `<label class="crs-campo">${esc(et)}${t === 't' ? `<input type="text" data-pk="${k}" value="${esc(c.placas[0][k] || '')}">` : `<textarea rows="2" data-pk="${k}">${esc(c.placas[0][k] || '')}</textarea>`}</label>`).join('')}
 </details>
 <div class="crs-tira">${visibles(c).map((i) => `<button type="button" class="crs-mini${reel ? ' reel' : ''}" data-i="${i}" aria-label="Editar lámina ${i + 1}"><div class="marco">${htmlPlaca(c, i, 120 / M.W)}</div>${i + 1}</button>`).join('')}</div>
-<div class="crs-acc"><button type="button" class="btn sm" data-crs-ed="0">✏️ Editar cada lámina</button>${subirFn ? `<label class="btn ghost sm crs-sub">📷 Subir fotos mías<input type="file" accept="image/*" multiple data-crs-subir="persona" hidden></label><label class="btn ghost sm crs-sub">☕ Subir fotos de lugares y cosas<input type="file" accept="image/*" multiple data-crs-subir="objeto" hidden></label>` : ''}<button type="button" class="btn ghost sm" data-crs-fotos>Otras fotos</button><button type="button" class="btn ghost sm" data-crs-png>Bajar PNG</button></div>
+<div class="crs-acc"><button type="button" class="btn sm" data-crs-ed="0">✏️ Editar cada lámina</button>${subirFn ? `<label class="btn ghost sm crs-sub">📷 Subir fotos mías<input type="file" accept="image/*" multiple data-crs-subir="persona" hidden></label><label class="btn ghost sm crs-sub">☕ Subir fotos de lugares y cosas<input type="file" accept="image/*" multiple data-crs-subir="objeto" hidden></label>` : ''}<button type="button" class="btn ghost sm" data-crs-fotos>Otras fotos</button><button type="button" class="btn ghost sm" data-crs-png>📲 Descargar láminas</button></div>
 <p class="small muted" style="margin:6px 0 0">Tocá una lámina para cambiarle el texto, el tamaño de la letra, dónde va, el tipo de lámina o la foto.</p>
 <div class="crs-est" aria-live="polite"></div>`;
     $$('.crs-mini .marco .p', el).forEach((p) => ajustar(p));
@@ -408,7 +421,21 @@ ${c.estilo ? '' : `<div class="crs-ctl" style="margin:0 0 8px"><span>Letra de lo
         const e3 = el.querySelector('.crs-est'); if (e3) e3.textContent = `Listo: ${nuevas.length === 1 ? 'la foto quedó' : nuevas.length + ' fotos quedaron'} en tu biblioteca${p0 && lleva(c, p0, 0) ? ' (la primera, en la portada)' : ''}. Elegilas en «Editar cada lámina».`;
       } catch (e) { est('No se pudo subir: ' + e.message); }
     }));
-    el.querySelector('[data-crs-png]').onclick = async (e) => { const b = e.currentTarget; b.disabled = true; try { await bajarZip(f, est); } catch (er) { est('No pude armar los PNG: ' + er.message); } b.disabled = false; };
+    botonDescarga(el.querySelector('[data-crs-png]'), f, () => visibles(c), est, '📲 Descargar láminas');
+    // Arrastrar fotos desde la compu (Descargas) y soltarlas sobre «Subir fotos mías» o «Subir fotos de lugares y cosas».
+    $$('label.crs-sub', el).forEach((lb) => {
+      const inp = lb.querySelector('input[type=file]'); if (!inp) return;
+      lb.ondragover = (ev) => { ev.preventDefault(); ev.stopPropagation(); lb.classList.add('crs-drop'); };
+      lb.ondragleave = () => lb.classList.remove('crs-drop');
+      lb.ondrop = (ev) => {
+        ev.preventDefault(); ev.stopPropagation(); lb.classList.remove('crs-drop');
+        const fs = [...((ev.dataTransfer && ev.dataTransfer.files) || [])].filter((x) => /^image\//.test(x.type)); if (!fs.length) return;
+        const dt = new DataTransfer(); fs.forEach((x) => dt.items.add(x)); inp.files = dt.files; inp.onchange && inp.onchange();
+      };
+    });
+    el.ondragover = (ev) => { if (ev.dataTransfer && [...ev.dataTransfer.types].includes('Files')) { ev.preventDefault(); el.classList.add('crs-arrastre'); } };
+    el.ondragleave = (ev) => { if (!el.contains(ev.relatedTarget)) el.classList.remove('crs-arrastre'); };
+    el.ondrop = (ev) => { ev.preventDefault(); el.classList.remove('crs-arrastre'); est('Soltá las fotos sobre «Subir fotos mías» o «Subir fotos de lugares y cosas». Para ponerlas en una lámina, abrí la lámina y soltalas encima.'); };
   }
   async function guardar(f, est) {
     if (!guardarFn) return;
@@ -420,6 +447,7 @@ ${c.estilo ? '' : `<div class="crs-ctl" style="margin:0 0 8px"><span>Letra de lo
   function editor(f, i, alCerrar) {
     const c = f.carrusel, vis = visibles(c);
     let sel = null; // { i, idx } el texto tocado en la lámina
+    let fsel = null; // { i, k } la foto agregada que se tocó
     const m = document.createElement('div'); m.className = 'crs-modal'; m.setAttribute('role', 'dialog'); m.setAttribute('aria-modal', 'true');
     document.body.appendChild(m);
     const cerrar = () => { m.remove(); document.removeEventListener('keydown', tecla); alCerrar && alCerrar(); };
@@ -436,7 +464,9 @@ ${c.estilo ? '' : `<div class="crs-ctl" style="margin:0 0 8px"><span>Letra de lo
       m.innerHTML = `<div class="cm"><div><div class="lienzo" style="aspect-ratio:1080/${alto(c)}"></div>
   <div class="nav"><button type="button" class="btn ghost sm" data-ant ${i <= 0 ? 'disabled' : ''}>← Anterior</button><span class="small">Lámina ${i + 1} de ${vis.length} · tocá el texto para editarlo</span><button type="button" class="btn ghost sm" data-sig ${i >= vis.length - 1 ? 'disabled' : ''}>Siguiente →</button></div></div>
 <div><div class="row between"><h3 style="margin:0">${esc(F.n)}</h3><button type="button" class="btn ghost sm" data-cerrar>Listo</button></div>
-  <button type="button" class="btn sm" data-xadd style="margin-bottom:8px">＋ Agregar texto</button>
+  <div class="row" style="gap:6px;flex-wrap:wrap;margin-bottom:8px"><button type="button" class="btn sm" data-xadd>＋ Agregar texto</button><button type="button" class="btn sm" data-fadd>＋ Agregar foto</button><button type="button" class="btn ghost sm" data-baj1>📲 Descargar esta lámina</button></div>
+  <div class="crs-fpick" hidden><p class="small" style="margin:0 0 6px"><b>Elegí la foto</b> (o arrastrala desde tu compu y soltala sobre la lámina)</p><div class="crs-fotos">${M.catalogo.filter((e) => !e.excluir).slice().reverse().map((e) => `<button type="button" data-fpon="${esc(e.archivo)}" aria-label="Agregar esta foto"><img src="${M.urlDe(e)}" alt="" loading="lazy"></button>`).join('')}</div><label class="small">Subir una foto nueva y agregarla<input type="file" accept="image/*" data-fsub></label></div>
+  <div class="crs-ctl crs-sel crs-fbar"${fsel && fsel.i === i ? '' : ' hidden'}><span>La foto que tocaste</span><button type="button" class="btn ghost sm" data-fed="s-">Más chica</button><button type="button" class="btn ghost sm" data-fed="s+">Más grande</button><button type="button" class="btn ghost sm" data-fed="z">Adelante / atrás del texto</button><button type="button" class="btn ghost sm" data-fed="r">Bordes rectos / redondeados</button><button type="button" class="btn ghost sm" data-fed="x">Quitar foto</button></div>
   <div class="crs-ctl crs-sel"${sel && sel.i === i ? '' : ' hidden'}><span>Solo lo que tocaste <b class="crs-selpct">${sel && sel.i === i && p.ed && p.ed[sel.idx] && p.ed[sel.idx].s ? Math.round(p.ed[sel.idx].s * 100) : 100}%</b></span><button type="button" class="btn ghost sm" data-ted="s-" aria-label="Más chico">A−</button><button type="button" class="btn ghost sm" data-ted="s+" aria-label="Más grande">A+</button><button type="button" class="btn ghost sm" data-ted="u" aria-label="Subir">↑</button><button type="button" class="btn ghost sm" data-ted="d" aria-label="Bajar">↓</button><button type="button" class="btn ghost sm" data-ted="l" aria-label="A la izquierda">←</button><button type="button" class="btn ghost sm" data-ted="r" aria-label="A la derecha">→</button>${[['#4b5624', 'Olivo'], ['#81552e', 'Café'], ['#3f1e0d', 'Café oscuro'], ['#c68c6c', 'Terracota'], ['#f8f5ee', 'Crema'], ['#1f1c17', 'Negro']].map(([h, n]) => `<button type="button" class="crs-col" data-ted="c:${h}" title="${n}" aria-label="Letra ${n}" style="background:${h}"></button>`).join('')}<span style="margin-left:4px">Fondo</span>${[['#f8f5ee', 'Crema'], ['#fbf2d0', 'Cálida'], ['#ede5cc', 'Crema media'], ['#c68c6c', 'Terracota'], ['#81552e', 'Café'], ['#4b5624', 'Olivo']].map(([h, n]) => `<button type="button" class="crs-col cuad" data-ted="f:${h}" title="Fondo ${n}" aria-label="Fondo ${n}" style="background:${h}"></button>`).join('')}<button type="button" class="btn ghost sm" data-ted="f:">Sin fondo</button><button type="button" class="btn ghost sm" data-ted="zf">Adelante de la foto</button><button type="button" class="btn ghost sm" data-ted="zb">Atrás de la foto</button><button type="button" class="btn ghost sm" data-ted="x">Como estaba</button></div>
   <p class="small muted" style="margin:4px 0 0">Tocá un texto para escribir; arrastralo para moverlo a donde quieras; con la barra, agrandalo o cambiale el color.</p>
   <label>Tipo de lámina<select data-forma>${formas.map((k) => `<option value="${k}"${k === p.forma ? ' selected' : ''}>${esc(defs(k, c).n)}</option>`).join('')}</select></label>
@@ -454,6 +484,26 @@ ${c.estilo ? '' : `<div class="crs-ctl" style="margin:0 0 8px"><span>Letra de lo
         lz.innerHTML = htmlPlaca(c, i, lz.clientWidth / M.W); const n = lz.querySelector('.p'); if (n) ajustar(n);
         editable(lz, p, F.c.map((x) => x[0]), (k) => { const t = m.querySelector(`[data-k="${k}"]`); if (t) t.value = p[k]; dibujar(); clearTimeout(timer); timer = setTimeout(() => guardar(f, est), 300); });
         if (n) n.querySelectorAll('.bg').forEach((b) => { b.style.pointerEvents = 'none'; });
+        if (n) n.querySelectorAll('.xfoto').forEach((x) => {
+          const k = +x.dataset.f; x.style.cursor = 'grab'; x.style.touchAction = 'none';
+          if (fsel && fsel.i === i && fsel.k === k) x.style.outline = '8px dashed #c68c6c';
+          x.addEventListener('pointerdown', (ev) => {
+            ev.preventDefault(); ev.stopPropagation();
+            fsel = { i, k }; sel = null; n.querySelectorAll('.xfoto').forEach((y) => { y.style.outline = ''; }); x.style.outline = '8px dashed #c68c6c';
+            const fb = m.querySelector('.crs-fbar'); if (fb) fb.hidden = false; const tb = m.querySelector('.crs-sel:not(.crs-fbar)'); if (tb) tb.hidden = true;
+            const kz = lz.clientWidth / M.W, t = p.fotox[k], x0 = t.x || 0, y0 = t.y || 0, sx = ev.clientX, sy = ev.clientY;
+            const mv = (v) => { x.style.transform = `translate(${x0 + (v.clientX - sx) / kz}px,${y0 + (v.clientY - sy) / kz}px)`; };
+            const up = (v) => { document.removeEventListener('pointermove', mv); document.removeEventListener('pointerup', up); if (Math.hypot(v.clientX - sx, v.clientY - sy) < 4) return; t.x = Math.round(x0 + (v.clientX - sx) / kz); t.y = Math.round(y0 + (v.clientY - sy) / kz); dibujar(); clearTimeout(timer); timer = setTimeout(() => guardar(f, est), 400); };
+            document.addEventListener('pointermove', mv); document.addEventListener('pointerup', up);
+          });
+        });
+        lz.ondragover = (ev) => { ev.preventDefault(); lz.style.outline = '4px dashed #c68c6c'; };
+        lz.ondragleave = () => { lz.style.outline = ''; };
+        lz.ondrop = async (ev) => {
+          ev.preventDefault(); lz.style.outline = '';
+          const fs = [...((ev.dataTransfer && ev.dataTransfer.files) || [])].filter((x) => /^image\//.test(x.type)); if (!fs.length) return;
+          for (const file of fs) await agregarFotoSubida(file);
+        };
         if (n) n.querySelectorAll('.xtra').forEach((x) => {
           x.contentEditable = 'true'; x.spellcheck = true;
           x.addEventListener('blur', () => { const k = +x.dataset.x, v = x.innerText.trim(); if (!p.extra || !p.extra[k] || v === p.extra[k].t) return; p.extra[k].t = v; dibujar(); clearTimeout(timer); timer = setTimeout(() => guardar(f, est), 300); });
@@ -476,6 +526,24 @@ ${c.estilo ? '' : `<div class="crs-ctl" style="margin:0 0 8px"><span>Letra de lo
         // Tocar fuera de los textos: se suelta la selección y vuelve «Toda la lámina».
         lz.onpointerdown = (ev) => { if (!n || (ev.target !== n && !ev.target.classList.contains('bg') && ev.target !== lz)) return; sel = null; piezasDe(n).forEach((x) => { x.style.outline = ''; }); const bar = m.querySelector('.crs-sel'); if (bar) bar.hidden = true; const toda = m.querySelector('.crs-toda'); if (toda) toda.hidden = false; };
       };
+      const ponerFoto = (archivo, url) => { p.fotox = p.fotox || []; p.fotox.push({ a: archivo, u: url || '', w: 0.76 }); fsel = { i, k: p.fotox.length - 1 }; const pk = m.querySelector('.crs-fpick'); if (pk) pk.hidden = true; pintar(); clearTimeout(timer); timer = setTimeout(() => guardar(f, est), 300); };
+      const agregarFotoSubida = async (file) => {
+        if (!subirFn) { est('Para subir fotos entrá con tu usuario.'); return; }
+        try { est('Subiendo la foto…'); const rd = await reducir(file); const meta = await subirFn(rd.blob, file.name, rd.ancho, rd.alto, 'objeto'); M.catalogo.push(extraACat(meta)); ponerFoto(meta.archivo, meta.url); est('Foto agregada: arrastrala adonde quieras.'); } catch (er) { est('No se pudo subir: ' + er.message); }
+      };
+      const fadd = m.querySelector('[data-fadd]'); if (fadd) fadd.onclick = () => { const pk = m.querySelector('.crs-fpick'); if (pk) pk.hidden = !pk.hidden; };
+      $$('[data-fpon]', m).forEach((b) => (b.onclick = () => { const e = M.catalogo.find((z) => z.archivo === b.dataset.fpon); ponerFoto(b.dataset.fpon, e ? M.urlDe(e) : ''); }));
+      const fsub = m.querySelector('[data-fsub]'); if (fsub) fsub.onchange = async () => { const file = fsub.files[0]; if (file) await agregarFotoSubida(file); };
+      $$('[data-fed]', m).forEach((b) => (b.onclick = () => {
+        if (!fsel || fsel.i !== i || !p.fotox || !p.fotox[fsel.k]) return;
+        const t = p.fotox[fsel.k], a = b.dataset.fed;
+        if (a === 's+') t.w = Math.min(1.2, Math.round(((t.w || 0.76) + 0.08) * 100) / 100);
+        else if (a === 's-') t.w = Math.max(0.15, Math.round(((t.w || 0.76) - 0.08) * 100) / 100);
+        else if (a === 'z') t.atras = !t.atras; else if (a === 'r') t.recto = !t.recto;
+        else if (a === 'x') { p.fotox.splice(fsel.k, 1); fsel = null; }
+        pintar(); clearTimeout(timer); timer = setTimeout(() => guardar(f, est), 400);
+      }));
+      const baj1 = m.querySelector('[data-baj1]'); if (baj1) botonDescarga(baj1, f, () => [i], (t) => est(t), '📲 Descargar esta lámina');
       const xadd = m.querySelector('[data-xadd]');
       if (xadd) xadd.onclick = () => {
         p.extra = p.extra || []; p.extra.push({ t: 'Tu texto' }); dibujar();
@@ -584,6 +652,33 @@ ${c.estilo ? '' : `<div class="crs-ctl" style="margin:0 0 8px"><span>Letra de lo
     g.fillStyle = fondo && fondo !== 'rgba(0, 0, 0, 0)' ? fondo : '#f8f5ee'; g.fillRect(0, 0, M.W, H);
     for (const k of out) { if (k.cv) g.drawImage(k.cv, k.x, k.y); else g.drawImage(await cargarImg(k.url), 0, 0); }
     return await new Promise((r) => cv.toBlob(r, 'image/png'));
+  }
+  // Descargar al teléfono (Flor, 25/11): en el celu se abre «Compartir» → «Guardar imágenes» (van a la galería);
+  // en la compu se bajan una por una. En el celu son dos toques: armar y después guardar (el navegador lo pide así).
+  const nombreDe = (f) => (`${f.fecha} ${String(f.titulo || 'carrusel').replace(/^(Carrusel|Reel a cámara|Reel) · /, '')}`).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 50) || 'carrusel';
+  async function armarImagenes(f, idxs, est) {
+    if (!window.htmlToImage) await script('https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.js');
+    const c = f.carrusel, files = [];
+    for (const [n, i] of idxs.entries()) { est(`Armando la lámina ${i + 1}… (${n + 1} de ${idxs.length})`); const b = await aPNG(c, i); files.push(new File([b], `${nombreDe(f)}-${String(i + 1).padStart(2, '0')}.png`, { type: 'image/png' })); }
+    return files;
+  }
+  async function entregar(files, est) {
+    if (navigator.canShare && navigator.canShare({ files })) { await navigator.share({ files }); est('Listo: si elegiste «Guardar imágenes», ya están en tu galería.'); return; }
+    for (const fl of files) { const a = document.createElement('a'); a.href = URL.createObjectURL(fl); a.download = fl.name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000); await new Promise((r) => setTimeout(r, 400)); }
+    est(files.length === 1 ? 'Listo: se descargó la imagen.' : `Listo: se descargaron las ${files.length} imágenes.`);
+  }
+  function botonDescarga(btn, f, idxs, est, txt) {
+    if (!btn) return; let listos = null;
+    btn.onclick = async () => {
+      if (listos) { const fs = listos; listos = null; btn.textContent = txt; try { await entregar(fs, est); } catch (er) { if (er && er.name !== 'AbortError') est('No se pudo guardar: ' + er.message); } return; }
+      btn.disabled = true;
+      try {
+        const fs = await armarImagenes(f, idxs(), est);
+        if (navigator.canShare && navigator.canShare({ files: fs })) { listos = fs; btn.textContent = fs.length === 1 ? '📲 Guardar en el teléfono' : `📲 Guardar las ${fs.length} en el teléfono`; est('Listas. Tocá el botón otra vez y elegí «Guardar imágenes».'); }
+        else await entregar(fs, est);
+      } catch (er) { est('No pude armar las imágenes: ' + er.message); }
+      btn.disabled = false;
+    };
   }
   async function bajarZip(f, est) {
     if (!window.htmlToImage) await script('https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.js');
