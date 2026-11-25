@@ -23,10 +23,10 @@
     if (listo) return listo;
     listo = (async () => {
       await script(BASE + 'motor.js?v=1');
-      await script(BASE + 'estilos.js?v=7');
+      await script(BASE + 'estilos.js?v=9');
       M = window.Motor; ES = window.Estilos;
       const [cat, fcss, pinc, lo, lc] = await Promise.all([
-        fetch(BASE + 'catalogo.json?v=1').then((r) => r.json()), Promise.all([fetch(BASE + 'marca/fuentes.css').then((r) => r.text()), fetch(BASE + 'marca/script.css?v=1').then((r) => (r.ok ? r.text() : '')).catch(() => '')]).then((x) => x.join('\n')),
+        fetch(BASE + 'catalogo.json?v=2').then((r) => r.json()), Promise.all([fetch(BASE + 'marca/fuentes.css').then((r) => r.text()), fetch(BASE + 'marca/script.css?v=1').then((r) => (r.ok ? r.text() : '')).catch(() => '')]).then((x) => x.join('\n')),
         aDataURL(BASE + 'marca/pincel-terra-c68c6c.png'), aDataURL(BASE + 'marca/logo-olivo.png'), aDataURL(BASE + 'marca/logo-crema.png')]);
       (fotosExtra || []).forEach((f) => { if (!cat.some((e) => e.archivo === f.archivo)) cat.push(extraACat(f)); });
       M.catalogo = cat; M.assets = { pinc, logoO: lo, logoC: lc };
@@ -115,7 +115,7 @@
         if (!lleva(c, p, idx)) return; // la foto elegida queda guardada por si vuelve a un estilo con foto
         const ok = p._foto && M.catalogo.some((e) => e.archivo === p._foto && !e.excluir);
         if (ok && !rehacer && (!p.foto || p.foto === 'objeto' || p.foto === 'persona' || p.foto === p._foto)) return;
-        const forma = c.estilo ? (p.forma === 'portada' ? 'portada_foto' : 'foto_frase') : p.forma === 'cierre' ? 'foto_frase' : p.forma, pedida = p.forma === 'cierre' ? p.foto || 'objeto' : p.foto;
+        const forma = c.estilo ? (p.forma === 'portada' ? 'portada_foto' : 'foto_frase') : p.forma === 'cierre' ? 'foto_frase' : p.forma, pedida = p.foto && p.foto !== 'persona' && p.foto !== 'objeto' ? p.foto : c.estilo ? p.foto || ES.pide(c, p, idx) : p.forma === 'cierre' ? p.foto || 'objeto' : p.foto;
         let e = M.tomarFoto(forma, H, pedida, usadas, r);
         if (!e && p.forma === 'portada_profundidad') { p.forma = 'portada_foto'; p.titulo = p.titulo || [p.pre, p.palabra].filter(Boolean).join(' '); p.titulo_i = p.titulo_i || p.pill || ''; e = M.tomarFoto('portada_foto', H, null, usadas, r); }
         if (e && e.archivo !== p._foto) { p._foto = e.archivo; cambio = true; }
@@ -165,7 +165,7 @@
   ${(defs(p0.forma).c || []).map(([k, et, t]) => `<label class="crs-campo">${esc(et)}${t === 't' ? `<input type="text" data-pk="${k}" value="${esc(c.placas[0][k] || '')}">` : `<textarea rows="2" data-pk="${k}">${esc(c.placas[0][k] || '')}</textarea>`}</label>`).join('')}
 </details>
 <div class="crs-tira">${visibles(c).map((i) => `<button type="button" class="crs-mini${reel ? ' reel' : ''}" data-i="${i}" aria-label="Editar lámina ${i + 1}"><div class="marco">${htmlPlaca(c, i, 120 / M.W)}</div>${i + 1}</button>`).join('')}</div>
-<div class="crs-acc"><button type="button" class="btn sm" data-crs-ed="0">✏️ Editar cada lámina</button>${subirFn ? `<label class="btn ghost sm crs-sub">📷 Subir fotos nuevas<input type="file" accept="image/*" multiple data-crs-subir hidden></label>` : ''}<button type="button" class="btn ghost sm" data-crs-fotos>Otras fotos</button><button type="button" class="btn ghost sm" data-crs-png>Bajar PNG</button></div>
+<div class="crs-acc"><button type="button" class="btn sm" data-crs-ed="0">✏️ Editar cada lámina</button>${subirFn ? `<label class="btn ghost sm crs-sub">📷 Subir fotos mías<input type="file" accept="image/*" multiple data-crs-subir="persona" hidden></label><label class="btn ghost sm crs-sub">☕ Subir fotos de lugares y cosas<input type="file" accept="image/*" multiple data-crs-subir="objeto" hidden></label>` : ''}<button type="button" class="btn ghost sm" data-crs-fotos>Otras fotos</button><button type="button" class="btn ghost sm" data-crs-png>Bajar PNG</button></div>
 <p class="small muted" style="margin:6px 0 0">Tocá una lámina para cambiarle el texto, el tamaño de la letra, dónde va, el tipo de lámina o la foto.</p>
 <div class="crs-est" aria-live="polite"></div>`;
     $$('.crs-mini .marco .p', el).forEach((p) => ajustar(p));
@@ -185,18 +185,18 @@
     const dp = el.querySelector('.crs-port'); if (dp) dp.ontoggle = () => { c._abrirPortada = dp.open; };
     el.querySelector('[data-crs-fotos]').onclick = async () => { c.semilla = (+c.semilla || 0) + 1; asignarFotos(Object.values(FILAS), llave(f)); pintarUno(el); await guardar(f, est); };
     $$('.crs-mini,[data-crs-ed]', el).forEach((b) => (b.onclick = () => editor(f, +(b.dataset.i || b.dataset.crsEd || 0), () => pintarUno(el))));
-    const sub = el.querySelector('[data-crs-subir]');
-    if (sub) sub.onchange = async () => {
+    $$('[data-crs-subir]', el).forEach((sub) => (sub.onchange = async () => {
+      const tipo = sub.dataset.crsSubir || 'persona';
       const files = [...sub.files]; if (!files.length) return;
       const nuevas = [];
       try {
-        for (const [n, file] of files.entries()) { est(`Subiendo ${n + 1} de ${files.length}…`); const rd = await reducir(file); const meta = await subirFn(rd.blob, file.name, rd.ancho, rd.alto); M.catalogo.push(extraACat(meta)); nuevas.push(meta.archivo); }
+        for (const [n, file] of files.entries()) { est(`Subiendo ${n + 1} de ${files.length}…`); const rd = await reducir(file); const meta = await subirFn(rd.blob, file.name, rd.ancho, rd.alto, tipo); M.catalogo.push(extraACat(meta)); nuevas.push(meta.archivo); }
         // La primera va a la portada (si la portada lleva foto); el resto queda en tu biblioteca para elegirlas lámina por lámina.
-        const p0 = c.placas[0]; if (p0 && lleva(c, p0, 0) && nuevas[0]) { p0._foto = nuevas[0]; p0.foto = nuevas[0]; }
+        const p0 = c.placas[0]; if (tipo === 'persona' && p0 && lleva(c, p0, 0) && nuevas[0]) { p0._foto = nuevas[0]; p0.foto = nuevas[0]; }
         pintarUno(el); await guardar(f, (t) => { const e2 = el.querySelector('.crs-est'); if (e2) e2.textContent = t || ''; });
         const e3 = el.querySelector('.crs-est'); if (e3) e3.textContent = `Listo: ${nuevas.length === 1 ? 'la foto quedó' : nuevas.length + ' fotos quedaron'} en tu biblioteca${p0 && lleva(c, p0, 0) ? ' (la primera, en la portada)' : ''}. Elegilas en «Editar cada lámina».`;
       } catch (e) { est('No se pudo subir: ' + e.message); }
-    };
+    }));
     el.querySelector('[data-crs-png]').onclick = async (e) => { const b = e.currentTarget; b.disabled = true; try { await bajarZip(f, est); } catch (er) { est('No pude armar los PNG: ' + er.message); } b.disabled = false; };
   }
   async function guardar(f, est) {
@@ -231,7 +231,7 @@
   <p class="small muted" style="margin:6px 0 0">*itálica* · **negrita** · en listas, una línea por renglón y «negrita | resto».</p>
   ${E ? (conFoto ? `<label>Foto de esta lámina</label>` : '') : conFoto ? `<label>Foto de esta lámina</label>` : `<label>Foto de fondo (opcional: va detrás del texto, con un velo de color)</label><div class="row" style="gap:6px;margin-top:4px"><button type="button" class="btn ghost sm" data-fondo="">${p.fondo_img ? 'Sacar la foto de fondo' : 'Sin foto de fondo ✓'}</button></div>`}
   ${E && !conFoto ? '' : `<div class="crs-fotos">${(conFoto ? fotos : M.catalogo.filter((e) => !e.excluir)).map((e) => `<button type="button" ${conFoto ? 'data-foto' : 'data-fondo'}="${esc(e.archivo)}" class="${e.archivo === (conFoto ? p._foto : p.fondo_img) ? 'on' : ''}" aria-label="${esc(e.titulo || e.archivo)}"><img loading="lazy" src="${esc(e.url || (e.ruta ? e.ruta : 'carruseles/fotos/' + e.archivo))}" alt=""></button>`).join('')}</div>`}
-  ${subirFn ? `<label>Subir una foto nueva<input type="file" accept="image/*" data-subir></label>` : ''}
+  ${subirFn ? `<label>Subir una foto mía<input type="file" accept="image/*" data-subir="persona"></label><label>Subir una foto de un lugar o una cosa<input type="file" accept="image/*" data-subir="objeto"></label>` : ''}
   <div class="crs-est" aria-live="polite"></div></div></div>`;
       const lz = m.querySelector('.lienzo');
       const dibujar = () => { lz.innerHTML = htmlPlaca(c, i, lz.clientWidth / M.W); const n = lz.querySelector('.p'); if (n) ajustar(n); };
@@ -248,18 +248,17 @@
       $$('[data-confoto]', m).forEach((b) => (b.onclick = () => { p.conFoto = b.dataset.confoto === '1'; asignarFotos(Object.values(FILAS)); pintar(); guardar(f, est); }));
       $$('[data-fondo]', m).forEach((b) => (b.onclick = () => { if (b.dataset.fondo) p.fondo_img = b.dataset.fondo; else delete p.fondo_img; pintar(); guardar(f, est); }));
       $$('[data-foto]', m).forEach((b) => (b.onclick = () => { p._foto = b.dataset.foto; p.foto = b.dataset.foto; pintar(); guardar(f, est); }));
-      const sub = m.querySelector('[data-subir]');
-      if (sub) sub.onchange = async () => {
+      $$('[data-subir]', m).forEach((sub) => (sub.onchange = async () => {
         const file = sub.files[0]; if (!file) return;
         try {
           est('Subiendo la foto…');
           const reducida = await reducir(file);
-          const meta = await subirFn(reducida.blob, file.name, reducida.ancho, reducida.alto);
+          const meta = await subirFn(reducida.blob, file.name, reducida.ancho, reducida.alto, sub.dataset.subir);
           M.catalogo.push(extraACat(meta));
           if (c.estilo && p.forma !== 'portada') p.conFoto = true;
           if (lleva(c, p, i)) { p._foto = meta.archivo; p.foto = meta.archivo; } else p.fondo_img = meta.archivo; pintar(); await guardar(f, est); est('Foto subida: ya queda para todos tus carruseles.');
         } catch (e) { est('No se pudo subir: ' + e.message); }
-      };
+      }));
     };
     pintar();
   }

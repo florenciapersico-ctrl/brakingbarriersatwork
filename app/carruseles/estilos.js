@@ -61,7 +61,16 @@
   }
   function variante(E, p) { return p.variante === 'texto' ? 'texto' : 'completa'; }
   // Todos estos estilos van con foto en todas las láminas; cada lámina la puede sacar («Sin foto»).
-  function llevaFoto(c, p) { if (p.conFoto === false) return false; if (p.forma === 'portada' && p.variante === 'texto') return false; return true; }
+  // Ritmo de fotos (Flor, 25/11: «son demasiadas fotos mías; alternar con un cafecito, una oficina, paisajes»):
+  // portada con ella; adentro se alterna foto suya, foto de ambiente y lámina sin foto (en los estilos de foto a sangre).
+  function llevaFoto(c, p, i) {
+    if (p.conFoto === false) return false; if (p.conFoto === true) return true;
+    if (p.forma === 'portada') return p.variante !== 'texto';
+    const E = ESTILOS[c.estilo] || ESTILOS.lifestyle;
+    if (E.fam !== 'sangre') return true;
+    return (i || 0) % 3 !== 2;
+  }
+  function pide(c, p, i) { const E = ESTILOS[c.estilo] || ESTILOS.lifestyle; if (p.forma === 'portada') return E.fam === 'sangre' ? 'persona' : 'objeto'; if (p.forma === 'cierre') return 'objeto'; return (i || 0) % 3 === 1 ? 'objeto' : 'persona'; }
 
   const esc = (t) => String(t ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   const md = (t) => esc(t).replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>').replace(/\*([^*]+)\*/g, '<i>$1</i>').replace(/\n/g, '<br>');
@@ -155,7 +164,7 @@
       caja.t = hF - 90; caja.l = PAD - 24; caja.r = PAD - 24; just = 'flex-start'; tarjeta = true;
     } else {
       // Sin foto: el fondo del estilo (crema) o, en los estilos de foto a sangre, un fondo oscuro de la marca.
-      if (E.fam === 'sangre') { fondo = K.bb; C = oscuroC; oscuro = true; }
+      if (E.fam === 'sangre') { fondo = i % 2 ? K.cremaM : K.crema; C = { tit: K.cafe, it: K.olivo, ink: K.negro, acc: K.terra, linea: K.terra + '66' }; }
       just = pos === 'arriba' ? 'flex-start' : pos === 'abajo' ? 'flex-end' : 'center';
       centrar = !!E.polaroid;
     }
@@ -167,5 +176,5 @@
     return `<div class="p" style="height:${H}px;background:${fondo};color:${C.ink}">${capas}${extra}<div class="caja" style="left:${caja.l}px;right:${caja.r}px;top:${caja.t}px;bottom:${caja.b}px;justify-content:${just};text-align:${centrar ? 'center' : 'left'}"><div class="ci" style="display:flex;flex-direction:column;gap:${8 * s}px">${inner}</div></div>${pie}</div>`;
   }
 
-  window.Estilos = { ESTILOS, ROLES, aEstilos, desdeForma, llevaFoto, placa, variante };
+  window.Estilos = { ESTILOS, ROLES, aEstilos, desdeForma, llevaFoto, placa, variante, pide };
 })();

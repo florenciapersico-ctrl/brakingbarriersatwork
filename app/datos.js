@@ -154,11 +154,11 @@
       async editarPieza(fecha, clave, cambios) { const d = ok(await sb.from('hoy_flor').update({ ...cambios, actualizado: new Date().toISOString() }).eq('fecha', fecha).eq('clave', clave).select('clave')); if (!d || !d.length) throw new Error('No encontré la pieza'); },
       async guardarCarrusel(fecha, clave, carrusel) { ok(await sb.from('hoy_flor').update({ carrusel, actualizado: new Date().toISOString() }).eq('fecha', fecha).eq('clave', clave).select('clave')); },
       async fotosCarrusel() { return ok(await sb.from('fotos_carrusel').select('*').eq('excluir', false).order('creado')); },
-      async subirFotoCarrusel(blob, nombre, ancho, alto) {
+      async subirFotoCarrusel(blob, nombre, ancho, alto, tipo) {
         const archivo = 'subida-' + Date.now() + '-' + (String(nombre || 'foto').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\.[a-z0-9]+$/, '').replace(/[^a-z0-9]+/g, '-').slice(0, 40) || 'foto') + '.jpg';
         ok(await sb.storage.from('carruseles').upload(archivo, blob, { contentType: 'image/jpeg' }));
         const url = sb.storage.from('carruseles').getPublicUrl(archivo).data.publicUrl;
-        const meta = { archivo, url, tipo: 'persona', ancho, alto };
+        const meta = { archivo, url, tipo: tipo === 'objeto' ? 'objeto' : 'persona', ancho, alto };
         ok(await sb.from('fotos_carrusel').insert(meta));
         return meta;
       },
