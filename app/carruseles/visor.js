@@ -185,8 +185,12 @@
     const listas = orig.filter((c) => c[2] === 'p' || c[2] === 'l').map((c) => p[c[0]]).filter(Boolean);
     const n = { forma: destino, foto: p.foto, _foto: p._foto, escala: p.escala, pos: p.pos, conFoto: p.conFoto };
     let i = 0, j = 0;
-    dest.forEach(([k, , t]) => { if (t === 'p' || t === 'l') n[k] = listas[j++] || ''; else n[k] = sueltos[i++] || ''; });
-    if (sueltos.length > i) { const ult = dest.filter((c) => c[2] !== 'p' && c[2] !== 'l').pop(); if (ult) n[ult[0]] = [n[ult[0]], ...sueltos.slice(i)].filter(Boolean).join(' '); }
+    const usados = new Set();
+    dest.forEach(([k]) => { if (p[k] && orig.some((o) => o[0] === k)) { n[k] = p[k]; usados.add(p[k]); } });
+    const sueltosL = sueltos.filter((v) => !usados.has(v)), listasL = listas.filter((v) => !usados.has(v));
+    dest.forEach(([k, , t]) => { if (n[k]) return; if (t === 'p' || t === 'l') n[k] = listasL[j++] || ''; else n[k] = sueltosL[i++] || ''; });
+    const sobran = sueltosL.slice(i); i = sueltos.length - sobran.length;
+    if (sobran.length) { const ult = dest.filter((c) => c[2] !== 'p' && c[2] !== 'l').pop(); if (ult) n[ult[0]] = [n[ult[0]], ...sobran].filter(Boolean).join(' '); }
     if (destino === 'portada_profundidad' && n.palabra && n.palabra.split(/\s+/).length > 1) { const ws = n.palabra.split(/\s+/); const larga = ws.reduce((a, b) => (b.length > a.length ? b : a)); n.pre = [n.pre, n.palabra.replace(larga, '').trim()].filter(Boolean).join(' '); n.palabra = larga.toUpperCase(); }
     return n;
   }
@@ -219,8 +223,10 @@
     const ed = esc(JSON.stringify(p.ed || {}));
     if (c.estilo && ES) { const fo = lleva(c, p, i) ? fotoDe(p) : null; return `<div data-ed="${ed}" style="transform:scale(${escala});width:${M.W}px;height:${H}px;transform-origin:0 0">${ES.placa(c, i, H, fo, fo ? M.urlDe(fo) : '', M.assets)}</div>`; }
     let forma = c.formato === 'reel' && i === 0 && !p.forma.startsWith('portada_') ? M.RECETAS[c.receta].portadas[0] : p.forma, d = p;
+    let fRec = null;
+    if ((forma === 'recorte_lado' || forma === 'portada_profundidad') && !(fotoDe(p) || {}).tiene_recorte) { const rs = M.catalogo.filter((e) => e.tiene_recorte && !e.excluir); if (rs.length) fRec = rs[i % rs.length]; }
     if (forma === 'texto' && c.formato !== 'reel' && !p.fijo) { const v = vistaTexto(c, i, p); if (v) { forma = v.forma; d = v.d; } }
-    return `<div data-ed="${ed}" data-esc="${+p.escala || 1}" data-pos="${p.pos || ''}" style="transform:scale(${escala});width:${M.W}px;height:${H}px;transform-origin:0 0">${M.placa(forma, d, H, c.receta, fotoDe(p), p.fondo_img ? M.catalogo.find((e) => e.archivo === p.fondo_img) || null : null)}</div>`;
+    return `<div data-ed="${ed}" data-esc="${+p.escala || 1}" data-pos="${p.pos || ''}" style="transform:scale(${escala});width:${M.W}px;height:${H}px;transform-origin:0 0">${M.placa(forma, d, H, c.receta, fRec || fotoDe(p), p.fondo_img ? M.catalogo.find((e) => e.archivo === p.fondo_img) || null : null)}</div>`;
   }
 
   /* ---------- la tarjeta dentro de cada pieza ---------- */
@@ -378,9 +384,10 @@
     let timer = null;
     const pintar = () => {
       const p = c.placas[i], F = defs(p.forma, c), conFoto = lleva(c, p, i), E = c.estilo ? ES.ESTILOS[c.estilo] : null;
-      const formas = c.estilo ? Object.keys(ES.ROLES) : Object.keys(M.FORMAS).filter((k) => (i === 0 ? k.startsWith('portada_') || M.RECETAS[c.receta].formas.includes(k) : !k.startsWith('portada_')));
+      const RR = M.RECETAS[c.receta] || M.RECETAS.editorial;
+      const formas = c.estilo ? Object.keys(ES.ROLES) : i === 0 ? Object.keys(M.FORMAS).filter((k) => k.startsWith('portada_')) : [...new Set(['texto', ...RR.formas.filter((k) => !k.startsWith('portada_')), 'tachado', 'cierre'])].filter((k) => M.FORMAS[k]);
       const pct = Math.round((+p.escala || 1) * 100), posA = p.pos || '';
-      const fotos = M.catalogo.filter((e) => e.tipo !== 'fondo' && !e.excluir);
+      const fotos = M.catalogo.filter((e) => e.tipo !== 'fondo' && !e.excluir && (!['recorte_lado', 'portada_profundidad'].includes(p.forma) || e.tiene_recorte));
       m.innerHTML = `<div class="cm"><div><div class="lienzo" style="aspect-ratio:1080/${alto(c)}"></div>
   <div class="nav"><button type="button" class="btn ghost sm" data-ant ${i <= 0 ? 'disabled' : ''}>← Anterior</button><span class="small">Lámina ${i + 1} de ${vis.length} · tocá el texto para editarlo</span><button type="button" class="btn ghost sm" data-sig ${i >= vis.length - 1 ? 'disabled' : ''}>Siguiente →</button></div></div>
 <div><div class="row between"><h3 style="margin:0">${esc(F.n)}</h3><button type="button" class="btn ghost sm" data-cerrar>Listo</button></div>
