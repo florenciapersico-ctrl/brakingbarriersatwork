@@ -11,12 +11,12 @@
     lifestyle: { n: 'Lifestyle', fam: 'sangre', resalta: true, velo: 'rgba(63,30,13,.6)', ref: 'foto de fondo, serif con manuscrita y frases resaltadas' },
     revista:   { n: 'Revista', fam: 'sangre', grande: true, italica: true, velo: 'rgba(63,30,13,.6)', ref: 'serif enorme en itálica sobre la foto' },
     collage:   { n: 'Collage', fam: 'collage', bg: K.crema, tit: K.olivo, it: K.cafe, ink: K.negro, numero: true, ref: 'frase arriba, foto abajo, numeración [01]' },
-    diario:    { n: 'Día a día', fam: 'sangre', chico: true, velo: 'rgba(63,30,13,.52)', ref: 'foto a sangre con el texto chico abajo' },
-    polaroid:  { n: 'Polaroid', fam: 'collage', bg: K.cremaM, tit: K.cafe, it: K.olivo, ink: K.negro, polaroid: true, ref: 'título manuscrito con la foto al centro' },
+    duo:       { n: 'Dúo crema y olivo', fam: 'alterna', bg: K.crema, tit: K.olivo, it: K.cafe, ink: K.negro, ref: 'láminas que alternan crema y olivo' },
+    notas:     { n: 'Notas', fam: 'notas', bg: K.cremaM, tit: K.negro, it: K.cafe, ink: K.negro, ref: 'el texto en una tarjeta tipo nota' },
     tips:      { n: 'Tips', fam: 'esquina', bg: K.cremaM, tit: K.cafe, it: K.cafe, ink: K.negro, ref: 'titular serif grande y foto chica en la esquina' },
-    marco:     { n: 'Marco fino', fam: 'sangre', marco: true, velo: 'rgba(63,30,13,.56)', ref: 'foto de fondo con un marco fino y titular serif' },
+    lateral:   { n: 'Foto al costado', fam: 'lateral', bg: K.crema, tit: K.cafe, it: K.olivo, ink: K.negro, ref: 'tu foto al costado y el texto al lado' },
     trabajo:   { n: 'Tarjeta', fam: 'tarjeta', bg: K.crema, tit: K.olivo, it: K.cafe, ink: K.negro, ref: 'foto arriba y tarjeta con el tip encima' },
-    bn:        { n: 'Monocromo cálido', fam: 'sangre', bn: true, velo: 'rgba(63,30,13,.58)', ref: 'foto monocromo cálida, título fuerte en mayúsculas' },
+    minimal:   { n: 'Minimal', fam: 'minimal', bg: K.blanco, tit: K.negro, it: K.cafe, ink: K.negro, sans: true, ref: 'blanco, sans bold y subrayado terracota' },
     servicios: { n: 'Editorial', fam: 'sangre', grande: true, desliza: true, velo: 'rgba(63,30,13,.58)', ref: 'foto tuya, titular grande y «desliza» manuscrito' },
   };
 
@@ -53,7 +53,7 @@
     }
   }
   // Estilos de la versión anterior → los nuevos.
-  const VIEJOS = { crema: 'tips', olivo: 'lifestyle', cafe: 'servicios', foto: 'revista', papel: 'polaroid', notas: 'trabajo', minimal: 'collage', serif: 'marco', duo: 'diario', editorial: 'tips', tarjetas: 'trabajo', historia: 'servicios' };
+  const VIEJOS = { crema: 'tips', olivo: 'lifestyle', cafe: 'servicios', foto: 'revista', papel: 'notas', serif: 'lateral', editorial: 'tips', tarjetas: 'trabajo', historia: 'servicios', diario: 'duo', polaroid: 'notas', marco: 'lateral', bn: 'minimal' };
   function aEstilos(c) {
     if (!ESTILOS[c.estilo]) c.estilo = VIEJOS[c.estilo] || VIEJOS[c.receta] || 'lifestyle';
     c.placas = (c.placas || []).map((p, i) => { const n = ROLES[p.forma] ? p : desdeForma(p); if (i === 0 && n.forma !== 'portada') { n.forma = 'portada'; n.titulo = n.titulo || [n.pre, n.tachado, n.frase].filter(Boolean).join(' '); } return n; });
@@ -72,6 +72,7 @@
     if (p.conFoto === false) return false; if (p.conFoto === true) return true;
     if (p.forma === 'portada') return !SIN_FOTO[tplDe(c)];
     const E = ESTILOS[c.estilo] || ESTILOS.lifestyle;
+    if (E.fam === 'alterna' || E.fam === 'notas' || E.fam === 'minimal') return false;
     if (E.fam !== 'sangre') return true;
     return (i || 0) % 3 !== 2;
   }
@@ -107,7 +108,7 @@
 
   // ---------- el texto de cada rol ----------
   function contenido(C, p, s, E) {
-    const fT = E.mayus ? 'Sans' : E.scriptT ? 'Script' : 'Serif';
+    const fT = E.mayus || E.sans ? 'Sans' : E.scriptT ? 'Script' : 'Serif';
     const T = (txt, base, o = {}) => { if (!txt) return ''; const f = o.f || fT, z = tam(base, txt) * s * (f === 'Script' && !o.f ? 1.3 : 1); return `<div data-fs="${z}" style="font-family:'${f}';font-weight:${o.w || (f === 'Sans' ? 800 : f === 'Script' ? 400 : 600)};font-size:${z}px;line-height:${o.lh || (f === 'Script' ? 1 : 1.1)};letter-spacing:${o.ls || (f === 'Sans' ? '-.01em' : f === 'Script' ? '0' : '-.02em')};color:${o.col || C.tit};font-style:${o.it ? 'italic' : 'normal'};${E.mayus && !o.f ? 'text-transform:uppercase;' : ''}${o.css || ''}">${md(txt)}</div>`; };
     const IT = (txt, base) => (E.scriptI ? T(txt, base * 1.35, { f: 'Script', w: 400, col: C.it, lh: 1, ls: '0' }) : T(txt, base, { f: 'Serif', w: 400, it: true, col: C.it, ls: '-.015em' }));
     const MARK = (txt, base) => (E.resalta && txt ? `<div data-fs="${tam(base, txt) * s}" style="font-family:'Serif';font-style:italic;font-size:${tam(base, txt) * s}px;line-height:1.5;color:${K.negro}"><span style="background:${K.calida};padding:2px 12px;-webkit-box-decoration-break:clone;box-decoration-break:clone">${md(txt)}</span></div>` : IT(txt, base));
@@ -205,6 +206,9 @@
       const w = 330, h = 440;
       capas += fotoBg(foto, url, { x: W - PAD - w, y: PAD, w, h }, 0.4, 'border-radius:200px 200px 22px 22px');
       caja.t = PAD + h + 44; just = pos === 'abajo' ? 'flex-end' : pos === 'centro' ? 'center' : 'flex-start';
+    } else if (fam === 'lateral') {
+      capas += fotoBg(foto, url, { x: 0, y: 0, w: Math.round(W * 0.42), h: H }, 0.35);
+      caja.l = Math.round(W * 0.42) + 60; caja.r = 70; just = pos === 'arriba' ? 'flex-start' : pos === 'abajo' ? 'flex-end' : 'center';
     } else if (fam === 'tarjeta') {
       const hF = Math.round(H * 0.56);
       capas += fotoBg(foto, url, { x: 0, y: 0, w: W, h: hF }, 0.42);
@@ -212,6 +216,8 @@
     } else {
       // Sin foto: el fondo del estilo (crema) o, en los estilos de foto a sangre, un fondo oscuro de la marca.
       if (E.fam === 'sangre') { fondo = i % 2 ? K.cremaM : K.crema; C = { tit: K.cafe, it: K.olivo, ink: K.negro, acc: K.terra, linea: K.terra + '66' }; }
+      if (E.fam === 'alterna' && i % 2 === 1) { fondo = K.olivo; C = { tit: K.crema, it: K.olivoC, ink: K.cremaM, acc: K.terra, linea: K.cremaM + '55' }; oscuro = true; }
+      if (E.fam === 'notas') { tarjeta = true; caja.l = PAD - 20; caja.r = PAD - 20; }
       just = pos === 'arriba' ? 'flex-start' : pos === 'abajo' ? 'flex-end' : 'center';
       centrar = !!E.polaroid;
     }
