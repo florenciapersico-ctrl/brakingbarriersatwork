@@ -77,7 +77,7 @@
 
   const esc = (t) => String(t ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   const md = (t) => esc(t).replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>').replace(/\*([^*]+)\*/g, '<i>$1</i>').replace(/\n/g, '<br>');
-  const tam = (base, txt) => { const n = String(txt || '').length; return Math.round(base * (n > 140 ? 0.6 : n > 100 ? 0.68 : n > 70 ? 0.78 : n > 40 ? 0.9 : 1)); };
+  const tam = (base, txt) => { const n = String(txt || '').length; return Math.round(base * (n > 160 ? 0.72 : n > 110 ? 0.8 : n > 70 ? 0.88 : n > 40 ? 0.95 : 1)); };
   const pares = (t) => String(t || '').split('\n').map((l) => l.trim()).filter(Boolean).map((l) => { const i = l.indexOf('|'); return i < 0 ? [l, ''] : [l.slice(0, i).trim(), l.slice(i + 1).trim()]; });
 
   // Encuadre de la foto: la cara queda centrada en su recuadro (bw × bh) a la altura «alto».
@@ -109,17 +109,17 @@
     const T = (txt, base, o = {}) => { if (!txt) return ''; const f = o.f || fT, z = tam(base, txt) * s * (f === 'Script' && !o.f ? 1.3 : 1); return `<div data-fs="${z}" style="font-family:'${f}';font-weight:${o.w || (f === 'Sans' ? 800 : f === 'Script' ? 400 : 600)};font-size:${z}px;line-height:${o.lh || (f === 'Script' ? 1 : 1.1)};letter-spacing:${o.ls || (f === 'Sans' ? '-.01em' : f === 'Script' ? '0' : '-.02em')};color:${o.col || C.tit};font-style:${o.it ? 'italic' : 'normal'};${E.mayus && !o.f ? 'text-transform:uppercase;' : ''}${o.css || ''}">${md(txt)}</div>`; };
     const IT = (txt, base) => (E.scriptI ? T(txt, base * 1.35, { f: 'Script', w: 400, col: C.it, lh: 1, ls: '0' }) : T(txt, base, { f: 'Serif', w: 400, it: true, col: C.it, ls: '-.015em' }));
     const MARK = (txt, base) => (E.resalta && txt ? `<div data-fs="${tam(base, txt) * s}" style="font-family:'Serif';font-style:italic;font-size:${tam(base, txt) * s}px;line-height:1.5;color:${K.negro}"><span style="background:${K.calida};padding:2px 12px;-webkit-box-decoration-break:clone;box-decoration-break:clone">${md(txt)}</span></div>` : IT(txt, base));
-    const BODY = (txt, base = 36) => T(txt, base, { f: 'Sans', w: 400, col: C.ink, lh: 1.42, ls: '0', css: 'text-transform:none;' });
+    const BODY = (txt, base = 44) => T(txt, base, { f: 'Sans', w: 400, col: C.ink, lh: 1.42, ls: '0', css: 'text-transform:none;' });
     const g = (n) => `<div style="height:${n * s}px"></div>`;
     const G = E.grande ? 1.25 : E.chico ? 0.78 : 1;
     switch (p.forma) {
       case 'portada': return `${T(p.titulo, 84 * G, E.italica ? { it: true, w: 400 } : {})}${E.scriptI ? IT(p.titulo_i, 62 * G) : MARK(p.titulo_i, 62 * G)}${p.bajada ? `<div style="font-family:'Sans';font-weight:700;font-size:${24 * s}px;letter-spacing:.14em;text-transform:uppercase;color:${C.acc};margin-top:12px">${esc(p.bajada)}</div>` : ''}`;
-      case 'texto': return `${T(p.titulo, 64 * G)}${MARK(p.titulo_i, 50 * G)}${p.cuerpo ? g(12) + BODY(p.cuerpo, 34) : ''}`;
-      case 'lista': return `${T(p.titulo, 58 * G)}${g(14)}${pares(p.items).map(([a, b], k) => `<div style="display:flex;gap:${20 * s}px;align-items:baseline;padding:${13 * s}px 0;border-top:2px solid ${C.linea}"><div style="font-family:'Serif';font-style:italic;font-size:${38 * s}px;color:${C.acc};min-width:${46 * s}px">${String(k + 1).padStart(2, '0')}</div><div data-fs="${34 * s}" style="font-family:'Sans';font-size:${34 * s}px;line-height:1.35;color:${C.ink}"><b>${md(a)}</b>${b ? ' ' + md(b) : ''}</div></div>`).join('')}`;
-      case 'error': return `${BODY(p.intro, 30)}${g(16)}${T(p.mal, 52, { f: 'Sans', w: 700, col: C.ink, css: `text-transform:none;text-decoration:line-through;text-decoration-color:${C.acc};text-decoration-thickness:6px;opacity:.85` })}${g(12)}${MARK(p.bien, 56)}${p.nota ? g(12) + BODY(p.nota, 30) : ''}`;
-      case 'tachado': return `${BODY(p.pre, 32)}${g(12)}${T(p.tachado, 60 * G, { css: `text-decoration:line-through;text-decoration-color:${C.acc};text-decoration-thickness:7px` })}${g(16)}${MARK(p.verdad_i, 50 * G)}`;
-      case 'frase': return `${p.pre ? BODY(p.pre, 30) + g(14) : ''}${MARK(p.frase, 64 * G)}`;
-      case 'cierre': return `${T(p.titulo, 64 * G)}${MARK(p.titulo_i, 52 * G)}${p.cuerpo ? g(10) + BODY(p.cuerpo, 32) : ''}${p.cta ? `<div style="margin-top:${28 * s}px"><span style="display:inline-block;background:${C.acc};color:#fff;font-family:'Sans';font-weight:700;font-size:${30 * s}px;padding:${16 * s}px ${34 * s}px;border-radius:999px">${esc(p.cta)}</span></div>` : ''}`;
+      case 'texto': return `${T(p.titulo, 70 * G)}${MARK(p.titulo_i, 60 * G)}${p.cuerpo ? g(14) + BODY(p.cuerpo, 42) : ''}`;
+      case 'lista': return `${T(p.titulo, 66 * G)}${g(14)}${pares(p.items).map(([a, b], k) => `<div style="display:flex;gap:${20 * s}px;align-items:baseline;padding:${13 * s}px 0;border-top:2px solid ${C.linea}"><div style="font-family:'Serif';font-style:italic;font-size:${46 * s}px;color:${C.acc};min-width:${56 * s}px">${String(k + 1).padStart(2, '0')}</div><div data-fs="${42 * s}" style="font-family:'Sans';font-size:${42 * s}px;line-height:1.35;color:${C.ink}"><b>${md(a)}</b>${b ? ' ' + md(b) : ''}</div></div>`).join('')}`;
+      case 'error': return `${BODY(p.intro, 40)}${g(16)}${T(p.mal, 58, { f: 'Sans', w: 700, col: C.ink, css: `text-transform:none;text-decoration:line-through;text-decoration-color:${C.acc};text-decoration-thickness:6px;opacity:.85` })}${g(12)}${MARK(p.bien, 64)}${p.nota ? g(12) + BODY(p.nota, 38) : ''}`;
+      case 'tachado': return `${BODY(p.pre, 40)}${g(12)}${T(p.tachado, 66 * G, { css: `text-decoration:line-through;text-decoration-color:${C.acc};text-decoration-thickness:7px` })}${g(16)}${MARK(p.verdad_i, 60 * G)}`;
+      case 'frase': return `${p.pre ? BODY(p.pre, 40) + g(14) : ''}${MARK(p.frase, 72 * G)}`;
+      case 'cierre': return `${T(p.titulo, 70 * G)}${MARK(p.titulo_i, 60 * G)}${p.cuerpo ? g(10) + BODY(p.cuerpo, 40) : ''}${p.cta ? `<div style="margin-top:${28 * s}px"><span style="display:inline-block;background:${C.acc};color:#fff;font-family:'Sans';font-weight:700;font-size:${36 * s}px;padding:${18 * s}px ${38 * s}px;border-radius:999px">${esc(p.cta)}</span></div>` : ''}`;
       default: return '';
     }
   }
@@ -128,7 +128,7 @@
   function portada(c, H, foto, url) {
     const p = c.placas[0], tpl = tplDe(c), s = Math.min(1.35, Math.max(0.65, +p.escala || 1));
     const sello = (col, bg) => (p.sello ? `<div style="position:absolute;left:${PAD}px;top:${PAD}px;font-family:'Sans';font-weight:700;font-size:30px;letter-spacing:.16em;text-transform:uppercase;color:${col};background:${bg};padding:12px 24px;border-radius:999px">${esc(p.sello)}</div>` : '');
-    const hook = (col, colI, base) => { const z1 = tam(base, p.titulo) * s, z2 = tam(base * 0.56, p.titulo_i) * s; return `<div class="ci" style="display:flex;flex-direction:column;gap:${14 * s}px">${p.titulo ? `<div data-fs="${z1}" style="font-family:'Serif';font-weight:600;font-size:${z1}px;line-height:1.04;letter-spacing:-.025em;color:${col}">${md(p.titulo)}</div>` : ''}${p.titulo_i ? `<div data-fs="${z2}" style="font-family:'Serif';font-style:italic;font-weight:400;font-size:${z2}px;line-height:1.2;letter-spacing:-.01em;color:${colI}">${md(p.titulo_i)}</div>` : ''}</div>`; };
+    const hook = (col, colI, base) => { const z1 = tam(base, p.titulo) * s, z2 = tam(base * 0.62, p.titulo_i) * s; return `<div class="ci" style="display:flex;flex-direction:column;gap:${14 * s}px">${p.titulo ? `<div data-fs="${z1}" style="font-family:'Serif';font-weight:600;font-size:${z1}px;line-height:1.04;letter-spacing:-.025em;color:${col}">${md(p.titulo)}</div>` : ''}${p.titulo_i ? `<div data-fs="${z2}" style="font-family:'Serif';font-style:italic;font-weight:400;font-size:${z2}px;line-height:1.2;letter-spacing:-.01em;color:${colI}">${md(p.titulo_i)}</div>` : ''}</div>`; };
     const cajaHTML = (t, b, just, inner) => `<div class="caja" style="left:${PAD}px;right:${PAD}px;top:${t}px;bottom:${b}px;justify-content:${just};text-align:left">${inner}</div>`;
     if (tpl === 'A' && foto) {
       const alto = 0.26, libre = Math.max(Math.round(H * 0.52), Math.round(caraAbajo(foto, W, H, alto) + 40));
@@ -136,11 +136,11 @@
       return `<div class="p" style="height:${H}px;background:${K.bb}">${fotoBg(foto, url, { x: 0, y: 0, w: W, h: H }, alto)}<div class="bg" style="background:linear-gradient(180deg,rgba(0,0,0,0) ${Math.round((t / H) * 100) - 22}%,rgba(63,30,13,.62) ${Math.round((t / H) * 100) + 10}%)"></div>${sello(K.crema, 'rgba(198,140,108,.92)')}${cajaHTML(t, PAD, 'flex-end', hook(K.crema, K.calida, 100))}</div>`;
     }
     if (tpl === 'B' && foto) {
-      const yF = Math.round(H * 0.54);
-      return `<div class="p" style="height:${H}px;background:${K.crema}">${sello(K.terra, 'transparent;border:2px solid ' + K.terra)}${cajaHTML(PAD + 90, H - yF + 50, 'flex-start', hook(K.olivo, K.cafe, 96))}${fotoBg(foto, url, { x: PAD, y: yF, w: W - PAD * 2, h: H - yF - PAD }, 0.45, 'border-radius:18px')}</div>`;
+      const yF = Math.round(H * 0.46);
+      return `<div class="p" style="height:${H}px;background:${K.crema}">${sello(K.terra, 'transparent;border:2px solid ' + K.terra)}${cajaHTML(PAD + 90, H - yF + 40, 'flex-end', hook(K.olivo, K.cafe, 96))}${fotoBg(foto, url, { x: PAD, y: yF, w: W - PAD * 2, h: H - yF - PAD }, 0.45, 'border-radius:18px')}</div>`;
     }
     // C · Frase (o A/B sin foto): crema, una frase grande en itálica y una línea terracota.
-    const z = tam(124, p.titulo) * s, z2 = tam(58, p.titulo_i) * s;
+    const z = tam(124, p.titulo) * s, z2 = tam(66, p.titulo_i) * s;
     return `<div class="p" style="height:${H}px;background:${K.cremaM}">${sello(K.terra, 'transparent;border:2px solid ' + K.terra)}${cajaHTML(PAD + 90, PAD + 40, 'center', `<div class="ci" style="display:flex;flex-direction:column;gap:${22 * s}px"><div style="width:90px;height:6px;background:${K.terra};border-radius:3px"></div>${p.titulo ? `<div data-fs="${z}" style="font-family:'Serif';font-style:italic;font-weight:400;font-size:${z}px;line-height:1.08;letter-spacing:-.02em;color:${K.cafe}">${md(p.titulo)}</div>` : ''}${p.titulo_i ? `<div data-fs="${z2}" style="font-family:'Serif';font-weight:600;font-size:${z2}px;line-height:1.25;color:${K.olivo}">${md(p.titulo_i)}</div>` : ''}</div>`)}</div>`;
   }
   function placa(c, i, H, foto, url, assets) {
@@ -195,7 +195,7 @@
     if (tarjeta) inner = `<div style="background:#fffdf8;border-radius:28px;padding:52px 58px;box-shadow:0 20px 50px rgba(40,30,15,.22)">${inner}</div>`;
     const logo = (assets || {})[oscuro ? 'logoC' : 'logoO'];
     const der = E.desliza && i < n - 1 ? `<span style="font-family:'Script';font-size:46px;letter-spacing:0;color:${oscuro ? K.crema : K.cafe}">desliza →</span>` : `<span>${i + 1}/${n}</span>`;
-    const pie = `<div style="position:absolute;left:${PAD}px;right:${PAD}px;bottom:56px;display:flex;justify-content:space-between;align-items:center;font-family:'Sans';font-size:22px;letter-spacing:.14em;color:${oscuro ? K.cremaM : K.cafe}">${logo ? `<img src="${logo}" style="height:40px">` : '<span>FLOR PÉRSICO</span>'}${der}</div>`;
+    const pie = `<div style="position:absolute;left:${PAD}px;right:${PAD}px;bottom:56px;display:flex;justify-content:space-between;align-items:center;font-family:'Sans';font-size:28px;letter-spacing:.14em;color:${oscuro ? K.cremaM : K.cafe}">${logo ? `<img src="${logo}" style="height:40px">` : '<span>FLOR PÉRSICO</span>'}${der}</div>`;
     return `<div class="p" style="height:${H}px;background:${fondo};color:${C.ink}">${capas}${extra}<div class="caja" style="left:${caja.l}px;right:${caja.r}px;top:${caja.t}px;bottom:${caja.b}px;justify-content:${just};text-align:${centrar ? 'center' : 'left'}"><div class="ci" style="display:flex;flex-direction:column;gap:${8 * s}px">${inner}</div></div>${pie}</div>`;
   }
 
