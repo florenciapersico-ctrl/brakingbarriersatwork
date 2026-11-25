@@ -2041,7 +2041,7 @@ ${contenidoApp(hoyI, lun)}
       $$('[data-ctab]').forEach((b) => (b.onclick = () => {
         st._cTab = b.dataset.ctab;
         $$('[data-ctab]').forEach((x) => { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-selected', on); });
-        $$('[data-ctabp]').forEach((p) => (p.hidden = p.dataset.ctabp !== st._cTab));
+        $$('[data-ctabp]').forEach((p) => (p.hidden = p.dataset.ctabp !== st._cTab)); if (st._cTab === 'feed' && window.Carruseles && window.Carruseles.minis) window.Carruseles.minis();
       }));
       $$('[data-cdia]').forEach((b) => (b.onclick = () => {
         const k = b.dataset.csem; st._cDia = Object.assign({}, st._cDia, { [k]: b.dataset.cdia });
@@ -2522,13 +2522,34 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
 </section>
 ${publicadosHTML(pub.filter((x) => x.fecha >= mesIni && x.fecha <= mesFin).reverse(), hoyI)}`;
   }
+  // Tu feed (Flor, 25/11: «que me muestre cómo queda el feed cuando los voy a subir»): grilla de 3 como Instagram,
+  // lo más nuevo arriba a la izquierda; lo que viene, marcado «Por publicar».
+  function cFeed(hoyI) {
+    const vistos = new Set(), todos = [];
+    [...(st._semC || []), ...(st._mesC || []), ...(st._pub || [])].forEach((x) => {
+      if (!x || !/^(pieza|publicado):/.test(x.clave || '') || vistos.has(x.clave)) return;
+      if (/^(YouTube|Email|Semana|Historias)$/.test(cFormato(x))) return;
+      vistos.add(x.clave); todos.push(x);
+    });
+    todos.sort((a, b) => (a.fecha < b.fecha ? 1 : a.fecha > b.fecha ? -1 : 0));
+    const L = todos.slice(0, 30);
+    const tile = (x) => {
+      const pub = x.ig_link || x.tipo === 'publicado', dia = fecha(x.fecha, { weekday: 'short', day: 'numeric' });
+      const cara = x.carrusel ? `<span class="feed-m" data-crs-mini="${esc((x.clave || '') + '|' + x.fecha)}"></span>` : `<span class="feed-t">${esc(cCorto(cHook(x), 80))}</span>`;
+      const et = `<span class="feed-e${pub ? ' pub' : ''}">${pub ? '✓ ' : ''}${esc(dia)}${pub ? '' : ' · por publicar'}</span>`;
+      return pub && x.ig_link ? `<a class="feed-c" href="${esc(x.ig_link)}" target="_blank" rel="noopener">${cara}${et}</a>` : `<span class="feed-c${x.fecha >= hoyI ? ' prox' : ''}">${cara}${et}</span>`;
+    };
+    return `<section class="card"><h2>Tu feed</h2><p class="muted small" style="margin:4px 0 12px">Así se ve tu perfil con lo que viene: lo más nuevo arriba a la izquierda, como en Instagram. Si dos portadas seguidas se parecen, cambiale el diseño a una desde su día.</p>
+  ${L.length ? `<div class="feed-g">${L.map(tile).join('')}</div>` : '<p class="muted small">Todavía no hay piezas cargadas.</p>'}</section>`;
+  }
   function contenidoApp(hoyI, lun) {
     const tab = st._cTab || '0';
     const lun2 = (() => { const d = new Date(lun + 'T12:00:00'); d.setDate(d.getDate() + 7); return diaISO(d); })();
     const tb = (k, t) => `<button type="button" role="tab" class="c-tab${tab === k ? ' on' : ''}" data-ctab="${k}" aria-selected="${tab === k}">${t}</button>`;
-    return `<div class="c-tabs" role="tablist">${tb('0', 'Esta semana')}${tb('1', 'La que viene')}${tb('arch', 'Archivo')}</div>
+    return `<div class="c-tabs" role="tablist">${tb('0', 'Esta semana')}${tb('1', 'La que viene')}${tb('feed', 'Tu feed')}${tb('arch', 'Archivo')}</div>
 <div data-ctabp="0"${tab === '0' ? '' : ' hidden'}>${cSemana(st._semC, lun, 0, hoyI)}</div>
 <div data-ctabp="1"${tab === '1' ? '' : ' hidden'}>${cSemana(st._semC, lun2, 1, hoyI)}</div>
+<div data-ctabp="feed"${tab === 'feed' ? '' : ' hidden'}>${cFeed(hoyI)}</div>
 <div data-ctabp="arch"${tab === 'arch' ? '' : ' hidden'}>${cArchivo(st._mesC, st._pub, st._mesIni, hoyI)}</div>`;
   }
   // Lo que ya publicaste (Flor, 25/11: «un lugar donde ir ordenando las publicaciones con el link directo a mi Instagram»).

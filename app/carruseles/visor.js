@@ -90,6 +90,14 @@
   // Ajuste de la letra para los estilos: mide el bloque de texto real y achica solo lo necesario (mínimo 60 %).
   function ajustar(root) {
     if (!root) return;
+    const w = root.parentElement;
+    if (w && w.dataset.esc && !root.dataset.listo) {
+      root.dataset.listo = 1;
+      const k = +w.dataset.esc || 1;
+      if (k !== 1) root.querySelectorAll('[data-fs]').forEach((e) => { e.dataset.fs = parseFloat(e.dataset.fs) * k; e.style.fontSize = parseFloat(e.style.fontSize) * k + 'px'; });
+      const J = { arriba: 'flex-start', centro: 'center', abajo: 'flex-end' }[w.dataset.pos];
+      if (J) root.querySelectorAll('.caja').forEach((c) => { c.style.justifyContent = J; });
+    }
     const cajas = root.querySelectorAll('.caja');
     let usado = false;
     cajas.forEach((c) => {
@@ -98,7 +106,7 @@
     });
     if (!usado) M.fit(root);
   }
-  const defs = (forma) => (ES && ES.ROLES[forma]) || M.FORMAS[forma] || { n: forma, c: [] };
+  const defs = (forma, c) => (c && c.estilo ? ES && ES.ROLES[forma] : M.FORMAS[forma]) || M.FORMAS[forma] || (ES && ES.ROLES[forma]) || { n: forma, c: [] };
   /* ---------- fotos: sin repetir en 3 semanas entre todas las piezas cargadas ---------- */
   function asignarFotos(todas, rehacerClave) {
     const cs = todas.filter((f) => f.carrusel && Array.isArray(f.carrusel.placas)).sort((a, b) => (a.fecha < b.fecha ? -1 : 1));
@@ -125,9 +133,9 @@
     return cambiadas;
   }
   // Pasa una lámina a otra forma sin perder el texto (port del estudio).
-  function convertir(p, destino) {
+  function convertir(p, destino, c) {
     if (p.forma === destino) return p;
-    const orig = defs(p.forma).c || [], dest = defs(destino).c;
+    const orig = defs(p.forma, c).c || [], dest = defs(destino, c).c;
     const sueltos = orig.filter((c) => c[2] !== 'p' && c[2] !== 'l').map((c) => p[c[0]]).filter(Boolean);
     const listas = orig.filter((c) => c[2] === 'p' || c[2] === 'l').map((c) => p[c[0]]).filter(Boolean);
     const n = { forma: destino, foto: p.foto, _foto: p._foto, escala: p.escala, pos: p.pos, conFoto: p.conFoto };
@@ -143,7 +151,7 @@
     const H = alto(c), p = c.placas[i]; if (!p) return '';
     if (c.estilo && ES) { const fo = lleva(c, p, i) ? fotoDe(p) : null; return `<div style="transform:scale(${escala});width:${M.W}px;height:${H}px;transform-origin:0 0">${ES.placa(c, i, H, fo, fo ? M.urlDe(fo) : '', M.assets)}</div>`; }
     const forma = c.formato === 'reel' && i === 0 && !p.forma.startsWith('portada_') ? M.RECETAS[c.receta].portadas[0] : p.forma;
-    return `<div style="transform:scale(${escala});width:${M.W}px;height:${H}px;transform-origin:0 0">${M.placa(forma, p, H, c.receta, fotoDe(p), p.fondo_img ? M.catalogo.find((e) => e.archivo === p.fondo_img) || null : null)}</div>`;
+    return `<div data-esc="${+p.escala || 1}" data-pos="${p.pos || ''}" style="transform:scale(${escala});width:${M.W}px;height:${H}px;transform-origin:0 0">${M.placa(forma, p, H, c.receta, fotoDe(p), p.fondo_img ? M.catalogo.find((e) => e.archivo === p.fondo_img) || null : null)}</div>`;
   }
 
   /* ---------- la tarjeta dentro de cada pieza ---------- */
@@ -154,28 +162,48 @@
       const w = el.clientWidth || 48; el.innerHTML = htmlPlaca(f.carrusel, 0, w / M.W); const n = el.querySelector('.p'); if (n) ajustar(n);
     });
   }
+  // Diseños (Flor, 25/11): las 4 recetas del estudio + 6 combos de portada y estilo.
+  const COMBOS = [['servicios', 'A', 'Tu foto + Editorial'], ['duo', 'color', 'Bloque de color + Dúo'], ['minimal', 'crema', 'Crema con pregunta + Minimal'], ['revista', 'etiquetas', 'Foto con etiquetas + Revista'], ['lateral', 'recorte', 'Tu recorte + Foto al costado'], ['notas', 'marco', 'Foto enmarcada + Notas']];
+  function aCombo(c, v) { const [e, t] = v.split('|');
+    if (!c.estilo) c.placas = c.placas.map((p) => (p.forma === 'frase' && p.frase === undefined ? { ...p, pre: '', frase: [p.linea_i, p.resaltado].filter(Boolean).join(' ') } : p)); c.estilo = e; ES.aEstilos(c); if (c.placas[0]) c.placas[0].tpl = t; return c; }
+  // Vuelve un carrusel de estilos a las formas del motor (recetas).
+  const SACAR = ['tpl', 'escala', 'pos', 'conFoto', 'sello', 'variante'];
+  function aMotor(c, receta) {
+    c.receta = receta; if (!c.estilo) return c; c.estilo = undefined;
+    const R = M.RECETAS[receta];
+    c.placas = c.placas.map((p) => {
+      const b = { foto: p.foto, _foto: p._foto };
+      if (p.forma === 'portada') { const n = { ...b, forma: 'portada_foto', titulo: [p.pre, p.titulo].filter(Boolean).join(' '), titulo_i: p.titulo_i || '', bajada: p.bajada || '' }; return R.portadas[0] !== 'portada_foto' ? convertir(n, R.portadas[0]) : n; }
+      if (p.forma === 'lista') return { ...b, forma: 'numerada', titulo: p.titulo || '', items: p.items || '' };
+      if (p.forma === 'frase') return { ...b, forma: 'texto', titulo: p.pre || '', titulo_i: p.frase || '' };
+      const n = {}; Object.keys(p).forEach((k) => { if (!SACAR.includes(k)) n[k] = p[k]; }); return n;
+    });
+    return c;
+  }
   function pintarUno(el) {
     const f = FILAS[el.dataset.crs]; if (!f || !f.carrusel) return;
     const c = f.carrusel; if (!c.estilo && !M.RECETAS[c.receta]) c.receta = 'editorial';
     const reel = c.formato === 'reel', p0 = c.placas[0] || {};
     const VAR = Object.entries(ES.PORTADAS).map(([k, n]) => [k, k + ' · ' + n]);
-    el.innerHTML = `${c.estilo ? `<p class="crs-tit">Estilo del posteo <span>se aplica a todas las láminas</span></p><div class="crs-estilos" role="group" aria-label="Estilo">${Object.entries(ES.ESTILOS).map(([k, E]) => `<button type="button" class="crs-es${k === c.estilo ? ' on' : ''}" data-estilo="${k}" aria-pressed="${k === c.estilo}"><span class="m${reel ? ' reel' : ''}" data-es-prev="${k}"></span><span class="n">${esc(E.n)}</span></button>`).join('')}</div>` : `<div class="crs-rec" role="group" aria-label="Receta">${Object.entries(M.RECETAS).map(([k, R]) => `<button type="button" data-rec="${k}" aria-pressed="${k === c.receta}" title="${esc(R.desc)}">${esc(R.n)}</button>`).join('')}</div>`}
+    const prev = (k) => `<span class="m${reel ? ' reel' : ''}" data-prev="${k}"></span>`;
+    const onC = (e, t) => c.estilo === e && ES.tplDe(c) === t;
+    el.innerHTML = `<p class="crs-tit">Diseño del posteo <span>se aplica a todas las láminas</span></p><div class="crs-estilos" role="group" aria-label="Diseño">${Object.entries(M.RECETAS).map(([k, R]) => `<button type="button" class="crs-es${!c.estilo && k === c.receta ? ' on' : ''}" data-rec="${k}" title="${esc(R.desc)}">${prev('r:' + k)}<span class="n">${esc(R.n)}</span></button>`).join('')}${COMBOS.map(([e, t, n]) => `<button type="button" class="crs-es${onC(e, t) ? ' on' : ''}" data-combo="${e}|${t}">${prev('c:' + e + '|' + t)}<span class="n">${esc(n)}</span></button>`).join('')}</div>
 <details class="crs-port"${c._abrirPortada ? ' open' : ''}><summary>Portada: el hook, la serie y el tipo de portada</summary>
   <div class="crs-rec" role="group" aria-label="Foto de la portada">${c.estilo ? VAR.map(([k, n]) => `<button type="button" data-tpl="${k}" aria-pressed="${ES.tplDe(c) === k}">${n}</button>`).join('') : PORTADAS.map(([k, n]) => `<button type="button" data-port="${k}" aria-pressed="${p0.forma === k}">${n}</button>`).join('')}</div>
-  ${(defs(p0.forma).c || []).map(([k, et, t]) => `<label class="crs-campo">${esc(et)}${t === 't' ? `<input type="text" data-pk="${k}" value="${esc(c.placas[0][k] || '')}">` : `<textarea rows="2" data-pk="${k}">${esc(c.placas[0][k] || '')}</textarea>`}</label>`).join('')}
+  ${(defs(p0.forma, c).c || []).map(([k, et, t]) => `<label class="crs-campo">${esc(et)}${t === 't' ? `<input type="text" data-pk="${k}" value="${esc(c.placas[0][k] || '')}">` : `<textarea rows="2" data-pk="${k}">${esc(c.placas[0][k] || '')}</textarea>`}</label>`).join('')}
 </details>
 <div class="crs-tira">${visibles(c).map((i) => `<button type="button" class="crs-mini${reel ? ' reel' : ''}" data-i="${i}" aria-label="Editar lámina ${i + 1}"><div class="marco">${htmlPlaca(c, i, 120 / M.W)}</div>${i + 1}</button>`).join('')}</div>
 <div class="crs-acc"><button type="button" class="btn sm" data-crs-ed="0">✏️ Editar cada lámina</button>${subirFn ? `<label class="btn ghost sm crs-sub">📷 Subir fotos mías<input type="file" accept="image/*" multiple data-crs-subir="persona" hidden></label><label class="btn ghost sm crs-sub">☕ Subir fotos de lugares y cosas<input type="file" accept="image/*" multiple data-crs-subir="objeto" hidden></label>` : ''}<button type="button" class="btn ghost sm" data-crs-fotos>Otras fotos</button><button type="button" class="btn ghost sm" data-crs-png>Bajar PNG</button></div>
 <p class="small muted" style="margin:6px 0 0">Tocá una lámina para cambiarle el texto, el tamaño de la letra, dónde va, el tipo de lámina o la foto.</p>
 <div class="crs-est" aria-live="polite"></div>`;
     $$('.crs-mini .marco .p', el).forEach((p) => ajustar(p));
-    $$('[data-es-prev]', el).forEach((m) => { m.innerHTML = htmlPlaca({ ...c, estilo: m.dataset.esPrev }, 0, (m.clientWidth || 66) / M.W); const n = m.querySelector('.p'); if (n) ajustar(n); });
+    $$('[data-prev]', el).forEach((m) => { const [tipo, v] = m.dataset.prev.split(':'), cp = JSON.parse(JSON.stringify(c)); if (tipo === 'r') aMotor(cp, v); else aCombo(cp, v); m.innerHTML = htmlPlaca(cp, 0, (m.clientWidth || 66) / M.W); const n = m.querySelector('.p'); if (n) ajustar(n); });
     pintarMinis(llave(f));
     const est = (t) => { el.querySelector('.crs-est').textContent = t || ''; };
-    $$('[data-rec]', el).forEach((b) => (b.onclick = async () => { c.receta = b.dataset.rec; asignarFotos(Object.values(FILAS), llave(f)); pintarUno(el); await guardar(f, est); }));
-    $$('[data-estilo]', el).forEach((b) => (b.onclick = async () => { c.estilo = b.dataset.estilo; asignarFotos(Object.values(FILAS)); pintarUno(el); await guardar(f, est); }));
+    $$('[data-rec]', el).forEach((b) => (b.onclick = async () => { aMotor(c, b.dataset.rec); asignarFotos(Object.values(FILAS), llave(f)); pintarUno(el); await guardar(f, est); }));
+    $$('[data-combo]', el).forEach((b) => (b.onclick = async () => { aCombo(c, b.dataset.combo); asignarFotos(Object.values(FILAS)); pintarUno(el); await guardar(f, est); }));
     $$('[data-tpl]', el).forEach((b) => (b.onclick = async () => { c.placas[0].tpl = b.dataset.tpl; c._abrirPortada = true; asignarFotos(Object.values(FILAS)); pintarUno(el); await guardar(f, est); }));
-    $$('[data-port]', el).forEach((b) => (b.onclick = async () => { c.placas[0] = convertir(c.placas[0], b.dataset.port); c._abrirPortada = true; asignarFotos(Object.values(FILAS)); pintarUno(el); await guardar(f, est); }));
+    $$('[data-port]', el).forEach((b) => (b.onclick = async () => { c.placas[0] = convertir(c.placas[0], b.dataset.port, c); c._abrirPortada = true; asignarFotos(Object.values(FILAS)); pintarUno(el); await guardar(f, est); }));
     let tp = null;
     $$('[data-pk]', el).forEach((inp) => (inp.oninput = () => {
       c.placas[0][inp.dataset.pk] = inp.value; pintarMinis(llave(f));
@@ -216,17 +244,17 @@
     m.onclick = (e) => { if (e.target === m) cerrar(); };
     let timer = null;
     const pintar = () => {
-      const p = c.placas[i], F = defs(p.forma), conFoto = lleva(c, p, i), E = c.estilo ? ES.ESTILOS[c.estilo] : null;
+      const p = c.placas[i], F = defs(p.forma, c), conFoto = lleva(c, p, i), E = c.estilo ? ES.ESTILOS[c.estilo] : null;
       const formas = c.estilo ? Object.keys(ES.ROLES) : Object.keys(M.FORMAS).filter((k) => (i === 0 ? k.startsWith('portada_') || M.RECETAS[c.receta].formas.includes(k) : !k.startsWith('portada_')));
       const pct = Math.round((+p.escala || 1) * 100), posA = p.pos || '';
       const fotos = M.catalogo.filter((e) => e.tipo !== 'fondo' && !e.excluir);
       m.innerHTML = `<div class="cm"><div><div class="lienzo" style="aspect-ratio:1080/${alto(c)}"></div>
   <div class="nav"><button type="button" class="btn ghost sm" data-ant ${i <= 0 ? 'disabled' : ''}>← Anterior</button><span class="small">Lámina ${i + 1} de ${vis.length}</span><button type="button" class="btn ghost sm" data-sig ${i >= vis.length - 1 ? 'disabled' : ''}>Siguiente →</button></div></div>
 <div><div class="row between"><h3 style="margin:0">${esc(F.n)}</h3><button type="button" class="btn ghost sm" data-cerrar>Listo</button></div>
-  <label>Tipo de lámina<select data-forma>${formas.map((k) => `<option value="${k}"${k === p.forma ? ' selected' : ''}>${esc(defs(k).n)}</option>`).join('')}</select></label>
-  ${E ? `<div class="crs-ctl"><span>Letra</span><button type="button" class="btn ghost sm" data-esc="-0.1" aria-label="Letra más chica">A−</button><b>${pct}%</b><button type="button" class="btn ghost sm" data-esc="0.1" aria-label="Letra más grande">A+</button></div>
+  <label>Tipo de lámina<select data-forma>${formas.map((k) => `<option value="${k}"${k === p.forma ? ' selected' : ''}>${esc(defs(k, c).n)}</option>`).join('')}</select></label>
+  <div class="crs-ctl"><span>Letra</span><button type="button" class="btn ghost sm" data-esc="-0.1" aria-label="Letra más chica">A−</button><b>${pct}%</b><button type="button" class="btn ghost sm" data-esc="0.1" aria-label="Letra más grande">A+</button></div>
   <div class="crs-ctl"><span>Texto</span>${[['arriba', 'Arriba'], ['centro', 'Centro'], ['abajo', 'Abajo']].map(([k, n]) => `<button type="button" class="btn ghost sm${posA === k ? ' on' : ''}" data-pos="${k}">${n}</button>`).join('')}</div>
-  ${p.forma === 'portada' ? `<div class="crs-ctl"><span>Portada</span>${Object.entries(ES.PORTADAS).map(([k, n]) => `<button type="button" class="btn ghost sm${ES.tplDe(c) === k ? ' on' : ''}" data-tpl="${k}" title="${esc(n)}">${k} · ${esc(n)}</button>`).join('')}</div>` : `<div class="crs-ctl"><span>Foto</span><button type="button" class="btn ghost sm${conFoto ? ' on' : ''}" data-confoto="1">Con foto</button><button type="button" class="btn ghost sm${conFoto ? '' : ' on'}" data-confoto="0">Sin foto</button></div>`}` : ''}
+  ${E ? (p.forma === 'portada' ? `<div class="crs-ctl"><span>Portada</span>${Object.entries(ES.PORTADAS).map(([k, n]) => `<button type="button" class="btn ghost sm${ES.tplDe(c) === k ? ' on' : ''}" data-tpl="${k}" title="${esc(n)}">${k} · ${esc(n)}</button>`).join('')}</div>` : `<div class="crs-ctl"><span>Foto</span><button type="button" class="btn ghost sm${conFoto ? ' on' : ''}" data-confoto="1">Con foto</button><button type="button" class="btn ghost sm${conFoto ? '' : ' on'}" data-confoto="0">Sin foto</button></div>`) : ''}
   ${F.c.map(([k, et, t]) => `<label>${esc(et)}${t === 't' ? `<input type="text" data-k="${k}" value="${esc(p[k] || '')}">` : `<textarea rows="${t === 'p' || t === 'l' ? 4 : 2}" data-k="${k}">${esc(p[k] || '')}</textarea>`}</label>`).join('')}
   <p class="small muted" style="margin:6px 0 0">*itálica* · **negrita** · en listas, una línea por renglón y «negrita | resto».</p>
   ${E ? (conFoto ? `<label>Foto de esta lámina</label>` : '') : conFoto ? `<label>Foto de esta lámina</label>` : `<label>Foto de fondo (opcional: va detrás del texto, con un velo de color)</label><div class="row" style="gap:6px;margin-top:4px"><button type="button" class="btn ghost sm" data-fondo="">${p.fondo_img ? 'Sacar la foto de fondo' : 'Sin foto de fondo ✓'}</button></div>`}
@@ -240,7 +268,7 @@
       m.querySelector('[data-cerrar]').onclick = cerrar;
       const ant = m.querySelector('[data-ant]'), sig = m.querySelector('[data-sig]');
       ant.onclick = () => { i--; pintar(); }; sig.onclick = () => { i++; pintar(); };
-      m.querySelector('[data-forma]').onchange = (e) => { c.placas[i] = convertir(p, e.target.value); asignarFotos(Object.values(FILAS)); pintar(); guardar(f, est); };
+      m.querySelector('[data-forma]').onchange = (e) => { c.placas[i] = convertir(p, e.target.value, c); asignarFotos(Object.values(FILAS)); pintar(); guardar(f, est); };
       $$('[data-k]', m).forEach((inp) => (inp.oninput = () => { p[inp.dataset.k] = inp.value; dibujar(); clearTimeout(timer); timer = setTimeout(() => guardar(f, est), 900); }));
       $$('[data-esc]', m).forEach((b) => (b.onclick = () => { p.escala = Math.round(Math.min(1.35, Math.max(0.65, (+p.escala || 1) + Number(b.dataset.esc))) * 100) / 100; pintar(); guardar(f, est); }));
       $$('[data-pos]', m).forEach((b) => (b.onclick = () => { p.pos = b.dataset.pos; pintar(); guardar(f, est); }));
@@ -340,11 +368,11 @@
     catch (e) { els.forEach((el) => (el.innerHTML = '<p class="small muted">No pude cargar el diseñador de carruseles. Recargá la página.</p>')); return; }
     // Todo carrusel pasa a los estilos nuevos (Flor, 25/11): un estilo para todo el posteo.
     const SELLO = { demanda: 'Caso real', valor: 'Error común', 'valor + crecimiento': 'Error común', crecimiento: 'Opinión', 'conversión': 'AT WORK', inspira: 'Mi historia', autoridad: 'Caso real' };
-    (filas || []).forEach((f) => { if (f && f.carrusel && Array.isArray(f.carrusel.placas)) { ES.aEstilos(f.carrusel); const p0 = f.carrusel.placas[0]; if (p0 && p0.sello === undefined) { const m = String(f.detalle || '').match(/^(Valor \+ Crecimiento|Valor|Crecimiento|Demanda|Inspira|Conversión|Autoridad)/i); p0.sello = m ? SELLO[m[1].toLowerCase()] || '' : ''; } FILAS[llave(f)] = f; } });
+    (filas || []).forEach((f) => { if (f && f.carrusel && Array.isArray(f.carrusel.placas)) { if (f.carrusel.estilo) ES.aEstilos(f.carrusel); const p0 = f.carrusel.placas[0]; if (f.carrusel.estilo && p0 && p0.sello === undefined) { const m = String(f.detalle || '').match(/^(Valor \+ Crecimiento|Valor|Crecimiento|Demanda|Inspira|Conversión|Autoridad)/i); p0.sello = m ? SELLO[m[1].toLowerCase()] || '' : ''; } FILAS[llave(f)] = f; } });
     const cambiadas = asignarFotos(Object.values(FILAS));
     els.forEach(pintarUno);
     pintarMinis();
     for (const f of cambiadas) await guardar(f); // la primera vez que se ve una pieza, sus fotos quedan fijas
   }
-  window.Carruseles = { pintar, llave };
+  window.Carruseles = { pintar, llave, minis: () => pintarMinis() };
 })();
