@@ -87,8 +87,13 @@
         const w = ok(await sb.from('weekly').upsert(fila, { onConflict: 'alumna_id,semana' }).select('id').single());
         if (enviar && w) llamar({ modo: 'auto', weekly_id: w.id }).catch(() => {});
       },
-      async todosResumenes() { try { return ok(await sb.from('resumenes').select('alumna_id, fecha, asunto, texto, creado').order('fecha', { ascending: false }).limit(1000)); } catch (e) { return []; } },
-      async resumenes(a = uid) { try { return ok(await sb.from('resumenes').select('*').eq('alumna_id', a).order('fecha', { ascending: false }).limit(60)); } catch (e) { return []; } },
+      // Solo los resúmenes que Flor ya mandó cuentan como «resumen enviado» (Flor, 25/11: los borradores los revisa y los manda ella desde la Bandeja).
+      async todosResumenes() { try { return ok(await sb.from('resumenes').select('alumna_id, fecha, asunto, texto, creado').eq('estado', 'enviado').order('fecha', { ascending: false }).limit(1000)); } catch (e) { return []; } },
+      async resumenes(a = uid) { try { return ok(await sb.from('resumenes').select('*').eq('alumna_id', a).eq('estado', 'enviado').order('fecha', { ascending: false }).limit(60)); } catch (e) { return []; } },
+      async resumenesRevisar() { const desde = new Date(Date.now() - 7 * 864e5).toISOString(); return ok(await sb.from('resumenes').select('id, alumna_id, fecha, asunto, texto, estado, enviado_en, editado, creado').or('estado.eq.borrador,enviado_en.gte.' + desde).order('fecha', { ascending: false }).limit(80)); },
+      async guardarResumen(id, texto) { ok(await sb.from('resumenes').update({ texto, editado: new Date().toISOString() }).eq('id', id)); },
+      async enviarResumen(id, texto, html) { const r = await sb.rpc('enviar_resumen', { p_id: id, p_texto: texto, p_html: html }); if (r.error) throw new Error(String(r.error.message || '').replace(/^.*?No se pudo/, 'No se pudo') || 'No se pudo enviar.'); return r.data; },
+      async resumenYaEnviado(id) { ok(await sb.from('resumenes').update({ estado: 'enviado', enviado_en: new Date().toISOString() }).eq('id', id)); },
       // Lo filtrado (repetidos, grabaciones viejas) no es una entrega: no se le muestra (Flor, 23/11).
       async pedidos(a = uid) { return ok(await sb.from('pedidos').select('*').eq('alumna_id', a).neq('estado', 'filtrado').order('creado', { ascending: false }).limit(50)); },
       async crearPedido(p) {
@@ -281,6 +286,9 @@
     });
     let S;
     try { S = JSON.parse(localStorage.getItem(KEY)) || seed(); } catch (e) { S = seed(); }
+    // Demo de la pestaña «Resúmenes de clase» (Flor, 25/11): uno para revisar y enviar.
+    if (!(S.resumenes || []).some((r) => r.estado === 'borrador')) (S.resumenes = S.resumenes || []).unshift({ id: 9001, alumna_id: 'val', fecha: new Date().toISOString().slice(0, 10), asunto: 'Resumen de tu clase · hoy', estado: 'borrador', creado: new Date().toISOString(),
+      texto: 'Hola!\n\nEn la clase practicamos cómo dar un update corto con la noticia primero.\n\nTU TAREA PARA LA SEMANA\n- Grábate dando tu update en 60 segundos y súbelo a tu carpeta de Drive.\n- Mira la clase M2 · The Message Map.\n\nVOCABULARIO\nforecast (proyección) · on track (en camino)\n\nTUS FRASES PARA EL POST-IT\n1. "We are in track." → "We are on track." · Con track va on.\n2. "The numbers was good." → "The numbers were good." · Numbers es plural: were.\n\nLO QUE SIGUE\nPracticamos tu update con preguntas difíciles.\n\nMaterial de la clase: https://docs.google.com/document/d/demo/edit\n\nNos vemos el jueves! 💙\nFlor' });
     const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
     const id = () => ++S.seq;
     const yo = () => (new URLSearchParams(location.search).get('como') === 'flor' ? 'flor' : 'val');
@@ -313,8 +321,12 @@
         if (!w) { w = { id: id(), alumna_id: yo(), semana, respuestas: {}, enviado_en: null, respuesta_flor: null }; S.weekly.push(w); }
         w.respuestas = respuestas; if (enviar) w.enviado_en = new Date().toISOString(); save();
       },
-      async todosResumenes() { return copia(S.resumenes || []); },
-      async resumenes(a = yo()) { return copia((S.resumenes || []).filter((r) => r.alumna_id === a)); },
+      async todosResumenes() { return copia((S.resumenes || []).filter((r) => (r.estado || 'enviado') === 'enviado')); },
+      async resumenes(a = yo()) { return copia((S.resumenes || []).filter((r) => r.alumna_id === a && (r.estado || 'enviado') === 'enviado')); },
+      async resumenesRevisar() { return copia((S.resumenes || []).filter((r) => r.estado === 'borrador' || (r.enviado_en && Date.now() - new Date(r.enviado_en) < 7 * 864e5))); },
+      async guardarResumen(rid, texto) { const r = (S.resumenes || []).find((x) => x.id === rid); if (r) { r.texto = texto; r.editado = new Date().toISOString(); } save(); },
+      async enviarResumen(rid, texto) { await espera(500); const r = (S.resumenes || []).find((x) => x.id === rid); if (r) { r.texto = texto; r.estado = 'enviado'; r.enviado_en = new Date().toISOString(); } save(); return { ok: true }; },
+      async resumenYaEnviado(rid) { const r = (S.resumenes || []).find((x) => x.id === rid); if (r) { r.estado = 'enviado'; r.enviado_en = new Date().toISOString(); } save(); },
       async pedidos(a = yo()) { return copia(S.pedidos.filter((p) => p.alumna_id === a).sort((x, y) => (x.creado < y.creado ? 1 : -1))); },
       async crearPedido(p) { S.pedidos.push({ id: id(), alumna_id: yo(), estado: 'pendiente', respuesta: null, correcciones: [], creado: new Date().toISOString(), ...p }); save(); },
       async patrones(a = yo()) { return copia(S.patrones.filter((p) => p.alumna_id === a)); },

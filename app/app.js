@@ -2660,12 +2660,41 @@ ${pruebaHTML()}
     }
   };
 
+  // El resumen de clase como lo recibe la alumna: el formato de los mails de Flor (Open Sans, títulos marrones,
+  // tareas en lista, «Tus frases para el post-it» en tabla, links que se tocan). paraMail = el div con la fuente para Gmail.
+  function resumenHTML(t, paraMail) {
+    const BR = '#82552E', TE = '#C68C6C', CR = '#FFF8E7';
+    const linkear = (h) => h.replace(/(https:\/\/[^\s<]+[^\s<.,;:!?)])/g, (u) => `<a href="${u}" style="color:${BR};font-weight:bold" target="_blank" rel="noopener">${/docs\.google\.com\/document/.test(u) ? 'Abrir el documento' : /academy\./.test(u) ? 'Abrir la clase' : 'Abrir el link'}</a>`);
+    const lin = String(t || '').replace(/\r/g, '').split('\n');
+    const esTit = (l) => l.length >= 5 && l.length <= 70 && /[A-ZÁÉÍÓÚÑ]{3}/.test(l) && l === l.toUpperCase() && !/^https?:/i.test(l);
+    const td = `style="border:1px solid ${TE};padding:6px 8px;vertical-align:top"`, th = `style="border:1px solid ${TE};padding:6px 8px;background:${CR};color:${BR};text-align:left"`;
+    let out = '', ul = [], filas = [], enFrases = false;
+    const cerrar = () => {
+      if (ul.length) { out += '<ul style="margin:4px 0 10px 18px;padding:0">' + ul.map((x) => '<li>' + linkear(esc(x)) + '</li>').join('') + '</ul>'; ul = []; }
+      if (filas.length) { out += `<table style="border-collapse:collapse;width:100%;margin:6px 0 12px 0"><tr><th ${th}>Lo que dijiste</th><th ${th}>Cómo va</th><th ${th}>¿Por qué?</th></tr>` + filas.map((f) => `<tr><td ${td}>${esc(f[0])}</td><td ${td}><b style="color:#1E8449">${esc(f[1])}</b></td><td ${td}>${linkear(esc(f[2]))}</td></tr>`).join('') + '</table>'; filas = []; }
+    };
+    lin.forEach((l0) => {
+      const l = l0.trim();
+      if (!l) { cerrar(); return; }
+      if (esTit(l)) { cerrar(); enFrases = /POST-IT|FRASES/.test(l); out += `<h3 style="color:${BR};font-size:16px;margin:18px 0 6px 0">${esc(l.charAt(0) + l.slice(1).toLowerCase())}</h3>`; return; }
+      const m = enFrases && l.match(/^\d+[.)]\s*(.+?)\s*→\s*(.+?)(?:\s+·\s+(.+))?$/);
+      if (m) { if (ul.length) cerrar(); filas.push([m[1], m[2], m[3] || '']); return; }
+      if (/^[-•]\s+/.test(l)) { if (filas.length) cerrar(); ul.push(l.replace(/^[-•]\s+/, '')); return; }
+      cerrar(); out += '<p style="margin:0 0 8px 0">' + linkear(esc(l)) + '</p>';
+    });
+    cerrar();
+    return paraMail ? `<div style="font-family:'Open Sans',Arial,sans-serif;font-size:14px;color:#222;max-width:680px">${out}</div>` : `<div class="rv-mail">${out}</div>`;
+  }
+
   // ---------- Bandeja ----------
   V.bandeja = {
     async html(tab = 'pedidos') {
       const b = await cargarBandeja();
       st._bandeja = b;
-      const T = [['pedidos', 'Pedidos de feedback', feedbacksPend(b.pend)], ['weeklies', 'Weeklies sin responder', b.sinResp.length], ['respondidos', 'Weeklies respondidos', b.resp.length], ['tareas', 'Tareas con feedback', b.tResp.length]];
+      // Resúmenes de clase (Flor, 25/11): la tarea de clases los deja como borrador; Flor los lee, los edita y los manda desde acá.
+      const RV = (esFlor() || DB.demo) && DB.resumenesRevisar ? await DB.resumenesRevisar().catch(() => []) : [];
+      const rvB = RV.filter((r) => r.estado === 'borrador');
+      const T = [['pedidos', 'Pedidos de feedback', feedbacksPend(b.pend)], ['resumenes', 'Resúmenes de clase', rvB.length], ['weeklies', 'Weeklies sin responder', b.sinResp.length], ['respondidos', 'Weeklies respondidos', b.resp.length], ['tareas', 'Tareas con feedback', b.tResp.length]];
       const resps = (x) => wq(x.perfil).map(([id, l]) => (x.respuestas[id] ? `<p class="small"><b>${l}</b><br>${esc(x.respuestas[id])}</p>` : '')).join('') +
         Object.keys(x.respuestas || {}).filter((k) => !wq(x.perfil).some(([id]) => id === k) && String(x.respuestas[k] || '').trim()).map((k) => `<p class="small"><b>${esc(k)}</b><br>${esc(x.respuestas[k])}</p>`).join('');
       const porMail = (t) => /^flor te respondi[oó] por mail\.?$/i.test(String(t || '').trim());
@@ -2761,6 +2790,23 @@ ${pruebaHTML()}
           ${b.viejos.map((x) => filaBorrar(x, `Lo mandó el ${fecha(x.creado, { day: 'numeric', month: 'long' })}`)).join('')}</details>`;
       if (tab === 'pedidos' && b.filtrados && b.filtrados.length) cuerpo += `<details class="card viejos"><summary class="small muted">🧹 No son entregas: ${b.filtrados.length === 1 ? '1 archivo viejo o repetido' : b.filtrados.length + ' archivos viejos o repetidos'} que aparecieron en sus carpetas de Drive (por ejemplo, cuando ordenan el Drive). No hace falta hacer nada; ábrelo solo si querés chequear.</summary>
           ${b.filtrados.map((x) => `<div class="editrow" data-filt="${x.id}"><span>${esc(x.nombre)} · ${esc(sinDrive(x.titulo) || tipoNombre(x.tipo))}${url(x.link) ? ` <a class="small" href="${esc(x.link)}" target="_blank" rel="noopener">Abrir</a>` : ''}<br><span class="muted small">Subido el ${fecha(x.creado, { day: 'numeric', month: 'long' })} · ${esc(x.filtrado || 'filtrado')}</span></span><button type="button" class="btn ghost sm f-volver">Es nuevo: a la bandeja</button></div>`).join('')}</details>`;
+      if (tab === 'resumenes') {
+        const quien = (r) => { const a = (b.al || []).find((x) => x.id === r.alumna_id) || {}; return apodoDe(a) || a.nombre || 'Alumna'; };
+        const env = RV.filter((r) => r.estado === 'enviado');
+        cuerpo = (rvB.length ? rvB.map((r) => `<section class="card rv" data-rid="${r.id}">
+          <div class="row between"><h3>${esc(quien(r))} · ${esc(fecha(r.fecha, { weekday: 'long', day: 'numeric', month: 'long' }))}</h3><span class="pill warn">Para revisar</span></div>
+          <p class="muted small">Asunto: ${esc(r.asunto || 'Resumen de tu clase')} · le llega por mail y vos quedás en copia oculta${r.editado ? ' · lo editaste ' + esc(fecha(r.editado, { day: 'numeric', month: 'short' })) : ''}</p>
+          <div class="rv-vista">${resumenHTML(r.texto || '')}</div>
+          <textarea class="rv-txt" rows="18" hidden>${esc(r.texto || '')}</textarea>
+          <div class="row" style="gap:8px;flex-wrap:wrap;margin-top:10px">
+            <button type="button" class="btn sm rv-enviar">Enviar</button>
+            <button type="button" class="btn ghost sm rv-editar">Editar</button>
+            <button type="button" class="btn ghost sm rv-guardar" hidden>Guardar cambios</button>
+            <button type="button" class="linkbtn small rv-ya">Ya se lo mandé por mail</button>
+          </div></section>`).join('')
+          : '<section class="card empty-state"><h3>No hay resúmenes para revisar</h3><p class="muted small">Después de cada clase, la tarea de clases arma el resumen y aparece acá. Lo leés, lo editás si hace falta y lo mandás: en ese momento le llega el mail y se actualiza su app.</p></section>')
+          + (env.length ? `<details class="card viejos"><summary><b>Enviados en los últimos 7 días (${env.length})</b></summary>${env.map((r) => `<details class="fbitem"><summary><b>${esc(quien(r))}</b> <span class="muted small">clase del ${esc(fecha(r.fecha, { day: 'numeric', month: 'short' }))} · enviado ${esc(fecha(r.enviado_en, { day: 'numeric', month: 'short' }))}</span></summary>${resumenHTML(r.texto || '')}</details>`).join('')}</details>` : '');
+      }
       if (tab === 'weeklies') {
         cuerpo = b.sinResp.length ? porSemana(b.sinResp, (x) => x.semana).map((g) => grupo(nombreSemana(g.s), `<span class="pill warn">${g.items.length} sin responder</span>`, g.items.map((x) => `<div class="fbitem" ${x.src === 'app' ? `data-wid="${x.id}" data-aid="${x.aid}"` : `data-wimp="${esc(x.email)}"`} data-sem="${esc(x.semana)}" data-mail="${esc(String(x.email || '').toLowerCase())}">
         <div class="row between"><b>${esc(x.nombre)}</b><span class="muted small">${x.enviado_en ? 'Enviado ' + fecha(x.enviado_en, { weekday: 'short', day: 'numeric', month: 'short' }) : 'En su Google Doc'}${x.src === 'imp' ? ' · todavía sin cuenta' : ''}</span></div>
@@ -2807,6 +2853,19 @@ ${cuerpo}`;
       $$('.pc-volver').forEach((bt) => (bt.onclick = async () => { await intentar(() => DB.editarPedido(+bt.closest('[data-pc]').dataset.pc, { en_clase: null }), 'De vuelta en la bandeja'); ruta(); }));
       $$('.f-volver').forEach((bt) => (bt.onclick = async () => { await intentar(() => DB.editarPedido(+bt.closest('[data-filt]').dataset.filt, { estado: 'pendiente', filtrado: null }), 'De vuelta en la bandeja'); ruta(); }));
       $$('[data-tab]').forEach((b) => (b.onclick = () => (location.hash = 'bandeja/' + b.dataset.tab)));
+      $$('[data-rid]').forEach((it) => {
+        const id = +it.dataset.rid || it.dataset.rid, txt = $('.rv-txt', it), vista = $('.rv-vista', it), env = $('.rv-enviar', it), ed = $('.rv-editar', it), gu = $('.rv-guardar', it);
+        ed.onclick = () => { const abrir = txt.hidden; txt.hidden = !abrir; vista.hidden = abrir; gu.hidden = !abrir; ed.textContent = abrir ? 'Ver cómo le llega' : 'Editar'; if (!abrir) vista.innerHTML = resumenHTML(txt.value); };
+        gu.onclick = async () => { await intentar(() => DB.guardarResumen(id, txt.value.trim()), 'Guardado'); vista.innerHTML = resumenHTML(txt.value); };
+        // Se toca dos veces, para no mandarlo sin querer (como «Enviar ya»).
+        env.onclick = async () => {
+          if (!env._seguro) { env._seguro = true; env.textContent = 'Tocá de nuevo para enviarlo'; setTimeout(() => { env._seguro = false; env.textContent = 'Enviar'; }, 5000); return; }
+          env._seguro = false; env.disabled = true; env.textContent = 'Enviando…';
+          try { await DB.enviarResumen(id, txt.value.trim(), resumenHTML(txt.value, true)); toast('Enviado ✓ Le llegó el mail y ya lo ve en su app'); it.remove(); }
+          catch (er) { toast(er.message || 'No se pudo enviar', true); env.disabled = false; env.textContent = 'Enviar'; }
+        };
+        $('.rv-ya', it).onclick = async () => { if (!confirm('¿Ya se lo mandaste desde Gmail? Lo marco como enviado y aparece en su app (no se manda nada).')) return; await intentar(() => DB.resumenYaEnviado(id), 'Marcado como enviado'); it.remove(); };
+      });
       const filaCorr = (box, mal = '', bien = '', pq = '') => {
         box.insertAdjacentHTML('beforeend', `<div class="corr"><input type="text" class="mal" placeholder="Lo que dijo" value="${esc(mal)}"><input type="text" class="bien" placeholder="Cómo se dice" value="${esc(bien)}"><input type="text" class="pq" placeholder="Por qué (corto)" value="${esc(pq)}"><button type="button" class="linkbtn small quitar">Quitar</button></div>`);
       };
