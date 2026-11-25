@@ -51,6 +51,10 @@
 .crs-rec{display:flex;flex-wrap:wrap;gap:6px;margin:2px 0 8px}
 .crs-rec button{min-height:36px;padding:4px 12px;border-radius:999px;border:1.5px solid #e6dcc4;background:#fffdf8;color:#22201a;font:inherit;font-size:13px;font-weight:600;cursor:pointer}
 .crs-rec button[aria-pressed=true]{background:#4b5624;border-color:#4b5624;color:#f8f5ee}
+.crs-port{border:1.5px solid #e6dcc4;border-radius:12px;padding:8px 12px;margin:4px 0 10px;background:#fffdf8;color:#22201a}
+.crs-port summary{cursor:pointer;font-weight:700;font-size:14px;min-height:28px}
+.crs-campo{display:flex;flex-direction:column;gap:3px;font-size:12.5px;font-weight:700;color:#6c6656;margin-top:6px}
+.crs-campo input,.crs-campo textarea{font:inherit;font-size:16px;font-weight:400;color:#22201a;border:1.5px solid #e6dcc4;border-radius:10px;padding:7px 10px;background:#f8f5ee;width:100%}
 .crs-acc{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 .crs-est{font-size:13px;min-height:18px;margin-top:4px;color:#81552e}
 .crs-modal{position:fixed;inset:0;z-index:80;background:rgba(30,26,18,.6);display:flex;align-items:center;justify-content:center;padding:12px}
@@ -92,6 +96,20 @@
     });
     return cambiadas;
   }
+  // Pasa una lámina a otra forma sin perder el texto (port del estudio).
+  function convertir(p, destino) {
+    if (p.forma === destino) return p;
+    const orig = (M.FORMAS[p.forma] || {}).c || [], dest = M.FORMAS[destino].c;
+    const sueltos = orig.filter((c) => c[2] !== 'p' && c[2] !== 'l').map((c) => p[c[0]]).filter(Boolean);
+    const listas = orig.filter((c) => c[2] === 'p' || c[2] === 'l').map((c) => p[c[0]]).filter(Boolean);
+    const n = { forma: destino, foto: p.foto, _foto: p._foto };
+    let i = 0, j = 0;
+    dest.forEach(([k, , t]) => { if (t === 'p' || t === 'l') n[k] = listas[j++] || ''; else n[k] = sueltos[i++] || ''; });
+    if (sueltos.length > i) { const ult = dest.filter((c) => c[2] !== 'p' && c[2] !== 'l').pop(); if (ult) n[ult[0]] = [n[ult[0]], ...sueltos.slice(i)].filter(Boolean).join(' '); }
+    if (destino === 'portada_profundidad' && n.palabra && n.palabra.split(/\s+/).length > 1) { const ws = n.palabra.split(/\s+/); const larga = ws.reduce((a, b) => (b.length > a.length ? b : a)); n.pre = [n.pre, n.palabra.replace(larga, '').trim()].filter(Boolean).join(' '); n.palabra = larga.toUpperCase(); }
+    return n;
+  }
+  const PORTADAS = [['portada_foto', 'Con foto'], ['portada_serif', 'Serif grande'], ['portada_botones', 'Con opciones'], ['portada_profundidad', 'Palabra gigante']];
   const fotoDe = (p) => (p._foto ? M.catalogo.find((e) => e.archivo === p._foto) || null : null);
   function htmlPlaca(c, i, escala) {
     const H = alto(c), p = c.placas[i]; if (!p) return '';
@@ -105,19 +123,31 @@
     const c = f.carrusel; if (!M.RECETAS[c.receta]) c.receta = 'editorial';
     const reel = c.formato === 'reel';
     el.innerHTML = `<div class="crs-rec" role="group" aria-label="Receta">${Object.entries(M.RECETAS).map(([k, R]) => `<button type="button" data-rec="${k}" aria-pressed="${k === c.receta}" title="${esc(R.desc)}">${esc(R.n)}</button>`).join('')}</div>
+<details class="crs-port"${c._abrirPortada ? ' open' : ''}><summary>Portada: el hook y su estilo</summary>
+  <div class="crs-rec" role="group" aria-label="Estilo de la portada">${PORTADAS.map(([k, n]) => `<button type="button" data-port="${k}" aria-pressed="${!!c.placas[0] && c.placas[0].forma === k}">${n}</button>`).join('')}</div>
+  ${((M.FORMAS[(c.placas[0] || {}).forma] || {}).c || []).map(([k, et, t]) => `<label class="crs-campo">${esc(et)}${t === 't' ? `<input type="text" data-pk="${k}" value="${esc(c.placas[0][k] || '')}">` : `<textarea rows="2" data-pk="${k}">${esc(c.placas[0][k] || '')}</textarea>`}</label>`).join('')}
+</details>
 <div class="crs-tira">${visibles(c).map((i) => `<button type="button" class="crs-mini${reel ? ' reel' : ''}" data-i="${i}" aria-label="Editar lámina ${i + 1}"><div class="marco">${htmlPlaca(c, i, 120 / M.W)}</div>${i + 1}</button>`).join('')}</div>
 <div class="crs-acc"><button type="button" class="btn sm" data-crs-png>Bajar PNG</button><button type="button" class="btn ghost sm" data-crs-fotos>Otras fotos</button><button type="button" class="btn ghost sm" data-crs-ed="0">Editar textos y fotos</button></div>
 <div class="crs-est" aria-live="polite"></div>`;
     $$('.crs-mini .marco .p', el).forEach((p) => M.fit(p));
     const est = (t) => { el.querySelector('.crs-est').textContent = t || ''; };
     $$('[data-rec]', el).forEach((b) => (b.onclick = async () => { c.receta = b.dataset.rec; asignarFotos(Object.values(FILAS), llave(f)); pintarUno(el); await guardar(f, est); }));
+    $$('[data-port]', el).forEach((b) => (b.onclick = async () => { c.placas[0] = convertir(c.placas[0], b.dataset.port); c._abrirPortada = true; asignarFotos(Object.values(FILAS)); pintarUno(el); await guardar(f, est); }));
+    let tp = null;
+    $$('[data-pk]', el).forEach((inp) => (inp.oninput = () => {
+      c.placas[0][inp.dataset.pk] = inp.value;
+      const m0 = el.querySelector('.crs-mini[data-i="0"] .marco'); if (m0) { m0.innerHTML = htmlPlaca(c, 0, 120 / M.W); const n = m0.querySelector('.p'); if (n) M.fit(n); }
+      clearTimeout(tp); tp = setTimeout(() => guardar(f, est), 900);
+    }));
+    const dp = el.querySelector('.crs-port'); if (dp) dp.ontoggle = () => { c._abrirPortada = dp.open; };
     el.querySelector('[data-crs-fotos]').onclick = async () => { c.semilla = (+c.semilla || 0) + 1; asignarFotos(Object.values(FILAS), llave(f)); pintarUno(el); await guardar(f, est); };
     $$('.crs-mini,[data-crs-ed]', el).forEach((b) => (b.onclick = () => editor(f, +(b.dataset.i || b.dataset.crsEd || 0), () => pintarUno(el))));
     el.querySelector('[data-crs-png]').onclick = async (e) => { const b = e.currentTarget; b.disabled = true; try { await bajarZip(f, est); } catch (er) { est('No pude armar los PNG: ' + er.message); } b.disabled = false; };
   }
   async function guardar(f, est) {
     if (!guardarFn) return;
-    try { est && est('Guardando…'); await guardarFn(f.fecha, f.clave, f.carrusel); est && est('Guardado'); setTimeout(() => est && est(''), 1600); }
+    try { est && est('Guardando…'); const { _abrirPortada, ...limpio } = f.carrusel; await guardarFn(f.fecha, f.clave, limpio); est && est('Guardado'); setTimeout(() => est && est(''), 1600); }
     catch (e) { est && est('No se guardó: ' + e.message); }
   }
 
@@ -151,7 +181,7 @@
       m.querySelector('[data-cerrar]').onclick = cerrar;
       const ant = m.querySelector('[data-ant]'), sig = m.querySelector('[data-sig]');
       ant.onclick = () => { i--; pintar(); }; sig.onclick = () => { i++; pintar(); };
-      m.querySelector('[data-forma]').onchange = (e) => { p.forma = e.target.value; asignarFotos(Object.values(FILAS)); pintar(); guardar(f, est); };
+      m.querySelector('[data-forma]').onchange = (e) => { c.placas[i] = convertir(p, e.target.value); asignarFotos(Object.values(FILAS)); pintar(); guardar(f, est); };
       $$('[data-k]', m).forEach((inp) => (inp.oninput = () => { p[inp.dataset.k] = inp.value; dibujar(); clearTimeout(timer); timer = setTimeout(() => guardar(f, est), 900); }));
       $$('[data-foto]', m).forEach((b) => (b.onclick = () => { p._foto = b.dataset.foto; p.foto = b.dataset.foto; pintar(); guardar(f, est); }));
       const sub = m.querySelector('[data-subir]');
