@@ -76,6 +76,7 @@
 .crs-ctl{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:10px;font-size:13px}
 .crs-ctl>span{font-weight:700;color:#6c6656;min-width:44px}
 .crs-ctl .on{background:#4b5624;border-color:#4b5624;color:#f8f5ee}
+.crs-col.cuad{border-radius:6px}
 .crs-col{width:26px;height:26px;border-radius:50%;border:2px solid #e6dcc4;cursor:pointer;padding:0}
 .crs-sel{background:#fbf2d0;border-radius:12px;padding:8px}
 .crs-acc{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
@@ -116,19 +117,26 @@
       return (e.textContent || '').trim().length > 0;
     });
   }
-  function aplicarEd(root, ed) {
+  function aplicarEd(root, datos) {
+    const ed = (datos && datos.o) || {}, xs = (datos && datos.x) || [];
+    // Textos agregados por Flor: van al final de la lámina, así no cambian el orden de los demás.
+    const oscuro = /rgb\((\d+), (\d+), (\d+)\)/.exec(getComputedStyle(root).backgroundColor || '');
+    const claro = !oscuro || (+oscuro[1] + +oscuro[2] + +oscuro[3]) / 3 > 140;
+    xs.forEach((t, k) => { const d = document.createElement('div'); d.className = 'xtra'; d.dataset.x = k; d.dataset.fs = 64; d.style.cssText = `position:absolute;left:96px;right:96px;top:${Math.round(root.offsetHeight * 0.44)}px;font-family:'Serif';font-weight:600;font-size:64px;line-height:1.1;text-align:center;color:${claro ? '#81552e' : '#f8f5ee'};z-index:40`; d.textContent = (t && t.t) || ''; root.appendChild(d); });
     const ps = piezasDe(root);
     Object.entries(ed || {}).forEach(([k, o]) => {
       const e = ps[+k]; if (!e || !o) return;
       if (o.s && o.s !== 1) { const z = parseFloat(getComputedStyle(e).fontSize) * o.s; e.style.fontSize = z + 'px'; e.querySelectorAll('[data-fs]').forEach((h) => { h.style.fontSize = parseFloat(getComputedStyle(h).fontSize) * o.s + 'px'; }); }
       if (o.x || o.y) { if (getComputedStyle(e).position === 'static') e.style.position = 'relative'; e.style.transform = `translate(${o.x || 0}px,${o.y || 0}px)`; }
       if (o.c) { e.style.color = o.c; e.querySelectorAll('*').forEach((h) => { h.style.color = o.c; }); }
+      if (o.f) { e.style.background = o.f; e.style.padding = '.14em .4em'; e.style.borderRadius = '8px'; e.style.width = 'fit-content'; const ta = getComputedStyle(e).textAlign; if (ta === 'center') { e.style.marginLeft = 'auto'; e.style.marginRight = 'auto'; } else if (ta === 'right') e.style.marginLeft = 'auto'; e.style.boxDecorationBreak = 'clone'; }
+      if (o.z) { let a = e; while (a.parentElement && a.parentElement !== root) a = a.parentElement; if (getComputedStyle(a).position === 'static') a.style.position = 'relative'; a.style.zIndex = 60; if (getComputedStyle(e).position === 'static') e.style.position = 'relative'; e.style.zIndex = 60; }
     });
   }
   function ajustar(root) {
     ajustarBase(root);
     const w = root && root.parentElement;
-    if (w && w.dataset.ed && w.dataset.ed !== '{}') { try { aplicarEd(root, JSON.parse(w.dataset.ed)); } catch (e) { /* sin cambios por elemento */ } }
+    if (w && w.dataset.ed) { try { aplicarEd(root, JSON.parse(w.dataset.ed)); } catch (e) { /* sin cambios por elemento */ } }
   }
   function ajustarBase(root) {
     if (!root) return;
@@ -235,7 +243,7 @@
   }
   function htmlPlaca(c, i, escala) {
     const H = alto(c), p = c.placas[i]; if (!p) return '';
-    const ed = esc(JSON.stringify(p.ed || {}));
+    const ed = esc(JSON.stringify({ o: p.ed || {}, x: p.extra || [] }));
     if (c.estilo && ES) { const fo = lleva(c, p, i) ? fotoDe(p) : null; return `<div data-ed="${ed}" style="transform:scale(${escala});width:${M.W}px;height:${H}px;transform-origin:0 0">${ES.placa(c, i, H, fo, fo ? M.urlDe(fo) : '', M.assets)}</div>`; }
     let forma = c.formato === 'reel' && i === 0 && !p.forma.startsWith('portada_') ? M.RECETAS[c.receta].portadas[0] : p.forma, d = p;
     let fRec = null;
@@ -406,7 +414,8 @@
       m.innerHTML = `<div class="cm"><div><div class="lienzo" style="aspect-ratio:1080/${alto(c)}"></div>
   <div class="nav"><button type="button" class="btn ghost sm" data-ant ${i <= 0 ? 'disabled' : ''}>← Anterior</button><span class="small">Lámina ${i + 1} de ${vis.length} · tocá el texto para editarlo</span><button type="button" class="btn ghost sm" data-sig ${i >= vis.length - 1 ? 'disabled' : ''}>Siguiente →</button></div></div>
 <div><div class="row between"><h3 style="margin:0">${esc(F.n)}</h3><button type="button" class="btn ghost sm" data-cerrar>Listo</button></div>
-  <div class="crs-ctl crs-sel"${sel && sel.i === i ? '' : ' hidden'}><span>Lo que tocaste</span><button type="button" class="btn ghost sm" data-ted="s-" aria-label="Más chico">A−</button><button type="button" class="btn ghost sm" data-ted="s+" aria-label="Más grande">A+</button><button type="button" class="btn ghost sm" data-ted="u" aria-label="Subir">↑</button><button type="button" class="btn ghost sm" data-ted="d" aria-label="Bajar">↓</button><button type="button" class="btn ghost sm" data-ted="l" aria-label="A la izquierda">←</button><button type="button" class="btn ghost sm" data-ted="r" aria-label="A la derecha">→</button>${[['#4b5624', 'Olivo'], ['#81552e', 'Café'], ['#3f1e0d', 'Café oscuro'], ['#c68c6c', 'Terracota'], ['#f8f5ee', 'Crema'], ['#1f1c17', 'Negro']].map(([h, n]) => `<button type="button" class="crs-col" data-ted="c:${h}" title="${n}" aria-label="Letra ${n}" style="background:${h}"></button>`).join('')}<button type="button" class="btn ghost sm" data-ted="x">Como estaba</button></div>
+  <button type="button" class="btn sm" data-xadd style="margin-bottom:8px">＋ Agregar texto</button>
+  <div class="crs-ctl crs-sel"${sel && sel.i === i ? '' : ' hidden'}><span>Lo que tocaste</span><button type="button" class="btn ghost sm" data-ted="s-" aria-label="Más chico">A−</button><button type="button" class="btn ghost sm" data-ted="s+" aria-label="Más grande">A+</button><button type="button" class="btn ghost sm" data-ted="u" aria-label="Subir">↑</button><button type="button" class="btn ghost sm" data-ted="d" aria-label="Bajar">↓</button><button type="button" class="btn ghost sm" data-ted="l" aria-label="A la izquierda">←</button><button type="button" class="btn ghost sm" data-ted="r" aria-label="A la derecha">→</button>${[['#4b5624', 'Olivo'], ['#81552e', 'Café'], ['#3f1e0d', 'Café oscuro'], ['#c68c6c', 'Terracota'], ['#f8f5ee', 'Crema'], ['#1f1c17', 'Negro']].map(([h, n]) => `<button type="button" class="crs-col" data-ted="c:${h}" title="${n}" aria-label="Letra ${n}" style="background:${h}"></button>`).join('')}<span style="margin-left:4px">Fondo</span>${[['#f8f5ee', 'Crema'], ['#fbf2d0', 'Cálida'], ['#ede5cc', 'Crema media'], ['#c68c6c', 'Terracota'], ['#81552e', 'Café'], ['#4b5624', 'Olivo']].map(([h, n]) => `<button type="button" class="crs-col cuad" data-ted="f:${h}" title="Fondo ${n}" aria-label="Fondo ${n}" style="background:${h}"></button>`).join('')}<button type="button" class="btn ghost sm" data-ted="f:">Sin fondo</button><button type="button" class="btn ghost sm" data-ted="zf">Adelante de la foto</button><button type="button" class="btn ghost sm" data-ted="zb">Atrás de la foto</button><button type="button" class="btn ghost sm" data-ted="x">Como estaba</button></div>
   <p class="small muted" style="margin:4px 0 0">Tocá un texto para escribir; arrastralo para moverlo a donde quieras; con la barra, agrandalo o cambiale el color.</p>
   <label>Tipo de lámina<select data-forma>${formas.map((k) => `<option value="${k}"${k === p.forma ? ' selected' : ''}>${esc(defs(k, c).n)}</option>`).join('')}</select></label>
   <div class="crs-ctl"><span>Letra</span><button type="button" class="btn ghost sm" data-esc="-0.1" aria-label="Letra más chica">A−</button><b>${pct}%</b><button type="button" class="btn ghost sm" data-esc="0.1" aria-label="Letra más grande">A+</button></div>
@@ -422,6 +431,11 @@
       const dibujar = () => {
         lz.innerHTML = htmlPlaca(c, i, lz.clientWidth / M.W); const n = lz.querySelector('.p'); if (n) ajustar(n);
         editable(lz, p, F.c.map((x) => x[0]), (k) => { const t = m.querySelector(`[data-k="${k}"]`); if (t) t.value = p[k]; dibujar(); clearTimeout(timer); timer = setTimeout(() => guardar(f, est), 300); });
+        if (n) n.querySelectorAll('.bg').forEach((b) => { b.style.pointerEvents = 'none'; });
+        if (n) n.querySelectorAll('.xtra').forEach((x) => {
+          x.contentEditable = 'true'; x.spellcheck = true;
+          x.addEventListener('blur', () => { const k = +x.dataset.x, v = x.innerText.trim(); if (!p.extra || !p.extra[k] || v === p.extra[k].t) return; p.extra[k].t = v; dibujar(); clearTimeout(timer); timer = setTimeout(() => guardar(f, est), 300); });
+        });
         if (n) piezasDe(n).forEach((e, idx) => {
           if (sel && sel.i === i && sel.idx === idx) e.style.outline = '8px dashed #c68c6c';
           e.style.cursor = 'pointer';
@@ -437,6 +451,12 @@
           e.style.touchAction = 'none';
         });
       };
+      const xadd = m.querySelector('[data-xadd]');
+      if (xadd) xadd.onclick = () => {
+        p.extra = p.extra || []; p.extra.push({ t: 'Tu texto' }); dibujar();
+        const n2 = lz.querySelector('.p'); if (n2) { const ps = piezasDe(n2); sel = { i, idx: ps.length - 1 }; dibujar(); const bar = m.querySelector('.crs-sel'); if (bar) bar.hidden = false; }
+        clearTimeout(timer); timer = setTimeout(() => guardar(f, est), 400);
+      };
       $$('[data-ted]', m).forEach((b) => (b.onmousedown = (ev) => ev.preventDefault()));
       $$('[data-ted]', m).forEach((b) => (b.onclick = () => {
         if (!sel || sel.i !== i) return;
@@ -446,7 +466,13 @@
         else if (a === 'u') o.y = (o.y || 0) - 24; else if (a === 'd') o.y = (o.y || 0) + 24;
         else if (a === 'l') o.x = (o.x || 0) - 24; else if (a === 'r') o.x = (o.x || 0) + 24;
         else if (a.startsWith('c:')) o.c = a.slice(2);
-        else if (a === 'x') delete p.ed[sel.idx];
+        else if (a.startsWith('f:')) { if (a.length > 2) o.f = a.slice(2); else delete o.f; }
+        else if (a === 'zf') o.z = 1; else if (a === 'zb') delete o.z;
+        else if (a === 'x') {
+          delete p.ed[sel.idx];
+          const n3 = lz.querySelector('.p'), el3 = n3 && piezasDe(n3)[sel.idx];
+          if (el3 && el3.classList.contains('xtra') && p.extra) { p.extra.splice(+el3.dataset.x, 1); sel = null; const bar = m.querySelector('.crs-sel'); if (bar) bar.hidden = true; }
+        }
         dibujar(); clearTimeout(timer); timer = setTimeout(() => guardar(f, est), 400);
       }));
       requestAnimationFrame(dibujar);
