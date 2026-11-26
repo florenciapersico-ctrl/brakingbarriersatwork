@@ -2055,6 +2055,7 @@ ${contenidoApp(hoyI, lun)}
           <p class="hab-sec">Hooks del banco validado</p>
           ${(a.hooks || []).map((h, i) => `<div class="aud-hook"><p class="aud-ht">${h.palabra && (h.pre || h.pill) ? `${esc(h.pre || '')} <b style="font-size:1.35em;letter-spacing:.02em">${esc(String(h.palabra).toUpperCase())}</b> ${esc(h.pill || '')}` : `<b>${esc(h.titulo || '')}</b> <i>${esc(h.titulo_i || '')}</i>`}${h.opciones ? `<br><span class="small">${String(h.opciones).split('\n').map((o) => `▢ ${esc(o)}`).join('<br>')}</span>` : ''}</p><p class="small muted">${esc(h.por_que || '')}${h.palabra ? ` · Palabra gigante: <b>${esc(String(h.palabra).toUpperCase())}</b>` : ''}${h.modelado_de ? `<br>Modelado de @${esc(String(h.modelado_de.cuenta || '').replace(/^@+/, ''))}: «${esc(h.modelado_de.hook || '')}»${h.modelado_de.link ? ` · <a href="${esc(h.modelado_de.link)}" target="_blank" rel="noopener">ver</a>` : ''}` : ''}</p><button type="button" class="btn ghost sm" data-audhook="${i}">Usar este hook en la portada</button></div>`).join('')}
           ${(a.laminas || []).length ? `<p class="hab-sec">Láminas que más frenan, reescritas</p>${a.laminas.map((l, i) => `<div class="aud-hook"><p class="small"><b>Lámina ${esc(l.n)}</b> · ${esc(l.por_que || '')}</p><p class="aud-ht"><b>${esc(l.titulo || '')}</b> <i>${esc(l.titulo_i || '')}</i>${l.cuerpo ? `<br><span class="small">${esc(l.cuerpo)}</span>` : ''}</p><button type="button" class="btn ghost sm" data-audlam="${i}">Aplicar en la lámina ${esc(l.n)}</button></div>`).join('')}` : ''}
+          ${a.prompter ? `<p class="hab-sec">Prompter nuevo para grabar</p><div class="aud-hook">${a.pantalla ? `<p class="small"><b>Texto en pantalla:</b> ${esc(a.pantalla)}</p>` : ''}<pre class="aud-prom">${esc(a.prompter)}</pre><button type="button" class="btn sm" data-audprom>Usar este prompter</button></div>` : ''}
           ${a.cta ? `<p class="small"><b>CTA propuesto:</b> ${esc(a.cta)}</p>` : ''}
           ${a.proximo_paso ? `<p class="small"><b>Tu próximo paso:</b> ${esc(a.proximo_paso)}</p>` : ''}
           <p class="small muted aud-est"></p>`;
@@ -2081,9 +2082,35 @@ ${contenidoApp(hoyI, lun)}
             }
             $$(`[data-cdia="${fecha}"] .cal-hook`).forEach((x) => { x.textContent = hk.length > 70 ? hk.slice(0, 69) + '…' : hk; });
           } est(okA ? 'Listo: el hook quedó en el posteo (título, portada y guion) y se guardó.' : 'Esta pieza todavía no tiene diseño: armalo primero.'); }));
+          // Reel: el prompter nuevo reemplaza al de la pieza (Flor, 26/11).
+          $$('[data-audprom]', res).forEach((x) => (x.onclick = async () => {
+            const fila = [...(st._hoyD || []), ...(st._semC || []), ...(st._mesC || [])].filter((z) => z.clave === clave && z.fecha === fecha); if (!fila.length) return;
+            const [arriba, hist] = cPartes(fila[0]), pant = a.pantalla || ((arriba.match(/^TEXTO EN PANTALLA:\s*(.+)$/m) || [])[1] || '');
+            const t2 = ((pant ? 'TEXTO EN PANTALLA: ' + pant + '\n' : '') + String(a.prompter).trim() + (hist ? '\n\n📱 HISTORIAS DEL DÍA\n' + hist : '')).trim();
+            x.disabled = true;
+            try { await DB.editarPieza(fecha, clave, { texto2: t2 }); fila.forEach((z) => (z.texto2 = t2)); const pz = sec.closest('.pz'); if (pz) { const tp = pz.querySelector('.pz-prompter'); if (tp) tp.value = String(a.prompter).trim(); const ip = pz.querySelector('.pz-pantalla'); if (ip && pant) ip.value = pant; } est('Listo: el prompter nuevo quedó en el reel.'); }
+            catch (er2) { est('No se guardó: ' + er2.message); x.disabled = false; }
+          }));
           $$('[data-audlam]', res).forEach((x) => (x.onclick = async () => { const l = a.laminas[+x.dataset.audlam]; const okA = window.Carruseles && (await window.Carruseles.aplicarAud(key, Math.max(0, (+l.n || 1) - 1), l)); est(okA ? `Listo: la lámina ${l.n} quedó reescrita y se guardó.` : 'No encontré esa lámina en el diseño.'); }));
         } catch (er) { res.innerHTML = `<p class="small" style="color:#a3402a">${esc(er.message)}</p>`; }
         b.disabled = false; b.textContent = 'Auditar de nuevo';
+      }));
+      // Pasar un reel a carrusel para los días sin tiempo de grabar (Flor, 26/11). El reel original queda guardado en «De dónde sale».
+      $$('[data-audcarr]').forEach((b) => (b.onclick = async () => {
+        const sec = b.closest('[data-aud]'), res = $('.aud-res', sec), clave = sec.dataset.aud, fecha = sec.dataset.audf;
+        const fila = [...(st._hoyD || []), ...(st._semC || []), ...(st._mesC || [])].filter((z) => z.clave === clave && z.fecha === fecha); if (!fila.length) return;
+        b.disabled = true; b.textContent = 'Armando el carrusel… (puede tardar un minuto)'; res.innerHTML = '';
+        try {
+          const r = await DB.auditar({ clave, fecha, modo: 'carrusel', pedido: $('.aud-pedido', sec).value.trim() });
+          const c = (r && r.carrusel) || {}; if (!c.placas) throw new Error('No llegó el carrusel. Probá de nuevo.');
+          const x0 = fila[0], m = c.modelado_de || {}, cuenta = String(m.cuenta || '').replace(/^@+/, '');
+          const det = `${c.tipo || cTipo(x0) || 'Valor'} · PASADO DE REEL A CARRUSEL el ${diaISO(new Date())}${c.por_que ? ': ' + c.por_que : ''}.${cuenta && m.hook ? ` HOOK MODELADO de @${cuenta} (banco de hooks validados): «${m.hook}».` : ''} REEL ORIGINAL: ${cHook(x0)} · ${String(x0.texto2 || '').replace(/\s+/g, ' ').slice(0, 1500)}`;
+          const nuevo = { titulo: 'Carrusel · ' + (c.hook || cHook(x0)), tipo: 'subir', texto: c.caption || x0.texto || '', texto2: (String(c.placas).trim() + (c.historias ? '\n\n📱 HISTORIAS DEL DÍA\n' + String(c.historias).trim() : '')).trim(), detalle: det, carrusel: null };
+          if (cuenta && m.link) nuevo.link = m.link;
+          nuevo.carrusel = cAutoDiseno(Object.assign({}, x0, nuevo));
+          await DB.editarPieza(fecha, clave, nuevo); fila.forEach((z) => Object.assign(z, nuevo));
+          toast('Listo: ahora es un carrusel. Lo podés editar como los demás.'); ruta();
+        } catch (er) { res.innerHTML = `<p class="small" style="color:#a3402a">${esc(er.message)}</p>`; b.disabled = false; b.textContent = '▦ Pasarlo a carrusel'; }
       }));
       // Calendario: pestañas, día elegido y meses del archivo (sin recargar todo).
       $$('[data-ctab]').forEach((b) => (b.onclick = () => {
@@ -2500,7 +2527,7 @@ ${listo ? '' : `<section class="card"><span class="eyebrow">Antes de empezar</sp
   ${insignias}
   ${og && og.original ? `<p class="small muted pz-orig">Hook original: «${esc(og.original)}»</p>` : ''}
   ${cuerpo}
-  ${(fm === 'Reel' || fm === 'Carrusel') && /^pieza:/.test(clave) ? `<section class="aud" data-aud="${esc(clave)}" data-audf="${esc(f)}"><p class="hab-sec">🧭 Auditar con el criterio de Ann</p><p class="small muted" style="margin:0 0 6px">Lo revisa con tu skill de Auditoría de Contenido y te propone hooks modelados sobre tu banco de hooks validados. Vos elegís qué aplicar.</p><textarea class="aud-pedido" rows="2" placeholder="¿Querés que mire algo en especial? (opcional) Ej.: el hook está flojo, hacelo de demanda"></textarea><div class="row" style="gap:8px;margin-top:6px"><button type="button" class="btn sm" data-audir>Auditar y proponer hooks</button></div><div class="aud-res" aria-live="polite"></div></section>` : ''}
+  ${(fm === 'Reel' || fm === 'Carrusel') && /^pieza:/.test(clave) ? `<section class="aud" data-aud="${esc(clave)}" data-audf="${esc(f)}"><p class="hab-sec">🧭 Auditar con el criterio de Ann</p><p class="small muted" style="margin:0 0 6px">Lo revisa con tu skill de Auditoría de Contenido y te propone hooks modelados sobre tu banco de hooks validados. Vos elegís qué aplicar.</p><textarea class="aud-pedido" rows="2" placeholder="¿Querés que mire algo en especial? (opcional) Ej.: el hook está flojo, hacelo de demanda"></textarea><div class="row" style="gap:8px;margin-top:6px;flex-wrap:wrap"><button type="button" class="btn sm" data-audir>${fm === 'Reel' ? 'Auditar y darme el prompter nuevo' : 'Auditar y proponer hooks'}</button>${fm === 'Reel' ? '<button type="button" class="btn ghost sm" data-audcarr title="Para los días que no tenés tiempo de grabar">▦ Pasarlo a carrusel</button>' : ''}</div><div class="aud-res" aria-live="polite"></div></section>` : ''}
   ${fm === 'Reel' || fm === 'Carrusel' ? cEdit('Caption', 'caption', x.texto, x, false) : ''}
   ${fm === 'Reel' || fm === 'Carrusel' ? cEdit('Historias del día', 'historias', hist, x, false) : ''}
   ${x.detalle ? `<details class="pz-bloque"><summary>De dónde sale y qué confirmar</summary><p class="small">${esc(x.detalle)}</p></details>` : ''}

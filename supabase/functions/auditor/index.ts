@@ -42,6 +42,13 @@ REGLAS DE FLOR: español neutro con TÚ (no voseo) en todo lo que va a la pieza.
 
 DEVOLVÉ SOLO UN JSON, sin texto antes ni después, con el formato de «Formato del JSON» de las reglas de la app.`;
 const FORMATO = `Formato del JSON: {"puntaje": 1-10, "clasificacion": "Brecha" o "Solución", "funciona": ["…"], "problema": "…", "donde": "…", "por_que": ["…"], "cambio": "…", "hooks": [{"titulo": "…", "titulo_i": "…", "pre": "…", "palabra": "…", "pill": "…", "opciones": "…", "por_que": "…", "modelado_de": {"cuenta": "…", "hook": "…", "link": "…"}}], "laminas": [{"n": 2, "titulo": "…", "titulo_i": "…", "cuerpo": "…", "por_que": "…"}], "cta": "…", "proximo_paso": "…"}. Los 3 hooks salen TEXTUALES del banco de hooks validados.`;
+// Reels (Flor, 26/11): la auditoría de un reel le devuelve también el prompter nuevo, listo para grabar.
+const REEL = `SI LA PIEZA ES UN REEL (el título empieza con «Reel»): además de todo lo anterior, sumá al JSON dos campos:
+"pantalla": el texto en pantalla nuevo (el hook que elegirías, una línea),
+"prompter": el prompter COMPLETO para grabar, ya con el cambio aplicado (no solo el hook): primera línea «TONO: …» con cómo decirlo y ≈cuántas palabras (130 a 170), una línea en blanco, y después el guion en bloques cortos separados por una línea en blanco, cada línea terminada en « /» donde Flor respira, en la voz de Flor hablándole a una alumna (TÚ), sin historias del día. Si es un carrusel, no agregues esos campos.`;
+// Pasar un reel a carrusel (Flor, 26/11).
+const A_CARRUSEL = `TAREA: Flor quiere convertir este REEL en un CARRUSEL de Instagram con la misma idea central, aplicando el criterio de Ann (Brecha vs Solución, una creencia por pieza, hook del banco de hooks validados) y sus reglas. Esta tarea REEMPLAZA el formato de auditoría: devolvé SOLO este JSON:
+{"hook": "el hook de la portada", "tipo": "Valor" | "Demanda" | "Crecimiento" | "Inspira" | "Conversión", "placas": "7 a 9 líneas, una por lámina, con el formato «N · frase principal / frase en itálica / cuerpo opcional». La 1 es la portada (el hook partido en dos). Una creencia tachada va entre ~~ ~~ (ej.: «4 · Lo que pensabas: / ~~Me falta vocabulario~~ / Te faltaba orden.»). La última lámina es el cierre y termina con el CTA (Guárdalo / Comenta PALABRA).", "caption": "el caption completo, en la voz de Flor", "historias": "4 líneas «N · …» con las historias del día", "modelado_de": {"cuenta": "…", "hook": "…", "link": "…"}, "por_que": "en una línea, por qué funciona mejor como carrusel"}`;
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: CORS });
@@ -60,17 +67,20 @@ Deno.serve(async (req) => {
     const { data: fila } = await admin.from("hoy_flor").select("fecha,clave,titulo,detalle,texto,texto2,carrusel").eq("clave", String(body.clave || "")).eq("fecha", String(body.fecha || "")).maybeSingle();
     if (!fila) return json({ error: "No encontré esa pieza." }, 404);
     const { data: hooks } = await admin.from("hooks_validados").select("cuenta,hook,formato,metrica,veces,link").order("veces", { ascending: false, nullsFirst: false }).limit(80);
+    // Lo que ya está publicado en Instagram (Flor, 26/11: «que se fije lo que ya está publicado para no repetir»).
+    const { data: pub } = await admin.from("ig_publicados").select("fecha,tipo,caption").order("fecha", { ascending: false }).limit(60);
     const { data: prev } = await admin.from("hoy_flor").select("fecha,titulo").like("clave", "pieza:%").lt("fecha", fila.fecha).order("fecha", { ascending: false }).limit(15);
     // deno-lint-ignore no-explicit-any
     const pl = ((fila.carrusel && fila.carrusel.placas) || []).map((p: any, i: number) => `${i + 1} · [${p.forma}] ` + Object.entries(p).filter(([k, v]) => typeof v === "string" && v && !k.startsWith("_") && !["forma", "foto", "tpl", "color", "pos"].includes(k)).map(([k, v]) => `${k}: ${v}`).join(" | ")).join("\n");
     // deno-lint-ignore no-explicit-any
     const banco = (hooks || []).map((h: any, i: number) => `H${i + 1} · @${h.cuenta} · ${h.formato || ""} · ${h.metrica || ""}${h.veces ? ` (${h.veces}x su mediana)` : ""} · ${h.link}\n   «${h.hook}»`).join("\n");
-    const material = `PIEZA DEL ${fila.fecha}\nTítulo: ${fila.titulo || ""}\nDetalle: ${fila.detalle || ""}\n\nLÁMINAS ACTUALES DEL DISEÑO:\n${pl || "(todavía sin diseño)"}\n\nGUION / TEXTO DE LAS PLACAS:\n${fila.texto2 || ""}\n\nCAPTION:\n${fila.texto || ""}\n\nBANCO DE HOOKS VALIDADOS (outliers de referentes y de Flor):\n${banco || "(vacío)"}\n\nÚLTIMAS PIEZAS (no repetir hook ni estructura):\n${(prev || []).map((x: { fecha: string; titulo: string }) => `- ${x.fecha}: ${x.titulo}`).join("\n")}\n\nPEDIDO DE FLOR: ${String(body.pedido || "").slice(0, 1500) || "(auditá la pieza y proponé 3 hooks del banco)"}`;
+    const material = `PIEZA DEL ${fila.fecha}\nTítulo: ${fila.titulo || ""}\nDetalle: ${fila.detalle || ""}\n\nLÁMINAS ACTUALES DEL DISEÑO:\n${pl || "(todavía sin diseño)"}\n\nGUION / TEXTO DE LAS PLACAS:\n${fila.texto2 || ""}\n\nCAPTION:\n${fila.texto || ""}\n\nBANCO DE HOOKS VALIDADOS (outliers de referentes y de Flor):\n${banco || "(vacío)"}\n\nYA PUBLICADO EN SU INSTAGRAM (@ysi_speakenglish), del más nuevo al más viejo. REGLA DURA: no propongas un hook, una historia de alumna ni un mecanismo que ya esté acá. Si la pieza que auditás repite algo de esta lista (mismo hook, misma alumna con el mismo episodio o la misma idea central), decilo primero en «problema» indicando la fecha del posteo publicado, bajá el puntaje y proponé un ángulo nuevo:\n${(pub || []).map((x: { fecha: string; tipo: string; caption: string }) => `- ${String(x.fecha).slice(0, 10)} · ${x.tipo === "Video" ? "Reel" : "Carrusel"} · ${String(x.caption || "").replace(/\s+/g, " ").slice(0, 300)}`).join("\n") || "(sin datos)"}\n\nÚLTIMAS PIEZAS PLANIFICADAS (no repetir hook ni estructura):\n${(prev || []).map((x: { fecha: string; titulo: string }) => `- ${x.fecha}: ${x.titulo}`).join("\n")}\n\nPEDIDO DE FLOR: ${String(body.pedido || "").slice(0, 1500) || "(auditá la pieza y proponé 3 hooks del banco)"}`;
     const skill = await prompt("auditor.md");
+    const aCarr = body.modo === "carrusel";
     try {
       const r = await ia().messages.create({
         model: MODEL, max_tokens: 12000, output_config: { effort: "medium" },
-        system: [{ type: "text", text: (/Auditor[ií]a de Contenido/i.test(skill) ? skill + "\n\n" : "") + AUDITOR + (/Formato del JSON/.test(skill) ? "" : "\n\n" + FORMATO), cache_control: { type: "ephemeral" } }],
+        system: [{ type: "text", text: (/Auditor[ií]a de Contenido/i.test(skill) ? skill + "\n\n" : "") + AUDITOR + (/Formato del JSON/.test(skill) ? "" : "\n\n" + FORMATO) + "\n\n" + REEL + (aCarr ? "\n\n" + A_CARRUSEL : ""), cache_control: { type: "ephemeral" } }],
         messages: [{ role: "user", content: material }],
       // deno-lint-ignore no-explicit-any
       } as any);
@@ -79,7 +89,7 @@ Deno.serve(async (req) => {
       const t = r.content.filter((b: any) => b.type === "text").map((b: any) => b.text).join("");
       const m = t.match(/\{[\s\S]*\}/);
       if (!m) throw new Error("La IA no devolvió la auditoría. Probá de nuevo.");
-      return json({ ok: true, auditoria: JSON.parse(m[0]) });
+      return json(aCarr ? { ok: true, carrusel: JSON.parse(m[0]) } : { ok: true, auditoria: JSON.parse(m[0]) });
     } catch (e) {
       console.error(e);
       return json({ error: String((e as Error).message) }, 500);

@@ -614,11 +614,16 @@ main{overflow-wrap:break-word}
 .feed-e.pub{color:#4b5624}
 
 /* Auditor con el criterio de Ann y banco de hooks validados */
-.aud{margin-top:14px;background:#fbf2d0;border-radius:14px;padding:12px 14px}
-.aud textarea{width:100%;font:inherit;font-size:15px;border:1.5px solid #e6dcc4;border-radius:10px;padding:8px 10px;background:#fffdf8}
+.aud{margin-top:14px;background:#fbf2d0;border-radius:14px;padding:12px 14px;color:#22201a}
+.aud .muted,.aud .hab-sec{color:#6b5d48}
+.aud a{color:#81552e}
+.aud .btn.ghost{color:#81552e;border-color:#c68c6c;background:transparent}
+.aud-prom{white-space:pre-wrap;font:inherit;font-size:15px;line-height:1.5;color:#22201a;background:#fbf8ef;border-radius:10px;padding:10px 12px;margin:6px 0 10px;max-height:420px;overflow:auto}
+.aud textarea{width:100%;font:inherit;font-size:15px;border:1.5px solid #e6dcc4;border-radius:10px;padding:8px 10px;background:#fffdf8;color:#22201a}
+.aud textarea::placeholder{color:#9a8d77}
 .aud-res{margin-top:10px}
-.aud-diag{background:#fffdf8;border-radius:12px;padding:10px 12px}
-.aud-hook{background:#fffdf8;border-radius:12px;padding:10px 12px;margin:8px 0}
+.aud-diag{background:#fffdf8;border-radius:12px;padding:10px 12px;color:#22201a}
+.aud-hook{background:#fffdf8;border-radius:12px;padding:10px 12px;margin:8px 0;color:#22201a}
 .aud-ht{font-family:'Source Serif 4',Georgia,serif;font-size:17px;margin:0 0 4px}
 .hk-lista{display:flex;flex-direction:column;gap:8px}
 .hk{border:1px solid #eee3cf;border-radius:12px;padding:10px 12px}
