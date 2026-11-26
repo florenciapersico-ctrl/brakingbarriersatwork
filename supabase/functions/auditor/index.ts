@@ -49,6 +49,11 @@ const REEL = `SI LA PIEZA ES UN REEL (el título empieza con «Reel»): además 
 // Pasar un reel a carrusel (Flor, 26/11).
 const A_CARRUSEL = `TAREA: Flor quiere convertir este REEL en un CARRUSEL de Instagram con la misma idea central, aplicando el criterio de Ann (Brecha vs Solución, una creencia por pieza, hook del banco de hooks validados) y sus reglas. Esta tarea REEMPLAZA el formato de auditoría: devolvé SOLO este JSON:
 {"hook": "el hook de la portada", "tipo": "Valor" | "Demanda" | "Crecimiento" | "Inspira" | "Conversión", "placas": "7 a 9 líneas, una por lámina, con el formato «N · frase principal / frase en itálica / cuerpo opcional». La 1 es la portada (el hook partido en dos). Una creencia tachada va entre ~~ ~~ (ej.: «4 · Lo que pensabas: / ~~Me falta vocabulario~~ / Te faltaba orden.»). La última lámina es el cierre y termina con el CTA (Guárdalo / Comenta PALABRA).", "caption": "el caption completo, en la voz de Flor", "historias": "4 líneas «N · …» con las historias del día", "modelado_de": {"cuenta": "…", "hook": "…", "link": "…"}, "por_que": "en una línea, por qué funciona mejor como carrusel"}`;
+// Crear un posteo nuevo desde un hook del banco (Flor, 26/11: «usar ese hook para crear un posteo, tal cual o adaptado a mí»).
+const DESDE_HOOK = (talCual: boolean) => `TAREA: Flor eligió un hook de su banco de hooks validados para crear un CARRUSEL nuevo de Instagram. ${talCual ? "Usá el hook TAL CUAL en la portada (solo pasalo a español neutro con TÚ si hace falta; no cambies palabras)." : "MODELÁ el hook: mantené su estructura y su gancho, pero adaptalo a la clienta ideal de Flor, a su método y a su voz (puede cambiar la escena para que sea del trabajo de ella)."} Si el posteo original depende de una cultura (británica, estadounidense) o de la historia personal de otra persona, llevalo a la situación de la clienta de Flor. Aplicá el criterio de Ann (Brecha vs Solución, una creencia por pieza) y las reglas de Flor. Revisá la lista de lo que Flor YA PUBLICÓ: no repitas un hook, una historia ni una idea central de ahí. Devolvé SOLO este JSON:
+{"hook": "el hook de la portada", "tipo": "Valor" | "Demanda" | "Crecimiento" | "Inspira" | "Conversión", "placas": "7 a 9 líneas, una por lámina, con el formato «N · frase principal / frase en itálica / cuerpo opcional». La 1 es la portada (el hook partido en dos). Una creencia tachada va entre ~~ ~~ (ej.: «4 · Lo que pensabas: / ~~Me falta vocabulario~~ / Te faltaba orden.»). La última lámina es el cierre y termina con el CTA (Guárdalo / Comenta PALABRA).", "caption": "el caption completo, en la voz de Flor", "historias": "4 líneas «N · …» con las historias del día", "por_que": "en una línea, qué tomaste del original y qué cambiaste"}`;
+const pubTxt = (pub: { fecha: string; tipo: string; caption: string }[] | null) => (pub || []).map((x) => `- ${String(x.fecha).slice(0, 10)} · ${x.tipo === "Video" ? "Reel" : "Carrusel"} · ${String(x.caption || "").replace(/\s+/g, " ").slice(0, 300)}`).join("\n") || "(sin datos)";
+const DIA = 864e5;
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: CORS });
@@ -64,9 +69,57 @@ Deno.serve(async (req) => {
   try { body = await req.json(); } catch (_e) { return json({ error: "Pedido inválido." }, 400); }
   if (!(await esAdmin(db, uid))) return json({ error: "Solo Flor puede usar esto." }, 403);
     if (!Deno.env.get("ANTHROPIC_API_KEY")) return json({ error: "Para auditar con IA falta cargar ANTHROPIC_API_KEY en Supabase › Edge Functions › Secrets." }, 503);
+    // Descartar un hook del banco.
+    if (body.modo === "descartar_hook") {
+      const { error } = await admin.from("hooks_validados").update({ descartado: true }).eq("id", Number(body.hook_id));
+      return error ? json({ error: error.message }, 500) : json({ ok: true });
+    }
+    // Crear un posteo desde un hook del banco y dejarlo en el próximo día libre de carrusel (martes a sábado).
+    if (body.modo === "desde_hook") {
+      const { data: h } = await admin.from("hooks_validados").select("id,cuenta,hook,formato,metrica,veces,link").eq("id", Number(body.hook_id)).maybeSingle();
+      if (!h) return json({ error: "No encontré ese hook." }, 404);
+      const { data: pub0 } = await admin.from("ig_publicados").select("fecha,tipo,caption").order("fecha", { ascending: false }).limit(60);
+      const hoyAR = new Date(Date.now() - 3 * 3600e3), desde = new Date(Date.UTC(hoyAR.getUTCFullYear(), hoyAR.getUTCMonth(), hoyAR.getUTCDate()) + DIA);
+      const iso = (d: Date) => d.toISOString().slice(0, 10);
+      const { data: ocup } = await admin.from("hoy_flor").select("fecha,titulo").eq("tipo", "subir").like("clave", "pieza:%").gte("fecha", iso(desde)).lte("fecha", iso(new Date(desde.getTime() + 60 * DIA)));
+      const { data: plan } = await admin.from("hoy_flor").select("fecha,titulo").like("clave", "pieza:%").gte("fecha", iso(new Date(desde.getTime() - 14 * DIA))).order("fecha");
+      const usadas = new Set((ocup || []).map((x: { fecha: string }) => x.fecha));
+      let fecha = "";
+      for (let i = 0; i < 60 && !fecha; i++) { const d = new Date(desde.getTime() + i * DIA), w = d.getUTCDay(); if (w >= 2 && w <= 6 && !usadas.has(iso(d))) fecha = iso(d); }
+      const skill0 = await prompt("auditor.md");
+      const mat = `HOOK ELEGIDO: «${h.hook}»\nDe @${h.cuenta} · ${h.formato || ""} · ${h.metrica || ""}${h.veces ? ` · ${h.veces}x su mediana` : ""} · ${h.link || ""}\n\nYA PUBLICADO EN SU INSTAGRAM (no repetir):\n${pubTxt(pub0)}\n\nPIEZAS YA PLANIFICADAS (no repetir):\n${(plan || []).map((x: { fecha: string; titulo: string }) => `- ${x.fecha}: ${x.titulo}`).join("\n")}\n\nPEDIDO DE FLOR: ${String(body.pedido || "").slice(0, 1500) || "(ninguno)"}`;
+      try {
+        const r = await ia().messages.create({
+          model: MODEL, max_tokens: 8000, output_config: { effort: "medium" },
+          system: [{ type: "text", text: (/Auditor[ií]a de Contenido/i.test(skill0) ? skill0 + "\n\n" : "") + AUDITOR + "\n\n" + DESDE_HOOK(!!body.tal_cual) }],
+          messages: [{ role: "user", content: mat }],
+        // deno-lint-ignore no-explicit-any
+        } as any);
+        // deno-lint-ignore no-explicit-any
+        const t = r.content.filter((b: any) => b.type === "text").map((b: any) => b.text).join("");
+        const m = t.match(/\{[\s\S]*\}/);
+        if (!m) throw new Error("La IA no devolvió el posteo. Probá de nuevo.");
+        const c = JSON.parse(m[0]);
+        const clave = "pieza:hook-" + h.id + "-" + Date.now().toString(36);
+        const fila = {
+          fecha, clave, tipo: "subir", orden: 1, hecho: false,
+          titulo: "Carrusel · " + (c.hook || h.hook),
+          detalle: `${c.tipo || "Valor"} · HOOK ${body.tal_cual ? "VALIDADO TEXTUAL" : "MODELADO"} de @${h.cuenta} (${h.metrica || ""}${h.veces ? `, ${h.veces}x su mediana` : ""}): «${h.hook}». Creado desde el banco de hooks el ${iso(hoyAR)}.${c.por_que ? " " + c.por_que : ""}`,
+          link: h.link || null, texto: c.caption || "",
+          texto2: (String(c.placas || "").trim() + (c.historias ? "\n\n📱 HISTORIAS DEL DÍA\n" + String(c.historias).trim() : "")).trim(),
+        };
+        const { error } = await admin.from("hoy_flor").insert(fila);
+        if (error) throw new Error(error.message);
+        await admin.from("hooks_validados").update({ usado_fecha: fecha, usado_clave: clave }).eq("id", h.id);
+        return json({ ok: true, fecha, clave, pieza: fila });
+      } catch (e) {
+        console.error(e);
+        return json({ error: String((e as Error).message) }, 500);
+      }
+    }
     const { data: fila } = await admin.from("hoy_flor").select("fecha,clave,titulo,detalle,texto,texto2,carrusel").eq("clave", String(body.clave || "")).eq("fecha", String(body.fecha || "")).maybeSingle();
     if (!fila) return json({ error: "No encontré esa pieza." }, 404);
-    const { data: hooks } = await admin.from("hooks_validados").select("cuenta,hook,formato,metrica,veces,link").order("veces", { ascending: false, nullsFirst: false }).limit(80);
+    const { data: hooks } = await admin.from("hooks_validados").select("cuenta,hook,formato,metrica,veces,link").eq("descartado", false).order("veces", { ascending: false, nullsFirst: false }).limit(80);
     // Lo que ya está publicado en Instagram (Flor, 26/11: «que se fije lo que ya está publicado para no repetir»).
     const { data: pub } = await admin.from("ig_publicados").select("fecha,tipo,caption").order("fecha", { ascending: false }).limit(60);
     const { data: prev } = await admin.from("hoy_flor").select("fecha,titulo").like("clave", "pieza:%").lt("fecha", fila.fecha).order("fecha", { ascending: false }).limit(15);

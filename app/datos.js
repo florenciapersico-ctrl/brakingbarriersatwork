@@ -231,7 +231,8 @@
         if (!r.ok) throw new Error(await errorDe(r));
         return r.json();
       },
-      async hooksValidados() { return ok(await sb.from('hooks_validados').select('cuenta,hook,formato,metrica,veces,link,fecha').order('veces', { ascending: false, nullsFirst: false }).limit(200)); },
+      async usarHook(q) { return this.auditar(q); },
+      async hooksValidados() { return ok(await sb.from('hooks_validados').select('id,cuenta,hook,formato,metrica,veces,link,fecha,descartado,usado_fecha,usado_clave').order('veces', { ascending: false, nullsFirst: false }).limit(200)); },
       async borrador(q) {
         const r = await llamar({ modo: 'borrador', ...q });
         if (!r.ok) throw new Error(await errorDe(r));

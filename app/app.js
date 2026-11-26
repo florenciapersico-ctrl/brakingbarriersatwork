@@ -2095,6 +2095,26 @@ ${contenidoApp(hoyI, lun)}
         } catch (er) { res.innerHTML = `<p class="small" style="color:#a3402a">${esc(er.message)}</p>`; }
         b.disabled = false; b.textContent = 'Auditar de nuevo';
       }));
+      // Banco de hooks (Flor, 26/11): crear un posteo desde un hook (tal cual o adaptado) o descartarlo.
+      $$('[data-hkusar]').forEach((b) => (b.onclick = async () => {
+        const box = b.closest('[data-hk]'), id = Number(box.dataset.hk), est = $('.hk-est', box), tal = b.dataset.hkusar === 'tal';
+        $$('button', box).forEach((x) => (x.disabled = true)); est.textContent = 'Armando el posteo con tu método y revisando que no repita nada de lo publicado… (puede tardar un minuto)';
+        try {
+          const r = await DB.auditar({ modo: 'desde_hook', hook_id: id, tal_cual: tal });
+          if (!r || !r.pieza) throw new Error('No llegó el posteo. Probá de nuevo.');
+          const x = Object.assign({}, r.pieza); const car = cAutoDiseno(x);
+          try { await DB.guardarCarrusel(r.fecha, r.clave, car); } catch (e2) { /* queda sin diseño: se arma desde su día */ }
+          const h = (st._hooks || []).find((y) => y.id === id); if (h) h.usado_fecha = r.fecha;
+          est.innerHTML = `Listo: quedó como carrusel el <b>${esc(fecha(r.fecha, { weekday: 'long', day: 'numeric', month: 'long' }))}</b>, con caption e historias. Lo encontrás en ese día del calendario para editarlo.`;
+          toast('Posteo creado');
+        } catch (er) { est.textContent = er.message; $$('button', box).forEach((x) => (x.disabled = false)); }
+      }));
+      $$('[data-hkdesc]').forEach((b) => (b.onclick = async () => {
+        const box = b.closest('[data-hk]'), id = Number(box.dataset.hk);
+        b.disabled = true;
+        try { await DB.auditar({ modo: 'descartar_hook', hook_id: id }); const h = (st._hooks || []).find((y) => y.id === id); if (h) h.descartado = true; box.remove(); toast('Hook descartado'); }
+        catch (er) { b.disabled = false; toast(er.message, true); }
+      }));
       // Pasar un reel a carrusel para los días sin tiempo de grabar (Flor, 26/11). El reel original queda guardado en «De dónde sale».
       $$('[data-audcarr]').forEach((b) => (b.onclick = async () => {
         const sec = b.closest('[data-aud]'), res = $('.aud-res', sec), clave = sec.dataset.aud, fecha = sec.dataset.audf;
@@ -2622,7 +2642,10 @@ ${publicadosHTML(pub.filter((x) => x.fecha >= mesIni && x.fecha <= mesFin).rever
   function cHooks() {
     const H = st._hooks || [];
     return `<section class="card"><h2>Hooks validados</h2><p class="muted small" style="margin:4px 0 12px">Outliers de tus referentes y tuyos: posteos que hicieron 2 veces o más lo normal de su cuenta. De acá salen los hooks de tus posteos y los que te propone el auditor. Se actualiza cada domingo con tu hoja de Notion de Smart Scale.</p>
-  ${H.length ? `<div class="hk-lista">${H.map((h) => `<div class="hk"><p class="hk-t">«${esc(h.hook)}»</p><p class="small muted">@${esc(h.cuenta)} · ${esc(h.formato || '')} · ${esc(h.metrica || '')}${h.veces ? ` · ${h.veces}x su mediana` : ''}${h.link ? ` · <a href="${esc(h.link)}" target="_blank" rel="noopener">ver posteo</a>` : ''}</p></div>`).join('')}</div>` : '<p class="muted small">Todavía no hay hooks cargados.</p>'}</section>`;
+  ${H.filter((h) => !h.descartado).length ? `<div class="hk-lista">${H.filter((h) => !h.descartado).map((h) => `<div class="hk" data-hk="${h.id}"><p class="hk-t">«${esc(h.hook)}»</p><p class="small muted">@${esc(h.cuenta)} · ${esc(h.formato || '')} · ${esc(h.metrica || '')}${h.veces ? ` · ${h.veces}x su mediana` : ''}${h.link ? ` · <a href="${esc(h.link)}" target="_blank" rel="noopener">ver posteo</a>` : ''}</p>
+    ${h.usado_fecha ? `<p class="small"><span class="pill ok">Ya lo usaste · ${esc(fecha(h.usado_fecha, { weekday: 'short', day: 'numeric', month: 'short' }))}</span></p>` : ''}
+    <div class="row hk-acc" style="gap:8px;flex-wrap:wrap;margin-top:8px"><button type="button" class="btn sm" data-hkusar="adaptado">Crear posteo adaptado a mí</button><button type="button" class="btn ghost sm" data-hkusar="tal">Usar el hook tal cual</button><button type="button" class="linkbtn small" data-hkdesc>Descartar</button></div><p class="small muted hk-est" aria-live="polite"></p></div>`).join('')}</div>` : '<p class="muted small">Todavía no hay hooks cargados.</p>'}
+  ${H.some((h) => h.descartado) ? `<p class="small muted" style="margin-top:10px">${H.filter((h) => h.descartado).length} hooks descartados (no aparecen ni te los propone el auditor).</p>` : ''}</section>`;
   }
   function contenidoApp(hoyI, lun) {
     const tab = st._cTab || '0';
