@@ -34,6 +34,7 @@
 - Cuando la alumna recién terminaba el onboarding y quería practicar con los coaches, la mandó a Role Play primero y a Narrative Flow después, con la lectura como opcional (24/11).
 - Cuando la alumna mandó una grabación larga (más de 10 minutos), armó el feedback en un documento aparte (bien → Narrative Flow → Color Method) y pidió un segundo intento corto (22/11).
 - Cuando ya lo había hablado en vivo o en el lab, no mandó feedback escrito (12/11, 16/11).
+- Cuando la alumna mandó un audio largo justo antes de su clase 1:1 y la hoja de esa clase ya trabajaba ese audio, no mandó el mail del borrador: lo trabajó en vivo y dejó el feedback para el resumen de la clase (27/11).
 - Cuando la alumna pidió practicar un tema puntual y en su win contaba una conversación real reciente, le propuso contar esa misma conversación usando el tema y subirla como pedido de feedback, en vez de explicarle la gramática (25/11).
 - Cuando la alumna sentía que avanzaba lento y tenía una presentación en el lab de esa semana, le dijo que quedarse en un tema está bien, puso de foco ensayar esa presentación con Role Play (sin guion, con preguntas del público) y dejó el tema nuevo para después (25/11).
 - Cuando la alumna ya tenía dos bloques definidos con un coach cada uno, ordenó los pasos debajo de cada bloque (25/11).
